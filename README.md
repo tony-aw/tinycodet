@@ -68,7 +68,7 @@ First, some in-place mathematical arithmetic with `tidyoperators`:
 x <- 1:10
 print(x)
 #>  [1]  1  2  3  4  5  6  7  8  9 10
-x %^ <-% 2 # is the same as x <- x^p
+x %^ <-% 2 # is the same as x <- x^2
 print(x)
 #>  [1]   1   4   9  16  25  36  49  64  81 100
 ```

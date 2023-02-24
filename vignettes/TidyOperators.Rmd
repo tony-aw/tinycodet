@@ -78,7 +78,7 @@ First, some in-place mathematical arithmetic with `tidyoperators`:
 ```{r}
 x <- 1:10
 print(x)
-x %^ <-% 2 # is the same as x <- x^p
+x %^ <-% 2 # is the same as x <- x^2
 print(x)
 ```
 
