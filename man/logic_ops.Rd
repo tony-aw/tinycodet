@@ -25,9 +25,9 @@ n \%=numtype\% numtype
 s \%=strtype\% strtype
 }
 \arguments{
-\item{x, y}{see \link[base]{Logic}}
+\item{x, y}{see \link[base]{Logic}.}
 
-\item{n}{a numeric vector}
+\item{n}{a numeric vector.}
 
 \item{numtype}{a single string giving the type if numeric to be checked.
 The following options are supported: \cr
@@ -43,6 +43,8 @@ Machine tolerance (\code{sqrt(.Machine$double.eps)}). \cr
 \item \code{"R"}: Real numbers; \cr
 \item \code{"unreal"}: infinity, NA, or NaN; \cr
 }}
+
+\item{s}{a character vector.}
 
 \item{strtype}{a single string giving the type of string to be checked.
 The following options are supported: \cr

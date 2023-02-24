@@ -28,8 +28,9 @@
 #' if it can seen as a certain \code{strtype}. See arguments for details. \cr
 #'
 #'
-#' @param x,y see \link[base]{Logic}
-#' @param n a numeric vector
+#' @param x,y see \link[base]{Logic}.
+#' @param n a numeric vector.
+#' @param s a character vector.
 #' @param numtype a single string giving the type if numeric to be checked.
 #' The following options are supported: \cr
 #'  *  \code{"~0"}: zero, or else a number whose absolute value is smaller than the
