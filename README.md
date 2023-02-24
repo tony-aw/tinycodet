@@ -22,7 +22,8 @@ computing packages for some of its functions.
 You can install the development version of tidyoperators like so:
 
 ``` r
-install_github("https://github.com/tony-aw/tidyoperators")
+library(devtools)
+devtools::install_github("https://github.com/tony-aw/tidyoperators")
 ```
 
 Then load it using:
@@ -176,12 +177,15 @@ Here are some examples:
 ``` r
 x <- c(TRUE, FALSE, TRUE, FALSE, NA, FALSE, TRUE)
 y <- c(FALSE, TRUE, TRUE, FALSE, NA, NA, NA)
-x %xor% y
-#> [1]  TRUE  TRUE FALSE FALSE    NA    NA    NA
-x %n&% y
-#> [1] FALSE FALSE FALSE  TRUE    NA    NA FALSE
-x %?=% y
-#> [1] FALSE FALSE FALSE FALSE  TRUE FALSE FALSE
+cbind(x, y, "x %xor% y"=x %xor% y, "x %n&% y" = x %n&% y, "x %?=% y" = x %?=% y)
+#>          x     y x %xor% y x %n&% y x %?=% y
+#> [1,]  TRUE FALSE      TRUE    FALSE    FALSE
+#> [2,] FALSE  TRUE      TRUE    FALSE    FALSE
+#> [3,]  TRUE  TRUE     FALSE    FALSE    FALSE
+#> [4,] FALSE FALSE     FALSE     TRUE    FALSE
+#> [5,]    NA    NA        NA       NA     TRUE
+#> [6,] FALSE    NA        NA       NA    FALSE
+#> [7,]  TRUE    NA        NA    FALSE    FALSE
 
 1:3 %out% 1:10
 #> [1] FALSE FALSE FALSE
@@ -210,7 +214,7 @@ numeric vector `n` if it can be considered a number belonging to type
 - “R”: Real numbers;
 - “unreal”: infinity, NA, or NaN;
 
-The string counterpart for `%=numtype%` is `s $=strtype% strtype`, which
+The string counterpart for `%=numtype%` is `s %=strtype% strtype`, which
 checks for every value of character vector `n` if it can seen as a
 certain `strtype`. The following values for `strtype` are allowed:
 
@@ -304,13 +308,16 @@ operators, excluding matrix operators.
 Here is a list of all in-place mathematical modifiers implemented in
 this R-package:
 
-\-`x %+ <-% y` is the same as`x <- x + y` - `x %- <-% y` is the same
-as`x <- x - y` - `x %* <-% y` is the same as`x <- x * y` - `x %/ <-% y`
-is the same as`x <- x / y` - `x %^ <-% p` is the same as`x <- x^p` -
-`x %rt <-% p` is the same as`x <- x^(1/p)` - `x %logb <-% b` is the same
-as`x <- log(x, base=b)` - `x %alogb <-% b` is the same as`x <- b^x`; if
-`b=exp(1)`, this is the same as`x <- exp(x)` - `x %alogb <-% exp(1)` is
-the same as exp(x)\`
+- `x %+ <-% y` is the same as`x <- x + y`;
+- `x %- <-% y` is the same as`x <- x - y`;
+- `x %* <-% y` is the same as`x <- x * y`;
+- `x %/ <-% y` is the same as`x <- x / y`;
+- `x %^ <-% p` is the same as`x <- x^p`;
+- `x %rt <-% p` is the same as`x <- x^(1/p)`;
+- `x %logb <-% b` is the same as`x <- log(x, base=b)`;
+- `x %alogb <-% b` is the same as`x <- b^x`; if `b=exp(1)`, this is the
+  same as`x <- exp(x)`;
+- `x %alogb <-% exp(1)` is the same as exp(x)\`.
 
 I realise there doesn’t really need to be a `%logb%` operator, but since
 one was needed for the antilogarithm, I added the “regular” logarithm
@@ -339,16 +346,15 @@ Much tidier, no?
 This is not the first or only R package that incorporates in-place
 modifiers. Most notably, the `inplace` R package is devoted entirely to
 in-place modifying mathematical arithmetic. However, `inplace` has a
-nasty side-effect: If x=3 and y=3, using an in-place modifier from the
-`inplace` package on x will also change y. This can be very dangerous.
+nasty side-effect:
+
+If 2 R objects refer to the same values - let’s say `x = 3` and
+`y = 3` - using an in-place modifier from the `inplace` package on `x`
+will also change y. This can be very dangerous.
 
 **The `tidyoperators` R package does not have this problem:** modifying
 one object does not affect another object, even if they happen to have
 the same value.
-
-There are also other R package that, like `tidyoperators` use a safe
-in-place modifier, but I have yet to find one as comprehensive as
-`tidyoperators`.
 
  
 
