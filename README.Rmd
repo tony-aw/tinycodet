@@ -1,0 +1,585 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# tidyoperators
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The 'tidyoperators' R-package adds some much needed infix operators,
+    and a few functions,
+    to make your R code much more tidy.
+    It includes infix operators for the negation of logical operators (exlcusive-or, not-and, not-in),
+    in-place modifying mathematical arithmetic,
+    string arithmetic,
+    string subsetting,
+    in-place modifying string arithmetic,
+    in-place modifying string subsetting,
+    and in-place modifying unreal replacers.
+    Moreover, it includes some helper functions for more complex string arithmetic,
+    some of which are missing from popular R packages like stringi.
+    This package also allows integrating third-party parallel computing packages
+    for some of its functions.
+
+## Installation
+
+You can install the development version of tidyoperators like so:
+
+``` r
+install_github("https://github.com/tony-aw/tidyoperators")
+```
+
+Then load it using:
+
+```{r}
+library(tidyoperators)
+```
+
+
+# Overview
+
+The `tidyoperators` R package adds the following functionality:
+
+ - Infix operators for In-place modifiers for mathematical arithmetic.
+ - Infix operators for String arithmetic.
+ - Infix operators (and a few functions) for string subsetting.
+ - Infix operators for In-place modifying string arithmetic.
+ - Infix operators for In-place modifying string subsetting.
+ - Some additional string manipulation functions.
+ - Infix logical operators for exclusive-or, not-and, not-in, number-type, and string-type.
+ - Allow multithreading of functions (when appropriate) through third-party packages to improve efficiency.
+ - This R package has **zero dependencies**, thus avoiding the so-called dependency hell.
+ 
+ I realize there are other R-packages that cover some of the above functionalities. But I often experience that these R packages (or at least those I know of) either do not cover all that I required, had some inconsistencies, or suffered from some other significant drawbacks. Hence this package was created.
+
+Currently this R package is only available on GitHub.
+
+I understand one may not want to go through this entire Vignette without knowing if the R package is worthy of your time. Therefore, allow me to give you a quick glimpse of what is possible in this R package before jumping into the details.
+
+First, some in-place mathematical arithmetic with `tidyoperators`:
+
+```{r}
+x <- 1:10
+print(x)
+x %^ <-% 2 # is the same as x <- x^p
+print(x)
+```
+
+Second, some numeric and string subtypes checks:
+
+```{r}
+n <- c(0:5, 0:-5, 0.1, -0.1, 0, 1, Inf, -Inf, NA, NaN)
+n[n %=numtype% "B"]
+n[n %=numtype% "N"]
+n[n %=numtype% "I"]
+n[n %=numtype% "unreal"]
+
+s <- c(" AbcZ123 ", " abc ", " 1.3 ", " !#$%^&*() ", "  ", "  NA  ", "  NaN  ", " Inf ")
+s[s %=strtype% "empty"]
+s[s %=strtype% "unreal"]
+s[s %=strtype% "numeric"]
+s[s %=strtype% "special"]
+```
+
+
+And now some fun string manipulations using `tidyoperators`:
+
+```{r}
+x <- c("Hello World", "Goodbye World")
+
+# find occurence of every character on alphabet:
+s_strapply(x, fun=\(x)match(tolower(x),letters), clp="; ")
+
+# Capitalize ONLY the ODD indices of each string:
+x <- c("Hello World", "Goodbye World")
+s_strapply(x, fun=\(x){
+  replace(x, seq(1, length(x), 2), toupper(x)[seq(1, length(x), 2)])
+})
+
+# Extract second-last vowel of every word of every string in a vector:
+x <- c("Outrageous, egregious, preposterous!", "Pleasant evening everyone")
+p <- s_pattern("a|e|i|o|u", ignore.case = TRUE)
+s_strapply(x, w=T, fun=\(x)s_extract(x, -2, p))
+```
+
+And some string arithmetic:
+
+```{r}
+"Hello" %s+% " world"
+c("Hello world", "Goodbye world") %s-% " world"
+c("Ha", "Ho", "Hi", "Hu", "He", "Ha") %s*% 10
+c("HaHa", "Ho", "Hi", "Hu", "He", "Ha") %s/% "Ha"
+```
+
+And string subsetting:
+
+```{r}
+x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+print(x)
+p <- "a|e|i|o|u" # pattern for all vowels.
+s_extract(x, 2, p) # extract the second vowel
+s_extract(x, -2, p) # extract the second-last vowel
+
+s_repl(x, 2, p, "?") # replace the second vowel with question mark
+s_repl(x, -2, p, "?") # replace the second-last vowel with question mark
+```
+
+If you're still interested, I invite you to read the rest of this Vignette and perhaps try out the package yourself.
+
+&nbsp;
+
+# Simple additional logicals
+
+The tidyoperators package adds a few basic logical operators:
+
+ - `%xor%`: Exclusive OR
+ - `%n&%`: NOT AND (i.e. `(!x) & (!y)`)
+ - `%out%`: the opposite of `%in%` (i.e. `!x %in% y`)
+ - `%?=%`: checks if both `x` and `y` are unknown or unreal (NA, NaN, Inf, -Inf)
+ - `%tol%`: checks if the difference between `x` and `y` is less than the `sqrt(.Machine$double.eps)`. This is a safer way to check if 2 floating numbers are equal. Like other logical operators, this one is also fully vectorized.
+
+Here are some examples:
+
+```{r}
+x <- c(TRUE, FALSE, TRUE, FALSE, NA, FALSE, TRUE)
+y <- c(FALSE, TRUE, TRUE, FALSE, NA, NA, NA)
+x %xor% y
+x %n&% y
+x %?=% y
+
+1:3 %out% 1:10
+1:10 %out% 1:3
+
+(0.1*7) == 0.7 # gives FALSE, though it should be TRUE
+(0.1*7) %tol% 0.7
+
+```
+
+
+
+Numbers can have many different subtypes whilst still being `numeric`. The `n %=numtype% numtype` operator will check for every value of numeric vector `n` if it can be considered a number belonging to type `numtype`. The following values for `numtype` are allowed:
+
+ - "~0": zero, or else a number whose absolute value is smaller than the Machine tolerance (`sqrt(.Machine$double.eps)`);
+ - "B": binary numbers (0 or 1);
+ - "prop": proportions;
+ - "N": Natural numbers (non-negative integers including zero);
+ - "I": Integers;
+ - "odd": odd integers;
+ - "even": even integers
+ - "R": Real numbers;
+ - "unreal": infinity, NA, or NaN;
+
+The string counterpart for `%=numtype%` is `s $=strtype% strtype`, which checks for every value of character vector `n` if it can seen as a certain `strtype`. The following values for `strtype` are allowed:
+
+ - "empty": checks if the string only consists of empty spaces.
+ - "unreal": checks if the string is NA, or if it has literal string "NA", "NaN" or "Inf", regardless if it has leading or trailing spaces.
+ - "numeric": checks if the string can be converted to a number, disregarding leading and trailing spaces. I.e. the string "5.0" can be converted to the the actual number 5.0.
+ - "special": checks if the string consists of only special characters.
+
+Here are some examples:
+
+```{r}
+
+1e-20 %=numtype% "~0"
+n <- c(0:5, 0:-5, 0.1, -0.1, 0, 1, Inf, -Inf, NA, NaN)
+n[n %=numtype% "B"]
+n[n %=numtype% "prop"]
+n[n %=numtype% "B"]
+n[n %=numtype% "N"]
+n[n %=numtype% "I"]
+n[n %=numtype% "odd"]
+n[n %=numtype% "even"]
+n[n %=numtype% "R"]
+n[n %=numtype% "unreal"]
+
+s <- c(" AbcZ123 ", " abc ", " 1.3 ", " !#$%^&*() ", "  ", "  NA  ", "  NaN  ", " Inf ")
+s[s %=strtype% "empty"]
+s[s %=strtype% "unreal"]
+s[s %=strtype% "numeric"]
+s[s %=strtype% "special"]
+```
+
+
+&nbsp;
+
+# In-place modifying mathematical arithmetic
+
+## The problem
+
+This R package includes infix operators for in-place modifying mathematical arithmetic. But first: what is an in-place modifier?
+Consider the following line of code:
+
+```{r eval=FALSE}
+mtcars$mpg[mtcars$cyl>6] <- mtcars$mpg[mtcars$cyl>6]^2
+```
+
+The same expression, `mtcars$mpg[mtcars$cyl>6]`, is written twice, making this code rather long and cumbersome, even though we're just squaring the expression. The well-known `magrittr` R-package has an in-place modifier pipe, `%<>%`. This works excellent for actual functions, like so:
+
+```{r eval=FALSE}
+mtcars$mpg[mtcars$cyl>6] %<>% mean() # same as mtcars$mpg[mtcars$cyl>6] <- mean(mtcars$mpg[mtcars$cyl>6])
+```
+ 
+But for arithmetic, one needs to translate the operators into a function, and then perform the in-place modifier pipe:
+
+
+```{r eval=FALSE}
+mtcars$mpg[mtcars$cyl>6] %<>% raise_to_power(2)
+```
+
+This is better, but still not truly tidy.
+
+&nbsp;
+
+## The solution from this R package
+
+This R package solves the above laid-out problem by implementing in-place modifying mathematical arithmetic for all mathematical operators, excluding matrix operators.
+
+Here is a list of all in-place mathematical modifiers implemented in this R-package:
+
+ -`x %+ <-% y` is the same as`x <- x + y`
+ - `x %- <-% y` is the same as`x <- x - y`
+ - `x %* <-% y` is the same as`x <- x * y`
+ - `x %/ <-% y` is the same as`x <- x / y`
+ - `x %^ <-% p` is the same as`x <- x^p`
+ - `x %rt <-% p` is the same as`x <- x^(1/p)`
+ - `x %logb <-% b` is the same as`x <- log(x, base=b)`
+ - `x %alogb <-% b` is the same as`x <- b^x`; if `b=exp(1)`, this is the same as`x <- exp(x)`
+ - `x %alogb <-% exp(1)` is the same as exp(x)`
+
+
+I realise there doesn't really need to be a `%logb%` operator, but since one was needed for the antilogarithm, I added the "regular" logarithm also, for consistenty.
+Notice that all in-place modifiers end with ` <-%` (notice the space). All infix operators that are in-place modifiers in this R package end with ` <-%`, so that it is clear what it does.
+
+Lets look at the original problem:
+
+```{r eval=FALSE}
+mtcars$mpg[mtcars$cyl>6] %<>% raise_to_power(2)
+```
+
+With `tidyoperators` one can now make this more tidy with the following:
+
+```{r eval=FALSE}
+mtcars$mpg[mtcars$cyl>6] %^ <-% 2
+```
+
+Much tidier, no?
+
+&nbsp;
+
+## Comparisons
+
+This is not the first or only R package that incorporates in-place modifiers. Most notably, the `inplace` R package is devoted entirely to in-place modifying mathematical arithmetic. However, `inplace` has a nasty side-effect: If x=3 and y=3, using an in-place modifier from the `inplace` package on x will also change y. This can be very dangerous.
+
+**The `tidyoperators` R package does not have this problem:** modifying one object does not affect another object, even if they happen to have the same value.
+
+There are also other R package that, like `tidyoperators` use a safe in-place modifier, but I have yet to find one as comprehensive as `tidyoperators`.
+
+&nbsp;
+
+# Unreal replacement
+
+Another operator added by `tidyoperators` is `x %unreal <-% y`, which replaces all NA, NaN, Inf and -Inf in `x` with the value given in `y`.
+
+It is the same as `x[is.na(x)|is.nan(x)|is.infinite(x)] <- y`.
+
+&nbsp;
+
+
+# String arithmetic and subsetting
+
+The `tidyoperators` R package implements operators for string arithmetic and subsetting, as well some of their in-place modifier equivalents. For consistency, and to avoid masking other common operators, all string-related operators start with `%s`, where the "s" stands for "string". Likewise, all string-related functions in this package start with `s_`.
+
+&nbsp;
+
+
+## String subsetting
+
+As a first subsetting operator, we have `x %sget% ss`, which returns a subset of each string in character vector `x`. Here `ss` is a vector of length 2, or a matrix with `nrow(ss)=length(x)` and 2 columns. The object `ss` should consist entirely of non-negative integers (thus 0, 1, 2, etc. are valid, but -1, -2, -3 etc are not valid). The first element/column of ss gives the number of characters counting from the left side to be extracted from x. The second element/column of ss gives the number of characters counting from the right side to be extracted from x.
+
+Here are 2 examples:
+
+```{r}
+x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+print(x)
+ss <- c(2,3)
+x %sget% ss
+
+x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+print(x)
+ss <- c(1,0)
+x %sget% ss
+```
+
+Thus `%sget%` "gets" or extracts the given number of characters from the left and the right, and removes the rest.
+There is also `%strim%`, which is the opposite: it trims away the number of characters from the left and right as defined in `ss`, leaving you with whatever is left.
+
+Here are again 2 examples:
+
+```{r}
+x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+print(x)
+ss <- c(2,3)
+x %strim% ss
+
+x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+print(x)
+ss <- c(1,0)
+x %strim% ss
+```
+
+&nbsp;
+
+There are also 2 functions regarding string subsetting:
+`s_extract(x, i, p)`, and `s_repl(x, i, p, rp)`.
+
+The first function, `s_extract()`, extracts the $i^{th}$ occurence of pattern `p` in every string of character vector `x`. When `i` is positive, the occurence is counted from left to right. Negative values for `i` are also allowed, in which case the occurence is counted from the right to left. Thus, to get the **last** occurence, use `i=-1`. But `i=0` is not allowed though.
+
+The `s_repl()` function replaces the $i^{th}$ occurence of pattern `p` with string `rp` in every string of character vector `x`. Like in `s_extract()`, `i` can be positive to count the occurences from left to right, or negative to count the occurences from right to left.
+
+Here are some examples:
+
+```{r}
+x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+print(x)
+p <- "a|e|i|o|u" # pattern for all vowels.
+
+s_extract(x, 1, p) # extract the first vowel
+s_extract(x, -1, p) # extract the last vowel
+s_extract(x, 2, p) # extract the second vowel
+s_extract(x, -2, p) # extract the second-last vowel
+
+rp <- "?"
+s_repl(x, 1, p, rp) # replace the first vowel with question mark
+s_repl(x, -1, p, rp) # replace the last vowel with question mark
+s_repl(x, 2, p, rp) # replace the second vowel with question mark
+s_repl(x, -2, p, rp) # replace the second-last vowel with question mark
+
+```
+
+
+Another fun string operator is `x %ss%  s`. This essentially splits character vector `x` into vector containing only individual characters; then this vector is subsetted by the number given in `s`. Honestly, I do not think one would need this often, but it can be handy sometimes. For example:
+
+```{r}
+x <- "Tom Marvolo Riddle"
+toupper(x) %ss% c(14, 4, 6:5, 12, 10:11, 13, 15, 8:9, 17:16, 18, 3:2, 7, 1) |>
+  paste0(collapse = "")
+```
+
+
+&nbsp; 
+
+
+## String arithmetic
+
+Certainly, the `tidyoperators` package is not the first R package to introduce string arithmetic. But I do hope these operators have more consistent naming and functionality.
+
+
+`x %s+% y` is the same as `paste0(x, y)`:
+
+```{r}
+x <- "Hello"
+y <- " world"
+x %s+% y
+```
+
+
+`x %s-% p` removes pattern `p` from each string in character vector `x`:
+
+```{r}
+x <- c("Hello world", "Goodbye world")
+p <- " world"
+x %s-% p
+```
+
+`x %s*% n` repeats each string in character vector `x` for `n` times:
+
+```{r}
+x <- c("Ha", "Ho", "Hi", "Hu", "He", "Ha")
+n <- 2:7
+x %s*% n
+```
+
+Finally if, "ha" times 10 equals "HaHaHaHaHaHaHaHaHaHa", then it follows intuitively than "HaHaHaHaHaHaHaHaHaHa" divided by "Ha" equals 10. Thus, string division, `x %s/% p` counts how often pattern `p` occurs in string or vector `x`:
+
+```{r}
+x <- c("Ha", "Ho", "Hi", "Hu", "He", "Ha") %s*% 10
+p <- "Ha"
+x %s/% p
+```
+
+It is important to note that the right-side arguments `p`, `y`, and `n` can be a single value, or a vector of the same length as `x`.
+
+
+&nbsp;
+
+## Pattern attributes in strings
+
+In all string arithmetic and subsetting operators/functions given above, the pattern `p` was taken as a case-sensitive, non-fixed, regular expression. But I can imagine one wants to change that. For example, one may explicitly want to ignore the distinction between capital and lower characters. Or one may want to use fixed expressions. Or perl expressions. Or a combination of these.
+
+Well, fret not, for the `tidyoperators` package can also help in those cases. To use more refined pattern definition, simply replace the argument/right-hand-side expression `p` in all previous functions/operators with `s_pattern(p, ...)`.
+
+The `s_pattern(p, fixed, ignore.case, perl)` function allows the user to specify how exactly the pattern should be interpreted by the other functions/operators in the `tidyoperators` package. The `fixed`, `ignore.case` and `perl` arguments have exactly the same meaning as they do in the base R grep, gregexpr, etc. functions.
+
+On a technical level, what the `s_pattern()` function actually does is it simply assigns attributes to `p`, and all `tidyoperators` functions that use `p` can read those attributes and adjust their functionality accordingly. That's all. As implied earlier, the default arguments for `s_pattern` are:
+`fixed=FALSE, ignore.case=FALSE, perl=FALSE`.
+
+Now lets give some examples on how to use `s_pattern()`.
+
+First an example where the distinction between capital characters and lower characters is ignored:
+
+```{r}
+
+x <- c(tolower(letters)[1:13] |> paste0(collapse=""),
+       toupper(letters)[14:26] |> paste0(collapse=""))
+print(x)
+p <- s_pattern("a|E|i|O|u", fixed=FALSE, ignore.case=TRUE, perl=FALSE)
+s_extract(x, -1, p) # extracts the last vowel in each element of x.
+s_repl(x, -1, p, "?") # replace last vowel in each element of x with a question mark ("?").
+x %s-% p # remove all vowels in each string of vector x.
+x %s/% p # count how often vowels appear in each string of vector x.
+```
+
+Second an example where a perl expression is used instead of a regular expression:
+
+```{r}
+x <- "line1 \n line2"
+print(x)
+p <- s_pattern("\\v+", perl=TRUE) # perl expression; only works with perl=TRUE
+s_repl(x, 1, p, " - ") # replace vertical line break with a minus line.
+
+```
+
+&nbsp;
+
+# In-place modifying string arithmetic and subsetting
+
+With the exception of  `%ss%`, all infix operators (notice: operators, not functions) have their in-place modifying equivalent:
+
+ - `x %s+ <-% y` is the same as `x <- x %s+% y`
+ - `x %s- <-% p` is the same as `x <- x %s-% p`
+ - `x %s* <-% n` is the same as `x <- x %s*% n`
+ - `x %s/ <-% p` is the same as `x <- x %s/% p`
+ - `x %sget <-% ss` is the same as `x <- x %sget% ss`
+ - `x %strim <-% ss` is the same as `x <- x %strim% ss`
+
+```{r eval=FALSE, echo=TRUE}
+
+
+```
+
+
+As was the case in the regular string operators, the interpretation of expression `p` can be refined using the `s_pattern()` function.
+
+The `s_extract()` and `s_repl()` functions obviously do not require an in-place modifier version, as they can easily be used in combination with `magrittr`'s in-place pipe modifier ( `%<>%` ),  just like any other function.
+
+&nbsp;
+
+# More string flexibility: s_strapply
+
+
+The string arithmetic and subsetting operators and functions given so far can do a lot, but it's not always flexible enough. To add extra flexibility, there is also the `s_strapply(x, fun, w=F, clp=", ...)` function. This function applies the following steps to every element (every string) of character vector x:
+
+ 1) the string is split into a vector of single characters (`w=F`), or a vector of space-delimited words (`w=T`).
+ 2) the function `fun()` is applied to the vector from step 1.
+ 3) the result from step 2 is pasted together to form a single string element again, using `paste0(..., collapse=clp)`.
+
+In other words, this function turns every string in character vector `x` into its own little vector, applies a function to this vector, and pastes the returning vector together into a single string again.
+
+This operator can be used in a very wide variety of ways.
+
+One obvious use of this function is to sort every string in character vector `x` alphabetically, or find the occurence of the character on the alphabet:
+
+```{r}
+x <- c("Hello World", "Goodbye World")
+# alphabetic sorting:
+s_strapply(x, sort)
+# find occurence on alphabet:
+s_strapply(x, fun=\(x)match(tolower(x),letters), clp="; ")
+```
+
+Notice not only how easy this is, but also how tidy the above code is.
+
+Lets try something else: capitalize characters but ONLY at odd indices:
+
+```{r}
+x <- c("Hello World", "Goodbye World")
+x <- c("Hello World", "Goodbye World")
+s_strapply(x, fun=\(x){
+  replace(x, seq(1, length(x), 2), toupper(x)[seq(1, length(x), 2)])
+})
+```
+
+Or lets arrange every string in reverse order:
+
+```{r}
+x <- c("Hello World", "Goodbye World")
+s_strapply(x, fun=\(x)x[length(x):1])
+```
+
+
+Lets try to take the second-last vowel of every word of every string in some character vector `x`:
+
+```{r}
+x <- c("Outrageous, egregious, preposterous!", "Pleasant evening everyone")
+print(x)
+p <- s_pattern("a|e|i|o|u", ignore.case = TRUE)
+s_strapply(x, w=T, fun=\(x)s_extract(x, -2, p))
+```
+
+&nbsp;
+
+# Parallel computing / multi-threading
+
+The `s_repl()` and `s_extract()` functions internally use `mapply()`. I can imagine that sometimes some character vector `x` is so large that `mapply()` is too slow or inefficient, and one might want to use parallel computing. Because I wanted to have this R package to have zero dependencies, I do not provide parallel computing out of the box. However, I do allow the internally `mapply()` function to be replaced with a user provided function.
+
+For example, suppose one wants to speed up `s_extract()` using parallel computing. One can use the `future_mapply()` as a replacer for the mapply function, like so:
+
+```{r eval=FALSE}
+
+x <- rep(c("Hello World", "Goodbye World"), 2e5)
+p <- s_pattern("a|e|i|o|u", ignore.case = TRUE)
+
+s_extract(x, -1, p) # regular way
+
+require(future.apply)
+plan(multisession)
+s_extract(x, -1, p, custom_mapply = future_mapply) # multi-threaded way.
+```
+
+Now you have a multithreaded version of s_extract; that wasn't so difficult, right? On my computer, the multi-threaded command was about 3 times faster.
+
+The `s_strapply` function uses `sapply` internally. As above, the user can multi-thread this function by replacing sapply:
+
+```{r eval=FALSE}
+x <- rep(c("Hello World", "Goodbye World"), 2e5)
+
+s_strapply(x, sort) # regular way
+
+require(future.apply)
+plan(multisession)
+s_strapply(x, sort, custom_sapply = future_sapply) # multi-threaded way
+```
+
+Now you have a multi-threaded version of `%s_strapply`.
+
+It should be noted that the speed is also very much dependent on the function used for the `fun` argument.
+
+
+&nbsp;
+
+# Conclusion
+
+I hope this R package will make your life a little bit tidyr.
+
