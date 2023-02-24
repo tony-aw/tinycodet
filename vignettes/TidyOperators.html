@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>TidyOperators</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">TidyOperators</h1>
+
+
+<div id="TOC">
+<ul>
+<li><a href="#overview" id="toc-overview">Overview</a></li>
+<li><a href="#simple-additional-logicals" id="toc-simple-additional-logicals">Simple additional logicals</a></li>
+<li><a href="#in-place-modifying-mathematical-arithmetic" id="toc-in-place-modifying-mathematical-arithmetic">In-place modifying
+mathematical arithmetic</a>
+<ul>
+<li><a href="#the-problem" id="toc-the-problem">The problem</a></li>
+<li><a href="#the-solution-from-this-r-package" id="toc-the-solution-from-this-r-package">The solution from this R
+package</a></li>
+<li><a href="#comparisons" id="toc-comparisons">Comparisons</a></li>
+</ul></li>
+<li><a href="#unreal-replacement" id="toc-unreal-replacement">Unreal
+replacement</a></li>
+<li><a href="#string-arithmetic-and-subsetting" id="toc-string-arithmetic-and-subsetting">String arithmetic and
+subsetting</a>
+<ul>
+<li><a href="#string-subsetting" id="toc-string-subsetting">String
+subsetting</a></li>
+<li><a href="#string-arithmetic" id="toc-string-arithmetic">String
+arithmetic</a></li>
+<li><a href="#pattern-attributes-in-strings" id="toc-pattern-attributes-in-strings">Pattern attributes in
+strings</a></li>
+</ul></li>
+<li><a href="#in-place-modifying-string-arithmetic-and-subsetting" id="toc-in-place-modifying-string-arithmetic-and-subsetting">In-place
+modifying string arithmetic and subsetting</a></li>
+<li><a href="#more-string-flexibility-s_strapply" id="toc-more-string-flexibility-s_strapply">More string flexibility:
+s_strapply</a></li>
+<li><a href="#parallel-computing-multi-threading" id="toc-parallel-computing-multi-threading">Parallel computing /
+multi-threading</a></li>
+<li><a href="#conclusion" id="toc-conclusion">Conclusion</a></li>
+</ul>
+</div>
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyoperators)</span></code></pre></div>
+<div id="overview" class="section level1">
+<h1>Overview</h1>
+<p>The aim of this R package, <code>tidyoperators</code>, is to provide
+the following functionality:</p>
+<ul>
+<li>Infix operators for In-place modifiers for mathematical
+arithmetic.</li>
+<li>Infix operators for String arithmetic.</li>
+<li>Infix operators (and a few functions) for string subsetting.</li>
+<li>Infix operators for In-place modifying string arithmetic.</li>
+<li>Infix operators for In-place modifying string subsetting.</li>
+<li>Allow multithreading of functions (when appropriate) through
+third-party packages to improve efficiency.</li>
+</ul>
+<p>I realize there are other R-packages that cover some of the above
+functionalities. But I often experience that these R packages (or at
+least those I know of) either do not cover all that I required, had some
+inconsistencies, or suffered from some other significant drawbacks.
+Hence this package was created.</p>
+<p>This R package has <strong>zero dependencies</strong>, thus avoiding
+the often feared dependency hell.</p>
+<p>Currently this R package is only available on GitHub.</p>
+<p>I understand one may not want to go through this entire Vignette
+without knowing if the R package is worthy of your time. Therefore,
+allow me to give you a quick glimpse of what is possible in this R
+package before jumping into the details.</p>
+<p>First, some in-place mathematical arithmetic with
+<code>tidyoperators</code>:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">10</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  1  2  3  4  5  6  7  8  9 10</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>x <span class="sc">%^ &lt;-%</span> <span class="dv">2</span> <span class="co"># is the same as x &lt;- x^p</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]   1   4   9  16  25  36  49  64  81 100</span></span></code></pre></div>
+<p>Second, some numeric subtypes checks:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">0</span><span class="sc">:-</span><span class="dv">5</span>, <span class="fl">0.1</span>, <span class="sc">-</span><span class="fl">0.1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="cn">Inf</span>, <span class="sc">-</span><span class="cn">Inf</span>, <span class="cn">NA</span>, <span class="cn">NaN</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>n[n <span class="sc">%=numtype%</span> <span class="st">&quot;B&quot;</span>]</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0 1 0 0 1</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>n[n <span class="sc">%=numtype%</span> <span class="st">&quot;N&quot;</span>]</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0 1 2 3 4 5 0 0 1</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>n[n <span class="sc">%=numtype%</span> <span class="st">&quot;I&quot;</span>]</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  0  1  2  3  4  5  0 -1 -2 -3 -4 -5  0  1</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>n[n <span class="sc">%=numtype%</span> <span class="st">&quot;R&quot;</span>]</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  0.0  1.0  2.0  3.0  4.0  5.0  0.0 -1.0 -2.0 -3.0 -4.0 -5.0  0.1 -0.1  0.0</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [16]  1.0</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>n[n <span class="sc">%=numtype%</span> <span class="st">&quot;I+&quot;</span>]</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1 2 3 4 5 1</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>n[n <span class="sc">%=numtype%</span> <span class="st">&quot;I-&quot;</span>]</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] -1 -2 -3 -4 -5</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>n[n <span class="sc">%=numtype%</span> <span class="st">&quot;R+&quot;</span>]</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1.0 2.0 3.0 4.0 5.0 0.1 1.0</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>n[n <span class="sc">%=numtype%</span> <span class="st">&quot;R-&quot;</span>]</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] -1.0 -2.0 -3.0 -4.0 -5.0 -0.1</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>n[n <span class="sc">%=numtype%</span> <span class="st">&quot;unreal&quot;</span>]</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1]  Inf -Inf   NA  NaN</span></span></code></pre></div>
+<p>And now some fun string manipulations using
+<code>tidyoperators</code>:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Hello World&quot;</span>, <span class="st">&quot;Goodbye World&quot;</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># find occurence of every character on alphabet:</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">s_strapply</span>(x, <span class="at">fun=</span>\(x)<span class="fu">match</span>(<span class="fu">tolower</span>(x),letters), <span class="at">clp=</span><span class="st">&quot;; &quot;</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;8; 5; 12; 12; 15; NA; 23; 15; 18; 12; 4&quot;      </span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &quot;7; 15; 15; 4; 2; 25; 5; NA; 23; 15; 18; 12; 4&quot;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Capitalize ONLY the ODD indices of each string:</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Hello World&quot;</span>, <span class="st">&quot;Goodbye World&quot;</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="fu">s_strapply</span>(x, <span class="at">fun=</span>\(x){</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">replace</span>(x, <span class="fu">seq</span>(<span class="dv">1</span>, <span class="fu">length</span>(x), <span class="dv">2</span>), <span class="fu">toupper</span>(x)[<span class="fu">seq</span>(<span class="dv">1</span>, <span class="fu">length</span>(x), <span class="dv">2</span>)])</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;HeLlO WoRlD&quot;   &quot;GoOdByE WoRlD&quot;</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract second-last vowel of every word of every string in a vector:</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Outrageous, egregious, preposterous!&quot;</span>, <span class="st">&quot;Pleasant evening everyone&quot;</span>)</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">s_pattern</span>(<span class="st">&quot;a|e|i|o|u&quot;</span>, <span class="at">ignore.case =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="fu">s_strapply</span>(x, <span class="at">w=</span>T, <span class="at">fun=</span>\(x)<span class="fu">s_extract</span>(x, <span class="sc">-</span><span class="dv">2</span>, p))</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;o o o&quot; &quot;a e o&quot;</span></span></code></pre></div>
+<p>And some string arithmetic:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;Hello&quot;</span> <span class="sc">%s+%</span> <span class="st">&quot; world&quot;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Hello world&quot;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="st">&quot;Hello world&quot;</span>, <span class="st">&quot;Goodbye world&quot;</span>) <span class="sc">%s-%</span> <span class="st">&quot; world&quot;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Hello&quot;   &quot;Goodbye&quot;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="st">&quot;Ha&quot;</span>, <span class="st">&quot;Ho&quot;</span>, <span class="st">&quot;Hi&quot;</span>, <span class="st">&quot;Hu&quot;</span>, <span class="st">&quot;He&quot;</span>, <span class="st">&quot;Ha&quot;</span>) <span class="sc">%s*%</span> <span class="dv">10</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;HaHaHaHaHaHaHaHaHaHa&quot; &quot;HoHoHoHoHoHoHoHoHoHo&quot; &quot;HiHiHiHiHiHiHiHiHiHi&quot;</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [4] &quot;HuHuHuHuHuHuHuHuHuHu&quot; &quot;HeHeHeHeHeHeHeHeHeHe&quot; &quot;HaHaHaHaHaHaHaHaHaHa&quot;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="st">&quot;HaHa&quot;</span>, <span class="st">&quot;Ho&quot;</span>, <span class="st">&quot;Hi&quot;</span>, <span class="st">&quot;Hu&quot;</span>, <span class="st">&quot;He&quot;</span>, <span class="st">&quot;Ha&quot;</span>) <span class="sc">%s/%</span> <span class="st">&quot;Ha&quot;</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 2 0 0 0 0 1</span></span></code></pre></div>
+<p>And string subsetting:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">paste0</span>(letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">13</span>], <span class="at">collapse=</span><span class="st">&quot;&quot;</span>), <span class="fu">paste0</span>(letters[<span class="dv">14</span><span class="sc">:</span><span class="dv">26</span>], <span class="at">collapse=</span><span class="st">&quot;&quot;</span>))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;abcdefghijklm&quot; &quot;nopqrstuvwxyz&quot;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="st">&quot;a|e|i|o|u&quot;</span> <span class="co"># pattern for all vowels.</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">s_extract</span>(x, <span class="dv">2</span>, p) <span class="co"># extract the second vowel</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;e&quot; &quot;u&quot;</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="fu">s_extract</span>(x, <span class="sc">-</span><span class="dv">2</span>, p) <span class="co"># extract the second-last vowel</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;e&quot; &quot;o&quot;</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="fu">s_repl</span>(x, <span class="dv">2</span>, p, <span class="st">&quot;?&quot;</span>) <span class="co"># replace the second vowel with question mark</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;abcd?fghijklm&quot; &quot;nopqrst?vwxyz&quot;</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="fu">s_repl</span>(x, <span class="sc">-</span><span class="dv">2</span>, p, <span class="st">&quot;?&quot;</span>) <span class="co"># replace the second-last vowel with question mark</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;abcd?fghijklm&quot; &quot;n?pqrstuvwxyz&quot;</span></span></code></pre></div>
+<p>If you’re still interested, I invite you to read the rest of this
+Vignette and perhaps try out the package yourself.</p>
+<p> </p>
+</div>
+<div id="simple-additional-logicals" class="section level1">
+<h1>Simple additional logicals</h1>
+<p>The tidyoperators package adds a few basic logical operators:</p>
+<ul>
+<li><code>%xor%</code>: Exclusive OR</li>
+<li><code>%n&amp;%</code>: NOT AND
+(i.e. <code>(!x) &amp; (!y)</code>)</li>
+<li><code>%out%</code>: the opposite of <code>%in%</code>
+(i.e. <code>!x %in% y</code>)</li>
+<li><code>%?=%</code>: checks if both <code>x</code> and <code>y</code>
+are unknown or unreal (NA, NaN, Inf, -Inf)</li>
+<li><code>%tol%</code>: checks if the difference between <code>x</code>
+and <code>y</code> is less than the
+<code>sqrt(.Machine$double.eps)</code>. This is a safer way to check if
+2 floating numbers are equal. Like other logical operators, this one is
+also fully vectorized.</li>
+</ul>
+<p>Some examples are given here:</p>
+<p>Numbers can have many different subtypes whilst still being
+<code>numeric</code>. The <code>n %=numtype% numtype</code> operator
+will check for every value of numeric vector <code>n</code> if it
+belongs to <code>numtype</code>. The following values for
+<code>numtype</code> are allowed:</p>
+<ul>
+<li>“B”: binary numbers (0 or 1);</li>
+<li>“N”: Natural numbers (non-negative integers);</li>
+<li>“I”: Integers;</li>
+<li>“R”: Real numbers;</li>
+<li>“unreal”: infinity, NA, or NaN;</li>
+<li>“R+”: strictly positive real numbers;</li>
+<li>“R-”: strictly negative real numbers;</li>
+<li>“I+”: strictly positive integers;</li>
+<li>“I-”: strictly negative integers.</li>
+</ul>
+<p>This can be very handy for quick sub-setting. Here are some
+examples:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">0</span><span class="sc">:-</span><span class="dv">5</span>, <span class="fl">0.1</span>, <span class="sc">-</span><span class="fl">0.1</span>, <span class="dv">0</span>, <span class="dv">1</span>, <span class="cn">Inf</span>, <span class="sc">-</span><span class="cn">Inf</span>, <span class="cn">NA</span>, <span class="cn">NaN</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>n[n <span class="sc">%=numtype%</span> <span class="st">&quot;B&quot;</span>]</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0 1 0 0 1</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>n[n <span class="sc">%=numtype%</span> <span class="st">&quot;N&quot;</span>]</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0 1 2 3 4 5 0 0 1</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>n[n <span class="sc">%=numtype%</span> <span class="st">&quot;I&quot;</span>]</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  0  1  2  3  4  5  0 -1 -2 -3 -4 -5  0  1</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>n[n <span class="sc">%=numtype%</span> <span class="st">&quot;R&quot;</span>]</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  0.0  1.0  2.0  3.0  4.0  5.0  0.0 -1.0 -2.0 -3.0 -4.0 -5.0  0.1 -0.1  0.0</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [16]  1.0</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>n[n <span class="sc">%=numtype%</span> <span class="st">&quot;I+&quot;</span>]</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1 2 3 4 5 1</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>n[n <span class="sc">%=numtype%</span> <span class="st">&quot;I-&quot;</span>]</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] -1 -2 -3 -4 -5</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>n[n <span class="sc">%=numtype%</span> <span class="st">&quot;R+&quot;</span>]</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1.0 2.0 3.0 4.0 5.0 0.1 1.0</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>n[n <span class="sc">%=numtype%</span> <span class="st">&quot;R-&quot;</span>]</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] -1.0 -2.0 -3.0 -4.0 -5.0 -0.1</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>n[n <span class="sc">%=numtype%</span> <span class="st">&quot;unreal&quot;</span>]</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1]  Inf -Inf   NA  NaN</span></span></code></pre></div>
+<p> </p>
+</div>
+<div id="in-place-modifying-mathematical-arithmetic" class="section level1">
+<h1>In-place modifying mathematical arithmetic</h1>
+<div id="the-problem" class="section level2">
+<h2>The problem</h2>
+<p>This R package includes infix operators for in-place modifying
+mathematical arithmetic. But first: what is an in-place modifier?
+Consider the following line of code:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>mtcars<span class="sc">$</span>mpg[mtcars<span class="sc">$</span>cyl<span class="sc">&gt;</span><span class="dv">6</span>] <span class="ot">&lt;-</span> mtcars<span class="sc">$</span>mpg[mtcars<span class="sc">$</span>cyl<span class="sc">&gt;</span><span class="dv">6</span>]<span class="sc">^</span><span class="dv">2</span></span></code></pre></div>
+<p>The same expression, <code>mtcars$mpg[mtcars$cyl&gt;6]</code>, is
+written twice, making this code rather long and cumbersome, even though
+we’re just squaring the expression. The well-known <code>magrittr</code>
+R-package has an in-place modifier pipe, <code>%&lt;&gt;%</code>. This
+works excellent for actual functions, like so:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>mtcars<span class="sc">$</span>mpg[mtcars<span class="sc">$</span>cyl<span class="sc">&gt;</span><span class="dv">6</span>] <span class="sc">%&lt;&gt;%</span> <span class="fu">mean</span>() <span class="co"># same as mtcars$mpg[mtcars$cyl&gt;6] &lt;- mean(mtcars$mpg[mtcars$cyl&gt;6])</span></span></code></pre></div>
+<p>But for arithmetic, one needs to translate the operators into a
+function, and then perform the in-place modifier pipe:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>mtcars<span class="sc">$</span>mpg[mtcars<span class="sc">$</span>cyl<span class="sc">&gt;</span><span class="dv">6</span>] <span class="sc">%&lt;&gt;%</span> <span class="fu">raise_to_power</span>(<span class="dv">2</span>)</span></code></pre></div>
+<p>This is better, but still not truly tidy.</p>
+<p> </p>
+</div>
+<div id="the-solution-from-this-r-package" class="section level2">
+<h2>The solution from this R package</h2>
+<p>This R package solves the above laid-out problem by implementing
+in-place modifying mathematical arithmetic for all mathematical
+operators, excluding matrix operators.</p>
+<p>Here is a list of all in-place mathematical modifiers implemented in
+this R-package:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>x <span class="sc">%+ &lt;-%</span> y <span class="co"># is the same as x &lt;- x + y</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>x <span class="sc">%- &lt;-%</span> y <span class="co"># is the same as x &lt;- x - y</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>x <span class="sc">%* &lt;-%</span> y <span class="co"># is the same as x &lt;- x * y</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>x <span class="sc">%/ &lt;-%</span> y <span class="co"># is the same as x &lt;- x / y</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>x <span class="sc">%^ &lt;-%</span> p <span class="co"># is the same as x &lt;- x^p</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>x <span class="sc">%rt &lt;-%</span> p <span class="co"># is the same as x &lt;- x^(1/p)</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>x <span class="sc">%logb &lt;-%</span> b <span class="co"># is the same as x &lt;- log(x, base=b)</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>x <span class="sc">%alogb &lt;-%</span> b <span class="co"># is the same as x &lt;- b^x</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="co"># if b=exp(1), this is the same as x &lt;- exp(x):</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>x <span class="sc">%alogb &lt;-%</span> <span class="fu">exp</span>(<span class="dv">1</span>) <span class="co"># is the same as exp(x)</span></span></code></pre></div>
+<p>I realise there doesn’t really need to be a <code>%logb%</code>
+operator, but since one was needed for the antilogarithm, I added the
+“regular” logarithm also, for consistenty. Notice that all in-place
+modifiers end with <code>&lt;-%</code> (notice the space). All infix
+operators that are in-place modifiers in this R package end with
+<code>&lt;-%</code>, so that it is clear what it does.</p>
+<p>Lets look at the original problem:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>mtcars<span class="sc">$</span>mpg[mtcars<span class="sc">$</span>cyl<span class="sc">&gt;</span><span class="dv">6</span>] <span class="sc">%&lt;&gt;%</span> <span class="fu">raise_to_power</span>(<span class="dv">2</span>)</span></code></pre></div>
+<p>With <code>tidyoperators</code> one can now make this more tidy with
+the following:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>mtcars<span class="sc">$</span>mpg[mtcars<span class="sc">$</span>cyl<span class="sc">&gt;</span><span class="dv">6</span>] <span class="sc">%^ &lt;-%</span> <span class="dv">2</span></span></code></pre></div>
+<p>Much tidier, no?</p>
+<p> </p>
+</div>
+<div id="comparisons" class="section level2">
+<h2>Comparisons</h2>
+<p>This is not the first or only R package that incorporates in-place
+modifiers. Most notably, the <code>inplace</code> R package is devoted
+entirely to in-place modifying mathematical arithmetic. However,
+<code>inplace</code> has a nasty side-effect: If x=3 and y=3, using an
+in-place modifier from the <code>inplace</code> package on x will also
+change y. This can be very dangerous.</p>
+<p><strong>The <code>tidyoperators</code> R package does not have this
+problem:</strong> modifying one object does not affect another object,
+even if they happen to have the same value.</p>
+<p>There are also other R package that, like <code>tidyoperators</code>
+use a safe in-place modifier, but I have yet to find one as
+comprehensive as <code>tidyoperators</code>.</p>
+<p> </p>
+</div>
+</div>
+<div id="unreal-replacement" class="section level1">
+<h1>Unreal replacement</h1>
+<p>Another operator added by <code>tidyoperators</code> is
+<code>x %unreal &lt;-% y</code>, which replaces all NA, NaN, Inf and
+-Inf in <code>x</code> with the value given in <code>y</code>.</p>
+<p>It is the same as
+<code>x[is.na(x)|is.nan(x)|is.infinite(x)] &lt;- y</code>.</p>
+<p> </p>
+</div>
+<div id="string-arithmetic-and-subsetting" class="section level1">
+<h1>String arithmetic and subsetting</h1>
+<p>The <code>tidyoperators</code> R package implements operators for
+string arithmetic and subsetting, as well some of their in-place
+modifier equivalents. For consistency, and to avoid masking other common
+operators, all string-related operators start with <code>%s</code>,
+where the “s” stands for “string”. Likewise, all string-related
+functions in this package start with <code>s_</code>.</p>
+<p> </p>
+<div id="string-subsetting" class="section level2">
+<h2>String subsetting</h2>
+<p>As a first subsetting operator, we have <code>x %sget% ss</code>,
+which returns a subset of each string in character vector
+<code>x</code>. Here <code>ss</code> is a vector of length 2, or a
+matrix with <code>nrow(ss)=length(x)</code> and 2 columns. The object
+<code>ss</code> should consist entirely of non-negative integers (thus
+0, 1, 2, etc. are valid, but -1, -2, -3 etc are not valid). The first
+element/column of ss gives the number of characters counting from the
+left side to be extracted from x. The second element/column of ss gives
+the number of characters counting from the right side to be extracted
+from x.</p>
+<p>Here are 2 examples:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">paste0</span>(letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">13</span>], <span class="at">collapse=</span><span class="st">&quot;&quot;</span>), <span class="fu">paste0</span>(letters[<span class="dv">14</span><span class="sc">:</span><span class="dv">26</span>], <span class="at">collapse=</span><span class="st">&quot;&quot;</span>))</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;abcdefghijklm&quot; &quot;nopqrstuvwxyz&quot;</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>ss <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>x <span class="sc">%sget%</span> ss</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;abklm&quot; &quot;noxyz&quot;</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">paste0</span>(letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">13</span>], <span class="at">collapse=</span><span class="st">&quot;&quot;</span>), <span class="fu">paste0</span>(letters[<span class="dv">14</span><span class="sc">:</span><span class="dv">26</span>], <span class="at">collapse=</span><span class="st">&quot;&quot;</span>))</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x)</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;abcdefghijklm&quot; &quot;nopqrstuvwxyz&quot;</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>ss <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>)</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>x <span class="sc">%sget%</span> ss</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;a&quot; &quot;n&quot;</span></span></code></pre></div>
+<p>Thus <code>%sget%</code> “gets” or extracts the given number of
+characters from the left and the right, and removes the rest. There is
+also <code>%strim%</code>, which is the opposite: it trims away the
+number of characters from the left and right as defined in
+<code>ss</code>, leaving you with whatever is left.</p>
+<p>Here are again 2 examples:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">paste0</span>(letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">13</span>], <span class="at">collapse=</span><span class="st">&quot;&quot;</span>), <span class="fu">paste0</span>(letters[<span class="dv">14</span><span class="sc">:</span><span class="dv">26</span>], <span class="at">collapse=</span><span class="st">&quot;&quot;</span>))</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;abcdefghijklm&quot; &quot;nopqrstuvwxyz&quot;</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>ss <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>x <span class="sc">%strim%</span> ss</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;cdefghij&quot; &quot;pqrstuvw&quot;</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">paste0</span>(letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">13</span>], <span class="at">collapse=</span><span class="st">&quot;&quot;</span>), <span class="fu">paste0</span>(letters[<span class="dv">14</span><span class="sc">:</span><span class="dv">26</span>], <span class="at">collapse=</span><span class="st">&quot;&quot;</span>))</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;abcdefghijklm&quot; &quot;nopqrstuvwxyz&quot;</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>ss <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>)</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>x <span class="sc">%strim%</span> ss</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;bcdefghijklm&quot; &quot;opqrstuvwxyz&quot;</span></span></code></pre></div>
+<p> </p>
+<p>There are also 2 functions regarding string subsetting:
+<code>s_extract(x, i, p)</code>, and
+<code>s_repl(x, i, p, rp)</code>.</p>
+<p>The first function, <code>s_extract()</code>, extracts the <span class="math inline">\(i^{th}\)</span> occurence of pattern
+<code>p</code> in every string of character vector <code>x</code>. When
+<code>i</code> is positive, the occurence is counted from left to right.
+Negative values for <code>i</code> are also allowed, in which case the
+occurence is counted from the right to left. Thus, to get the
+<strong>last</strong> occurence, use <code>i=-1</code>. But
+<code>i=0</code> is not allowed though.</p>
+<p>The <code>s_repl()</code> function replaces the <span class="math inline">\(i^{th}\)</span> occurence of pattern
+<code>p</code> with string <code>rp</code> in every string of character
+vector <code>x</code>. Like in <code>s_extract()</code>, <code>i</code>
+can be positive to count the occurences from left to right, or negative
+to count the occurences from right to left.</p>
+<p>Here are some examples:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">paste0</span>(letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">13</span>], <span class="at">collapse=</span><span class="st">&quot;&quot;</span>), <span class="fu">paste0</span>(letters[<span class="dv">14</span><span class="sc">:</span><span class="dv">26</span>], <span class="at">collapse=</span><span class="st">&quot;&quot;</span>))</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;abcdefghijklm&quot; &quot;nopqrstuvwxyz&quot;</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="st">&quot;a|e|i|o|u&quot;</span> <span class="co"># pattern for all vowels.</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="fu">s_extract</span>(x, <span class="dv">1</span>, p) <span class="co"># extract the first vowel</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;a&quot; &quot;o&quot;</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="fu">s_extract</span>(x, <span class="sc">-</span><span class="dv">1</span>, p) <span class="co"># extract the last vowel</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;i&quot; &quot;u&quot;</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="fu">s_extract</span>(x, <span class="dv">2</span>, p) <span class="co"># extract the second vowel</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;e&quot; &quot;u&quot;</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="fu">s_extract</span>(x, <span class="sc">-</span><span class="dv">2</span>, p) <span class="co"># extract the second-last vowel</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;e&quot; &quot;o&quot;</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>rp <span class="ot">&lt;-</span> <span class="st">&quot;?&quot;</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="fu">s_repl</span>(x, <span class="dv">1</span>, p, rp) <span class="co"># replace the first vowel with question mark</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;?bcdefghijklm&quot; &quot;n?pqrstuvwxyz&quot;</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="fu">s_repl</span>(x, <span class="sc">-</span><span class="dv">1</span>, p, rp) <span class="co"># replace the last vowel with question mark</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;abcdefgh?jklm&quot; &quot;nopqrst?vwxyz&quot;</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="fu">s_repl</span>(x, <span class="dv">2</span>, p, rp) <span class="co"># replace the second vowel with question mark</span></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;abcd?fghijklm&quot; &quot;nopqrst?vwxyz&quot;</span></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a><span class="fu">s_repl</span>(x, <span class="sc">-</span><span class="dv">2</span>, p, rp) <span class="co"># replace the second-last vowel with question mark</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;abcd?fghijklm&quot; &quot;n?pqrstuvwxyz&quot;</span></span></code></pre></div>
+<p>Another fun string operator is <code>x %ss%  s</code>. This
+essentially splits character vector <code>x</code> into vector
+containing only individual characters; then this vector is subsetted by
+the number given in <code>s</code>. Honestly, I do not think one would
+need this often, but it can be handy sometimes. For example:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="st">&quot;Tom Marvolo Riddle&quot;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">toupper</span>(x) <span class="sc">%ss%</span> <span class="fu">c</span>(<span class="dv">14</span>, <span class="dv">4</span>, <span class="dv">6</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">12</span>, <span class="dv">10</span><span class="sc">:</span><span class="dv">11</span>, <span class="dv">13</span>, <span class="dv">15</span>, <span class="dv">8</span><span class="sc">:</span><span class="dv">9</span>, <span class="dv">17</span><span class="sc">:</span><span class="dv">16</span>, <span class="dv">18</span>, <span class="dv">3</span><span class="sc">:</span><span class="dv">2</span>, <span class="dv">7</span>, <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste0</span>(<span class="at">collapse =</span> <span class="st">&quot;&quot;</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;I AM LORDVOLDEMORT&quot;</span></span></code></pre></div>
+<p> </p>
+</div>
+<div id="string-arithmetic" class="section level2">
+<h2>String arithmetic</h2>
+<p>Certainly, the <code>tidyoperators</code> package is not the first R
+package to introduce string arithmetic. But I do hope these operators
+have more consistent naming and functionality.</p>
+<p><code>x %s+% y</code> is the same as <code>paste0(x, y)</code>:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="st">&quot;Hello&quot;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="st">&quot; world&quot;</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>x <span class="sc">%s+%</span> y</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Hello world&quot;</span></span></code></pre></div>
+<p><code>x %s-% p</code> removes pattern <code>p</code> from each string
+in character vector <code>x</code>:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Hello world&quot;</span>, <span class="st">&quot;Goodbye world&quot;</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="st">&quot; world&quot;</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>x <span class="sc">%s-%</span> p</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Hello&quot;   &quot;Goodbye&quot;</span></span></code></pre></div>
+<p><code>x %s*% n</code> repeats each string in character vector
+<code>x</code> for <code>n</code> times:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Ha&quot;</span>, <span class="st">&quot;Ho&quot;</span>, <span class="st">&quot;Hi&quot;</span>, <span class="st">&quot;Hu&quot;</span>, <span class="st">&quot;He&quot;</span>, <span class="st">&quot;Ha&quot;</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">7</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>x <span class="sc">%s*%</span> n</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;HaHa&quot;           &quot;HoHoHo&quot;         &quot;HiHiHiHi&quot;       &quot;HuHuHuHuHu&quot;    </span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5] &quot;HeHeHeHeHeHe&quot;   &quot;HaHaHaHaHaHaHa&quot;</span></span></code></pre></div>
+<p>Finally if, “ha” times 10 equals “HaHaHaHaHaHaHaHaHaHa”, then it
+follows intuitively than “HaHaHaHaHaHaHaHaHaHa” divided by “Ha” equals
+10. Thus, string division, <code>x %s/% p</code> counts how often
+pattern <code>p</code> occurs in string or vector <code>x</code>:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Ha&quot;</span>, <span class="st">&quot;Ho&quot;</span>, <span class="st">&quot;Hi&quot;</span>, <span class="st">&quot;Hu&quot;</span>, <span class="st">&quot;He&quot;</span>, <span class="st">&quot;Ha&quot;</span>) <span class="sc">%s*%</span> <span class="dv">10</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="st">&quot;Ha&quot;</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>x <span class="sc">%s/%</span> p</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 10  0  0  0  0 10</span></span></code></pre></div>
+<p>It is important to note that the right-side arguments <code>p</code>,
+<code>y</code>, and <code>n</code> can be a single value, or a vector of
+the same length as <code>x</code>.</p>
+<p> </p>
+</div>
+<div id="pattern-attributes-in-strings" class="section level2">
+<h2>Pattern attributes in strings</h2>
+<p>In all string arithmetic and subsetting operators/functions given
+above, the pattern <code>p</code> was taken as a case-sensitive,
+non-fixed, regular expression. But I can imagine one wants to change
+that. For example, one may explicitly want to ignore the distinction
+between capital and lower characters. Or one may want to use fixed
+expressions. Or perl expressions. Or a combination of these.</p>
+<p>Well, fret not, for the <code>tidyoperators</code> package can also
+help in those cases. To use more refined pattern definition, simply
+replace the argument/right-hand-side expression <code>p</code> in all
+previous functions/operators with <code>s_pattern(p, ...)</code>.</p>
+<p>The <code>s_pattern(p, fixed, ignore.case, perl)</code> function
+allows the user to specify how exactly the pattern should be interpreted
+by the other functions/operators in the <code>tidyoperators</code>
+package. The <code>fixed</code>, <code>ignore.case</code> and
+<code>perl</code> arguments have exactly the same meaning as they do in
+the base R grep, gregexpr, etc. functions.</p>
+<p>On a technical level, what the <code>s_pattern()</code> function
+actually does is it simply assigns attributes to <code>p</code>, and all
+<code>tidyoperators</code> functions that use <code>p</code> can read
+those attributes and adjust their functionality accordingly. That’s all.
+As implied earlier, the default arguments for <code>s_pattern</code>
+are: <code>fixed=FALSE, ignore.case=FALSE, perl=FALSE</code>.</p>
+<p>Now lets give some examples on how to use
+<code>s_pattern()</code>.</p>
+<p>First an example where the distinction between capital characters and
+lower characters is ignored:</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">tolower</span>(letters)[<span class="dv">1</span><span class="sc">:</span><span class="dv">13</span>] <span class="sc">|&gt;</span> <span class="fu">paste0</span>(<span class="at">collapse=</span><span class="st">&quot;&quot;</span>),</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>       <span class="fu">toupper</span>(letters)[<span class="dv">14</span><span class="sc">:</span><span class="dv">26</span>] <span class="sc">|&gt;</span> <span class="fu">paste0</span>(<span class="at">collapse=</span><span class="st">&quot;&quot;</span>))</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;abcdefghijklm&quot; &quot;NOPQRSTUVWXYZ&quot;</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">s_pattern</span>(<span class="st">&quot;a|E|i|O|u&quot;</span>, <span class="at">fixed=</span><span class="cn">FALSE</span>, <span class="at">ignore.case=</span><span class="cn">TRUE</span>, <span class="at">perl=</span><span class="cn">FALSE</span>)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="fu">s_extract</span>(x, <span class="sc">-</span><span class="dv">1</span>, p) <span class="co"># extracts the last vowel in each element of x.</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;i&quot; &quot;U&quot;</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="fu">s_repl</span>(x, <span class="sc">-</span><span class="dv">1</span>, p, <span class="st">&quot;?&quot;</span>) <span class="co"># replace last vowel in each element of x with a question mark (&quot;?&quot;).</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;abcdefgh?jklm&quot; &quot;NOPQRST?VWXYZ&quot;</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>x <span class="sc">%s-%</span> p <span class="co"># remove all vowels in each string of vector x.</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;bcdfghjklm&quot;  &quot;NPQRSTVWXYZ&quot;</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>x <span class="sc">%s/%</span> p <span class="co"># count how often vowels appear in each string of vector x.</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 3 2</span></span></code></pre></div>
+<p>Second an example where a perl expression is used instead of a
+regular expression:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="st">&quot;line1 </span><span class="sc">\n</span><span class="st"> line2&quot;</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;line1 \n line2&quot;</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">s_pattern</span>(<span class="st">&quot;</span><span class="sc">\\</span><span class="st">v+&quot;</span>, <span class="at">perl=</span><span class="cn">TRUE</span>) <span class="co"># perl expression; only works with perl=TRUE</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="fu">s_repl</span>(x, <span class="dv">1</span>, p, <span class="st">&quot; - &quot;</span>) <span class="co"># replace vertical line break with a minus line.</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;line1  -  line2&quot;</span></span></code></pre></div>
+<p> </p>
+</div>
+</div>
+<div id="in-place-modifying-string-arithmetic-and-subsetting" class="section level1">
+<h1>In-place modifying string arithmetic and subsetting</h1>
+<p>With the exception of <code>%ss%</code>, all infix operators (notice:
+operators, not functions) have their in-place modifying equivalent:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>x <span class="sc">%s+ &lt;-%</span> y <span class="co"># is the same as x &lt;- x %s+% y</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>x <span class="sc">%s- &lt;-%</span> p <span class="co"># is the same as x &lt;- x %s-% p</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>x <span class="sc">%s* &lt;-%</span> n <span class="co"># is the same as x &lt;- x %s*% n</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>x <span class="sc">%s/ &lt;-%</span> p <span class="co"># is the same as x &lt;- x %s/% p</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>x <span class="sc">%sget &lt;-%</span> ss <span class="co"># is the same as x &lt;- x %sget% ss</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>x <span class="sc">%strim &lt;-%</span> ss <span class="co"># is the same as x &lt;- x %strim% ss</span></span></code></pre></div>
+<p>As was the case in the regular string operators, the interpretation
+of expression <code>p</code> can be refined using the
+<code>s_pattern()</code> function.</p>
+<p>The <code>s_extract()</code> and <code>s_repl()</code> functions
+obviously do not require an in-place modifier version, as they can
+easily be used in combination with <code>magrittr</code>’s in-place pipe
+modifier ( <code>%&lt;&gt;%</code> ), just like any other function.</p>
+<p> </p>
+</div>
+<div id="more-string-flexibility-s_strapply" class="section level1">
+<h1>More string flexibility: s_strapply</h1>
+<p>The string arithmetic and subsetting operators and functions given so
+far can do a lot, but it’s not always flexible enough. To add extra
+flexibility, there is also the
+<code>s_strapply(x, fun, w=F, clp=&quot;, ...)</code> function. This function
+applies the following steps to every element (every string) of character
+vector x:</p>
+<ol style="list-style-type: decimal">
+<li>the string is split into a vector of single characters
+(<code>w=F</code>), or a vector of space-delimited words
+(<code>w=T</code>).</li>
+<li>the function <code>fun()</code> is applied to the vector from step
+1.</li>
+<li>the result from step 2 is pasted together to form a single string
+element again, using <code>paste0(..., collapse=clp)</code>.</li>
+</ol>
+<p>In other words, this function turns every string in character vector
+<code>x</code> into its own little vector, applies a function to this
+vector, and pastes the returning vector together into a single string
+again.</p>
+<p>This operator can be used in a very wide variety of ways.</p>
+<p>One obvious use of this function is to sort every string in character
+vector <code>x</code> alphabetically, or find the occurence of the
+character on the alphabet:</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Hello World&quot;</span>, <span class="st">&quot;Goodbye World&quot;</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="co"># alphabetic sorting:</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">s_strapply</span>(x, sort)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot; deHllloorW&quot;   &quot; bddeGlooorWy&quot;</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="co"># find occurence on alphabet:</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="fu">s_strapply</span>(x, <span class="at">fun=</span>\(x)<span class="fu">match</span>(<span class="fu">tolower</span>(x),letters), <span class="at">clp=</span><span class="st">&quot;; &quot;</span>)</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;8; 5; 12; 12; 15; NA; 23; 15; 18; 12; 4&quot;      </span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &quot;7; 15; 15; 4; 2; 25; 5; NA; 23; 15; 18; 12; 4&quot;</span></span></code></pre></div>
+<p>Notice not only how easy this is, but also how tidy the above code
+is.</p>
+<p>Lets try something else: capitalize characters but ONLY at odd
+indices:</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Hello World&quot;</span>, <span class="st">&quot;Goodbye World&quot;</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Hello World&quot;</span>, <span class="st">&quot;Goodbye World&quot;</span>)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="fu">s_strapply</span>(x, <span class="at">fun=</span>\(x){</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">replace</span>(x, <span class="fu">seq</span>(<span class="dv">1</span>, <span class="fu">length</span>(x), <span class="dv">2</span>), <span class="fu">toupper</span>(x)[<span class="fu">seq</span>(<span class="dv">1</span>, <span class="fu">length</span>(x), <span class="dv">2</span>)])</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;HeLlO WoRlD&quot;   &quot;GoOdByE WoRlD&quot;</span></span></code></pre></div>
+<p>Or lets arrange every string in reverse order:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Hello World&quot;</span>, <span class="st">&quot;Goodbye World&quot;</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">s_strapply</span>(x, <span class="at">fun=</span>\(x)x[<span class="fu">length</span>(x)<span class="sc">:</span><span class="dv">1</span>])</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;dlroW olleH&quot;   &quot;dlroW eybdooG&quot;</span></span></code></pre></div>
+<p>Lets try to take the second-last vowel of every word of every string
+in some character vector <code>x</code>:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Outrageous, egregious, preposterous!&quot;</span>, <span class="st">&quot;Pleasant evening everyone&quot;</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x)</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Outrageous, egregious, preposterous!&quot;</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2] &quot;Pleasant evening everyone&quot;</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">s_pattern</span>(<span class="st">&quot;a|e|i|o|u&quot;</span>, <span class="at">ignore.case =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="fu">s_strapply</span>(x, <span class="at">w=</span>T, <span class="at">fun=</span>\(x)<span class="fu">s_extract</span>(x, <span class="sc">-</span><span class="dv">2</span>, p))</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] &quot;o o o&quot; &quot;a e o&quot;</span></span></code></pre></div>
+<p> </p>
+</div>
+<div id="parallel-computing-multi-threading" class="section level1">
+<h1>Parallel computing / multi-threading</h1>
+<p>The <code>s_repl()</code> and <code>s_extract()</code> functions
+internally use <code>mapply()</code>. I can imagine that sometimes some
+character vector <code>x</code> is so large that <code>mapply()</code>
+is too slow or inefficient, and one might want to use parallel
+computing. Because I wanted to have this R package to have zero
+dependencies, I do not provide parallel computing out of the box.
+However, I do allow the internally <code>mapply()</code> function to be
+replaced with a user provided function.</p>
+<p>For example, suppose one wants to speed up <code>s_extract()</code>
+using parallel computing. One can use the <code>future_mapply()</code>
+as a replacer for the mapply function, like so:</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;Hello World&quot;</span>, <span class="st">&quot;Goodbye World&quot;</span>), <span class="fl">2e5</span>)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">s_pattern</span>(<span class="st">&quot;a|e|i|o|u&quot;</span>, <span class="at">ignore.case =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="fu">s_extract</span>(x, <span class="sc">-</span><span class="dv">1</span>, p) <span class="co"># regular way</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(future.apply)</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession)</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="fu">s_extract</span>(x, <span class="sc">-</span><span class="dv">1</span>, p, <span class="at">custom_mapply =</span> future_mapply) <span class="co"># multi-threaded way.</span></span></code></pre></div>
+<p>Now you have a multithreaded version of s_extract; that wasn’t so
+difficult, right? On my computer, the multi-threaded command was about 3
+times faster.</p>
+<p>The <code>s_strapply</code> function uses <code>sapply</code>
+internally. As above, the user can multi-thread this function by
+replacing sapply:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;Hello World&quot;</span>, <span class="st">&quot;Goodbye World&quot;</span>), <span class="fl">2e5</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="fu">s_strapply</span>(x, sort) <span class="co"># regular way</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="fu">require</span>(future.apply)</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="fu">plan</span>(multisession)</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="fu">s_strapply</span>(x, sort, <span class="at">custom_sapply =</span> future_sapply) <span class="co"># multi-threaded way</span></span></code></pre></div>
+<p>Now you have a multi-threaded version of
+<code>%s_strapply</code>.</p>
+<p>It should be noted that the speed is also very much dependent on the
+function used for the <code>fun</code> argument.</p>
+<p> </p>
+</div>
+<div id="conclusion" class="section level1">
+<h1>Conclusion</h1>
+<p>I hope this R package will make your life a little bit tidyr.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
