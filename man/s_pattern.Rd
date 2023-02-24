@@ -31,7 +31,6 @@ For example: \cr
 whereas \code{x \%s/\% s_pattern(p, ignore.case=TRUE) } will do the same except it does not distinguish between capital/upper and lower characters.\cr
 
 For examples on how to use \code{s_pattern}, see the documentation on \code{\link{str_arithmetic}} and on \code{\link{inplace_str}}.
-More extensive examples on how to use this can be found in the vignette.
 }
 \details{
 The \code{s_pattern()} function only works in combination with the functions and operators in this package.

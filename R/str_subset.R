@@ -10,10 +10,8 @@
 #' The \code{x %strim% ss } operator removes a certain number of the first and last characters of \code{x}. \cr
 #' \cr
 #' The \code{s_extract(x, i, p, custom_mapply=NULL)} function extracts the ith occurrence of character/pattern \code{p}. \cr
-#' See Vignette for extensive examples. \cr
 #' \cr
 #' The \code{s_repl(x, i, p, rp, custom_mapply=NULL)} function replaces the ith occurence of character/pattern \code{p} with \code{rp}. \cr
-#' See Vignette for extensive examples. \cr
 #' \cr
 #'
 #' @param s a numeric vector giving the subset indices.
@@ -61,7 +59,6 @@
 #' whereas \code{x %s/% s_pattern(p, ignore.case=TRUE) } will do the same except it does not distinguish between capital/upper and lower characters.\cr
 #' See \code{\link{s_pattern}} for more information.
 #'
-#' Extensive examples on how to use these operators and functions can be found in the vignette.
 #'
 #' @returns
 #' The \code{%ss%} operator always returns a vector or matrix, where each element is a single character. \cr

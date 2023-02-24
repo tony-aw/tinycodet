@@ -58,8 +58,6 @@ To change this, simply replace \code{p} with \code{s_pattern(p, fixed, ignore.ca
 For example, \code{x \%s/\% p } counts how often regular expression p occurs in x, \cr
 whereas \code{x \%s/\% s_pattern(p, ignore.case=TRUE) } will do the same except it does not distinguish between capital/upper and lower characters.\cr
 See \code{\link{s_pattern}} for more information.
-
-Extensive examples on how to use these operators and functions can be found in the vignette.
 }
 \examples{
 x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))

@@ -11,7 +11,7 @@
 #' \cr
 #' The \code{x %?=% y} operator checks if x and y are **both** unreal or unknown (i.e. NA, NaN, Inf, -Inf). \cr
 #' \cr
-#' The \code{x %tol% y} operator checks if the absolute difference between x and y
+#' The \code{x %~=% y} operator checks if the absolute difference between x and y
 #' is smaller than the Machine tolerance (\code{sqrt(.Machine$double.eps)}). \cr
 #' This is a safer way to check if 2 vectors of floating numbers ("double") \code{x} and \code{y}
 #' are virtually equal to each other. \cr
@@ -55,15 +55,13 @@
 #' @examples
 #' x <- c(TRUE, FALSE, TRUE, FALSE, NA, FALSE, TRUE)
 #' y <- c(FALSE, TRUE, TRUE, FALSE, NA, NA, NA)
-#' x %xor% y
-#' x %n&% y
-#' x %?=% y
+#' cbind(x, y, "x %xor% y"=x %xor% y, "x %n&% y" = x %n&% y, "x %?=% y" = x %?=% y)
 #'
 #' 1:3 %out% 1:10
 #' 1:10 %out% 1:3
 #'
-#' (0.1*7) == 0.7
-#' (0.1*7) %tol% 0.7
+#' (0.1*7) == 0.7 # gives FALSE, though it should be TRUE
+#' (0.1*7) %~=% 0.7 # here it's done correctly
 #'
 #' n <- c(0:5, 0:-5, 0.1, -0.1, 0, 1, Inf, -Inf, NA, NaN)
 #' 1e-20 %=numtype% "~0"
@@ -104,7 +102,7 @@
 
 #' @rdname logic_ops
 #' @export
-`%tol%` <- function(x, y) {
+`%~=%` <- function(x, y) {
   out <- abs(x - y) < sqrt(.Machine$double.eps)
   return(out)
 }

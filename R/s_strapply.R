@@ -11,7 +11,6 @@
 #'
 #' The point of this function is to increase the flexibility and usefulness
 #' of the other string operators in this package.
-#' Please see the Vignette for examples.
 #'
 #'
 #' @param x a string or character vector.
@@ -30,9 +29,6 @@
 #' \code{plan(multisession)} \cr
 #' \code{s_strapply(..., custom_sapply=future.apply::future_sapply)} \cr
 #'
-#' @details
-#'
-#' Extensive examples on how to use this function can be found in the Vignette.
 #'
 #' @returns
 #'

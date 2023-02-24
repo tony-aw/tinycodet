@@ -46,10 +46,6 @@ using \code{paste0(..., collapse=clp)}. \cr
 
 The point of this function is to increase the flexibility and usefulness
 of the other string operators in this package.
-Please see the Vignette for examples.
-}
-\details{
-Extensive examples on how to use this function can be found in the Vignette.
 }
 \examples{
 x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))

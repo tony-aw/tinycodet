@@ -35,7 +35,6 @@
 #' whereas \code{x %s/% s_pattern(p, ignore.case=TRUE) } will do the same except it does not distinguish between capital/upper and lower characters.\cr
 #' See \code{\link{s_pattern}} for more information.
 #'
-#' Extensive examples on how to use these operators and functions can be found in the vignette.
 #'
 #' @returns
 #' The \code{%s+%}, \code{%s-%}, and \code{%s*%} operators
