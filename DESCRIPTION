@@ -1,0 +1,28 @@
+Package: tidyoperators
+Title: Infix operators for tidier R code.
+Version: 1.0
+Authors@R: 
+    person("Tony", "Wilkes", , "tony_a_wilkes@outlook.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0001-9498-8379"))
+Description: The 'tidyoperators' R-package adds some much needed infix operators,
+    and a few functions,
+    to make your R code much more tidy.
+    It includes infix operators for the negation of logical operators (exlcusive-or, not-and, not-in),
+    in-place modifying mathematical arithmetic,
+    string arithmetic,
+    string subsetting,
+    in-place modifying string arithmetic,
+    in-place modifying string subsetting,
+    and in-place modifying unreal replacers.
+    Moreover, it includes some helper functions for more complex string arithmetic,
+    some of which are missing from popular R packages like stringi.
+    This package also allows integrating third-party parallel computing packages
+    for some of its functions.
+License: `use_mit_license()`
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
