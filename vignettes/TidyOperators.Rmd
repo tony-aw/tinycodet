@@ -22,6 +22,37 @@ knitr::opts_chunk$set(
 library(tidyoperators)
 ```
 
+The 'tidyoperators' R-package adds some much needed infix operators,
+    and a few functions,
+    to make your R code much more tidy.
+    It includes infix operators for the negation of logical operators (exlcusive-or, not-and, not-in),
+    in-place modifying mathematical arithmetic,
+    string arithmetic,
+    string subsetting,
+    in-place modifying string arithmetic,
+    in-place modifying string subsetting,
+    and in-place modifying unreal replacers.
+    Moreover, it includes some helper functions for more complex string arithmetic,
+    some of which are missing from popular R packages like stringi.
+    This package also allows integrating third-party parallel computing packages
+    for some of its functions.
+
+## Installation
+
+You can install the development version of tidyoperators like so:
+
+``` r
+library(devtools)
+devtools::install_github("https://github.com/tony-aw/tidyoperators")
+```
+
+Then load it using:
+
+```{r}
+library(tidyoperators)
+```
+
+
 # Overview
 
 The `tidyoperators` R package adds the following functionality:
@@ -122,22 +153,20 @@ The tidyoperators package adds a few basic logical operators:
  - `%n&%`: NOT AND (i.e. `(!x) & (!y)`)
  - `%out%`: the opposite of `%in%` (i.e. `!x %in% y`)
  - `%?=%`: checks if both `x` and `y` are unknown or unreal (NA, NaN, Inf, -Inf)
- - `%tol%`: checks if the difference between `x` and `y` is less than the `sqrt(.Machine$double.eps)`. This is a safer way to check if 2 floating numbers are equal. Like other logical operators, this one is also fully vectorized.
+ - `%~=%`: checks if the difference between `x` and `y` is less than the `sqrt(.Machine$double.eps)`. This is a safer way to check if 2 floating numbers are equal. Like other logical operators, this one is also fully vectorized.
 
 Here are some examples:
 
 ```{r}
 x <- c(TRUE, FALSE, TRUE, FALSE, NA, FALSE, TRUE)
 y <- c(FALSE, TRUE, TRUE, FALSE, NA, NA, NA)
-x %xor% y
-x %n&% y
-x %?=% y
+cbind(x, y, "x %xor% y"=x %xor% y, "x %n&% y" = x %n&% y, "x %?=% y" = x %?=% y)
 
 1:3 %out% 1:10
 1:10 %out% 1:3
 
 (0.1*7) == 0.7 # gives FALSE, though it should be TRUE
-(0.1*7) %tol% 0.7
+(0.1*7) %~=% 0.7 # here it's done correctly
 
 ```
 
@@ -155,7 +184,7 @@ Numbers can have many different subtypes whilst still being `numeric`. The `n %=
  - "R": Real numbers;
  - "unreal": infinity, NA, or NaN;
 
-The string counterpart for `%=numtype%` is `s $=strtype% strtype`, which checks for every value of character vector `n` if it can seen as a certain `strtype`. The following values for `strtype` are allowed:
+The string counterpart for `%=numtype%` is `s %=strtype% strtype`, which checks for every value of character vector `n` if it can seen as a certain `strtype`. The following values for `strtype` are allowed:
 
  - "empty": checks if the string only consists of empty spaces.
  - "unreal": checks if the string is NA, or if it has literal string "NA", "NaN" or "Inf", regardless if it has leading or trailing spaces.
@@ -222,15 +251,15 @@ This R package solves the above laid-out problem by implementing in-place modify
 
 Here is a list of all in-place mathematical modifiers implemented in this R-package:
 
- -`x %+ <-% y` is the same as`x <- x + y`
- - `x %- <-% y` is the same as`x <- x - y`
- - `x %* <-% y` is the same as`x <- x * y`
- - `x %/ <-% y` is the same as`x <- x / y`
- - `x %^ <-% p` is the same as`x <- x^p`
- - `x %rt <-% p` is the same as`x <- x^(1/p)`
- - `x %logb <-% b` is the same as`x <- log(x, base=b)`
- - `x %alogb <-% b` is the same as`x <- b^x`; if `b=exp(1)`, this is the same as`x <- exp(x)`
- - `x %alogb <-% exp(1)` is the same as exp(x)`
+ - `x %+ <-% y` is the same as`x <- x + y`;
+ - `x %- <-% y` is the same as`x <- x - y`;
+ - `x %* <-% y` is the same as`x <- x * y`;
+ - `x %/ <-% y` is the same as`x <- x / y`;
+ - `x %^ <-% p` is the same as`x <- x^p`;
+ - `x %rt <-% p` is the same as`x <- x^(1/p)`;
+ - `x %logb <-% b` is the same as`x <- log(x, base=b)`;
+ - `x %alogb <-% b` is the same as`x <- b^x`; if `b=exp(1)`, this is the same as`x <- exp(x)`;
+ - `x %alogb <-% exp(1)` is the same as exp(x)`.
 
 
 I realise there doesn't really need to be a `%logb%` operator, but since one was needed for the antilogarithm, I added the "regular" logarithm also, for consistenty.
@@ -254,11 +283,12 @@ Much tidier, no?
 
 ## Comparisons
 
-This is not the first or only R package that incorporates in-place modifiers. Most notably, the `inplace` R package is devoted entirely to in-place modifying mathematical arithmetic. However, `inplace` has a nasty side-effect: If x=3 and y=3, using an in-place modifier from the `inplace` package on x will also change y. This can be very dangerous.
+This is not the first or only R package that incorporates in-place modifiers. Most notably, the `inplace` R package is devoted entirely to in-place modifying mathematical arithmetic. However, `inplace` has a nasty side-effect:
+
+If 2 R objects refer to the same values - let's say `x = 3` and `y = 3` - using an in-place modifier from the `inplace` package on `x` will also change y. This can be very dangerous.
 
 **The `tidyoperators` R package does not have this problem:** modifying one object does not affect another object, even if they happen to have the same value.
 
-There are also other R package that, like `tidyoperators` use a safe in-place modifier, but I have yet to find one as comprehensive as `tidyoperators`.
 
 &nbsp;
 
@@ -556,5 +586,4 @@ It should be noted that the speed is also very much dependent on the function us
 # Conclusion
 
 I hope this R package will make your life a little bit tidyr.
-
 

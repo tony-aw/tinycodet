@@ -167,7 +167,7 @@ The tidyoperators package adds a few basic logical operators:
 - `%out%`: the opposite of `%in%` (i.e. `!x %in% y`)
 - `%?=%`: checks if both `x` and `y` are unknown or unreal (NA, NaN,
   Inf, -Inf)
-- `%tol%`: checks if the difference between `x` and `y` is less than the
+- `%~=%`: checks if the difference between `x` and `y` is less than the
   `sqrt(.Machine$double.eps)`. This is a safer way to check if 2
   floating numbers are equal. Like other logical operators, this one is
   also fully vectorized.
@@ -194,7 +194,7 @@ cbind(x, y, "x %xor% y"=x %xor% y, "x %n&% y" = x %n&% y, "x %?=% y" = x %?=% y)
 
 (0.1*7) == 0.7 # gives FALSE, though it should be TRUE
 #> [1] FALSE
-(0.1*7) %tol% 0.7
+(0.1*7) %~=% 0.7 # here it's done correctly
 #> [1] TRUE
 ```
 
