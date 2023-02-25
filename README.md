@@ -215,7 +215,7 @@ numeric vector `n` if it can be considered a number belonging to type
 - “unreal”: infinity, NA, or NaN;
 
 The string counterpart for `%=numtype%` is `s %=strtype% strtype`, which
-checks for every value of character vector `n` if it can seen as a
+checks for every value of character vector `s` if it can seen as a
 certain `strtype`. The following values for `strtype` are allowed:
 
 - “empty”: checks if the string only consists of empty spaces.
@@ -328,7 +328,7 @@ this R package end with `<-%`, so that it is clear what it does.
 Lets look at the original problem:
 
 ``` r
-mtcars$mpg[mtcars$cyl>6] %<>% raise_to_power(2)
+mtcars$mpg[mtcars$cyl>6] <- mtcars$mpg[mtcars$cyl>6]^2
 ```
 
 With `tidyoperators` one can now make this more tidy with the following:
@@ -350,7 +350,7 @@ nasty side-effect:
 
 If 2 R objects refer to the same values - let’s say `x = 3` and
 `y = 3` - using an in-place modifier from the `inplace` package on `x`
-will also change y. This can be very dangerous.
+will also change \`y1 . This can be very dangerous.
 
 **The `tidyoperators` R package does not have this problem:** modifying
 one object does not affect another object, even if they happen to have
@@ -477,10 +477,10 @@ s_repl(x, -2, p, rp) # replace the second-last vowel with question mark
 ```
 
 Another fun string operator is `x %ss%  s`. This essentially splits
-character vector `x` into vector containing only individual characters;
-then this vector is subsetted by the number given in `s`. Honestly, I do
-not think one would need this often, but it can be handy sometimes. For
-example:
+character vector `x` into a vector containing only individual
+characters; then this vector is subsetted by the number given in `s`.
+Honestly, I do not think one would need this often, but it can be handy
+sometimes. For example:
 
 ``` r
 x <- "Tom Marvolo Riddle"
@@ -630,7 +630,7 @@ function.
 
 The string arithmetic and subsetting operators and functions given so
 far can do a lot, but it’s not always flexible enough. To add extra
-flexibility, there is also the `s_strapply(x, fun, w=F, clp=", ...)`
+flexibility, there is also the `s_strapply(x, fun, w=F, clp="", ...)`
 function. This function applies the following steps to every element
 (every string) of character vector x:
 
@@ -740,7 +740,7 @@ plan(multisession)
 s_strapply(x, sort, custom_sapply = future_sapply) # multi-threaded way
 ```
 
-Now you have a multi-threaded version of `%s_strapply`.
+Now you have a multi-threaded version of `s_strapply`.
 
 It should be noted that the speed is also very much dependent on the
 function used for the `fun` argument.
