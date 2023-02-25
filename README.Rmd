@@ -17,7 +17,6 @@ require(badger)
 # tidyoperators
 
 <!-- badges: start -->
-`r badge_github_actions("tony-aw/tidyoperators")`
 
 <!-- badges: end -->
 
