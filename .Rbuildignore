@@ -1,3 +1,6 @@
 ^tidyoperators\.Rproj$
 ^\.Rproj\.user$
 ^README\.Rmd$
+^\.github$
+/R/internal_functions\.R
+/man/internal_functions\.Rd
