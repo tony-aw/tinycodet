@@ -18,7 +18,7 @@ Description: The 'tidyoperators' R-package adds some much needed infix operators
     some of which are missing from popular R packages like stringi.
     This package also allows integrating third-party parallel computing packages
     for some of its functions.
-License: `use_mit_license()`
+License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
