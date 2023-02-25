@@ -9,3 +9,4 @@ s_repl_internal(x, i, p, rp, fixed, ignore.case, perl)
 \description{
 Internal functions
 }
+\keyword{internal}

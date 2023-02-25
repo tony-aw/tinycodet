@@ -184,7 +184,7 @@ Numbers can have many different subtypes whilst still being `numeric`. The `n %=
  - "R": Real numbers;
  - "unreal": infinity, NA, or NaN;
 
-The string counterpart for `%=numtype%` is `s %=strtype% strtype`, which checks for every value of character vector `n` if it can seen as a certain `strtype`. The following values for `strtype` are allowed:
+The string counterpart for `%=numtype%` is `s %=strtype% strtype`, which checks for every value of character vector `s` if it can seen as a certain `strtype`. The following values for `strtype` are allowed:
 
  - "empty": checks if the string only consists of empty spaces.
  - "unreal": checks if the string is NA, or if it has literal string "NA", "NaN" or "Inf", regardless if it has leading or trailing spaces.

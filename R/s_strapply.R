@@ -17,7 +17,7 @@
 #' @param fun a function **with a single argument** to be applied to the splitted string.
 #' @param w logical; should each string in character vector \code{x} be splitted into space-delimited words (\code{w=T}),
 #' or into single characters (w=F).
-#' @param clp: how should each string be pasted together? If NULL (Default),
+#' @param clp how should each string be pasted together? If NULL (Default),
 #' the string is pasted together using \code{paste0(..., collapse="")} if \code{w=F},
 #' and using \code{paste0(..., collapse=" ")} if \code{w=T}.
 #' @param custom_sapply a function. \code{s_strapply()} internally uses \code{sapply}.
@@ -53,7 +53,7 @@
 #' x <- c("Outrageous, egregious, preposterous!", "Pleasant evening everyone")
 #' print(x)
 #' p <- s_pattern("a|e|i|o|u", ignore.case=TRUE)
-#' s_strapply(x, w=T, fun=\(x)s_extract(x, -2, p))
+#' s_strapply(x, w=TRUE, fun=\(x)s_extract(x, -2, p))
 #'
 
 #' @export

@@ -10,7 +10,7 @@ x \%sget <-\% ss
 x \%strim <-\% ss
 }
 \arguments{
-\item{x, ss, fun, i, rp}{see \code{\link{str_subset}}.}
+\item{x, ss}{see \code{\link{str_subset}}.}
 
 \item{fixed, perl, ignore.case}{see \link[base]{grep}.}
 }

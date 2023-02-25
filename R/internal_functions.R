@@ -2,6 +2,7 @@
 #'
 #'
 #'
+#' @keywords internal
 #' @export
 s_repl_internal <- function(x, i, p, rp, fixed, ignore.case, perl) {
   tempgreg <- gregexpr(p, x, fixed=fixed, ignore.case = ignore.case, perl = perl)
@@ -14,6 +15,7 @@ s_repl_internal <- function(x, i, p, rp, fixed, ignore.case, perl) {
   return(x)
 }
 
+#' @keywords internal
 #' @export
 s_extract_internal <- function(x, i, p, fixed, ignore.case, perl) {
   tempgreg <- gregexpr(p, x, fixed=fixed, ignore.case = ignore.case, perl = perl)

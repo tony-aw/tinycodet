@@ -35,7 +35,7 @@ In-place modifier versions of string arithmetic: \cr
 \code{x \%s/ <-\% p } is the same as \code{ x <- x \%s/\% p} \cr
 \cr
 
-See also the documentation on string arithmetic (\code{\link{str_arithmetic}}). \cr
+See also the documentation on string arithmetic: \code{\link{str_arithmetic}}. \cr
 Note that there is no in-place modifier versions of \code{\%ss\%}, \code{s_extract()}, and \code{s_repl()}.\cr
 \cr
 The pattern \code{p} is by default understood to be characters or regular expressions evaluated with the default arguments: \cr

@@ -11,11 +11,14 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-",
   out.width = "100%"
 )
+require(badger)
 ```
 
 # tidyoperators
 
 <!-- badges: start -->
+`r badge_github_actions("tony-aw/tidyoperators")`
+
 <!-- badges: end -->
 
 The 'tidyoperators' R-package adds some much needed infix operators,

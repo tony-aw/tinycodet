@@ -14,6 +14,10 @@ s_strapply(x, fun, w = FALSE, clp = NULL, custom_sapply = NULL)
 \item{w}{logical; should each string in character vector \code{x} be splitted into space-delimited words (\code{w=T}),
 or into single characters (w=F).}
 
+\item{clp}{how should each string be pasted together? If NULL (Default),
+the string is pasted together using \code{paste0(..., collapse="")} if \code{w=F},
+and using \code{paste0(..., collapse=" ")} if \code{w=T}.}
+
 \item{custom_sapply}{a function. \code{s_strapply()} internally uses \code{sapply}.
 The user may choose to replace this with a custom sapply-like function,
 usually for multi-threading purposes.\cr
@@ -22,10 +26,6 @@ as \code{sapply}, or else use the arguments \code{x} and \code{fun}. \cr
 For example: \cr
 \code{plan(multisession)} \cr
 \code{s_strapply(..., custom_sapply=future.apply::future_sapply)} \cr}
-
-\item{clp:}{how should each string be pasted together? If NULL (Default),
-the string is pasted together using \code{paste0(..., collapse="")} if \code{w=F},
-and using \code{paste0(..., collapse=" ")} if \code{w=T}.}
 }
 \value{
 The \code{s_strapply()} function
@@ -62,6 +62,6 @@ s_strapply(x, fun=\(x)match(tolower(x), letters), clp=",")
 x <- c("Outrageous, egregious, preposterous!", "Pleasant evening everyone")
 print(x)
 p <- s_pattern("a|e|i|o|u", ignore.case=TRUE)
-s_strapply(x, w=T, fun=\(x)s_extract(x, -2, p))
+s_strapply(x, w=TRUE, fun=\(x)s_extract(x, -2, p))
 
 }

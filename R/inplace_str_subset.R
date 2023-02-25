@@ -12,7 +12,7 @@
 #' Note that there is no in-place modifier versions of \code{%ss%}, \code{s_extract()}, and \code{s_repl()}.\cr
 #' \cr
 #'
-#' @param x,ss,fun,i,rp see \code{\link{str_subset}}.
+#' @param x,ss see \code{\link{str_subset}}.
 #' @param fixed,perl,ignore.case see \link[base]{grep}.
 #'
 #' @return

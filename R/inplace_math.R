@@ -92,8 +92,8 @@
 
 #' @rdname inplace_math
 #' @export
-`%* <-%` <- function(x, n) {
-  eval(call("<-", substitute(x), x * n), envir = parent.frame(n = 1))
+`%* <-%` <- function(x, y) {
+  eval(call("<-", substitute(x), x * y), envir = parent.frame(n = 1))
 }
 
 #' @rdname inplace_math

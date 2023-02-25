@@ -4,6 +4,10 @@
 # tidyoperators
 
 <!-- badges: start -->
+
+[![R build
+status](https://github.com/tony-aw/tidyoperators/workflows/R-CMD-check/badge.svg)](https://github.com/tony-aw/tidyoperators/actions)
+
 <!-- badges: end -->
 
 The ‘tidyoperators’ R-package adds some much needed infix operators, and
