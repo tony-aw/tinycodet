@@ -16,8 +16,9 @@ giving the pattern to find. \cr}
 The \code{s_pattern(p, ...)} returns the exact same input \code{p}, except attributes are set-up. \cr
 }
 \description{
-Some of the string arithmetic functions (\code{\link{str_arithmetic}}),
-and some of their in-place modifier equivalents (\code{\link{inplace_str}}),
+Some of the string arithmetic and string subsetting operators and functions,
+and some of their in-place modifier equivalents,
+in the tidyoperators R package,
 use regular expression for pattern matching. \cr
 The default interpretation for this is a regular expression using: \cr
 \code{fixed=FALSE, ignore.case=FALSE, perl=FALSE} (see \link[base]{grep}). \cr
@@ -29,8 +30,6 @@ To use this function simply replace replace the pattern vector/string \code{p} w
 For example: \cr
 \code{x \%s/\% p } counts how often regular expression p occurs in x, \cr
 whereas \code{x \%s/\% s_pattern(p, ignore.case=TRUE) } will do the same except it does not distinguish between capital/upper and lower characters.\cr
-
-For examples on how to use \code{s_pattern}, see the documentation on \code{\link{str_arithmetic}} and on \code{\link{inplace_str}}.
 }
 \details{
 The \code{s_pattern()} function only works in combination with the functions and operators in this package.

@@ -1,8 +1,9 @@
 #' Pattern attribute assignment
 #'
 #'@description
-#' Some of the string arithmetic functions (\code{\link{str_arithmetic}}),
-#' and some of their in-place modifier equivalents (\code{\link{inplace_str}}),
+#' Some of the string arithmetic and string subsetting operators and functions,
+#' and some of their in-place modifier equivalents,
+#' in the tidyoperators R package,
 #' use regular expression for pattern matching. \cr
 #' The default interpretation for this is a regular expression using: \cr
 #' \code{fixed=FALSE, ignore.case=FALSE, perl=FALSE} (see \link[base]{grep}). \cr
@@ -15,7 +16,6 @@
 #' \code{x %s/% p } counts how often regular expression p occurs in x, \cr
 #' whereas \code{x %s/% s_pattern(p, ignore.case=TRUE) } will do the same except it does not distinguish between capital/upper and lower characters.\cr
 #'
-#' For examples on how to use \code{s_pattern}, see the documentation on \code{\link{str_arithmetic}} and on \code{\link{inplace_str}}.
 #'
 #' @param p a pattern (regular expression), or character vector of regular expressions of the same length as \code{x},
 #' giving the pattern to find. \cr

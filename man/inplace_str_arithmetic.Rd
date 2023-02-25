@@ -16,9 +16,7 @@ x \%s* <-\% n
 x \%s/ <-\% p
 }
 \arguments{
-\item{x, y, p, n}{see \code{\link{str_arithmetic}}.}
-
-\item{fixed, perl, ignore.case}{see \link[base]{grep}.}
+\item{x, y, p, n}{see \link[=\%s+\%]{string arithmetic}.}
 }
 \value{
 These operators do not return any value: they are in-place modifiers, and thus modify \code{x} directly.
@@ -35,7 +33,7 @@ In-place modifier versions of string arithmetic: \cr
 \code{x \%s/ <-\% p } is the same as \code{ x <- x \%s/\% p} \cr
 \cr
 
-See also the documentation on string arithmetic: \code{\link{str_arithmetic}}. \cr
+See also the documentation on string arithmetic: \link[=\%s+\%]{string arithmetic}. \cr
 Note that there is no in-place modifier versions of \code{\%ss\%}, \code{s_extract()}, and \code{s_repl()}.\cr
 \cr
 The pattern \code{p} is by default understood to be characters or regular expressions evaluated with the default arguments: \cr
@@ -43,7 +41,7 @@ The pattern \code{p} is by default understood to be characters or regular expres
 To change this, simply replace \code{p} with \code{s_pattern(p, fixed, ignore.case, perl)}. \cr
 For example, \code{x \%s/ <-\% p } counts how often regular expression p occurs in x, \cr
 whereas \code{x \%s/ <-\% s_pattern(p, ignore.case=TRUE) } will do the same except it does not distinguish between capital/upper and lower characters.\cr
-See \code{\link{str_arithmetic}} and \code{\link{s_pattern}} for details.
+See \link[=\%s+\%]{string arithmetic} and \code{\link{s_pattern}} for details.
 }
 \examples{
 y <- "a"

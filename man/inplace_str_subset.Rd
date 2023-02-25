@@ -10,9 +10,7 @@ x \%sget <-\% ss
 x \%strim <-\% ss
 }
 \arguments{
-\item{x, ss}{see \code{\link{str_subset}}.}
-
-\item{fixed, perl, ignore.case}{see \link[base]{grep}.}
+\item{x, ss}{see \link[=\%ss\%]{string subset}.}
 }
 \value{
 These operators do not return any value: they are in-place modifiers, and thus modify \code{x} directly.
@@ -25,7 +23,7 @@ In-place modifier versions of string subsetting: \cr
 \code{x \%strim <-\% ss } is the same as \code{ x <- x \%strim\% ss} \cr
 \cr
 
-See also the documentation on string subsetting (\code{\link{str_subset}}). \cr
+See also the documentation on string subsetting (\link[=\%ss\%]{string subset}). \cr
 Note that there is no in-place modifier versions of \code{\%ss\%}, \code{s_extract()}, and \code{s_repl()}.\cr
 \cr
 }
