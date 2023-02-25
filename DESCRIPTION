@@ -1,6 +1,6 @@
 Package: tidyoperators
 Title: Infix operators for tidier R code
-Version: 1.0
+Version: 0.9
 Authors@R: 
     person("Tony", "Wilkes", , "tony_a_wilkes@outlook.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-9498-8379"))
