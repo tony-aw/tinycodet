@@ -310,7 +310,7 @@ It is the same as `x[is.na(x)|is.nan(x)|is.infinite(x)] <- y`.
 &nbsp;
 
 
-# String arithmetic and subsetting
+# Basic string operations
 
 The `tidyoperators` R package implements operators for string arithmetic and subsetting, as well some of their in-place modifier equivalents. For consistency, and to avoid masking other common operators, all string-related operators start with `%s`, where the "s" stands for "string". Likewise, all string-related functions in this package start with `s_`.
 
@@ -434,10 +434,29 @@ x %s/% p
 
 It is important to note that the right-side arguments `p`, `y`, and `n` can be a single value, or a vector of the same length as `x`.
 
+&nbsp;
+
+## In-place modifying string arithmetic and subsetting
+
+With the exception of  `%ss%`, all infix operators (notice: operators, not functions) have their in-place modifying equivalent:
+
+ - `x %s+ <-% y` is the same as `x <- x %s+% y`
+ - `x %s- <-% p` is the same as `x <- x %s-% p`
+ - `x %s* <-% n` is the same as `x <- x %s*% n`
+ - `x %s/ <-% p` is the same as `x <- x %s/% p`
+ - `x %sget <-% ss` is the same as `x <- x %sget% ss`
+ - `x %strim <-% ss` is the same as `x <- x %strim% ss`
+
+
+As was the case in the regular string operators, the interpretation of expression `p` can be refined using the `s_pattern_b()` and `s_pattern_stri` functions.
+
+The `s_extract()` and `s_repl()` functions obviously do not require an in-place modifier version, as they can easily be used in combination with `magrittr`'s in-place pipe modifier ( `%<>%` ),  just like any other function.
 
 &nbsp;
 
-# Pattern attributes in strings
+# More advanced string operations
+
+## Pattern attributes in strings
 
 In all string arithmetic and subsetting operators/functions given above, the pattern `p` was taken as a case-sensitive, non-fixed, regular expression. But I can imagine one wants to change that. For example, one may explicitly want to ignore the distinction between capital and lower characters. Or one may want to use fixed expressions. Or perl expressions. Or a combination of these.
 
@@ -480,7 +499,7 @@ As stated in the introduction section of this Read me, this R package can also u
 
 &nbsp;
 
-# Using stringi with tidyoperators
+## Using stringi with tidyoperators
 
 The `%s-%` and `%s/%` operators, and the `s_extract()` and `s_repl()` functions perform pattern matching for subtracting, counting, extracting, and replacing patterns, respectively.
 
@@ -564,25 +583,8 @@ And so on. I'm sure you get the idea.
 
 &nbsp;
 
-# In-place modifying string arithmetic and subsetting
 
-With the exception of  `%ss%`, all infix operators (notice: operators, not functions) have their in-place modifying equivalent:
-
- - `x %s+ <-% y` is the same as `x <- x %s+% y`
- - `x %s- <-% p` is the same as `x <- x %s-% p`
- - `x %s* <-% n` is the same as `x <- x %s*% n`
- - `x %s/ <-% p` is the same as `x <- x %s/% p`
- - `x %sget <-% ss` is the same as `x <- x %sget% ss`
- - `x %strim <-% ss` is the same as `x <- x %strim% ss`
-
-
-As was the case in the regular string operators, the interpretation of expression `p` can be refined using the `s_pattern_b()` and `s_pattern_stri` functions.
-
-The `s_extract()` and `s_repl()` functions obviously do not require an in-place modifier version, as they can easily be used in combination with `magrittr`'s in-place pipe modifier ( `%<>%` ),  just like any other function.
-
-&nbsp;
-
-# More string flexibility: s_strapply
+## More string flexibility: s_strapply
 
 The string arithmetic and subsetting operators and functions given so far can do a lot, but it's not always flexible enough. To add extra flexibility, there is also the `s_strapply(x, fun, w=F, clp="", ...)` function. This function applies the following steps to every element (every string) of character vector x:
 
@@ -635,7 +637,7 @@ s_strapply(x, w=T, fun=\(x)s_extract(x, -2, p))
 
 &nbsp;
 
-# Parallel computing / multi-threading
+## Parallel computing / multi-threading in string functions
 
 The `s_repl()` and `s_extract()` functions internally use `mapply()`. I can imagine that sometimes some character vector `x` is so large that `mapply()` is too slow or inefficient, and one might want to use parallel computing. Because I wanted to have this R package to have zero dependencies, I do not provide parallel computing out of the box. However, I do allow the internally `mapply()` function to be replaced with a user provided function.
 

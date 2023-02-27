@@ -14,27 +14,29 @@
   - <a href="#comparisons" id="toc-comparisons">Comparisons</a>
 - <a href="#unreal-replacement" id="toc-unreal-replacement">Unreal
   replacement</a>
-- <a href="#string-arithmetic-and-subsetting"
-  id="toc-string-arithmetic-and-subsetting">String arithmetic and
-  subsetting</a>
+- <a href="#basic-string-operations"
+  id="toc-basic-string-operations">Basic string operations</a>
   - <a href="#string-subsetting" id="toc-string-subsetting">String
     subsetting</a>
   - <a href="#string-arithmetic" id="toc-string-arithmetic">String
     arithmetic</a>
-- <a href="#pattern-attributes-in-strings"
-  id="toc-pattern-attributes-in-strings">Pattern attributes in strings</a>
-- <a href="#using-stringi-with-tidyoperators"
-  id="toc-using-stringi-with-tidyoperators">Using stringi with
-  tidyoperators</a>
-- <a href="#in-place-modifying-string-arithmetic-and-subsetting"
-  id="toc-in-place-modifying-string-arithmetic-and-subsetting">In-place
-  modifying string arithmetic and subsetting</a>
-- <a href="#more-string-flexibility-s_strapply"
-  id="toc-more-string-flexibility-s_strapply">More string flexibility:
-  s_strapply</a>
-- <a href="#parallel-computing--multi-threading"
-  id="toc-parallel-computing--multi-threading">Parallel computing /
-  multi-threading</a>
+  - <a href="#in-place-modifying-string-arithmetic-and-subsetting"
+    id="toc-in-place-modifying-string-arithmetic-and-subsetting">In-place
+    modifying string arithmetic and subsetting</a>
+- <a href="#more-advanced-string-operations"
+  id="toc-more-advanced-string-operations">More advanced string
+  operations</a>
+  - <a href="#pattern-attributes-in-strings"
+    id="toc-pattern-attributes-in-strings">Pattern attributes in strings</a>
+  - <a href="#using-stringi-with-tidyoperators"
+    id="toc-using-stringi-with-tidyoperators">Using stringi with
+    tidyoperators</a>
+  - <a href="#more-string-flexibility-s_strapply"
+    id="toc-more-string-flexibility-s_strapply">More string flexibility:
+    s_strapply</a>
+  - <a href="#parallel-computing--multi-threading-in-string-functions"
+    id="toc-parallel-computing--multi-threading-in-string-functions">Parallel
+    computing / multi-threading in string functions</a>
 - <a href="#conclusion" id="toc-conclusion">Conclusion</a>
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -424,7 +426,7 @@ It is the same as `x[is.na(x)|is.nan(x)|is.infinite(x)] <- y`.
 
  
 
-# String arithmetic and subsetting
+# Basic string operations
 
 The `tidyoperators` R package implements operators for string arithmetic
 and subsetting, as well some of their in-place modifier equivalents. For
@@ -599,7 +601,32 @@ can be a single value, or a vector of the same length as `x`.
 
  
 
-# Pattern attributes in strings
+## In-place modifying string arithmetic and subsetting
+
+With the exception of `%ss%`, all infix operators (notice: operators,
+not functions) have their in-place modifying equivalent:
+
+- `x %s+ <-% y` is the same as `x <- x %s+% y`
+- `x %s- <-% p` is the same as `x <- x %s-% p`
+- `x %s* <-% n` is the same as `x <- x %s*% n`
+- `x %s/ <-% p` is the same as `x <- x %s/% p`
+- `x %sget <-% ss` is the same as `x <- x %sget% ss`
+- `x %strim <-% ss` is the same as `x <- x %strim% ss`
+
+As was the case in the regular string operators, the interpretation of
+expression `p` can be refined using the `s_pattern_b()` and
+`s_pattern_stri` functions.
+
+The `s_extract()` and `s_repl()` functions obviously do not require an
+in-place modifier version, as they can easily be used in combination
+with `magrittr`’s in-place pipe modifier ( `%<>%` ), just like any other
+function.
+
+ 
+
+# More advanced string operations
+
+## Pattern attributes in strings
 
 In all string arithmetic and subsetting operators/functions given above,
 the pattern `p` was taken as a case-sensitive, non-fixed, regular
@@ -668,7 +695,7 @@ The next section will give lots of examples with stringi.
 
  
 
-# Using stringi with tidyoperators
+## Using stringi with tidyoperators
 
 The `%s-%` and `%s/%` operators, and the `s_extract()` and `s_repl()`
 functions perform pattern matching for subtracting, counting,
@@ -791,30 +818,7 @@ And so on. I’m sure you get the idea.
 
  
 
-# In-place modifying string arithmetic and subsetting
-
-With the exception of `%ss%`, all infix operators (notice: operators,
-not functions) have their in-place modifying equivalent:
-
-- `x %s+ <-% y` is the same as `x <- x %s+% y`
-- `x %s- <-% p` is the same as `x <- x %s-% p`
-- `x %s* <-% n` is the same as `x <- x %s*% n`
-- `x %s/ <-% p` is the same as `x <- x %s/% p`
-- `x %sget <-% ss` is the same as `x <- x %sget% ss`
-- `x %strim <-% ss` is the same as `x <- x %strim% ss`
-
-As was the case in the regular string operators, the interpretation of
-expression `p` can be refined using the `s_pattern_b()` and
-`s_pattern_stri` functions.
-
-The `s_extract()` and `s_repl()` functions obviously do not require an
-in-place modifier version, as they can easily be used in combination
-with `magrittr`’s in-place pipe modifier ( `%<>%` ), just like any other
-function.
-
- 
-
-# More string flexibility: s_strapply
+## More string flexibility: s_strapply
 
 The string arithmetic and subsetting operators and functions given so
 far can do a lot, but it’s not always flexible enough. To add extra
@@ -885,7 +889,7 @@ s_strapply(x, w=T, fun=\(x)s_extract(x, -2, p))
 
  
 
-# Parallel computing / multi-threading
+## Parallel computing / multi-threading in string functions
 
 The `s_repl()` and `s_extract()` functions internally use `mapply()`. I
 can imagine that sometimes some character vector `x` is so large that
