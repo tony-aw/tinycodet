@@ -45,7 +45,6 @@
 
 [![R build
 status](https://github.com/tony-aw/tidyoperators/workflows/R-CMD-check/badge.svg)](https://github.com/tony-aw/tidyoperators/actions)
-[![](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![Project Status: Active - The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
@@ -104,7 +103,7 @@ The `tidyoperators` R package adds the following functionality:
 - This R package has **zero dependencies**, thus avoiding the so-called
   dependency hell.
 - Although this package has zero dependencies, it can run `stringi`
-  functions, provided the user has the `stringi` (v1.7.2+) R-package
+  functions, provided the user has the `stringi` (v1.7.12+) R-package
   installed.
 
 I realize there are other R-packages that cover some of the above
@@ -677,7 +676,7 @@ extracting, and replacing patterns, respectively.
 
 By default, `tidyoperators` uses base R for its pattern matching
 functions. But `tidyoperators` also supports `stringi` pattern matching,
-provided `stringi` version 1.72+ is installed. To use `stringi`
+provided `stringi` version 1.7.12+ is installed. To use `stringi`
 functionality for its pattern matching, use `s_pattern_stri()` instead
 of `s_pattern_b()`.
 

@@ -20,7 +20,6 @@ require(badger)
 
 <!-- badges: start -->
 `r badge_github_actions("tony-aw/tidyoperators")`
-`r badge_lifecycle("stable")`
 `r badge_repostatus("Active")`
 
 
