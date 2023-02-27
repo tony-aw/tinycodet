@@ -43,10 +43,7 @@ then if i=4 the third instance will be replaced, and if i=-3 the first instance 
 
 \item{p}{a pattern (regular expression), or character vector of regular expressions of the same length as \code{x},
 giving the pattern to look for. \cr
-The default interpretation is a regular expression, using: \cr
-\code{fixed=FALSE, ignore.case=FALSE, perl=FALSE} (see \link[base]{grep}).\cr
-To evaluate pattern \code{p} with non-default options, simply replace \code{p} with \code{s_pattern(p, ...)}. \cr
-See \code{\link{s_pattern}}.}
+See \code{\link{s_pattern_b}}.}
 
 \item{custom_mapply}{the \code{s_extract()} and \code{s_repl()} functions,
 internally use \code{mapply()}. The user may choose to replace this with a custom functions,
@@ -70,6 +67,10 @@ The \code{x \%ss\% s } operator allows indexing a single string as-if it is an i
 \cr
 The \code{x \%sget\% ss } operator gives a certain number of the first and last characters of \code{x}. \cr
 \cr
+The \code{x \%sgl\% p } operator is equivalent to \code{grepl(pattern=p, x=x)}. \cr
+\cr
+The \code{x \%sg=v\%}
+
 The \code{x \%strim\% ss } operator removes a certain number of the first and last characters of \code{x}. \cr
 \cr
 The \code{s_extract(x, i, p, custom_mapply=NULL)} function extracts the ith occurrence of character/pattern \code{p}. \cr
@@ -81,18 +82,11 @@ The \code{s_repl(x, i, p, rp, custom_mapply=NULL)} function replaces the ith occ
 These operators and functions serve as a way to provide straight-forward string subsetting,
 missing from base R. \cr
 \cr
-
-The pattern \code{p} is by default understood to be characters or regular expressions evaluated with the default arguments
-(\code{fixed=FALSE, ignore.case=FALSE, perl=FALSE}). \cr
-To change this, simply replace \code{p} with \code{s_pattern(p, fixed, ignore.case, perl)}. \cr
-For example, \code{x \%s/\% p } counts how often regular expression p occurs in x, \cr
-whereas \code{x \%s/\% s_pattern(p, ignore.case=TRUE) } will do the same except it does not distinguish between capital/upper and lower characters.\cr
-See \code{\link{s_pattern}} for more information.
 }
 \examples{
 x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 print(x)
-p <- "a|e|i|o|u" # same as p <- s_pattern("a|e|i|o|u", fixed=FALSE, ignore.case=FALSE, perl=FALSE)
+p <- "a|e|i|o|u" # same as p <- s_pattern_b("a|e|i|o|u", fixed=FALSE, ignore.case=FALSE, perl=FALSE)
 ss <- c(2,2)
 
 x \%ss\% 3:4 # same as unlist(strsplit(x, split=""))[3:4]
@@ -109,7 +103,7 @@ x \%strim\% ss
 #' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 print(x)
 # pattern with ignore.case=TRUE:
-p <- s_pattern("A|E|I|O|U", fixed=FALSE, ignore.case=TRUE, perl=FALSE)
+p <- s_pattern_b("A|E|I|O|U", fixed=FALSE, ignore.case=TRUE, perl=FALSE)
 fun <- function(x)sort(x, decreasing=TRUE)
 ss <- c(2,2)
 
@@ -124,7 +118,7 @@ x \%strim\% ss
 #############################################################################
 
 
-p <- s_pattern("\\\\v+", perl=TRUE) # perl expression; only works with perl=TRUE
+p <- s_pattern_b("\\\\v+", perl=TRUE) # perl expression; only works with perl=TRUE
 x <- "line1 \n line2"
 print(x)
 s_repl(x, 1, p, " - ") # replace vertical line break with a minus line.

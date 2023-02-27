@@ -52,7 +52,7 @@
 #' # get second-last vowel in every word:
 #' x <- c("Outrageous, egregious, preposterous!", "Pleasant evening everyone")
 #' print(x)
-#' p <- s_pattern("a|e|i|o|u", ignore.case=TRUE)
+#' p <- s_pattern_b("a|e|i|o|u", ignore.case=TRUE)
 #' s_strapply(x, w=TRUE, fun=\(x)s_extract(x, -2, p))
 #'
 

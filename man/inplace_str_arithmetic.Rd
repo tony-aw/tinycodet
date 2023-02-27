@@ -16,7 +16,7 @@ x \%s* <-\% n
 x \%s/ <-\% p
 }
 \arguments{
-\item{x, y, p, n}{see \link[=\%s+\%]{string arithmetic}.}
+\item{x, y, p, n}{see \link[=\%s+\%]{string arithmetic} and \link{s_pattern_b}.}
 }
 \value{
 These operators do not return any value: they are in-place modifiers, and thus modify \code{x} directly.
@@ -36,16 +36,10 @@ In-place modifier versions of string arithmetic: \cr
 See also the documentation on string arithmetic: \link[=\%s+\%]{string arithmetic}. \cr
 Note that there is no in-place modifier versions of \code{\%ss\%}, \code{s_extract()}, and \code{s_repl()}.\cr
 \cr
-The pattern \code{p} is by default understood to be characters or regular expressions evaluated with the default arguments: \cr
-{fixed=FALSE, ignore.case=FALSE, perl=FALSE}. \cr
-To change this, simply replace \code{p} with \code{s_pattern(p, fixed, ignore.case, perl)}. \cr
-For example, \code{x \%s/ <-\% p } counts how often regular expression p occurs in x, \cr
-whereas \code{x \%s/ <-\% s_pattern(p, ignore.case=TRUE) } will do the same except it does not distinguish between capital/upper and lower characters.\cr
-See \link[=\%s+\%]{string arithmetic} and \code{\link{s_pattern}} for details.
 }
 \examples{
 y <- "a"
-p <- "a|e|i|o|u" # same as p <- s_pattern("a|e|i|o|u", fixed=FALSE, ignore.case=FALSE, perl=FALSE)
+p <- "a|e|i|o|u" # same as p <- s_pattern_b("a|e|i|o|u", fixed=FALSE, ignore.case=FALSE, perl=FALSE)
 n <- c(2, 3)
 
 x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
@@ -74,7 +68,7 @@ print(x)
 
 y <- "a"
 # pattern with ignore.case=TRUE:
-p <- s_pattern("A|E|I|O|U", fixed=FALSE, ignore.case=TRUE, perl=FALSE)
+p <- s_pattern_b("A|E|I|O|U", fixed=FALSE, ignore.case=TRUE, perl=FALSE)
 n <- c(3, 2)
 
 x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))

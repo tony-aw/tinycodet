@@ -18,7 +18,6 @@
 #' These operators do not return any value: they are in-place modifiers, and thus modify \code{x} directly.
 #'
 #' @examples
-#' p <- "a|e|i|o|u" # same as p <- s_pattern("a|e|i|o|u", fixed=FALSE, ignore.case=FALSE, perl=FALSE)
 #' ss <- c(2,2)
 #'
 #' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
@@ -35,8 +34,6 @@
 #' #############################################################################
 #'
 #'
-#' # pattern with ignore.case=TRUE:
-#' p <- s_pattern("A|E|I|O|U", fixed=FALSE, ignore.case=TRUE, perl=FALSE)
 #' ss <- c(2,2)
 #'
 #' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))

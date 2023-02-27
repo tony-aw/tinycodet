@@ -28,7 +28,6 @@ Note that there is no in-place modifier versions of \code{\%ss\%}, \code{s_extra
 \cr
 }
 \examples{
-p <- "a|e|i|o|u" # same as p <- s_pattern("a|e|i|o|u", fixed=FALSE, ignore.case=FALSE, perl=FALSE)
 ss <- c(2,2)
 
 x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
@@ -45,8 +44,6 @@ print(x)
 #############################################################################
 
 
-# pattern with ignore.case=TRUE:
-p <- s_pattern("A|E|I|O|U", fixed=FALSE, ignore.case=TRUE, perl=FALSE)
 ss <- c(2,2)
 
 x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
