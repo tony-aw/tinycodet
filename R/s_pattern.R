@@ -22,7 +22,7 @@
 #' The \code{s_pattern_b()} function uses base R for pattern matching.
 #' Although the \code{tidyoperators} R package has zero dependencies,
 #' it does allow using pattern matching with \code{stringi},
-#' provided that the user has the \code{stringi (v1.7.2+)} R package installed.
+#' provided that the user has the \code{stringi (version 1.7.12+)} R package installed.
 #' To use pattern matching with \code{stringi} via this R package,
 #' use \code{s_pattern_stri()} instead of \code{s_pattern_b()}. \cr
 #' \cr

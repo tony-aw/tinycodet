@@ -12,7 +12,6 @@ x \%unreal <-\% replacement
 \item{replacement}{the replacement value.}
 }
 \value{
-#' @return
 This operator does not return any value:
 it is an in-place modifiers, and thus modifies x directly.
 The x vector is modified such that all NA, NaN and infinities are replaced with the given replacement value.

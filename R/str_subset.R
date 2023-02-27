@@ -7,10 +7,6 @@
 #' \cr
 #' The \code{x %sget% ss } operator gives a certain number of the first and last characters of \code{x}. \cr
 #' \cr
-#' The \code{x %sgl% p } operator is equivalent to \code{grepl(pattern=p, x=x)}. \cr
-#' \cr
-#' The \code{x %sg=v%}
-#'
 #' The \code{x %strim% ss } operator removes a certain number of the first and last characters of \code{x}. \cr
 #' \cr
 #' The \code{s_extract(x, i, p, custom_mapply=NULL)} function extracts the ith occurrence of character/pattern \code{p}. \cr

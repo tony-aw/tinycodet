@@ -16,8 +16,11 @@ Description: The 'tidyoperators' R-package adds some much needed infix operators
     and in-place modifying unreal replacers.
     Moreover, it includes some helper functions for more complex string arithmetic,
     some of which are missing from popular R packages like stringi.
+    All base R expressions options (Regex, perl, fixed, useBytes, ignore.case) are available for all string-pattern-related functions, as well as all options from stringi (regex, fixed, boundary, charclass, coll).
     This package also allows integrating third-party parallel computing packages
     for some of its functions.
+    Although this package has zero dependencies, it can run stringi functions,
+    provided the user has the stringi R-package installed.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -25,5 +28,6 @@ RoxygenNote: 7.2.3
 Suggests: 
     knitr,
     rmarkdown,
+    stringi (>= 1.7.12),
     testthat (>= 3.0.0)
 VignetteBuilder: knitr
