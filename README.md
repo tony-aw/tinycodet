@@ -613,10 +613,6 @@ not functions) have their in-place modifying equivalent:
 - `x %sget <-% ss` is the same as `x <- x %sget% ss`
 - `x %strim <-% ss` is the same as `x <- x %strim% ss`
 
-As was the case in the regular string operators, the interpretation of
-expression `p` can be refined using the `s_pattern_b()` and
-`s_pattern_stri` functions.
-
 The `s_extract()` and `s_repl()` functions obviously do not require an
 in-place modifier version, as they can easily be used in combination
 with `magrittr`’s in-place pipe modifier ( `%<>%` ), just like any other
