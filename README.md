@@ -66,13 +66,11 @@ stringi. All base R expressions options (Regex, perl, fixed, useBytes,
 ignore.case) are available for all string-pattern-related functions, as
 well as all options from stringi (regex, fixed, boundary, charclass,
 coll). This package also allows integrating third-party parallel
-computing packages for some of its functions. Although this package has
-zero dependencies, it can run stringi functions, provided the user has
-the stringi R-package installed.
+computing packages for some of its functions.
 
 ## Installation
 
-You can install the development version of tidyoperators like so:
+You can install `tidyoperators` from github like so:
 
 ``` r
 library(devtools)
@@ -105,8 +103,8 @@ The `tidyoperators` R package adds the following functionality:
   third-party packages to improve efficiency.
 - This R package has **zero dependencies**, thus avoiding the so-called
   dependency hell.
-- Although this package has zero dependencies, it can run `stringi`
-  functions, provided the user has the `stringi` (v1.7.12+) R-package
+- Although this package has zero dependencies, it can use patterns from
+  the `stringi` R package, provided the user has the `stringi` R-package
   installed.
 
 I realize there are other R-packages that cover some of the above
