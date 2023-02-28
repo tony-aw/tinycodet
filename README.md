@@ -52,7 +52,7 @@ state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 <!-- badges: end -->
 
-<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
+![](tidyoperators.svg)
 
 The ‘tidyoperators’ R-package adds some much needed infix operators, and
 a few functions, to make your R code much more tidy. It includes infix

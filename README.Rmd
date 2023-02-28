@@ -23,23 +23,7 @@ require(badger)
 `r badge_repostatus("Active")`
 <!-- badges: end -->
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-require(ggplot2)
-library(hexSticker)
-library(emoGG)
-ggp <- ggplot(data.frame(x=1,y=1),aes(x=x,y=y)) +
-  geom_hexagon(size = 1.2, fill = "#1881C2", color = "#87B13F") +
-  coord_equal() +
-  emoGG::geom_emoji(emoji="1f527", size=0.25) +
-  geom_pkgname("tidyoperators", 1, 1, color = "#FFFFFF", 
-                 family = "Aller_Rg", fontface = "plain", size = 8) +
-  theme_void() +
-  theme(rect = element_rect(fill = "transparent", colour="transparent"))
-  
-ggp
-unloadNamespace("emoGG")
-unloadNamespace("hexSticker")
-```
+![](tidyoperators.svg)
 
 
 The 'tidyoperators' R-package adds some much needed infix operators,
