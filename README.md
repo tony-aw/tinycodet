@@ -841,7 +841,7 @@ And so on. I’m sure you get the idea.
 
 The string arithmetic and sub-setting operators and functions given so
 far can do a lot, but it’s not always flexible enough. To add extra
-flexibility, there is also the `s_strapply(x, fun, w=F, clp="", ...)`
+flexibility, there is also the `s_strapply(x, fun, w=F, clp=NULL, ...)`
 function. This function applies the following steps to every element
 (every string) of character vector x:
 
@@ -849,7 +849,8 @@ function. This function applies the following steps to every element
     vector of space-delimited words (`w=T`).
 2)  the function `fun()` is applied to the vector from step 1.
 3)  the result from step 2 is pasted together to form a single string
-    element again, using `paste0(..., collapse=clp)`.
+    element again, using `paste0(..., collapse=clp)`. By default,
+    `clp=""` if `w=F`, and `clp=" "` if `w=    T`.
 
 In other words, this function turns every string in character vector `x`
 into its own little vector, applies a function to this vector, and
