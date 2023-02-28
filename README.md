@@ -115,7 +115,7 @@ Hence this package was created.
 
 Currently this R package is only available on GitHub.
 
-I understand one may not want to go through this entire Vignette without
+I understand one may not want to go through this entire Rea-Me without
 knowing if the R package is worthy of your time. Therefore, allow me to
 give you a quick glimpse of what is possible in this R package before
 jumping into the details.
@@ -196,16 +196,20 @@ print(x)
 #> [1] "yeay nay or nothing to say"            
 #> [2] "Goodmorning, goodevening and goodnight"
 p <- "a|e|i|o|u" # pattern for all vowels.
-s_repl(x, 2, p, "?") # replace the second vowel with question mark
+
+# replace the second vowel with question mark:
+s_repl(x, 2, p, "?")
 #> [1] "ye?y nay or nothing to say"            
 #> [2] "Go?dmorning, goodevening and goodnight"
-s_repl(x, -2, p, "?") # replace the second-last vowel with question mark
+
+# replace the second-last vowel with question mark:
+s_repl(x, -2, p, "?")
 #> [1] "yeay nay or nothing t? say"            
 #> [2] "Goodmorning, goodevening and go?dnight"
 ```
 
 If you’re still interested, I invite you to read the rest of this
-Vignette and perhaps try out the package yourself.
+Read-Me and perhaps try out the package yourself.
 
  
 
