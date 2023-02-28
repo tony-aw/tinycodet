@@ -29,3 +29,5 @@ Suggests:
     stringi (>= 1.7.12),
     testthat (>= 3.0.0)
 VignetteBuilder: knitr
+Depends: 
+    R (>= 4.1.0)
