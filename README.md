@@ -51,6 +51,7 @@ status](https://github.com/tony-aw/tidyoperators/workflows/R-CMD-check/badge.svg
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![](https://img.shields.io/badge/ORCID-0000--0001--9498--8379-green.svg)](https://orcid.org/0000-0001-9498-8379)
 <!-- badges: end -->
 
 ![](tidyoperators.svg)
@@ -979,8 +980,12 @@ x <- rep(
 )
 # stringi regex + multi-threaded:
 p <- s_pattern_stri(regex="a|e|i|o|u", case_insensitive = TRUE)
-s_strapply(x, w=T, fun=\(x)s_extract(x, -2, p, custom_mapply = future_mapply), custom_sapply = future_sapply)
+s_strapply(x, w=T, fun=\(x)s_extract(x, -2, p), custom_sapply = future_sapply)
 ```
+
+Notice that only `s_strapply()` is multi-threaded, and not `s_extract`.
+Multi-threading both would actually be slower, and may even create other
+problems.
 
  
 

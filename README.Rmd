@@ -22,6 +22,7 @@ require(badger)
 `r badge_github_actions("tony-aw/tidyoperators")`
 `r badge_repostatus("Active")`
 `r badge_lifecycle("experimental")`
+`r badge_custom("ORCID", "0000-0001-9498-8379", "green",   "https://orcid.org/0000-0001-9498-8379")`
 <!-- badges: end -->
 
 ![](tidyoperators.svg)
@@ -694,9 +695,10 @@ x <- rep(
 )
 # stringi regex + multi-threaded:
 p <- s_pattern_stri(regex="a|e|i|o|u", case_insensitive = TRUE)
-s_strapply(x, w=T, fun=\(x)s_extract(x, -2, p, custom_mapply = future_mapply), custom_sapply = future_sapply)
+s_strapply(x, w=T, fun=\(x)s_extract(x, -2, p), custom_sapply = future_sapply)
 ```
 
+Notice that only `s_strapply()` is multi-threaded, and not `s_extract`. Multi-threading both would actually be slower, and may even create other problems.
 
 &nbsp;
 
