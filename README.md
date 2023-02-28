@@ -162,11 +162,6 @@ And now some fun string manipulations using `tidyoperators`:
 ``` r
 x <- c("Hello World", "Goodbye World")
 
-# find occurence of every character on alphabet:
-s_strapply(x, fun=\(x)match(tolower(x),letters), clp="; ")
-#> [1] "8; 5; 12; 12; 15; NA; 23; 15; 18; 12; 4"      
-#> [2] "7; 15; 15; 4; 2; 25; 5; NA; 23; 15; 18; 12; 4"
-
 # Capitalize ONLY the ODD indices of each string:
 x <- c("Hello World", "Goodbye World")
 s_strapply(x, fun=\(x){
@@ -195,22 +190,20 @@ c("HaHa", "Ho", "Hi", "Hu", "He", "Ha") %s/% "Ha"
 #> [1] 2 0 0 0 0 1
 ```
 
-And string subsetting:
+And string sub-setting:
 
 ``` r
-x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+x <- c("yeay nay or nothing to say", "Goodmorning, goodevening and goodnight")
 print(x)
-#> [1] "abcdefghijklm" "nopqrstuvwxyz"
+#> [1] "yeay nay or nothing to say"            
+#> [2] "Goodmorning, goodevening and goodnight"
 p <- "a|e|i|o|u" # pattern for all vowels.
-s_extract(x, 2, p) # extract the second vowel
-#> [1] "e" "u"
-s_extract(x, -2, p) # extract the second-last vowel
-#> [1] "e" "o"
-
 s_repl(x, 2, p, "?") # replace the second vowel with question mark
-#> [1] "abcd?fghijklm" "nopqrst?vwxyz"
+#> [1] "ye?y nay or nothing to say"            
+#> [2] "Go?dmorning, goodevening and goodnight"
 s_repl(x, -2, p, "?") # replace the second-last vowel with question mark
-#> [1] "abcd?fghijklm" "n?pqrstuvwxyz"
+#> [1] "yeay nay or nothing t? say"            
+#> [2] "Goodmorning, goodevening and go?dnight"
 ```
 
 If you’re still interested, I invite you to read the rest of this
@@ -511,29 +504,40 @@ right, or negative to count the occurences from right to left.
 Here are some examples:
 
 ``` r
-x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+x <- c("yeay nay or nothing to say", "Goodmorning, goodevening and goodnight",
+       paste0(letters[1:13], collapse=""))
 print(x)
-#> [1] "abcdefghijklm" "nopqrstuvwxyz"
+#> [1] "yeay nay or nothing to say"            
+#> [2] "Goodmorning, goodevening and goodnight"
+#> [3] "abcdefghijklm"
 p <- "a|e|i|o|u" # pattern for all vowels.
 
 s_extract(x, 1, p) # extract the first vowel
-#> [1] "a" "o"
+#> [1] "e" "o" "a"
 s_extract(x, -1, p) # extract the last vowel
-#> [1] "i" "u"
+#> [1] "a" "i" "i"
 s_extract(x, 2, p) # extract the second vowel
-#> [1] "e" "u"
+#> [1] "a" "o" "e"
 s_extract(x, -2, p) # extract the second-last vowel
-#> [1] "e" "o"
+#> [1] "o" "o" "e"
 
 rp <- "?"
 s_repl(x, 1, p, rp) # replace the first vowel with question mark
-#> [1] "?bcdefghijklm" "n?pqrstuvwxyz"
+#> [1] "y?ay nay or nothing to say"            
+#> [2] "G?odmorning, goodevening and goodnight"
+#> [3] "?bcdefghijklm"
 s_repl(x, -1, p, rp) # replace the last vowel with question mark
-#> [1] "abcdefgh?jklm" "nopqrst?vwxyz"
+#> [1] "yeay nay or nothing to s?y"            
+#> [2] "Goodmorning, goodevening and goodn?ght"
+#> [3] "abcdefgh?jklm"
 s_repl(x, 2, p, rp) # replace the second vowel with question mark
-#> [1] "abcd?fghijklm" "nopqrst?vwxyz"
+#> [1] "ye?y nay or nothing to say"            
+#> [2] "Go?dmorning, goodevening and goodnight"
+#> [3] "abcd?fghijklm"
 s_repl(x, -2, p, rp) # replace the second-last vowel with question mark
-#> [1] "abcd?fghijklm" "n?pqrstuvwxyz"
+#> [1] "yeay nay or nothing t? say"            
+#> [2] "Goodmorning, goodevening and go?dnight"
+#> [3] "abcd?fghijklm"
 ```
 
 Another fun string operator is `x %ss%  s`. This essentially splits
@@ -637,9 +641,9 @@ cases. To use more refined pattern definition, simply replace the
 argument/right-hand-side expression `p` in all previous
 functions/operators with `s_pattern_b(p, ...)`.
 
-The `s_pattern_b(p, fixed, ignore.case, perl)` function allows the user
-to specify how exactly the pattern should be interpreted by the other
-functions/operators in the `tidyoperators` package. The `fixed`,
+The `s_pattern_b(p, fixed, ignore.case, perl, useBytes)` function allows
+the user to specify how exactly the pattern should be interpreted by the
+other functions/operators in the `tidyoperators` package. The `fixed`,
 `ignore.case` and `perl` arguments have exactly the same meaning as they
 do in the base R grep, gregexpr, etc. functions.
 
@@ -647,7 +651,8 @@ On a technical level, what the `s_pattern_b()` function actually does is
 it simply assigns attributes to `p`, and all `tidyoperators` functions
 that use `p` can read those attributes and adjust their functionality
 accordingly. That’s all. As implied earlier, the default arguments for
-`s_pattern_b` are: `fixed=FALSE, ignore.case=FALSE, perl=FALSE`.
+`s_pattern_b` are the same as in base R:
+`fixed=FALSE, ignore.case=FALSE, perl=FALSE, useBytes=FALSE`.
 
 Now lets give some examples on how to use `s_pattern_b()`.
 
@@ -717,14 +722,16 @@ you run `s_pattern_stri(fixed=p)`. Some more examples:
 Why would one use `stringi` patterns instead of base R? Well, 2 main
 reasons I can think of:
 
-- First, you used `stringi` - or a `stringi`-based package like
-  `tidyverse`’s `stringr` - in your script, and you wish to keep your
+- First, if you used `stringi` - or a `stringi`-based package like
+  `tidyverse`’s `stringr` - in your script, you may wish to keep your
   string-related code consistent to avoid confusing anyone (or even
   confusing yourself).
 - Second, some of `stringi`’s functions are faster than base R, and
   using `stringi` patterns in `tidyoperators` doesn’t simply change the
   expression, it actually uses `stringi` functions behind the scenes.
   **This may improve the speed of your code**.
+- Thirdly, `stringi` has some pattern features not present in base R,
+  that `tidyoperators` can use.
 
 This section will give some examples of using `stringi` with
 `tidyoperators`. First, the `stringi` package must be loaded:
@@ -747,29 +754,40 @@ You’ll notice that `stringi` will overwrite `tidyoperator`’s `%s*%` and
 Now then, some examples using `stringi`’s `regex` expression:
 
 ``` r
-x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+x <- c("yeay nay or nothing to say", "Goodmorning, goodevening and goodnight",
+       paste0(letters[1:13], collapse=""))
 print(x)
-#> [1] "abcdefghijklm" "nopqrstuvwxyz"
-p <- s_pattern_stri(regex = "a|e|i|o|u", case_insensitive=FALSE)
+#> [1] "yeay nay or nothing to say"            
+#> [2] "Goodmorning, goodevening and goodnight"
+#> [3] "abcdefghijklm"
+p <- s_pattern_stri(regex = "a|e|i|o|u", case_insensitive=TRUE)
 
 s_extract(x, 1, p) # extract the first vowel
-#> [1] "a" "o"
+#> [1] "e" "o" "a"
 s_extract(x, -1, p) # extract the last vowel
-#> [1] "i" "u"
+#> [1] "a" "i" "i"
 s_extract(x, 2, p) # extract the second vowel
-#> [1] "e" "u"
+#> [1] "a" "o" "e"
 s_extract(x, -2, p) # extract the second-last vowel
-#> [1] "e" "o"
+#> [1] "o" "o" "e"
 
 rp <- "?"
 s_repl(x, 1, p, rp) # replace the first vowel with question mark
-#> [1] "?bcdefghijklm" "n?pqrstuvwxyz"
+#> [1] "y?ay nay or nothing to say"            
+#> [2] "G?odmorning, goodevening and goodnight"
+#> [3] "?bcdefghijklm"
 s_repl(x, -1, p, rp) # replace the last vowel with question mark
-#> [1] "abcdefgh?jklm" "nopqrst?vwxyz"
+#> [1] "yeay nay or nothing to s?y"            
+#> [2] "Goodmorning, goodevening and goodn?ght"
+#> [3] "abcdefgh?jklm"
 s_repl(x, 2, p, rp) # replace the second vowel with question mark
-#> [1] "abcd?fghijklm" "nopqrst?vwxyz"
+#> [1] "ye?y nay or nothing to say"            
+#> [2] "Go?dmorning, goodevening and goodnight"
+#> [3] "abcd?fghijklm"
 s_repl(x, -2, p, rp) # replace the second-last vowel with question mark
-#> [1] "abcd?fghijklm" "n?pqrstuvwxyz"
+#> [1] "yeay nay or nothing t? say"            
+#> [2] "Goodmorning, goodevening and go?dnight"
+#> [3] "abcd?fghijklm"
 
 x <- c("Hello world", "Goodbye world")
 p <- s_pattern_stri(regex=" world")

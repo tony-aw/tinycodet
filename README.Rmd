@@ -114,9 +114,6 @@ And now some fun string manipulations using `tidyoperators`:
 ```{r}
 x <- c("Hello World", "Goodbye World")
 
-# find occurence of every character on alphabet:
-s_strapply(x, fun=\(x)match(tolower(x),letters), clp="; ")
-
 # Capitalize ONLY the ODD indices of each string:
 x <- c("Hello World", "Goodbye World")
 s_strapply(x, fun=\(x){
@@ -138,15 +135,12 @@ c("Ha", "Ho", "Hi", "Hu", "He", "Ha") %s*% 10
 c("HaHa", "Ho", "Hi", "Hu", "He", "Ha") %s/% "Ha"
 ```
 
-And string subsetting:
+And string sub-setting:
 
 ```{r}
-x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+x <- c("yeay nay or nothing to say", "Goodmorning, goodevening and goodnight")
 print(x)
 p <- "a|e|i|o|u" # pattern for all vowels.
-s_extract(x, 2, p) # extract the second vowel
-s_extract(x, -2, p) # extract the second-last vowel
-
 s_repl(x, 2, p, "?") # replace the second vowel with question mark
 s_repl(x, -2, p, "?") # replace the second-last vowel with question mark
 ```
@@ -365,7 +359,8 @@ The `s_repl()` function replaces the $i^{th}$ occurence of pattern `p` with stri
 Here are some examples:
 
 ```{r}
-x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+x <- c("yeay nay or nothing to say", "Goodmorning, goodevening and goodnight",
+       paste0(letters[1:13], collapse=""))
 print(x)
 p <- "a|e|i|o|u" # pattern for all vowels.
 
@@ -460,10 +455,10 @@ In all string arithmetic and subsetting operators/functions given above, the pat
 
 Well, fret not, for the `tidyoperators` package can also help in those cases. To use more refined pattern definition, simply replace the argument/right-hand-side expression `p` in all previous functions/operators with `s_pattern_b(p, ...)`.
 
-The `s_pattern_b(p, fixed, ignore.case, perl)` function allows the user to specify how exactly the pattern should be interpreted by the other functions/operators in the `tidyoperators` package. The `fixed`, `ignore.case` and `perl` arguments have exactly the same meaning as they do in the base R grep, gregexpr, etc. functions.
+The `s_pattern_b(p, fixed, ignore.case, perl, useBytes)` function allows the user to specify how exactly the pattern should be interpreted by the other functions/operators in the `tidyoperators` package. The `fixed`, `ignore.case` and `perl` arguments have exactly the same meaning as they do in the base R grep, gregexpr, etc. functions.
 
-On a technical level, what the `s_pattern_b()` function actually does is it simply assigns attributes to `p`, and all `tidyoperators` functions that use `p` can read those attributes and adjust their functionality accordingly. That's all. As implied earlier, the default arguments for `s_pattern_b` are:
-`fixed=FALSE, ignore.case=FALSE, perl=FALSE`.
+On a technical level, what the `s_pattern_b()` function actually does is it simply assigns attributes to `p`, and all `tidyoperators` functions that use `p` can read those attributes and adjust their functionality accordingly. That's all. As implied earlier, the default arguments for `s_pattern_b` are the same as in base R:
+`fixed=FALSE, ignore.case=FALSE, perl=FALSE, useBytes=FALSE`.
 
 Now lets give some examples on how to use `s_pattern_b()`.
 
@@ -514,8 +509,9 @@ The `s_pattern_stri()` uses the exact same argument convention as `stringi`. So 
 
 Why would one use `stringi` patterns instead of base R? Well, 2 main reasons I can think of: 
 
- - First, you used `stringi` - or a `stringi`-based package like `tidyverse`'s `stringr` - in your script, and you wish to keep your string-related code consistent to avoid confusing anyone (or even confusing yourself).
+ - First, if you used `stringi` - or a `stringi`-based package like `tidyverse`'s `stringr` - in your script, you may wish to keep your string-related code consistent to avoid confusing anyone (or even confusing yourself).
  - Second, some of `stringi`'s functions are faster than base R, and using `stringi` patterns in `tidyoperators` doesn't simply change the expression, it actually uses `stringi` functions behind the scenes. **This may improve the speed of your code**.
+ - Thirdly, `stringi` has some pattern features not present in base R, that `tidyoperators` can use.
 
 
 This section will give some examples of using `stringi` with `tidyoperators`. First, the `stringi` package must be loaded:
@@ -530,9 +526,10 @@ You'll notice that `stringi` will overwrite `tidyoperator`'s  `%s*%` and `%s+%` 
 Now then, some examples using `stringi`'s `regex` expression:
 
 ```{r}
-x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+x <- c("yeay nay or nothing to say", "Goodmorning, goodevening and goodnight",
+       paste0(letters[1:13], collapse=""))
 print(x)
-p <- s_pattern_stri(regex = "a|e|i|o|u", case_insensitive=FALSE)
+p <- s_pattern_stri(regex = "a|e|i|o|u", case_insensitive=TRUE)
 
 s_extract(x, 1, p) # extract the first vowel
 s_extract(x, -1, p) # extract the last vowel
