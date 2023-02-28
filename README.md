@@ -870,7 +870,7 @@ s_strapply(x, fun=\(x)match(tolower(x),letters), clp="; ")
 #> [2] "7; 15; 15; 4; 2; 25; 5; NA; 23; 15; 18; 12; 4"
 ```
 
-Notice not only how easy this is, but also how tidy the above code is.
+I think this is reasonably easy and tidy.
 
 Lets try something else: capitalize characters but ONLY at odd indices:
 
@@ -911,14 +911,14 @@ s_strapply(x, w=T, fun=\(x)s_extract(x, -2, p))
 The `s_repl()` and `s_extract()` functions internally use `mapply()`. I
 can imagine that sometimes some character vector `x` is so large that
 `mapply()` is too slow or inefficient, and one might want to use
-parallel computing. Because I wanted to have this R package to have zero
+parallel computing. Because I wanted `tidyoperators` to have zero
 dependencies, I do not provide parallel computing out of the box.
-However, I do allow the internally `mapply()` function to be replaced
-with a user provided function.
+However, some `tidyoperators` functions do allow the internally
+`mapply()` function to be replaced with a user provided function.
 
 For example, suppose one wants to speed up `s_extract()` using parallel
-computing. One can use the `future_mapply()` as a replacer for the
-mapply function, like so:
+computing. One can use the `future.apply::future_mapply()` as a replacer
+for the mapply function, like so:
 
 ``` r
 
@@ -956,9 +956,13 @@ function used for the `fun` argument. So using `stringi` functions might
 make this even faster. For example:
 
 ``` r
-x <- rep(c("Hello World", "Goodbye World"), 2e5)
-p <- s_pattern_stri(regex="a|e|i|o|u", case_insensitive = TRUE) # stringi regex
-s_extract(x, -1, p, custom_mapply = future_mapply) # multi-threaded + stringi
+x <- rep(
+  c("Outrageous, egregious, preposterous!", "Pleasant evening everyone"),
+  2e5
+)
+# stringi regex + multi-threaded:
+p <- s_pattern_stri(regex="a|e|i|o|u", case_insensitive = TRUE) 
+s_strapply(x, w=T, fun=\(x)s_extract(x, -2, p), custom_sapply = future_sapply)
 ```
 
  
