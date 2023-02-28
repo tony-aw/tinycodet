@@ -21,6 +21,7 @@ require(badger)
 <!-- badges: start -->
 `r badge_github_actions("tony-aw/tidyoperators")`
 `r badge_repostatus("Active")`
+`r badge_lifecycle("experimental")`
 <!-- badges: end -->
 
 ![](tidyoperators.svg)
@@ -692,8 +693,8 @@ x <- rep(
   2e5
 )
 # stringi regex + multi-threaded:
-p <- s_pattern_stri(regex="a|e|i|o|u", case_insensitive = TRUE) 
-s_strapply(x, w=T, fun=\(x)s_extract(x, -2, p), custom_sapply = future_sapply)
+p <- s_pattern_stri(regex="a|e|i|o|u", case_insensitive = TRUE)
+s_strapply(x, w=T, fun=\(x)s_extract(x, -2, p, custom_mapply = future_mapply), custom_sapply = future_sapply)
 ```
 
 

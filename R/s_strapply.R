@@ -28,6 +28,15 @@
 #' For example: \cr
 #' \code{plan(multisession)} \cr
 #' \code{s_strapply(..., custom_sapply=future.apply::future_sapply)} \cr
+#' NOTE: if you use \code{s_extract()} and \code{s_repl()} inside an \code{s_strapply()} call,
+#' and you want to replace the apply functions for multi-threading reasons,
+#' I highly advise the user to only replace the \code{sapply} function in \code{s_strapply},
+#' and to leave \code{mapply} inside \code{s_extract()} and \code{s_repl()} without multi-threading:\cr
+#' Running nested multi-threading processes may actually slow down the code, and may cause other problems also.
+#' I.e. run this: \cr
+#' \code{s_strapply(x, w=T, fun=\(x)s_extract(x, -2, p), custom_sapply = future_sapply)} \cr
+#' and not this: \cr
+#' \code{s_strapply(x, w=T, fun=\(x)s_extract(x, -2, p, custom_mapply=future_mapply), custom_sapply=future_sapply)} \cr
 #'
 #'
 #' @returns

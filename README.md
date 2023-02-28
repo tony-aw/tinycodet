@@ -50,6 +50,7 @@ status](https://github.com/tony-aw/tidyoperators/workflows/R-CMD-check/badge.svg
 [![Project Status: Active - The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
 ![](tidyoperators.svg)
@@ -963,12 +964,12 @@ x <- rep(
   2e5
 )
 # s_strapply combined with s_extract:
-p <- s_pattern_b(regex="a|e|i|o|u", ignore.case = TRUE) 
+p <- s_pattern_b("a|e|i|o|u", ignore.case = TRUE) 
 s_strapply(x, w=T, fun=\(x)s_extract(x, -2, p), custom_sapply = future_sapply)
 ```
 
 It should be noted that the speed is also very much dependent on the
-function used for the `fun` argument. So using `stringi` functions might
+function used for the `fun` argument. So using `stringi` pattern might
 make this even faster. For example:
 
 ``` r
@@ -977,8 +978,8 @@ x <- rep(
   2e5
 )
 # stringi regex + multi-threaded:
-p <- s_pattern_stri(regex="a|e|i|o|u", case_insensitive = TRUE) 
-s_strapply(x, w=T, fun=\(x)s_extract(x, -2, p), custom_sapply = future_sapply)
+p <- s_pattern_stri(regex="a|e|i|o|u", case_insensitive = TRUE)
+s_strapply(x, w=T, fun=\(x)s_extract(x, -2, p, custom_mapply = future_mapply), custom_sapply = future_sapply)
 ```
 
  
