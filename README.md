@@ -56,13 +56,13 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 
 The ‘tidyoperators’ R-package adds some much needed infix operators, and
 a few functions, to make your R code much more tidy. It includes infix
-operators for the negation of logical operators (exlcusive-or, not-and,
+operators for the negation of logical operators (exclusive-or, not-and,
 not-in), in-place modifying mathematical arithmetic, string arithmetic,
-string subsetting, in-place modifying string arithmetic, in-place
-modifying string subsetting, and in-place modifying unreal replacers.
+string sub-setting, in-place modifying string arithmetic, in-place
+modifying string sub-setting, and in-place modifying unreal replacers.
 Moreover, it includes some helper functions for more complex string
 arithmetic, some of which are missing from popular R packages like
-stringi. All base R expressions options (Regex, perl, fixed, useBytes,
+stringi. All base R expressions options (Regex, Perl, fixed, useBytes,
 ignore.case) are available for all string-pattern-related functions, as
 well as all options from stringi (regex, fixed, boundary, charclass,
 coll). This package also allows integrating third-party parallel
@@ -89,17 +89,17 @@ The `tidyoperators` R package adds the following functionality:
 
 - Infix operators for In-place modifiers for mathematical arithmetic.
 - Infix operators for String arithmetic.
-- Infix operators (and a few functions) for string subsetting.
+- Infix operators (and a few functions) for string sub-setting.
 - Infix operators for In-place modifying string arithmetic.
-- Infix operators for In-place modifying string subsetting.
+- Infix operators for In-place modifying string sub-setting.
 - Some additional string manipulation functions.
 - Infix logical operators for exclusive-or, not-and, not-in,
   number-type, and string-type.
-- All base R expressions options (Regex, perl, fixed, useBytes,
+- All base R expressions options (Regex, Perl, fixed, useBytes,
   ignore.case) are available for all string-pattern-related functions,
   as well as all options from stringi (regex, fixed, boundary,
   charclass, coll).
-- Allow multithreading of functions (when appropriate) through
+- Allow multi-threading of functions (when appropriate) through
   third-party packages to improve efficiency.
 - This R package has **zero dependencies**, thus avoiding the so-called
   dependency hell.
@@ -115,7 +115,7 @@ Hence this package was created.
 
 Currently this R package is only available on GitHub.
 
-I understand one may not want to go through this entire Rea-Me without
+I understand one may not want to go through this entire Read-Me without
 knowing if the R package is worthy of your time. Therefore, allow me to
 give you a quick glimpse of what is possible in this R package before
 jumping into the details.
@@ -131,7 +131,7 @@ print(x)
 #>  [1]   1   4   9  16  25  36  49  64  81 100
 ```
 
-Second, some numeric and string subtypes checks:
+Second, some numeric and string sub-types checks:
 
 ``` r
 n <- c(0:5, 0:-5, 0.1, -0.1, 0, 1, Inf, -Inf, NA, NaN)
@@ -253,7 +253,7 @@ cbind(x, y, "x %xor% y"=x %xor% y, "x %n&% y" = x %n&% y, "x %?=% y" = x %?=% y)
 #> [1] TRUE
 ```
 
-Numbers can have many different subtypes whilst still being `numeric`.
+Numbers can have many different sub-types whilst still being `numeric`.
 The `n %=numtype% numtype` operator will check for every value of
 numeric vector `n` if it can be considered a number belonging to type
 `numtype`. The following values for `numtype` are allowed:
@@ -374,9 +374,9 @@ this R-package:
   same as`x <- exp(x)`;
 - `x %alogb <-% exp(1)` is the same as exp(x)\`.
 
-I realise there doesn’t really need to be a `%logb%` operator, but since
+I realize there doesn’t really need to be a `%logb%` operator, but since
 one was needed for the antilogarithm, I added the “regular” logarithm
-also, for consistenty. Notice that all in-place modifiers end with `<-%`
+also, for consistency. Notice that all in-place modifiers end with `<-%`
 (notice the space). All infix operators that are in-place modifiers in
 this R package end with `<-%`, so that it is clear what it does.
 
@@ -425,8 +425,8 @@ It is the same as `x[is.na(x)|is.nan(x)|is.infinite(x)] <- y`.
 # Basic string operations
 
 The `tidyoperators` R package implements operators for string arithmetic
-and subsetting, as well some of their in-place modifier equivalents. For
-consistency, and to avoid masking other common operators, all
+and sub-setting, as well some of their in-place modifier equivalents.
+For consistency, and to avoid masking other common operators, all
 string-related operators start with `%s`, where the “s” stands for
 “string”. Likewise, all string-related functions in this package start
 with `s_`.
@@ -435,7 +435,7 @@ with `s_`.
 
 ## String subsetting
 
-As a first subsetting operator, we have `x %sget% ss`, which returns a
+As a first sub-setting operator, we have `x %sget% ss`, which returns a
 subset of each string in character vector `x`. Here `ss` is a vector of
 length 2, or a matrix with `nrow(ss)=length(x)` and 2 columns. The
 object `ss` should consist entirely of non-negative integers (thus 0, 1,
@@ -488,20 +488,20 @@ x %strim% ss
 
  
 
-There are also 2 functions regarding string subsetting:
+There are also 2 functions regarding string sub-setting:
 `s_extract(x, i, p)`, and `s_repl(x, i, p, rp)`.
 
-The first function, `s_extract()`, extracts the $i^{th}$ occurence of
+The first function, `s_extract()`, extracts the $i^{th}$ occurrence of
 pattern `p` in every string of character vector `x`. When `i` is
-positive, the occurence is counted from left to right. Negative values
-for `i` are also allowed, in which case the occurence is counted from
-the right to left. Thus, to get the **last** occurence, use `i=-1`. But
+positive, the occurrence is counted from left to right. Negative values
+for `i` are also allowed, in which case the occurrence is counted from
+the right to left. Thus, to get the **last** occurrence, use `i=-1`. But
 `i=0` is not allowed though.
 
-The `s_repl()` function replaces the $i^{th}$ occurence of pattern `p`
+The `s_repl()` function replaces the $i^{th}$ occurrence of pattern `p`
 with string `rp` in every string of character vector `x`. Like in
-`s_extract()`, `i` can be positive to count the occurences from left to
-right, or negative to count the occurences from right to left.
+`s_extract()`, `i` can be positive to count the occurrences from left to
+right, or negative to count the occurrences from right to left.
 
 Here are some examples:
 
@@ -631,11 +631,11 @@ function.
 
 ## Pattern attributes in strings
 
-In all string arithmetic and subsetting operators/functions given above,
-the pattern `p` was taken as a case-sensitive, non-fixed, regular
+In all string arithmetic and sub-setting operators/functions given
+above, the pattern `p` was taken as a case-sensitive, non-fixed, regular
 expression. But I can imagine one wants to change that. For example, one
 may explicitly want to ignore the distinction between capital and lower
-characters. Or one may want to use fixed expressions. Or perl
+characters. Or one may want to use fixed expressions. Or Perl
 expressions. Or a combination of these.
 
 Well, fret not, for the `tidyoperators` package can also help in those
@@ -678,13 +678,13 @@ x %s/% p # count how often vowels appear in each string of vector x.
 #> [1] 3 2
 ```
 
-Second, an example using perl expression
+Second, an example using Perl expression
 
 ``` r
 x <- "line1 \n line2"
 print(x)
 #> [1] "line1 \n line2"
-p <- s_pattern_b("\\v+", perl=TRUE) # perl expression; only works with perl=TRUE
+p <- s_pattern_b("\\v+", perl=TRUE) # Perl expression; only works with perl=TRUE
 s_repl(x, 1, p, " - ") # replace vertical line break with a minus line.
 #> [1] "line1  -  line2"
 ```
@@ -803,7 +803,7 @@ x %s/% p
 #> [1] 10  0  0  0  0 10
 ```
 
-And then some fixed epressions:
+And then some fixed expressions:
 
 ``` r
 x <- c("yeay yeay yeay yeay", "nay nay nay nay")
@@ -837,7 +837,7 @@ And so on. I’m sure you get the idea.
 
 ## More string flexibility: s_strapply
 
-The string arithmetic and subsetting operators and functions given so
+The string arithmetic and sub-setting operators and functions given so
 far can do a lot, but it’s not always flexible enough. To add extra
 flexibility, there is also the `s_strapply(x, fun, w=F, clp="", ...)`
 function. This function applies the following steps to every element
@@ -856,15 +856,15 @@ pastes the returning vector together into a single string again.
 This operator can be used in a very wide variety of ways.
 
 One obvious use of this function is to sort every string in character
-vector `x` alphabetically, or find the occurence of the character on the
-alphabet:
+vector `x` alphabetically, or find the occurrence of the character on
+the alphabet:
 
 ``` r
 x <- c("Hello World", "Goodbye World")
 # alphabetic sorting:
 s_strapply(x, sort)
 #> [1] " deHllloorW"   " bddeGlooorWy"
-# find occurence on alphabet:
+# find occurrence on alphabet:
 s_strapply(x, fun=\(x)match(tolower(x),letters), clp="; ")
 #> [1] "8; 5; 12; 12; 15; NA; 23; 15; 18; 12; 4"      
 #> [2] "7; 15; 15; 4; 2; 25; 5; NA; 23; 15; 18; 12; 4"
