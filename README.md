@@ -50,8 +50,9 @@ status](https://github.com/tony-aw/tidyoperators/workflows/R-CMD-check/badge.svg
 [![Project Status: Active - The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-
 <!-- badges: end -->
+
+<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
 
 The ‘tidyoperators’ R-package adds some much needed infix operators, and
 a few functions, to make your R code much more tidy. It includes infix

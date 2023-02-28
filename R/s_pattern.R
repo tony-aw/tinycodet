@@ -12,7 +12,7 @@
 #' thereby allowing the user to change how the pattern is interpreted
 #' by the string arithmetic functions in this package. \cr
 #' To use this function, simply replace replace the pattern vector/string \code{p}
-#' with \code{s_pattern_b(p, fixed, ignore.case, perl)} appropriately. \cr
+#' with \code{s_pattern_b(p, fixed, ignore.case, perl, useBytes)} appropriately. \cr
 #' \cr
 #' For example: \cr
 #' \code{x %s/% p } counts how often regular expression p occurs in x, \cr
@@ -35,14 +35,16 @@
 #' \code{s_pattern_stri(charclass=p, ...)} \cr
 #' \cr
 #' All arguments in \code{s_pattern_stri()} are simply passed to the
-#' appropriate functions in \code{stringi}. For example: \cr
+#' appropriate functions in \code{stringi}.
+#' (So even if \code{stringi}'s argument convention changes in the future,
+#' the \code{s_pattern_stri()} function should still work.) \cr
+#' For example: \cr
 #' \code{x %s/% p } counts how often regular expression p occurs in x, \cr
 #' whereas \code{x %s/% s_pattern_stri(regex=p, case_insensitive=TRUE) } will do the same,
 #' except it will use \code{stringi::stri_count()} in the background,
 #' and does not distinguish between upper case and lower case characters.\cr
 #'
-#' So even if \code{stringi}'s argument convention changes in the future,
-#' the \code{s_pattern_stri()} function should still work.
+#'
 #'
 #'
 #' @param p a pattern (regular expression),
@@ -60,7 +62,8 @@
 #'
 #' Using \code{s_pattern_stri} will not only change the interpretation of pattern expressions,
 #' it can actually improve the speed of the code also, as using this pattern
-#' will actually call functions from \code{stringi}, whose functions are sometimes a bit
+#' will actually make the \code{tidyoperators} functions and operators internally
+#' call functions from \code{stringi}, whose functions are sometimes a bit
 #' faster than base R functions.
 #'
 #' @returns
@@ -74,7 +77,7 @@
 #' @examples
 #' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 #' print(x)
-#' p <- "a|e|i|o|u" # same as p <- s_pattern_b("a|e|i|o|u", fixed=FALSE, ignore.case=FALSE, perl=FALSE)
+#' p <- "a|e|i|o|u" # same as p <- s_pattern_b("a|e|i|o|u", fixed=FALSE, ignore.case=FALSE, perl=FALSE, useBytes=FALSE)
 #' s_extract(x, -1, p) # extracts the last vowel in each element of x.
 #' s_repl(x, -1, p, "?") # replace last vowel in each element of x with a question mark ("?").
 #' x %s/% p # count how often vowels appear in each string of vector x.
