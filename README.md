@@ -951,6 +951,22 @@ s_strapply(x, sort, custom_sapply = future_sapply) # multi-threaded way
 
 Now you have a multi-threaded version of `s_strapply`.
 
+If you combine `s_strapply` and `s_extract` / `s_repl`, I advice the
+user to only make `s_strapply` multi-threaded; making multiple layers of
+parallel computing seems like asking for problems.
+
+An example of combining `s_strapply` and `s_extract` is:
+
+``` r
+x <- rep(
+  c("Outrageous, egregious, preposterous!", "Pleasant evening everyone"),
+  2e5
+)
+# s_strapply combined with s_extract:
+p <- s_pattern_b(regex="a|e|i|o|u", ignore.case = TRUE) 
+s_strapply(x, w=T, fun=\(x)s_extract(x, -2, p), custom_sapply = future_sapply)
+```
+
 It should be noted that the speed is also very much dependent on the
 function used for the `fun` argument. So using `stringi` functions might
 make this even faster. For example:
