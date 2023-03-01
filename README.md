@@ -723,7 +723,7 @@ you run `s_pattern_stri(fixed=p)`. Some more examples:
 - `s_pattern_stri(boundary=p, ...)`
 - `s_pattern_stri(charclass=p, ...)`
 
-Why would one use `stringi` patterns instead of base R? Well, 2 main
+Why would one use `stringi` patterns instead of base R? Well, 3 main
 reasons I can think of:
 
 - First, if you used `stringi` - or a `stringi`-based package like
@@ -738,7 +738,9 @@ reasons I can think of:
   that `tidyoperators` can use.
 
 This section will give some examples of using `stringi` with
-`tidyoperators`. First, the `stringi` package must be loaded:
+`tidyoperators`. `stringi` does **not need to be loaded, only
+installed**. For the sake of this read-me, however, let’s explicitly
+load `stringi`:
 
 ``` r
 require(tidyoperators)
@@ -753,7 +755,8 @@ require(stringi)
 ```
 
 You’ll notice that `stringi` will overwrite `tidyoperator`’s `%s*%` and
-`%s+%` operators; that’s completely fine. Use whichever one you prefer.
+`%s+%` operators; that’s completely fine, the operators do the same
+thing. Use whichever one you prefer.
 
 Now then, some examples using `stringi`’s `regex` expression:
 

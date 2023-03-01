@@ -512,21 +512,21 @@ The `s_pattern_stri()` uses the exact same argument convention as `stringi`. So 
  - `s_pattern_stri(boundary=p, ...)`
  - `s_pattern_stri(charclass=p, ...)`
 
-Why would one use `stringi` patterns instead of base R? Well, 2 main reasons I can think of: 
+Why would one use `stringi` patterns instead of base R? Well, 3 main reasons I can think of: 
 
  - First, if you used `stringi` - or a `stringi`-based package like `tidyverse`'s `stringr` - in your script, you may wish to keep your string-related code consistent to avoid confusing anyone (or even confusing yourself).
  - Second, some of `stringi`'s functions are faster than base R, and using `stringi` patterns in `tidyoperators` doesn't simply change the expression, it actually uses `stringi` functions behind the scenes. **This may improve the speed of your code**.
  - Thirdly, `stringi` has some pattern features not present in base R, that `tidyoperators` can use.
 
 
-This section will give some examples of using `stringi` with `tidyoperators`. First, the `stringi` package must be loaded:
+This section will give some examples of using `stringi` with `tidyoperators`. `stringi` does **not need to be loaded, only installed**. For the sake of this read-me, however, let's explicitly load `stringi`:
 
 ```{r}
 require(tidyoperators)
 require(stringi)
 ```
 
-You'll notice that `stringi` will overwrite `tidyoperator`'s  `%s*%` and `%s+%` operators; that's completely fine. Use whichever one you prefer.
+You'll notice that `stringi` will overwrite `tidyoperator`'s  `%s*%` and `%s+%` operators; that's completely fine, the operators do the same thing. Use whichever one you prefer.
 
 Now then, some examples using `stringi`'s `regex` expression:
 
