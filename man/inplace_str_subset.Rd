@@ -24,7 +24,7 @@ In-place modifier versions of string subsetting: \cr
 \cr
 
 See also the documentation on string subsetting (\link[=\%ss\%]{string subset}). \cr
-Note that there is no in-place modifier versions of \code{\%ss\%}, \code{s_extract()}, and \code{s_repl()}.\cr
+Note that there is no in-place modifier versions of \code{\%ss\%}, \code{s_extract_ith()}, and \code{s_repl_ith()}.\cr
 \cr
 }
 \examples{

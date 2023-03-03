@@ -126,7 +126,7 @@ s_strapply(x, fun=\(x){
 # Extract second-last vowel of every word of every string in a vector:
 x <- c("Outrageous, egregious, preposterous!", "Pleasant evening everyone")
 p <- s_pattern_b("a|e|i|o|u", ignore.case = TRUE)
-s_strapply(x, w=T, fun=\(x)s_extract(x, -2, p))
+s_strapply(x, w=T, fun=\(x)s_extract_ith(x, -2, p))
 ```
 
 And some string arithmetic:
@@ -146,10 +146,10 @@ print(x)
 p <- "a|e|i|o|u" # pattern for all vowels.
 
 # replace the second vowel with question mark:
-s_repl(x, 2, p, "?")
+s_repl_ith(x, 2, p, "?")
 
 # replace the second-last vowel with question mark:
-s_repl(x, -2, p, "?")
+s_repl_ith(x, -2, p, "?")
 ```
 
 If you're still interested, I invite you to read the rest of this Read-Me and perhaps try out the package yourself.
@@ -381,11 +381,11 @@ x %strim% ss
 &nbsp;
 
 There are also 2 functions regarding string sub-setting:
-`s_extract(x, i, p)`, and `s_repl(x, i, p, rp)`.
+`s_extract_ith(x, i, p)`, and `s_repl_ith(x, i, p, rp)`.
 
-The first function, `s_extract()`, extracts the $i^{th}$ occurrence of pattern `p` in every string of character vector `x`. When `i` is positive, the occurrence is counted from left to right. Negative values for `i` are also allowed, in which case the occurrence is counted from the right to left. Thus, to get the **last** occurrence, use `i=-1`. But `i=0` is not allowed though.
+The first function, `s_extract_ith()`, extracts the $i^{th}$ occurrence of pattern `p` in every string of character vector `x`. When `i` is positive, the occurrence is counted from left to right. Negative values for `i` are also allowed, in which case the occurrence is counted from the right to left. Thus, to get the **last** occurrence, use `i=-1`. But `i=0` is not allowed though.
 
-The `s_repl()` function replaces the $i^{th}$ occurrence of pattern `p` with string `rp` in every string of character vector `x`. Like in `s_extract()`, `i` can be positive to count the occurrences from left to right, or negative to count the occurrences from right to left.
+The `s_repl_ith()` function replaces the $i^{th}$ occurrence of pattern `p` with string `rp` in every string of character vector `x`. Like in `s_extract_ith()`, `i` can be positive to count the occurrences from left to right, or negative to count the occurrences from right to left.
 
 Here are some examples:
 
@@ -395,16 +395,16 @@ x <- c("yeay nay or nothing to say", "Goodmorning, goodevening and goodnight",
 print(x)
 p <- "a|e|i|o|u" # pattern for all vowels.
 
-s_extract(x, 1, p) # extract the first vowel
-s_extract(x, -1, p) # extract the last vowel
-s_extract(x, 2, p) # extract the second vowel
-s_extract(x, -2, p) # extract the second-last vowel
+s_extract_ith(x, 1, p) # extract the first vowel
+s_extract_ith(x, -1, p) # extract the last vowel
+s_extract_ith(x, 2, p) # extract the second vowel
+s_extract_ith(x, -2, p) # extract the second-last vowel
 
 rp <- "?"
-s_repl(x, 1, p, rp) # replace the first vowel with question mark
-s_repl(x, -1, p, rp) # replace the last vowel with question mark
-s_repl(x, 2, p, rp) # replace the second vowel with question mark
-s_repl(x, -2, p, rp) # replace the second-last vowel with question mark
+s_repl_ith(x, 1, p, rp) # replace the first vowel with question mark
+s_repl_ith(x, -1, p, rp) # replace the last vowel with question mark
+s_repl_ith(x, 2, p, rp) # replace the second vowel with question mark
+s_repl_ith(x, -2, p, rp) # replace the second-last vowel with question mark
 
 ```
 
@@ -474,7 +474,7 @@ With the exception of  `%ss%`, all infix operators (notice: operators, not funct
  - `x %sget <-% ss` is the same as `x <- x %sget% ss`
  - `x %strim <-% ss` is the same as `x <- x %strim% ss`
 
-The `s_extract()` and `s_repl()` functions obviously do not require an in-place modifier version, as they can easily be used in combination with `magrittr`'s in-place pipe modifier ( `%<>%` ),  just like any other function.
+The `s_extract_ith()` and `s_repl_ith()` functions obviously do not require an in-place modifier version, as they can easily be used in combination with `magrittr`'s in-place pipe modifier ( `%<>%` ),  just like any other function.
 
 &nbsp;
 
@@ -501,8 +501,8 @@ x <- c(tolower(letters)[1:13] |> paste0(collapse=""),
        toupper(letters)[14:26] |> paste0(collapse=""))
 print(x)
 p <- s_pattern_b("a|E|i|O|u", fixed=FALSE, ignore.case=TRUE, perl=FALSE)
-s_extract(x, -1, p) # extracts the last vowel in each element of x.
-s_repl(x, -1, p, "?") # replace last vowel in each element of x with a question mark ("?").
+s_extract_ith(x, -1, p) # extracts the last vowel in each element of x.
+s_repl_ith(x, -1, p, "?") # replace last vowel in each element of x with a question mark ("?").
 x %s-% p # remove all vowels in each string of vector x.
 x %s/% p # count how often vowels appear in each string of vector x.
 ```
@@ -513,7 +513,7 @@ Second, an example using Perl expression
 x <- "line1 \n line2"
 print(x)
 p <- s_pattern_b("\\v+", perl=TRUE) # Perl expression; only works with perl=TRUE
-s_repl(x, 1, p, " - ") # replace vertical line break with a minus line.
+s_repl_ith(x, 1, p, " - ") # replace vertical line break with a minus line.
 
 ```
 
@@ -525,7 +525,7 @@ As stated in the introduction section of this Read me, this R package can also u
 
 ## Using stringi with tidyoperators
 
-The `%s-%` and `%s/%` operators, and the `s_extract()` and `s_repl()` functions perform pattern matching for subtracting, counting, extracting, and replacing patterns, respectively.
+The `%s-%` and `%s/%` operators, and the `s_extract_ith()` and `s_repl_ith()` functions perform pattern matching for subtracting, counting, extracting, and replacing patterns, respectively.
 
 By default, `tidyoperators` uses base R for its pattern matching functions. But `tidyoperators` also supports `stringi` pattern matching, provided `stringi` version 1.7.12+ is installed. To use `stringi` functionality for its pattern matching, use `s_pattern_stri()` instead of `s_pattern_b()`.
 
@@ -562,16 +562,16 @@ x <- c("yeay nay or nothing to say", "Goodmorning, goodevening and goodnight",
 print(x)
 p <- s_pattern_stri(regex = "a|e|i|o|u", case_insensitive=TRUE)
 
-s_extract(x, 1, p) # extract the first vowel
-s_extract(x, -1, p) # extract the last vowel
-s_extract(x, 2, p) # extract the second vowel
-s_extract(x, -2, p) # extract the second-last vowel
+s_extract_ith(x, 1, p) # extract the first vowel
+s_extract_ith(x, -1, p) # extract the last vowel
+s_extract_ith(x, 2, p) # extract the second vowel
+s_extract_ith(x, -2, p) # extract the second-last vowel
 
 rp <- "?"
-s_repl(x, 1, p, rp) # replace the first vowel with question mark
-s_repl(x, -1, p, rp) # replace the last vowel with question mark
-s_repl(x, 2, p, rp) # replace the second vowel with question mark
-s_repl(x, -2, p, rp) # replace the second-last vowel with question mark
+s_repl_ith(x, 1, p, rp) # replace the first vowel with question mark
+s_repl_ith(x, -1, p, rp) # replace the last vowel with question mark
+s_repl_ith(x, 2, p, rp) # replace the second vowel with question mark
+s_repl_ith(x, -2, p, rp) # replace the second-last vowel with question mark
 
 x <- c("Hello world", "Goodbye world")
 p <- s_pattern_stri(regex=" world")
@@ -590,10 +590,10 @@ x <- c("yeay yeay yeay yeay", "nay nay nay nay")
 p <- s_pattern_stri(fixed = "a")
 
 rp <- "?"
-s_repl(x, 1, p, rp) # replace the first vowel with question mark
-s_repl(x, -1, p, rp) # replace the last vowel with question mark
-s_repl(x, 2, p, rp) # replace the second vowel with question mark
-s_repl(x, -2, p, rp) # replace the second-last vowel with question mark
+s_repl_ith(x, 1, p, rp) # replace the first vowel with question mark
+s_repl_ith(x, -1, p, rp) # replace the last vowel with question mark
+s_repl_ith(x, 2, p, rp) # replace the second vowel with question mark
+s_repl_ith(x, -2, p, rp) # replace the second-last vowel with question mark
 
 x <- c("Hello world", "Goodbye world")
 p <- s_pattern_stri(fixed=" world")
@@ -658,30 +658,30 @@ Lets try to take the second-last vowel of every word of every string in some cha
 x <- c("Outrageous, egregious, preposterous!", "Pleasant evening everyone")
 print(x)
 p <- s_pattern_b("a|e|i|o|u", ignore.case = TRUE)
-s_strapply(x, w=T, fun=\(x)s_extract(x, -2, p))
+s_strapply(x, w=T, fun=\(x)s_extract_ith(x, -2, p))
 ```
 
 &nbsp;
 
 ## Parallel computing / multi-threading in string functions
 
-The `s_repl()` and `s_extract()` functions internally use `mapply()`. I can imagine that sometimes some character vector `x` is so large that `mapply()` is too slow or inefficient, and one might want to use parallel computing. Because I wanted `tidyoperators` to have zero dependencies, I do not provide parallel computing out of the box. However, some `tidyoperators` functions do allow the internally `mapply()` function to be replaced with a user provided function.
+The `s_repl_ith()` and `s_extract_ith()` functions internally use `mapply()`. I can imagine that sometimes some character vector `x` is so large that `mapply()` is too slow or inefficient, and one might want to use parallel computing. Because I wanted `tidyoperators` to have zero dependencies, I do not provide parallel computing out of the box. However, some `tidyoperators` functions do allow the internally `mapply()` function to be replaced with a user provided function.
 
-For example, suppose one wants to speed up `s_extract()` using parallel computing. One can use the `future.apply::future_mapply()` as a replacer for the mapply function, like so:
+For example, suppose one wants to speed up `s_extract_ith()` using parallel computing. One can use the `future.apply::future_mapply()` as a replacer for the mapply function, like so:
 
 ```{r eval=FALSE}
 
 x <- rep(c("Hello World", "Goodbye World"), 2e5)
 p <- s_pattern_b("a|e|i|o|u", ignore.case = TRUE)
 
-s_extract(x, -1, p) # regular way
+s_extract_ith(x, -1, p) # regular way
 
 require(future.apply)
 plan(multisession)
-s_extract(x, -1, p, custom_mapply = future_mapply) # multi-threaded way.
+s_extract_ith(x, -1, p, custom_mapply = future_mapply) # multi-threaded way.
 ```
 
-Now you have a multithreaded version of s_extract; that wasn't so difficult, right? On my computer, the multi-threaded command was about 3 times faster.
+Now you have a multithreaded version of s_extract_ith; that wasn't so difficult, right? On my computer, the multi-threaded command was about 3 times faster.
 
 The `s_strapply` function uses `sapply` internally. As above, the user can multi-thread this function by replacing sapply:
 
@@ -697,18 +697,18 @@ s_strapply(x, sort, custom_sapply = future_sapply) # multi-threaded way
 
 Now you have a multi-threaded version of `s_strapply`.
 
-If you combine `s_strapply` and `s_extract` / `s_repl`, I advice the user to only make `s_strapply` multi-threaded; making multiple layers of parallel computing seems like asking for problems.
+If you combine `s_strapply` and `s_extract_ith` / `s_repl_ith`, I advice the user to only make `s_strapply` multi-threaded; making multiple layers of parallel computing seems like asking for problems.
 
-An example of combining `s_strapply` and `s_extract` is:
+An example of combining `s_strapply` and `s_extract_ith` is:
 
 ```{r eval=FALSE}
 x <- rep(
   c("Outrageous, egregious, preposterous!", "Pleasant evening everyone"),
   2e5
 )
-# s_strapply combined with s_extract:
+# s_strapply combined with s_extract_ith:
 p <- s_pattern_b("a|e|i|o|u", ignore.case = TRUE) 
-s_strapply(x, w=T, fun=\(x)s_extract(x, -2, p), custom_sapply = future_sapply)
+s_strapply(x, w=T, fun=\(x)s_extract_ith(x, -2, p), custom_sapply = future_sapply)
 ```
 
 It should be noted that the speed is also very much dependent on the function used for the `fun` argument. So using `stringi` pattern might make this even faster.
@@ -721,10 +721,10 @@ x <- rep(
 )
 # stringi regex + multi-threaded:
 p <- s_pattern_stri(regex="a|e|i|o|u", case_insensitive = TRUE)
-s_strapply(x, w=T, fun=\(x)s_extract(x, -2, p), custom_sapply = future_sapply)
+s_strapply(x, w=T, fun=\(x)s_extract_ith(x, -2, p), custom_sapply = future_sapply)
 ```
 
-Notice that only `s_strapply()` is multi-threaded, and not `s_extract`. Multi-threading both would actually be slower, and may even create other problems.
+Notice that only `s_strapply()` is multi-threaded, and not `s_extract_ith`. Multi-threading both would actually be slower, and may even create other problems.
 
 &nbsp;
 

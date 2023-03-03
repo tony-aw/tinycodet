@@ -91,20 +91,20 @@ faster than base R functions.
 x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 print(x)
 p <- "a|e|i|o|u" # same as p <- s_pattern_b("a|e|i|o|u", fixed=FALSE, ignore.case=FALSE, perl=FALSE, useBytes=FALSE)
-s_extract(x, -1, p) # extracts the last vowel in each element of x.
-s_repl(x, -1, p, "?") # replace last vowel in each element of x with a question mark ("?").
+s_extract_ith(x, -1, p) # extracts the last vowel in each element of x.
+s_repl_ith(x, -1, p, "?") # replace last vowel in each element of x with a question mark ("?").
 x \%s/\% p # count how often vowels appear in each string of vector x.
 
 x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 print(x)
 p <- s_pattern_b("A|E|I|O|U", fixed=FALSE, ignore.case=TRUE, perl=FALSE)
-s_extract(x, -1, p) # extracts the last vowel in each element of x.
-s_repl(x, -1, p, "?") # replace last vowel in each element of x with a question mark ("?").
+s_extract_ith(x, -1, p) # extracts the last vowel in each element of x.
+s_repl_ith(x, -1, p, "?") # replace last vowel in each element of x with a question mark ("?").
 x \%s/\% p # count how often vowels appear in each string of vector x.
 
 p <- s_pattern_b("\\\\v+", perl=TRUE) # perl expression; only works with perl=TRUE
 x <- "line1 \n line2"
 print(x)
-s_repl(x, 1, p, " - ") # replace vertical line break with a minus line.
+s_repl_ith(x, 1, p, " - ") # replace vertical line break with a minus line.
 
 }

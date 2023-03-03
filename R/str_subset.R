@@ -1,4 +1,4 @@
-#' String subsetting
+#' String sub-setting
 #'
 #'@description
 #' String subsetting operators and functions. \cr
@@ -9,9 +9,9 @@
 #' \cr
 #' The \code{x %strim% ss } operator removes a certain number of the first and last characters of \code{x}. \cr
 #' \cr
-#' The \code{s_extract(x, i, p, custom_mapply=NULL)} function extracts the ith occurrence of character/pattern \code{p}. \cr
+#' The \code{s_extract_ith(x, i, p, custom_mapply=NULL)} function extracts the ith occurrence of character/pattern \code{p}. \cr
 #' \cr
-#' The \code{s_repl(x, i, p, rp, custom_mapply=NULL)} function replaces the ith occurence of character/pattern \code{p} with \code{rp}. \cr
+#' The \code{s_repl_ith(x, i, p, rp, custom_mapply=NULL)} function replaces the ith occurence of character/pattern \code{p} with \code{rp}. \cr
 #' \cr
 #'
 #' @param s a numeric vector giving the subset indices.
@@ -20,7 +20,7 @@
 #' giving the pattern to look for. \cr
 #' See \code{\link{s_pattern_b}}.
 #' @param ss a vector of length 2, or a matrix with 2 columns with \code{nrow(ss)==length(x)}.
-#' ss should consist entirely of non-negative integers (thus 0, 1, 2, etc. are valid, but -1, -2, -3 etc are not valid).
+#' The object \code{ss} should consist entirely of non-negative integers (thus 0, 1, 2, etc. are valid, but -1, -2, -3 etc are not valid).
 #' The first element/column of \code{ss}
 #' gives the number of characters counting from the left side to be extracted/removed from \code{x}.
 #' The second element/column of \code{ss}
@@ -28,29 +28,29 @@
 #' @param i a number, or a numeric vector of the same length as \code{x}.
 #' This gives the \eqn{i^th} instance to be replaced. \cr
 #' Positive numbers are counting from the left. Negative numbers are counting from the right. \cr
-#' Thus \code{s_repl(x, i=1, p, rp)} will replace the first instance of \code{p} with \code{rp},
-#' and \code{s_repl(x, i=-1, p, rp)} will replace the last instance of \code{p} with \code{rp}.
-#' And \code{s_repl(x, i=2, p, rp)} will replace the second instance of \code{p} with \code{rp},
-#' and \code{s_repl(x, i=-2, p, rp)} will replace the second-last instance of \code{p} with \code{rp}, etc. \cr
+#' Thus \code{s_repl_ith(x, i=1, p, rp)} will replace the first instance of \code{p} with \code{rp},
+#' and \code{s_repl_ith(x, i=-1, p, rp)} will replace the last instance of \code{p} with \code{rp}.
+#' And \code{s_repl_ith(x, i=2, p, rp)} will replace the second instance of \code{p} with \code{rp},
+#' and \code{s_repl_ith(x, i=-2, p, rp)} will replace the second-last instance of \code{p} with \code{rp}, etc. \cr
 #' If i is larger than the number of instances, the maximum instance will be given. \cr
 #' For example: suppose a string has 3 instances of p;
 #' then if i=4 the third instance will be replaced, and if i=-3 the first instance will be replaced.
 #' @param rp a string, or a character vector of the same length as \code{x}, giving the character(s) to replace p with.
-#' @param custom_mapply the \code{s_extract()} and \code{s_repl()} functions,
+#' @param custom_mapply the \code{s_extract_ith()} and \code{s_repl_ith()} functions,
 #' internally use \code{mapply()}. The user may choose to replace this with a custom functions,
 #' for example for multi-threading purposes. The replacing function must have the same argument convention
 #' as \code{mapply}. \cr
 #' For example:\cr
-#' s_extract(..., custom_mapply=future_mapply) \cr
-#' NOTE: if you use \code{s_extract()} and \code{s_repl()} inside an \code{s_strapply()} call,
+#' s_extract_ith(..., custom_mapply=future_mapply) \cr
+#' NOTE: if you use \code{s_extract_ith()} and \code{s_repl_ith()} inside an \code{s_strapply()} call,
 #' and you want to replace the apply functions for multi-threading reasons,
 #' I highly advise the user to only replace the \code{sapply} function in \code{s_strapply},
-#' and to leave \code{mapply} inside \code{s_extract()} and \code{s_repl()} without multi-threading:\cr
+#' and to leave \code{mapply} inside \code{s_extract_ith()} and \code{s_repl_ith()} without multi-threading:\cr
 #' Running nested multi-threading processes may actually slow down the code, and may cause other problems also.
 #' I.e. run this: \cr
-#' \code{s_strapply(x, w=T, fun=\(x)s_extract(x, -2, p), custom_sapply = future_sapply)} \cr
+#' \code{s_strapply(x, w=T, fun=\(x)s_extract_ith(x, -2, p), custom_sapply = future_sapply)} \cr
 #' and not this: \cr
-#' \code{s_strapply(x, w=T, fun=\(x)s_extract(x, -2, p, custom_mapply=future_mapply), custom_sapply=future_sapply)} \cr
+#' \code{s_strapply(x, w=T, fun=\(x)s_extract_ith(x, -2, p, custom_mapply=future_mapply), custom_sapply=future_sapply)} \cr
 #'
 #'
 #'
@@ -65,7 +65,7 @@
 #' @returns
 #' The \code{%ss%} operator always returns a vector or matrix, where each element is a single character. \cr
 #' \cr
-#' The \code{s_extract()} and \code{s_repl()} functions return a character vector of the same length as \code{x}. \cr
+#' The \code{s_extract_ith()} and \code{s_repl_ith()} functions return a character vector of the same length as \code{x}. \cr
 #' \cr
 #'
 #'
@@ -76,8 +76,8 @@
 #' ss <- c(2,2)
 #'
 #' x %ss% 3:4 # same as unlist(strsplit(x, split=""))[3:4]
-#' s_extract(x, -1, p) # extracts the last vowel in each element of x.
-#' s_repl(x, -1, p, "?") # replace last vowel in each element of x with a question mark ("?").
+#' s_extract_ith(x, -1, p) # extracts the last vowel in each element of x.
+#' s_repl_ith(x, -1, p, "?") # replace last vowel in each element of x with a question mark ("?").
 #'
 #' x %sget% ss
 #' x %strim% ss
@@ -94,8 +94,8 @@
 #' ss <- c(2,2)
 #'
 #' x %ss% 3:4 # same as unlist(strsplit(x, split=""))[y]
-#' s_extract(x, -1, p) # extracts the last vowel in each element of x.
-#' s_repl(x, -1, p, "?") # replace last vowel in each element of x with a question mark ("?").
+#' s_extract_ith(x, -1, p) # extracts the last vowel in each element of x.
+#' s_repl_ith(x, -1, p, "?") # replace last vowel in each element of x with a question mark ("?").
 #'
 #' x %sget% ss
 #' x %strim% ss
@@ -107,7 +107,7 @@
 #' p <- s_pattern_b("\\v+", perl=TRUE) # perl expression; only works with perl=TRUE
 #' x <- "line1 \n line2"
 #' print(x)
-#' s_repl(x, 1, p, " - ") # replace vertical line break with a minus line.
+#' s_repl_ith(x, 1, p, " - ") # replace vertical line break with a minus line.
 #'
 
 #' @rdname str_subset
@@ -134,7 +134,7 @@
 
 #' @rdname str_subset
 #' @export
-s_extract <- function(x, i, p, custom_mapply=NULL) {
+s_extract_ith <- function(x, i, p, custom_mapply=NULL) {
   if(isTRUE(attr(p, "engine")=="base") | is.null(attr(p, "engine"))){
     p_attr <- s_get_pattern_attr_internal(p)
     if(is.null(custom_mapply)){
@@ -175,7 +175,7 @@ s_extract <- function(x, i, p, custom_mapply=NULL) {
 
 #' @rdname str_subset
 #' @export
-s_repl <- function(x, i, p, rp, custom_mapply=NULL) {
+s_repl_ith <- function(x, i, p, rp, custom_mapply=NULL) {
   if(isTRUE(attr(p, "engine")=="base") | is.null(attr(p, "engine"))){
     p_attr <- s_get_pattern_attr_internal(p)
     if(is.null(custom_mapply)){
@@ -214,7 +214,5 @@ s_repl <- function(x, i, p, rp, custom_mapply=NULL) {
     return(x)
   }
 }
-
-
 
 

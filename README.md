@@ -179,7 +179,7 @@ s_strapply(x, fun=\(x){
 # Extract second-last vowel of every word of every string in a vector:
 x <- c("Outrageous, egregious, preposterous!", "Pleasant evening everyone")
 p <- s_pattern_b("a|e|i|o|u", ignore.case = TRUE)
-s_strapply(x, w=T, fun=\(x)s_extract(x, -2, p))
+s_strapply(x, w=T, fun=\(x)s_extract_ith(x, -2, p))
 #> [1] "o o o" "a e o"
 ```
 
@@ -207,12 +207,12 @@ print(x)
 p <- "a|e|i|o|u" # pattern for all vowels.
 
 # replace the second vowel with question mark:
-s_repl(x, 2, p, "?")
+s_repl_ith(x, 2, p, "?")
 #> [1] "ye?y nay or nothing to say"            
 #> [2] "Go?dmorning, goodevening and goodnight"
 
 # replace the second-last vowel with question mark:
-s_repl(x, -2, p, "?")
+s_repl_ith(x, -2, p, "?")
 #> [1] "yeay nay or nothing t? say"            
 #> [2] "Goodmorning, goodevening and go?dnight"
 ```
@@ -536,19 +536,19 @@ x %strim% ss
  
 
 There are also 2 functions regarding string sub-setting:
-`s_extract(x, i, p)`, and `s_repl(x, i, p, rp)`.
+`s_extract_ith(x, i, p)`, and `s_repl_ith(x, i, p, rp)`.
 
-The first function, `s_extract()`, extracts the $i^{th}$ occurrence of
-pattern `p` in every string of character vector `x`. When `i` is
+The first function, `s_extract_ith()`, extracts the $i^{th}$ occurrence
+of pattern `p` in every string of character vector `x`. When `i` is
 positive, the occurrence is counted from left to right. Negative values
 for `i` are also allowed, in which case the occurrence is counted from
 the right to left. Thus, to get the **last** occurrence, use `i=-1`. But
 `i=0` is not allowed though.
 
-The `s_repl()` function replaces the $i^{th}$ occurrence of pattern `p`
-with string `rp` in every string of character vector `x`. Like in
-`s_extract()`, `i` can be positive to count the occurrences from left to
-right, or negative to count the occurrences from right to left.
+The `s_repl_ith()` function replaces the $i^{th}$ occurrence of pattern
+`p` with string `rp` in every string of character vector `x`. Like in
+`s_extract_ith()`, `i` can be positive to count the occurrences from
+left to right, or negative to count the occurrences from right to left.
 
 Here are some examples:
 
@@ -561,29 +561,29 @@ print(x)
 #> [3] "abcdefghijklm"
 p <- "a|e|i|o|u" # pattern for all vowels.
 
-s_extract(x, 1, p) # extract the first vowel
+s_extract_ith(x, 1, p) # extract the first vowel
 #> [1] "e" "o" "a"
-s_extract(x, -1, p) # extract the last vowel
+s_extract_ith(x, -1, p) # extract the last vowel
 #> [1] "a" "i" "i"
-s_extract(x, 2, p) # extract the second vowel
+s_extract_ith(x, 2, p) # extract the second vowel
 #> [1] "a" "o" "e"
-s_extract(x, -2, p) # extract the second-last vowel
+s_extract_ith(x, -2, p) # extract the second-last vowel
 #> [1] "o" "o" "e"
 
 rp <- "?"
-s_repl(x, 1, p, rp) # replace the first vowel with question mark
+s_repl_ith(x, 1, p, rp) # replace the first vowel with question mark
 #> [1] "y?ay nay or nothing to say"            
 #> [2] "G?odmorning, goodevening and goodnight"
 #> [3] "?bcdefghijklm"
-s_repl(x, -1, p, rp) # replace the last vowel with question mark
+s_repl_ith(x, -1, p, rp) # replace the last vowel with question mark
 #> [1] "yeay nay or nothing to s?y"            
 #> [2] "Goodmorning, goodevening and goodn?ght"
 #> [3] "abcdefgh?jklm"
-s_repl(x, 2, p, rp) # replace the second vowel with question mark
+s_repl_ith(x, 2, p, rp) # replace the second vowel with question mark
 #> [1] "ye?y nay or nothing to say"            
 #> [2] "Go?dmorning, goodevening and goodnight"
 #> [3] "abcd?fghijklm"
-s_repl(x, -2, p, rp) # replace the second-last vowel with question mark
+s_repl_ith(x, -2, p, rp) # replace the second-last vowel with question mark
 #> [1] "yeay nay or nothing t? say"            
 #> [2] "Goodmorning, goodevening and go?dnight"
 #> [3] "abcd?fghijklm"
@@ -667,10 +667,10 @@ not functions) have their in-place modifying equivalent:
 - `x %sget <-% ss` is the same as `x <- x %sget% ss`
 - `x %strim <-% ss` is the same as `x <- x %strim% ss`
 
-The `s_extract()` and `s_repl()` functions obviously do not require an
-in-place modifier version, as they can easily be used in combination
-with `magrittr`’s in-place pipe modifier ( `%<>%` ), just like any other
-function.
+The `s_extract_ith()` and `s_repl_ith()` functions obviously do not
+require an in-place modifier version, as they can easily be used in
+combination with `magrittr`’s in-place pipe modifier ( `%<>%` ), just
+like any other function.
 
  
 
@@ -715,9 +715,9 @@ x <- c(tolower(letters)[1:13] |> paste0(collapse=""),
 print(x)
 #> [1] "abcdefghijklm" "NOPQRSTUVWXYZ"
 p <- s_pattern_b("a|E|i|O|u", fixed=FALSE, ignore.case=TRUE, perl=FALSE)
-s_extract(x, -1, p) # extracts the last vowel in each element of x.
+s_extract_ith(x, -1, p) # extracts the last vowel in each element of x.
 #> [1] "i" "U"
-s_repl(x, -1, p, "?") # replace last vowel in each element of x with a question mark ("?").
+s_repl_ith(x, -1, p, "?") # replace last vowel in each element of x with a question mark ("?").
 #> [1] "abcdefgh?jklm" "NOPQRST?VWXYZ"
 x %s-% p # remove all vowels in each string of vector x.
 #> [1] "bcdfghjklm"  "NPQRSTVWXYZ"
@@ -732,7 +732,7 @@ x <- "line1 \n line2"
 print(x)
 #> [1] "line1 \n line2"
 p <- s_pattern_b("\\v+", perl=TRUE) # Perl expression; only works with perl=TRUE
-s_repl(x, 1, p, " - ") # replace vertical line break with a minus line.
+s_repl_ith(x, 1, p, " - ") # replace vertical line break with a minus line.
 #> [1] "line1  -  line2"
 ```
 
@@ -748,9 +748,9 @@ The next section will give lots of examples with stringi.
 
 ## Using stringi with tidyoperators
 
-The `%s-%` and `%s/%` operators, and the `s_extract()` and `s_repl()`
-functions perform pattern matching for subtracting, counting,
-extracting, and replacing patterns, respectively.
+The `%s-%` and `%s/%` operators, and the `s_extract_ith()` and
+`s_repl_ith()` functions perform pattern matching for subtracting,
+counting, extracting, and replacing patterns, respectively.
 
 By default, `tidyoperators` uses base R for its pattern matching
 functions. But `tidyoperators` also supports `stringi` pattern matching,
@@ -814,29 +814,29 @@ print(x)
 #> [3] "abcdefghijklm"
 p <- s_pattern_stri(regex = "a|e|i|o|u", case_insensitive=TRUE)
 
-s_extract(x, 1, p) # extract the first vowel
+s_extract_ith(x, 1, p) # extract the first vowel
 #> [1] "e" "o" "a"
-s_extract(x, -1, p) # extract the last vowel
+s_extract_ith(x, -1, p) # extract the last vowel
 #> [1] "a" "i" "i"
-s_extract(x, 2, p) # extract the second vowel
+s_extract_ith(x, 2, p) # extract the second vowel
 #> [1] "a" "o" "e"
-s_extract(x, -2, p) # extract the second-last vowel
+s_extract_ith(x, -2, p) # extract the second-last vowel
 #> [1] "o" "o" "e"
 
 rp <- "?"
-s_repl(x, 1, p, rp) # replace the first vowel with question mark
+s_repl_ith(x, 1, p, rp) # replace the first vowel with question mark
 #> [1] "y?ay nay or nothing to say"            
 #> [2] "G?odmorning, goodevening and goodnight"
 #> [3] "?bcdefghijklm"
-s_repl(x, -1, p, rp) # replace the last vowel with question mark
+s_repl_ith(x, -1, p, rp) # replace the last vowel with question mark
 #> [1] "yeay nay or nothing to s?y"            
 #> [2] "Goodmorning, goodevening and goodn?ght"
 #> [3] "abcdefgh?jklm"
-s_repl(x, 2, p, rp) # replace the second vowel with question mark
+s_repl_ith(x, 2, p, rp) # replace the second vowel with question mark
 #> [1] "ye?y nay or nothing to say"            
 #> [2] "Go?dmorning, goodevening and goodnight"
 #> [3] "abcd?fghijklm"
-s_repl(x, -2, p, rp) # replace the second-last vowel with question mark
+s_repl_ith(x, -2, p, rp) # replace the second-last vowel with question mark
 #> [1] "yeay nay or nothing t? say"            
 #> [2] "Goodmorning, goodevening and go?dnight"
 #> [3] "abcd?fghijklm"
@@ -860,13 +860,13 @@ x <- c("yeay yeay yeay yeay", "nay nay nay nay")
 p <- s_pattern_stri(fixed = "a")
 
 rp <- "?"
-s_repl(x, 1, p, rp) # replace the first vowel with question mark
+s_repl_ith(x, 1, p, rp) # replace the first vowel with question mark
 #> [1] "ye?y yeay yeay yeay" "n?y nay nay nay"
-s_repl(x, -1, p, rp) # replace the last vowel with question mark
+s_repl_ith(x, -1, p, rp) # replace the last vowel with question mark
 #> [1] "yeay yeay yeay ye?y" "nay nay nay n?y"
-s_repl(x, 2, p, rp) # replace the second vowel with question mark
+s_repl_ith(x, 2, p, rp) # replace the second vowel with question mark
 #> [1] "yeay ye?y yeay yeay" "nay n?y nay nay"
-s_repl(x, -2, p, rp) # replace the second-last vowel with question mark
+s_repl_ith(x, -2, p, rp) # replace the second-last vowel with question mark
 #> [1] "yeay yeay ye?y yeay" "nay nay n?y nay"
 
 x <- c("Hello world", "Goodbye world")
@@ -951,7 +951,7 @@ print(x)
 #> [1] "Outrageous, egregious, preposterous!"
 #> [2] "Pleasant evening everyone"
 p <- s_pattern_b("a|e|i|o|u", ignore.case = TRUE)
-s_strapply(x, w=T, fun=\(x)s_extract(x, -2, p))
+s_strapply(x, w=T, fun=\(x)s_extract_ith(x, -2, p))
 #> [1] "o o o" "a e o"
 ```
 
@@ -959,31 +959,31 @@ s_strapply(x, w=T, fun=\(x)s_extract(x, -2, p))
 
 ## Parallel computing / multi-threading in string functions
 
-The `s_repl()` and `s_extract()` functions internally use `mapply()`. I
-can imagine that sometimes some character vector `x` is so large that
-`mapply()` is too slow or inefficient, and one might want to use
-parallel computing. Because I wanted `tidyoperators` to have zero
+The `s_repl_ith()` and `s_extract_ith()` functions internally use
+`mapply()`. I can imagine that sometimes some character vector `x` is so
+large that `mapply()` is too slow or inefficient, and one might want to
+use parallel computing. Because I wanted `tidyoperators` to have zero
 dependencies, I do not provide parallel computing out of the box.
 However, some `tidyoperators` functions do allow the internally
 `mapply()` function to be replaced with a user provided function.
 
-For example, suppose one wants to speed up `s_extract()` using parallel
-computing. One can use the `future.apply::future_mapply()` as a replacer
-for the mapply function, like so:
+For example, suppose one wants to speed up `s_extract_ith()` using
+parallel computing. One can use the `future.apply::future_mapply()` as a
+replacer for the mapply function, like so:
 
 ``` r
 
 x <- rep(c("Hello World", "Goodbye World"), 2e5)
 p <- s_pattern_b("a|e|i|o|u", ignore.case = TRUE)
 
-s_extract(x, -1, p) # regular way
+s_extract_ith(x, -1, p) # regular way
 
 require(future.apply)
 plan(multisession)
-s_extract(x, -1, p, custom_mapply = future_mapply) # multi-threaded way.
+s_extract_ith(x, -1, p, custom_mapply = future_mapply) # multi-threaded way.
 ```
 
-Now you have a multithreaded version of s_extract; that wasn’t so
+Now you have a multithreaded version of s_extract_ith; that wasn’t so
 difficult, right? On my computer, the multi-threaded command was about 3
 times faster.
 
@@ -1002,20 +1002,20 @@ s_strapply(x, sort, custom_sapply = future_sapply) # multi-threaded way
 
 Now you have a multi-threaded version of `s_strapply`.
 
-If you combine `s_strapply` and `s_extract` / `s_repl`, I advice the
-user to only make `s_strapply` multi-threaded; making multiple layers of
-parallel computing seems like asking for problems.
+If you combine `s_strapply` and `s_extract_ith` / `s_repl_ith`, I advice
+the user to only make `s_strapply` multi-threaded; making multiple
+layers of parallel computing seems like asking for problems.
 
-An example of combining `s_strapply` and `s_extract` is:
+An example of combining `s_strapply` and `s_extract_ith` is:
 
 ``` r
 x <- rep(
   c("Outrageous, egregious, preposterous!", "Pleasant evening everyone"),
   2e5
 )
-# s_strapply combined with s_extract:
+# s_strapply combined with s_extract_ith:
 p <- s_pattern_b("a|e|i|o|u", ignore.case = TRUE) 
-s_strapply(x, w=T, fun=\(x)s_extract(x, -2, p), custom_sapply = future_sapply)
+s_strapply(x, w=T, fun=\(x)s_extract_ith(x, -2, p), custom_sapply = future_sapply)
 ```
 
 It should be noted that the speed is also very much dependent on the
@@ -1029,12 +1029,12 @@ x <- rep(
 )
 # stringi regex + multi-threaded:
 p <- s_pattern_stri(regex="a|e|i|o|u", case_insensitive = TRUE)
-s_strapply(x, w=T, fun=\(x)s_extract(x, -2, p), custom_sapply = future_sapply)
+s_strapply(x, w=T, fun=\(x)s_extract_ith(x, -2, p), custom_sapply = future_sapply)
 ```
 
-Notice that only `s_strapply()` is multi-threaded, and not `s_extract`.
-Multi-threading both would actually be slower, and may even create other
-problems.
+Notice that only `s_strapply()` is multi-threaded, and not
+`s_extract_ith`. Multi-threading both would actually be slower, and may
+even create other problems.
 
  
 
