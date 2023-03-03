@@ -452,7 +452,7 @@ nasty side-effect:
 
 If 2 R objects refer to the same values - let’s say `x = 3` and
 `y = 3` - using an in-place modifier from the `inplace` package on `x`
-will also change \`y1 . This can be very dangerous.
+will also change `y`. This can be very dangerous.
 
 **The `tidyoperators` R package does not have this problem:** modifying
 one object does not affect another object, even if they happen to have
