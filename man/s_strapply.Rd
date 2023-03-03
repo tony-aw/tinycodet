@@ -9,7 +9,9 @@ s_strapply(x, fun, w = FALSE, clp = NULL, custom_sapply = NULL)
 \arguments{
 \item{x}{a string or character vector.}
 
-\item{fun}{a function \strong{with a single argument} to be applied to the splitted string.}
+\item{fun}{a function with a single input argument to be applied to the splitted string. \cr
+Due what this function actually does (see description),
+additional arguments need to be specified within the function definition.}
 
 \item{w}{logical; should each string in character vector \code{x} be splitted into space-delimited words (\code{w=T}),
 or into single characters (w=F).}
@@ -65,12 +67,13 @@ s_strapply(x, fun=\(x)sort(x, decreasing = TRUE))
 # get which letter of the alphabet every character is:
 s_strapply(x, fun=\(x)match(tolower(x), letters), clp=",")
 
-
-# count
 # get second-last vowel in every word:
 x <- c("Outrageous, egregious, preposterous!", "Pleasant evening everyone")
 print(x)
 p <- s_pattern_b("a|e|i|o|u", ignore.case=TRUE)
 s_strapply(x, w=TRUE, fun=\(x)s_extract(x, -2, p))
+
+# shuffle words randomly:
+s_strapply(x, w=TRUE, fun=\(x)sample(x))
 
 }

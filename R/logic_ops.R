@@ -11,22 +11,15 @@
 #' \cr
 #' The \code{x %?=% y} operator checks if x and y are **both** unreal or unknown (i.e. NA, NaN, Inf, -Inf). \cr
 #' \cr
-#' The \code{x %~=% y} operator checks if the absolute difference between x and y
-#' is smaller than the Machine tolerance (\code{sqrt(.Machine$double.eps)}). \cr
-#' This is a safer way to check if 2 vectors of floating numbers ("double") \code{x} and \code{y}
-#' are virtually equal to each other. \cr
-#' For example: \code{0.1*7 == 0.7} returns \code{FALSE}, even though they are equal,
-#' due to the way floating numbers are stored in programming languages like R. \cr
-#' \cr
 #' The \code{n %=numtype% numtype} operator is a vectorized operator that checks
 #' for every value of numeric vector \code{n}
 #' if it can be considered a number belonging to type \code{numtype}.
 #' See arguments for details. \cr
 #' \cr
 #' The \code{s %=strtype% strtype} operator is a vectorized operator that checks
-#' for every value of character vector \code{s}
+#' for every value of character vector \code{s} \cr
 #' if it can seen as a certain \code{strtype}. See arguments for details. \cr
-#'
+#' \cr
 #'
 #' @param x,y see \link[base]{Logic}.
 #' @param n a numeric vector.
@@ -61,8 +54,6 @@
 #' 1:3 %out% 1:10
 #' 1:10 %out% 1:3
 #'
-#' (0.1*7) == 0.7 # gives FALSE, though it should be TRUE
-#' (0.1*7) %~=% 0.7 # here it's done correctly
 #'
 #' n <- c(0:5, 0:-5, 0.1, -0.1, 0, 1, Inf, -Inf, NA, NaN)
 #' 1e-20 %=numtype% "~0"
@@ -98,14 +89,7 @@
 #' @rdname logic_ops
 #' @export
 `%out%` <- function(x, y) {
-  !x %in% y
-}
-
-#' @rdname logic_ops
-#' @export
-`%~=%` <- function(x, y) {
-  out <- abs(x - y) < sqrt(.Machine$double.eps)
-  return(out)
+  return(!x %in% y)
 }
 
 #' @rdname logic_ops

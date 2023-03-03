@@ -4,6 +4,9 @@
 - <a href="#overview" id="toc-overview">Overview</a>
 - <a href="#simple-additional-logicals"
   id="toc-simple-additional-logicals">Simple additional logicals</a>
+- <a href="#safer-float-inequality-operators"
+  id="toc-safer-float-inequality-operators">Safer float (in)equality
+  operators</a>
 - <a href="#in-place-modifying-mathematical-arithmetic"
   id="toc-in-place-modifying-mathematical-arithmetic">In-place modifying
   mathematical arithmetic</a>
@@ -37,6 +40,8 @@
   - <a href="#parallel-computing--multi-threading-in-string-functions"
     id="toc-parallel-computing--multi-threading-in-string-functions">Parallel
     computing / multi-threading in string functions</a>
+- <a href="#recommended-r-packages"
+  id="toc-recommended-r-packages">Recommended R packages</a>
 - <a href="#conclusion" id="toc-conclusion">Conclusion</a>
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -59,16 +64,17 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 The ‘tidyoperators’ R-package adds some much needed infix operators, and
 a few functions, to make your R code much more tidy. It includes infix
 operators for the negation of logical operators (exclusive-or, not-and,
-not-in), in-place modifying mathematical arithmetic, string arithmetic,
-string sub-setting, in-place modifying string arithmetic, in-place
-modifying string sub-setting, and in-place modifying unreal replacers.
-Moreover, it includes some helper functions for more complex string
-arithmetic, some of which are missing from popular R packages like
-stringi. All base R expressions options (Regex, Perl, fixed, useBytes,
-ignore.case) are available for all string-pattern-related functions, as
-well as all options from stringi (regex, fixed, boundary, charclass,
-coll). This package also allows integrating third-party parallel
-computing packages for some of its functions.
+not-in), safer float (in)equality operators, in-place modifying
+mathematical arithmetic, string arithmetic, string sub-setting, in-place
+modifying string arithmetic, in-place modifying string sub-setting, and
+in-place modifying unreal replacers. Moreover, it includes some helper
+functions for more complex string arithmetic, some of which are missing
+from popular R packages like stringi. All base R expressions options
+(Regex, Perl, fixed, useBytes, ignore.case) are available for all
+string-pattern-related functions, as well as all options from stringi
+(regex, fixed, boundary, charclass, coll). This package also allows
+integrating third-party parallel computing packages for some of its
+functions.
 
 ## Installation
 
@@ -89,14 +95,15 @@ library(tidyoperators)
 
 The `tidyoperators` R package adds the following functionality:
 
+- Infix logical operators for exclusive-or, not-and, not-in,
+  number-type, and string-type.
+- Safer (in)equality operators for floating numbers.
 - Infix operators for In-place modifiers for mathematical arithmetic.
 - Infix operators for String arithmetic.
 - Infix operators (and a few functions) for string sub-setting.
 - Infix operators for In-place modifying string arithmetic.
 - Infix operators for In-place modifying string sub-setting.
 - Some additional string manipulation functions.
-- Infix logical operators for exclusive-or, not-and, not-in,
-  number-type, and string-type.
 - All base R expressions options (Regex, Perl, fixed, useBytes,
   ignore.case) are available for all string-pattern-related functions,
   as well as all options from stringi (regex, fixed, boundary,
@@ -224,10 +231,6 @@ The tidyoperators package adds a few basic logical operators:
 - `%out%`: the opposite of `%in%` (i.e. `!x %in% y`)
 - `%?=%`: checks if both `x` and `y` are unknown or unreal (NA, NaN,
   Inf, -Inf)
-- `%~=%`: checks if the difference between `x` and `y` is less than the
-  `sqrt(.Machine$double.eps)`. This is a safer way to check if 2
-  floating numbers are equal. Like other logical operators, this one is
-  also fully vectorized.
 
 Here are some examples:
 
@@ -248,11 +251,6 @@ cbind(x, y, "x %xor% y"=x %xor% y, "x %n&% y" = x %n&% y, "x %?=% y" = x %?=% y)
 #> [1] FALSE FALSE FALSE
 1:10 %out% 1:3
 #>  [1] FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
-
-(0.1*7) == 0.7 # gives FALSE, though it should be TRUE
-#> [1] FALSE
-(0.1*7) %~=% 0.7 # here it's done correctly
-#> [1] TRUE
 ```
 
 Numbers can have many different sub-types whilst still being `numeric`.
@@ -320,6 +318,53 @@ s[s %=strtype% "numeric"]
 s[s %=strtype% "special"]
 #> [1] " !#$%^&*() "
 ```
+
+ 
+
+# Safer float (in)equality operators
+
+This package adds the `%==%, %!=% %<%, %>%, %<=%, %>=%` operators, which
+perform “float logic”. They are virtually equivalent to the regular
+(in)equality operators, `==, !=, <, >, <=, >=`, except for one aspect.
+The float logic operators assume that if the absolute difference between
+x and y is smaller than the Machine tolerance,
+sqrt(.Machine\$double.eps), then x and y ought to be consider to be
+equal. Thus these provide safer float (in)equality operators. For
+example: `(0.1*7) == 0.7` returns `FALSE`, even though they are equal,
+due to the way floating numbers are stored in programming languages like
+R. But `(0.1*7) %==% 0.7` returns `TRUE`.
+
+Some examples:
+
+``` r
+x <- c(0.3, 0.6, 0.7)
+y <- c(0.1*3, 0.1*6, 0.1*7)
+print(x); print(y)
+#> [1] 0.3 0.6 0.7
+#> [1] 0.3 0.6 0.7
+x == y # gives FALSE, but should be TRUE
+#> [1] FALSE FALSE FALSE
+x!= y # gives TRUE, should be FALSE
+#> [1] TRUE TRUE TRUE
+x > y # not wrong
+#> [1] FALSE FALSE FALSE
+x < y # gives TRUE, should be FALSE
+#> [1] TRUE TRUE TRUE
+x %==% y # here it's done correctly
+#> [1] TRUE TRUE TRUE
+x %<% y # correct
+#> [1] FALSE FALSE FALSE
+x %>% y # correct
+#> [1] FALSE FALSE FALSE
+x %<=% y # correct
+#> [1] TRUE TRUE TRUE
+x %>=% y # correct
+#> [1] TRUE TRUE TRUE
+```
+
+Although designed for objects (vectors, matrices, arrays) of class
+`double` (floating numbers), these operators also work correctly for
+integers. These operators do not work for non-numeric objects.
 
  
 
@@ -990,6 +1035,13 @@ s_strapply(x, w=T, fun=\(x)s_extract(x, -2, p), custom_sapply = future_sapply)
 Notice that only `s_strapply()` is multi-threaded, and not `s_extract`.
 Multi-threading both would actually be slower, and may even create other
 problems.
+
+ 
+
+# Recommended R packages
+
+I highly recommend using this R package alongside the 2 major
+operator-related R-packages, namely `magrittr` and `zeallot`.
 
  
 
