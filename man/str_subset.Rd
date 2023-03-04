@@ -5,6 +5,7 @@
 \alias{\%sget\%}
 \alias{\%strim\%}
 \alias{s_extract_ith}
+\alias{s_locate_ith}
 \alias{s_repl_ith}
 \title{String sub-setting}
 \usage{
@@ -16,6 +17,8 @@ x \%strim\% ss
 
 s_extract_ith(x, i, p, custom_mapply = NULL)
 
+s_locate_ith(x, i, p, type, custom_mapply = NULL)
+
 s_repl_ith(x, i, p, rp, custom_mapply = NULL)
 }
 \arguments{
@@ -24,7 +27,8 @@ s_repl_ith(x, i, p, rp, custom_mapply = NULL)
 \item{s}{a numeric vector giving the subset indices.}
 
 \item{ss}{a vector of length 2, or a matrix with 2 columns with \code{nrow(ss)==length(x)}.
-The object \code{ss} should consist entirely of non-negative integers (thus 0, 1, 2, etc. are valid, but -1, -2, -3 etc are not valid).
+The object \code{ss} should consist entirely of non-negative integers
+(thus 0, 1, 2, etc. are valid, but -1, -2, -3 etc are not valid).
 The first element/column of \code{ss}
 gives the number of characters counting from the left side to be extracted/removed from \code{x}.
 The second element/column of \code{ss}
@@ -33,15 +37,17 @@ gives the number of characters counting from the right side to be extracted/remo
 \item{i}{a number, or a numeric vector of the same length as \code{x}.
 This gives the \eqn{i^th} instance to be replaced. \cr
 Positive numbers are counting from the left. Negative numbers are counting from the right. \cr
-Thus \code{s_repl_ith(x, i=1, p, rp)} will replace the first instance of \code{p} with \code{rp},
-and \code{s_repl_ith(x, i=-1, p, rp)} will replace the last instance of \code{p} with \code{rp}.
-And \code{s_repl_ith(x, i=2, p, rp)} will replace the second instance of \code{p} with \code{rp},
+Thus \code{s_repl_ith(x, i=1, p, rp)} will replace the first instance of \code{p} with \code{rp}, \cr
+and \code{s_repl_ith(x, i=-1, p, rp)} will replace the last instance of \code{p} with \code{rp}. \cr
+And \code{s_repl_ith(x, i=2, p, rp)} will replace the second instance of \code{p} with \code{rp}, \cr
 and \code{s_repl_ith(x, i=-2, p, rp)} will replace the second-last instance of \code{p} with \code{rp}, etc. \cr
 If i is larger than the number of instances, the maximum instance will be given. \cr
-For example: suppose a string has 3 instances of p;
-then if i=4 the third instance will be replaced, and if i=-3 the first instance will be replaced.}
+For example: suppose a string has 3 instances of p; \cr
+then if i=4 the third instance will be replaced/extracted/located, \cr
+and if i=-3 the first instance will be replaced/extracted/located. \cr}
 
-\item{p}{a pattern (regular expression), or character vector of regular expressions of the same length as \code{x},
+\item{p}{a pattern (regular expression),
+or character vector of regular expressions of the same length as \code{x},
 giving the pattern to look for. \cr
 See \code{\link{s_pattern_b}}.}
 
@@ -61,26 +67,48 @@ I.e. run this: \cr
 and not this: \cr
 \code{s_strapply(x, w=T, fun=\(x)s_extract_ith(x, -2, p, custom_mapply=future_mapply), custom_sapply=future_sapply)} \cr}
 
+\item{type}{a single string, giving the type of output the \code{s_locate_ith} function should give.
+There are 3 options: \cr
+\itemize{
+\item \code{"start"}: return the starting position of the ith occurence of the pattern match. \cr
+\item \code{"end"}: return the end position of the ith occurence of the pattern match. \cr
+\item \code{"length"}: return the length of the ith occurence of the pattern match. \cr
+}}
+
 \item{rp}{a string, or a character vector of the same length as \code{x}, giving the character(s) to replace p with.}
 }
 \value{
-The \code{\%ss\%} operator always returns a vector or matrix, where each element is a single character. \cr
+The \code{\%ss\%} operator always returns a vector or matrix,
+where each element is a single character. \cr
 \cr
-The \code{s_extract_ith()} and \code{s_repl_ith()} functions return a character vector of the same length as \code{x}. \cr
+The \code{s_extract_ith()} and \code{s_repl_ith()} functions
+return a character vector of the same length as \code{x}. \cr
 \cr
+The \code{s_locate_ith()} function
+returns a numeric vector of the same length as \code{x}.
 }
 \description{
 String subsetting operators and functions. \cr
 \cr
-The \code{x \%ss\% s } operator allows indexing a single string as-if it is an iterable object. \cr
+The \code{x \%ss\% s } operator
+allows indexing a single string as-if it is an iterable object. \cr
 \cr
-The \code{x \%sget\% ss } operator gives a certain number of the first and last characters of \code{x}. \cr
+The \code{x \%sget\% ss } operator
+gives a certain number of the first and last characters of \code{x}. \cr
 \cr
-The \code{x \%strim\% ss } operator removes a certain number of the first and last characters of \code{x}. \cr
+The \code{x \%strim\% ss } operator
+removes a certain number of the first and last characters of \code{x}. \cr
 \cr
-The \code{s_extract_ith(x, i, p, custom_mapply=NULL)} function extracts the ith occurrence of character/pattern \code{p}. \cr
+The \code{s_extract_ith(x, i, p, custom_mapply=NULL)} function
+extracts the ith occurrence of character/pattern \code{p}. \cr
+In the absence of an occurrence, it returns \code{NA}. \cr
 \cr
-The \code{s_repl_ith(x, i, p, rp, custom_mapply=NULL)} function replaces the ith occurence of character/pattern \code{p} with \code{rp}. \cr
+The \code{s_locate_ith(x, i, p, type, custom_mapply=NULL)} function
+gives the start/end postion or the length of the ith occurrence of character/pattern \code{p}.
+In the absence of an occurrence, it returns \code{NA}. \cr
+\cr
+The \code{s_repl_ith(x, i, p, rp, custom_mapply=NULL)} function
+replaces the ith occurence of character/pattern \code{p} with \code{rp}. \cr
 \cr
 }
 \details{
@@ -89,6 +117,9 @@ missing from base R. \cr
 \cr
 }
 \examples{
+
+# simple pattern ====
+
 x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 print(x)
 p <- "a|e|i|o|u" # same as p <- s_pattern_b("a|e|i|o|u", fixed=FALSE, ignore.case=FALSE, perl=FALSE)
@@ -97,6 +128,9 @@ ss <- c(2,2)
 x \%ss\% 3:4 # same as unlist(strsplit(x, split=""))[3:4]
 s_extract_ith(x, -1, p) # extracts the last vowel in each element of x.
 s_repl_ith(x, -1, p, "?") # replace last vowel in each element of x with a question mark ("?").
+s_locate_ith(x, -1, p, "start")
+s_locate_ith(x, -1, p, "end")
+s_locate_ith(x, -1, p, "length")
 
 x \%sget\% ss
 x \%strim\% ss
@@ -104,6 +138,7 @@ x \%strim\% ss
 
 #############################################################################
 
+# ignore case pattern ====
 
 #' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 print(x)
@@ -115,17 +150,41 @@ ss <- c(2,2)
 x \%ss\% 3:4 # same as unlist(strsplit(x, split=""))[y]
 s_extract_ith(x, -1, p) # extracts the last vowel in each element of x.
 s_repl_ith(x, -1, p, "?") # replace last vowel in each element of x with a question mark ("?").
-
+s_locate_ith(x, -1, p, "start")
+s_locate_ith(x, -1, p, "end")
+s_locate_ith(x, -1, p, "length")
 x \%sget\% ss
 x \%strim\% ss
 
-
 #############################################################################
 
+# multi-character pattern ====
+
+x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+print(x)
+# multi-character pattern:
+p <- s_pattern_b("AB", fixed=FALSE, ignore.case=TRUE, perl=FALSE)
+fun <- function(x)sort(x, decreasing=TRUE)
+ss <- c(2,2)
+
+x \%ss\% 3:4 # same as unlist(strsplit(x, split=""))[y]
+s_extract_ith(x, -1, p)
+s_repl_ith(x, -1, p, "?")
+s_locate_ith(x, -1, p, "start")
+s_locate_ith(x, -1, p, "end")
+s_locate_ith(x, -1, p, "length")
+x \%sget\% ss
+x \%strim\% ss
+
+#############################################################################
 
 p <- s_pattern_b("\\\\v+", perl=TRUE) # perl expression; only works with perl=TRUE
 x <- "line1 \n line2"
 print(x)
 s_repl_ith(x, 1, p, " - ") # replace vertical line break with a minus line.
+s_locate_ith(x, -1, p, "start")
+s_locate_ith(x, -1, p, "end")
+s_locate_ith(x, -1, p, "length")
+
 
 }

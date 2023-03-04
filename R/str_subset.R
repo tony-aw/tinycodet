@@ -3,24 +3,36 @@
 #'@description
 #' String subsetting operators and functions. \cr
 #' \cr
-#' The \code{x %ss% s } operator allows indexing a single string as-if it is an iterable object. \cr
+#' The \code{x %ss% s } operator
+#' allows indexing a single string as-if it is an iterable object. \cr
 #' \cr
-#' The \code{x %sget% ss } operator gives a certain number of the first and last characters of \code{x}. \cr
+#' The \code{x %sget% ss } operator
+#' gives a certain number of the first and last characters of \code{x}. \cr
 #' \cr
-#' The \code{x %strim% ss } operator removes a certain number of the first and last characters of \code{x}. \cr
+#' The \code{x %strim% ss } operator
+#' removes a certain number of the first and last characters of \code{x}. \cr
 #' \cr
-#' The \code{s_extract_ith(x, i, p, custom_mapply=NULL)} function extracts the ith occurrence of character/pattern \code{p}. \cr
+#' The \code{s_extract_ith(x, i, p, custom_mapply=NULL)} function
+#' extracts the ith occurrence of character/pattern \code{p}. \cr
+#' In the absence of an occurrence, it returns \code{NA}. \cr
 #' \cr
-#' The \code{s_repl_ith(x, i, p, rp, custom_mapply=NULL)} function replaces the ith occurence of character/pattern \code{p} with \code{rp}. \cr
+#' The \code{s_locate_ith(x, i, p, type, custom_mapply=NULL)} function
+#' gives the start/end postion or the length of the ith occurrence of character/pattern \code{p}.
+#' In the absence of an occurrence, it returns \code{NA}. \cr
+#' \cr
+#' The \code{s_repl_ith(x, i, p, rp, custom_mapply=NULL)} function
+#' replaces the ith occurence of character/pattern \code{p} with \code{rp}. \cr
 #' \cr
 #'
 #' @param s a numeric vector giving the subset indices.
 #' @param x a string or character vector.
-#' @param p a pattern (regular expression), or character vector of regular expressions of the same length as \code{x},
+#' @param p a pattern (regular expression),
+#' or character vector of regular expressions of the same length as \code{x},
 #' giving the pattern to look for. \cr
 #' See \code{\link{s_pattern_b}}.
 #' @param ss a vector of length 2, or a matrix with 2 columns with \code{nrow(ss)==length(x)}.
-#' The object \code{ss} should consist entirely of non-negative integers (thus 0, 1, 2, etc. are valid, but -1, -2, -3 etc are not valid).
+#' The object \code{ss} should consist entirely of non-negative integers
+#' (thus 0, 1, 2, etc. are valid, but -1, -2, -3 etc are not valid).
 #' The first element/column of \code{ss}
 #' gives the number of characters counting from the left side to be extracted/removed from \code{x}.
 #' The second element/column of \code{ss}
@@ -28,14 +40,20 @@
 #' @param i a number, or a numeric vector of the same length as \code{x}.
 #' This gives the \eqn{i^th} instance to be replaced. \cr
 #' Positive numbers are counting from the left. Negative numbers are counting from the right. \cr
-#' Thus \code{s_repl_ith(x, i=1, p, rp)} will replace the first instance of \code{p} with \code{rp},
-#' and \code{s_repl_ith(x, i=-1, p, rp)} will replace the last instance of \code{p} with \code{rp}.
-#' And \code{s_repl_ith(x, i=2, p, rp)} will replace the second instance of \code{p} with \code{rp},
+#' Thus \code{s_repl_ith(x, i=1, p, rp)} will replace the first instance of \code{p} with \code{rp}, \cr
+#' and \code{s_repl_ith(x, i=-1, p, rp)} will replace the last instance of \code{p} with \code{rp}. \cr
+#' And \code{s_repl_ith(x, i=2, p, rp)} will replace the second instance of \code{p} with \code{rp}, \cr
 #' and \code{s_repl_ith(x, i=-2, p, rp)} will replace the second-last instance of \code{p} with \code{rp}, etc. \cr
 #' If i is larger than the number of instances, the maximum instance will be given. \cr
-#' For example: suppose a string has 3 instances of p;
-#' then if i=4 the third instance will be replaced, and if i=-3 the first instance will be replaced.
+#' For example: suppose a string has 3 instances of p; \cr
+#' then if i=4 the third instance will be replaced/extracted/located, \cr
+#' and if i=-3 the first instance will be replaced/extracted/located. \cr
 #' @param rp a string, or a character vector of the same length as \code{x}, giving the character(s) to replace p with.
+#' @param type a single string, giving the type of output the \code{s_locate_ith} function should give.
+#' There are 3 options: \cr
+#'  * \code{"start"}: return the starting position of the ith occurence of the pattern match. \cr
+#'  * \code{"end"}: return the end position of the ith occurence of the pattern match. \cr
+#'  * \code{"length"}: return the length of the ith occurence of the pattern match. \cr
 #' @param custom_mapply the \code{s_extract_ith()} and \code{s_repl_ith()} functions,
 #' internally use \code{mapply()}. The user may choose to replace this with a custom functions,
 #' for example for multi-threading purposes. The replacing function must have the same argument convention
@@ -55,7 +73,6 @@
 #'
 #'
 #'
-#'
 #' @details
 #' These operators and functions serve as a way to provide straight-forward string subsetting,
 #' missing from base R. \cr
@@ -63,13 +80,20 @@
 #'
 #'
 #' @returns
-#' The \code{%ss%} operator always returns a vector or matrix, where each element is a single character. \cr
+#' The \code{%ss%} operator always returns a vector or matrix,
+#' where each element is a single character. \cr
 #' \cr
-#' The \code{s_extract_ith()} and \code{s_repl_ith()} functions return a character vector of the same length as \code{x}. \cr
+#' The \code{s_extract_ith()} and \code{s_repl_ith()} functions
+#' return a character vector of the same length as \code{x}. \cr
 #' \cr
+#' The \code{s_locate_ith()} function
+#' returns a numeric vector of the same length as \code{x}.
 #'
 #'
 #' @examples
+#'
+#' # simple pattern ====
+#'
 #' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 #' print(x)
 #' p <- "a|e|i|o|u" # same as p <- s_pattern_b("a|e|i|o|u", fixed=FALSE, ignore.case=FALSE, perl=FALSE)
@@ -78,6 +102,9 @@
 #' x %ss% 3:4 # same as unlist(strsplit(x, split=""))[3:4]
 #' s_extract_ith(x, -1, p) # extracts the last vowel in each element of x.
 #' s_repl_ith(x, -1, p, "?") # replace last vowel in each element of x with a question mark ("?").
+#' s_locate_ith(x, -1, p, "start")
+#' s_locate_ith(x, -1, p, "end")
+#' s_locate_ith(x, -1, p, "length")
 #'
 #' x %sget% ss
 #' x %strim% ss
@@ -85,6 +112,7 @@
 #'
 #' #############################################################################
 #'
+#' # ignore case pattern ====
 #'
 #' #' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 #' print(x)
@@ -96,19 +124,45 @@
 #' x %ss% 3:4 # same as unlist(strsplit(x, split=""))[y]
 #' s_extract_ith(x, -1, p) # extracts the last vowel in each element of x.
 #' s_repl_ith(x, -1, p, "?") # replace last vowel in each element of x with a question mark ("?").
-#'
+#' s_locate_ith(x, -1, p, "start")
+#' s_locate_ith(x, -1, p, "end")
+#' s_locate_ith(x, -1, p, "length")
 #' x %sget% ss
 #' x %strim% ss
 #'
-#'
 #' #############################################################################
 #'
+#' # multi-character pattern ====
+#'
+#' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+#' print(x)
+#' # multi-character pattern:
+#' p <- s_pattern_b("AB", fixed=FALSE, ignore.case=TRUE, perl=FALSE)
+#' fun <- function(x)sort(x, decreasing=TRUE)
+#' ss <- c(2,2)
+#'
+#' x %ss% 3:4 # same as unlist(strsplit(x, split=""))[y]
+#' s_extract_ith(x, -1, p)
+#' s_repl_ith(x, -1, p, "?")
+#' s_locate_ith(x, -1, p, "start")
+#' s_locate_ith(x, -1, p, "end")
+#' s_locate_ith(x, -1, p, "length")
+#' x %sget% ss
+#' x %strim% ss
+#'
+#' #############################################################################
 #'
 #' p <- s_pattern_b("\\v+", perl=TRUE) # perl expression; only works with perl=TRUE
 #' x <- "line1 \n line2"
 #' print(x)
 #' s_repl_ith(x, 1, p, " - ") # replace vertical line break with a minus line.
+#' s_locate_ith(x, -1, p, "start")
+#' s_locate_ith(x, -1, p, "end")
+#' s_locate_ith(x, -1, p, "length")
 #'
+#'
+
+
 
 #' @rdname str_subset
 #' @export
@@ -132,6 +186,7 @@
   return(substr(x, 1+pmax(ss[,1], 0), nchar(x)-pmax(ss[,2], 0)))
 }
 
+
 #' @rdname str_subset
 #' @export
 s_extract_ith <- function(x, i, p, custom_mapply=NULL) {
@@ -148,7 +203,7 @@ s_extract_ith <- function(x, i, p, custom_mapply=NULL) {
       return(custom_mapply(
         s_extract_internal, x, i, p,
         MoreArgs=list(fixed = p_attr$fxd, ignore.case = p_attr$ic, perl = p_attr$prl, useBytes = p_attr$ub)
-      ) |> unname())
+      ) |> unname() |> unlist() )
     }
   }
   if(isTRUE(attr(p, "engine")=="stringi")){
@@ -170,6 +225,48 @@ s_extract_ith <- function(x, i, p, custom_mapply=NULL) {
     p3 <- do.call(rbind, p2)
     x <- stringi::stri_sub(x, p3[,1], p3[,2], use_matrix = FALSE)
     return(x)
+  }
+}
+
+#' @rdname str_subset
+#' @export
+s_locate_ith <- function(x, i, p, type, custom_mapply=NULL) {
+  if(length(type)>1){stop("type must be a single string")}
+  if(isTRUE(attr(p, "engine")=="base") | is.null(attr(p, "engine"))){
+    p_attr <- s_get_pattern_attr_internal(p)
+    if(is.null(custom_mapply)){
+      return(mapply(
+        s_locate_internal, x, i, p, type,
+        MoreArgs=list(fixed = p_attr$fxd, ignore.case = p_attr$ic, perl = p_attr$prl, useBytes = p_attr$ub),
+        USE.NAMES = FALSE, SIMPLIFY = TRUE
+      ))
+    }
+    if(!is.null(custom_mapply)) {
+      return(custom_mapply(
+        s_locate_internal, x, i, p, type,
+        MoreArgs=list(fixed = p_attr$fxd, ignore.case = p_attr$ic, perl = p_attr$prl, useBytes = p_attr$ub)
+      ) |> unname())
+    }
+  }
+  if(isTRUE(attr(p, "engine")=="stringi")){
+    if(length(i)==1) i <- rep(i, length(x))
+    if(length(i)!=length(x)){
+      stop("i must be of length 1, or the same length as x")
+    }
+    p1 <- do.call(stringi::stri_locate_all, c(list(str=x), p))
+    n <- sapply(p1, nrow)
+    i[i<0] <- pmax(n - abs(i+1), 1)
+    i[i>0] <- pmin(i, n)
+
+    if(is.null(custom_mapply)) {
+      p2 <- mapply(function(x, i)x[i,], x=p1, i=i, SIMPLIFY = FALSE)
+    }
+    if(!is.null(custom_mapply)){
+      p2 <- custom_mapply(function(x, i)x[i,], x=p1, i=i, SIMPLIFY = FALSE)
+    }
+    p3 <- do.call(rbind, p2)
+    p3 <- cbind(p3, "length" =p3[,2] - p3[, 1] +1)
+    return(p3[, type])
   }
 }
 

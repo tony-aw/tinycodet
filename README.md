@@ -537,20 +537,29 @@ x %strim% ss
 
  
 
-There are also 2 functions regarding string sub-setting:
-`s_extract_ith(x, i, p)`, and `s_repl_ith(x, i, p, rp)`.
+There are also 3 functions regarding string sub-setting:
+`s_extract_ith(x, i, p)`, `s_locate_ith(x, i, p, type)`, and
+`s_repl_ith(x, i, p, rp)`.
 
-The first function, `s_extract_ith()`, extracts the $i^{th}$ occurrence
-of pattern `p` in every string of character vector `x`. When `i` is
-positive, the occurrence is counted from left to right. Negative values
-for `i` are also allowed, in which case the occurrence is counted from
-the right to left. Thus, to get the **last** occurrence, use `i=-1`. But
-`i=0` is not allowed though.
+The first function, `s_extract_ith(x, i, p)`, extracts the $i^{th}$
+occurrence of pattern `p` in every string of character vector `x`. When
+`i` is positive, the occurrence is counted from left to right. Negative
+values for `i` are also allowed, in which case the occurrence is counted
+from the right to left. Thus, to get the **last** occurrence, use
+`i=-1`. But `i=0` is not allowed though.
 
-The `s_repl_ith()` function replaces the $i^{th}$ occurrence of pattern
-`p` with string `rp` in every string of character vector `x`. Like in
-`s_extract_ith()`, `i` can be positive to count the occurrences from
-left to right, or negative to count the occurrences from right to left.
+The `s_locate_ith(x, i, p, type)` function gets the start position
+(`type="start"`), end position (`type="end"`), or the length
+(`type="length"`) of the the $i^{th}$ occurrence of pattern `p` in every
+string of character vector `x`. Like in `s_extract_ith()`, `i` can be
+positive to count the occurrences from left to right, or negative to
+count the occurrences from right to left.
+
+The `s_repl_ith(x, i, p, rp)` function replaces the $i^{th}$ occurrence
+of pattern `p` with string `rp` in every string of character vector `x`.
+As in the previous 2 functions, `i` can be positive to count the
+occurrences from left to right, or negative to count the occurrences
+from right to left.
 
 Here are some examples:
 
@@ -589,6 +598,19 @@ s_repl_ith(x, -2, p, rp) # replace the second-last vowel with question mark
 #> [1] "yeay nay or nothing t? say"            
 #> [2] "Goodmorning, goodevening and go?dnight"
 #> [3] "abcd?fghijklm"
+
+
+x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+print(x)
+#> [1] "abcdefghijklm" "nopqrstuvwxyz"
+# multi-character pattern:
+p <- s_pattern_b("AB", fixed=FALSE, ignore.case=TRUE, perl=FALSE)
+s_locate_ith(x, -1, p, "start")
+#> [1]  1 NA
+s_locate_ith(x, -1, p, "end")
+#> [1]  2 NA
+s_locate_ith(x, -1, p, "length")
+#> [1]  2 NA
 ```
 
 Another fun string operator is `x %ss%  s`. This essentially splits
@@ -770,8 +792,8 @@ you run `s_pattern_stri(fixed=p)`. Some more examples:
 - `s_pattern_stri(boundary=p, ...)`
 - `s_pattern_stri(charclass=p, ...)`
 
-Why would one use `stringi` patterns instead of base R? Well, 3 main
-reasons I can think of:
+Why would one use `stringi` patterns instead of base R patterns? Well, 3
+main reasons I can think of:
 
 - First, if you used `stringi` - or a `stringi`-based package like
   `tidyverse`’s `stringr` - in your script, you may wish to keep your
@@ -808,6 +830,8 @@ thing. Use whichever one you prefer.
 Now then, some examples using `stringi`’s `regex` expression:
 
 ``` r
+# VOWELS SUBSETTING ====
+
 x <- c("yeay nay or nothing to say", "Goodmorning, goodevening and goodnight",
        paste0(letters[1:13], collapse=""))
 print(x)
@@ -824,6 +848,13 @@ s_extract_ith(x, 2, p) # extract the second vowel
 #> [1] "a" "o" "e"
 s_extract_ith(x, -2, p) # extract the second-last vowel
 #> [1] "o" "o" "e"
+
+s_locate_ith(x, 2, p, "start")
+#> [1] 3 3 5
+s_locate_ith(x, 2, p, "end")
+#> [1] 3 3 5
+s_locate_ith(x, 2, p, "length")
+#> [1] 1 1 1
 
 rp <- "?"
 s_repl_ith(x, 1, p, rp) # replace the first vowel with question mark
@@ -843,6 +874,27 @@ s_repl_ith(x, -2, p, rp) # replace the second-last vowel with question mark
 #> [2] "Goodmorning, goodevening and go?dnight"
 #> [3] "abcd?fghijklm"
 
+
+# MULTI-CHAR SUBSETTING ====
+
+x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+print(x)
+#> [1] "abcdefghijklm" "nopqrstuvwxyz"
+p <- s_pattern_stri(regex="AB", case_insensitive=TRUE)
+s_extract_ith(x, -1, p)
+#> [1] "ab" NA
+s_repl_ith(x, -1, p, "?")
+#> [1] "?cdefghijklm"  "nopqrstuvwxyz"
+s_locate_ith(x, -1, p, "start")
+#> [1]  1 NA
+s_locate_ith(x, -1, p, "end")
+#> [1]  2 NA
+s_locate_ith(x, -1, p, "length")
+#> [1]  2 NA
+
+
+# PATTERN ARITHMETIC ====
+
 x <- c("Hello world", "Goodbye world")
 p <- s_pattern_stri(regex=" world")
 x %s-% p
@@ -859,17 +911,24 @@ And then some fixed expressions:
 
 ``` r
 x <- c("yeay yeay yeay yeay", "nay nay nay nay")
-p <- s_pattern_stri(fixed = "a")
+p <- s_pattern_stri(fixed = "ye")
 
 rp <- "?"
 s_repl_ith(x, 1, p, rp) # replace the first vowel with question mark
-#> [1] "ye?y yeay yeay yeay" "n?y nay nay nay"
+#> [1] "?ay yeay yeay yeay" "nay nay nay nay"
 s_repl_ith(x, -1, p, rp) # replace the last vowel with question mark
-#> [1] "yeay yeay yeay ye?y" "nay nay nay n?y"
+#> [1] "yeay yeay yeay ?ay" "nay nay nay nay"
 s_repl_ith(x, 2, p, rp) # replace the second vowel with question mark
-#> [1] "yeay ye?y yeay yeay" "nay n?y nay nay"
+#> [1] "yeay ?ay yeay yeay" "nay nay nay nay"
 s_repl_ith(x, -2, p, rp) # replace the second-last vowel with question mark
-#> [1] "yeay yeay ye?y yeay" "nay nay n?y nay"
+#> [1] "yeay yeay ?ay yeay" "nay nay nay nay"
+
+s_locate_ith(x, -1, p, "start")
+#> [1] 16 NA
+s_locate_ith(x, -1, p, "end")
+#> [1] 17 NA
+s_locate_ith(x, -1, p, "length")
+#> [1]  2 NA
 
 x <- c("Hello world", "Goodbye world")
 p <- s_pattern_stri(fixed=" world")
@@ -1052,7 +1111,10 @@ even create other problems.
 # Recommended R packages
 
 I highly recommend using this R package alongside the 2 major
-operator-related R-packages, namely `magrittr` and `zeallot`.
+operator-related R-packages, namely `magrittr` and `zeallot`. Since
+about half the operators, and almost all functions concern string
+manipulation, I would also recommend the R-packaes `stringi` (or
+`stringr`, though that is kind-of “stringi-light”), and `stringfish`.
 
  
 
