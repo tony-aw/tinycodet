@@ -26,6 +26,7 @@
 #' x > y # not wrong
 #' x < y # gives TRUE, should be FALSE
 #' x %f==% y # here it's done correctly
+#' x %f!=% y # correct
 #' x %f<% y # correct
 #' x %f>% y # correct
 #' x %f<=% y # correct
@@ -35,6 +36,7 @@
 #' x <- 1:5
 #' y <- 1:5
 #' x %f==% y
+#' x %f!=% y
 #' x %f<% y
 #' x %f>% y
 #' x %f<=% y
@@ -43,6 +45,7 @@
 #' x <- 1:5
 #' y <- x+1
 #' x %f==% y
+#' x %f!=% y
 #' x %f<% y
 #' x %f>% y
 #' x %f<=% y
@@ -51,6 +54,7 @@
 #' x <- 1:5
 #' y <- x-1
 #' x %f==% y
+#' x %f!=% y
 #' x %f<% y
 #' x %f>% y
 #' x %f<=% y
