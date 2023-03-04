@@ -323,12 +323,12 @@ s[s %=strtype% "special"]
 
 # Safer float (in)equality operators
 
-This package adds the `%f==%, %!=% %f<%, %f>%, %f<=%, %f>=%` operators,
+This package adds the `%f==%, %f!=% %f<%, %f>%, %f<=%, %f>=%` operators,
 which perform “float logic”. They are virtually equivalent to the
 regular (in)equality operators, `==, !=, <, >, <=, >=`, except for one
 aspect. The float logic operators assume that if the absolute difference
-between x and y is smaller than the Machine tolerance,
-sqrt(.Machine\$double.eps), then x and y ought to be consider to be
+between `x` and `y` is smaller than the Machine tolerance,
+`sqrt(.Machine$double.eps)`, then `x` and `y` ought to be consider to be
 equal. Thus these provide safer float (in)equality operators. For
 example: `(0.1*7) == 0.7` returns `FALSE`, even though they are equal,
 due to the way floating numbers are stored in programming languages like
@@ -352,6 +352,8 @@ x < y # gives TRUE, should be FALSE
 #> [1] TRUE TRUE TRUE
 x %f==% y # here it's done correctly
 #> [1] TRUE TRUE TRUE
+x %f!=% y
+#> [1] FALSE FALSE FALSE
 x %f<% y # correct
 #> [1] FALSE FALSE FALSE
 x %f>% y # correct
@@ -900,7 +902,7 @@ x:
 2)  the function `fun()` is applied to the vector from step 1.
 3)  the result from step 2 is pasted together to form a single string
     element again, using `paste0(..., collapse=clp)`. By default,
-    `clp=""` if `w=F`, and `clp=" "` if `w=    T`.
+    `clp=""` if `w=F`, and `clp=" "` if `w=T`.
 
 In other words, this function turns every string in character vector `x`
 into its own little vector, applies a function to this vector, and
