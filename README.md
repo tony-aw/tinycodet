@@ -323,16 +323,16 @@ s[s %=strtype% "special"]
 
 # Safer float (in)equality operators
 
-This package adds the `%==%, %!=% %<%, %>%, %<=%, %>=%` operators, which
-perform “float logic”. They are virtually equivalent to the regular
-(in)equality operators, `==, !=, <, >, <=, >=`, except for one aspect.
-The float logic operators assume that if the absolute difference between
-x and y is smaller than the Machine tolerance,
+This package adds the `%f==%, %!=% %f<%, %f>%, %f<=%, %f>=%` operators,
+which perform “float logic”. They are virtually equivalent to the
+regular (in)equality operators, `==, !=, <, >, <=, >=`, except for one
+aspect. The float logic operators assume that if the absolute difference
+between x and y is smaller than the Machine tolerance,
 sqrt(.Machine\$double.eps), then x and y ought to be consider to be
 equal. Thus these provide safer float (in)equality operators. For
 example: `(0.1*7) == 0.7` returns `FALSE`, even though they are equal,
 due to the way floating numbers are stored in programming languages like
-R. But `(0.1*7) %==% 0.7` returns `TRUE`.
+R. But `(0.1*7) %f==% 0.7` returns `TRUE`.
 
 Some examples:
 
@@ -350,15 +350,15 @@ x > y # not wrong
 #> [1] FALSE FALSE FALSE
 x < y # gives TRUE, should be FALSE
 #> [1] TRUE TRUE TRUE
-x %==% y # here it's done correctly
+x %f==% y # here it's done correctly
 #> [1] TRUE TRUE TRUE
-x %<% y # correct
+x %f<% y # correct
 #> [1] FALSE FALSE FALSE
-x %>% y # correct
+x %f>% y # correct
 #> [1] FALSE FALSE FALSE
-x %<=% y # correct
+x %f<=% y # correct
 #> [1] TRUE TRUE TRUE
-x %>=% y # correct
+x %f>=% y # correct
 #> [1] TRUE TRUE TRUE
 ```
 
@@ -888,10 +888,12 @@ And so on. I’m sure you get the idea.
 ## More string flexibility: s_strapply
 
 The string arithmetic and sub-setting operators and functions given so
-far can do a lot, but it’s not always flexible enough. To add extra
-flexibility, there is also the `s_strapply(x, fun, w=F, clp=NULL, ...)`
-function. This function applies the following steps to every element
-(every string) of character vector x:
+far - in combination with the string function already available in base
+R and R packages such as `stringi` - can do a lot, but it’s not always
+flexible enough. To add extra flexibility, there is also the
+`s_strapply(x, fun, w=F, clp=NULL, ...)` function. This function applies
+the following steps to every element (every string) of character vector
+x:
 
 1)  the string is split into a vector of single characters (`w=F`), or a
     vector of space-delimited words (`w=T`).
@@ -906,16 +908,19 @@ pastes the returning vector together into a single string again.
 
 This operator can be used in a very wide variety of ways.
 
-One obvious use of this function is to sort every string in character
-vector `x` alphabetically, or find the occurrence of the character on
-the alphabet:
+One obvious use of this function is for re-arranging the characters or
+words in every string in character vector `x`, or find the occurrence of
+the character on the alphabet:
 
 ``` r
 x <- c("Hello World", "Goodbye World")
-# alphabetic sorting:
-s_strapply(x, sort)
+s_strapply(x, sort) # sort letters
 #> [1] " deHllloorW"   " bddeGlooorWy"
-# find occurrence on alphabet:
+s_strapply(x, sample) # randomly shuffle letters
+#> [1] "rlWHeoldlo "   "GbloyWodr doe"
+s_strapply(x, rev, w=T) # reverse words
+#> [1] "World Hello"   "World Goodbye"
+# find occurrence of characters on alphabet:
 s_strapply(x, fun=\(x)match(tolower(x),letters), clp="; ")
 #> [1] "8; 5; 12; 12; 15; NA; 23; 15; 18; 12; 4"      
 #> [2] "7; 15; 15; 4; 2; 25; 5; NA; 23; 15; 18; 12; 4"
@@ -923,23 +928,27 @@ s_strapply(x, fun=\(x)match(tolower(x),letters), clp="; ")
 
 I think this is reasonably easy and tidy.
 
-Lets try something else: capitalize characters but ONLY at odd indices:
+Lets try something else: capitalize characters but ONLY at certain
+indices:
 
 ``` r
 x <- c("Hello World", "Goodbye World")
-x <- c("Hello World", "Goodbye World")
+# capitalize odd indices:
 s_strapply(x, fun=\(x){
   replace(x, seq(1, length(x), 2), toupper(x)[seq(1, length(x), 2)])
 })
 #> [1] "HeLlO WoRlD"   "GoOdByE WoRlD"
-```
 
-Or lets arrange every string in reverse order:
+# capitalize random letters:
+s_strapply(x, fun=\(x){
+  ind <- sample(1:length(x), size=floor(length(x)/2))
+  replace(x, ind, toupper(x[ind]))
+})
+#> [1] "HEllO WoRlD"   "GoODbYe WorLd"
 
-``` r
-x <- c("Hello World", "Goodbye World")
-s_strapply(x, fun=\(x)x[length(x):1])
-#> [1] "dlroW olleH"   "dlroW eybdooG"
+# capitalize only first word:
+s_strapply(x, fun=\(x){replace(x, 1, toupper(x[1]))}, w=T)
+#> [1] "HELLO World"   "GOODBYE World"
 ```
 
 Lets try to take the second-last vowel of every word of every string in

@@ -1,7 +1,7 @@
 #' Safer float (in)equality operators
 #'
 #'@description
-#' The \code{%==%, %!=% %<%, %>%, %<=%, %>=%} operators perform "float logic".
+#' The \code{%f==%, %f!=% %f<%, %f>%, %f<=%, %f>=%} operators perform "float logic".
 #' They are virtually equivalent to the regular (in)equality operators, \cr
 #' \code{==, !=, <, >, <=, >=}, \cr
 #' except for one aspect.
@@ -25,74 +25,74 @@
 #' x!= y # gives TRUE, should be FALSE
 #' x > y # not wrong
 #' x < y # gives TRUE, should be FALSE
-#' x %==% y # here it's done correctly
-#' x %<% y # correct
-#' x %>% y # correct
-#' x %<=% y # correct
-#' x %>=% y # correct
+#' x %f==% y # here it's done correctly
+#' x %f<% y # correct
+#' x %f>% y # correct
+#' x %f<=% y # correct
+#' x %f>=% y # correct
 #'
 #' # These operators still work for non-float numerics also:
 #' x <- 1:5
 #' y <- 1:5
-#' x %==% y
-#' x %<% y
-#' x %>% y
-#' x %<=% y
-#' x %>=% y
+#' x %f==% y
+#' x %f<% y
+#' x %f>% y
+#' x %f<=% y
+#' x %f>=% y
 #'
 #' x <- 1:5
 #' y <- x+1
-#' x %==% y
-#' x %<% y
-#' x %>% y
-#' x %<=% y
-#' x %>=% y
+#' x %f==% y
+#' x %f<% y
+#' x %f>% y
+#' x %f<=% y
+#' x %f>=% y
 #'
 #' x <- 1:5
 #' y <- x-1
-#' x %==% y
-#' x %<% y
-#' x %>% y
-#' x %<=% y
-#' x %>=% y
+#' x %f==% y
+#' x %f<% y
+#' x %f>% y
+#' x %f<=% y
+#' x %f>=% y
 
 #' @rdname float_logic
 #' @export
-`%==%` <- function(x, y) {
+`%f==%` <- function(x, y) {
   return(abs(x - y) < sqrt(.Machine$double.eps))
 }
 
 #' @rdname float_logic
 #' @export
-`%!=%` <- function(x, y) {
+`%f!=%` <- function(x, y) {
   return(abs(x - y) >= sqrt(.Machine$double.eps))
 }
 
 #' @rdname float_logic
 #' @export
-`%<%` <- function(x, y) {
-  check <- (x %!=% y)
+`%f<%` <- function(x, y) {
+  check <- (x %f!=% y)
   return((x < y) & check)
 }
 
 #' @rdname float_logic
 #' @export
-`%>%` <- function(x, y) {
-  check <- (x %!=% y)
+`%f>%` <- function(x, y) {
+  check <- (x %f!=% y)
   return((x > y) & check)
 }
 
 #' @rdname float_logic
 #' @export
-`%<=%` <- function(x, y) {
-  check <- (x %==% y)
+`%f<=%` <- function(x, y) {
+  check <- (x %f==% y)
   return((x <= y) | check)
 }
 
 #' @rdname float_logic
 #' @export
-`%>=%` <- function(x, y) {
-  check <- (x %==% y)
+`%f>=%` <- function(x, y) {
+  check <- (x %f==% y)
   return((x >= y) | check)
 }
 

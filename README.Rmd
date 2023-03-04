@@ -14,6 +14,7 @@ knitr::opts_chunk$set(
   out.width = "100%"
 )
 require(badger)
+set.seed(1)
 ```
 
 # tidyoperators
@@ -225,11 +226,11 @@ s[s %=strtype% "special"]
 
 # Safer float (in)equality operators
 
-This package adds the `%==%, %!=% %<%, %>%, %<=%, %>=%` operators, which perform "float logic". They are virtually equivalent to the regular (in)equality operators,
+This package adds the `%f==%, %!=% %f<%, %f>%, %f<=%, %f>=%` operators, which perform "float logic". They are virtually equivalent to the regular (in)equality operators,
 `==, !=, <, >, <=, >=`,
 except for one aspect. The float logic operators assume that if the absolute difference between x and y is smaller than the Machine tolerance, sqrt(.Machine$double.eps), then x and y ought to be consider to be equal.
 Thus these provide safer float (in)equality operators.
-For example: `(0.1*7) == 0.7` returns `FALSE`, even though they are equal, due to the way floating numbers are stored in programming languages like R. But `(0.1*7) %==% 0.7` returns `TRUE`.
+For example: `(0.1*7) == 0.7` returns `FALSE`, even though they are equal, due to the way floating numbers are stored in programming languages like R. But `(0.1*7) %f==% 0.7` returns `TRUE`.
 
 Some examples:
 
@@ -241,11 +242,11 @@ x == y # gives FALSE, but should be TRUE
 x!= y # gives TRUE, should be FALSE
 x > y # not wrong
 x < y # gives TRUE, should be FALSE
-x %==% y # here it's done correctly
-x %<% y # correct
-x %>% y # correct
-x %<=% y # correct
-x %>=% y # correct
+x %f==% y # here it's done correctly
+x %f<% y # correct
+x %f>% y # correct
+x %f<=% y # correct
+x %f>=% y # correct
 ```
 
 Although designed for objects (vectors, matrices, arrays) of class `double` (floating numbers), these operators also work correctly for integers. These operators do not work for non-numeric objects.
@@ -612,7 +613,7 @@ And so on. I'm sure you get the idea.
 
 ## More string flexibility: s_strapply
 
-The string arithmetic and sub-setting operators and functions given so far can do a lot, but it's not always flexible enough. To add extra flexibility, there is also the `s_strapply(x, fun, w=F, clp=NULL, ...)` function. This function applies the following steps to every element (every string) of character vector x:
+The string arithmetic and sub-setting operators and functions given so far - in combination with the string function already available in base R and R packages such as `stringi` - can do a lot, but it's not always flexible enough. To add extra flexibility, there is also the `s_strapply(x, fun, w=F, clp=NULL, ...)` function. This function applies the following steps to every element (every string) of character vector x:
 
  1) the string is split into a vector of single characters (`w=F`), or a vector of space-delimited words (`w=T`).
  2) the function `fun()` is applied to the vector from step 1.
@@ -622,33 +623,36 @@ In other words, this function turns every string in character vector `x` into it
 
 This operator can be used in a very wide variety of ways.
 
-One obvious use of this function is to sort every string in character vector `x` alphabetically, or find the occurrence of the character on the alphabet:
+One obvious use of this function is for re-arranging the characters or words in every string in character vector `x`, or find the occurrence of the character on the alphabet:
 
 ```{r}
 x <- c("Hello World", "Goodbye World")
-# alphabetic sorting:
-s_strapply(x, sort)
-# find occurrence on alphabet:
+s_strapply(x, sort) # sort letters
+s_strapply(x, sample) # randomly shuffle letters
+s_strapply(x, rev, w=T) # reverse words
+# find occurrence of characters on alphabet:
 s_strapply(x, fun=\(x)match(tolower(x),letters), clp="; ")
 ```
 
 I think this is reasonably easy and tidy.
 
-Lets try something else: capitalize characters but ONLY at odd indices:
+Lets try something else: capitalize characters but ONLY at certain indices:
 
 ```{r}
 x <- c("Hello World", "Goodbye World")
-x <- c("Hello World", "Goodbye World")
+# capitalize odd indices:
 s_strapply(x, fun=\(x){
   replace(x, seq(1, length(x), 2), toupper(x)[seq(1, length(x), 2)])
 })
-```
 
-Or lets arrange every string in reverse order:
+# capitalize random letters:
+s_strapply(x, fun=\(x){
+  ind <- sample(1:length(x), size=floor(length(x)/2))
+  replace(x, ind, toupper(x[ind]))
+})
 
-```{r}
-x <- c("Hello World", "Goodbye World")
-s_strapply(x, fun=\(x)x[length(x):1])
+# capitalize only first word:
+s_strapply(x, fun=\(x){replace(x, 1, toupper(x[1]))}, w=T)
 ```
 
 
