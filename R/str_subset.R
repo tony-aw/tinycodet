@@ -174,16 +174,22 @@
 #' @export
 `%sget%` <- function(x, ss) {
   ss <- matrix(ss, ncol=2)
-  first <- substr(x, 1, pmax(ss[,1], 0))
-  last <- substr(x, nchar(x) - pmax(ss[,2], 0) + 1, nchar(x))
-  return(paste(first, last, sep = ""))
+  if(isTRUE(any(ss<0))){stop("ss cannot contain negative numbers")}
+  n <- nchar(x)
+  first <- substr(x, 1, ss[,1])
+  last <- substr(x, n - ss[,2] + 1, n)
+  out <- ifelse(rowSums(ss)>=n, x, paste(first, last, sep = ""))
+  return(out)
 }
 
 #' @rdname str_subset
 #' @export
 `%strim%` <- function(x, ss) {
   ss <- matrix(ss, ncol=2)
-  return(substr(x, 1+pmax(ss[,1], 0), nchar(x)-pmax(ss[,2], 0)))
+  if(isTRUE(any(ss<0))){stop("ss cannot contain negative numbers")}
+  n <- nchar(x)
+  out <- ifelse(rowSums(ss)>=n, "", substr(x, 1+ss[,1], n-ss[,2]))
+  return(out)
 }
 
 
@@ -311,5 +317,4 @@ s_repl_ith <- function(x, i, p, rp, custom_mapply=NULL) {
     return(x)
   }
 }
-
 

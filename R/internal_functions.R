@@ -60,3 +60,11 @@ s_get_pattern_attr_internal <- function(p) {
   if(!is.null(attr(p, "useBytes"))) {ub <- attr(p, "useBytes")}
   return(list(fxd=fxd, ic=ic, prl=prl, ub=ub))
 }
+
+
+f_function_exists <- function(package, funcname) {
+  tryCatch({
+    utils::getFromNamespace(funcname, package)
+    TRUE
+  }, error = function(...) { FALSE })
+}
