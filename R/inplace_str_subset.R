@@ -9,7 +9,7 @@
 #' \cr
 #'
 #' See also the documentation on string subsetting (\link[=%ss%]{string subset}). \cr
-#' Note that there is no in-place modifier versions of \code{%ss%}, \code{s_extract_ith()}, and \code{s_repl_ith()}.\cr
+#' Note that there is no in-place modifier versions of \code{%ss%}.\cr
 #' \cr
 #'
 #' @param x,ss see \link[=%ss%]{string subset}.

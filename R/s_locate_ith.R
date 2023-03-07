@@ -120,7 +120,7 @@ s_locate_ith <- function(x, i, p, custom_mapply=NULL) {
     p1 <- gregexpr(
       p, x, fixed = p_attr$fxd, ignore.case = p_attr$ic, perl = p_attr$prl, useBytes = p_attr$ub
     )
-    n.matches <- sapply(p1, length)
+    n.matches <- lengths(p1)
     i[i<0] <- pmax(n.matches[i<0] - abs(i[i<0]+1), 1)
     i[i>0] <- pmin(i[i>0], n.matches[i>0])
 
