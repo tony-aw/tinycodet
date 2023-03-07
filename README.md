@@ -14,7 +14,6 @@
   - <a href="#the-solution-from-this-r-package"
     id="toc-the-solution-from-this-r-package">The solution from this R
     package</a>
-  - <a href="#comparisons" id="toc-comparisons">Comparisons</a>
 - <a href="#unreal-replacement" id="toc-unreal-replacement">Unreal
   replacement</a>
 - <a href="#basic-string-operations"
@@ -479,8 +478,6 @@ Much tidier, no?
 
  
 
-## Comparisons
-
 This is not the first or only R package that incorporates in-place
 modifiers. Most notably, the `inplace` R package is devoted entirely to
 in-place modifying mathematical arithmetic. However, `inplace` has a
@@ -913,9 +910,6 @@ x %s/% p
 ```
 
 And so on. I’m sure you get the idea.
-
-As stated earlier, `stringi` is faster. Therefore, from this point in
-the readme onward, I shall only use `stringi` pattern matching.
 
  
 

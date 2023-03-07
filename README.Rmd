@@ -324,7 +324,6 @@ Much tidier, no?
 
 &nbsp;
 
-## Comparisons
 
 This is not the first or only R package that incorporates in-place modifiers. Most notably, the `inplace` R package is devoted entirely to in-place modifying mathematical arithmetic. However, `inplace` has a nasty side-effect:
 
@@ -622,7 +621,6 @@ x %s/% p
 
 And so on. I'm sure you get the idea.
 
-As stated earlier, `stringi` is faster. Therefore, from this point in the readme onward, I shall only use `stringi` pattern matching.
 
 &nbsp;
 
