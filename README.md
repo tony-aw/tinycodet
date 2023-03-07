@@ -1136,7 +1136,7 @@ The `stringi` R package has the `%s+%` and `%s*%` operators. They work
 almost exactly the same way as the equivalent operators in
 `tidyoperators`, and so this is can safely be ignored. I also made sure
 not to name any of the operators in `tidyoperators` the same as the
-operators in `magrittr` and `seallot`, so that should be safe also.
+operators in `magrittr` and `zeallot`, so that should be safe also.
 
  
 
