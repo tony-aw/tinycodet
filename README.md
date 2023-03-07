@@ -21,14 +21,18 @@
   id="toc-basic-string-operations">Basic string operations</a>
   - <a href="#locate-ith-pattern" id="toc-locate-ith-pattern">Locate ith
     pattern</a>
+  - <a href="#string-sub-setting-functions"
+    id="toc-string-sub-setting-functions">String sub-setting functions</a>
   - <a href="#string-subsetting-operators"
     id="toc-string-subsetting-operators">String subsetting operators</a>
   - <a href="#string-arithmetic" id="toc-string-arithmetic">String
     arithmetic</a>
-  - <a href="#pattern-attributes-in-strings"
-    id="toc-pattern-attributes-in-strings">Pattern attributes in strings</a>
-  - <a href="#stringi-patterns" id="toc-stringi-patterns">Stringi
-    patterns</a>
+  - <a
+    href="#pattern-attributes-in-strings-base-patterns-and-stringi-patterns"
+    id="toc-pattern-attributes-in-strings-base-patterns-and-stringi-patterns">Pattern
+    attributes in strings: base patterns and stringi patterns</a>
+  - <a href="#pattern-attributes-examples"
+    id="toc-pattern-attributes-examples">Pattern attributes examples</a>
   - <a href="#in-place-modifying-string-arithmetic-and-subsetting"
     id="toc-in-place-modifying-string-arithmetic-and-subsetting">In-place
     modifying string arithmetic and subsetting</a>
@@ -49,8 +53,9 @@
     id="toc-multi-threading-in-s_strapply">Multi-threading in s_strapply</a>
 - <a href="#recommended-r-packages"
   id="toc-recommended-r-packages">Recommended R packages</a>
-- <a href="#some-practical-examples" id="toc-some-practical-examples">Some
-  practical examples</a>
+- <a href="#compatibility-with-other-operator-related-r-packages"
+  id="toc-compatibility-with-other-operator-related-r-packages">Compatibility
+  with other operator-related R packages</a>
 - <a href="#conclusion" id="toc-conclusion">Conclusion</a>
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -539,6 +544,8 @@ be different-valued vectors.
 
  
 
+## String sub-setting functions
+
 The `tidyoperators` R-package includes the following subsetting
 functions:
 
@@ -672,7 +679,7 @@ I.e.:
 ``` r
 "Hello "%s+% " world"
 #> [1] "Hello  world"
-c("Hello world", "Goodbye world") %s-% s_pattern_stri(regex = " world")
+c("Hello world", "Goodbye world") %s-% " world"
 #> [1] "Hello"   "Goodbye"
 c("Ha", "Ho", "Hi", "Hu", "He", "Ha") %s*% 2:7
 #> [1] "HaHa"           "HoHoHo"         "HiHiHiHi"       "HuHuHuHuHu"    
@@ -690,34 +697,81 @@ can be a single value, or a vector of the same length as `x`.
 
  
 
-## Pattern attributes in strings
+## Pattern attributes in strings: base patterns and stringi patterns
 
-In all string arithmetic and sub-setting operators/functions given
-above, the pattern `p` was taken as a case-sensitive, non-fixed, regular
-expression. But I can imagine one wants to change that. For example, one
-may explicitly want to ignore the distinction between capital and lower
-characters. Or one may want to use fixed expressions. Or Perl
-expressions. Or a combination of these.
+The `x %s-% p` and `x %s/% p` operators (and their in-place equivalents,
+given later), and the `s_locate_ith()` functions perform pattern
+matching for subtracting, counting, and locating patterns, respectively.
+By default the pattern matching is done using base R’s pattern matching,
+with the default arguments
+`fixed=FALSE, ignore.case=FALSE, perl=FALSE, useBytes=FALSE`.
+
+But, of course, sometimes one wants to change these default arguments.
+Or, perhaps even better, one wants to ditch base R pattern matching
+altogether and use `stringi` pattern matching.
 
 Well, fret not, for the `tidyoperators` package can also help in those
 cases. To use more refined pattern definition, simply replace the
-argument/right-hand-side expression `p` in all previous
-functions/operators with `s_pattern_b(p, ...)`.
+argument/right-hand-side expression `p` in the relevant
+functions/operators with one of the 2 pattern attribute functions:
 
-The `s_pattern_b(p, fixed, ignore.case, perl, useBytes)` function allows
-the user to specify how exactly the pattern should be interpreted by the
-other functions/operators in the `tidyoperators` package. The `fixed`,
-`ignore.case` and `perl` arguments have exactly the same meaning as they
-do in the base R grep, gregexpr, etc. functions.
+- Replace `p` with `s_pattern_b(p, fixed, ignore.case, perl, useBytes)`
+  to use base R pattern matching.
+- Replace `p` with `s_pattern_stri()` to use `stringi` pattern matching
+  (requires `stringi` version 1.7.12+ is installed to be installed).
 
-On a technical level, what the `s_pattern_b()` function actually does is
-it simply assigns attributes to `p`, and all `tidyoperators` functions
-that use `p` can read those attributes and adjust their functionality
-accordingly. That’s all. As implied earlier, the default arguments for
-`s_pattern_b` are the same as in base R:
-`fixed=FALSE, ignore.case=FALSE, perl=FALSE, useBytes=FALSE`.
+These 2 functions allow the user to specify how exactly the pattern
+should be interpreted by the other functions/operators in the
+`tidyoperators` package.
 
-Now lets give some examples on how to use `s_pattern_b()`.
+The `fixed`, `ignore.case` and `perl` and `useBytes` arguments in
+`s_pattern_b()` have exactly the same meaning as they do in the base R
+`grep`, `gregexpr`, etc. functions.
+
+The `s_pattern_stri()` uses the exact same argument convention as
+`stringi`. So you don’t run `s_pattern_stri(p=p, fixed=TRUE)`; instead
+you run `s_pattern_stri(fixed=p)`. Some more examples:
+
+- `s_pattern_stri(regex=p, case_insensitive=FALSE, ...)`
+- `s_pattern_stri(fixed=p, ...)`
+- `s_pattern_stri(coll=p, ...)`
+- `s_pattern_stri(boundary=p, ...)`
+- `s_pattern_stri(charclass=p, ...)`
+
+Thus, if you specify the pattern with `s_pattern_b`, the `tidyoperators`
+functions/operators will internally use base R functions. And if you
+specify the pattern with `s_pattern_stri`, the `tidyoperators`
+functions/operators will internally use `stringi` functions. For
+example:
+
+``` r
+x <- c("yeay nay or nothing to say", "Goodmorning, goodevening and goodnight",
+       paste0(letters[1:13], collapse=""))
+
+# this uses base R pattern matching:
+p <- s_pattern_b("A|e|I|o|U", ignore.case=TRUE)
+loc <- s_locate_ith(x, -1, p)
+s_repl_substr(x, "??", loc=loc)
+#> [1] "yeay nay or nothing to s??y"            
+#> [2] "Goodmorning, goodevening and goodn??ght"
+#> [3] "abcdefgh??jklm"
+
+# this uses stringi pattern matching:
+p <- s_pattern_stri(regex = "A|e|I|o|U", case_insensitive=TRUE)
+loc <- s_locate_ith(x, -1, p)
+s_repl_substr(x, "??", loc=loc)
+#> [1] "yeay nay or nothing to s??y"            
+#> [2] "Goodmorning, goodevening and goodn??ght"
+#> [3] "abcdefgh??jklm"
+```
+
+Since `stringi` is generally **several times faster** (about 2 to 3
+times faster) than base R pattern matching, I highly recommend using
+`stringi` pattern matching.
+
+ 
+
+## Pattern attributes examples
 
 First an example where the distinction between capital characters and
 lower characters is ignored:
@@ -748,61 +802,7 @@ s_repl_substr(x, " - ", loc=s_locate_ith(x,1,p)) # replace vertical line break w
 #> [1] "line1  -  line2"
 ```
 
-But wait, there’s more.
-
-As stated in the introduction section of this Read me, this R package
-can also understand the options given by the `stringi` R package. By
-default, `tidyoperators` uses base R. To use `stringi` functionality for
-its pattern matching, use `s_pattern_stri` instead of `s_pattern_b`().
-The next section will give lots of examples with stringi.
-
- 
-
-## Stringi patterns
-
-The `%s-%` and `%s/%` operators, and the `s_locate_ith()` functions
-perform pattern matching for subtracting, counting, extracting, and
-replacing patterns, respectively.
-
-By default, `tidyoperators` uses base R for its pattern matching
-functions. But `tidyoperators` also supports `stringi` pattern matching,
-provided `stringi` version 1.7.12+ is installed. To use `stringi`
-functionality for its pattern matching, use `s_pattern_stri()` instead
-of `s_pattern_b()`. Pattern matching with `stringi` / `s_pattern_stri()`
-is **several times faster** than base pattern matching.
-
-The `s_pattern_stri()` uses the exact same argument convention as
-`stringi`. So you don’t run `s_pattern_stri(p=p, fixed=TRUE)`; instead
-you run `s_pattern_stri(fixed=p)`. Some more examples:
-
-- `s_pattern_stri(regex=p, case_insensitive=FALSE, ...)`
-- `s_pattern_stri(fixed=p, ...)`
-- `s_pattern_stri(coll=p, ...)`
-- `s_pattern_stri(boundary=p, ...)`
-- `s_pattern_stri(charclass=p, ...)`
-
-This section will give some examples of using `stringi` with
-`tidyoperators`. `stringi` does **not need to be loaded, only
-installed**. For the sake of this read-me, however, let’s explicitly
-load `stringi`:
-
-``` r
-require(tidyoperators)
-require(stringi)
-#> Loading required package: stringi
-#> Warning: package 'stringi' was built under R version 4.2.2
-#> 
-#> Attaching package: 'stringi'
-#> The following objects are masked from 'package:tidyoperators':
-#> 
-#>     %s*%, %s+%
-```
-
-You’ll notice that `stringi` will overwrite `tidyoperator`’s `%s*%` and
-`%s+%` operators; that’s completely fine, the operators do the same
-thing. Use whichever one you prefer.
-
-Now then, some examples using `stringi`’s `regex` expression:
+Now some examples using `stringi`’s `regex` expression:
 
 ``` r
 # VOWELS SUBSETTING ====
@@ -913,6 +913,9 @@ x %s/% p
 ```
 
 And so on. I’m sure you get the idea.
+
+As stated earlier, `stringi` is faster. Therefore, from this point in
+the readme onward, I shall only use `stringi` pattern matching.
 
  
 
@@ -1126,13 +1129,22 @@ even create other problems.
 # Recommended R packages
 
 I highly recommend using this R package alongside the 2 major
-operator-related R-packages, namely `magrittr` and `zeallot`. Since the
-`tidyoperators` package comes with support for `stringi` and
-`stringfish`, I would recommend those package also.
+operator-related R-packages, namely `magrittr` and `zeallot`. I should
+also note that the `stringi` R package also comes with its own set of
+string-related operators, and I highly recommend using `stringi`’s
+operators along side the operators of this R package.
 
  
 
-# Some practical examples
+# Compatibility with other operator-related R packages
+
+The `stringi` R package has the `%s+%` and `%s*%` operators. They work
+almost exactly the same way as the equivalent operators in
+`tidyoperators`, and so this is can safely be ignored. I also made sure
+not to name any of the operators in `tidyoperators` the same as the
+operators in `magrittr` and `seallot`, so that should be safe also.
+
+ 
 
 # Conclusion
 
