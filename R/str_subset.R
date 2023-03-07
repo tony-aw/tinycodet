@@ -1,7 +1,7 @@
-#' String sub-setting
+#' String subsetting functions and operators
 #'
 #'@description
-#' String subsetting operators and functions. \cr
+#' Pattern-based String subsetting functions. \cr
 #' \cr
 #' The \code{x %ss% s } operator
 #' allows indexing a single string as-if it is an iterable object. \cr
@@ -12,23 +12,21 @@
 #' The \code{x %strim% ss } operator
 #' removes a certain number of the first and last characters of \code{x}. \cr
 #' \cr
-#' The \code{s_extract_ith(x, i, p, custom_mapply=NULL)} function
-#' extracts the ith occurrence of character/pattern \code{p}. \cr
-#' In the absence of an occurrence, it returns \code{NA}. \cr
+#' The \code{s_repl_substr(x, rp, ...)} function
+#' replaces a position (range) with string \code{rp}. \cr
 #' \cr
-#' The \code{s_locate_ith(x, i, p, type, custom_mapply=NULL)} function
-#' gives the start/end postion or the length of the ith occurrence of character/pattern \code{p}.
-#' In the absence of an occurrence, it returns \code{NA}. \cr
+#' The \code{s_chartr_substr(x, old, new, ...)} function
+#' transforms the sub-string at a position range using \code{chartr(old, new)}. \cr
 #' \cr
-#' The \code{s_repl_ith(x, i, p, rp, custom_mapply=NULL)} function
-#' replaces the ith occurence of character/pattern \code{p} with \code{rp}. \cr
+#' The \code{s_addin_substr(x, addin, side, ...)} function
+#' adds the additional string \code{addin} at the side \code{side} of a position. \cr
+#' \cr
+#' The \code{s_extract_substr(x, type, ...)} function
+#' extracts the string at, before, or after some position. \cr
 #' \cr
 #'
 #' @param s a numeric vector giving the subset indices.
 #' @param x a string or character vector.
-#' @param p a pattern (regular expression),
-#' or character vector of regular expressions of the same length as \code{x},
-#' giving the pattern to look for. \cr
 #' See \code{\link{s_pattern_b}}.
 #' @param ss a vector of length 2, or a matrix with 2 columns with \code{nrow(ss)==length(x)}.
 #' The object \code{ss} should consist entirely of non-negative integers
@@ -37,45 +35,43 @@
 #' gives the number of characters counting from the left side to be extracted/removed from \code{x}.
 #' The second element/column of \code{ss}
 #' gives the number of characters counting from the right side to be extracted/removed from \code{x}.
-#' @param i a number, or a numeric vector of the same length as \code{x}.
-#' This gives the \eqn{i^th} instance to be replaced. \cr
-#' Positive numbers are counting from the left. Negative numbers are counting from the right. \cr
-#' Thus \code{s_repl_ith(x, i=1, p, rp)} will replace the first instance of \code{p} with \code{rp}, \cr
-#' and \code{s_repl_ith(x, i=-1, p, rp)} will replace the last instance of \code{p} with \code{rp}. \cr
-#' And \code{s_repl_ith(x, i=2, p, rp)} will replace the second instance of \code{p} with \code{rp}, \cr
-#' and \code{s_repl_ith(x, i=-2, p, rp)} will replace the second-last instance of \code{p} with \code{rp}, etc. \cr
-#' If i is larger than the number of instances, the maximum instance will be given. \cr
-#' For example: suppose a string has 3 instances of p; \cr
-#' then if i=4 the third instance will be replaced/extracted/located, \cr
-#' and if i=-3 the first instance will be replaced/extracted/located. \cr
-#' @param rp a string, or a character vector of the same length as \code{x}, giving the character(s) to replace p with.
-#' @param type a single string, giving the type of output the \code{s_locate_ith} function should give.
-#' There are 3 options: \cr
-#'  * \code{"start"}: return the starting position of the ith occurence of the pattern match. \cr
-#'  * \code{"end"}: return the end position of the ith occurence of the pattern match. \cr
-#'  * \code{"length"}: return the length of the ith occurence of the pattern match. \cr
-#' @param custom_mapply the \code{s_extract_ith()} and \code{s_repl_ith()} functions,
-#' internally use \code{mapply()}. The user may choose to replace this with a custom functions,
-#' for example for multi-threading purposes. The replacing function must have the same argument convention
-#' as \code{mapply}. \cr
-#' For example:\cr
-#' s_extract_ith(..., custom_mapply=future_mapply) \cr
-#' NOTE: if you use \code{s_extract_ith()} and \code{s_repl_ith()} inside an \code{s_strapply()} call,
-#' and you want to replace the apply functions for multi-threading reasons,
-#' I highly advise the user to only replace the \code{sapply} function in \code{s_strapply},
-#' and to leave \code{mapply} inside \code{s_extract_ith()} and \code{s_repl_ith()} without multi-threading:\cr
-#' Running nested multi-threading processes may actually slow down the code, and may cause other problems also.
-#' I.e. run this: \cr
-#' \code{s_strapply(x, w=T, fun=\(x)s_extract_ith(x, -2, p), custom_sapply = future_sapply)} \cr
-#' and not this: \cr
-#' \code{s_strapply(x, w=T, fun=\(x)s_extract_ith(x, -2, p, custom_mapply=future_mapply), custom_sapply=future_sapply)} \cr
-#'
-#'
+#' @param rp a string, or a character vector of the same length as \code{x},
+#' giving the replacing strings.
+#' @param loc an integer vector, giving the location/position indices
+#' on the strings of character vector \code{x}.
+#' @param loc the matrix result from the \link{s_locate_ith} function,
+#' or a manually made 2-column integer matrix,
+#' giving the start (first column) and stop (second column) position
+#' of the range to be modified,  and with \code{nrow(loc)==length(x)}. \cr
+#' NOTE: you cannot fill in both \code{loc} and \code{start,stop},
+#' or both \code{loc} and \code{at}. Choose one or the other.
+#' See \link{s_locate_ith}.
+#' @param at an integer, or integer vector of the same length as \code{x}.
+#' @param start,stop integers, or integer vectors of the same length as \code{x},
+#' giving the start and stop position of the range to be modified.
+#' @param old,new see \link[base]{chartr}.
+#' Defaults to \code{old="a-zA-Z", new="A-Za-z"},
+#' which means upper case characters will be transformed to lower case characters,
+#' and vice-versa.
+#' @param side which side of the position to add in the string.
+#' Either \code{"before"} or \code{"after"}.
+#' @param addin a string, or a character vector of the same length as \code{x},
+#' giving the string(s) to add-in.
+#' @param type the part of the string to extract. 3 options available: \cr
+#'  * \code{type = "at"}: extracts the string part at the position range; \cr
+#'  * \code{type = "before"}: extracts the string part before the position range; \cr
+#'  * \code{type = "after"}: extracts the string part after the position range. \cr
+#' @param fish although \code{tidyoperators} has zero-dependencies,
+#' it does allow the internal functions to use the very fast \code{stringfish}
+#' functions. To do so, set \code{fish=TRUE};
+#' this requires \code{stringfish} to be installed.
+#' @param ... only applicable if \code{fish=TRUE};
+#' other arguments to be passed to the \code{stringfish} functions.
 #'
 #'
 #' @details
 #' These operators and functions serve as a way to provide straight-forward string subsetting,
-#' missing from base R. \cr
+#' is.null from base R. \cr
 #'  \cr
 #'
 #'
@@ -92,43 +88,67 @@
 #'
 #' @examples
 #'
+#' # numerical substr ====
+#'
+#' x <- "12345678910"
+#' start=1; stop=2
+#' s_extract_substr(x, start=start, stop=stop)
+#' s_extract_substr(x, type="before", start=start, stop=stop)
+#' s_extract_substr(x, type="after", start=start, stop=stop)
+#' s_repl_substr(x, "??", start=start, stop=stop)
+#' s_chartr_substr(x, start=start, stop=stop)
+#' s_addin_substr(x, " ", "after", at=stop)
+#' s_addin_substr(x, " ", "before", at=start)
+#'
+#' start=10; stop=11
+#' s_extract_substr(x, start=start, stop=stop)
+#' s_extract_substr(x, type="before", start=start, stop=stop)
+#' s_extract_substr(x, type="after", start=start, stop=stop)
+#' s_repl_substr(x, "??", start=start, stop=stop)
+#' s_chartr_substr(x, start=start, stop=stop)
+#' s_addin_substr(x, " ", "after", at=stop)
+#' s_addin_substr(x, " ", "before", at=start)
+#'
+#' start=5; stop=6
+#' s_extract_substr(x, start=start, stop=stop)
+#' s_extract_substr(x, type="before", start=start, stop=stop)
+#' s_extract_substr(x, type="after", start=start, stop=stop)
+#' s_repl_substr(x, "??", start=start, stop=stop)
+#' s_chartr_substr(x, start=start, stop=stop)
+#' s_addin_substr(x, " ", "after", at=stop)
+#' s_addin_substr(x, " ", "before", at=start)
+#'
+#'
+#' #############################################################################
+#'
 #' # simple pattern ====
 #'
 #' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
-#' print(x)
-#' p <- "a|e|i|o|u" # same as p <- s_pattern_b("a|e|i|o|u", fixed=FALSE, ignore.case=FALSE, perl=FALSE)
-#' ss <- c(2,2)
-#'
-#' x %ss% 3:4 # same as unlist(strsplit(x, split=""))[3:4]
-#' s_extract_ith(x, -1, p) # extracts the last vowel in each element of x.
-#' s_repl_ith(x, -1, p, "?") # replace last vowel in each element of x with a question mark ("?").
-#' s_locate_ith(x, -1, p, "start")
-#' s_locate_ith(x, -1, p, "end")
-#' s_locate_ith(x, -1, p, "length")
-#'
-#' x %sget% ss
-#' x %strim% ss
-#'
+#' loc <- s_locate_ith(x, c(1, -1), "a|e|i|o|u")
+#' s_extract_substr(x, loc=loc)
+#' s_extract_substr(x, type="before", loc=loc)
+#' s_extract_substr(x, type="after", loc=loc)
+#' s_repl_substr(x, "??", loc=loc)
+#' s_chartr_substr(x, loc=loc)
+#' s_addin_substr(x, " ", "after", loc=loc)
+#' s_addin_substr(x, " ", "before", loc=loc)
 #'
 #' #############################################################################
 #'
 #' # ignore case pattern ====
 #'
-#' #' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+#' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 #' print(x)
 #' # pattern with ignore.case=TRUE:
 #' p <- s_pattern_b("A|E|I|O|U", fixed=FALSE, ignore.case=TRUE, perl=FALSE)
-#' fun <- function(x)sort(x, decreasing=TRUE)
-#' ss <- c(2,2)
-#'
-#' x %ss% 3:4 # same as unlist(strsplit(x, split=""))[y]
-#' s_extract_ith(x, -1, p) # extracts the last vowel in each element of x.
-#' s_repl_ith(x, -1, p, "?") # replace last vowel in each element of x with a question mark ("?").
-#' s_locate_ith(x, -1, p, "start")
-#' s_locate_ith(x, -1, p, "end")
-#' s_locate_ith(x, -1, p, "length")
-#' x %sget% ss
-#' x %strim% ss
+#' loc <- s_locate_ith(x, c(1, -1), p)
+#' s_extract_substr(x, type="at", loc=loc)
+#' s_extract_substr(x, type="before", loc=loc)
+#' s_extract_substr(x, type="after", loc=loc)
+#' s_repl_substr(x, "??", loc=loc)
+#' s_chartr_substr(x, loc=loc)
+#' s_addin_substr(x, " ", "after", loc=loc)
+#' s_addin_substr(x, " ", "before", loc=loc)
 #'
 #' #############################################################################
 #'
@@ -138,31 +158,33 @@
 #' print(x)
 #' # multi-character pattern:
 #' p <- s_pattern_b("AB", fixed=FALSE, ignore.case=TRUE, perl=FALSE)
-#' fun <- function(x)sort(x, decreasing=TRUE)
-#' ss <- c(2,2)
-#'
-#' x %ss% 3:4 # same as unlist(strsplit(x, split=""))[y]
-#' s_extract_ith(x, -1, p)
-#' s_repl_ith(x, -1, p, "?")
-#' s_locate_ith(x, -1, p, "start")
-#' s_locate_ith(x, -1, p, "end")
-#' s_locate_ith(x, -1, p, "length")
-#' x %sget% ss
-#' x %strim% ss
+#' loc <- s_locate_ith(x, -1, p)
+#' s_extract_substr(x, loc=loc)
+#' s_extract_substr(x, type="before", loc=loc)
+#' s_extract_substr(x, type="after", loc=loc)
+#' s_repl_substr(x, "??", loc=loc)
+#' s_chartr_substr(x, loc=loc)
+#' s_addin_substr(x, " ", "after", loc=loc)
+#' s_addin_substr(x, " ", "before", loc=loc)
 #'
 #' #############################################################################
 #'
+#' # perl pattern ====
+#'
 #' p <- s_pattern_b("\\v+", perl=TRUE) # perl expression; only works with perl=TRUE
 #' x <- "line1 \n line2"
-#' print(x)
-#' s_repl_ith(x, 1, p, " - ") # replace vertical line break with a minus line.
-#' s_locate_ith(x, -1, p, "start")
-#' s_locate_ith(x, -1, p, "end")
-#' s_locate_ith(x, -1, p, "length")
+#' loc <- s_locate_ith(x, -1, p)
+#' s_extract_substr(x, loc=loc)
+#' s_extract_substr(x, type="before", loc=loc)
+#' s_extract_substr(x, type="after", loc=loc)
+#' s_repl_substr(x, "??", loc=loc)
+#' s_chartr_substr(x, loc=loc)
+#' s_addin_substr(x, " ", "after", loc=loc)
+#' s_addin_substr(x, " ", "before", loc=loc)
 #'
 #'
-
-
+#' # for stringi pattern examples: see the Readme file on GitHub.
+#'
 
 #' @rdname str_subset
 #' @export
@@ -192,129 +214,148 @@
   return(out)
 }
 
-
 #' @rdname str_subset
 #' @export
-s_extract_ith <- function(x, i, p, custom_mapply=NULL) {
-  if(isTRUE(attr(p, "engine")=="base") | is.null(attr(p, "engine"))){
-    p_attr <- s_get_pattern_attr_internal(p)
-    if(is.null(custom_mapply)){
-      return(mapply(
-        s_extract_internal, x, i, p,
-        MoreArgs=list(fixed = p_attr$fxd, ignore.case = p_attr$ic, perl = p_attr$prl, useBytes = p_attr$ub),
-        USE.NAMES = FALSE, SIMPLIFY = TRUE
-      ))
-    }
-    if(!is.null(custom_mapply)) {
-      return(custom_mapply(
-        s_extract_internal, x, i, p,
-        MoreArgs=list(fixed = p_attr$fxd, ignore.case = p_attr$ic, perl = p_attr$prl, useBytes = p_attr$ub)
-      ) |> unname() |> unlist() )
-    }
+s_repl_substr <- function(
+    x, rp, loc=NULL, start=NULL, stop=NULL, fish=FALSE, ...
+) {
+  check.args <- c(!is.null(loc), !is.null(start) & !is.null(stop))
+  if(sum(check.args)!=1){
+    stop("either loc OR start & stop must be filled in")
   }
-  if(isTRUE(attr(p, "engine")=="stringi")){
-    if(length(i)==1) i <- rep(i, length(x))
-    if(length(i)!=length(x)){
-      stop("i must be of length 1, or the same length as x")
-    }
-    p1 <- do.call(stringi::stri_locate_all, c(list(str=x), p))
-    n <- sapply(p1, nrow)
-    i[i<0] <- pmax(n - abs(i+1), 1)
-    i[i>0] <- pmin(i, n)
+  if(is.null(loc)){
+    loc <- cbind(start, stop)
+  }
+  if(!fish){
+    n <- nchar(x)
+    prepart <- ifelse(loc[,1]<=1, "", substr(x, start=1, stop=loc[,1]-1))
+    postpart <- ifelse(loc[,2]>=n, "", substr(x, start = loc[,2]+1, stop=n))
+    mainpart <- rp
+    out <- paste(prepart, mainpart, postpart, sep ="")
+  }
+  if(fish) {
+    n <- stringfish::sf_nchar(x, ...)
+    prepart <- ifelse(loc[,1]<=1, "", stringfish::sf_substr(x, start=1, stop=loc[,1]-1), ...)
+    postpart <- ifelse(loc[,2]>=n, "", stringfish::sf_substr(x, start = loc[,2]+1, stop=n), ...)
+    mainpart <- rp
+    out <- stringfish::sf_paste(prepart, mainpart, postpart, sep ="", ...)
+  }
 
-    if(is.null(custom_mapply)) {
-      p2 <- mapply(function(x, i)x[i,], x=p1, i=i, SIMPLIFY = FALSE)
-    }
-    if(!is.null(custom_mapply)){
-      p2 <- custom_mapply(function(x, i)x[i,], x=p1, i=i, SIMPLIFY = FALSE)
-    }
-    p3 <- do.call(rbind, p2)
-    x <- stringi::stri_sub(x, p3[,1], p3[,2], use_matrix = FALSE)
-    return(x)
+  if(sum(stats::complete.cases(loc))>0){
+    out[!stats::complete.cases(loc)] <- NA
   }
+
+  return(out)
 }
 
 #' @rdname str_subset
 #' @export
-s_locate_ith <- function(x, i, p, type, custom_mapply=NULL) {
-  if(length(type)>1){stop("type must be a single string")}
-  if(isTRUE(attr(p, "engine")=="base") | is.null(attr(p, "engine"))){
-    p_attr <- s_get_pattern_attr_internal(p)
-    if(is.null(custom_mapply)){
-      return(mapply(
-        s_locate_internal, x, i, p, type,
-        MoreArgs=list(fixed = p_attr$fxd, ignore.case = p_attr$ic, perl = p_attr$prl, useBytes = p_attr$ub),
-        USE.NAMES = FALSE, SIMPLIFY = TRUE
-      ))
-    }
-    if(!is.null(custom_mapply)) {
-      return(custom_mapply(
-        s_locate_internal, x, i, p, type,
-        MoreArgs=list(fixed = p_attr$fxd, ignore.case = p_attr$ic, perl = p_attr$prl, useBytes = p_attr$ub)
-      ) |> unname())
-    }
+s_chartr_substr <- function(
+    x, old="a-zA-Z", new="A-Za-z", loc=NULL, start=NULL, stop=NULL, fish=FALSE, ...
+) {
+  check.args <- c(!is.null(loc), !is.null(start) & !is.null(stop))
+  if(sum(check.args)!=1){
+    stop("either loc OR start & stop must be filled in")
   }
-  if(isTRUE(attr(p, "engine")=="stringi")){
-    if(length(i)==1) i <- rep(i, length(x))
-    if(length(i)!=length(x)){
-      stop("i must be of length 1, or the same length as x")
-    }
-    p1 <- do.call(stringi::stri_locate_all, c(list(str=x), p))
-    n <- sapply(p1, nrow)
-    i[i<0] <- pmax(n - abs(i+1), 1)
-    i[i>0] <- pmin(i, n)
+  if(is.null(loc)){
+    loc <- cbind(start, stop)
+  }
+  if(!fish) {
+    n <- nchar(x)
+    prepart <- ifelse(loc[,1]<=1, "", substr(x, start=1, stop=loc[,1]-1))
+    postpart <- ifelse(loc[,2]>=n, "", substr(x, start = loc[,2]+1, stop=n))
+    mainpart <- chartr(old=old, new=new, substr(x, loc[,1], loc[,2]))
+    out <- paste(prepart, mainpart, postpart, sep ="")
+  }
+  if(fish) {
+    n <- stringfish::sf_nchar(x, ...)
+    prepart <- ifelse(loc[,1]<=1, "", stringfish::sf_substr(x, start=1, stop=loc[,1]-1), ...)
+    postpart <- ifelse(loc[,2] >=n, "", stringfish::sf_substr(x, start = loc[,2]+1, stop=n), ...)
+    mainpart <- chartr(old=old, new=new, stringfish::sf_substr(x, loc[,1], loc[,2]), ...)
+    out <- stringfish::sf_paste(prepart, mainpart, postpart, sep ="", ...)
+  }
 
-    if(is.null(custom_mapply)) {
-      p2 <- mapply(function(x, i)x[i,], x=p1, i=i, SIMPLIFY = FALSE)
-    }
-    if(!is.null(custom_mapply)){
-      p2 <- custom_mapply(function(x, i)x[i,], x=p1, i=i, SIMPLIFY = FALSE)
-    }
-    p3 <- do.call(rbind, p2)
-    p3 <- cbind(p3, "length" =p3[,2] - p3[, 1] +1)
-    return(p3[, type])
+  if(sum(stats::complete.cases(loc))>0){
+    out[!stats::complete.cases(loc)] <- NA
   }
+
+  return(out)
 }
 
 #' @rdname str_subset
 #' @export
-s_repl_ith <- function(x, i, p, rp, custom_mapply=NULL) {
-  if(isTRUE(attr(p, "engine")=="base") | is.null(attr(p, "engine"))){
-    p_attr <- s_get_pattern_attr_internal(p)
-    if(is.null(custom_mapply)){
-      return(mapply(
-        s_repl_internal, x, i, p, rp,
-        MoreArgs=list(fixed = p_attr$fxd, ignore.case = p_attr$ic, perl = p_attr$prl, useBytes = p_attr$ub),
-        USE.NAMES = FALSE, SIMPLIFY = TRUE
-      ))
-    }
-    if(!is.null(custom_mapply)) {
-      return(custom_mapply(
-        s_repl_internal, x, i, p, rp,
-        MoreArgs=list(fixed = p_attr$fxd, ignore.case = p_attr$ic, perl = p_attr$prl, useBytes = p_attr$ub)
-      ) |> unname())
-    }
+s_addin_substr <- function(
+    x, addin, side="after", loc=NULL, at=NULL, fish=FALSE, ...
+) {
+  check.args <- c(!is.null(loc), !is.null(at))
+  if(sum(check.args)!=1) {
+    stop("either loc OR at must be filled in")
   }
-  if(isTRUE(attr(p, "engine")=="stringi")){
-    if(length(i)==1) i <- rep(i, length(x))
-    if(length(rp)==1) rp <- rep(rp, length(x))
-    if(length(i)!=length(x) | length(rp)!=length(x)){
-      stop("i and/or rp must be of length 1, or the same length as x")
-    }
-    p1 <- do.call(stringi::stri_locate_all, c(list(str=x), p))
-    n <- sapply(p1, nrow)
-    i[i<0] <- pmax(n - abs(i+1), 1)
-    i[i>0] <- pmin(i, n)
+  if(is.null(loc)) loc <- cbind(at, at)
+  if(side=="after"){
+    prepart.stop <- loc[,1]
+    postpart.start <- loc[,2] + 1
+  }
+  if(side=="before"){
+    prepart.stop <- loc[,1] - 1
+    postpart.start <- loc[,2]
+  }
+  if(!fish) {
+    n <- nchar(x)
+    prepart <- ifelse(loc[,1]<=1, "", substr(x, start=1, stop=prepart.stop))
+    postpart <- ifelse(loc[,2] >=n, "", substr(x, start = postpart.start, stop=n))
+    mainpart <- addin
+    out <- paste(prepart, addin, postpart, sep ="")
+  }
+  if(fish) {
+    n <- stringfish::sf_nchar(x, ...)
+    prepart <- ifelse(loc[,1]<=1, "", stringfish::sf_substr(x, start=1, stop=prepart.stop, ...))
+    postpart <- ifelse(loc[,2] >=n, "", stringfish::sf_substr(x, start = postpart.start, stop=n, ...))
+    out <- stringfish::sf_paste(prepart, addin, postpart, sep ="", ...)
+  }
 
-    if(is.null(custom_mapply)) {
-      p2 <- mapply(function(x, i)x[i,], x=p1, i=i, SIMPLIFY = FALSE)
-    }
-    if(!is.null(custom_mapply)){
-      p2 <- custom_mapply(function(x, i)x[i,], x=p1, i=i, SIMPLIFY = FALSE)
-    }
-    p3 <- do.call(rbind, p2)
-    stringi::stri_sub(x, p3[,1], p3[,2], use_matrix = FALSE, omit_na=TRUE) <- rp
-    return(x)
+  if(sum(stats::complete.cases(loc))>0){
+    out[!stats::complete.cases(loc)] <- NA
   }
+
+  return(out)
+}
+
+#' @rdname str_subset
+#' @export
+s_extract_substr <- function(
+    x, type="at",loc=NULL, start=NULL, stop=NULL, fish=FALSE, ...
+) {
+  check.args <- c(!is.null(loc), !is.null(start) & !is.null(stop))
+  if(sum(check.args)!=1){
+    stop("either loc OR start & stop must be filled in")
+  }
+  if(is.null(loc)){
+    loc <- cbind(start, stop)
+  }
+  if(!fish) {
+    n <- nchar(x, ...)
+    out <- switch(
+      type,
+      "at" = substr(x, start=loc[,1], stop=loc[,2]),
+      "before" = ifelse(loc[,1]<=1, "", substr(x, start=1, stop=loc[,1]-1, ...)),
+      "after" = ifelse(loc[,2]>=n, "", substr(x, start = loc[,2]+1, stop=n, ...))
+    )
+  }
+  if(fish) {
+    n <- stringfish::sf_nchar(x, ...)
+    out <- switch(
+      type,
+      "at" =  stringfish::sf_substr(x, start=loc[,1], stop=loc[,2], ...),
+      "before" = ifelse(loc[,1]<=1, "",  stringfish::sf_substr(x, start=1, stop=loc[,1]-1, ...)),
+      "after" = ifelse(loc[,2]>=n, "",  stringfish::sf_substr(x, start = loc[,2]+1, stop=n, ...))
+    )
+  }
+
+  if(sum(stats::complete.cases(loc))>0){
+    out[!stats::complete.cases(loc)] <- NA
+  }
+
+  return(out)
 }
 

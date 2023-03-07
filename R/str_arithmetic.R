@@ -15,8 +15,7 @@
 #' \cr
 #' @param x a string or character vector.
 #' @param y a string, or a character vector of the same length as \code{x}.
-#' @param p a pattern (regular expression), or character vector of regular expressions of the same length as \code{x},
-#' giving the pattern to look for. \cr
+#' @param p the result from either \code{s_pattern_b} or \code{s_pattern_stri}.
 #' See \code{\link{s_pattern_b}}.
 #' @param n a number, or a numeric vector of the same length as \code{x}.
 #'

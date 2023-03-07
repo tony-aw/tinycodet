@@ -4,10 +4,11 @@
 \alias{\%ss\%}
 \alias{\%sget\%}
 \alias{\%strim\%}
-\alias{s_extract_ith}
-\alias{s_locate_ith}
-\alias{s_repl_ith}
-\title{String sub-setting}
+\alias{s_repl_substr}
+\alias{s_chartr_substr}
+\alias{s_addin_substr}
+\alias{s_extract_substr}
+\title{String subsetting functions and operators}
 \usage{
 x \%ss\% s
 
@@ -15,14 +16,42 @@ x \%sget\% ss
 
 x \%strim\% ss
 
-s_extract_ith(x, i, p, custom_mapply = NULL)
+s_repl_substr(x, rp, loc = NULL, start = NULL, stop = NULL, fish = FALSE, ...)
 
-s_locate_ith(x, i, p, type, custom_mapply = NULL)
+s_chartr_substr(
+  x,
+  old = "a-zA-Z",
+  new = "A-Za-z",
+  loc = NULL,
+  start = NULL,
+  stop = NULL,
+  fish = FALSE,
+  ...
+)
 
-s_repl_ith(x, i, p, rp, custom_mapply = NULL)
+s_addin_substr(
+  x,
+  addin,
+  side = "after",
+  loc = NULL,
+  at = NULL,
+  fish = FALSE,
+  ...
+)
+
+s_extract_substr(
+  x,
+  type = "at",
+  loc = NULL,
+  start = NULL,
+  stop = NULL,
+  fish = FALSE,
+  ...
+)
 }
 \arguments{
-\item{x}{a string or character vector.}
+\item{x}{a string or character vector.
+See \code{\link{s_pattern_b}}.}
 
 \item{s}{a numeric vector giving the subset indices.}
 
@@ -34,48 +63,47 @@ gives the number of characters counting from the left side to be extracted/remov
 The second element/column of \code{ss}
 gives the number of characters counting from the right side to be extracted/removed from \code{x}.}
 
-\item{i}{a number, or a numeric vector of the same length as \code{x}.
-This gives the \eqn{i^th} instance to be replaced. \cr
-Positive numbers are counting from the left. Negative numbers are counting from the right. \cr
-Thus \code{s_repl_ith(x, i=1, p, rp)} will replace the first instance of \code{p} with \code{rp}, \cr
-and \code{s_repl_ith(x, i=-1, p, rp)} will replace the last instance of \code{p} with \code{rp}. \cr
-And \code{s_repl_ith(x, i=2, p, rp)} will replace the second instance of \code{p} with \code{rp}, \cr
-and \code{s_repl_ith(x, i=-2, p, rp)} will replace the second-last instance of \code{p} with \code{rp}, etc. \cr
-If i is larger than the number of instances, the maximum instance will be given. \cr
-For example: suppose a string has 3 instances of p; \cr
-then if i=4 the third instance will be replaced/extracted/located, \cr
-and if i=-3 the first instance will be replaced/extracted/located. \cr}
+\item{rp}{a string, or a character vector of the same length as \code{x},
+giving the replacing strings.}
 
-\item{p}{a pattern (regular expression),
-or character vector of regular expressions of the same length as \code{x},
-giving the pattern to look for. \cr
-See \code{\link{s_pattern_b}}.}
+\item{loc}{the matrix result from the \link{s_locate_ith} function,
+or a manually made 2-column integer matrix,
+giving the start (first column) and stop (second column) position
+of the range to be modified,  and with \code{nrow(loc)==length(x)}. \cr
+NOTE: you cannot fill in both \code{loc} and \code{start,stop},
+or both \code{loc} and \code{at}. Choose one or the other.
+See \link{s_locate_ith}.}
 
-\item{custom_mapply}{the \code{s_extract_ith()} and \code{s_repl_ith()} functions,
-internally use \code{mapply()}. The user may choose to replace this with a custom functions,
-for example for multi-threading purposes. The replacing function must have the same argument convention
-as \code{mapply}. \cr
-For example:\cr
-s_extract_ith(..., custom_mapply=future_mapply) \cr
-NOTE: if you use \code{s_extract_ith()} and \code{s_repl_ith()} inside an \code{s_strapply()} call,
-and you want to replace the apply functions for multi-threading reasons,
-I highly advise the user to only replace the \code{sapply} function in \code{s_strapply},
-and to leave \code{mapply} inside \code{s_extract_ith()} and \code{s_repl_ith()} without multi-threading:\cr
-Running nested multi-threading processes may actually slow down the code, and may cause other problems also.
-I.e. run this: \cr
-\code{s_strapply(x, w=T, fun=\(x)s_extract_ith(x, -2, p), custom_sapply = future_sapply)} \cr
-and not this: \cr
-\code{s_strapply(x, w=T, fun=\(x)s_extract_ith(x, -2, p, custom_mapply=future_mapply), custom_sapply=future_sapply)} \cr}
+\item{start, stop}{integers, or integer vectors of the same length as \code{x},
+giving the start and stop position of the range to be modified.}
 
-\item{type}{a single string, giving the type of output the \code{s_locate_ith} function should give.
-There are 3 options: \cr
+\item{fish}{although \code{tidyoperators} has zero-dependencies,
+it does allow the internal functions to use the very fast \code{stringfish}
+functions. To do so, set \code{fish=TRUE};
+this requires \code{stringfish} to be installed.}
+
+\item{...}{only applicable if \code{fish=TRUE};
+other arguments to be passed to the \code{stringfish} functions.}
+
+\item{old, new}{see \link[base]{chartr}.
+Defaults to \code{old="a-zA-Z", new="A-Za-z"},
+which means upper case characters will be transformed to lower case characters,
+and vice-versa.}
+
+\item{addin}{a string, or a character vector of the same length as \code{x},
+giving the string(s) to add-in.}
+
+\item{side}{which side of the position to add in the string.
+Either \code{"before"} or \code{"after"}.}
+
+\item{at}{an integer, or integer vector of the same length as \code{x}.}
+
+\item{type}{the part of the string to extract. 3 options available: \cr
 \itemize{
-\item \code{"start"}: return the starting position of the ith occurence of the pattern match. \cr
-\item \code{"end"}: return the end position of the ith occurence of the pattern match. \cr
-\item \code{"length"}: return the length of the ith occurence of the pattern match. \cr
+\item \code{type = "at"}: extracts the string part at the position range; \cr
+\item \code{type = "before"}: extracts the string part before the position range; \cr
+\item \code{type = "after"}: extracts the string part after the position range. \cr
 }}
-
-\item{rp}{a string, or a character vector of the same length as \code{x}, giving the character(s) to replace p with.}
 }
 \value{
 The \code{\%ss\%} operator always returns a vector or matrix,
@@ -88,7 +116,7 @@ The \code{s_locate_ith()} function
 returns a numeric vector of the same length as \code{x}.
 }
 \description{
-String subsetting operators and functions. \cr
+Pattern-based String subsetting functions. \cr
 \cr
 The \code{x \%ss\% s } operator
 allows indexing a single string as-if it is an iterable object. \cr
@@ -99,62 +127,87 @@ gives a certain number of the first and last characters of \code{x}. \cr
 The \code{x \%strim\% ss } operator
 removes a certain number of the first and last characters of \code{x}. \cr
 \cr
-The \code{s_extract_ith(x, i, p, custom_mapply=NULL)} function
-extracts the ith occurrence of character/pattern \code{p}. \cr
-In the absence of an occurrence, it returns \code{NA}. \cr
+The \code{s_repl_substr(x, rp, ...)} function
+replaces a position (range) with string \code{rp}. \cr
 \cr
-The \code{s_locate_ith(x, i, p, type, custom_mapply=NULL)} function
-gives the start/end postion or the length of the ith occurrence of character/pattern \code{p}.
-In the absence of an occurrence, it returns \code{NA}. \cr
+The \code{s_chartr_substr(x, old, new, ...)} function
+transforms the sub-string at a position range using \code{chartr(old, new)}. \cr
 \cr
-The \code{s_repl_ith(x, i, p, rp, custom_mapply=NULL)} function
-replaces the ith occurence of character/pattern \code{p} with \code{rp}. \cr
+The \code{s_addin_substr(x, addin, side, ...)} function
+adds the additional string \code{addin} at the side \code{side} of a position. \cr
+\cr
+The \code{s_extract_substr(x, type, ...)} function
+extracts the string at, before, or after some position. \cr
 \cr
 }
 \details{
 These operators and functions serve as a way to provide straight-forward string subsetting,
-missing from base R. \cr
+is.null from base R. \cr
 \cr
 }
 \examples{
 
+# numerical substr ====
+
+x <- "12345678910"
+start=1; stop=2
+s_extract_substr(x, start=start, stop=stop)
+s_extract_substr(x, type="before", start=start, stop=stop)
+s_extract_substr(x, type="after", start=start, stop=stop)
+s_repl_substr(x, "??", start=start, stop=stop)
+s_chartr_substr(x, start=start, stop=stop)
+s_addin_substr(x, " ", "after", at=stop)
+s_addin_substr(x, " ", "before", at=start)
+
+start=10; stop=11
+s_extract_substr(x, start=start, stop=stop)
+s_extract_substr(x, type="before", start=start, stop=stop)
+s_extract_substr(x, type="after", start=start, stop=stop)
+s_repl_substr(x, "??", start=start, stop=stop)
+s_chartr_substr(x, start=start, stop=stop)
+s_addin_substr(x, " ", "after", at=stop)
+s_addin_substr(x, " ", "before", at=start)
+
+start=5; stop=6
+s_extract_substr(x, start=start, stop=stop)
+s_extract_substr(x, type="before", start=start, stop=stop)
+s_extract_substr(x, type="after", start=start, stop=stop)
+s_repl_substr(x, "??", start=start, stop=stop)
+s_chartr_substr(x, start=start, stop=stop)
+s_addin_substr(x, " ", "after", at=stop)
+s_addin_substr(x, " ", "before", at=start)
+
+
+#############################################################################
+
 # simple pattern ====
 
 x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
-print(x)
-p <- "a|e|i|o|u" # same as p <- s_pattern_b("a|e|i|o|u", fixed=FALSE, ignore.case=FALSE, perl=FALSE)
-ss <- c(2,2)
-
-x \%ss\% 3:4 # same as unlist(strsplit(x, split=""))[3:4]
-s_extract_ith(x, -1, p) # extracts the last vowel in each element of x.
-s_repl_ith(x, -1, p, "?") # replace last vowel in each element of x with a question mark ("?").
-s_locate_ith(x, -1, p, "start")
-s_locate_ith(x, -1, p, "end")
-s_locate_ith(x, -1, p, "length")
-
-x \%sget\% ss
-x \%strim\% ss
-
+loc <- s_locate_ith(x, c(1, -1), "a|e|i|o|u")
+s_extract_substr(x, loc=loc)
+s_extract_substr(x, type="before", loc=loc)
+s_extract_substr(x, type="after", loc=loc)
+s_repl_substr(x, "??", loc=loc)
+s_chartr_substr(x, loc=loc)
+s_addin_substr(x, " ", "after", loc=loc)
+s_addin_substr(x, " ", "before", loc=loc)
 
 #############################################################################
 
 # ignore case pattern ====
 
-#' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 print(x)
 # pattern with ignore.case=TRUE:
 p <- s_pattern_b("A|E|I|O|U", fixed=FALSE, ignore.case=TRUE, perl=FALSE)
-fun <- function(x)sort(x, decreasing=TRUE)
-ss <- c(2,2)
-
-x \%ss\% 3:4 # same as unlist(strsplit(x, split=""))[y]
-s_extract_ith(x, -1, p) # extracts the last vowel in each element of x.
-s_repl_ith(x, -1, p, "?") # replace last vowel in each element of x with a question mark ("?").
-s_locate_ith(x, -1, p, "start")
-s_locate_ith(x, -1, p, "end")
-s_locate_ith(x, -1, p, "length")
-x \%sget\% ss
-x \%strim\% ss
+loc <- s_locate_ith(x, c(1, -1), p)
+s_extract_substr(x, type="at", loc=loc)
+s_extract_substr(x, type="before", loc=loc)
+s_extract_substr(x, type="after", loc=loc)
+s_repl_substr(x, "??", loc=loc)
+s_chartr_substr(x, loc=loc)
+s_addin_substr(x, " ", "after", loc=loc)
+s_addin_substr(x, " ", "before", loc=loc)
 
 #############################################################################
 
@@ -164,27 +217,31 @@ x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 print(x)
 # multi-character pattern:
 p <- s_pattern_b("AB", fixed=FALSE, ignore.case=TRUE, perl=FALSE)
-fun <- function(x)sort(x, decreasing=TRUE)
-ss <- c(2,2)
-
-x \%ss\% 3:4 # same as unlist(strsplit(x, split=""))[y]
-s_extract_ith(x, -1, p)
-s_repl_ith(x, -1, p, "?")
-s_locate_ith(x, -1, p, "start")
-s_locate_ith(x, -1, p, "end")
-s_locate_ith(x, -1, p, "length")
-x \%sget\% ss
-x \%strim\% ss
+loc <- s_locate_ith(x, -1, p)
+s_extract_substr(x, loc=loc)
+s_extract_substr(x, type="before", loc=loc)
+s_extract_substr(x, type="after", loc=loc)
+s_repl_substr(x, "??", loc=loc)
+s_chartr_substr(x, loc=loc)
+s_addin_substr(x, " ", "after", loc=loc)
+s_addin_substr(x, " ", "before", loc=loc)
 
 #############################################################################
 
+# perl pattern ====
+
 p <- s_pattern_b("\\\\v+", perl=TRUE) # perl expression; only works with perl=TRUE
 x <- "line1 \n line2"
-print(x)
-s_repl_ith(x, 1, p, " - ") # replace vertical line break with a minus line.
-s_locate_ith(x, -1, p, "start")
-s_locate_ith(x, -1, p, "end")
-s_locate_ith(x, -1, p, "length")
+loc <- s_locate_ith(x, -1, p)
+s_extract_substr(x, loc=loc)
+s_extract_substr(x, type="before", loc=loc)
+s_extract_substr(x, type="after", loc=loc)
+s_repl_substr(x, "??", loc=loc)
+s_chartr_substr(x, loc=loc)
+s_addin_substr(x, " ", "after", loc=loc)
+s_addin_substr(x, " ", "before", loc=loc)
 
+
+# for stringi pattern examples: see the Readme file on GitHub.
 
 }

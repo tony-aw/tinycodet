@@ -1,6 +1,6 @@
 Package: tidyoperators
 Title: Infix operators for tidier R code
-Version: 0.9
+Version: 0.1
 Authors@R: 
     person("Tony", "Wilkes", , "tony_a_wilkes@outlook.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-9498-8379"))
@@ -28,6 +28,7 @@ Suggests:
     knitr,
     rmarkdown,
     stringi (>= 1.7.12),
+    stringfish (>= 0.15.7),
     testthat (>= 3.0.0)
 VignetteBuilder: knitr
 Depends: 

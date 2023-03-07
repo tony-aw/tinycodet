@@ -2,52 +2,25 @@
 #'
 #'
 #'
-#' @keywords internal
-#' @noRd
-s_repl_internal <- function(x, i, p, rp, fixed, ignore.case, perl, useBytes) {
-  tempgreg <- gregexpr(p, x, fixed=fixed, ignore.case = ignore.case, perl = perl, useBytes = useBytes)
-  tempmatch <- regmatches(x, tempgreg)
-  n <- length(tempmatch[[1]])
-  i[i<0] <- pmax(n - abs(i+1), 1)
-  i[i>0] <- pmin(i, n)
-  tempmatch[[1]][i] <- rp
-  regmatches(x, tempgreg) <- tempmatch
-  return(x)
-}
 
 #' @keywords internal
 #' @noRd
-s_extract_internal <- function(x, i, p, fixed, ignore.case, perl, useBytes) {
-  tempgreg <- gregexpr(p, x, fixed=fixed, ignore.case = ignore.case, perl = perl, useBytes = useBytes)
-  if(all(tempgreg[[1]] == -1)) {
-    return(NA)
-  }
-  tempmatch <- regmatches(x, tempgreg)
-  n <- length(tempmatch[[1]])
-  i[i<0] <- pmax(n - abs(i+1), 1)
-  i[i>0] <- pmin(i, n)
-  out <- tempmatch[[1]][i]
-  return(out)
-}
-
-s_locate_internal <- function(x, i, p, type, fixed, ignore.case, perl, useBytes) {
+s_locate_internal <- function(x, i, p, fixed, ignore.case, perl, useBytes) {
   tempgreg <- gregexpr(p, x, fixed=fixed, ignore.case = ignore.case, perl = perl, useBytes = useBytes)
   tempgreg <- tempgreg[[1]]
-  n <- length(tempgreg)
-  i[i<0] <- pmax(n - abs(i+1), 1)
-  i[i>0] <- pmin(i, n)
+  n.matches <- length(tempgreg)
+  i[i<0] <- pmax(n.matches[i<0] - abs(i[i<0]+1), 1)
+  i[i>0] <- pmin(i[i>0], n.matches[i>0])
   if(all(tempgreg == -1)) {
-    return(NA)
+    out <- cbind(start=NA, end=NA, length=NA)
   }
   if(all(tempgreg != -1)){
-    out <- switch(
-      type,
-      "start" = tempgreg[i],
-      "end" = tempgreg[i] + attr(tempgreg, which="match.length")[i] -1,
-      "length" = attr(tempgreg, which="match.length")[i]
+    out <- cbind(start=tempgreg[i],
+          end=tempgreg[i] + attr(tempgreg, which="match.length")[i] -1,
+          length = attr(tempgreg, which="match.length")[i]
     )
-    return(out)
   }
+  return(out)
 }
 
 #' @keywords internal

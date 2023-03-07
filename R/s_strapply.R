@@ -30,15 +30,10 @@
 #' For example: \cr
 #' \code{plan(multisession)} \cr
 #' \code{s_strapply(..., custom_sapply=future.apply::future_sapply)} \cr
-#' NOTE: if you use \code{s_extract_ith()} and \code{s_repl_ith()} inside an \code{s_strapply()} call,
-#' and you want to replace the apply functions for multi-threading reasons,
-#' I highly advise the user to only replace the \code{sapply} function in \code{s_strapply},
-#' and to leave \code{mapply} inside \code{s_extract_ith()} and \code{s_repl_ith()} without multi-threading:\cr
-#' Running nested multi-threading processes may actually slow down the code, and may cause other problems also.
-#' I.e. run this: \cr
-#' \code{s_strapply(x, w=T, fun=\(x)s_extract_ith(x, -2, p), custom_sapply = future_sapply)} \cr
+#' NOTE: Do not enable multi-threading on \code{fun} itself. I.e. run this: \cr
+#' \code{s_strapply(x, w=T, fun=\(x)s_locate_ith(x, -2, p), custom_sapply = future_sapply)} \cr
 #' and not this: \cr
-#' \code{s_strapply(x, w=T, fun=\(x)s_extract_ith(x, -2, p, custom_mapply=future_mapply), custom_sapply=future_sapply)} \cr
+#' \code{s_strapply(x, w=T, fun=\(x)s_locate_ith(x, -2, p, custom_mapply=future_mapply), custom_sapply=future_sapply)} \cr
 #'
 #'
 #' @returns
@@ -57,12 +52,6 @@
 #'
 #' # get which letter of the alphabet every character is:
 #' s_strapply(x, fun=\(x)match(tolower(x), letters), clp=",")
-#'
-#' # get second-last vowel in every word:
-#' x <- c("Outrageous, egregious, preposterous!", "Pleasant evening everyone")
-#' print(x)
-#' p <- s_pattern_b("a|e|i|o|u", ignore.case=TRUE)
-#' s_strapply(x, w=TRUE, fun=\(x)s_extract_ith(x, -2, p))
 #'
 #' # shuffle words randomly:
 #' s_strapply(x, w=TRUE, fun=\(x)sample(x))
