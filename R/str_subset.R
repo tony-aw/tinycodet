@@ -222,7 +222,7 @@ s_repl_substr <- function(
     prepart <- ifelse(loc[,1]<=1, "", stringfish::sf_substr(x, start=1, stop=loc[,1]-1), ...)
     postpart <- ifelse(loc[,2]>=n, "", stringfish::sf_substr(x, start = loc[,2]+1, stop=n), ...)
     mainpart <- rp
-    out <- stringfish::sf_paste(prepart, mainpart, postpart, sep ="", ...)
+    out <- paste(prepart, mainpart, postpart, sep = "")
   }
 
   if(sum(stats::complete.cases(loc))>0){
@@ -256,7 +256,7 @@ s_chartr_substr <- function(
     prepart <- ifelse(loc[,1]<=1, "", stringfish::sf_substr(x, start=1, stop=loc[,1]-1), ...)
     postpart <- ifelse(loc[,2] >=n, "", stringfish::sf_substr(x, start = loc[,2]+1, stop=n), ...)
     mainpart <- chartr(old=old, new=new, stringfish::sf_substr(x, loc[,1], loc[,2]), ...)
-    out <- stringfish::sf_paste(prepart, mainpart, postpart, sep ="", ...)
+    out <- paste(prepart, mainpart, postpart, sep = "")
   }
 
   if(sum(stats::complete.cases(loc))>0){
@@ -295,7 +295,7 @@ s_addin_substr <- function(
     n <- stringfish::sf_nchar(x, ...)
     prepart <- ifelse(loc[,1]<=1, "", stringfish::sf_substr(x, start=1, stop=prepart.stop, ...))
     postpart <- ifelse(loc[,2] >=n, "", stringfish::sf_substr(x, start = postpart.start, stop=n, ...))
-    out <- stringfish::sf_paste(prepart, addin, postpart, sep ="", ...)
+    out <- paste(prepart, addin, postpart, sep = "")
   }
 
   if(sum(stats::complete.cases(loc))>0){
