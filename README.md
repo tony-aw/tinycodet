@@ -129,9 +129,9 @@ The `tidyoperators` R package adds the following functionality:
   ignore.case) are available for all string-pattern-related functions.
 - This R package has only one dependency: `stringi`. No other
   dependencies, as to avoid “dependency hell”.
-- Although this package has zero dependencies, it allows multi-threading
-  of functions (when appropriate) through third-party packages to
-  improve efficiency.
+- Although this package has no other dependencies, it allows
+  multi-threading of functions (when appropriate) through third-party
+  packages to improve efficiency.
 
 I realize there are other R-packages that cover some of the above
 functionalities. But I often experience that these R packages (or at
