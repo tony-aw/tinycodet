@@ -1,15 +1,15 @@
-#' Locate the \eqn{i^{th}} occurrence of a pattern
+#' Locate the \eqn{i^{th}} occurrence of a pattern, or locate presence of pattern
 #'
 #'@description
-#' This functions locates the \eqn{i^{th}} occurrence of a pattern in each string of
-#' some character vector.
-#' This is a helper function;
-#' it's output can be used in the many string subsetting function to
+#' The \code{s_locate_ith} functions
+#' locates the \eqn{i^{th}} occurrence of a pattern in each string of
+#' some character vector. It's output can be used in the many string sub-setting functions to
 #' extract, transform, replace, add-before, or add-after the \eqn{i^{th}} pattern. \cr
+#' \cr
 
 #' @param x a string or character vector.
-#' @param p the result from either \code{s_pattern_b} or \code{s_pattern_stri}.
-#' See \code{\link{s_pattern_b}}.
+#' @param p the result from \link{s_pattern},
+#' or else a character vector of the same length as \code{s} with regular expressions.
 #' @param i a number, or a numeric vector of the same length as \code{x}.
 #' This gives the \eqn{i^{th}} instance to be replaced. \cr
 #' Positive numbers are counting from the left. Negative numbers are counting from the right. I.e.: \cr
@@ -56,23 +56,21 @@
 #'
 #' # simple pattern ====
 #'
-#' x <- paste0(1:10, collapse="")
+#' x <- rep(paste0(1:10, collapse=""), 10)
 #' print(x)
-#' out <- lapply(1:10, \(i)s_locate_ith(x, i, as.character(i)))
-#' out <- do.call(rbind, out)
+#' out <- s_locate_ith(x, 1:10, as.character(1:10))
 #' cbind(1:10, out)
 #'
-#' x <- paste0(1:10, collapse="")
+#' x <- rep(paste0(1:10, collapse=""), 10)
 #' print(x)
-#' out <- lapply(1:10, \(i)s_locate_ith(x, -i, as.character(i)))
-#' out <- do.call(rbind, out)
+#' out <- s_locate_ith(x, -1:-10, as.character(1:10))
 #' cbind(1:10, out)
 #'
 #'
 #' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 #' print(x)
-#' p <- "a|e|i|o|u" # same as p <- s_pattern_b("a|e|i|o|u", fixed=FALSE, ignore.case=FALSE, perl=FALSE)
-#' out <- s_locate_ith(x, -1, p)
+#' p <- rep("a|e|i|o|u",2) # same as p <- s_pattern(regex=rep("a|e|i|o|u", 2), ignore.case=FALSE)
+#' out <- s_locate_ith(x, c(-1, 1), p)
 #' substr(x, out[,1], out[,2])
 #'
 #'
@@ -83,9 +81,10 @@
 #' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 #' print(x)
 #' # pattern with ignore.case=TRUE:
-#' p <- s_pattern_b("A|E|I|O|U", fixed=FALSE, ignore.case=TRUE, perl=FALSE)
-#' out <- s_locate_ith(x, c(1,-1), p)
+#' p <- s_pattern(regex = rep("A|E|I|O|U", 2), ignore.case=TRUE)
+#' out <- s_locate_ith(x, c(1, -1), p)
 #' substr(x, out[,1], out[,2])
+#'
 #'
 #' #############################################################################
 #'
@@ -94,73 +93,35 @@
 #' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 #' print(x)
 #' # multi-character pattern:
-#' p <- s_pattern_b("AB", fixed=FALSE, ignore.case=TRUE, perl=FALSE)
+#' p <- s_pattern(regex = rep("AB", 2), ignore_case=TRUE)
 #' out <- s_locate_ith(x, c(1, -1), p)
 #' substr(x, out[,1], out[,2])
-#'
-#' #############################################################################
-#'
-#' p <- s_pattern_b("\\v+", perl=TRUE) # perl expression; only works with perl=TRUE
-#' x <- c("line1 \n line2", "line1 \n line2")
-#' print(x)
-#' out <- s_locate_ith(x, c(1,-1), p)
-#' substr(x, out[,1], out[,2])
-#'
 #'
 
 #' @rdname s_locate_ith
 #' @export
 s_locate_ith <- function(x, i, p, custom_mapply=NULL) {
-  if(isTRUE(attr(p, "engine")=="base") | is.null(attr(p, "engine"))){
-    if(length(i)==1) i <- rep(i, length(x))
-    if(length(i)!=length(x)){
-      stop("i must be of length 1, or the same length as x")
-    }
-    p_attr <- s_get_pattern_attr_internal(p)
-    p1 <- gregexpr(
-      p, x, fixed = p_attr$fxd, ignore.case = p_attr$ic, perl = p_attr$prl, useBytes = p_attr$ub
-    )
-    n.matches <- lengths(p1)
-    i[i<0] <- pmax(n.matches[i<0] - abs(i[i<0]+1), 1)
-    i[i>0] <- pmin(i[i>0], n.matches[i>0])
-
-    if(is.null(custom_mapply)){
-      p2 <- mapply(\(x, i){
-      cbind(start=x[i],
-            end=x[i] + attr(x, which="match.length")[i] -1,
-            length = attr(x, which="match.length")[i]
-      )}, x=p1, i=i, SIMPLIFY = FALSE
-      )
-    }
-    if(!is.null(custom_mapply)){
-      p2 <- custom_mapply(\(x, i){
-        cbind(start=x[i],
-              end=x[i] + attr(x, which="match.length")[i] -1,
-              length = attr(x, which="match.length")[i]
-        )}, x=p1, i=i, SIMPLIFY = FALSE
-      )
-    }
-    out <- p3 <- do.call(rbind, p2)
-    return(out)
+  if(length(i)==1) i <- rep(i, length(x))
+  if(length(i)!=length(x)){
+    stop("i must be of length 1, or the same length as x")
   }
   if(isTRUE(attr(p, "engine")=="stringi")){
-    if(length(i)==1) i <- rep(i, length(x))
-    if(length(i)!=length(x)){
-      stop("i must be of length 1, or the same length as x")
-    }
     p1 <- do.call(stringi::stri_locate_all, c(list(str=x), p))
-    n.matches <- sapply(p1, nrow)
-    i[i<0] <- pmax(n.matches[i<0] - abs(i[i<0]+1), 1)
-    i[i>0] <- pmin(i[i>0], n.matches[i>0])
-
-    if(is.null(custom_mapply)) {
-      p2 <- mapply(function(x, i)x[i,], x=p1, i=i, SIMPLIFY = FALSE)
-    }
-    if(!is.null(custom_mapply)){
-      p2 <- custom_mapply(function(x, i)x[i,], x=p1, i=i, SIMPLIFY = FALSE)
-    }
-    p3 <- do.call(rbind, p2)
-    p3 <- cbind(p3, "length" =p3[,2] - p3[, 1] +1)
-    return(p3)
+  } else{
+    p1 <- stringi::stri_locate_all(x, regex=p)
   }
+  n.matches <- sapply(p1, nrow)
+  i[i<0] <- pmax(n.matches[i<0] - abs(i[i<0]+1), 1)
+  i[i>0] <- pmin(i[i>0], n.matches[i>0])
+
+  if(is.null(custom_mapply)) {
+    p2 <- mapply(function(x, i)x[i,], x=p1, i=i, SIMPLIFY = FALSE)
+  }
+  if(!is.null(custom_mapply)){
+    p2 <- custom_mapply(function(x, i)x[i,], x=p1, i=i, SIMPLIFY = FALSE)
+  }
+
+  p3 <- do.call(rbind, p2)
+  p3 <- cbind(p3, "length" = p3[,2] - p3[, 1] +1)
+  return(p3)
 }

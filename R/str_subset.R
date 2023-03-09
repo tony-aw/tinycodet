@@ -1,7 +1,7 @@
 #' String subsetting functions and operators
 #'
 #'@description
-#' Pattern-based String subsetting functions. \cr
+#' String subsetting functions. \cr
 #' \cr
 #' The \code{x %ss% s } operator
 #' allows indexing a single string as-if it is an iterable object. \cr
@@ -27,7 +27,7 @@
 #'
 #' @param s a numeric vector giving the subset indices.
 #' @param x a string or character vector.
-#' See \code{\link{s_pattern_b}}.
+#' See \code{\link{s_pattern}}.
 #' @param ss a vector of length 2, or a matrix with 2 columns with \code{nrow(ss)==length(x)}.
 #' The object \code{ss} should consist entirely of non-negative integers
 #' (thus 0, 1, 2, etc. are valid, but -1, -2, -3 etc are not valid).
@@ -124,7 +124,9 @@
 #' # simple pattern ====
 #'
 #' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
-#' loc <- s_locate_ith(x, c(1, -1), "a|e|i|o|u")
+#' print(x)
+#' p <- rep("a|e|i|o|u",2)
+#' loc <- s_locate_ith(x, c(-1, 1), p)
 #' s_extract_substr(x, loc=loc)
 #' s_extract_substr(x, type="before", loc=loc)
 #' s_extract_substr(x, type="after", loc=loc)
@@ -140,7 +142,7 @@
 #' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 #' print(x)
 #' # pattern with ignore.case=TRUE:
-#' p <- s_pattern_b("A|E|I|O|U", fixed=FALSE, ignore.case=TRUE, perl=FALSE)
+#' p <- s_pattern(regex = rep("A|E|I|O|U", 2), ignore.case=TRUE)
 #' loc <- s_locate_ith(x, c(1, -1), p)
 #' s_extract_substr(x, type="at", loc=loc)
 #' s_extract_substr(x, type="before", loc=loc)
@@ -157,8 +159,8 @@
 #' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 #' print(x)
 #' # multi-character pattern:
-#' p <- s_pattern_b("AB", fixed=FALSE, ignore.case=TRUE, perl=FALSE)
-#' loc <- s_locate_ith(x, -1, p)
+#' p <- s_pattern(regex = rep("AB", 2), ignore.case=TRUE)
+#' loc <- s_locate_ith(x, c(1,-1), p)
 #' s_extract_substr(x, loc=loc)
 #' s_extract_substr(x, type="before", loc=loc)
 #' s_extract_substr(x, type="after", loc=loc)
@@ -166,24 +168,6 @@
 #' s_chartr_substr(x, loc=loc)
 #' s_addin_substr(x, " ", "after", loc=loc)
 #' s_addin_substr(x, " ", "before", loc=loc)
-#'
-#' #############################################################################
-#'
-#' # perl pattern ====
-#'
-#' p <- s_pattern_b("\\v+", perl=TRUE) # perl expression; only works with perl=TRUE
-#' x <- "line1 \n line2"
-#' loc <- s_locate_ith(x, -1, p)
-#' s_extract_substr(x, loc=loc)
-#' s_extract_substr(x, type="before", loc=loc)
-#' s_extract_substr(x, type="after", loc=loc)
-#' s_repl_substr(x, "??", loc=loc)
-#' s_chartr_substr(x, loc=loc)
-#' s_addin_substr(x, " ", "after", loc=loc)
-#' s_addin_substr(x, " ", "before", loc=loc)
-#'
-#'
-#' # for stringi pattern examples: see the Readme file on GitHub.
 #'
 
 #' @rdname str_subset

@@ -16,7 +16,7 @@ x \%s* <-\% n
 x \%s/ <-\% p
 }
 \arguments{
-\item{x, y, p, n}{see \link[=\%s+\%]{string arithmetic} and \link{s_pattern_b}.}
+\item{x, y, p, n}{see \link[=\%s+\%]{string arithmetic} and \link{s_pattern}.}
 }
 \value{
 These operators do not return any value: they are in-place modifiers, and thus modify \code{x} directly.
@@ -39,7 +39,7 @@ Note that there is no in-place modifier versions of \code{\%ss\%}, \code{s_extra
 }
 \examples{
 y <- "a"
-p <- "a|e|i|o|u" # same as p <- s_pattern_b("a|e|i|o|u", fixed=FALSE, ignore.case=FALSE, perl=FALSE)
+p <- "a|e|i|o|u"
 n <- c(2, 3)
 
 x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
@@ -68,7 +68,7 @@ print(x)
 
 y <- "a"
 # pattern with ignore.case=TRUE:
-p <- s_pattern_b("A|E|I|O|U", fixed=FALSE, ignore.case=TRUE, perl=FALSE)
+p <- s_pattern(regex = "A|E|I|O|U", ignore.case=TRUE)
 n <- c(3, 2)
 
 x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))

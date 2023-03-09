@@ -15,9 +15,10 @@ s_locate_internal <- function(x, i, p, fixed, ignore.case, perl, useBytes) {
     out <- cbind(start=NA, end=NA, length=NA)
   }
   if(all(tempgreg != -1)){
-    out <- cbind(start=tempgreg[i],
-          end=tempgreg[i] + attr(tempgreg, which="match.length")[i] -1,
-          length = attr(tempgreg, which="match.length")[i]
+    out <- cbind(
+      start = tempgreg[i],
+      end = tempgreg[i] + attr(tempgreg, which="match.length")[i] -1,
+      length = attr(tempgreg, which="match.length")[i]
     )
   }
   return(out)

@@ -14,6 +14,7 @@ Description: The 'tidyoperators' R-package adds some much needed infix operators
     string sub-setting,
     in-place modifying string arithmetic,
     in-place modifying string sub-setting,
+    "which"-operators,
     and in-place modifying unreal replacers.
     Moreover, it includes some helper functions for more complex string arithmetic,
     some of which are missing from popular R packages like stringi.
@@ -29,9 +30,10 @@ RoxygenNote: 7.2.3
 Suggests: 
     knitr,
     rmarkdown,
-    stringi (>= 1.7.12),
     stringfish (>= 0.15.7),
     testthat (>= 3.0.0)
 VignetteBuilder: knitr
 Depends: 
     R (>= 4.1.0)
+Imports: 
+    stringi (>= 1.7.12)

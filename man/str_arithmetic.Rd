@@ -20,8 +20,8 @@ x \%s/\% p
 
 \item{y}{a string, or a character vector of the same length as \code{x}.}
 
-\item{p}{the result from either \code{s_pattern_b} or \code{s_pattern_stri}.
-See \code{\link{s_pattern_b}}.}
+\item{p}{the result from \link{s_pattern},
+or else a character vector of the same length as \code{s} with regular expressions.}
 
 \item{n}{a number, or a numeric vector of the same length as \code{x}.}
 }
@@ -52,8 +52,8 @@ missing from base R. \cr
 \examples{
 x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 print(x)
-y <- "a"
-p <- "a|e|i|o|u" # same as p <- s_pattern_b("a|e|i|o|u", fixed=FALSE, ignore.case=FALSE, perl=FALSE)
+y <- c("a", "b")
+p <- rep("a|e|i|o|u", 2) # same as p <- s_pattern(regex=rep("a|e|i|o|u", 2))
 n <- c(3, 2)
 
 x \%s+\% y # =paste0(x,y)
@@ -68,22 +68,13 @@ x \%s/\% p # count how often vowels appear in each string of vector x.
 x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 print(x)
 y <- "a"
-# pattern with ignore.case=TRUE:
-p <- s_pattern_b("A|E|I|O|U", fixed=FALSE, ignore.case=TRUE, perl=FALSE)
+# pattern that ignores case:
+p <- s_pattern(regex=rep("A|E|I|O|U", 2), ignore.case=TRUE)
 n <- c(2, 3)
 
 x \%s+\% y # =paste0(x,y)
 x \%s-\% p # remove all vowels from x
 x \%s*\% n
 x \%s/\% p # count how often vowels appears in each string of vector x.
-
-
-#############################################################################
-
-
-p <- s_pattern_b("\\\\v+", perl=TRUE) # perl expression; only works with perl=TRUE
-x <- "line1 \n line2"
-print(x)
-x \%s-\% p # remove vertical line
 
 }

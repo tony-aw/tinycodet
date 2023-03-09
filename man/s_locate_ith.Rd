@@ -2,7 +2,7 @@
 % Please edit documentation in R/s_locate_ith.R
 \name{s_locate_ith}
 \alias{s_locate_ith}
-\title{Locate the \eqn{i^{th}} occurrence of a pattern}
+\title{Locate the \eqn{i^{th}} occurrence of a pattern, or locate presence of pattern}
 \usage{
 s_locate_ith(x, i, p, custom_mapply = NULL)
 }
@@ -25,8 +25,8 @@ For example: suppose a string has 3 instances of p; \cr
 then if \code{i=4} the third instance will be located, \cr
 and if \code{i=-3} the first instance will be located. \cr}
 
-\item{p}{the result from either \code{s_pattern_b} or \code{s_pattern_stri}.
-See \code{\link{s_pattern_b}}.}
+\item{p}{the result from \link{s_pattern},
+or else a character vector of the same length as \code{s} with regular expressions.}
 
 \item{custom_mapply}{the \code{s_locate_ith()} function
 internally use \code{mapply()}. The user may choose to replace this with a custom functions,
@@ -51,33 +51,31 @@ The second column gives the end position of the \eqn{i^{th}} occurence of patter
 The third column gives the length of the position range of the \eqn{i^{th}} occurence of pattern \code{p}. \cr
 }
 \description{
-This functions locates the \eqn{i^{th}} occurrence of a pattern in each string of
-some character vector.
-This is a helper function;
-it's output can be used in the many string subsetting function to
+The \code{s_locate_ith} functions
+locates the \eqn{i^{th}} occurrence of a pattern in each string of
+some character vector. It's output can be used in the many string sub-setting functions to
 extract, transform, replace, add-before, or add-after the \eqn{i^{th}} pattern. \cr
+\cr
 }
 \examples{
 
 # simple pattern ====
 
-x <- paste0(1:10, collapse="")
+x <- rep(paste0(1:10, collapse=""), 10)
 print(x)
-out <- lapply(1:10, \(i)s_locate_ith(x, i, as.character(i)))
-out <- do.call(rbind, out)
+out <- s_locate_ith(x, 1:10, as.character(1:10))
 cbind(1:10, out)
 
-x <- paste0(1:10, collapse="")
+x <- rep(paste0(1:10, collapse=""), 10)
 print(x)
-out <- lapply(1:10, \(i)s_locate_ith(x, -i, as.character(i)))
-out <- do.call(rbind, out)
+out <- s_locate_ith(x, -1:-10, as.character(1:10))
 cbind(1:10, out)
 
 
 x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 print(x)
-p <- "a|e|i|o|u" # same as p <- s_pattern_b("a|e|i|o|u", fixed=FALSE, ignore.case=FALSE, perl=FALSE)
-out <- s_locate_ith(x, -1, p)
+p <- rep("a|e|i|o|u",2) # same as p <- s_pattern(regex=rep("a|e|i|o|u", 2), ignore.case=FALSE)
+out <- s_locate_ith(x, c(-1, 1), p)
 substr(x, out[,1], out[,2])
 
 
@@ -88,9 +86,10 @@ substr(x, out[,1], out[,2])
 x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 print(x)
 # pattern with ignore.case=TRUE:
-p <- s_pattern_b("A|E|I|O|U", fixed=FALSE, ignore.case=TRUE, perl=FALSE)
-out <- s_locate_ith(x, c(1,-1), p)
+p <- s_pattern(regex = rep("A|E|I|O|U", 2), ignore.case=TRUE)
+out <- s_locate_ith(x, c(1, -1), p)
 substr(x, out[,1], out[,2])
+
 
 #############################################################################
 
@@ -99,17 +98,8 @@ substr(x, out[,1], out[,2])
 x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 print(x)
 # multi-character pattern:
-p <- s_pattern_b("AB", fixed=FALSE, ignore.case=TRUE, perl=FALSE)
+p <- s_pattern(regex = rep("AB", 2), ignore_case=TRUE)
 out <- s_locate_ith(x, c(1, -1), p)
 substr(x, out[,1], out[,2])
-
-#############################################################################
-
-p <- s_pattern_b("\\\\v+", perl=TRUE) # perl expression; only works with perl=TRUE
-x <- c("line1 \n line2", "line1 \n line2")
-print(x)
-out <- s_locate_ith(x, c(1,-1), p)
-substr(x, out[,1], out[,2])
-
 
 }

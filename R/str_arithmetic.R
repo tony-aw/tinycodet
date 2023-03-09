@@ -15,8 +15,8 @@
 #' \cr
 #' @param x a string or character vector.
 #' @param y a string, or a character vector of the same length as \code{x}.
-#' @param p the result from either \code{s_pattern_b} or \code{s_pattern_stri}.
-#' See \code{\link{s_pattern_b}}.
+#' @param p the result from \link{s_pattern},
+#' or else a character vector of the same length as \code{s} with regular expressions.
 #' @param n a number, or a numeric vector of the same length as \code{x}.
 #'
 #'
@@ -35,8 +35,8 @@
 #' @examples
 #' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 #' print(x)
-#' y <- "a"
-#' p <- "a|e|i|o|u" # same as p <- s_pattern_b("a|e|i|o|u", fixed=FALSE, ignore.case=FALSE, perl=FALSE)
+#' y <- c("a", "b")
+#' p <- rep("a|e|i|o|u", 2) # same as p <- s_pattern(regex=rep("a|e|i|o|u", 2))
 #' n <- c(3, 2)
 #'
 #' x %s+% y # =paste0(x,y)
@@ -51,8 +51,8 @@
 #' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 #' print(x)
 #' y <- "a"
-#' # pattern with ignore.case=TRUE:
-#' p <- s_pattern_b("A|E|I|O|U", fixed=FALSE, ignore.case=TRUE, perl=FALSE)
+#' # pattern that ignores case:
+#' p <- s_pattern(regex=rep("A|E|I|O|U", 2), ignore.case=TRUE)
 #' n <- c(2, 3)
 #'
 #' x %s+% y # =paste0(x,y)
@@ -60,15 +60,7 @@
 #' x %s*% n
 #' x %s/% p # count how often vowels appears in each string of vector x.
 #'
-#'
-#' #############################################################################
-#'
-#'
-#' p <- s_pattern_b("\\v+", perl=TRUE) # perl expression; only works with perl=TRUE
-#' x <- "line1 \n line2"
-#' print(x)
-#' x %s-% p # remove vertical line
-#'
+
 
 #' @rdname str_arithmetic
 #' @export
@@ -77,19 +69,11 @@
 #' @rdname str_arithmetic
 #' @export
 `%s-%` <- function (x, p) {
-  if(isTRUE(attr(p, "engine")=="base") | is.null(attr(p, "engine"))){
-    p_attr <- s_get_pattern_attr_internal(p)
-    return(mapply(function(x, p){
-      gsub(
-        pattern = p, replacement = "",  x = x,
-        fixed = p_attr$fxdd, ignore.case = p_attr$ic, perl = p_attr$prl, useBytes = p_attr$ub
-      )
-    }, x, p, USE.NAMES = FALSE))
-  }
   if(isTRUE(attr(p, "engine")=="stringi")){
     do.call(stringi::stri_replace_all, c(list(str=x, replacement=""), p))
+  } else {
+    stringi::stri_replace_all(x, "", regex=p)
   }
-
 }
 
 #' @rdname str_arithmetic
@@ -101,16 +85,10 @@
 #' @rdname str_arithmetic
 #' @export
 `%s/%` <- function(x, p) {
-  if(isTRUE(attr(p, "engine")=="base") | is.null(attr(p, "engine"))){
-    p_attr <- s_get_pattern_attr_internal(p)
-    return(mapply(function(x, p){
-      lengths(regmatches(x, gregexpr(
-        p, x, fixed = p_attr$fxd, ignore.case = p_attr$ic, perl = p_attr$prl, useBytes = p_attr$ub
-      )))
-    }, x, p, USE.NAMES = FALSE))
-  }
   if(isTRUE(attr(p, "engine")=="stringi")){
     do.call(stringi::stri_count, c(list(str=x), p))
+  } else {
+    stringi::stri_count(x, regex=p)
   }
 }
 
