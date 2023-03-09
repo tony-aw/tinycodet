@@ -26,7 +26,7 @@ then if \code{i=4} the third instance will be located, \cr
 and if \code{i=-3} the first instance will be located. \cr}
 
 \item{p}{the result from \link{s_pattern},
-or else a character vector of the same length as \code{s} with regular expressions.}
+or else a character vector of the same length as \code{x} with regular expressions.}
 
 \item{custom_mapply}{the \code{s_locate_ith()} function
 internally use \code{mapply()}. The user may choose to replace this with a custom functions,

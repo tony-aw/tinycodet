@@ -9,7 +9,7 @@
 
 #' @param x a string or character vector.
 #' @param p the result from \link{s_pattern},
-#' or else a character vector of the same length as \code{s} with regular expressions.
+#' or else a character vector of the same length as \code{x} with regular expressions.
 #' @param i a number, or a numeric vector of the same length as \code{x}.
 #' This gives the \eqn{i^{th}} instance to be replaced. \cr
 #' Positive numbers are counting from the left. Negative numbers are counting from the right. I.e.: \cr

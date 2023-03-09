@@ -342,4 +342,3 @@ s_extract_substr <- function(
 
   return(out)
 }
-

@@ -18,7 +18,7 @@ Description: The 'tidyoperators' R-package adds some much needed infix operators
     and in-place modifying unreal replacers.
     Moreover, it includes some helper functions for more complex string arithmetic,
     some of which are missing from popular R packages like stringi.
-    All base R expressions options (Regex, Perl, fixed, useBytes, ignore.case)
+    All base R expressions options (Regex, fixed, coll, boundary, charclass)
     are available for all string-pattern-related functions,
     as well as all options from stringi (regex, fixed, boundary, charclass, coll).
     This package also allows integrating third-party parallel computing packages

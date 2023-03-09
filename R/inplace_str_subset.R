@@ -47,6 +47,9 @@
 #' print(x)
 #'
 
+#' @name inplace_str_subset
+NULL
+
 #' @rdname inplace_str_subset
 #' @export
 `%sget <-%` <- function(x, ss) {

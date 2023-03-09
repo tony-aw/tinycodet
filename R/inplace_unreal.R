@@ -20,6 +20,10 @@
 #' print(x)
 #'
 
+#' @name inplace_unreal
+NULL
+
+#' @rdname inplace_unreal
 #' @export
 `%unreal <-%` <- function(x, replacement) {
   y <- x

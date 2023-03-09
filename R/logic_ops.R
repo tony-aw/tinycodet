@@ -73,6 +73,8 @@
 #' s[s %=strtype% "special"]
 
 
+#' @name logic_ops
+NULL
 
 #' @rdname logic_ops
 #' @export

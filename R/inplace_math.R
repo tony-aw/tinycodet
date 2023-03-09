@@ -78,6 +78,9 @@
 #' exp(3) # notice this is the same.
 #'
 
+#' @name inplace_math
+NULL
+
 #' @rdname inplace_math
 #' @export
 `%+ <-%` <- function(x, y) {

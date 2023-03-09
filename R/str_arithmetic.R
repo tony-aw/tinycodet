@@ -16,7 +16,7 @@
 #' @param x a string or character vector.
 #' @param y a string, or a character vector of the same length as \code{x}.
 #' @param p the result from \link{s_pattern},
-#' or else a character vector of the same length as \code{s} with regular expressions.
+#' or else a character vector of the same length as \code{x} with regular expressions.
 #' @param n a number, or a numeric vector of the same length as \code{x}.
 #'
 #'
@@ -61,6 +61,9 @@
 #' x %s/% p # count how often vowels appears in each string of vector x.
 #'
 
+
+#' @name str_arithmetic
+NULL
 
 #' @rdname str_arithmetic
 #' @export

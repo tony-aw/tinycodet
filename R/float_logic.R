@@ -60,6 +60,9 @@
 #' x %f<=% y
 #' x %f>=% y
 
+#' @name float_logic
+NULL
+
 #' @rdname float_logic
 #' @export
 `%f==%` <- function(x, y) {

@@ -82,7 +82,7 @@ modifying string arithmetic, in-place modifying string sub-setting,
 “which”-operators, and in-place modifying unreal replacers. Moreover, it
 includes some helper functions for more complex string arithmetic, some
 of which are missing from popular R packages like stringi. All base R
-expressions options (Regex, Perl, fixed, useBytes, ignore.case) are
+expressions options (Regex, fixed, coll, boundary, charclass) are
 available for all string-pattern-related functions, as well as all
 options from stringi (regex, fixed, boundary, charclass, coll). This
 package also allows integrating third-party parallel computing packages
@@ -105,10 +105,17 @@ library(devtools)
 devtools::install_github("https://github.com/tony-aw/tidyoperators")
 ```
 
-Then load it using:
+then load it using:
 
 ``` r
 library(tidyoperators)
+```
+
+an one can open the introduction page to the `tidyoperators` package
+using:
+
+``` r
+tidyoperators_help()
 ```
 
 # Overview
@@ -125,8 +132,8 @@ The `tidyoperators` R package adds the following functionality:
 - Infix operators for In-place modifying string sub-setting.
 - Some additional string manipulation functions.
 - Infix operators for general sub-setting (“which”-operators).
-- All `stringi` expressions options (Regex, Perl, fixed, useBytes,
-  ignore.case) are available for all string-pattern-related functions.
+- All `stringi` expressions options (regex, fixed, coll, boundary,
+  charclass) are available for all string-pattern-related functions.
 - This R package has only one dependency: `stringi`. No other
   dependencies, as to avoid “dependency hell”.
 - Although this package has no other dependencies, it allows
@@ -951,7 +958,7 @@ itself. Thus, `x` is written twice. If the object has a short name like
 for perhaps pattern matching). But if `x` has a longer name like
 `very_long_name_1`, doing `very_long_name_1[very_long_name_1>0]` becomes
 cumbersome. The tidyoperators package adds several “which”-operators,
-which will simplify this.
+which will tidy this up a bit.
 
 All which-operators are surrounded by a `%[` and a `]%`
 
@@ -965,6 +972,12 @@ The which operators are as follows:
   if they contain pattern `p`.
 - The `s %[!sp]% p` operator selects elements from character vector s if
   they do NOT contain pattern `p`.
+- The `n %[intv]% ss` operator selects elements from numeric
+  vector/matrix/array `n`, whose values are within the interval defined
+  by `ss`.
+- The `n %[!intv]% ss` operator selects elements from numeric
+  vector/matrix/array `n`, whose values are outside the interval defined
+  by `ss`.
 
 As was the case with the string operators, pattern `p` can be a vector
 of regular expressions, or a call from the `s_pattern()` function.
@@ -973,10 +986,16 @@ Here are a few examples to see these operators in action:
 
 ``` r
 object_with_very_long_name <- -5:5
-object_with_very_long_name %[fun]% \(x) x>-2 & x<2
-#> [1] -1  0  1
-object_with_very_long_name %[!fun]% \(x) x>-3 & x<3
-#> [1] -5 -4 -3  3  4  5
+object_with_very_long_name %[fun]% \(x)x %in% c(1, 3, 5, 7)
+#> [1] 1 3 5
+object_with_very_long_name %[!fun]% \(x)x %in% c(1, 3, 5, 7)
+#> [1] -5 -4 -3 -2 -1  0  2  4
+n <- matrix(-5:4, ncol=2)
+ss <- cbind(rep(-2, length(n)), rep(2, length(n)))
+n %[intv]% ss
+#> [1] -2 -1  0  1  2
+n %[!intv]% ss
+#> [1] -5 -4 -3  3  4
 s <- c("hello world", "goodbye world")
 p <- s_pattern(regex = rep("hello", 2))
 s %[sp]% p

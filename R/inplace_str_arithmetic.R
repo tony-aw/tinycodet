@@ -76,6 +76,9 @@
 #' print(x)
 #'
 
+#' @name inplace_str_arithmetic
+NULL
+
 #' @rdname inplace_str_arithmetic
 #' @export
 `%s+ <-%` <- function(x, y) {

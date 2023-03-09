@@ -16,11 +16,10 @@ The \code{s_pattern(...)} call returns a list with arguments that will be
 passed to the appropriate functions in \code{stringi}. \cr
 }
 \description{
-The \code{x \%s-\% p} and \code{x \%s/\% p} operators
-(and their in-place equivalents),
+The \code{\%s-\%} and \code{\%s/\%} operators, their in-place equivalents,
+and the \code{\%[sp]\%} and \code{\%[!sp]\%} operators,
 and the \code{s_locate_ith()} function,
-perform pattern matching for
-subtracting, counting, and locating patterns, respectively.
+all perform pattern matching for some purpose.
 By default the pattern matching is interpreted as case-sensitive
 \code{regex} patterns from \code{stringi}.
 
