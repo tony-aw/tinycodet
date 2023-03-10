@@ -6,8 +6,8 @@
 \alias{\%[!fun]\%}
 \alias{\%[intv]\%}
 \alias{\%[!intv]\%}
-\alias{\%[sp]\%}
-\alias{\%[!sp]\%}
+\alias{\%[grep]\%}
+\alias{\%[!grep]\%}
 \title{"Which"-Operators}
 \usage{
 x \%[fun]\% fun
@@ -18,9 +18,9 @@ n \%[intv]\% ss
 
 n \%[!intv]\% ss
 
-s \%[sp]\% p
+s \%[grep]\% p
 
-s \%[!sp]\% p
+s \%[!grep]\% p
 }
 \arguments{
 \item{x}{a vector, matrix, array,
@@ -74,11 +74,11 @@ The \code{x \%[!fun]\% fun} operator
 selects elements from ector/matrix/array \code{x},
 for which the result of \code{fun(x)} returns \code{FALSE}. \cr
 \cr
-The \code{s \%[sp]\% p} operator
+The \code{s \%[grep]\% p} operator
 selects elements from character vector \code{s}
 if they contain pattern \code{p}. \cr
 \cr
-The \code{s \%[!sp]\% p} operator
+The \code{s \%[!grep]\% p} operator
 selects elements from character vector \code{s}
 if they do NOT contain pattern \code{p}. \cr
 \cr
@@ -107,6 +107,6 @@ n \%[intv]\% ss
 n \%[!intv]\% ss
 s <- c("hello world", "goodbye world")
 p <- s_pattern(regex = rep("hello", 2))
-s \%[sp]\% p
-s \%[!sp]\% p
+s \%[grep]\% p
+s \%[!grep]\% p
 }

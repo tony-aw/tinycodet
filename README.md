@@ -81,18 +81,25 @@ mathematical arithmetic, string arithmetic, string sub-setting, in-place
 modifying string arithmetic, in-place modifying string sub-setting,
 “which”-operators, and in-place modifying unreal replacers. Moreover, it
 includes some helper functions for more complex string arithmetic, some
-of which are missing from popular R packages like stringi. All base R
-expressions options (Regex, fixed, coll, boundary, charclass) are
-available for all string-pattern-related functions, as well as all
-options from stringi (regex, fixed, boundary, charclass, coll). This
-package also allows integrating third-party parallel computing packages
-for some of its functions.
+of which are missing from popular R packages like stringi. Most stringi
+pattern expressions options (regex, fixed, coll, charclass) are
+available for all string-pattern-related functions, when appropriate.
+This package also allows integrating third-party parallel computing
+packages for some of its functions.
 
 WARNING: This package is still very much experimental. Function names,
 argument names, and so on may change dramatically. Use it for testing
 only, until it’s stable.
 
-LATEST CHANGE: `stringi` is now a dependency.
+CHNAGELOG (EXPERIMENTAL VERSION):
+
+- 8 march 2023: `stringi` is now a dependency. Completely re-written the
+  ReadMe file, Description, and documentation.
+- 9 march 2023: added the “which”-operators.
+- 10 march 2023: `s_strapply()` now uses `stringi`, and uses `apply()`
+  instead of `sapply()`. Renamed the which operators `%[sp]%` and
+  `%[!sp]%` to `%[grep]%` and `%[!grep]%` to make their meaning more
+  obvious. Added this Change log to the ReadMe file.
 
  
 
@@ -132,8 +139,8 @@ The `tidyoperators` R package adds the following functionality:
 - Infix operators for In-place modifying string sub-setting.
 - Some additional string manipulation functions.
 - Infix operators for general sub-setting (“which”-operators).
-- All `stringi` expressions options (regex, fixed, coll, boundary,
-  charclass) are available for all string-pattern-related functions.
+- All `stringi` expressions options (regex, fixed, coll, charclass) are
+  available for all string-pattern-related functions, when appropriate.
 - This R package has only one dependency: `stringi`. No other
   dependencies, as to avoid “dependency hell”.
 - Although this package has no other dependencies, it allows
@@ -207,7 +214,7 @@ print(x)
 #> [2] "Pleasant evening everyone"
 p <- s_pattern(regex="a|e|i|o|u", case_insensitive = TRUE)
 s_strapply(x, w=T, fun=\(x)s_extract_substr(x, loc=s_locate_ith(x, -2, p)))
-#> [1] "o o o" "a e o"
+#> [1] "o NA NA o NA NA o NA" "a NA e NA o NA NA NA"
 ```
 
 And some string arithmetic:
@@ -514,7 +521,9 @@ and sub-setting, as well some of their in-place modifier equivalents.
 For consistency, and to avoid masking other common operators, all
 string-related operators start with `%s`, where the “s” stands for
 “string”. Likewise, all string-related functions in this package start
-with `s_`.
+with `s_`. (The only exceptions to this naming convention are `%[grep]%`
+and `%[!grep]%`, though these are “which”-operators, technically, which
+are discussed near the end of this read-me.)
 
  
 
@@ -896,12 +905,12 @@ x <- c("Hello World", "Goodbye World")
 s_strapply(x, sort) # sort letters
 #> [1] " deHllloorW"   " bddeGlooorWy"
 s_strapply(x, sample) # randomly shuffle letters
-#> [1] "rlWHeoldlo "   "GbloyWodr doe"
+#> [1] "rlWHeodl lo"   "boyleGWdr doo"
 s_strapply(x, rev, w=T) # reverse words
-#> [1] "World Hello"   "World Goodbye"
+#> [1] "World   Hello"   "World   Goodbye"
 # find occurrence of characters on alphabet:
 s_strapply(x, fun=\(x)match(tolower(x),letters), clp="; ")
-#> [1] "8; 5; 12; 12; 15; NA; 23; 15; 18; 12; 4"      
+#> [1] "8; 5; 12; 12; 15; NA; 23; 15; 18; 12; 4; NA; NA"
 #> [2] "7; 15; 15; 4; 2; 25; 5; NA; 23; 15; 18; 12; 4"
 ```
 
@@ -923,11 +932,11 @@ s_strapply(x, fun=\(x){
   ind <- sample(1:length(x), size=floor(length(x)/2))
   replace(x, ind, toupper(x[ind]))
 })
-#> [1] "HEllO WoRlD"   "GoODbYe WorLd"
+#> [1] "HElLO WoRLd"   "GoOdbYE WORLd"
 
 # capitalize only first word:
 s_strapply(x, fun=\(x){replace(x, 1, toupper(x[1]))}, w=T)
-#> [1] "HELLO World"   "GOODBYE World"
+#> [1] "HELLO   World"   "GOODBYE   World"
 ```
 
 Lets try to take the second-last vowel of every word of every string in
@@ -940,7 +949,7 @@ print(x)
 #> [2] "Pleasant evening everyone"
 p <- s_pattern(regex="a|e|i|o|u", case_insensitive = TRUE)
 s_strapply(x, w=T, fun=\(x)s_extract_substr(x, loc=s_locate_ith(x, -2, p)))
-#> [1] "o o o" "a e o"
+#> [1] "o NA NA o NA NA o NA" "a NA e NA o NA NA NA"
 ```
 
  
@@ -968,10 +977,10 @@ The which operators are as follows:
   for which the result of `fun(x)` returns `TRUE`.
 - The `x %[!fun]% fun` operator selects elements from vector/matrix `x`,
   for which the result of `fun(x)` returns FALSE.
-- The `s %[sp]% p` operator selects elements from character vector `s`
+- The `s %[grep]% p` operator selects elements from character vector `s`
   if they contain pattern `p`.
-- The `s %[!sp]% p` operator selects elements from character vector s if
-  they do NOT contain pattern `p`.
+- The `s %[!grep]% p` operator selects elements from character vector s
+  if they do NOT contain pattern `p`.
 - The `n %[intv]% ss` operator selects elements from numeric
   vector/matrix/array `n`, whose values are within the interval defined
   by `ss`.
@@ -998,9 +1007,9 @@ n %[!intv]% ss
 #> [1] -5 -4 -3  3  4
 s <- c("hello world", "goodbye world")
 p <- s_pattern(regex = rep("hello", 2))
-s %[sp]% p
+s %[grep]% p
 #> [1] "hello world"
-s %[!sp]% p
+s %[!grep]% p
 #> [1] "goodbye world"
 ```
 
@@ -1060,9 +1069,9 @@ times faster.
 
 ## Multi-threading in s_strapply
 
-The `s_strapply` function uses `sapply` internally. Just like in
+The `s_strapply` function uses `apply` internally. Just like in
 `s_locate_ith`, the user can multi-thread this function by replacing
-sapply:
+apply:
 
 ``` r
 x <- rep(c("Hello World", "Goodbye World"), 2e5)
@@ -1071,7 +1080,7 @@ s_strapply(x, sort) # regular way
 
 require(future.apply)
 plan(multisession)
-s_strapply(x, sort, custom_sapply = future_sapply) # multi-threaded way
+s_strapply(x, sort, custom_apply = future_apply) # multi-threaded way
 ```
 
 Now you have a multi-threaded version of `s_strapply`.
@@ -1082,7 +1091,7 @@ function used in the `fun` argument; making multiple layers of parallel
 computing seems like asking for problems.
 
 For example, when combining `s_strapply` and `s_locate_ith`, only
-multi-thread `s_strapply` with a replacing `sapply` function; do not do
+multi-thread `s_strapply` with a replacing `apply` function; do not do
 so with `s_locate_ith`. I.e.:
 
 ``` r
@@ -1094,7 +1103,7 @@ x <- rep(
 p <- s_pattern(regex = "a|e|i|o|u", case_insensitive = TRUE) 
 s_strapply(x, w=T, fun=\(x){
   s_repl(x, "??", loc=s_locate_ith(x, -2, p))
-}, custom_sapply = future_sapply)
+}, custom_apply = future_apply)
 ```
 
 Notice that only `s_strapply()` is multi-threaded, and not

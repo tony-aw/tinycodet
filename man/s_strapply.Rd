@@ -4,7 +4,7 @@
 \alias{s_strapply}
 \title{s_strapply}
 \usage{
-s_strapply(x, fun, w = FALSE, clp = NULL, custom_sapply = NULL)
+s_strapply(x, fun, w = FALSE, clp = NULL, custom_apply = NULL)
 }
 \arguments{
 \item{x}{a string or character vector.}
@@ -20,18 +20,18 @@ or into single characters (w=F).}
 the string is pasted together using \code{paste0(..., collapse="")} if \code{w=F},
 and using \code{paste0(..., collapse=" ")} if \code{w=T}.}
 
-\item{custom_sapply}{a function. \code{s_strapply()} internally uses \code{sapply}.
-The user may choose to replace this with a custom sapply-like function,
+\item{custom_apply}{a function. \code{s_strapply()} internally uses \code{apply}.
+The user may choose to replace this with a custom apply-like function,
 usually for multi-threading purposes.\cr
-\code{custom_sapply} must have the same argument convention
-as \code{sapply}, or else use the arguments \code{x} and \code{fun}. \cr
+\code{custom_apply} must have the same argument convention
+as \code{apply}, or else use the arguments \code{x} and \code{fun}. \cr
 For example: \cr
 \code{plan(multisession)} \cr
-\code{s_strapply(..., custom_sapply=future.apply::future_sapply)} \cr
+\code{s_strapply(..., custom_apply=future.apply::future_apply)} \cr
 NOTE: Do not enable multi-threading on \code{fun} itself. I.e. run this: \cr
-\code{s_strapply(x, w=T, fun=\(x)s_locate_ith(x, -2, p), custom_sapply = future_sapply)} \cr
+\code{s_strapply(x, w=T, fun=\(x)s_locate_ith(x, -2, p), custom_apply = future_apply)} \cr
 and not this: \cr
-\code{s_strapply(x, w=T, fun=\(x)s_locate_ith(x, -2, p, custom_mapply=future_mapply), custom_sapply=future_sapply)} \cr}
+\code{s_strapply(x, w=T, fun=\(x)s_locate_ith(x, -2, p, custom_mapply=future_mapply), custom_apply=future_apply)} \cr}
 }
 \value{
 The \code{s_strapply()} function
@@ -40,7 +40,7 @@ although this could depend on the function chosen for \code{fun}. \cr
 \cr
 }
 \description{
-The \code{s_strapply(x, fun, w=F, clp=NULL, custom_sapply=NULL)} function
+The \code{s_strapply(x, fun, w=F, clp=NULL, custom_apply=NULL)} function
 applies the following steps to every element (every string) of character vector \code{x}: \cr
 \enumerate{
 \item the string is split into a vector of single characters (\code{w=F}),

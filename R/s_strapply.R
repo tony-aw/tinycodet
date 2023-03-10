@@ -1,7 +1,7 @@
 #' s_strapply
 #'
 #'@description
-#' The \code{s_strapply(x, fun, w=F, clp=NULL, custom_sapply=NULL)} function
+#' The \code{s_strapply(x, fun, w=F, clp=NULL, custom_apply=NULL)} function
 #' applies the following steps to every element (every string) of character vector \code{x}: \cr
 #' 1) the string is split into a vector of single characters (\code{w=F}),
 #' or a vector of space-delimited words (\code{w=T}). \cr
@@ -22,18 +22,18 @@
 #' @param clp how should each string be pasted together? If NULL (Default),
 #' the string is pasted together using \code{paste0(..., collapse="")} if \code{w=F},
 #' and using \code{paste0(..., collapse=" ")} if \code{w=T}.
-#' @param custom_sapply a function. \code{s_strapply()} internally uses \code{sapply}.
-#' The user may choose to replace this with a custom sapply-like function,
+#' @param custom_apply a function. \code{s_strapply()} internally uses \code{apply}.
+#' The user may choose to replace this with a custom apply-like function,
 #' usually for multi-threading purposes.\cr
-#' \code{custom_sapply} must have the same argument convention
-#' as \code{sapply}, or else use the arguments \code{x} and \code{fun}. \cr
+#' \code{custom_apply} must have the same argument convention
+#' as \code{apply}, or else use the arguments \code{x} and \code{fun}. \cr
 #' For example: \cr
 #' \code{plan(multisession)} \cr
-#' \code{s_strapply(..., custom_sapply=future.apply::future_sapply)} \cr
+#' \code{s_strapply(..., custom_apply=future.apply::future_apply)} \cr
 #' NOTE: Do not enable multi-threading on \code{fun} itself. I.e. run this: \cr
-#' \code{s_strapply(x, w=T, fun=\(x)s_locate_ith(x, -2, p), custom_sapply = future_sapply)} \cr
+#' \code{s_strapply(x, w=T, fun=\(x)s_locate_ith(x, -2, p), custom_apply = future_apply)} \cr
 #' and not this: \cr
-#' \code{s_strapply(x, w=T, fun=\(x)s_locate_ith(x, -2, p, custom_mapply=future_mapply), custom_sapply=future_sapply)} \cr
+#' \code{s_strapply(x, w=T, fun=\(x)s_locate_ith(x, -2, p, custom_mapply=future_mapply), custom_apply=future_apply)} \cr
 #'
 #'
 #' @returns
@@ -58,21 +58,23 @@
 #'
 
 #' @export
-s_strapply <- function(x, fun, w=FALSE, clp=NULL, custom_sapply=NULL) {
+s_strapply <- function(x, fun, w=FALSE, clp=NULL, custom_apply=NULL) {
   if(length(w)>1){stop("w must be of length 1")}
   if(length(clp)>1){stop("clp must be of length 1")}
 
   if(is.null(clp)){clp <- ifelse(w, " ", "")}
-  fun2 <- function(x){
-    unlist(strsplit(x, split=ifelse(w, " ", ""))) |>
-      fun() |> paste0(collapse = clp)
-  }
-  if(is.null(custom_sapply)){
-    return(sapply(x, fun2, USE.NAMES = FALSE))
-  }
-  if(!is.null(custom_sapply)){
-    return(custom_sapply(x, fun2) |> unname())
-  }
 
+  mat <- stringi::stri_split_boundaries(
+    x, type = ifelse(w, "word", "character"), simplify = TRUE
+  )
+  fun2 <- function(x){
+    fun(x) |> paste0(collapse = clp)
+  }
+  if(is.null(custom_apply)){
+    return(apply(mat, 1, fun2))
+  }
+  if(!is.null(custom_apply)){
+    return(custom_apply(mat, 1, fun2))
+  }
 }
 
