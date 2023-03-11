@@ -36,8 +36,9 @@
 - <a href="#more-advanced-string-operations-with-s_strapply"
   id="toc-more-advanced-string-operations-with-s_strapply">More advanced
   string operations with s_strapply</a>
-- <a href="#which-operators"
-  id="toc-which-operators">“which”-operators</a>
+- <a href="#the-transform_if-function-and-the-subset_if-operators"
+  id="toc-the-transform_if-function-and-the-subset_if-operators">The
+  transform_if function, and the subset_if operators</a>
 - <a href="#speed-efficiency-and-multi-threading"
   id="toc-speed-efficiency-and-multi-threading">Speed, efficiency, and
   multi-threading</a>
@@ -78,14 +79,14 @@ a few functions, to make your R code much more tidy. It includes infix
 operators for the negation of logical operators (exclusive-or, not-and,
 not-in), safer float (in)equality operators, in-place modifying
 mathematical arithmetic, string arithmetic, string sub-setting, in-place
-modifying string arithmetic, in-place modifying string sub-setting,
-“which”-operators, and in-place modifying unreal replacers. Moreover, it
-includes some helper functions for more complex string arithmetic, some
-of which are missing from popular R packages like stringi. Most stringi
-pattern expressions options (regex, fixed, coll, charclass) are
-available for all string-pattern-related functions, when appropriate.
-This package also allows integrating third-party parallel computing
-packages for some of its functions.
+modifying string arithmetic, in-place modifying string sub-setting, and
+in-place modifying unreal replacers. Moreover, it includes some helper
+functions for more complex string arithmetic, some of which are missing
+from popular R packages like stringi. Most stringi pattern expressions
+options (regex, fixed, coll, charclass) are available for all
+string-pattern-related functions, when appropriate. This package adds
+the transform_if function. This package also allows integrating
+third-party parallel computing packages for some of its functions.
 
 WARNING: This package is still very much experimental. Function names,
 argument names, and so on may change dramatically. Use it for testing
@@ -100,6 +101,8 @@ CHNAGELOG (EXPERIMENTAL VERSION):
   instead of `sapply()`. Renamed the which operators `%[sp]%` and
   `%[!sp]%` to `%[grep]%` and `%[!grep]%` to make their meaning more
   obvious. Added this Change log to the ReadMe file.
+- 11 march 2023: replaced the “which”-operators with the
+  `transform_if()` function and the subset_if operators.
 
  
 
@@ -276,6 +279,10 @@ The tidyoperators package adds a few basic logical operators:
 - `%out%`: the opposite of `%in%` (i.e. `!x %in% y`)
 - `%?=%`: checks if both `x` and `y` are unknown or unreal (NA, NaN,
   Inf, -Inf)
+- `s %sgrepl% p` checks if pattern `p` (defined as either `regex`, or as
+  a call from `s_pattern()`) appears in character vector `s` (info on
+  the `s_pattern()` function can be found in the string section of this
+  read-me)
 
 Here are some examples:
 
@@ -866,11 +873,6 @@ not functions) have their in-place modifying equivalent:
 - `x %sget <-% ss` is the same as `x <- x %sget% ss`
 - `x %strim <-% ss` is the same as `x <- x %strim% ss`
 
-The `s_extract_ith()` and `s_repl_ith()` functions obviously do not
-require an in-place modifier version, as they can easily be used in
-combination with `magrittr`’s in-place pipe modifier ( `%<>%` ), just
-like any other function.
-
  
 
 # More advanced string operations with s_strapply
@@ -954,64 +956,68 @@ s_strapply(x, w=T, fun=\(x)s_extract_substr(x, loc=s_locate_ith(x, -2, p)))
 
  
 
-# “which”-operators
+# The transform_if function, and the subset_if operators
 
-The final category of operators in this package are the
-“which”-operators.
+The final category of operators in this package are the subset_if
+operators, and the `transform_if()` function.
 
-These operators are designed to simplify operations where one subsets an
-object based on conditions referring to itself. For example: in
-`x[x>0]`, the object `x` is sub-setted based on conditions referring to
-itself. Thus, `x` is written twice. If the object has a short name like
-`x`, these operators do not necessarily make your code tidier (except
-for perhaps pattern matching). But if `x` has a longer name like
-`very_long_name_1`, doing `very_long_name_1[very_long_name_1>0]` becomes
-cumbersome. The tidyoperators package adds several “which”-operators,
-which will tidy this up a bit.
+Consider the following code:
 
-All which-operators are surrounded by a `%[` and a `]%`
+`x[x>0] <- f(x[x>0])`
 
-The which operators are as follows:
+Here a conditional subset of the object `x` is transformed with function
+`f`, where the condition is using a function referring to `x` itself
+(namely `x>0`). Consequently, reference to `x` is written **four
+times**! If the object has a short name like “x, this doesn’t matter too
+much. But if the object has a longer name like `very_long_name_1`, doing
+something like this:
 
-- The `x %[fun]% fun` operator selects elements from vector/matrix `x`,
-  for which the result of `fun(x)` returns `TRUE`.
-- The `x %[!fun]% fun` operator selects elements from vector/matrix `x`,
-  for which the result of `fun(x)` returns FALSE.
-- The `s %[grep]% p` operator selects elements from character vector `s`
-  if they contain pattern `p`.
-- The `s %[!grep]% p` operator selects elements from character vector s
-  if they do NOT contain pattern `p`.
-- The `n %[intv]% ss` operator selects elements from numeric
-  vector/matrix/array `n`, whose values are within the interval defined
-  by `ss`.
-- The `n %[!intv]% ss` operator selects elements from numeric
-  vector/matrix/array `n`, whose values are outside the interval defined
-  by `ss`.
+`very_long_name_1[very_long_name_1 > 0] <- log(very_long_name_1[very_long_name_1 > 0])`
 
-As was the case with the string operators, pattern `p` can be a vector
-of regular expressions, or a call from the `s_pattern()` function.
+becomes cumbersome, and not so tidy. The tidyoperators package therefore
+adds the `transform_if()` function which will tidy this up. This
+function is internally defined in only vectorized functions, and without
+loops or apply-like functions, and is therefore quite fast.
 
-Here are a few examples to see these operators in action:
+Besides transform_if, the tidyoperators package also adds 2 “subset_if”
+operators:
+
+- The `x %[if]% cond` operator selects elements from vector/matrix/array
+  `x`, for which the result of `cond(x)` returns `TRUE`.
+
+- The `x %[!if]% cond` operator selects elements from
+  vector/matrix/array `x`, for which the result of `cond(x)` returns
+  `FALSE`.
+
+Here are a few examples to see thesein action:
 
 ``` r
-object_with_very_long_name <- -5:5
-object_with_very_long_name %[fun]% \(x)x %in% c(1, 3, 5, 7)
-#> [1] 1 3 5
-object_with_very_long_name %[!fun]% \(x)x %in% c(1, 3, 5, 7)
-#> [1] -5 -4 -3 -2 -1  0  2  4
-n <- matrix(-5:4, ncol=2)
-ss <- cbind(rep(-2, length(n)), rep(2, length(n)))
-n %[intv]% ss
-#> [1] -2 -1  0  1  2
-n %[!intv]% ss
-#> [1] -5 -4 -3  3  4
-s <- c("hello world", "goodbye world")
-p <- s_pattern(regex = rep("hello", 2))
-s %[grep]% p
-#> [1] "hello world"
-s %[!grep]% p
-#> [1] "goodbye world"
+object_with_very_long_name <- matrix(-10:9, ncol=2)
+object_with_very_long_name |> transform_if(\(x)x>0, log)
+#>       [,1]      [,2]
+#>  [1,]  -10 0.0000000
+#>  [2,]   -9 0.0000000
+#>  [3,]   -8 0.6931472
+#>  [4,]   -7 1.0986123
+#>  [5,]   -6 1.3862944
+#>  [6,]   -5 1.6094379
+#>  [7,]   -4 1.7917595
+#>  [8,]   -3 1.9459101
+#>  [9,]   -2 2.0794415
+#> [10,]   -1 2.1972246
+
+object_with_very_long_name %[if]% \(x)x %in% 1:10
+#> [1] 1 2 3 4 5 6 7 8 9
+object_with_very_long_name %[!if]% \(x)x %in% 1:10
+#>  [1] -10  -9  -8  -7  -6  -5  -4  -3  -2  -1   0
 ```
+
+Note that this function returns object `x`, to modify `x` directly, one
+still has to assign it. To keep your code tidy, consider combining this
+function with `magrittr`’s in-place modifying piper-operator (`%<>%`).
+I.e.:
+
+`very_long_name_1 %<>% transform_if(cond, trans)`
 
  
 

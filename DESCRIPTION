@@ -14,12 +14,12 @@ Description: The 'tidyoperators' R-package adds some much needed infix operators
     string sub-setting,
     in-place modifying string arithmetic,
     in-place modifying string sub-setting,
-    "which"-operators,
     and in-place modifying unreal replacers.
     Moreover, it includes some helper functions for more complex string arithmetic,
     some of which are missing from popular R packages like stringi.
     Most stringi pattern expressions options (regex, fixed, coll, charclass)
     are available for all string-pattern-related functions, when appropriate.
+    This package adds the transform_if function.
     This package also allows integrating third-party parallel computing packages
     for some of its functions.
 License: MIT + file LICENSE
