@@ -963,21 +963,33 @@ operators, and the `transform_if()` function.
 
 Consider the following code:
 
-`x[x>0] <- f(x[x>0])`
+`x[cond(x)] <- f(x[cond(x)])`
 
 Here a conditional subset of the object `x` is transformed with function
-`f`, where the condition is using a function referring to `x` itself
-(namely `x>0`). Consequently, reference to `x` is written **four
+`f`, where the condition is using a function referring to `x` itself (in
+this case `cond(x)`). Consequently, reference to `x` is written **four
 times**! If the object has a short name like “x, this doesn’t matter too
 much. But if the object has a longer name like `very_long_name_1`, doing
 something like this:
 
-`very_long_name_1[very_long_name_1 > 0] <- log(very_long_name_1[very_long_name_1 > 0])`
+``` r
+very_long_name_1[very_long_name_1 > 0] <- log(very_long_name_1[very_long_name_1 > 0])
+```
 
-becomes cumbersome, and not so tidy. The tidyoperators package therefore
-adds the `transform_if()` function which will tidy this up. This
-function is internally defined in only vectorized functions, and without
-loops or apply-like functions, and is therefore quite fast.
+becomes cumbersome, and not so tidy.
+
+The tidyoperators package therefore adds the `transform_if()` function
+which will tidy this up. This function is internally defined in only
+vectorized functions, and without loops or apply-like functions, and is
+therefore quite fast.
+
+The above code can now be re-written as:
+
+``` r
+very_long_name_1 |> transform_if(\(x)x>0, log)
+```
+
+Much tidyr, right?
 
 Besides transform_if, the tidyoperators package also adds 2 “subset_if”
 operators:
@@ -989,7 +1001,7 @@ operators:
   vector/matrix/array `x`, for which the result of `cond(x)` returns
   `FALSE`.
 
-Here are a few examples to see thesein action:
+Here are a few examples to see these in action:
 
 ``` r
 object_with_very_long_name <- matrix(-10:9, ncol=2)
