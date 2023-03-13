@@ -17,7 +17,7 @@ x \%[!if]\% cond
 or anything else that can be sub-setted with single square brackets ("[]").}
 
 \item{cond}{a function that returns a binary logic (\code{TRUE,FALSE}) vector
-of the same length as \code{x} (for example: \code{is.na}). \cr
+of the same length/dimensions as \code{x} (for example: \code{is.na}). \cr
 \itemize{
 \item Elements of \code{x} for which \code{cond(x)==TRUE} are transformed / selected; \cr
 \item Elements of \code{x} for which \code{cond(x)==FALSE} are not transformed /selected. \cr
@@ -41,9 +41,9 @@ The subset_if - operators all return a vector with the selected elements. \cr
 }
 \description{
 Consider the following code: \cr
-\code{x[x>0] <- f(x[x>0])} \cr
+\code{x[cond(x)] <- f(x[cond(x)])} \cr
 Here a conditional subset of the object \code{x} is transformed with function \code{f},
-where the condition is using a function referring to \code{x} itself (namely \code{x>0}).
+where the condition is using a function referring to \code{x} itself (namely \code{cond(x)}).
 Consequently, reference to \code{x} is written four times! \cr
 If the object has a short name like "x", this doesn't matter too much.
 But if the object has a longer name like "very_long_name_1",
@@ -54,6 +54,10 @@ The \code{tidyoperators} package therefore adds the
 \code{transform_if()} function
 which will tidy this up. \cr
 \cr
+The code \cr
+\code{x <- transform(x, cond, trans)} \cr
+is exactly equivalent to \cr
+\code{x[cond(x)] <- trans(x[cond(x)])}
 
 Besides \code{transform_if},
 the \code{tidyoperators} package also adds 2 "subset_if" operators: \cr
@@ -68,15 +72,12 @@ for which the result of \code{cond(x)} returns \code{FALSE}. \cr
 \cr
 }
 \details{
-The \code{transform_if(x, cond, trans)} function is a very simple function;
-it basically just runs the following: \cr
-\code{y <- x} \cr
-\code{y[cond(y)] <- trans(y[cond(y)])} \cr
-\code{return(y)}
-\cr
+The \code{transform_if(x, cond, trans)} function
+does not rely on any explicit or implicit loops, nor any third-party functions.
 }
 \examples{
 object_with_very_long_name <- matrix(-10:9, ncol=2)
+print(object_with_very_long_name)
 object_with_very_long_name |> transform_if(\(x)x>0, log)
 object_with_very_long_name \%[if]\% \(x)x \%in\% 1:10
 object_with_very_long_name \%[!if]\% \(x)x \%in\% 1:10

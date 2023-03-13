@@ -17,8 +17,7 @@ passed to the appropriate functions in \code{stringi}. \cr
 }
 \description{
 The \code{\%s-\%} and \code{\%s/\%} operators, their in-place equivalents,
-and the \code{\%[sp]\%} and \code{\%[!sp]\%} operators,
-and the \code{s_locate_ith()} function,
+as well as the \code{\%sgrep\%} operator,
 all perform pattern matching for some purpose.
 By default the pattern matching is interpreted as case-sensitive
 \code{regex} patterns from \code{stringi}.
@@ -26,8 +25,8 @@ By default the pattern matching is interpreted as case-sensitive
 The \code{s_pattern} function allows the user to
 specify exactly how the pattern should be interpreted.
 To use more refined pattern definition,
-simply replace the argument/right-hand-side expression \code{p}
-in the relevant functions/operators with a call from
+simply replace the right-hand-side expression \code{p}
+in the relevant operators with a call from
 the \code{s_pattern()} function.
 
 The \code{s_pattern()} function uses the exact same argument convention as \code{stringi}. For example:
@@ -59,13 +58,11 @@ It does not affect functions from base R or functions from other packages.
 x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 print(x)
 p <- rep("a|e|i|o|u", 2) # same as p <- s_pattern(regex=rep("a|e|i|o|u", 2))
-s_locate_ith(x, -1, p)
 x \%s/\% p # count how often vowels appear in each string of vector x.
 
 x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 print(x)
 p <- s_pattern(regex=rep("A|E|I|O|U", 2), ignore.case=TRUE)
-s_locate_ith(x, -1, p) # extracts the last vowel in each element of x.
 x \%s/\% p # count how often vowels appear in each string of vector x.
 
 }

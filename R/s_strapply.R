@@ -30,10 +30,7 @@
 #' For example: \cr
 #' \code{plan(multisession)} \cr
 #' \code{s_strapply(..., custom_apply=future.apply::future_apply)} \cr
-#' NOTE: Do not enable multi-threading on \code{fun} itself. I.e. run this: \cr
-#' \code{s_strapply(x, w=T, fun=\(x)s_locate_ith(x, -2, p), custom_apply = future_apply)} \cr
-#' and not this: \cr
-#' \code{s_strapply(x, w=T, fun=\(x)s_locate_ith(x, -2, p, custom_mapply=future_mapply), custom_apply=future_apply)} \cr
+#' NOTE: It's better not to use multi-threading inside \code{fun} itself. \cr
 #'
 #'
 #' @returns
@@ -47,8 +44,6 @@
 #' @examples
 #' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 #' print(x)
-#' # sort every string in reverse alphabetic order:
-#' s_strapply(x, fun=\(x)sort(x, decreasing = TRUE))
 #'
 #' # get which letter of the alphabet every character is:
 #' s_strapply(x, fun=\(x)match(tolower(x), letters), clp=",")
@@ -56,25 +51,37 @@
 #' # shuffle words randomly:
 #' s_strapply(x, w=TRUE, fun=\(x)sample(x))
 #'
+#'
+#' # completely customized sorting of characters (first vowels, then the rest of the letters):
+#' custom_order <- c("a", "e", "i", "o", "u", setdiff(letters, c("a", "e", "i", "o", "u")))
+#' print(paste0(custom_order, collapse = ""))
+#' s_strapply(x, fun=\(x){
+#'   rest <- setdiff(x = unique(x), y = custom_order)
+#'   y <- factor(x = x, levels = c(custom_order, rest), ordered = TRUE)
+#'   return(sort(y))
+#' })
+#'
+#'
 
 #' @export
 s_strapply <- function(x, fun, w=FALSE, clp=NULL, custom_apply=NULL) {
-  if(length(w)>1){stop("w must be of length 1")}
-  if(length(clp)>1){stop("clp must be of length 1")}
+  if(length(w)>1) { stop("w must be of length 1") }
+  if(length(clp)>1) { stop("clp must be of length 1") }
 
-  if(is.null(clp)){clp <- ifelse(w, " ", "")}
+  if(is.null(clp)) { clp <- ifelse(w, " ", "") }
 
   mat <- stringi::stri_split_boundaries(
     x, type = ifelse(w, "word", "character"), simplify = TRUE
   )
-  fun2 <- function(x){
+  fun2 <- function(x) {
     fun(x) |> paste0(collapse = clp)
   }
-  if(is.null(custom_apply)){
+  if(is.null(custom_apply)) {
     return(apply(mat, 1, fun2))
   }
-  if(!is.null(custom_apply)){
+  if(!is.null(custom_apply)) {
     return(custom_apply(mat, 1, fun2))
   }
 }
+
 

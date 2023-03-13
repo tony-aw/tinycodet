@@ -16,12 +16,15 @@
     package</a>
 - <a href="#unreal-replacement" id="toc-unreal-replacement">Unreal
   replacement</a>
+- <a href="#missing-from-stringi-locate-ith-pattern"
+  id="toc-missing-from-stringi-locate-ith-pattern">Missing from stringi:
+  Locate <span
+  class="math inline"><em>i</em><sup><em>t</em><em>h</em></sup></span>
+  pattern</a>
+- <a href="#substr---functions" id="toc-substr---functions">Substr -
+  functions</a>
 - <a href="#basic-string-operations"
   id="toc-basic-string-operations">Basic string operations</a>
-  - <a href="#locate-ith-pattern" id="toc-locate-ith-pattern">Locate ith
-    pattern</a>
-  - <a href="#string-sub-setting-functions"
-    id="toc-string-sub-setting-functions">String sub-setting functions</a>
   - <a href="#string-subsetting-operators"
     id="toc-string-subsetting-operators">String subsetting operators</a>
   - <a href="#string-arithmetic" id="toc-string-arithmetic">String
@@ -45,9 +48,6 @@
   - <a href="#multi-threading-in-string-subsetting-functions"
     id="toc-multi-threading-in-string-subsetting-functions">Multi-threading
     in string subsetting functions</a>
-  - <a href="#multi-threading-in-s_locate_ith"
-    id="toc-multi-threading-in-s_locate_ith">Multi-threading in
-    s_locate_ith</a>
   - <a href="#multi-threading-in-s_strapply"
     id="toc-multi-threading-in-s_strapply">Multi-threading in s_strapply</a>
 - <a href="#recommended-r-packages"
@@ -74,19 +74,20 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 
 ![](tidyoperators.svg)
 
-The ‘tidyoperators’ R-package adds some much needed infix operators, and
+The `tidyoperators` R-package adds some much needed infix operators, and
 a few functions, to make your R code much more tidy. It includes infix
 operators for the negation of logical operators (exclusive-or, not-and,
 not-in), safer float (in)equality operators, in-place modifying
 mathematical arithmetic, string arithmetic, string sub-setting, in-place
 modifying string arithmetic, in-place modifying string sub-setting, and
-in-place modifying unreal replacers. Moreover, it includes some helper
-functions for more complex string arithmetic, some of which are missing
-from popular R packages like stringi. Most stringi pattern expressions
-options (regex, fixed, coll, charclass) are available for all
-string-pattern-related functions, when appropriate. This package adds
-the transform_if function. This package also allows integrating
-third-party parallel computing packages for some of its functions.
+in-place modifying unreal replacers. The ‘tidyoperators’ R-package also
+adds the stri_locate_ith function, which is missing from stringi. And it
+includes some helper functions for more complex string arithmetic. Most
+stringi pattern expressions options (regex, fixed, coll, charclass) are
+available for all string-pattern-related functions, when appropriate.
+This package adds the transform_if function. This package also allows
+integrating third-party parallel computing packages (like stringfish)
+for some of its functions.
 
 WARNING: This package is still very much experimental. Function names,
 argument names, and so on may change dramatically. Use it for testing
@@ -103,6 +104,9 @@ CHNAGELOG (EXPERIMENTAL VERSION):
   obvious. Added this Change log to the ReadMe file.
 - 11 march 2023: replaced the “which”-operators with the
   `transform_if()` function and the subset_if operators.
+- 13 march 2023: changed the name and argument convention of many of the
+  string related functions to be more consistent. Changed the return of
+  non-matches in the substr\_-functions.
 
  
 
@@ -136,14 +140,24 @@ The `tidyoperators` R package adds the following functionality:
   number-type, and string-type.
 - Safer (in)equality operators for floating numbers.
 - Infix operators for In-place modifiers for mathematical arithmetic.
-- Infix operators for String arithmetic.
-- Infix operators (and a few functions) for string sub-setting.
+- Infix operators for string arithmetic.
+- Infix operators for string sub-setting.
+- The fully vectorized sub-string functions.
 - Infix operators for In-place modifying string arithmetic.
 - Infix operators for In-place modifying string sub-setting.
-- Some additional string manipulation functions.
-- Infix operators for general sub-setting (“which”-operators).
-- All `stringi` expressions options (regex, fixed, coll, charclass) are
-  available for all string-pattern-related functions, when appropriate.
+- The in-place modifying unreal replacer operator.
+- `stri_locate_ith`: The stringi R package has a “locate_all” function,
+  but no “locate_ith” function. The tidyoperators package adds the
+  `stri_locate_ith` function, which uses the same naming and argument
+  convention as the rest of the stringi functions, thus keeping your
+  code consistent.
+- There are also some string helper functions, namely `s_pattern` and
+  `s_strapply`.
+- The `transform_if` function, and some related operators.
+- The utility function `env_c`.
+- Most stringi pattern expressions options (regex, fixed, coll,
+  charclass) are available for all string-pattern-related functions,
+  when appropriate.
 - This R package has only one dependency: `stringi`. No other
   dependencies, as to avoid “dependency hell”.
 - Although this package has no other dependencies, it allows
@@ -215,9 +229,8 @@ x <- c("Outrageous, egregious, preposterous!", "Pleasant evening everyone")
 print(x)
 #> [1] "Outrageous, egregious, preposterous!"
 #> [2] "Pleasant evening everyone"
-p <- s_pattern(regex="a|e|i|o|u", case_insensitive = TRUE)
-s_strapply(x, w=T, fun=\(x)s_extract_substr(x, loc=s_locate_ith(x, -2, p)))
-#> [1] "o NA NA o NA NA o NA" "a NA e NA o NA NA NA"
+s_strapply(x, w=T, fun=\(x)na.omit(substr_extract(x, loc=stri_locate_ith(x, -2, regex="a|e|i|o|u", case_insensitive=TRUE))))
+#> [1] "o o o" "a e o"
 ```
 
 And some string arithmetic:
@@ -243,26 +256,29 @@ print(x)
 #> [1] "yeay nay or nothing to say"            
 #> [2] "Goodmorning, goodevening and goodnight"
 #> [3] "abcdefghijklm"
-p <- s_pattern(regex = "a|e|i|o|u", case_insensitive=TRUE)
-loc <- s_locate_ith(x, -2, p)
-s_extract_substr(x, loc=loc) # extract second-last vowel in each string
-#> [1] "o" "o" "e"
-s_repl_substr(x, "??", loc=loc) # replace second-last vowel with "??"
-#> [1] "yeay nay or nothing t?? say"            
-#> [2] "Goodmorning, goodevening and go??dnight"
-#> [3] "abcd??fghijklm"
-s_chartr_substr(x, loc=loc) # switch upper/lower case of second-last vowel
-#> [1] "yeay nay or nothing tO say"            
-#> [2] "Goodmorning, goodevening and goOdnight"
-#> [3] "abcdEfghijklm"
-s_addin_substr(x, " ", "after", loc=loc) # add white space before second-last vowel
-#> [1] "yeay nay or nothing to  say"            
-#> [2] "Goodmorning, goodevening and goo dnight"
-#> [3] "abcde fghijklm"
-s_addin_substr(x, " ", "before", loc=loc) # add white space after second-last vowel
-#> [1] "yeay nay or nothing t o say"            
-#> [2] "Goodmorning, goodevening and go odnight"
-#> [3] "abcd efghijklm"
+loc <- stri_locate_ith(x, -2, regex="ay", case_insensitive=TRUE)
+substr_extract(x, loc=loc) # extract second-last "ay" in each string
+#> [1] "ay" NA   NA
+substr_repl(x, "??", loc=loc) # replace second-last "ay" with "??"
+#> [1] "yeay n?? or nothing to say"            
+#> [2] "Goodmorning, goodevening and goodnight"
+#> [3] "abcdefghijklm"
+substr_chartr(x, loc=loc) # switch upper/lower case of second-last "ay"
+#> [1] "yeay nAY or nothing to say"            
+#> [2] "Goodmorning, goodevening and goodnight"
+#> [3] "abcdefghijklm"
+substr_addin(x, " ", "after", loc=loc) # add white space before second-last "ay"
+#> [1] "yeay na  or nothing to say"            
+#> [2] "Goodmorning, goodevening and goodnight"
+#> [3] "abcdefghijklm"
+substr_addin(x, " ", "before", loc=loc) # add white space after second-last "ay"
+#> [1] "yeay n y or nothing to say"            
+#> [2] "Goodmorning, goodevening and goodnight"
+#> [3] "abcdefghijklm"
+substr_arrange(x, "rev", loc=loc) # reverse second-last "ay"
+#> [1] "yeay nya or nothing to say"            
+#> [2] "Goodmorning, goodevening and goodnight"
+#> [3] "abcdefghijklm"
 ```
 
 If you’re still interested, I invite you to read the rest of this
@@ -521,31 +537,52 @@ It is the same as `x[is.na(x)|is.nan(x)|is.infinite(x)] <- y`.
 
  
 
-# Basic string operations
+# Missing from stringi: Locate $i^{th}$ pattern
 
-The `tidyoperators` R package implements operators for string arithmetic
-and sub-setting, as well some of their in-place modifier equivalents.
-For consistency, and to avoid masking other common operators, all
-string-related operators start with `%s`, where the “s” stands for
-“string”. Likewise, all string-related functions in this package start
-with `s_`. (The only exceptions to this naming convention are `%[grep]%`
-and `%[!grep]%`, though these are “which”-operators, technically, which
-are discussed near the end of this read-me.)
+Suppose one wants to transform all vowels in the strings of a character
+vector `x` such that all upper case vowels become lower case, and
+vice-versa. One can do that completely in `stringi` + base R as follows:
+
+``` r
+
+x <- c("HELLO WORLD", "goodbye world")
+loc <- stringi::stri_locate_all(x, regex="a|e|i|o|u", case_insensitive=TRUE)
+extr <- stringi::stri_sub_all(x, from=loc)
+repl <- lapply(extr, \(x)chartr(x=x, old = "a-zA-Z", new = "A-Za-z"))
+stringi::stri_sub_all_replace(x, loc, replacement=repl)
+#> [1] "HeLLo WoRLD"   "gOOdbyE wOrld"
+```
+
+Easy peasy lemon squeezy.
 
  
 
-## Locate ith pattern
+But now suppose one wants to transform **only** the **second-last**
+vowel. How are you going to do that? It’s not impossible, but also not
+super straight-forward. For a tidy code, `stringi` really needs some
+kind of “stri_locate_ith” function. And, of course, the `tidyoperators`
+package provides just that.
 
-In order to use the string sub-setting functions and operators
-optimally, this R package includes a helper function called
-`s_locate_ith(x, i, p)`. This function locates for every element/string
-in character vector `x` the $i^{th}$ occurrence of pattern `p`. When `i`
-is positive, the occurrence is counted from left to right. Negative
-values for `i` are also allowed, in which case the occurrence is counted
-from the right to left. Thus, to get the **last** occurrence, use
-`i=-1`. But `i=0` is not allowed though.
+The `stri_locate_ith(x, i, ...)` function locates for every
+element/string in character vector `x`, the $i^{th}$ occurrence of some
+(regex/fixed/etc) pattern. When `i` is positive, the occurrence is
+counted from left to right. Negative values for `i` are also allowed, in
+which case the occurrence is counted from the right to left. But `i=0`
+is not allowed though.
 
-It returns a matrix with 3 columns:
+Thus, to get the **second** occurence of some patern, use `i=2`, and to
+get the **second-last** occurrence, use `i=-2`.
+
+What this function returns exactly depends on the `simplify` argument.
+
+If `simplify=FALSE` (the default), it returns a returns a list, one
+element for each string. Each list element consists of a matrix with 2
+columns. The first column gives the start position of the $i^{th}$
+occurence of pattern `p`. The second column gives the end position of
+the $i^{th}$ occurence of pattern `p`. This list can be used in
+`stringi` for pattern transformation.
+
+If `simplify=TRUE` it returns a matrix with 3 columns:
 
 - The first column gives the start position of the $i^{th}$ occurrence
   of pattern `p`.
@@ -554,57 +591,117 @@ It returns a matrix with 3 columns:
 - The third column gives the length of the position range of the
   $i^{th}$ occurrence of pattern `p`.
 
-The returned matrix can be used directly into the string sub-setting
-functions, in the `loc` argument.
+The `stri_locate_ith(x, i, ...)` function uses the exact same argument
+and naming convention as `stringi`, to keep your code consistent. And
+just like `stringi::stri_locate_all`, the `stri_locate_ith(x, i, ...)`
+function is a vectorized function: `x` and `i` as well as the pattern
+(`regex, fixed, coll, charclass`) can all be different-valued vectors.
 
-The `s_locate_ith(x, i, p)` is a vectorized function: `x, i, p` can all
-be different-valued vectors.
+Currently, `stri_locate_ith` internally uses `mapply` for the
+vectorization. Once this R package is out of the `experimental` phase, I
+plan to replace `mapply` with a `C++` loop. But rest assured:
+`stri_locate_ith` is already quite fast.
 
  
 
-## String sub-setting functions
+Now back to the original problem.
 
-The `tidyoperators` R-package includes the following sub-setting
+So we previosuly transformed all vowels in the strings of a character
+vector `x` such that all upper case vowels become lower case, and
+vice-versa, like so:
+
+``` r
+x <- c("HELLO WORLD", "goodbye world")
+
+loc <- stringi::stri_locate_all(x, regex="a|e|i|o|u", case_insensitive=TRUE)
+
+extr <- stringi::stri_sub_all(x, from=loc)
+repl <- lapply(extr, \(x)chartr(x=x, old = "a-zA-Z", new = "A-Za-z"))
+stringi::stri_sub_all_replace(x, loc, replacement=repl)
+#> [1] "HeLLo WoRLD"   "gOOdbyE wOrld"
+```
+
+This transforms all occurrences.
+
+But to transform **only** the **second-last** occurence, one can now use
+`stri_locate_ith()` in a very similar way as was done with
+`stri_locate_all`:
+
+``` r
+x <- c("HELLO WORLD", "goodbye world")
+
+loc <- stri_locate_ith(x, -2, regex="a|e|i|o|u", case_insensitive=TRUE, simplify = FALSE) # <- this line is the key-difference
+
+extr <- stringi::stri_sub_all(x, from=loc)
+repl <- lapply(extr, \(x)chartr(x=x, old = "a-zA-Z", new = "A-Za-z"))
+stringi::stri_sub_all_replace(x, loc, replacement=repl)
+#> [1] "HELLo WORLD"   "goodbyE world"
+```
+
+Notice that the code is virtually equivalent. We ONLY need to change the
+locate function. Quite tidy, right?
+
+The transformation given in the previous code used `lapply`. I’m sure we
+want to stick to vectorized functions as much as possible. Therefore,
+the `tidyoperators` package also adds several fully vectorized
+`substr_`-functions, which are discussed in the very next section.
+
+# Substr - functions
+
+The `tidyoperators` R-package includes the following sub-string
 functions:
 
-- The `s_repl_substr(x, rp, ...)` function replaces a position (range)
+- The `substr_repl(x, rp, ...)` function replaces a position (range)
   with string `rp`.
-- The `s_chartr_substr(x, old, new, ...)` function transforms the
+- The `substr_chartr(x, old, new, ...)` function transforms the
   sub-string at a position (range) using `chartr(old, new)`. By default,
   it will translate upper-case characters to lower-case, and vice-versa.
-- The `s_addin_substr(x, addin, side, ...)` function adds the additional
-  string `addin` at the side `side` of a position.
-- The `s_extract_substr(x, type, ...)` function extracts the string at,
+- The `substr_addin(x, addition, side, ...)` function adds the
+  additional string `addition` at the side `side` of a position.
+- The `substr_extract(x, type, ...)` function extracts the string at,
   before, or after some position (range).
+- The `substr_arrange(x, arr, ...)` function sorts or reverse the
+  sub-string at a position (range).
 
 The “position” in the functions above can be specified either by giving
-the result of the `s_locate_ith()` function in argument `loc`, or by one
-can give manual numerical specifications using the `start, stop` or `at`
-arguments.
+the result of the `stri_locate_ith()` function (see the previous
+section) in argument `loc`, or by one can give manual numerical
+specifications using the `start, stop` or `at` arguments.
 
 For example:
 
 ``` r
 x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
-p <- "a|e|i|o|u" # specify pattern
-loc <- s_locate_ith(x, 1, p) # find first occurrence of pattern p
-s_extract_substr(x, loc=loc) # extract pattern
-#> [1] "a" "o"
-s_extract_substr(x, type="before", loc=loc) # extract string before pattern
-#> [1] ""  "n"
-s_extract_substr(x, type="after", loc=loc) # extract string after pattern
-#> [1] "bcdefghijklm" "pqrstuvwxyz"
-s_repl_substr(x, "??", loc=loc) # replace pattern with double question-mark
-#> [1] "??bcdefghijklm" "n??pqrstuvwxyz"
-s_chartr_substr(x, loc=loc) # transform case of pattern match
-#> [1] "Abcdefghijklm" "nOpqrstuvwxyz"
-s_addin_substr(x, " ", "after", loc=loc) # add white space before pattern
-#> [1] " bcdefghijklm"  "no pqrstuvwxyz"
-s_addin_substr(x, " ", "before", loc=loc) # add white space after pattern
-#> [1] " abcdefghijklm" "n opqrstuvwxyz"
+print(x)
+#> [1] "abcdefghijklm" "nopqrstuvwxyz"
+
+loc <- stri_locate_ith(x, -2, regex="a|e|i|o|u") # find second-last occurrence of pattern
+
+substr_extract(x, loc=loc) # extract pattern
+#> [1] "e" "o"
+substr_extract(x, type="before", loc=loc) # extract string before pattern
+#> [1] "abcd" "n"
+substr_extract(x, type="after", loc=loc) # extract string after pattern
+#> [1] "fghijklm"    "pqrstuvwxyz"
+substr_repl(x, "??", loc=loc) # replace pattern with double question-mark
+#> [1] "abcd??fghijklm" "n??pqrstuvwxyz"
+substr_chartr(x, loc=loc) # transform case of pattern match
+#> [1] "abcdEfghijklm" "nOpqrstuvwxyz"
+substr_addin(x, " ", "after", loc=loc) # add white space before pattern
+#> [1] "abcde fghijklm" "no pqrstuvwxyz"
+substr_addin(x, " ", "before", loc=loc) # add white space after pattern
+#> [1] "abcd efghijklm" "n opqrstuvwxyz"
 ```
 
 Simple, right?
+
+# Basic string operations
+
+The `tidyoperators` R package implements operators for string arithmetic
+and sub-setting, as well some of their in-place modifier equivalents.
+For consistency, and to avoid masking other common operators, all
+string-related operators start with `%s`, where the “s” stands for
+“string”.
 
  
 
@@ -718,10 +815,9 @@ can be a single value, or a vector of the same length as `x`.
 ## Pattern attributes in strings
 
 The `x %s-% p` and `x %s/% p` operators (and their in-place equivalents,
-given later), and the `s_locate_ith()` functions perform pattern
-matching for subtracting, counting, and locating patterns, respectively.
-By default the pattern matching is interpreted as case-sensitive `regex`
-patterns from `stringi`.
+given later), and the `%sgrep%` operator perform pattern matching for
+various purposes. By default the pattern matching is interpreted as
+case-sensitive `regex` patterns from `stringi`.
 
 But, of course, sometimes one wants to change this. For example, one may
 want it to be case insensitive. Or perhaps one wants to use fixed
@@ -745,6 +841,9 @@ For consistency with base R and with packages such as `stringr`, one can
 also fill in `ignore.case=TRUE` or `ignore_case=TRUE` instead of
 `case_insensitive=TRUE`, and `s_pattern()` will still understand that.
 
+Note that the `s_pattern()` function only works for the infix operators
+(i.e. functions surrounded by `%` signs).
+
  
 
 ## Pattern attributes examples
@@ -759,55 +858,6 @@ print(x)
 #> [2] "Goodmorning, goodevening and goodnight"
 #> [3] "abcdefghijklm"
 p <- s_pattern(regex = "a|e|i|o|u", case_insensitive=TRUE)
-
-loc <- s_locate_ith(x, c(1, -1, -1), p)
-s_extract_substr(x, loc=loc)
-#> [1] "e" "i" "i"
-s_extract_substr(x, type="before", loc=loc)
-#> [1] "y"                                  "Goodmorning, goodevening and goodn"
-#> [3] "abcdefgh"
-s_extract_substr(x, type="after", loc=loc)
-#> [1] "ay nay or nothing to say" "ght"                     
-#> [3] "jklm"
-s_repl_substr(x, "??", loc=loc)
-#> [1] "y??ay nay or nothing to say"            
-#> [2] "Goodmorning, goodevening and goodn??ght"
-#> [3] "abcdefgh??jklm"
-s_chartr_substr(x, loc=loc)
-#> [1] "yEay nay or nothing to say"            
-#> [2] "Goodmorning, goodevening and goodnIght"
-#> [3] "abcdefghIjklm"
-s_addin_substr(x, " ", "after", loc=loc)
-#> [1] "ye ay nay or nothing to say"            
-#> [2] "Goodmorning, goodevening and goodni ght"
-#> [3] "abcdefghi jklm"
-s_addin_substr(x, " ", "before", loc=loc)
-#> [1] "y eay nay or nothing to say"            
-#> [2] "Goodmorning, goodevening and goodn ight"
-#> [3] "abcdefgh ijklm"
-
-
-# MULTI-CHAR SUBSETTING ====
-
-x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
-print(x)
-#> [1] "abcdefghijklm" "nopqrstuvwxyz"
-p <- s_pattern(regex="AB", case_insensitive=TRUE)
-loc <- s_locate_ith(x, c(1, -1), p)
-s_extract_substr(x, loc=loc)
-#> [1] "ab" NA
-s_extract_substr(x, type="before", loc=loc)
-#> [1] "" NA
-s_extract_substr(x, type="after", loc=loc)
-#> [1] "cdefghijklm" NA
-s_repl_substr(x, "??", loc=loc)
-#> [1] "??cdefghijklm" NA
-s_chartr_substr(x, loc=loc)
-#> [1] "ABcdefghijklm" NA
-s_addin_substr(x, " ", "after", loc=loc)
-#> [1] " cdefghijklm" NA
-s_addin_substr(x, " ", "before", loc=loc)
-#> [1] " bcdefghijklm" NA
 
 # PATTERN ARITHMETIC ====
 
@@ -828,23 +878,6 @@ And then some fixed expressions:
 ``` r
 x <- c("yeay yeay yeay yeay", "nay nay nay nay")
 p <- s_pattern(fixed = "ye")
-
-rp <- "?"
-loc <- s_locate_ith(x, -1, p)
-s_extract_substr(x, loc=loc)
-#> [1] "ye" NA
-s_extract_substr(x, type="before", loc=loc)
-#> [1] "yeay yeay yeay " NA
-s_extract_substr(x, type="after", loc=loc)
-#> [1] "ay" NA
-s_repl_substr(x, "??", loc=loc)
-#> [1] "yeay yeay yeay ??ay" NA
-s_chartr_substr(x, loc=loc)
-#> [1] "yeay yeay yeay YEay" NA
-s_addin_substr(x, " ", "after", loc=loc)
-#> [1] "yeay yeay yeay y ay" NA
-s_addin_substr(x, " ", "before", loc=loc)
-#> [1] "yeay yeay yeay  eay" NA
 
 x <- c("Hello world", "Goodbye world")
 p <- s_pattern(fixed=" world")
@@ -899,24 +932,38 @@ pastes the returning vector together into a single string again.
 This operator can be used in a very wide variety of ways.
 
 One obvious use of this function is for re-arranging the characters or
-words in every string in character vector `x`, or find the occurrence of
-the character on the alphabet:
+words in every string in character vector `x` in some custom way, or
+find the occurrence of the character on the alphabet:
 
 ``` r
 x <- c("Hello World", "Goodbye World")
-s_strapply(x, sort) # sort letters
-#> [1] " deHllloorW"   " bddeGlooorWy"
-s_strapply(x, sample) # randomly shuffle letters
+
+# randomly shuffle letters:
+s_strapply(x, sample)
 #> [1] "rlWHeodl lo"   "boyleGWdr doo"
-s_strapply(x, rev, w=T) # reverse words
+
+# reverse word order:
+s_strapply(x, rev, w=T)
 #> [1] "World   Hello"   "World   Goodbye"
+
 # find occurrence of characters on alphabet:
 s_strapply(x, fun=\(x)match(tolower(x),letters), clp="; ")
 #> [1] "8; 5; 12; 12; 15; NA; 23; 15; 18; 12; 4; NA; NA"
 #> [2] "7; 15; 15; 4; 2; 25; 5; NA; 23; 15; 18; 12; 4"
+
+# completely customized sorting of characters (first vowels, then the rest of the letters):
+custom_order <- c("a", "e", "i", "o", "u", setdiff(letters, c("a", "e", "i", "o", "u")))
+print(paste0(custom_order, collapse = ""))
+#> [1] "aeioubcdfghjklmnpqrstvwxyz"
+s_strapply(x, fun=\(x){
+  rest <- setdiff(x = unique(x), y = custom_order)
+  y <- factor(x = x, levels = c(custom_order, rest), ordered = TRUE)
+  return(sort(y))
+})
+#> [1] "eoodlllrH W"   "eooobddlryG W"
 ```
 
-I think this is reasonably easy and tidy.
+Much tidier and quicker, right?
 
 Lets try something else: capitalize characters but ONLY at certain
 indices:
@@ -950,8 +997,8 @@ print(x)
 #> [1] "Outrageous, egregious, preposterous!"
 #> [2] "Pleasant evening everyone"
 p <- s_pattern(regex="a|e|i|o|u", case_insensitive = TRUE)
-s_strapply(x, w=T, fun=\(x)s_extract_substr(x, loc=s_locate_ith(x, -2, p)))
-#> [1] "o NA NA o NA NA o NA" "a NA e NA o NA NA NA"
+s_strapply(x, w=T, fun=\(x) na.omit(substr_extract(x, loc=stri_locate_ith(x, -2, regex=p))))
+#> [1] "o o"   "a e o"
 ```
 
  
@@ -991,8 +1038,8 @@ very_long_name_1 |> transform_if(\(x)x>0, log)
 
 Much tidyr, right?
 
-Besides transform_if, the tidyoperators package also adds 2 “subset_if”
-operators:
+Besides `transform_if`, the tidyoperators package also adds 2
+“subset_if” operators:
 
 - The `x %[if]% cond` operator selects elements from vector/matrix/array
   `x`, for which the result of `cond(x)` returns `TRUE`.
@@ -1005,6 +1052,18 @@ Here are a few examples to see these in action:
 
 ``` r
 object_with_very_long_name <- matrix(-10:9, ncol=2)
+print(object_with_very_long_name)
+#>       [,1] [,2]
+#>  [1,]  -10    0
+#>  [2,]   -9    1
+#>  [3,]   -8    2
+#>  [4,]   -7    3
+#>  [5,]   -6    4
+#>  [6,]   -5    5
+#>  [7,]   -4    6
+#>  [8,]   -3    7
+#>  [9,]   -2    8
+#> [10,]   -1    9
 object_with_very_long_name |> transform_if(\(x)x>0, log)
 #>       [,1]      [,2]
 #>  [1,]  -10 0.0000000
@@ -1053,42 +1112,10 @@ where `cl` is the number of threads you want to use.
 Don’t use multi-threading unless you need to, as multi-threading has
 some overhead, thus its only faster with very large character strings.
 
- 
-
-## Multi-threading in s_locate_ith
-
-The `s_locate_ith()` function internally use `mapply()`. This function
-has the `custom_mapply` argument, which allows the user to replace the
-internally used `mapply()` with a user provided alternative. The primary
-usage of this is for multi-threading (though it could, technically, also
-be used for other reasons). It is important that whatever replacer
-function the user provides, it must have the same argument names and
-usage as base R `mapply()`.
-
-For example, suppose one wants to speed up `s_locate_ith()` using
-parallel computing. One can use the `future.apply::future_mapply()` as a
-replacer for the mapply function, like so:
-
-``` r
-
-x <- rep(c("Hello World", "Goodbye World"), 2e5)
-p <- s_pattern(regex="a|e|i|o|u", case_insensitive=TRUE)
-
-s_locate_ith(x, -1, p) # regular way
-
-require(future.apply)
-plan(multisession)
-s_locatet_ith(x, -1, p, custom_mapply = future_mapply) # multi-threaded way.
-```
-
-Now you have a multithreaded version of `s_locate_ith`; that wasn’t so
-difficult, right? On my computer, the multi-threaded command was about 3
-times faster.
-
 ## Multi-threading in s_strapply
 
 The `s_strapply` function uses `apply` internally. Just like in
-`s_locate_ith`, the user can multi-thread this function by replacing
+`stri_locate_ith`, the user can multi-thread this function by replacing
 apply:
 
 ``` r
@@ -1108,26 +1135,6 @@ advice the user to only make `s_strapply` multi-threaded, and not the
 function used in the `fun` argument; making multiple layers of parallel
 computing seems like asking for problems.
 
-For example, when combining `s_strapply` and `s_locate_ith`, only
-multi-thread `s_strapply` with a replacing `apply` function; do not do
-so with `s_locate_ith`. I.e.:
-
-``` r
-x <- rep(
-  c("Outrageous, egregious, preposterous!", "Pleasant evening everyone"),
-  1e5
-)
-# s_strapply combined with s_locate_ith:
-p <- s_pattern(regex = "a|e|i|o|u", case_insensitive = TRUE) 
-s_strapply(x, w=T, fun=\(x){
-  s_repl(x, "??", loc=s_locate_ith(x, -2, p))
-}, custom_apply = future_apply)
-```
-
-Notice that only `s_strapply()` is multi-threaded, and not
-`s_locate_ith`. Multi-threading both would actually be slower, and may
-even create other problems.
-
  
 
 # Recommended R packages
@@ -1135,6 +1142,8 @@ even create other problems.
 `stringi` is of course required for this packages. Besides that, I
 highly recommend using this R package alongside the 2 major
 operator-related R-packages, namely `magrittr` and `zeallot`.  
+
+ 
 
 # Compatibility with other operator-related R packages
 

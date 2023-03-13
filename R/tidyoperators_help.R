@@ -14,12 +14,13 @@
 #' in-place modifying string arithmetic,
 #' in-place modifying string sub-setting,
 #' and in-place modifying unreal replacers.
-#' Moreover, it includes some helper functions for more complex string arithmetic,
-#' some of which are missing from popular R packages like stringi.
+#' The 'tidyoperators' R-package also adds the stri_locate_ith function,
+#' which is missing from stringi.
+#' And it includes some helper functions for more complex string arithmetic.
 #' Most stringi pattern expressions options (regex, fixed, coll, charclass)
 #' are available for all string-pattern-related functions, when appropriate.
 #' This package adds the transform_if function.
-#' This package also allows integrating third-party parallel computing packages
+#' This package also allows integrating third-party parallel computing packages (like stringfish)
 #' for some of its functions. \cr
 #' \cr
 #'
@@ -29,21 +30,34 @@
 #' * \link[=%f==%]{Safer (in)equality operators for floating numbers}. \cr
 #' * Infix operators for \link[=%+ <-%]{In-place modifiers for mathematical arithmetic}. \cr
 #' * Infix operators for \link[=%s+%]{string arithmetic}. \cr
-#' * Infix operators (and a few functions) for \link[=%ss%]{string sub-setting}. \cr
+#' * Infix operators for \link[=%ss%]{string sub-setting}. \cr
+#' * The fully vectorized \link[=substr_repl]{sub-string functions}. \cr
 #' * Infix operators for \link[=%s+ <-%]{In-place modifying string arithmetic}. \cr
 #' * Infix operators for \link[=%sget <-%]{In-place modifying string sub-setting}. \cr
 #' * \link[=%unreal <-%]{The in-place modifying unreal replacer operator.} \cr
-#' * There are also some string helper functions:
-#' \link{s_pattern}, \link{s_locate_ith}, and \link{s_strapply}. \cr
+#' * \link{stri_locate_ith}: The \code{stringi} R package has a "locate_all" function, but no "locate_ith" function.
+#' The \code{tidyoperators} package adds the \link{stri_locate_ith} function,
+#' which uses the same naming and argument convention as the rest of
+#' the \code{stringi} functions, thus keeping your code consistent.
+#' * There are also some string helper functions, namely
+#' \link{s_pattern} and \link{s_strapply}. \cr
 #' * The \link{transform_if} function, and some related operators. \cr
-#' * All \code{stringi} expressions options (Regex, fixed, coll, boundary, charclass)
-#' are available for all string-pattern-related functions (see \link{s_pattern}). \cr
+#' * The utility function \link{env_c}. \cr
+#' * Most \code{stringi} pattern expressions options
+#' (regex, fixed, coll, charclass)
+#' are available for all string-pattern-related functions, when appropriate. \cr
 #' * This R package has only one dependency: \code{stringi}.
 #' No other dependencies, as to avoid "dependency hell". \cr
 #' * Although this package has no other dependencies,
 #' it allows multi-threading of functions (when appropriate)
-#' through third-party packages to improve efficiency. \cr
-#'\cr
+#' through third-party packages (like stringfish). \cr
+#' \cr
+#'
+#' Please also have a look at the Read-Me file on the Github mian page of this package:
+#' https://github.com/tony-aw/tidyoperators
+#'
+#'
+#'
 
 #' @rdname help
 #' @export
