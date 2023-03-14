@@ -71,7 +71,7 @@ or both \code{loc} and \code{at}. Choose one or the other.}
 giving the start and end position of the range to be modified.}
 
 \item{fish}{although \code{tidyoperators} has no dependencies other than \code{stringi},
-it does allow the internal functions to use the very fast \code{stringfish}
+it does allow the internal functions to use the multi-threadable \code{stringfish}
 functions. To do so, set \code{fish=TRUE};
 this requires \code{stringfish} to be installed.}
 
@@ -113,6 +113,8 @@ in this function, non-matches return \code{NA}.
 }
 \description{
 Fully vectorized sub-string functions. \cr
+These functions extract, replace, add-in, transform, or re-arrange,
+the \eqn{i^{th}} pattern occurrence or position range. \cr
 \cr
 The \code{substr_repl(x, rp, ...)} function
 replaces a position (range) with string \code{rp}. \cr
@@ -121,7 +123,8 @@ The \code{substr_chartr(x, old, new, ...)} function
 transforms the sub-string at a position (range) using \code{chartr(old, new)}. \cr
 \cr
 The \code{substr_addin(x, addition, side, ...)} function
-adds the additional string \code{addition} at the side \code{side} of a position. \cr
+adds the additional string \code{addition} at the side
+(specified by argument \code{side}) of a position. \cr
 \cr
 The \code{substr_extract(x, type, ...)} function
 extracts the string at, before, or after some position. \cr
@@ -173,60 +176,20 @@ substr_addin(x, " ", "before", at=start)
 
 # simple pattern ====
 
-x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+x <- c("goodGOODGoodgOOd", "goodGOODGoodgOOd", paste0(letters[1:13], collapse=""))
 print(x)
-p <- rep("a|e|i|o|u",2)
-loc <- stri_locate_ith(x, c(-1, 1), regex=p)
-substr_extract(x, loc=loc)
-substr_extract(x, type="before", loc=loc)
-substr_extract(x, type="after", loc=loc)
-substr_repl(x, "??", loc=loc)
-substr_chartr(x, loc=loc)
-substr_addin(x, " ", "after", loc=loc)
-substr_addin(x, " ", "before", loc=loc)
-
-#############################################################################
-
-# ignore case pattern ====
-
-x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
-print(x)
-# pattern with ignore.case=TRUE:
-loc <- stri_locate_ith(x, c(1, -1), regex = rep("A|E|I|O|U", 2), case_insensitive=TRUE)
-substr_extract(x, type="at", loc=loc)
-substr_extract(x, type="before", loc=loc)
-substr_extract(x, type="after", loc=loc)
-substr_repl(x, "??", loc=loc)
-substr_chartr(x, loc=loc)
-substr_addin(x, " ", "after", loc=loc)
-substr_addin(x, " ", "before", loc=loc)
-
-#############################################################################
-
-# multi-character pattern ====
-
-x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
-print(x)
-# multi-character pattern:
-p <- rep("AB", 2)
-loc <- stri_locate_ith(x, c(1,-1), regex=p, case_insensitive=TRUE)
-substr_extract(x, loc=loc)
-substr_extract(x, type="before", loc=loc)
-substr_extract(x, type="after", loc=loc)
-substr_repl(x, "??", loc=loc)
-substr_chartr(x, loc=loc)
-substr_addin(x, " ", "after", loc=loc)
-substr_addin(x, " ", "before", loc=loc)
-
-#############################################################################
-
-# sorting ====
-
-x <- c(paste0(sample(letters), collapse=""), paste0(sample(letters), collapse=""))
-print(x)
-substr_arrange(x, "rev", start=c(2,2), end=nchar(x)-1)
-substr_arrange(x, "incr", start=c(2,2), end=nchar(x)-1)
-substr_arrange(x, "decr", start=c(2,2), end=nchar(x)-1)
+loc <- stri_locate_ith(
+  # locate second-last occurrence of "good" of each string in x:
+  x, -2, regex="good", case_insensitive=TRUE
+)
+substr_extract(x, loc=loc) # extract second-last "good"
+substr_repl(x, c("??", "!!", " "), loc=loc) # replace second-last "good"
+substr_chartr(x, loc=loc) # switch upper/lower case of second-last "good"
+substr_addin(x, c(" ", "~", " "), "after", loc=loc) # add white space after second-last "good"
+substr_addin(x, c(" ", "~", " "), "before", loc=loc) # add white space before second-last "good"
+substr_arrange(x, loc=loc) # sort second-last "good"
+substr_arrange(x, "rev", loc=loc) # reverse second-last "good"
+substr_arrange(x, "decr", loc=loc) # reverse-sort second-last "good"
 
 
 }

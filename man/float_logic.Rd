@@ -23,8 +23,8 @@ x \%f<=\% y
 x \%f>=\% y
 }
 \arguments{
-\item{x, y}{numeric vectors, matrices, or arrays.
-though these operators were specifically designed for floats ("double").}
+\item{x, y}{numeric vectors, matrices, or arrays,
+though these operators were specifically designed for floats (class "double").}
 }
 \description{
 The \code{\%f==\%, \%f!=\% \%f<\%, \%f>\%, \%f<=\%, \%f>=\%} operators perform "float logic".
@@ -37,7 +37,8 @@ The float logic operators assume that if the absolute difference between
 ought to be consider to be equal. \cr
 Thus these provide safer float logic. \cr
 For example: \code{0.1*7 == 0.7} returns \code{FALSE}, even though they are equal,
-due to the way floating numbers are stored in programming languages like R. \cr
+due to the way floating numbers are stored in programming languages like R.
+But \code{0.1*7 \%f==\% 0.7} returns \code{TRUE}.  \cr
 \cr
 }
 \examples{

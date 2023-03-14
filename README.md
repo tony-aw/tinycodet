@@ -16,15 +16,14 @@
     package</a>
 - <a href="#unreal-replacement" id="toc-unreal-replacement">Unreal
   replacement</a>
-- <a href="#missing-from-stringi-locate-ith-pattern"
-  id="toc-missing-from-stringi-locate-ith-pattern">Missing from stringi:
-  Locate <span
+- <a href="#locate-ith-pattern-for-stringi"
+  id="toc-locate-ith-pattern-for-stringi">Locate <span
   class="math inline"><em>i</em><sup><em>t</em><em>h</em></sup></span>
-  pattern</a>
+  pattern for stringi</a>
 - <a href="#substr---functions" id="toc-substr---functions">Substr -
   functions</a>
-- <a href="#basic-string-operations"
-  id="toc-basic-string-operations">Basic string operations</a>
+- <a href="#basic-string-infix-operators"
+  id="toc-basic-string-infix-operators">Basic string infix operators</a>
   - <a href="#string-subsetting-operators"
     id="toc-string-subsetting-operators">String subsetting operators</a>
   - <a href="#string-arithmetic" id="toc-string-arithmetic">String
@@ -42,6 +41,9 @@
 - <a href="#the-transform_if-function-and-the-subset_if-operators"
   id="toc-the-transform_if-function-and-the-subset_if-operators">The
   transform_if function, and the subset_if operators</a>
+- <a href="#utility-operator-for-slightly-more-advanced-users"
+  id="toc-utility-operator-for-slightly-more-advanced-users">Utility
+  operator (for slightly more advanced users)</a>
 - <a href="#speed-efficiency-and-multi-threading"
   id="toc-speed-efficiency-and-multi-threading">Speed, efficiency, and
   multi-threading</a>
@@ -69,25 +71,28 @@ status](https://github.com/tony-aw/tidyoperators/workflows/R-CMD-check/badge.svg
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![CodeFactor](https://www.codefactor.io/repository/github/tony-aw/tidyoperators/badge)](https://www.codefactor.io/repository/github/tony-aw/tidyoperators)
 [![](https://img.shields.io/badge/ORCID-0000--0001--9498--8379-green.svg)](https://orcid.org/0000-0001-9498-8379)
 <!-- badges: end -->
 
 ![](tidyoperators.svg)
 
-The `tidyoperators` R-package adds some much needed infix operators, and
+The ‘tidyoperators’ R-package adds some much needed infix operators, and
 a few functions, to make your R code much more tidy. It includes infix
 operators for the negation of logical operators (exclusive-or, not-and,
 not-in), safer float (in)equality operators, in-place modifying
 mathematical arithmetic, string arithmetic, string sub-setting, in-place
 modifying string arithmetic, in-place modifying string sub-setting, and
 in-place modifying unreal replacers. The ‘tidyoperators’ R-package also
-adds the stri_locate_ith function, which is missing from stringi. And it
-includes some helper functions for more complex string arithmetic. Most
-stringi pattern expressions options (regex, fixed, coll, charclass) are
-available for all string-pattern-related functions, when appropriate.
-This package adds the transform_if function. This package also allows
-integrating third-party parallel computing packages (like stringfish)
-for some of its functions.
+adds the stringi-like stri_locate_ith function. It also adds string
+functions to replace, extract, add-on, transform, and re-arrange, the
+ith pattern occurrence or position. And it includes some helper
+functions for more complex string arithmetic. Most stringi pattern
+expressions options (regex, fixed, coll, charclass) are available for
+all string-pattern-related functions, when appropriate. This package
+adds the transform_if function. This package also allows integrating
+third-party parallel computing packages (like stringfish) for some of
+its functions.
 
 WARNING: This package is still very much experimental. Function names,
 argument names, and so on may change dramatically. Use it for testing
@@ -107,6 +112,12 @@ CHNAGELOG (EXPERIMENTAL VERSION):
 - 13 march 2023: changed the name and argument convention of many of the
   string related functions to be more consistent. Changed the return of
   non-matches in the substr\_-functions.
+- 14 march 2023: changed the utility function to the `%m import <-%`
+  operator. Fixed some linguistic mistakes in the documentation. Added a
+  full documentation pdf. Fixed bugs in all `substr_`-functions. Added
+  `codefactor` badge. Fixed some errors in the Description file. Created
+  and added the pdf manual. Fixed some minor errors in this Read-Me
+  markdown file.
 
  
 
@@ -142,7 +153,6 @@ The `tidyoperators` R package adds the following functionality:
 - Infix operators for In-place modifiers for mathematical arithmetic.
 - Infix operators for string arithmetic.
 - Infix operators for string sub-setting.
-- The fully vectorized sub-string functions.
 - Infix operators for In-place modifying string arithmetic.
 - Infix operators for In-place modifying string sub-setting.
 - The in-place modifying unreal replacer operator.
@@ -151,6 +161,9 @@ The `tidyoperators` R package adds the following functionality:
   `stri_locate_ith` function, which uses the same naming and argument
   convention as the rest of the stringi functions, thus keeping your
   code consistent.
+- The fully vectorized sub-string functions, that extract, replace,
+  add-in, transform, or re-arrange, the $i^{th}$ pattern occurrence or
+  location.
 - There are also some string helper functions, namely `s_pattern` and
   `s_strapply`.
 - The `transform_if` function, and some related operators.
@@ -188,31 +201,68 @@ print(x)
 #>  [1]   1   4   9  16  25  36  49  64  81 100
 ```
 
-Second, some numeric and string sub-types checks:
+Second, simple transformations:
 
 ``` r
-n <- c(0:5, 0:-5, 0.1, -0.1, 0, 1, Inf, -Inf, NA, NaN)
-n[n %=numtype% "B"]
-#> [1] 0 1 0 0 1
-n[n %=numtype% "N"]
-#> [1] 0 1 2 3 4 5 0 0 1
-n[n %=numtype% "I"]
-#>  [1]  0  1  2  3  4  5  0 -1 -2 -3 -4 -5  0  1
-n[n %=numtype% "unreal"]
-#> [1]  Inf -Inf   NA  NaN
+# in base R:
+very_long_name_1[very_long_name_1 > 0] <- log(very_long_name_1[very_long_name_1 > 0])
 
-s <- c(" AbcZ123 ", " abc ", " 1.3 ", " !#$%^&*() ", "  ", "  NA  ", "  NaN  ", " Inf ")
-s[s %=strtype% "empty"]
-#> [1] "  "
-s[s %=strtype% "unreal"]
-#> [1] "  NA  "  "  NaN  " " Inf "
-s[s %=strtype% "numeric"]
-#> [1] " 1.3 " " Inf "
-s[s %=strtype% "special"]
-#> [1] " !#$%^&*() "
+# with tidyoperators:
+very_long_name_1 |> transform_if(\(x)x>0, log)
 ```
 
-And now some fun string manipulations using `tidyoperators`:
+Thirdly, some string sub-setting:
+
+``` r
+x <- c("Goodmorning -- GOODafternoon -- Goodevening, and goodnight!",
+       paste0(letters[1:13], collapse=""))
+print(x)
+#> [1] "Goodmorning -- GOODafternoon -- Goodevening, and goodnight!"
+#> [2] "abcdefghijklm"
+loc <- stri_locate_ith(
+  # locate second-last occurrence of "good" (ignore case) of each string in x:
+  x, -2, regex="good", case_insensitive=TRUE 
+)
+substr_extract(x, loc=loc) # extract second-last "good"
+#> [1] "Good" NA
+substr_repl(x, "??", loc=loc) # replace second-last "good" with "??"
+#> [1] "Goodmorning -- GOODafternoon -- ??evening, and goodnight!"
+#> [2] "abcdefghijklm"
+substr_chartr(x, loc=loc) # switch upper/lower case of second-last "good"
+#> [1] "Goodmorning -- GOODafternoon -- gOODevening, and goodnight!"
+#> [2] "abcdefghijklm"
+substr_addin(x, " ", "after", loc=loc) # add white space after second-last "good"
+#> [1] "Goodmorning -- GOODafternoon -- Good evening, and goodnight!"
+#> [2] "abcdefghijklm"
+substr_addin(x, " ", "before", loc=loc) # add white space before second-last "good"
+#> [1] "Goodmorning -- GOODafternoon --  Goodevening, and goodnight!"
+#> [2] "abcdefghijklm"
+substr_arrange(x, loc=loc) # sort second-last "good"
+#> [1] "Goodmorning -- GOODafternoon -- dGooevening, and goodnight!"
+#> [2] "abcdefghijklm"
+substr_arrange(x, "rev", loc=loc) # reverse second-last "good"
+#> [1] "Goodmorning -- GOODafternoon -- dooGevening, and goodnight!"
+#> [2] "abcdefghijklm"
+substr_arrange(x, "decr", loc=loc) # reverse-sort second-last "good"
+#> [1] "Goodmorning -- GOODafternoon -- ooGdevening, and goodnight!"
+#> [2] "abcdefghijklm"
+```
+
+And some string arithmetic:
+
+``` r
+"Hello" %s+% " world"
+#> [1] "Hello world"
+c("Hello world", "Goodbye world") %s-% " world"
+#> [1] "Hello"   "Goodbye"
+c("Ha", "Ho", "Hi", "Hu", "He", "Ha") %s*% 10
+#> [1] "HaHaHaHaHaHaHaHaHaHa" "HoHoHoHoHoHoHoHoHoHo" "HiHiHiHiHiHiHiHiHiHi"
+#> [4] "HuHuHuHuHuHuHuHuHuHu" "HeHeHeHeHeHeHeHeHeHe" "HaHaHaHaHaHaHaHaHaHa"
+c("HaHa", "Ho", "Hi", "Hu", "He", "Ha") %s/% "Ha"
+#> [1] 2 0 0 0 0 1
+```
+
+And lastly some fun string manipulations using `tidyoperators`:
 
 ``` r
 x <- c("Hello World", "Goodbye World")
@@ -231,54 +281,6 @@ print(x)
 #> [2] "Pleasant evening everyone"
 s_strapply(x, w=T, fun=\(x)na.omit(substr_extract(x, loc=stri_locate_ith(x, -2, regex="a|e|i|o|u", case_insensitive=TRUE))))
 #> [1] "o o o" "a e o"
-```
-
-And some string arithmetic:
-
-``` r
-"Hello" %s+% " world"
-#> [1] "Hello world"
-c("Hello world", "Goodbye world") %s-% " world"
-#> [1] "Hello"   "Goodbye"
-c("Ha", "Ho", "Hi", "Hu", "He", "Ha") %s*% 10
-#> [1] "HaHaHaHaHaHaHaHaHaHa" "HoHoHoHoHoHoHoHoHoHo" "HiHiHiHiHiHiHiHiHiHi"
-#> [4] "HuHuHuHuHuHuHuHuHuHu" "HeHeHeHeHeHeHeHeHeHe" "HaHaHaHaHaHaHaHaHaHa"
-c("HaHa", "Ho", "Hi", "Hu", "He", "Ha") %s/% "Ha"
-#> [1] 2 0 0 0 0 1
-```
-
-And string sub-setting:
-
-``` r
-x <- c("yeay nay or nothing to say", "Goodmorning, goodevening and goodnight",
-       paste0(letters[1:13], collapse=""))
-print(x)
-#> [1] "yeay nay or nothing to say"            
-#> [2] "Goodmorning, goodevening and goodnight"
-#> [3] "abcdefghijklm"
-loc <- stri_locate_ith(x, -2, regex="ay", case_insensitive=TRUE)
-substr_extract(x, loc=loc) # extract second-last "ay" in each string
-#> [1] "ay" NA   NA
-substr_repl(x, "??", loc=loc) # replace second-last "ay" with "??"
-#> [1] "yeay n?? or nothing to say"            
-#> [2] "Goodmorning, goodevening and goodnight"
-#> [3] "abcdefghijklm"
-substr_chartr(x, loc=loc) # switch upper/lower case of second-last "ay"
-#> [1] "yeay nAY or nothing to say"            
-#> [2] "Goodmorning, goodevening and goodnight"
-#> [3] "abcdefghijklm"
-substr_addin(x, " ", "after", loc=loc) # add white space before second-last "ay"
-#> [1] "yeay na  or nothing to say"            
-#> [2] "Goodmorning, goodevening and goodnight"
-#> [3] "abcdefghijklm"
-substr_addin(x, " ", "before", loc=loc) # add white space after second-last "ay"
-#> [1] "yeay n y or nothing to say"            
-#> [2] "Goodmorning, goodevening and goodnight"
-#> [3] "abcdefghijklm"
-substr_arrange(x, "rev", loc=loc) # reverse second-last "ay"
-#> [1] "yeay nya or nothing to say"            
-#> [2] "Goodmorning, goodevening and goodnight"
-#> [3] "abcdefghijklm"
 ```
 
 If you’re still interested, I invite you to read the rest of this
@@ -533,11 +535,12 @@ the same value.
 Another operator added by `tidyoperators` is `x %unreal <-% y`, which
 replaces all NA, NaN, Inf and -Inf in `x` with the value given in `y`.
 
-It is the same as `x[is.na(x)|is.nan(x)|is.infinite(x)] <- y`.
+So `x %unreal <-% 0` is the same as
+`x[is.na(x)|is.nan(x)|is.infinite(x)] <- y`.
 
  
 
-# Missing from stringi: Locate $i^{th}$ pattern
+# Locate $i^{th}$ pattern for stringi
 
 Suppose one wants to transform all vowels in the strings of a character
 vector `x` such that all upper case vowels become lower case, and
@@ -570,16 +573,16 @@ counted from left to right. Negative values for `i` are also allowed, in
 which case the occurrence is counted from the right to left. But `i=0`
 is not allowed though.
 
-Thus, to get the **second** occurence of some patern, use `i=2`, and to
-get the **second-last** occurrence, use `i=-2`.
+Thus, to get the **second** occurrence of some pattern, use `i=2`, and
+to get the **second-last** occurrence, use `i=-2`.
 
 What this function returns exactly depends on the `simplify` argument.
 
 If `simplify=FALSE` (the default), it returns a returns a list, one
 element for each string. Each list element consists of a matrix with 2
 columns. The first column gives the start position of the $i^{th}$
-occurence of pattern `p`. The second column gives the end position of
-the $i^{th}$ occurence of pattern `p`. This list can be used in
+occurrence of pattern `p`. The second column gives the end position of
+the $i^{th}$ occurrence of pattern `p`. This list can be used in
 `stringi` for pattern transformation.
 
 If `simplify=TRUE` it returns a matrix with 3 columns:
@@ -606,7 +609,7 @@ plan to replace `mapply` with a `C++` loop. But rest assured:
 
 Now back to the original problem.
 
-So we previosuly transformed all vowels in the strings of a character
+So we previously transformed all vowels in the strings of a character
 vector `x` such that all upper case vowels become lower case, and
 vice-versa, like so:
 
@@ -623,14 +626,16 @@ stringi::stri_sub_all_replace(x, loc, replacement=repl)
 
 This transforms all occurrences.
 
-But to transform **only** the **second-last** occurence, one can now use
-`stri_locate_ith()` in a very similar way as was done with
+But to transform **only** the **second-last** occurrence, one can now
+use `stri_locate_ith()` in a very similar way as was done with
 `stri_locate_all`:
 
 ``` r
 x <- c("HELLO WORLD", "goodbye world")
 
-loc <- stri_locate_ith(x, -2, regex="a|e|i|o|u", case_insensitive=TRUE, simplify = FALSE) # <- this line is the key-difference
+loc <- stri_locate_ith( # this part is the key-difference
+  x, -2, regex="a|e|i|o|u", case_insensitive=TRUE, simplify = FALSE 
+)
 
 extr <- stringi::stri_sub_all(x, from=loc)
 repl <- lapply(extr, \(x)chartr(x=x, old = "a-zA-Z", new = "A-Za-z"))
@@ -660,48 +665,61 @@ functions:
   additional string `addition` at the side `side` of a position.
 - The `substr_extract(x, type, ...)` function extracts the string at,
   before, or after some position (range).
-- The `substr_arrange(x, arr, ...)` function sorts or reverse the
+- The `substr_arrange(x, arr, ...)` function sorts or reverses the
   sub-string at a position (range).
 
 The “position” in the functions above can be specified either by giving
 the result of the `stri_locate_ith()` function (see the previous
-section) in argument `loc`, or by one can give manual numerical
-specifications using the `start, stop` or `at` arguments.
+section) in argument `loc`, or one can give manual numerical
+specifications using the `start, end` or `at` arguments.
 
 For example:
 
 ``` r
-x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+
+x <- c("Goodmorning -- GOODafternoon -- Goodevening, and goodnight!",
+       paste0(letters[1:13], collapse=""))
 print(x)
-#> [1] "abcdefghijklm" "nopqrstuvwxyz"
-
-loc <- stri_locate_ith(x, -2, regex="a|e|i|o|u") # find second-last occurrence of pattern
-
-substr_extract(x, loc=loc) # extract pattern
-#> [1] "e" "o"
-substr_extract(x, type="before", loc=loc) # extract string before pattern
-#> [1] "abcd" "n"
-substr_extract(x, type="after", loc=loc) # extract string after pattern
-#> [1] "fghijklm"    "pqrstuvwxyz"
-substr_repl(x, "??", loc=loc) # replace pattern with double question-mark
-#> [1] "abcd??fghijklm" "n??pqrstuvwxyz"
-substr_chartr(x, loc=loc) # transform case of pattern match
-#> [1] "abcdEfghijklm" "nOpqrstuvwxyz"
-substr_addin(x, " ", "after", loc=loc) # add white space before pattern
-#> [1] "abcde fghijklm" "no pqrstuvwxyz"
-substr_addin(x, " ", "before", loc=loc) # add white space after pattern
-#> [1] "abcd efghijklm" "n opqrstuvwxyz"
+#> [1] "Goodmorning -- GOODafternoon -- Goodevening, and goodnight!"
+#> [2] "abcdefghijklm"
+loc <- stri_locate_ith(
+  # locate second-last occurrence of "good" (ignore case) of each string in x:
+  x, -2, regex="good", case_insensitive=TRUE 
+)
+substr_extract(x, loc=loc) # extract second-last "good"
+#> [1] "Good" NA
+substr_repl(x, "??", loc=loc) # replace second-last "good" with "??"
+#> [1] "Goodmorning -- GOODafternoon -- ??evening, and goodnight!"
+#> [2] "abcdefghijklm"
+substr_chartr(x, loc=loc) # switch upper/lower case of second-last "good"
+#> [1] "Goodmorning -- GOODafternoon -- gOODevening, and goodnight!"
+#> [2] "abcdefghijklm"
+substr_addin(x, " ", "after", loc=loc) # add white space after second-last "good"
+#> [1] "Goodmorning -- GOODafternoon -- Good evening, and goodnight!"
+#> [2] "abcdefghijklm"
+substr_addin(x, " ", "before", loc=loc) # add white space before second-last "good"
+#> [1] "Goodmorning -- GOODafternoon --  Goodevening, and goodnight!"
+#> [2] "abcdefghijklm"
+substr_arrange(x, loc=loc) # sort second-last "good"
+#> [1] "Goodmorning -- GOODafternoon -- dGooevening, and goodnight!"
+#> [2] "abcdefghijklm"
+substr_arrange(x, "rev", loc=loc) # reverse second-last "good"
+#> [1] "Goodmorning -- GOODafternoon -- dooGevening, and goodnight!"
+#> [2] "abcdefghijklm"
+substr_arrange(x, "decr", loc=loc) # reverse-sort second-last "good"
+#> [1] "Goodmorning -- GOODafternoon -- ooGdevening, and goodnight!"
+#> [2] "abcdefghijklm"
 ```
 
 Simple, right?
 
-# Basic string operations
+# Basic string infix operators
 
-The `tidyoperators` R package implements operators for string arithmetic
-and sub-setting, as well some of their in-place modifier equivalents.
-For consistency, and to avoid masking other common operators, all
-string-related operators start with `%s`, where the “s” stands for
-“string”.
+The `tidyoperators` R package implements infix operators for string
+arithmetic and sub-setting, as well some of their in-place modifier
+equivalents. For consistency, and to avoid masking other common
+operators, all string-related operators start with `%s`, where the “s”
+stands for “string”.
 
  
 
@@ -799,7 +817,6 @@ c("Hello world", "Goodbye world") %s-% " world"
 c("Ha", "Ho", "Hi", "Hu", "He", "Ha") %s*% 2:7
 #> [1] "HaHa"           "HoHoHo"         "HiHiHiHi"       "HuHuHuHuHu"    
 #> [5] "HeHeHeHeHeHe"   "HaHaHaHaHaHaHa"
-x <- c("Ha", "Ho", "Hi", "Hu", "He", "Ha") %s*% 10
 c("hello world & goodbye world", "world domination!") %s/% "world"
 #> [1] 2 1
 ```
@@ -1005,8 +1022,7 @@ s_strapply(x, w=T, fun=\(x) na.omit(substr_extract(x, loc=stri_locate_ith(x, -2,
 
 # The transform_if function, and the subset_if operators
 
-The final category of operators in this package are the subset_if
-operators, and the `transform_if()` function.
+Then we have the subset_if operators, and the `transform_if()` function.
 
 Consider the following code:
 
@@ -1092,6 +1108,84 @@ I.e.:
 
  
 
+# Utility operator (for slightly more advanced users)
+
+And finally, as the last functionality in the `tidyoperators` package we
+have the utility in-place operator: `%m import <-%`. This operator
+requires a little bit more advanced knowledge of R, but it will make
+your life a little bit tidyr nonetheless.
+
+One can import a package and assign an alias to it in base R using:
+
+``` r
+alias <- loadNamespace("packagename")
+```
+
+Using a package alias, instead of using `library` or `require` has
+obvious benefits (i.e. prevent overlapping namespaces, clarify which
+function came from which package, etc.).
+
+It does, however, have a drawback: you cannot easily import multiple
+packages under the same alias (actually, it is very possible, but it
+requires converting environments to lists, and that will make your code
+unnecessarily ugly). There are a couple of situations where importing
+multiple packages into a single alias is preferable:
+
+- suppose package `B` is supposed to overwrite a couple of functions
+  from package `A` (for example if package B fixes the functionality
+  from a function in package `A`). In that case you want to import
+  package `A`, and then overwrite it with package `B`.
+- if multiple packages kind of “belong” together, you may not want to
+  give these packages separate aliases.
+
+One example is the core `fastverse` + `tidyverse` combo: `data.table` +
+`collapse` + `tidytable`. Considering the large amount of functions
+these packages have, (and some which unfortunately have the same name as
+base R functions), one would want to assign them in an alias object. But
+giving them separate aliases, knowing that you will always going to use
+them together anyways, is perhaps less desirable.
+
+This is where the `%m import <-%` operator comes in. It imports multiple
+packages under the same alias, and also informs the user which package
+will overwrite which function, so you will never be surprised. Besides
+importing multiple packages at once, `%m import <-%` also **only** loads
+exported functions (unlike `loadNamespace()`, which loads both internal
+and external functions). This is, I think, more desirable, as internal
+function should be, you know, internal.
+
+The `%m import <-%` operator only uses simple base R functions, and does
+nothing crazy.
+
+Now, as an example, lets load `data.table`, and then `collapse`, and
+then `tidytable`, all under the same alias, which I will call “ftv” (for
+“fast-tidy-verse”):
+
+``` r
+ftv %m import <-% c("data.table", "collapse", "tidytable")
+#> Importing package: data.table...
+#> 
+#> Importing package: collapse...
+#> no conflicts
+#> 
+#> Importing package: tidytable...
+#> The following conflicting objects detected:
+#>  
+#> %chin%, %like%, last, fread, setDTthreads, data.table, first, getDTthreads, fwrite, %between%, between
+#>  
+#> tidytable will overwrite conflicting objects from previous imported packages...
+#> 
+#> Done
+#> You can now access the functions using ftv$...
+#> methods will work like normally.
+```
+
+Notice that the messages explain which package will overwrite what
+
+Now you can of course use those loaded packages as one would normally do
+when using a package alias.
+
+ 
+
 # Speed, efficiency, and multi-threading
 
 This section discusses speed and optimization in the `tidyoperators`
@@ -1111,6 +1205,43 @@ where `cl` is the number of threads you want to use.
 
 Don’t use multi-threading unless you need to, as multi-threading has
 some overhead, thus its only faster with very large character strings.
+
+Example:
+
+``` r
+x <- c("Goodmorning--Goodevening, and Goodnight",
+       paste0(letters[1:13], collapse=""))
+print(x)
+#> [1] "Goodmorning--Goodevening, and Goodnight"
+#> [2] "abcdefghijklm"
+loc <- stri_locate_ith(
+  # locate second-last occurrence of "good" (ignore case) of each string in x:
+  x, -2, regex="good", case_insensitive=TRUE 
+)
+substr_extract(x, loc=loc, fish = TRUE)
+#> [1] "Good" NA
+substr_repl(x, "??", loc=loc, fish = TRUE)
+#> [1] "Goodmorning--??evening, and Goodnight"
+#> [2] "abcdefghijklm"
+substr_chartr(x, loc=loc, fish = TRUE)
+#> [1] "Goodmorning--gOODevening, and Goodnight"
+#> [2] "abcdefghijklm"
+substr_addin(x, " ", "after", loc=loc, fish = TRUE) 
+#> [1] "Goodmorning--Good evening, and Goodnight"
+#> [2] "abcdefghijklm"
+substr_addin(x, " ", "before", loc=loc, fish = TRUE) 
+#> [1] "Goodmorning-- Goodevening, and Goodnight"
+#> [2] "abcdefghijklm"
+substr_arrange(x, loc=loc, fish = TRUE)
+#> [1] "Goodmorning--dGooevening, and Goodnight"
+#> [2] "abcdefghijklm"
+substr_arrange(x, "rev", loc=loc, fish = TRUE)
+#> [1] "Goodmorning--dooGevening, and Goodnight"
+#> [2] "abcdefghijklm"
+substr_arrange(x, "decr", loc=loc)
+#> [1] "Goodmorning--ooGdevening, and Goodnight"
+#> [2] "abcdefghijklm"
+```
 
 ## Multi-threading in s_strapply
 

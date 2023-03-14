@@ -13,8 +13,7 @@ x \%[if]\% cond
 x \%[!if]\% cond
 }
 \arguments{
-\item{x}{a vector, matrix, array,
-or anything else that can be sub-setted with single square brackets ("[]").}
+\item{x}{a vector, matrix, or array.}
 
 \item{cond}{a function that returns a binary logic (\code{TRUE,FALSE}) vector
 of the same length/dimensions as \code{x} (for example: \code{is.na}). \cr
@@ -45,20 +44,14 @@ Consider the following code: \cr
 Here a conditional subset of the object \code{x} is transformed with function \code{f},
 where the condition is using a function referring to \code{x} itself (namely \code{cond(x)}).
 Consequently, reference to \code{x} is written four times! \cr
-If the object has a short name like "x", this doesn't matter too much.
-But if the object has a longer name like "very_long_name_1",
-doing something like this: \cr
-\code{very_long_name_1[very_long_name_1 > 0] <- log(very_long_name_1[very_long_name_1 > 0])} \cr
-becomes cumbersome, and not so tidy. \cr
 The \code{tidyoperators} package therefore adds the
 \code{transform_if()} function
 which will tidy this up. \cr
 \cr
-The code \cr
 \code{x <- transform(x, cond, trans)} \cr
 is exactly equivalent to \cr
-\code{x[cond(x)] <- trans(x[cond(x)])}
-
+\code{x[cond(x)] <- trans(x[cond(x)])} \cr
+\cr
 Besides \code{transform_if},
 the \code{tidyoperators} package also adds 2 "subset_if" operators: \cr
 \cr

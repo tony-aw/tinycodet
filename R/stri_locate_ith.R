@@ -27,20 +27,21 @@
 #' @param ... more arguments to be supplied to \link[stringi]{stri_locate}.
 #' @param simplify either \code{TRUE} or \code{FALSE} (default = \code{FALSE}): \cr
 #'  * If \code{FALSE}, \code{stri_locate_ith} returns a list,
-#'  usable in the \code{stringi::stri_sub_all_replace()} function
+#'  usable in the \link[stringi]{stri_sub_all} functions
 #'  (for example: to transform all matches). \cr
-#'  * If \code{TRUE}, \code{stri_locate_ith} returns an integer matrix of positions and lengths. \cr
+#'  * If \code{TRUE}, \code{stri_locate_ith}
+#'  returns an integer matrix of positions and lengths. \cr
 #'
 #'
 #'
 #'
 #' @returns
 #' If \code{simplify = FALSE}, this returns a list, one element for each string.
-#' Each list element consists of a matrix with 2 columns: \cr
+#' Each list element consists of a matrix with 2 columns and one row: \cr
 #' The first column gives the start position of the \eqn{i^{th}} occurence of pattern \code{p}. \cr
 #' The second column gives the end position of the \eqn{i^{th}} occurence of pattern \code{p}. \cr
 #' When \code{simplify=FALSE}, the results can be used in the \code{from} argument
-#' in the \link[stringi]{stri_sub_all} function,
+#' in the \link[stringi]{stri_sub_all} functions,
 #' for example to transform the \eqn{i^{th}} matches
 #' (see examples section below). \cr
 #' \cr
@@ -139,7 +140,7 @@ stri_locate_ith <- function(
   else if (providedarg["charclass"])
     p1 <- stringi::stri_locate_all_charclass(str=x, charclass, ...)
 
-  n.matches <- sapply(p1, nrow)
+  n.matches <- vapply(p1, nrow, FUN.VALUE = integer(1))
   i[i<0] <- pmax(n.matches[i<0] - abs(i[i<0]+1), 1)
   i[i>0] <- pmin(i[i>0], n.matches[i>0])
   p2 <- mapply(function(x, i)x[i, ,drop=FALSE], x=p1, i=i, SIMPLIFY = FALSE)

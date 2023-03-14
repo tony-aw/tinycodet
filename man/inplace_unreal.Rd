@@ -19,7 +19,11 @@ The x vector is modified such that all NA, NaN and infinities are replaced with 
 }
 \description{
 In-place modifiers to replace unreal (NA, NaN, Inf, -Inf) elements. \cr
-Works on vectors and matrices.
+Works on vectors, matrices, and arrays. \cr
+The following \cr
+\code{x \%unreal <-\% 0} \cr
+is the same as \cr
+\code{x[is.na(x)|is.nan(x)|is.infinite(x)] <- 0} \cr
 }
 \examples{
 x <- c(1:9, NA, NaN, Inf)

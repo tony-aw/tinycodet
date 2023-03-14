@@ -1,6 +1,6 @@
 Package: tidyoperators
 Title: Infix operators for tidier R code
-Version: 0.1
+Version: 0.0.9
 Authors@R: 
     person("Tony", "Wilkes", , "tony_a_wilkes@outlook.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-9498-8379"))
@@ -15,8 +15,10 @@ Description: The 'tidyoperators' R-package adds some much needed infix operators
     in-place modifying string arithmetic,
     in-place modifying string sub-setting,
     and in-place modifying unreal replacers.
-    The 'tidyoperators' R-package also adds the stri_locate_ith function,
-    which is missing from stringi.
+    The 'tidyoperators' R-package also adds the stringi-like
+    stri_locate_ith function.
+    It also adds string functions to replace, extract, add-on, transform, and re-arrange,
+    the ith pattern occurence or position.
     And it includes some helper functions for more complex string arithmetic.
     Most stringi pattern expressions options (regex, fixed, coll, charclass)
     are available for all string-pattern-related functions, when appropriate.

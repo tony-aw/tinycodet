@@ -1,7 +1,7 @@
 #' String subsetting operators
 #'
 #'@description
-#' String subsetting functions. \cr
+#' String subsetting operators. \cr
 #' \cr
 #' The \code{x %ss% s } operator
 #' allows indexing a single string as-if it is an iterable object. \cr
@@ -68,6 +68,10 @@
 #'
 #'
 #'
+
+
+#' @name str_subset_ops
+NULL
 
 #' @rdname str_subset_ops
 #' @export

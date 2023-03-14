@@ -34,18 +34,19 @@ as in \link[stringi]{stri_locate}. \cr}
 \item{simplify}{either \code{TRUE} or \code{FALSE} (default = \code{FALSE}): \cr
 \itemize{
 \item If \code{FALSE}, \code{stri_locate_ith} returns a list,
-usable in the \code{stringi::stri_sub_all_replace()} function
+usable in the \link[stringi]{stri_sub_all} functions
 (for example: to transform all matches). \cr
-\item If \code{TRUE}, \code{stri_locate_ith} returns an integer matrix of positions and lengths. \cr
+\item If \code{TRUE}, \code{stri_locate_ith}
+returns an integer matrix of positions and lengths. \cr
 }}
 }
 \value{
 If \code{simplify = FALSE}, this returns a list, one element for each string.
-Each list element consists of a matrix with 2 columns: \cr
+Each list element consists of a matrix with 2 columns and one row: \cr
 The first column gives the start position of the \eqn{i^{th}} occurence of pattern \code{p}. \cr
 The second column gives the end position of the \eqn{i^{th}} occurence of pattern \code{p}. \cr
 When \code{simplify=FALSE}, the results can be used in the \code{from} argument
-in the \link[stringi]{stri_sub_all} function,
+in the \link[stringi]{stri_sub_all} functions,
 for example to transform the \eqn{i^{th}} matches
 (see examples section below). \cr
 \cr

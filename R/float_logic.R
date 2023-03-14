@@ -11,11 +11,12 @@
 #' ought to be consider to be equal. \cr
 #' Thus these provide safer float logic. \cr
 #' For example: \code{0.1*7 == 0.7} returns \code{FALSE}, even though they are equal,
-#' due to the way floating numbers are stored in programming languages like R. \cr
+#' due to the way floating numbers are stored in programming languages like R.
+#' But \code{0.1*7 %f==% 0.7} returns \code{TRUE}.  \cr
 #' \cr
 #'
-#' @param x,y numeric vectors, matrices, or arrays.
-#' though these operators were specifically designed for floats ("double").
+#' @param x,y numeric vectors, matrices, or arrays,
+#' though these operators were specifically designed for floats (class "double").
 #'
 #' @examples
 #' x <- c(0.3, 0.6, 0.7)

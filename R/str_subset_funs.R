@@ -2,6 +2,8 @@
 #'
 #'@description
 #' Fully vectorized sub-string functions. \cr
+#' These functions extract, replace, add-in, transform, or re-arrange,
+#' the \eqn{i^{th}} pattern occurrence or position range. \cr
 #' \cr
 #' The \code{substr_repl(x, rp, ...)} function
 #' replaces a position (range) with string \code{rp}. \cr
@@ -10,7 +12,8 @@
 #' transforms the sub-string at a position (range) using \code{chartr(old, new)}. \cr
 #' \cr
 #' The \code{substr_addin(x, addition, side, ...)} function
-#' adds the additional string \code{addition} at the side \code{side} of a position. \cr
+#' adds the additional string \code{addition} at the side
+#' (specified by argument \code{side}) of a position. \cr
 #' \cr
 #' The \code{substr_extract(x, type, ...)} function
 #' extracts the string at, before, or after some position. \cr
@@ -50,7 +53,7 @@
 #'  * \code{arr = "decr"}: sort the sub-string reverse alphabetically.
 #'  * \code{arr = "rev"}: reverse the sub-string.
 #' @param fish although \code{tidyoperators} has no dependencies other than \code{stringi},
-#' it does allow the internal functions to use the very fast \code{stringfish}
+#' it does allow the internal functions to use the multi-threadable \code{stringfish}
 #' functions. To do so, set \code{fish=TRUE};
 #' this requires \code{stringfish} to be installed.
 #' @param ... only applicable if \code{fish=TRUE};
@@ -110,62 +113,23 @@
 #'
 #' # simple pattern ====
 #'
-#' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+#' x <- c("goodGOODGoodgOOd", "goodGOODGoodgOOd", paste0(letters[1:13], collapse=""))
 #' print(x)
-#' p <- rep("a|e|i|o|u",2)
-#' loc <- stri_locate_ith(x, c(-1, 1), regex=p)
-#' substr_extract(x, loc=loc)
-#' substr_extract(x, type="before", loc=loc)
-#' substr_extract(x, type="after", loc=loc)
-#' substr_repl(x, "??", loc=loc)
-#' substr_chartr(x, loc=loc)
-#' substr_addin(x, " ", "after", loc=loc)
-#' substr_addin(x, " ", "before", loc=loc)
-#'
-#' #############################################################################
-#'
-#' # ignore case pattern ====
-#'
-#' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
-#' print(x)
-#' # pattern with ignore.case=TRUE:
-#' loc <- stri_locate_ith(x, c(1, -1), regex = rep("A|E|I|O|U", 2), case_insensitive=TRUE)
-#' substr_extract(x, type="at", loc=loc)
-#' substr_extract(x, type="before", loc=loc)
-#' substr_extract(x, type="after", loc=loc)
-#' substr_repl(x, "??", loc=loc)
-#' substr_chartr(x, loc=loc)
-#' substr_addin(x, " ", "after", loc=loc)
-#' substr_addin(x, " ", "before", loc=loc)
-#'
-#' #############################################################################
-#'
-#' # multi-character pattern ====
-#'
-#' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
-#' print(x)
-#' # multi-character pattern:
-#' p <- rep("AB", 2)
-#' loc <- stri_locate_ith(x, c(1,-1), regex=p, case_insensitive=TRUE)
-#' substr_extract(x, loc=loc)
-#' substr_extract(x, type="before", loc=loc)
-#' substr_extract(x, type="after", loc=loc)
-#' substr_repl(x, "??", loc=loc)
-#' substr_chartr(x, loc=loc)
-#' substr_addin(x, " ", "after", loc=loc)
-#' substr_addin(x, " ", "before", loc=loc)
-#'
-#' #############################################################################
-#'
-#' # sorting ====
-#'
-#' x <- c(paste0(sample(letters), collapse=""), paste0(sample(letters), collapse=""))
-#' print(x)
-#' substr_arrange(x, "rev", start=c(2,2), end=nchar(x)-1)
-#' substr_arrange(x, "incr", start=c(2,2), end=nchar(x)-1)
-#' substr_arrange(x, "decr", start=c(2,2), end=nchar(x)-1)
+#' loc <- stri_locate_ith(
+#'   # locate second-last occurrence of "good" of each string in x:
+#'   x, -2, regex="good", case_insensitive=TRUE
+#' )
+#' substr_extract(x, loc=loc) # extract second-last "good"
+#' substr_repl(x, c("??", "!!", " "), loc=loc) # replace second-last "good"
+#' substr_chartr(x, loc=loc) # switch upper/lower case of second-last "good"
+#' substr_addin(x, c(" ", "~", " "), "after", loc=loc) # add white space after second-last "good"
+#' substr_addin(x, c(" ", "~", " "), "before", loc=loc) # add white space before second-last "good"
+#' substr_arrange(x, loc=loc) # sort second-last "good"
+#' substr_arrange(x, "rev", loc=loc) # reverse second-last "good"
+#' substr_arrange(x, "decr", loc=loc) # reverse-sort second-last "good"
 #'
 #'
+
 
 
 
@@ -178,6 +142,9 @@ substr_repl <- function(
   check.args <- c(!is.null(loc), !is.null(start) & !is.null(end))
   if(sum(check.args)!=1){
     stop("either loc OR start & stop must be filled in")
+  }
+  if(!isTRUE(is.vector(x) && is.atomic(x) && is.character(x))) {
+    stop("`x` must be a character vector.")
   }
   if(is.null(loc)){
     loc <- cbind(start, end)
@@ -194,6 +161,9 @@ substr_repl <- function(
   if(length(rp)!=length(x)) {
     stop("`rp` must be of the same length as x, or else of length 1")
   }
+
+  cc <- stats::complete.cases(loc)
+
   if(!fish){
     n <- nchar(x)
     prepart <- ifelse(
@@ -207,17 +177,17 @@ substr_repl <- function(
   }
   if(fish) {
     n <- stringfish::sf_nchar(x, ...)
+    prepart <- postpart <- mainpart <- character(nrow(loc))
     prepart <- ifelse(
-      loc[,1]<=1, "", stringfish::sf_substr(x, start=1, stop=loc[,1]-1, ...)
+      loc[cc,1]<=1, "", stringfish::sf_substr(x[cc], 1, loc[cc,1]-1, ...)
     )
     postpart <- ifelse(
-      loc[,2]>=n, "", stringfish::sf_substr(x, start = loc[,2]+1, stop=n, ...)
+      loc[cc,2]>=n, "", stringfish::sf_substr(x[cc], loc[cc,2]+1, n[cc], ...)
     )
-    mainpart <- rp
+    mainpart[cc] <- rp[cc]
     out <- paste(prepart, mainpart, postpart, sep = "")
   }
 
-  cc <- stats::complete.cases(loc)
   if(sum(cc)>0){
     out[!cc] <- x[!cc]
   }
@@ -234,6 +204,9 @@ substr_chartr <- function(
   if(sum(check.args)!=1){
     stop("either loc OR start & stop must be filled in")
   }
+  if(!isTRUE(is.vector(x) && is.atomic(x) && is.character(x))) {
+    stop("`x` must be a character vector.")
+  }
   if(is.null(loc)){
     loc <- cbind(start, end)
   }
@@ -243,6 +216,9 @@ substr_chartr <- function(
   if(nrow(loc)!=length(x) & nrow(loc)!=1) {
     stop("x and loc/start/end must be have matching dimensions")
   }
+
+  cc <- stats::complete.cases(loc)
+
   if(!fish) {
     n <- nchar(x)
     prepart <- ifelse(
@@ -256,19 +232,19 @@ substr_chartr <- function(
   }
   if(fish) {
     n <- stringfish::sf_nchar(x, ...)
-    prepart <- ifelse(
-      loc[,1]<=1, "", stringfish::sf_substr(x, start=1, stop=loc[,1]-1, ...)
+    prepart <- postpart <- mainpart <- character(nrow(loc))
+    prepart[cc] <- ifelse(
+      loc[cc,1]<=1, "", stringfish::sf_substr(x[cc], 1, loc[cc,1]-1, ...)
     )
-    postpart <- ifelse(
-      loc[,2] >=n, "", stringfish::sf_substr(x, start = loc[,2]+1, stop=n, ...)
+    postpart[cc] <- ifelse(
+      loc[cc,2] >= n[cc], "", stringfish::sf_substr(x[cc], loc[cc,2]+1, n[cc], ...)
     )
-    mainpart <- chartr(
-      old=old, new=new, stringfish::sf_substr(x, loc[,1], loc[,2], ...)
+    mainpart[cc] <- chartr(
+      old=old, new=new, stringfish::sf_substr(x[cc], loc[cc,1], loc[cc,2], ...)
     )
     out <- paste(prepart, mainpart, postpart, sep = "")
   }
 
-  cc <- stats::complete.cases(loc)
   if(sum(cc)>0){
     out[!cc] <- x[!cc]
   }
@@ -285,6 +261,9 @@ substr_addin <- function(
   if(sum(check.args)!=1) {
     stop("either loc OR at must be filled in")
   }
+  if(!isTRUE(is.vector(x) && is.atomic(x) && is.character(x))) {
+    stop("`x` must be a character vector.")
+  }
   if(is.null(loc)){
     loc <- cbind(at, at)
   }
@@ -300,13 +279,16 @@ substr_addin <- function(
   if(length(addition)!=length(x)) {
     stop("`addition` must be the same length as x or else of length 1")
   }
+
+  cc <- stats::complete.cases(loc)
+
   if(side=="after"){
-    prepart.end <- loc[,1]
+    prepart.end <- loc[,2]
     postpart.start <- loc[,2] + 1
   }
   if(side=="before"){
     prepart.end <- loc[,1] - 1
-    postpart.start <- loc[,2]
+    postpart.start <- loc[,1]
   }
   if(!fish) {
     n <- nchar(x)
@@ -319,17 +301,17 @@ substr_addin <- function(
     out <- paste(prepart, addition, postpart, sep ="")
   }
   if(fish) {
+    prepart <- postpart <- character(nrow(loc))
     n <- stringfish::sf_nchar(x, ...)
-    prepart <- ifelse(
-      loc[,1]<=1, "", stringfish::sf_substr(x, start=1, stop=prepart.end, ...)
+    prepart[cc] <- ifelse(
+      loc[cc,1]<=1, "", stringfish::sf_substr(x[cc], 1, prepart.end[cc], ...)
     )
-    postpart <- ifelse(
-      loc[,2] >=n, "", stringfish::sf_substr(x, start = postpart.start, stop=n, ...)
+    postpart[cc] <- ifelse(
+      loc[cc,2] >= n[cc], "", stringfish::sf_substr(x[cc], postpart.start[cc], n[cc], ...)
     )
     out <- paste(prepart, addition, postpart, sep = "")
   }
 
-  cc <- stats::complete.cases(loc)
   if(sum(cc)>0){
     out[!cc] <- x[!cc]
   }
@@ -346,6 +328,9 @@ substr_extract <- function(
   if(sum(check.args)!=1){
     stop("either loc OR start & stop must be filled in")
   }
+  if(!isTRUE(is.vector(x) && is.atomic(x) && is.character(x))) {
+    stop("`x` must be a character vector.")
+  }
   if(is.null(loc)){
     loc <- cbind(start, end)
   }
@@ -355,6 +340,7 @@ substr_extract <- function(
   if(nrow(loc)!=length(x) & nrow(loc)!=1) {
     stop("x and loc/start/end must be have matching dimensions")
   }
+  cc <- stats::complete.cases(loc)
   if(!fish) {
     n <- nchar(x, ...)
     out <- switch(
@@ -366,15 +352,15 @@ substr_extract <- function(
   }
   if(fish) {
     n <- stringfish::sf_nchar(x, ...)
-    out <- switch(
+    out <- character(nrow(loc))
+    out[cc] <- switch(
       type,
-      "at" =  stringfish::sf_substr(x, start=loc[,1], stop=loc[,2], ...),
-      "before" = ifelse(loc[,1]<=1, "",  stringfish::sf_substr(x, start=1, stop=loc[,1]-1, ...)),
-      "after" = ifelse(loc[,2]>=n, "",  stringfish::sf_substr(x, start = loc[,2]+1, stop=n, ...))
+      "at" =  stringfish::sf_substr(x[cc], start=loc[cc,1], stop=loc[cc,2], ...),
+      "before" = ifelse(loc[cc,1] <= 1, "",  stringfish::sf_substr(x[cc], 1, loc[cc,1]-1, ...)),
+      "after" = ifelse(loc[cc,2] >= n[cc], "",  stringfish::sf_substr(x[cc], loc[cc,2]+1, n[cc], ...))
     )
   }
 
-  cc <- stats::complete.cases(loc)
   if(sum(cc)>0){
     out[!cc] <- NA
   }
@@ -391,6 +377,9 @@ substr_arrange <- function(
   if(sum(check.args)!=1){
     stop("either loc OR start & stop must be filled in")
   }
+  if(!isTRUE(is.vector(x) && is.atomic(x) && is.character(x))) {
+    stop("`x` must be a character vector.")
+  }
   if(is.null(loc)){
     loc <- cbind(start, end)
   }
@@ -400,6 +389,7 @@ substr_arrange <- function(
   if(nrow(loc)!=length(x) & nrow(loc)!=1) {
     stop("x and loc/start/end must be have matching dimensions")
   }
+  cc <- stats::complete.cases(loc)
   if(!fish){
     n <- nchar(x)
     prepart <- ifelse(
@@ -412,16 +402,17 @@ substr_arrange <- function(
   }
   if(fish) {
     n <- stringfish::sf_nchar(x, ...)
-    prepart <- ifelse(
-      loc[,1]<=1, "", stringfish::sf_substr(x, start=1, stop=loc[,1]-1, ...)
+    prepart <- postpart <- mainpart <- character(nrow(loc))
+    prepart[cc] <- ifelse(
+      loc[cc,1]<=1, "", stringfish::sf_substr(x[cc], 1, loc[cc,1]-1, ...)
     )
-    postpart <- ifelse(
-      loc[,2]>=n, "", stringfish::sf_substr(x, start = loc[,2]+1, stop=n, ...)
+    postpart[cc] <- ifelse(
+      loc[cc,2] >= n[cc], "", stringfish::sf_substr(x[cc], loc[cc,2]+1, n[cc], ...)
     )
-    mainpart <- stringfish::sf_substr(x, start=loc[,1], stop=loc[,2])
+    mainpart[cc] <- stringfish::sf_substr(x[cc], loc[cc,1], loc[cc,2])
   }
 
-  if(arr=="incr") {
+  if(arr=="incr"|arr=="decr") {
     mat <- stringi::stri_split_boundaries(
       mainpart, type = "character", simplify = TRUE
     )
@@ -433,19 +424,7 @@ substr_arrange <- function(
     mainpart <- split(mat, rep(1:ncol(mat), each = nrow(mat)))
     mainpart <- do.call(stringi::stri_join, mainpart)
   }
-  if(arr=="decr") {
-    mat <- stringi::stri_split_boundaries(
-      mainpart, type = "character", simplify = TRUE
-    )
-    mat <- matrix(
-      mat[order(row(mat), mat, decreasing = TRUE)],
-      ncol=ncol(mat),
-      byrow=TRUE
-    )
-    mainpart <- split(mat, rep(1:ncol(mat), each = nrow(mat)))
-    mainpart <- do.call(stringi::stri_join, mainpart)
-  }
-  if(arr=="rev") {
+  if(arr=="decr"|arr=="rev") {
     mainpart <- stringi::stri_reverse(mainpart)
   }
 
