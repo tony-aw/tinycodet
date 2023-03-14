@@ -1238,7 +1238,7 @@ substr_arrange(x, loc=loc, fish = TRUE)
 substr_arrange(x, "rev", loc=loc, fish = TRUE)
 #> [1] "Goodmorning--dooGevening, and Goodnight"
 #> [2] "abcdefghijklm"
-substr_arrange(x, "decr", loc=loc)
+substr_arrange(x, "decr", loc=loc, fish = TRUE)
 #> [1] "Goodmorning--ooGdevening, and Goodnight"
 #> [2] "abcdefghijklm"
 ```

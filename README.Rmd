@@ -829,7 +829,7 @@ substr_addin(x, " ", "after", loc=loc, fish = TRUE)
 substr_addin(x, " ", "before", loc=loc, fish = TRUE) 
 substr_arrange(x, loc=loc, fish = TRUE)
 substr_arrange(x, "rev", loc=loc, fish = TRUE)
-substr_arrange(x, "decr", loc=loc)
+substr_arrange(x, "decr", loc=loc, fish = TRUE)
 
 ```
 
