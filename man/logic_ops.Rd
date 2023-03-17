@@ -83,8 +83,8 @@ The \code{s \%=strtype\% strtype} operator is a vectorized operator that checks
 for every value of character vector \code{s} \cr
 if it can seen as a certain \code{strtype}. See arguments for details. \cr
 \cr
-The \code{s \%sgrep\% p} operator is a vectorized operator that checls
-for every value of characyer vector \code{s} if it has pattern \code{p}.
+The \code{s \%sgrep\% p} operator is a vectorized operator that checks
+for every value of character vector \code{s} if it has pattern \code{p}.
 }
 \examples{
 x <- c(TRUE, FALSE, TRUE, FALSE, NA, FALSE, TRUE)

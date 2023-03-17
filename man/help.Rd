@@ -42,7 +42,8 @@ The \code{tidyoperators} R package adds the following functionality: \cr
 \item Infix operators for \link[=\%ss\%]{string sub-setting}. \cr
 \item Infix operators for \link[=\%s+ <-\%]{In-place modifying string arithmetic}. \cr
 \item Infix operators for \link[=\%sget <-\%]{In-place modifying string sub-setting}. \cr
-\item \link[=\%unreal <-\%]{The in-place modifying unreal replacer operator.} \cr
+\item \link[=\%unreal <-\%]{The in-place modifying unreal replacer operator}. \cr
+\item \link[=\%r~\%]{Infix operators for custom row- and column-wise sorting of matrices}. \cr
 \item \link{stri_locate_ith}: The \code{stringi} R package has a "locate_all" function, but no "locate_ith" function.
 The \code{tidyoperators} package adds the \link{stri_locate_ith} function,
 which uses the same naming and argument convention as the rest of

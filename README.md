@@ -16,6 +16,11 @@
     package</a>
 - <a href="#unreal-replacement" id="toc-unreal-replacement">Unreal
   replacement</a>
+- <a href="#the-transform_if-function-and-the-subset_if-operators"
+  id="toc-the-transform_if-function-and-the-subset_if-operators">The
+  transform_if function, and the subset_if operators</a>
+- <a href="#matrix-operators" id="toc-matrix-operators">Matrix
+  operators</a>
 - <a href="#locate-ith-pattern-for-stringi"
   id="toc-locate-ith-pattern-for-stringi">Locate <span
   class="math inline"><em>i</em><sup><em>t</em><em>h</em></sup></span>
@@ -38,9 +43,6 @@
 - <a href="#more-advanced-string-operations-with-s_strapply"
   id="toc-more-advanced-string-operations-with-s_strapply">More advanced
   string operations with s_strapply</a>
-- <a href="#the-transform_if-function-and-the-subset_if-operators"
-  id="toc-the-transform_if-function-and-the-subset_if-operators">The
-  transform_if function, and the subset_if operators</a>
 - <a href="#utility-operator-for-slightly-more-advanced-users"
   id="toc-utility-operator-for-slightly-more-advanced-users">Utility
   operator (for slightly more advanced users)</a>
@@ -52,6 +54,8 @@
     in string subsetting functions</a>
   - <a href="#multi-threading-in-s_strapply"
     id="toc-multi-threading-in-s_strapply">Multi-threading in s_strapply</a>
+  - <a href="#other-speed-tips" id="toc-other-speed-tips">Other speed
+    tips</a>
 - <a href="#recommended-r-packages"
   id="toc-recommended-r-packages">Recommended R packages</a>
 - <a href="#compatibility-with-other-operator-related-r-packages"
@@ -82,7 +86,8 @@ a few functions, to make your R code much more tidy. It includes infix
 operators for the negation of logical operators (exclusive-or, not-and,
 not-in), safer float (in)equality operators, in-place modifying
 mathematical arithmetic, string arithmetic, string sub-setting, in-place
-modifying string arithmetic, in-place modifying string sub-setting, and
+modifying string arithmetic, in-place modifying string sub-setting,
+Infix operators for custom row- and column-wise sorting of matrices, and
 in-place modifying unreal replacers. The ‘tidyoperators’ R-package also
 adds the stringi-like stri_locate_ith function. It also adds string
 functions to replace, extract, add-on, transform, and re-arrange, the
@@ -118,6 +123,21 @@ CHNAGELOG (EXPERIMENTAL VERSION):
   `codefactor` badge. Fixed some errors in the Description file. Created
   and added the pdf manual. Fixed some minor errors in this Read-Me
   markdown file.
+- 17 march 2023: added infix operators for custom row- and column-wise
+  sorting of matrices. Slightly optimized the `substr_arrange()`
+  function, and added the `opts_collator` argument to it. Re-ordered the
+  sections of this Read-Me file. Adjusted the documentation the reflect
+  the new changes.
+
+FUTURE PLANS:
+
+I believe `tidyoperators` is close to becoming stable. There does not
+appear a need to add more functions/operators, although some operators
+may need to be tweaked a bit. Although tests have already been performed
+on the functions and operators in this package, more extensive tests
+will soon be created. Once I am fully satisfied with the R package
+(which may take a while, as I am a bit of a perfectionist), I may
+attempt to publish this R package to CRAN.
 
  
 
@@ -156,6 +176,7 @@ The `tidyoperators` R package adds the following functionality:
 - Infix operators for In-place modifying string arithmetic.
 - Infix operators for In-place modifying string sub-setting.
 - The in-place modifying unreal replacer operator.
+- Infix operators for custom row- and column-wise sorting of matrices.
 - `stri_locate_ith`: The stringi R package has a “locate_all” function,
   but no “locate_ith” function. The tidyoperators package adds the
   `stri_locate_ith` function, which uses the same naming and argument
@@ -540,6 +561,201 @@ So `x %unreal <-% 0` is the same as
 
  
 
+# The transform_if function, and the subset_if operators
+
+Then we have the subset_if operators, and the `transform_if()` function.
+
+Consider the following code:
+
+`x[cond(x)] <- f(x[cond(x)])`
+
+Here a conditional subset of the object `x` is transformed with function
+`f`, where the condition is using a function referring to `x` itself (in
+this case `cond(x)`). Consequently, reference to `x` is written **four
+times**! If the object has a short name like “x, this doesn’t matter too
+much. But if the object has a longer name like `very_long_name_1`, doing
+something like this:
+
+``` r
+very_long_name_1[very_long_name_1 > 0] <- log(very_long_name_1[very_long_name_1 > 0])
+```
+
+becomes cumbersome, and not so tidy.
+
+The tidyoperators package therefore adds the `transform_if()` function
+which will tidy this up. This function is internally defined in only
+vectorized functions, and without loops or apply-like functions, and is
+therefore quite fast.
+
+The above code can now be re-written as:
+
+``` r
+very_long_name_1 |> transform_if(\(x)x>0, log)
+```
+
+Much tidyr, right?
+
+Besides `transform_if`, the tidyoperators package also adds 2
+“subset_if” operators:
+
+- The `x %[if]% cond` operator selects elements from vector/matrix/array
+  `x`, for which the result of `cond(x)` returns `TRUE`.
+
+- The `x %[!if]% cond` operator selects elements from
+  vector/matrix/array `x`, for which the result of `cond(x)` returns
+  `FALSE`.
+
+Here are a few examples to see these in action:
+
+``` r
+object_with_very_long_name <- matrix(-10:9, ncol=2)
+print(object_with_very_long_name)
+#>       [,1] [,2]
+#>  [1,]  -10    0
+#>  [2,]   -9    1
+#>  [3,]   -8    2
+#>  [4,]   -7    3
+#>  [5,]   -6    4
+#>  [6,]   -5    5
+#>  [7,]   -4    6
+#>  [8,]   -3    7
+#>  [9,]   -2    8
+#> [10,]   -1    9
+object_with_very_long_name |> transform_if(\(x)x>0, log)
+#>       [,1]      [,2]
+#>  [1,]  -10 0.0000000
+#>  [2,]   -9 0.0000000
+#>  [3,]   -8 0.6931472
+#>  [4,]   -7 1.0986123
+#>  [5,]   -6 1.3862944
+#>  [6,]   -5 1.6094379
+#>  [7,]   -4 1.7917595
+#>  [8,]   -3 1.9459101
+#>  [9,]   -2 2.0794415
+#> [10,]   -1 2.1972246
+
+object_with_very_long_name %[if]% \(x)x %in% 1:10
+#> [1] 1 2 3 4 5 6 7 8 9
+object_with_very_long_name %[!if]% \(x)x %in% 1:10
+#>  [1] -10  -9  -8  -7  -6  -5  -4  -3  -2  -1   0
+```
+
+Note that this function returns object `x`, to modify `x` directly, one
+still has to assign it. To keep your code tidy, consider combining this
+function with `magrittr`’s in-place modifying piper-operator (`%<>%`).
+I.e.:
+
+`very_long_name_1 %<>% transform_if(cond, trans)`
+
+ 
+
+# Matrix operators
+
+The `tidyoperators` R package adds 2 additional matrix operators:
+
+- The `x %r~% rank` operator sorts the elements of every row of matrix
+  `x` by the rank given in matrix `rank`.
+- The `x %c~% rank` operator sorts the elements of every column of
+  matrix `x` by the rank given in matrix `rank`.
+
+If matrix `x` is a numeric matrix, and one wants to order the elements
+of every row or column numerically, `x %r~% x` or `x %c~% x` would
+suffice, respectively.
+
+If matrix `x` is not numeric, `x %r~% x` and `x %c~% x`are still
+possible, but probably not the best option. In the non-numeric case,
+providing a ranking matrix would be better.
+
+Examples with a numeric matrix:
+
+``` r
+
+# numeric matrix ====
+
+mat <- matrix(sample(1:25), nrow=5)
+print(mat)
+#>      [,1] [,2] [,3] [,4] [,5]
+#> [1,]   25   11   16    9    8
+#> [2,]    4   14   10   15   13
+#> [3,]    7   18    6   12   21
+#> [4,]    1   22   19   17    3
+#> [5,]    2    5   23   20   24
+mat %r~% mat # sort elements of every row
+#>      [,1] [,2] [,3] [,4] [,5]
+#> [1,]    8    9   11   16   25
+#> [2,]    4   10   13   14   15
+#> [3,]    6    7   12   18   21
+#> [4,]    1    3   17   19   22
+#> [5,]    2    5   20   23   24
+mat %r~% -mat # reverse-sort elements of every row
+#>      [,1] [,2] [,3] [,4] [,5]
+#> [1,]   25   16   11    9    8
+#> [2,]   15   14   13   10    4
+#> [3,]   21   18   12    7    6
+#> [4,]   22   19   17    3    1
+#> [5,]   24   23   20    5    2
+mat %c~% mat # sort elements of every column
+#>      [,1] [,2] [,3] [,4] [,5]
+#> [1,]    1    5    6    9    3
+#> [2,]    2   11   10   12    8
+#> [3,]    4   14   16   15   13
+#> [4,]    7   18   19   17   21
+#> [5,]   25   22   23   20   24
+mat %c~% -mat # reverse-sort elements of every column
+#>      [,1] [,2] [,3] [,4] [,5]
+#> [1,]   25   22   23   20   24
+#> [2,]    7   18   19   17   21
+#> [3,]    4   14   16   15   13
+#> [4,]    2   11   10   12    8
+#> [5,]    1    5    6    9    3
+```
+
+Examples with a character matrix:
+
+``` r
+
+mat <- matrix(sample(letters, 25), nrow=5)
+print(mat)
+#>      [,1] [,2] [,3] [,4] [,5]
+#> [1,] "y"  "c"  "x"  "i"  "h" 
+#> [2,] "l"  "f"  "d"  "g"  "b" 
+#> [3,] "o"  "j"  "z"  "q"  "u" 
+#> [4,] "a"  "s"  "p"  "w"  "n" 
+#> [5,] "t"  "v"  "r"  "m"  "e"
+rank <- stringi::stri_rank(as.vector(mat))
+rank <- matrix(rank, ncol=ncol(mat))
+mat %r~% rank # sort elements of every row
+#>      [,1] [,2] [,3] [,4] [,5]
+#> [1,] "c"  "h"  "i"  "x"  "y" 
+#> [2,] "b"  "d"  "f"  "g"  "l" 
+#> [3,] "j"  "o"  "q"  "u"  "z" 
+#> [4,] "a"  "n"  "p"  "s"  "w" 
+#> [5,] "e"  "m"  "r"  "t"  "v"
+mat %r~% -rank # reverse-sort elements of every row
+#>      [,1] [,2] [,3] [,4] [,5]
+#> [1,] "y"  "x"  "i"  "h"  "c" 
+#> [2,] "l"  "g"  "f"  "d"  "b" 
+#> [3,] "z"  "u"  "q"  "o"  "j" 
+#> [4,] "w"  "s"  "p"  "n"  "a" 
+#> [5,] "v"  "t"  "r"  "m"  "e"
+mat %c~% rank # sort elements of every column
+#>      [,1] [,2] [,3] [,4] [,5]
+#> [1,] "a"  "c"  "d"  "g"  "b" 
+#> [2,] "l"  "f"  "p"  "i"  "e" 
+#> [3,] "o"  "j"  "r"  "m"  "h" 
+#> [4,] "t"  "s"  "x"  "q"  "n" 
+#> [5,] "y"  "v"  "z"  "w"  "u"
+mat %c~% -rank # reverse-sort elements of every column
+#>      [,1] [,2] [,3] [,4] [,5]
+#> [1,] "y"  "v"  "z"  "w"  "u" 
+#> [2,] "t"  "s"  "x"  "q"  "n" 
+#> [3,] "o"  "j"  "r"  "m"  "h" 
+#> [4,] "l"  "f"  "p"  "i"  "e" 
+#> [5,] "a"  "c"  "d"  "g"  "b"
+```
+
+ 
+
 # Locate $i^{th}$ pattern for stringi
 
 Suppose one wants to transform all vowels in the strings of a character
@@ -653,8 +869,8 @@ the `tidyoperators` package also adds several fully vectorized
 
 # Substr - functions
 
-The `tidyoperators` R-package includes the following sub-string
-functions:
+The `tidyoperators` R-package includes the following fully vectorized
+sub-string functions:
 
 - The `substr_repl(x, rp, ...)` function replaces a position (range)
   with string `rp`.
@@ -703,11 +919,11 @@ substr_addin(x, " ", "before", loc=loc) # add white space before second-last "go
 substr_arrange(x, loc=loc) # sort second-last "good"
 #> [1] "Goodmorning -- GOODafternoon -- dGooevening, and goodnight!"
 #> [2] "abcdefghijklm"
-substr_arrange(x, "rev", loc=loc) # reverse second-last "good"
-#> [1] "Goodmorning -- GOODafternoon -- dooGevening, and goodnight!"
-#> [2] "abcdefghijklm"
 substr_arrange(x, "decr", loc=loc) # reverse-sort second-last "good"
 #> [1] "Goodmorning -- GOODafternoon -- ooGdevening, and goodnight!"
+#> [2] "abcdefghijklm"
+substr_arrange(x, "rev", loc=loc) # reverse second-last "good"
+#> [1] "Goodmorning -- GOODafternoon -- dooGevening, and goodnight!"
 #> [2] "abcdefghijklm"
 ```
 
@@ -957,7 +1173,7 @@ x <- c("Hello World", "Goodbye World")
 
 # randomly shuffle letters:
 s_strapply(x, sample)
-#> [1] "rlWHeodl lo"   "boyleGWdr doo"
+#> [1] " oedrHlolWl"   "ly eGdbWdooro"
 
 # reverse word order:
 s_strapply(x, rev, w=T)
@@ -980,7 +1196,7 @@ s_strapply(x, fun=\(x){
 #> [1] "eoodlllrH W"   "eooobddlryG W"
 ```
 
-Much tidier and quicker, right?
+Much tidier, right?
 
 Lets try something else: capitalize characters but ONLY at certain
 indices:
@@ -998,7 +1214,7 @@ s_strapply(x, fun=\(x){
   ind <- sample(1:length(x), size=floor(length(x)/2))
   replace(x, ind, toupper(x[ind]))
 })
-#> [1] "HElLO WoRLd"   "GoOdbYE WORLd"
+#> [1] "HellO World"   "GoOdbYE WOrld"
 
 # capitalize only first word:
 s_strapply(x, fun=\(x){replace(x, 1, toupper(x[1]))}, w=T)
@@ -1020,100 +1236,12 @@ s_strapply(x, w=T, fun=\(x) na.omit(substr_extract(x, loc=stri_locate_ith(x, -2,
 
  
 
-# The transform_if function, and the subset_if operators
-
-Then we have the subset_if operators, and the `transform_if()` function.
-
-Consider the following code:
-
-`x[cond(x)] <- f(x[cond(x)])`
-
-Here a conditional subset of the object `x` is transformed with function
-`f`, where the condition is using a function referring to `x` itself (in
-this case `cond(x)`). Consequently, reference to `x` is written **four
-times**! If the object has a short name like “x, this doesn’t matter too
-much. But if the object has a longer name like `very_long_name_1`, doing
-something like this:
-
-``` r
-very_long_name_1[very_long_name_1 > 0] <- log(very_long_name_1[very_long_name_1 > 0])
-```
-
-becomes cumbersome, and not so tidy.
-
-The tidyoperators package therefore adds the `transform_if()` function
-which will tidy this up. This function is internally defined in only
-vectorized functions, and without loops or apply-like functions, and is
-therefore quite fast.
-
-The above code can now be re-written as:
-
-``` r
-very_long_name_1 |> transform_if(\(x)x>0, log)
-```
-
-Much tidyr, right?
-
-Besides `transform_if`, the tidyoperators package also adds 2
-“subset_if” operators:
-
-- The `x %[if]% cond` operator selects elements from vector/matrix/array
-  `x`, for which the result of `cond(x)` returns `TRUE`.
-
-- The `x %[!if]% cond` operator selects elements from
-  vector/matrix/array `x`, for which the result of `cond(x)` returns
-  `FALSE`.
-
-Here are a few examples to see these in action:
-
-``` r
-object_with_very_long_name <- matrix(-10:9, ncol=2)
-print(object_with_very_long_name)
-#>       [,1] [,2]
-#>  [1,]  -10    0
-#>  [2,]   -9    1
-#>  [3,]   -8    2
-#>  [4,]   -7    3
-#>  [5,]   -6    4
-#>  [6,]   -5    5
-#>  [7,]   -4    6
-#>  [8,]   -3    7
-#>  [9,]   -2    8
-#> [10,]   -1    9
-object_with_very_long_name |> transform_if(\(x)x>0, log)
-#>       [,1]      [,2]
-#>  [1,]  -10 0.0000000
-#>  [2,]   -9 0.0000000
-#>  [3,]   -8 0.6931472
-#>  [4,]   -7 1.0986123
-#>  [5,]   -6 1.3862944
-#>  [6,]   -5 1.6094379
-#>  [7,]   -4 1.7917595
-#>  [8,]   -3 1.9459101
-#>  [9,]   -2 2.0794415
-#> [10,]   -1 2.1972246
-
-object_with_very_long_name %[if]% \(x)x %in% 1:10
-#> [1] 1 2 3 4 5 6 7 8 9
-object_with_very_long_name %[!if]% \(x)x %in% 1:10
-#>  [1] -10  -9  -8  -7  -6  -5  -4  -3  -2  -1   0
-```
-
-Note that this function returns object `x`, to modify `x` directly, one
-still has to assign it. To keep your code tidy, consider combining this
-function with `magrittr`’s in-place modifying piper-operator (`%<>%`).
-I.e.:
-
-`very_long_name_1 %<>% transform_if(cond, trans)`
-
- 
-
 # Utility operator (for slightly more advanced users)
 
 And finally, as the last functionality in the `tidyoperators` package we
-have the utility in-place operator: `%m import <-%`. This operator
-requires a little bit more advanced knowledge of R, but it will make
-your life a little bit tidyr nonetheless.
+have the in-place operator `%m import <-%`. This operator requires a
+little bit more advanced knowledge of R, but it will make your life a
+little bit tidyr nonetheless.
 
 One can import a package and assign an alias to it in base R using:
 
@@ -1151,7 +1279,7 @@ will overwrite which function, so you will never be surprised. Besides
 importing multiple packages at once, `%m import <-%` also **only** loads
 exported functions (unlike `loadNamespace()`, which loads both internal
 and external functions). This is, I think, more desirable, as internal
-function should be, you know, internal.
+function should remain, you know, internal.
 
 The `%m import <-%` operator only uses simple base R functions, and does
 nothing crazy.
@@ -1179,7 +1307,7 @@ ftv %m import <-% c("data.table", "collapse", "tidytable")
 #> methods will work like normally.
 ```
 
-Notice that the messages explain which package will overwrite what
+Notice that the messages explain which package will overwrite what.
 
 Now you can of course use those loaded packages as one would normally do
 when using a package alias.
@@ -1195,13 +1323,13 @@ package.
 
 All the string sub-setting functions have the `fish` argument, which is
 `FALSE` by default. If `fish=TRUE`, these functions will use
-`stringfish` functions instead of base R functions, which are faster,
-and also allow native multi-threading. Note that `stringfish` must be
-installed in order for this to work. And `stringfish` needs to be loaded
-also if you wish to also use multi-threading. Multi-threading in
-`stringfish` can be set-up by running
-`setoption(stringfish.nthreads=cl)` somewhere at the start of your code,
-where `cl` is the number of threads you want to use.
+`stringfish` functions instead of base R and `stringi` functions, which
+are faster, and also allow native multi-threading. Note that
+`stringfish` must be installed in order for this to work. And
+`stringfish` needs to be loaded also if you wish to also use
+multi-threading. Multi-threading in `stringfish` can be set-up by
+running `setoption(stringfish.nthreads=cl)` somewhere at the start of
+your code, where `cl` is the number of threads you want to use.
 
 Don’t use multi-threading unless you need to, as multi-threading has
 some overhead, thus its only faster with very large character strings.
@@ -1227,9 +1355,13 @@ substr_chartr(x, loc=loc, fish = TRUE)
 #> [1] "Goodmorning--gOODevening, and Goodnight"
 #> [2] "abcdefghijklm"
 substr_addin(x, " ", "after", loc=loc, fish = TRUE) 
+#> Warning in mainpart[cc] <- stringfish::sf_substr(x, start = loc[cc, 1], : number
+#> of items to replace is not a multiple of replacement length
 #> [1] "Goodmorning--Good evening, and Goodnight"
 #> [2] "abcdefghijklm"
 substr_addin(x, " ", "before", loc=loc, fish = TRUE) 
+#> Warning in mainpart[cc] <- stringfish::sf_substr(x, start = loc[cc, 1], : number
+#> of items to replace is not a multiple of replacement length
 #> [1] "Goodmorning-- Goodevening, and Goodnight"
 #> [2] "abcdefghijklm"
 substr_arrange(x, loc=loc, fish = TRUE)
@@ -1267,6 +1399,28 @@ function used in the `fun` argument; making multiple layers of parallel
 computing seems like asking for problems.
 
  
+
+## Other speed tips
+
+For sorting characters or words in a string, consider using
+`tidyoperators`’s matrix operators instead of `s_strapply` as that’s
+much faster. I.e.:
+
+``` r
+
+x <- c("Hello world", "Goodbye world")
+print(x)
+#> [1] "Hello world"   "Goodbye world"
+
+mat <- stringi::stri_split_boundaries(x, simplify = TRUE, type="character")
+rank <- matrix(stringi::stri_rank(as.vector(mat)), ncol=ncol(mat))
+sorted <- mat %r~% rank
+out <- sorted |> as.data.frame() |> as.list() # every matrix column to a list
+out <- do.call(stringi::stri_join, out)
+
+print(out)
+#> [1] " deHllloorw"   " bddeGlooorwy"
+```
 
 # Recommended R packages
 

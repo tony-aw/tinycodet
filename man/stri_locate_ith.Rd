@@ -4,21 +4,21 @@
 \alias{stri_locate_ith}
 \title{Locate the \eqn{i^{th}} occurrence of a pattern}
 \usage{
-stri_locate_ith(x, i, ..., regex, fixed, coll, charclass, simplify = FALSE)
+stri_locate_ith(str, i, ..., regex, fixed, coll, charclass, simplify = FALSE)
 }
 \arguments{
-\item{x}{a string or character vector.}
+\item{str}{a string or character vector.}
 
-\item{i}{a number, or a numeric vector of the same length as \code{x}.
+\item{i}{a number, or a numeric vector of the same length as \code{str}.
 This gives the \eqn{i^{th}} instance to be replaced. \cr
 Positive numbers are counting from the left. Negative numbers are counting from the right. I.e.: \cr
-\code{stri_locate_ith(x, i=1, p, rp)}
+\code{stri_locate_ith(str, i=1, p, rp)}
 gives the position (range) of the first occurence of pattern \code{p}. \cr
-\code{stri_locate_ith(x, i=-1, p, rp)}
+\code{stri_locate_ith(str, i=-1, p, rp)}
 gives the position (range) of the last occurence of pattern \code{p}. \cr
-\code{stri_locate_ith(x, i=2, p, rp)}
+\code{stri_locate_ith(str, i=2, p, rp)}
 gives the position (range) of the second occurence of pattern \code{p}. \cr
-\code{stri_locate_ith(x, i=-2, p, rp)}
+\code{stri_locate_ith(str, i=-2, p, rp)}
 gives the position (range) of the second-last occurence of pattern \code{p}. \cr
 If \code{abs(i)} is larger than the number of instances,
 the first (if \code{i < 0}) or last (if \code{i > 0}) instance will be given. \cr

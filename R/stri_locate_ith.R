@@ -5,19 +5,19 @@
 #' locates the \eqn{i^{th}} occurrence of a pattern in each string of
 #' some character vector. \cr
 #'
-#' @param x a string or character vector.
+#' @param str a string or character vector.
 #' @param regex,fixed,coll,charclass character vector of search patterns,
 #' as in \link[stringi]{stri_locate}. \cr
-#' @param i a number, or a numeric vector of the same length as \code{x}.
+#' @param i a number, or a numeric vector of the same length as \code{str}.
 #' This gives the \eqn{i^{th}} instance to be replaced. \cr
 #' Positive numbers are counting from the left. Negative numbers are counting from the right. I.e.: \cr
-#' \code{stri_locate_ith(x, i=1, p, rp)}
+#' \code{stri_locate_ith(str, i=1, p, rp)}
 #' gives the position (range) of the first occurence of pattern \code{p}. \cr
-#' \code{stri_locate_ith(x, i=-1, p, rp)}
+#' \code{stri_locate_ith(str, i=-1, p, rp)}
 #' gives the position (range) of the last occurence of pattern \code{p}. \cr
-#' \code{stri_locate_ith(x, i=2, p, rp)}
+#' \code{stri_locate_ith(str, i=2, p, rp)}
 #' gives the position (range) of the second occurence of pattern \code{p}. \cr
-#' \code{stri_locate_ith(x, i=-2, p, rp)}
+#' \code{stri_locate_ith(str, i=-2, p, rp)}
 #' gives the position (range) of the second-last occurence of pattern \code{p}. \cr
 #' If \code{abs(i)} is larger than the number of instances,
 #' the first (if \code{i < 0}) or last (if \code{i > 0}) instance will be given. \cr
@@ -118,11 +118,12 @@
 #' @rdname stri_locate_ith
 #' @export
 stri_locate_ith <- function(
-    x, i, ... , regex, fixed, coll, charclass, simplify=FALSE
+    str, i, ... , regex, fixed, coll, charclass, simplify=FALSE
 ) {
+  x <- str
   if(length(i)==1) i <- rep(i, length(x))
   if(length(i)!=length(x)) {
-    stop("`i` must be the same length as `x`, or be a length of 1")
+    stop("`i` must be the same length as `str`, or be a length of 1")
   }
   providedarg <- c(
     regex = !missing(regex), fixed = !missing(fixed),
@@ -154,3 +155,4 @@ stri_locate_ith <- function(
     return(p3)
   }
 }
+

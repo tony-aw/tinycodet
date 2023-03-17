@@ -100,3 +100,4 @@ NULL
   out <- ifelse(rowSums(ss)>=n, "", substr(x, 1+ss[,1], n-ss[,2]))
   return(out)
 }
+

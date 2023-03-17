@@ -14,7 +14,8 @@ Description: The 'tidyoperators' R-package adds some much needed infix operators
     string sub-setting,
     in-place modifying string arithmetic,
     in-place modifying string sub-setting,
-    and in-place modifying unreal replacers.
+    and in-place modifying unreal replacers,
+    and infix operators for custom row- and column-wise sorting of matrices.
     The 'tidyoperators' R-package also adds the stringi-like
     stri_locate_ith function.
     It also adds string functions to replace, extract, add-on, transform, and re-arrange,
