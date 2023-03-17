@@ -156,7 +156,7 @@ then load it using:
 library(tidyoperators)
 ```
 
-an one can open the introduction page to the `tidyoperators` package
+and one can open the introduction page to the `tidyoperators` package
 using:
 
 ``` r
@@ -188,7 +188,7 @@ The `tidyoperators` R package adds the following functionality:
 - There are also some string helper functions, namely `s_pattern` and
   `s_strapply`.
 - The `transform_if` function, and some related operators.
-- The utility function `env_c`.
+- The `%m import <-%` operator for advanced multi-package aliasing.
 - Most stringi pattern expressions options (regex, fixed, coll,
   charclass) are available for all string-pattern-related functions,
   when appropriate.

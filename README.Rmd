@@ -87,7 +87,7 @@ then load it using:
 library(tidyoperators)
 ```
 
-an one can open the introduction page to the `tidyoperators` package using:
+and one can open the introduction page to the `tidyoperators` package using:
 
 ```{r eval=FALSE}
 tidyoperators_help()
@@ -111,7 +111,7 @@ The `tidyoperators` R package adds the following functionality:
  - The fully vectorized sub-string functions, that extract, replace, add-in, transform, or re-arrange, the $i^{th}$ pattern occurrence or location.
  - There are also some string helper functions, namely `s_pattern` and `s_strapply`.
  - The `transform_if` function, and some related operators.
- - The utility function `env_c`.
+ - The `%m import <-%` operator for advanced multi-package aliasing.
  - Most stringi pattern expressions options (regex, fixed, coll, charclass) are available for all string-pattern-related functions, when appropriate. 
  - This R package has only one dependency: `stringi`. No other dependencies, as to avoid "dependency hell".
  - Although this package has no other dependencies, it allows multi-threading of functions (when appropriate) through third-party packages to improve efficiency.
