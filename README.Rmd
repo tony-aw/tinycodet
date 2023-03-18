@@ -68,7 +68,7 @@ CHNAGELOG (EXPERIMENTAL VERSION):
 
 FUTURE PLANS:
 
-I believe `tidyoperators` is close to becoming stable. There does not appear a need to add more functions/operators, although some operators may need to be tweaked a bit. Although tests have already been performed on the functions and operators in this package, more extensive tests will soon be created. Once I am fully satisfied with the R package (which may take a while, as I am a bit of a perfectionist), I may attempt to publish this R package to CRAN.
+I believe `tidyoperators` is slowly getting closer to becoming stable. There does not appear a need to add/remove many more functions/operators, although some functions, operators or arguments may need to be tweaked and/or optimized. Although tests have already been performed on the functions and operators in this package, more extensive tests will soon be created. Once I am fully satisfied with the R package (which may take a while, as I am a bit of a perfectionist), I may attempt to publish this R package to CRAN.
 
 &nbsp;
 
@@ -432,8 +432,8 @@ Note that this function returns object `x`, to modify `x` directly, one still ha
 
 The `tidyoperators` R package adds 2 additional matrix operators:
 
- - The `x %r~% rank` operator sorts the elements of every row of matrix `x` by the rank given in matrix `rank`.
- - The `x %c~% rank` operator sorts the elements of every column of matrix `x` by the rank given in matrix `rank`.
+ - The `x %r~% rank` operator re-orders the elements of every row of matrix `x` by the rank given in matrix `rank`.
+ - The `x %c~% rank` operator re-orders the elements of every column of matrix `x` by the rank given in matrix `rank`.
  
 If matrix `x` is a numeric matrix, and one wants to order the elements of every row or column numerically, `x %r~% x` or `x %c~% x` would suffice, respectively.
 
