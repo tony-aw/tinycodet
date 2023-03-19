@@ -21,7 +21,7 @@
 #'
 #' @param x a number or numeric (or 'number-like') vector, matrix, or array.
 #' @param y a number, or numeric (or 'number-like') vector, matrix, or array of the same length/dimension as \code{x}.
-#'  It gives the number to add, substract, multiply by, or divide by.
+#'  It gives the number to add, subtract, multiply by, or divide by.
 #' @param p a number, or a numeric vector of the same length as \code{x}.
 #' It gives the power to be used.
 #' @param b a number, or a numeric vector of the same length as \code{x}.

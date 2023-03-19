@@ -19,12 +19,16 @@
 - <a href="#the-transform_if-function-and-the-subset_if-operators"
   id="toc-the-transform_if-function-and-the-subset_if-operators">The
   transform_if function, and the subset_if operators</a>
-- <a href="#matrix-operators" id="toc-matrix-operators">Matrix
-  operators</a>
-- <a href="#locate-ith-pattern-for-stringi"
-  id="toc-locate-ith-pattern-for-stringi">Locate <span
-  class="math inline"><em>i</em><sup><em>t</em><em>h</em></sup></span>
-  pattern for stringi</a>
+- <a href="#matrix-rank-based-re-ordering-infix-operators"
+  id="toc-matrix-rank-based-re-ordering-infix-operators">Matrix rank-based
+  re-ordering infix operators</a>
+- <a href="#additional-stringi-functions"
+  id="toc-additional-stringi-functions">Additional stringi functions</a>
+  - <a href="#matrix-joining" id="toc-matrix-joining">Matrix joining</a>
+  - <a href="#locate-ith-pattern-for-stringi"
+    id="toc-locate-ith-pattern-for-stringi">Locate <span
+    class="math inline"><em>i</em><sup><em>t</em><em>h</em></sup></span>
+    pattern for stringi</a>
 - <a href="#substr---functions" id="toc-substr---functions">Substr -
   functions</a>
 - <a href="#basic-string-infix-operators"
@@ -40,9 +44,6 @@
   - <a href="#in-place-modifying-string-arithmetic-and-subsetting"
     id="toc-in-place-modifying-string-arithmetic-and-subsetting">In-place
     modifying string arithmetic and subsetting</a>
-- <a href="#more-advanced-string-operations-with-s_strapply"
-  id="toc-more-advanced-string-operations-with-s_strapply">More advanced
-  string operations with s_strapply</a>
 - <a href="#utility-operator-for-slightly-more-advanced-users"
   id="toc-utility-operator-for-slightly-more-advanced-users">Utility
   operator (for slightly more advanced users)</a>
@@ -52,10 +53,6 @@
   - <a href="#multi-threading-in-string-subsetting-functions"
     id="toc-multi-threading-in-string-subsetting-functions">Multi-threading
     in string subsetting functions</a>
-  - <a href="#multi-threading-in-s_strapply"
-    id="toc-multi-threading-in-s_strapply">Multi-threading in s_strapply</a>
-  - <a href="#other-speed-tips" id="toc-other-speed-tips">Other speed
-    tips</a>
 - <a href="#recommended-r-packages"
   id="toc-recommended-r-packages">Recommended R packages</a>
 - <a href="#compatibility-with-other-operator-related-r-packages"
@@ -87,15 +84,14 @@ operators for the negation of logical operators (exclusive-or, not-and,
 not-in), safer float (in)equality operators, in-place modifying
 mathematical arithmetic, string arithmetic, string sub-setting, in-place
 modifying string arithmetic, in-place modifying string sub-setting,
-Infix operators for custom row- and column-wise sorting of matrices, and
-in-place modifying unreal replacers. The ‘tidyoperators’ R-package also
-adds the stringi-like stri_locate_ith function. It also adds string
-functions to replace, extract, add-on, transform, and re-arrange, the
-ith pattern occurrence or position. And it includes some helper
-functions for more complex string arithmetic. Most stringi pattern
-expressions options (regex, fixed, coll, charclass) are available for
-all string-pattern-related functions, when appropriate. This package
-adds the transform_if function. This package also allows integrating
+in-place modifying unreal replacers, and infix operators for custom row-
+and column-wise rank-based ordering of matrices. The ‘tidyoperators’
+R-package also adds the stringi-like stri_locate_ith and stri_join_mat
+functions. It also adds string functions to replace, extract, add-on,
+transform, and re-arrange, the ith pattern occurrence or position. Most
+stringi pattern expressions options are available for the
+string-pattern-related functions, when appropriate. This package adds
+the transform_if function. This package also allows integrating
 third-party parallel computing packages (like stringfish) for some of
 its functions.
 
@@ -103,7 +99,7 @@ WARNING: This package is still very much experimental. Function names,
 argument names, and so on may change dramatically. Use it for testing
 only, until it’s stable.
 
-CHNAGELOG (EXPERIMENTAL VERSION):
+CHNAGELOG (EXPERIMENTAL VERSIONS):
 
 - 8 march 2023: `stringi` is now a dependency. Completely re-written the
   ReadMe file, Description, and documentation.
@@ -128,6 +124,13 @@ CHNAGELOG (EXPERIMENTAL VERSION):
   function, and added the `opts_collator` argument to it. Re-ordered the
   sections of this Read-Me file. Adjusted the documentation the reflect
   the new changes.
+- 19 march 2023: removed the `s_strapply()` function in favor of the now
+  newly added `stri_join_mat()` function and its aliases. Renamed the
+  matrix re-order operators to `%row~%` and `%col~%`. Added a random
+  order option to the `substr_arrange()` function. Adjusted the
+  description, documentation, and this Read-Me file to reflect the new
+  changes, and also fixed some spelling errors. Hopefully this will be
+  one of the last major changes I have to make to this R package.
 
 FUTURE PLANS:
 
@@ -177,17 +180,14 @@ The `tidyoperators` R package adds the following functionality:
 - Infix operators for In-place modifying string arithmetic.
 - Infix operators for In-place modifying string sub-setting.
 - The in-place modifying unreal replacer operator.
-- Infix operators for custom row- and column-wise sorting of matrices.
-- `stri_locate_ith`: The stringi R package has a “locate_all” function,
-  but no “locate_ith” function. The tidyoperators package adds the
-  `stri_locate_ith` function, which uses the same naming and argument
-  convention as the rest of the stringi functions, thus keeping your
-  code consistent.
+- The tidyoperators package adds additional `stringi` functions, namely
+  `stri_locate_ith` and `stri_join_mat` (and aliases). These functions
+  use the same naming and argument convention as the rest of the
+  `stringi` functions, thus keeping your code consistent.
 - The fully vectorized sub-string functions, that extract, replace,
   add-in, transform, or re-arrange, the $i^{th}$ pattern occurrence or
   location.
-- There are also some string helper functions, namely `s_pattern` and
-  `s_strapply`.
+- The s_pattern helper function for string operators.
 - The `transform_if` function, and some related operators.
 - The `%m import <-%` operator for advanced multi-package aliasing.
 - Most stringi pattern expressions options (regex, fixed, coll,
@@ -262,11 +262,14 @@ substr_addin(x, " ", "before", loc=loc) # add white space before second-last "go
 substr_arrange(x, loc=loc) # sort second-last "good"
 #> [1] "Goodmorning -- GOODafternoon -- dGooevening, and goodnight!"
 #> [2] "abcdefghijklm"
+substr_arrange(x, "decr", loc=loc) # reverse-sort second-last "good"
+#> [1] "Goodmorning -- GOODafternoon -- ooGdevening, and goodnight!"
+#> [2] "abcdefghijklm"
 substr_arrange(x, "rev", loc=loc) # reverse second-last "good"
 #> [1] "Goodmorning -- GOODafternoon -- dooGevening, and goodnight!"
 #> [2] "abcdefghijklm"
-substr_arrange(x, "decr", loc=loc) # reverse-sort second-last "good"
-#> [1] "Goodmorning -- GOODafternoon -- ooGdevening, and goodnight!"
+substr_arrange(x, "rand", loc=loc) # randomly shuffle characters of second-last "good"
+#> [1] "Goodmorning -- GOODafternoon -- oodGevening, and goodnight!"
 #> [2] "abcdefghijklm"
 ```
 
@@ -284,25 +287,20 @@ c("HaHa", "Ho", "Hi", "Hu", "He", "Ha") %s/% "Ha"
 #> [1] 2 0 0 0 0 1
 ```
 
-And lastly some fun string manipulations using `tidyoperators`:
+And lastly some reasonably fast rank-based string re-ordering:
 
 ``` r
-x <- c("Hello World", "Goodbye World")
-
-# Capitalize ONLY the ODD indices of each string:
-x <- c("Hello World", "Goodbye World")
-s_strapply(x, fun=\(x){
-  replace(x, seq(1, length(x), 2), toupper(x)[seq(1, length(x), 2)])
-})
-#> [1] "HeLlO WoRlD"   "GoOdByE WoRlD"
-
-# Extract second-last vowel of every word of every string in a vector:
-x <- c("Outrageous, egregious, preposterous!", "Pleasant evening everyone")
+# sorting words:
+x <- c("Hello everyone, I'm here", "Goodbye everyone")
 print(x)
-#> [1] "Outrageous, egregious, preposterous!"
-#> [2] "Pleasant evening everyone"
-s_strapply(x, w=T, fun=\(x)na.omit(substr_extract(x, loc=stri_locate_ith(x, -2, regex="a|e|i|o|u", case_insensitive=TRUE))))
-#> [1] "o o o" "a e o"
+#> [1] "Hello everyone, I'm here" "Goodbye everyone"
+mat <- stringi::stri_split_boundaries(
+  x, simplify = TRUE, type="word" # vector to matrix
+)
+rank <- stringi::stri_rank(as.vector(mat)) |>  matrix(ncol=ncol(mat))
+sorted <- mat %row~% rank # rank based matrix re-ordering
+stri_c_mat(sorted, margin=1, sep=" ") # row-wise concatenate strings
+#> [1] "      , everyone Hello here I'm" "       everyone Goodbye"
 ```
 
 If you’re still interested, I invite you to read the rest of this
@@ -650,114 +648,230 @@ I.e.:
 
  
 
-# Matrix operators
+# Matrix rank-based re-ordering infix operators
 
 The `tidyoperators` R package adds 2 additional matrix operators:
 
-- The `x %r~% rank` operator re-orders the elements of every row of
+- The `x %row~% rank` operator re-orders the elements of every row of
   matrix `x` by the rank given in matrix `rank`.
-- The `x %c~% rank` operator re-orders the elements of every column of
+- The `x %col~% rank` operator re-orders the elements of every column of
   matrix `x` by the rank given in matrix `rank`.
 
 If matrix `x` is a numeric matrix, and one wants to order the elements
-of every row or column numerically, `x %r~% x` or `x %c~% x` would
+of every row or column numerically, `x %row~% x` or `x %col~% x` would
 suffice, respectively.
 
-If matrix `x` is not numeric, `x %r~% x` and `x %c~% x`are still
+If matrix `x` is not numeric, `x %row~% x` and `x %col~% x`are still
 possible, but probably not the best option. In the non-numeric case,
 providing a ranking matrix would be better.
 
 Examples with a numeric matrix:
 
 ``` r
-
-# numeric matrix ====
+mat <- matrix(sample(1:25), nrow=5)
+print(mat)
+#>      [,1] [,2] [,3] [,4] [,5]
+#> [1,]    1   18   21   22   13
+#> [2,]    2   19   17   12   24
+#> [3,]   23   25    7   20    4
+#> [4,]   11   10    9   16    3
+#> [5,]   14    6    5   15    8
+mat %row~% mat # sort elements of every row
+#>      [,1] [,2] [,3] [,4] [,5]
+#> [1,]    1   13   18   21   22
+#> [2,]    2   12   17   19   24
+#> [3,]    4    7   20   23   25
+#> [4,]    3    9   10   11   16
+#> [5,]    5    6    8   14   15
+mat %row~% -mat # reverse-sort elements of every row
+#>      [,1] [,2] [,3] [,4] [,5]
+#> [1,]   22   21   18   13    1
+#> [2,]   24   19   17   12    2
+#> [3,]   25   23   20    7    4
+#> [4,]   16   11   10    9    3
+#> [5,]   15   14    8    6    5
+mat %col~% mat # sort elements of every column
+#>      [,1] [,2] [,3] [,4] [,5]
+#> [1,]    1    6    5   12    3
+#> [2,]    2   10    7   15    4
+#> [3,]   11   18    9   16    8
+#> [4,]   14   19   17   20   13
+#> [5,]   23   25   21   22   24
+mat %col~% -mat # reverse-sort elements of every column
+#>      [,1] [,2] [,3] [,4] [,5]
+#> [1,]   23   25   21   22   24
+#> [2,]   14   19   17   20   13
+#> [3,]   11   18    9   16    8
+#> [4,]    2   10    7   15    4
+#> [5,]    1    6    5   12    3
 
 mat <- matrix(sample(1:25), nrow=5)
 print(mat)
 #>      [,1] [,2] [,3] [,4] [,5]
-#> [1,]   25   11   16    9    8
-#> [2,]    4   14   10   15   13
-#> [3,]    7   18    6   12   21
-#> [4,]    1   22   19   17    3
-#> [5,]    2    5   23   20   24
-mat %r~% mat # sort elements of every row
+#> [1,]   12    6    4    7    2
+#> [2,]   15   10   25   17   21
+#> [3,]    1   19   16   23   14
+#> [4,]   20   22   18   13    5
+#> [5,]    3   24    9    8   11
+rank <- sample(1:length(mat)) |> matrix(ncol=ncol(mat)) # randomized rank
+mat %row~%  rank# randomly shuffle every row independently
 #>      [,1] [,2] [,3] [,4] [,5]
-#> [1,]    8    9   11   16   25
-#> [2,]    4   10   13   14   15
-#> [3,]    6    7   12   18   21
-#> [4,]    1    3   17   19   22
-#> [5,]    2    5   20   23   24
-mat %r~% -mat # reverse-sort elements of every row
+#> [1,]    4    2    7   12    6
+#> [2,]   21   17   10   25   15
+#> [3,]   19    1   23   16   14
+#> [4,]   22   13   20   18    5
+#> [5,]    8    9    3   24   11
+mat %col~% rank # randomize shuffle every column independently
 #>      [,1] [,2] [,3] [,4] [,5]
-#> [1,]   25   16   11    9    8
-#> [2,]   15   14   13   10    4
-#> [3,]   21   18   12    7    6
-#> [4,]   22   19   17    3    1
-#> [5,]   24   23   20    5    2
-mat %c~% mat # sort elements of every column
-#>      [,1] [,2] [,3] [,4] [,5]
-#> [1,]    1    5    6    9    3
-#> [2,]    2   11   10   12    8
-#> [3,]    4   14   16   15   13
-#> [4,]    7   18   19   17   21
-#> [5,]   25   22   23   20   24
-mat %c~% -mat # reverse-sort elements of every column
-#>      [,1] [,2] [,3] [,4] [,5]
-#> [1,]   25   22   23   20   24
-#> [2,]    7   18   19   17   21
-#> [3,]    4   14   16   15   13
-#> [4,]    2   11   10   12    8
-#> [5,]    1    5    6    9    3
+#> [1,]    1   19    4   17   21
+#> [2,]   20   10   25   23    2
+#> [3,]   15   22    9   13    5
+#> [4,]    3   24   16    8   14
+#> [5,]   12    6   18    7   11
 ```
 
 Examples with a character matrix:
 
 ``` r
+mat <- matrix(sample(letters, 25), nrow=5)
+print(mat)
+#>      [,1] [,2] [,3] [,4] [,5]
+#> [1,] "v"  "u"  "s"  "k"  "e" 
+#> [2,] "l"  "f"  "c"  "y"  "z" 
+#> [3,] "p"  "q"  "t"  "x"  "n" 
+#> [4,] "a"  "i"  "b"  "d"  "w" 
+#> [5,] "m"  "g"  "j"  "o"  "r"
+rank <- stringi::stri_rank(as.vector(mat))
+rank <- matrix(rank, ncol=ncol(mat))
+mat %row~% rank # sort elements of every row
+#>      [,1] [,2] [,3] [,4] [,5]
+#> [1,] "e"  "k"  "s"  "u"  "v" 
+#> [2,] "c"  "f"  "l"  "y"  "z" 
+#> [3,] "n"  "p"  "q"  "t"  "x" 
+#> [4,] "a"  "b"  "d"  "i"  "w" 
+#> [5,] "g"  "j"  "m"  "o"  "r"
+mat %row~% -rank # reverse-sort elements of every row
+#>      [,1] [,2] [,3] [,4] [,5]
+#> [1,] "v"  "u"  "s"  "k"  "e" 
+#> [2,] "z"  "y"  "l"  "f"  "c" 
+#> [3,] "x"  "t"  "q"  "p"  "n" 
+#> [4,] "w"  "i"  "d"  "b"  "a" 
+#> [5,] "r"  "o"  "m"  "j"  "g"
+mat %col~% rank # sort elements of every column
+#>      [,1] [,2] [,3] [,4] [,5]
+#> [1,] "a"  "f"  "b"  "d"  "e" 
+#> [2,] "l"  "g"  "c"  "k"  "n" 
+#> [3,] "m"  "i"  "j"  "o"  "r" 
+#> [4,] "p"  "q"  "s"  "x"  "w" 
+#> [5,] "v"  "u"  "t"  "y"  "z"
+mat %col~% -rank # reverse-sort elements of every column
+#>      [,1] [,2] [,3] [,4] [,5]
+#> [1,] "v"  "u"  "t"  "y"  "z" 
+#> [2,] "p"  "q"  "s"  "x"  "w" 
+#> [3,] "m"  "i"  "j"  "o"  "r" 
+#> [4,] "l"  "g"  "c"  "k"  "n" 
+#> [5,] "a"  "f"  "b"  "d"  "e"
 
 mat <- matrix(sample(letters, 25), nrow=5)
 print(mat)
 #>      [,1] [,2] [,3] [,4] [,5]
-#> [1,] "y"  "c"  "x"  "i"  "h" 
-#> [2,] "l"  "f"  "d"  "g"  "b" 
-#> [3,] "o"  "j"  "z"  "q"  "u" 
-#> [4,] "a"  "s"  "p"  "w"  "n" 
-#> [5,] "t"  "v"  "r"  "m"  "e"
-rank <- stringi::stri_rank(as.vector(mat))
-rank <- matrix(rank, ncol=ncol(mat))
-mat %r~% rank # sort elements of every row
+#> [1,] "z"  "u"  "c"  "f"  "s" 
+#> [2,] "o"  "l"  "w"  "m"  "r" 
+#> [3,] "x"  "g"  "v"  "d"  "n" 
+#> [4,] "j"  "h"  "k"  "t"  "b" 
+#> [5,] "p"  "a"  "q"  "e"  "y"
+rank <- sample(1:length(mat)) |> matrix(ncol=ncol(mat)) # randomized rank
+mat %row~%  rank# randomly shuffle every row independently
 #>      [,1] [,2] [,3] [,4] [,5]
-#> [1,] "c"  "h"  "i"  "x"  "y" 
-#> [2,] "b"  "d"  "f"  "g"  "l" 
-#> [3,] "j"  "o"  "q"  "u"  "z" 
-#> [4,] "a"  "n"  "p"  "s"  "w" 
-#> [5,] "e"  "m"  "r"  "t"  "v"
-mat %r~% -rank # reverse-sort elements of every row
+#> [1,] "z"  "f"  "s"  "u"  "c" 
+#> [2,] "r"  "l"  "w"  "o"  "m" 
+#> [3,] "n"  "x"  "d"  "v"  "g" 
+#> [4,] "k"  "b"  "j"  "h"  "t" 
+#> [5,] "a"  "p"  "y"  "e"  "q"
+mat %col~% rank # randomize shuffle every column independently
 #>      [,1] [,2] [,3] [,4] [,5]
-#> [1,] "y"  "x"  "i"  "h"  "c" 
-#> [2,] "l"  "g"  "f"  "d"  "b" 
-#> [3,] "z"  "u"  "q"  "o"  "j" 
-#> [4,] "w"  "s"  "p"  "n"  "a" 
-#> [5,] "v"  "t"  "r"  "m"  "e"
-mat %c~% rank # sort elements of every column
-#>      [,1] [,2] [,3] [,4] [,5]
-#> [1,] "a"  "c"  "d"  "g"  "b" 
-#> [2,] "l"  "f"  "p"  "i"  "e" 
-#> [3,] "o"  "j"  "r"  "m"  "h" 
-#> [4,] "t"  "s"  "x"  "q"  "n" 
-#> [5,] "y"  "v"  "z"  "w"  "u"
-mat %c~% -rank # reverse-sort elements of every column
-#>      [,1] [,2] [,3] [,4] [,5]
-#> [1,] "y"  "v"  "z"  "w"  "u" 
-#> [2,] "t"  "s"  "x"  "q"  "n" 
-#> [3,] "o"  "j"  "r"  "m"  "h" 
-#> [4,] "l"  "f"  "p"  "i"  "e" 
-#> [5,] "a"  "c"  "d"  "g"  "b"
+#> [1,] "x"  "a"  "k"  "d"  "n" 
+#> [2,] "z"  "l"  "w"  "f"  "r" 
+#> [3,] "p"  "u"  "v"  "e"  "b" 
+#> [4,] "o"  "g"  "q"  "m"  "y" 
+#> [5,] "j"  "h"  "c"  "t"  "s"
+```
+
+These operators internally only use vectorized operations (no loops or
+apply-like functions), and are faster than re-ordering matrices using
+loops or apply-like functions.
+
+ 
+
+# Additional stringi functions
+
+## Matrix joining
+
+The `tidyoperators` package adds a tiny additional function to
+`stringi`:
+
+`stri_join_mat` (and their aliases `stri_c_mat` and `stri_paste_mat`).
+
+As the name suggests, these functions perform row-wise (`margin=1`; the
+default) or column-wise (`margin=2`) joining of a matrix of strings,
+thereby transforming it to a vector of strings. You can do this already
+in base R, but it requires converting the matrix to a data.frame or
+list, and then calling `stri_join` inside `do.call()`, which to me just
+seems too much trouble for something *soooo* abysmally simple.
+
+Here a practical example of their usage when re-ordering strings, words,
+or sentences (**notice also the usage the `%row~%` operator, which
+allows for slightly faster re-ordering**) :
+
+``` r
+# sorting characters in strings:
+x <- c("Hello world", "Goodbye world")
+print(x)
+#> [1] "Hello world"   "Goodbye world"
+mat <- stringi::stri_split_boundaries(x, simplify = TRUE, type="character")
+rank <- stringi::stri_rank(as.vector(mat)) |>  matrix(ncol=ncol(mat))
+sorted <- mat %row~% rank
+print(sorted)
+#>      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12] [,13]
+#> [1,] ""   ""   " "  "d"  "e"  "H"  "l"  "l"  "l"  "o"   "o"   "r"   "w"  
+#> [2,] " "  "b"  "d"  "d"  "e"  "G"  "l"  "o"  "o"  "o"   "r"   "w"   "y"
+stri_join_mat(sorted, margin=1, sep="") # <- using new function here
+#> [1] " deHllloorw"   " bddeGlooorwy"
+
+# sorting words:
+x <- c("Hello everyone", "Goodbye everyone")
+print(x)
+#> [1] "Hello everyone"   "Goodbye everyone"
+mat <- stringi::stri_split_boundaries(x, simplify = TRUE, type="word")
+rank <- stringi::stri_rank(as.vector(mat)) |>  matrix(ncol=ncol(mat))
+sorted <- mat %row~% rank
+print(sorted)
+#>      [,1] [,2]       [,3]     
+#> [1,] " "  "everyone" "Hello"  
+#> [2,] " "  "everyone" "Goodbye"
+stri_c_mat(sorted, margin=1, sep=" ") # <- alias for stri_join_mat
+#> [1] "  everyone Hello"   "  everyone Goodbye"
+
+# randomly shuffle sentences:
+x <- c("Hello, who are you? Oh, really?! Cool!", "I don't care. But I really don't.")
+print(x)
+#> [1] "Hello, who are you? Oh, really?! Cool!"
+#> [2] "I don't care. But I really don't."
+mat <- stringi::stri_split_boundaries(x, simplify = TRUE, type="sentence")
+rank <- sample(1:length(mat)) |> matrix(ncol=ncol(mat))
+sorted <- mat %row~% rank
+print(sorted)
+#>      [,1]                   [,2]             [,3]                 
+#> [1,] "Hello, who are you? " "Oh, really?! "  "Cool!"              
+#> [2,] ""                     "I don't care. " "But I really don't."
+stri_paste_mat(sorted, margin=1, sep=" ") # <- another alias for stri_join_mat
+#> [1] "Hello, who are you?  Oh, really?!  Cool!"
+#> [2] " I don't care.  But I really don't."
 ```
 
  
 
-# Locate $i^{th}$ pattern for stringi
+## Locate $i^{th}$ pattern for stringi
 
 Suppose one wants to transform all vowels in the strings of a character
 vector `x` such that all upper case vowels become lower case, and
@@ -905,6 +1019,10 @@ loc <- stri_locate_ith(
 )
 substr_extract(x, loc=loc) # extract second-last "good"
 #> [1] "Good" NA
+substr_extract(x, "before", loc=loc) # extract string before second-last "good"
+#> [1] "Goodmorning -- GOODafternoon -- " NA
+substr_extract(x, "after", loc=loc) # extract string before second-last "good"
+#> [1] "evening, and goodnight!" NA
 substr_repl(x, "??", loc=loc) # replace second-last "good" with "??"
 #> [1] "Goodmorning -- GOODafternoon -- ??evening, and goodnight!"
 #> [2] "abcdefghijklm"
@@ -925,6 +1043,9 @@ substr_arrange(x, "decr", loc=loc) # reverse-sort second-last "good"
 #> [2] "abcdefghijklm"
 substr_arrange(x, "rev", loc=loc) # reverse second-last "good"
 #> [1] "Goodmorning -- GOODafternoon -- dooGevening, and goodnight!"
+#> [2] "abcdefghijklm"
+substr_arrange(x, "rand", loc=loc) # randomly shuffle characters of second-last "good"
+#> [1] "Goodmorning -- GOODafternoon -- oGodevening, and goodnight!"
 #> [2] "abcdefghijklm"
 ```
 
@@ -1142,101 +1263,6 @@ not functions) have their in-place modifying equivalent:
 
  
 
-# More advanced string operations with s_strapply
-
-The string arithmetic and sub-setting operators and functions given so
-far - in combination with the string function already available in base
-R and R packages such as `stringi` - can do a lot, but it’s not always
-flexible enough. To add extra flexibility, there is also the
-`s_strapply(x, fun, w=F, clp=NULL, ...)` function. This function applies
-the following steps to every element (every string) of character vector
-x:
-
-1)  the string is split into a vector of single characters (`w=F`), or a
-    vector of space-delimited words (`w=T`).
-2)  the function `fun()` is applied to the vector from step 1.
-3)  the result from step 2 is pasted together to form a single string
-    element again, using `paste0(..., collapse=clp)`. By default,
-    `clp=""` if `w=F`, and `clp=" "` if `w=T`.
-
-In other words, this function turns every string in character vector `x`
-into its own little vector, applies a function to this vector, and
-pastes the returning vector together into a single string again.
-
-This operator can be used in a very wide variety of ways.
-
-One obvious use of this function is for re-arranging the characters or
-words in every string in character vector `x` in some custom way, or
-find the occurrence of the character on the alphabet:
-
-``` r
-x <- c("Hello World", "Goodbye World")
-
-# randomly shuffle letters:
-s_strapply(x, sample)
-#> [1] " oedrHlolWl"   "ly eGdbWdooro"
-
-# reverse word order:
-s_strapply(x, rev, w=T)
-#> [1] "World   Hello"   "World   Goodbye"
-
-# find occurrence of characters on alphabet:
-s_strapply(x, fun=\(x)match(tolower(x),letters), clp="; ")
-#> [1] "8; 5; 12; 12; 15; NA; 23; 15; 18; 12; 4; NA; NA"
-#> [2] "7; 15; 15; 4; 2; 25; 5; NA; 23; 15; 18; 12; 4"
-
-# completely customized sorting of characters (first vowels, then the rest of the letters):
-custom_order <- c("a", "e", "i", "o", "u", setdiff(letters, c("a", "e", "i", "o", "u")))
-print(paste0(custom_order, collapse = ""))
-#> [1] "aeioubcdfghjklmnpqrstvwxyz"
-s_strapply(x, fun=\(x){
-  rest <- setdiff(x = unique(x), y = custom_order)
-  y <- factor(x = x, levels = c(custom_order, rest), ordered = TRUE)
-  return(sort(y))
-})
-#> [1] "eoodlllrH W"   "eooobddlryG W"
-```
-
-Much tidier, right?
-
-Lets try something else: capitalize characters but ONLY at certain
-indices:
-
-``` r
-x <- c("Hello World", "Goodbye World")
-# capitalize odd indices:
-s_strapply(x, fun=\(x){
-  replace(x, seq(1, length(x), 2), toupper(x)[seq(1, length(x), 2)])
-})
-#> [1] "HeLlO WoRlD"   "GoOdByE WoRlD"
-
-# capitalize random letters:
-s_strapply(x, fun=\(x){
-  ind <- sample(1:length(x), size=floor(length(x)/2))
-  replace(x, ind, toupper(x[ind]))
-})
-#> [1] "HellO World"   "GoOdbYE WOrld"
-
-# capitalize only first word:
-s_strapply(x, fun=\(x){replace(x, 1, toupper(x[1]))}, w=T)
-#> [1] "HELLO   World"   "GOODBYE   World"
-```
-
-Lets try to take the second-last vowel of every word of every string in
-some character vector `x`:
-
-``` r
-x <- c("Outrageous, egregious, preposterous!", "Pleasant evening everyone")
-print(x)
-#> [1] "Outrageous, egregious, preposterous!"
-#> [2] "Pleasant evening everyone"
-p <- s_pattern(regex="a|e|i|o|u", case_insensitive = TRUE)
-s_strapply(x, w=T, fun=\(x) na.omit(substr_extract(x, loc=stri_locate_ith(x, -2, regex=p))))
-#> [1] "o o"   "a e o"
-```
-
- 
-
 # Utility operator (for slightly more advanced users)
 
 And finally, as the last functionality in the `tidyoperators` package we
@@ -1349,6 +1375,10 @@ loc <- stri_locate_ith(
 )
 substr_extract(x, loc=loc, fish = TRUE)
 #> [1] "Good" NA
+substr_extract(x, "before", loc=loc, fish = TRUE)
+#> [1] "Goodmorning--" NA
+substr_extract(x, "after", loc=loc, fish = TRUE)
+#> [1] "evening, and Goodnight" NA
 substr_repl(x, "??", loc=loc, fish = TRUE)
 #> [1] "Goodmorning--??evening, and Goodnight"
 #> [2] "abcdefghijklm"
@@ -1356,13 +1386,9 @@ substr_chartr(x, loc=loc, fish = TRUE)
 #> [1] "Goodmorning--gOODevening, and Goodnight"
 #> [2] "abcdefghijklm"
 substr_addin(x, " ", "after", loc=loc, fish = TRUE) 
-#> Warning in mainpart[cc] <- stringfish::sf_substr(x, start = loc[cc, 1], : number
-#> of items to replace is not a multiple of replacement length
 #> [1] "Goodmorning--Good evening, and Goodnight"
 #> [2] "abcdefghijklm"
 substr_addin(x, " ", "before", loc=loc, fish = TRUE) 
-#> Warning in mainpart[cc] <- stringfish::sf_substr(x, start = loc[cc, 1], : number
-#> of items to replace is not a multiple of replacement length
 #> [1] "Goodmorning-- Goodevening, and Goodnight"
 #> [2] "abcdefghijklm"
 substr_arrange(x, loc=loc, fish = TRUE)
@@ -1376,52 +1402,7 @@ substr_arrange(x, "decr", loc=loc, fish = TRUE)
 #> [2] "abcdefghijklm"
 ```
 
-## Multi-threading in s_strapply
-
-The `s_strapply` function uses `apply` internally. Just like in
-`stri_locate_ith`, the user can multi-thread this function by replacing
-apply:
-
-``` r
-x <- rep(c("Hello World", "Goodbye World"), 2e5)
-
-s_strapply(x, sort) # regular way
-
-require(future.apply)
-plan(multisession)
-s_strapply(x, sort, custom_apply = future_apply) # multi-threaded way
-```
-
-Now you have a multi-threaded version of `s_strapply`.
-
-If you combine `s_strapply` with another multi-threaded function, I
-advice the user to only make `s_strapply` multi-threaded, and not the
-function used in the `fun` argument; making multiple layers of parallel
-computing seems like asking for problems.
-
  
-
-## Other speed tips
-
-For sorting characters or words in a string, consider using
-`tidyoperators`’s matrix operators instead of `s_strapply` as that’s
-much faster. I.e.:
-
-``` r
-
-x <- c("Hello world", "Goodbye world")
-print(x)
-#> [1] "Hello world"   "Goodbye world"
-
-mat <- stringi::stri_split_boundaries(x, simplify = TRUE, type="character")
-rank <- matrix(stringi::stri_rank(as.vector(mat)), ncol=ncol(mat))
-sorted <- mat %r~% rank
-out <- sorted |> as.data.frame() |> as.list() # every matrix column to a list
-out <- do.call(stringi::stri_join, out)
-
-print(out)
-#> [1] " deHllloorw"   " bddeGlooorwy"
-```
 
 # Recommended R packages
 

@@ -103,9 +103,11 @@ Either \code{"before"} or \code{"after"}.}
 \item \code{arr = "incr"}: sort the sub-string alphabetically.
 \item \code{arr = "decr"}: sort the sub-string reverse alphabetically.
 \item \code{arr = "rev"}: reverse the sub-string.
+\item \code{arr = "rand"}: randomly shuffles the sub-string.
 }}
 
-\item{opts_collator}{as in \link[stringi]{stri_rank}.}
+\item{opts_collator}{as in \link[stringi]{stri_rank}.
+Only used when \code{arr = "incr"} or \code{arr = "decr"}.}
 }
 \value{
 A modified character vector.
@@ -133,7 +135,7 @@ The \code{substr_extract(x, type, ...)} function
 extracts the string at, before, or after some position. \cr
 \cr
 The \code{substr_arrange(x, arr, ...)} function
-sorts (alphabetically or reverse-alphabeticallu)
+sorts (alphabetically or reverse-alphabetically)
 or reverse the sub-string at a position (range).
 \cr
 }
@@ -159,6 +161,7 @@ substr_addin(x, c(" ", "~"), "before", at=start)
 substr_arrange(x, start=start, end=end)
 substr_arrange(x, "decr", start=start, end=end)
 substr_arrange(x, "rev", start=start, end=end)
+substr_arrange(x, "rand", start=start, end=end)
 
 start=10; end=11
 substr_extract(x, start=start, end=end)
@@ -197,6 +200,7 @@ substr_addin(x, c(" ", "~", " "), "before", loc=loc) # add white space before se
 substr_arrange(x, loc=loc) # sort second-last "good"
 substr_arrange(x, "decr", loc=loc) # reverse-sort second-last "good"
 substr_arrange(x, "rev", loc=loc) # reverse second-last "good"
+substr_arrange(x, "rand", loc=loc) # randomly shuffles "good"
 
 
 

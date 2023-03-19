@@ -19,7 +19,7 @@
 #' extracts the string at, before, or after some position. \cr
 #' \cr
 #' The \code{substr_arrange(x, arr, ...)} function
-#' sorts (alphabetically or reverse-alphabeticallu)
+#' sorts (alphabetically or reverse-alphabetically)
 #' or reverse the sub-string at a position (range).
 #' \cr
 #'
@@ -53,7 +53,9 @@
 #'  * \code{arr = "incr"}: sort the sub-string alphabetically.
 #'  * \code{arr = "decr"}: sort the sub-string reverse alphabetically.
 #'  * \code{arr = "rev"}: reverse the sub-string.
+#'  * \code{arr = "rand"}: randomly shuffles the sub-string.
 #' @param opts_collator as in \link[stringi]{stri_rank}.
+#' Only used when \code{arr = "incr"} or \code{arr = "decr"}.
 #' @param fish although \code{tidyoperators} has no dependencies other than \code{stringi},
 #' it does allow the internal functions to use the multi-threadable \code{stringfish}
 #' functions. To do so, set \code{fish=TRUE};
@@ -94,6 +96,7 @@
 #' substr_arrange(x, start=start, end=end)
 #' substr_arrange(x, "decr", start=start, end=end)
 #' substr_arrange(x, "rev", start=start, end=end)
+#' substr_arrange(x, "rand", start=start, end=end)
 #'
 #' start=10; end=11
 #' substr_extract(x, start=start, end=end)
@@ -132,6 +135,7 @@
 #' substr_arrange(x, loc=loc) # sort second-last "good"
 #' substr_arrange(x, "decr", loc=loc) # reverse-sort second-last "good"
 #' substr_arrange(x, "rev", loc=loc) # reverse second-last "good"
+#' substr_arrange(x, "rand", loc=loc) # randomly shuffles "good"
 #'
 #'
 #'
@@ -270,7 +274,7 @@ substr_addin <- function(
   if(!isTRUE(is.vector(x) && is.atomic(x) && is.character(x))) {
     stop("`x` must be a character vector.")
   }
-  if(side %out% c("before", "after")) {
+  if(!side %in% c("before", "after")) {
     stop("`side` must be either 'before' or 'after'")
   }
   if(is.null(loc)){
@@ -310,7 +314,7 @@ substr_addin <- function(
     postpart[cc] <- ifelse(
       loc[cc,2] >= n[cc], "", stringfish::sf_substr(x[cc], loc[cc,2]+1, n[cc], ...)
     )
-    mainpart[cc] <- stringfish::sf_substr(x, start=loc[cc,1], stop=loc[cc,2])
+    mainpart[cc] <- stringfish::sf_substr(x[cc], start=loc[cc,1], stop=loc[cc,2])
   }
   if(side=="after") {
     out <- paste(prepart, mainpart, addition, postpart, sep ="")
@@ -387,6 +391,9 @@ substr_arrange <- function(
   if(!isTRUE(is.vector(x) && is.atomic(x) && is.character(x))) {
     stop("`x` must be a character vector.")
   }
+  if(!arr %in% c("incr", "decr", "rev", "rand")) {
+    stop("`arr` must be 'incr', 'decr', 'rev', or 'rand'")
+  }
   if(is.null(loc)){
     loc <- cbind(start, end)
   }
@@ -432,7 +439,7 @@ substr_arrange <- function(
       ncol=ncol(mat),
       byrow=TRUE
     )
-    mainpart <- split(mat, rep(1:ncol(mat), each = nrow(mat)))
+    mainpart <- mat |> as.data.frame() |> as.list()
     mainpart <- do.call(stringi::stri_join, mainpart)
   }
 
@@ -447,12 +454,16 @@ substr_arrange <- function(
       ncol=ncol(mat),
       byrow=TRUE
     )
-    mainpart <- split(mat, rep(1:ncol(mat), each = nrow(mat)))
+    mainpart <- mat |> as.data.frame() |> as.list()
     mainpart <- do.call(stringi::stri_join, mainpart)
   }
 
   if(arr=="rev") {
     mainpart <- stringi::stri_reverse(mainpart)
+  }
+
+  if(arr=="rand") {
+    mainpart <- stringi::stri_rand_shuffle(mainpart)
   }
 
   out <- paste(prepart, mainpart, postpart, sep ="")
@@ -463,3 +474,4 @@ substr_arrange <- function(
 
   return(out)
 }
+

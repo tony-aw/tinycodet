@@ -33,7 +33,7 @@
 #' The following options are supported: \cr
 #'  *  \code{"~0"}: zero, or else a number whose absolute value is smaller than the
 #'  Machine tolerance (\code{sqrt(.Machine$double.eps)}). \cr
-#'  *  \code{"B"}: binary numbers (exaclty 0 or exactly 1); \cr
+#'  *  \code{"B"}: binary numbers (exactly 0 or exactly 1); \cr
 #'  *  \code{"prop"}: proportions - numbers between 0 and 1 (exactly 0 or 1 is also allowed); \cr
 #'  *  \code{"N"}: Natural numbers (non-negative integers including zero); \cr
 #'  *  \code{"I"}: Integers; \cr

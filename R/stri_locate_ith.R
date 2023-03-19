@@ -1,9 +1,10 @@
-#' Locate the \eqn{i^{th}} occurrence of a pattern
+#' Locate \eqn{i^{th}} Pattern Occurrence
 #'
 #'@description
 #' The \code{stri_locate_ith} function
 #' locates the \eqn{i^{th}} occurrence of a pattern in each string of
 #' some character vector. \cr
+#'
 #'
 #' @param str a string or character vector.
 #' @param regex,fixed,coll,charclass character vector of search patterns,
@@ -12,13 +13,13 @@
 #' This gives the \eqn{i^{th}} instance to be replaced. \cr
 #' Positive numbers are counting from the left. Negative numbers are counting from the right. I.e.: \cr
 #' \code{stri_locate_ith(str, i=1, p, rp)}
-#' gives the position (range) of the first occurence of pattern \code{p}. \cr
+#' gives the position (range) of the first occurrence of pattern \code{p}. \cr
 #' \code{stri_locate_ith(str, i=-1, p, rp)}
-#' gives the position (range) of the last occurence of pattern \code{p}. \cr
+#' gives the position (range) of the last occurrence of pattern \code{p}. \cr
 #' \code{stri_locate_ith(str, i=2, p, rp)}
-#' gives the position (range) of the second occurence of pattern \code{p}. \cr
+#' gives the position (range) of the second occurrence of pattern \code{p}. \cr
 #' \code{stri_locate_ith(str, i=-2, p, rp)}
-#' gives the position (range) of the second-last occurence of pattern \code{p}. \cr
+#' gives the position (range) of the second-last occurrence of pattern \code{p}. \cr
 #' If \code{abs(i)} is larger than the number of instances,
 #' the first (if \code{i < 0}) or last (if \code{i > 0}) instance will be given. \cr
 #' For example: suppose a string has 3 instances of p; \cr
@@ -36,22 +37,20 @@
 #'
 #'
 #' @returns
-#' If \code{simplify = FALSE}, this returns a list, one element for each string.
+#' If \code{simplify = FALSE}, \code{stri_locate_ith} returns a list, one element for each string.
 #' Each list element consists of a matrix with 2 columns and one row: \cr
-#' The first column gives the start position of the \eqn{i^{th}} occurence of pattern \code{p}. \cr
-#' The second column gives the end position of the \eqn{i^{th}} occurence of pattern \code{p}. \cr
+#' The first column gives the start position of the \eqn{i^{th}} occurrence of pattern \code{p}. \cr
+#' The second column gives the end position of the \eqn{i^{th}} occurrence of pattern \code{p}. \cr
 #' When \code{simplify=FALSE}, the results can be used in the \code{from} argument
 #' in the \link[stringi]{stri_sub_all} functions,
 #' for example to transform the \eqn{i^{th}} matches
 #' (see examples section below). \cr
 #' \cr
-#' If \code{simplify = TRUE} (default), this returns an integer matrix with 3 columns: \cr
-#' The first column gives the start position of the \eqn{i^{th}} occurence of pattern \code{p}. \cr
-#' The second column gives the end position of the \eqn{i^{th}} occurence of pattern \code{p}. \cr
+#' If \code{simplify = TRUE} (default), \code{stri_locate_ith} this returns an integer matrix with 3 columns: \cr
+#' The first column gives the start position of the \eqn{i^{th}} occurrence of pattern \code{p}. \cr
+#' The second column gives the end position of the \eqn{i^{th}} occurrence of pattern \code{p}. \cr
 #' The third column gives the length of the position range of
-#' the \eqn{i^{th}} occurence of pattern \code{p}. \cr
-#' \cr
-#'
+#' the \eqn{i^{th}} occurrence of pattern \code{p}. \cr
 #'
 #'
 #'
@@ -111,9 +110,7 @@
 #' stringi::stri_sub_all_replace(x, loc, replacement=repl)
 #'
 #'
-#'
-#'
-#'
+
 
 #' @rdname stri_locate_ith
 #' @export
