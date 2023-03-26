@@ -1271,8 +1271,9 @@ One example is the core `fastverse` + `tidyverse` combo: `data.table` +
 `collapse` + `tidytable`. Considering the large amount of functions
 these packages have, (and some which unfortunately have the same name as
 base R functions), one would want to assign them in an alias object. But
-giving them separate aliases, knowing that you will always going to use
-them together anyways, is perhaps less desirable.
+giving them separate aliases is perhaps undesirable: `tidytable` is
+supposed to overwrite some of the `data.table` functions, and one is
+probably always going to use these 3 packages together.
 
 This is where the `%m import <-%` operator comes in. It imports multiple
 packages under the same alias, and also informs the user which package
