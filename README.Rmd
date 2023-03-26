@@ -56,7 +56,7 @@ The 'tidyoperators' R-package adds some much needed infix operators,
 
 WARNING: This package is still very much experimental. Function names, argument names, and so on may change dramatically. Use it for testing only, until it's stable.
 
-CHNAGELOG (EXPERIMENTAL VERSIONS):
+CHANGELOG (EXPERIMENTAL VERSIONS):
 
  - 8 march 2023: `stringi` is now a dependency. Completely re-written the ReadMe file, Description, and documentation.
  - 9 march 2023: added the "which"-operators.
@@ -66,11 +66,12 @@ CHNAGELOG (EXPERIMENTAL VERSIONS):
  - 14 march 2023: changed the utility function to the `%m import <-%` operator. Fixed some linguistic mistakes in the documentation. Added a full documentation pdf. Fixed bugs in all `substr_`-functions. Added `codefactor` badge. Fixed some errors in the Description file. Created and added the pdf manual. Fixed some minor errors in this Read-Me markdown file.
  - 17 march 2023: added infix operators for custom row- and column-wise sorting of matrices. Slightly optimized the `substr_arrange()` function, and added the `opts_collator` argument to it. Re-ordered the sections of this Read-Me file. Adjusted the documentation the reflect the new changes.
  - 19 march 2023: removed the `s_strapply()` function in favor of the now newly added `stri_join_mat()` function and its aliases. Renamed the matrix re-order operators to `%row~%` and `%col~%`. Added a random order option to the `substr_arrange()` function. Adjusted the description, documentation, and this Read-Me file to reflect the new changes, and also fixed some spelling errors. Hopefully this will be one of the last major changes I have to make to this R package.
+ - 25 march 2023: Now tests using `testthat` added for the `R CMD checks`. The `x %n&% y` operator now returns `NA` if either `x` or `y` or `NA`. The `%s+%` and `%s*%` operators now use `stringi`'s equivalent operators, for more consistency; their in-place modifiers are affected as well. Corrected some small spelling- and grammatical errors in the documentation and the READ-ME.
 
 
 FUTURE PLANS:
 
-I believe `tidyoperators` is slowly getting closer to becoming stable. There does not appear a need to add/remove many more functions/operators, although some functions, operators or arguments may need to be tweaked and/or optimized. Although tests have already been performed on the functions and operators in this package, more extensive tests will soon be created. Once I am fully satisfied with the R package (which may take a while, as I am a bit of a perfectionist), I may attempt to publish this R package to CRAN.
+I believe `tidyoperators` is slowly getting closer to becoming stable. There does not appear a need to add/remove many more functions/operators, although some functions, operators or arguments may need to be tweaked and/or optimized. Once I am fully satisfied with the R package (which may take a while, as I am a bit of a perfectionist), I may attempt to publish this R package to CRAN.
 
 &nbsp;
 
@@ -79,8 +80,8 @@ I believe `tidyoperators` is slowly getting closer to becoming stable. There doe
 You can install `tidyoperators` from github like so:
 
 ``` r
-library(devtools)
-devtools::install_github("https://github.com/tony-aw/tidyoperators")
+library(reomtes)
+remotes::install_github("https://github.com/tony-aw/tidyoperators")
 ```
 
 then load it using:
@@ -118,13 +119,13 @@ The `tidyoperators` R package adds the following functionality:
  - Although this package has no other dependencies, it allows multi-threading of functions (when appropriate) through third-party packages to improve efficiency.
  
 
-I realize there are other R-packages that cover some of the above functionalities. But I often experience that these R packages (or at least those I know of) either do not cover all that I required, had some inconsistencies, or suffered from some other significant drawbacks. Hence this package was created.
-
 Currently this R package is only available on GitHub.
 
 I understand one may not want to go through this entire Read-Me without knowing if the R package is worthy of your time. Therefore, allow me to give you a quick glimpse of what is possible in this R package before jumping into the details.
 
-First, some in-place mathematical arithmetic with `tidyoperators`:
+&nbsp;
+
+In-place mathematical arithmetic with `tidyoperators`:
 
 ```{r}
 x <- 1:10
@@ -133,7 +134,7 @@ x %^ <-% 2 # is the same as x <- x^2
 print(x)
 ```
 
-Second, simple transformations:
+Simple transformations:
 
 ```{r eval=FALSE}
 # in base R:
@@ -143,29 +144,31 @@ very_long_name_1[very_long_name_1 > 0] <- log(very_long_name_1[very_long_name_1 
 very_long_name_1 |> transform_if(\(x)x>0, log)
 ```
 
-Thirdly, some string sub-setting:
+Float equality checks:
 
 ```{r}
-x <- c("Goodmorning -- GOODafternoon -- Goodevening, and goodnight!",
+x <- c(0.3, 0.6, 0.7)
+y <- c(0.1*3, 0.1*6, 0.1*7)
+print(x); print(y)
+x == y # gives FALSE, but should be TRUE
+x %f==% y # here it's done correctly
+```
+
+
+Locate $i^{th}$ occurrence of some pattern in a string:
+
+```{r}
+x <- c("Goodmorning -- GOODafternoon -- GooDevening, and goodnight!",
        paste0(letters[1:13], collapse=""))
 print(x)
 loc <- stri_locate_ith(
   # locate second-last occurrence of "good" (ignore case) of each string in x:
-  x, -2, regex="good", case_insensitive=TRUE 
+  x, -2, regex="good", case_insensitive=TRUE, simplify = TRUE
 )
-substr_extract(x, loc=loc) # extract second-last "good"
-substr_repl(x, "??", loc=loc) # replace second-last "good" with "??"
-substr_chartr(x, loc=loc) # switch upper/lower case of second-last "good"
-substr_addin(x, " ", "after", loc=loc) # add white space after second-last "good"
-substr_addin(x, " ", "before", loc=loc) # add white space before second-last "good"
-substr_arrange(x, loc=loc) # sort second-last "good"
-substr_arrange(x, "decr", loc=loc) # reverse-sort second-last "good"
-substr_arrange(x, "rev", loc=loc) # reverse second-last "good"
-substr_arrange(x, "rand", loc=loc) # randomly shuffle characters of second-last "good"
-
+substr(x, loc[,1], loc[,2])
 ```
 
-And some string arithmetic:
+String arithmetic:
 
 ```{r}
 "Hello" %s+% " world"
@@ -174,7 +177,7 @@ c("Ha", "Ho", "Hi", "Hu", "He", "Ha") %s*% 10
 c("HaHa", "Ho", "Hi", "Hu", "He", "Ha") %s/% "Ha"
 ```
 
-And lastly some reasonably fast rank-based string re-ordering:
+String re-ordering:
 
 ```{r}
 # sorting words:
@@ -189,20 +192,18 @@ stri_c_mat(sorted, margin=1, sep=" ") # row-wise concatenate strings
 ```
 
 
-
-
 If you're still interested, I invite you to read the rest of this Read-Me and perhaps try out the package yourself.
 
 &nbsp;
 
-# Simple additional logicals
+# Simple additional logic operators
 
-The tidyoperators package adds a few basic logical operators:
+The tidyoperators package adds a few basic logic operators:
 
  - `%xor%`: Exclusive OR
- - `%n&%`: NOT AND (i.e. `(!x) & (!y)`)
- - `%out%`: the opposite of `%in%` (i.e. `!x %in% y`)
+ - `%n&%`: NOT AND (i.e. `(!x) & (!y)`). Note that if either `x` or `y` is `NA`, `%n&%` will also give `NA` (unlike `(!x) & (!y)`, which would give `FALSE`.)
  - `%?=%`: checks if both `x` and `y` are unknown or unreal (NA, NaN, Inf, -Inf)
+ - `%out%`: the opposite of `%in%` (i.e. `!x %in% y`)
  - `s %sgrepl% p` checks if pattern `p` (defined as either `regex`, or as a call from `s_pattern()`) appears in character vector `s` (info on the `s_pattern()` function can be found in the string section of this read-me)
 
 Here are some examples:
@@ -355,15 +356,6 @@ mtcars$mpg[mtcars$cyl>6] %^ <-% 2
 
 Much tidier, no?
 
-&nbsp;
-
-
-This is not the first or only R package that incorporates in-place modifiers. Most notably, the `inplace` R package is devoted entirely to in-place modifying mathematical arithmetic. However, `inplace` has a nasty side-effect:
-
-If 2 R objects refer to the same values - let's say `x = 3` and `y = 3` - using an in-place modifier from the `inplace` package on `x` will also change `y`. This can be very dangerous.
-
-**The `tidyoperators` R package does not have this problem:** modifying one object does not affect another object, even if they happen to have the same value.
-
 
 &nbsp;
 
@@ -371,7 +363,7 @@ If 2 R objects refer to the same values - let's say `x = 3` and `y = 3` - using 
 
 Another operator added by `tidyoperators` is `x %unreal <-% y`, which replaces all NA, NaN, Inf and -Inf in `x` with the value given in `y`.
 
-So `x %unreal <-% 0` is the same as `x[is.na(x)|is.nan(x)|is.infinite(x)] <- y`.
+So `x %unreal <-% y` is the same as `x[is.na(x)|is.nan(x)|is.infinite(x)] <- y`.
 
 
 &nbsp;
@@ -393,9 +385,7 @@ very_long_name_1[very_long_name_1 > 0] <- log(very_long_name_1[very_long_name_1 
 
 becomes cumbersome, and not so tidy.
 
-The tidyoperators package therefore adds the `transform_if()` function which will tidy this up. This function is internally defined in only vectorized functions, and without loops or apply-like functions, and is therefore quite fast.
-
-The above code can now be re-written as:
+The tidyoperators package therefore adds the `transform_if()` function which will tidy this up. The above code can now be re-written as:
 
 ```{r eval=FALSE}
 very_long_name_1 |> transform_if(\(x)x>0, log)
@@ -463,8 +453,7 @@ Examples with a character matrix:
 ```{r}
 mat <- matrix(sample(letters, 25), nrow=5)
 print(mat)
-rank <- stringi::stri_rank(as.vector(mat))
-rank <- matrix(rank, ncol=ncol(mat))
+rank <- stringi::stri_rank(as.vector(mat)) |> matrix(ncol=ncol(mat))
 mat %row~% rank # sort elements of every row
 mat %row~% -rank # reverse-sort elements of every row
 mat %col~% rank # sort elements of every column
@@ -517,9 +506,9 @@ x <- c("Hello, who are you? Oh, really?! Cool!", "I don't care. But I really don
 print(x)
 mat <- stringi::stri_split_boundaries(x, simplify = TRUE, type="sentence")
 rank <- sample(1:length(mat)) |> matrix(ncol=ncol(mat))
-sorted <- mat %row~% rank
-print(sorted)
-stri_paste_mat(sorted, margin=1, sep=" ") # <- another alias for stri_join_mat
+shuffled <- mat %row~% rank
+print(shuffled)
+stri_paste_mat(shuffled, margin=1, sep=" ") # <- another alias for stri_join_mat
 ```
 
 &nbsp;
@@ -550,14 +539,14 @@ Thus, to get the **second** occurrence of some pattern, use `i=2`, and to get th
 
 What this function returns exactly depends on the `simplify` argument.
 
-If `simplify=FALSE` (the default), it returns a returns a list, one element for each string. Each list element consists of a matrix with 2 columns. The first column gives the start position of the $i^{th}$ occurrence of pattern `p`. The second column gives the end position of the $i^{th}$ occurrence of pattern `p`.
+If `simplify=FALSE` (the default), it returns a returns a list, one element for each string. Each list element consists of a matrix with 2 columns. The first column gives the start position of the $i^{th}$ occurrence of a pattern. The second column gives the end position of the $i^{th}$ occurrence of a pattern.
 This list can be used in `stringi` for pattern transformation.
 
 If `simplify=TRUE` it returns a matrix with 3 columns:
 
- - The first column gives the start position of the $i^{th}$ occurrence of pattern `p`.
- - The second column gives the end position of the $i^{th}$ occurrence of pattern `p`.
- - The third column gives the length of the position range of the $i^{th}$ occurrence of pattern `p`.
+ - The first column gives the start position of the $i^{th}$ occurrence of a pattern.
+ - The second column gives the end position of the $i^{th}$ occurrence of a pattern.
+ - The third column gives the length of the position range of the $i^{th}$ occurrence of a pattern.
 
 The `stri_locate_ith(x, i, ...)` function uses the exact same argument and naming convention as `stringi`, to keep your code consistent. And just like `stringi::stri_locate_all`, the `stri_locate_ith(x, i, ...)` function is a vectorized function: `x` and  `i` as well as the pattern (`regex, fixed, coll, charclass`) can all be different-valued vectors.
 
@@ -667,8 +656,8 @@ ss <- c(1,0)
 x %sget% ss
 ```
 
-Thus `%sget%` "gets" or extracts the given number of characters from the left and the right, and removes the rest.
-There is also `%strim%`, which is the opposite: it trims away the number of characters from the left and right as defined in `ss`, leaving you with whatever is left.
+Thus `x %sget% ss` "gets" or extracts the given number of characters from the left and the right, and removes the rest.
+There is also `x %strim% ss`, which is the opposite: it trims away the number of characters from the left and right as defined in the matrix `ss`, leaving you with whatever is left.
 
 Here are again 2 examples:
 
@@ -820,14 +809,14 @@ Using a package alias, instead of using `library` or `require` has obvious benef
 
 It does, however, have a drawback: you cannot easily import multiple packages under the same alias (actually, it is very possible, but it requires converting environments to lists, and that will make your code unnecessarily ugly). There are a couple of situations where importing multiple packages into a single alias is preferable:
 
- - suppose package `B` is supposed to overwrite a couple of functions from package `A` (for example if package B fixes the functionality from a function in package `A`). In that case you want to import package `A`, and then overwrite it with package `B`.
+ - suppose package `B` is supposed to overwrite a couple of functions from package `A` (for example if package `B` fixes the functionality from a function in package `A`). In that case you want to import package `A`, and then overwrite it with package `B`.
  - if multiple packages kind of "belong" together, you may not want to give these packages separate aliases.
 
 One example is the core `fastverse` + `tidyverse` combo: `data.table` + `collapse` + `tidytable`. Considering the large amount of functions these packages have, (and some which unfortunately have the same name as base R functions), one would want to assign them in an alias object. But giving them separate aliases, knowing that you will always going to use them together anyways, is perhaps less desirable.
 
 This is where the `%m import <-%` operator comes in. It imports multiple packages under the same alias, and also informs the user which package will overwrite which function, so you will never be surprised. Besides importing multiple packages at once, `%m import <-%` also **only** loads exported functions (unlike `loadNamespace()`, which loads both internal and external functions). This is, I think, more desirable, as internal function should remain, you know, internal.
 
-The `%m import <-%` operator only uses simple base R functions, and does nothing crazy.
+The `%m import <-%` operator will give a warning when one attempts to import more than 3 packages under the same alias.
 
 
 Now, as an example, lets load `data.table`, and then `collapse`, and then `tidytable`, all under the same alias, which I will call "ftv" (for "fast-tidy-verse"):
@@ -839,6 +828,15 @@ ftv %m import <-% c("data.table", "collapse", "tidytable")
 Notice that the messages explain which package will overwrite what.
 
 Now you can of course use those loaded packages as one would normally do when using a package alias.
+
+It's better not to use this method for packages that mainly implement operators (such as this very R package), as using something like this:
+
+```{r eval=FALSE}
+to %m import <-% "tidyoperators"
+tidyoperators$`%row~%`(mat, rank)
+```
+
+is very cumbersome. The `%m import <-%` will therefore also notify the user when attempting to import an R-package where more than half of the functions are operators.
 
 &nbsp;
 

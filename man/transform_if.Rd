@@ -48,7 +48,7 @@ The \code{tidyoperators} package therefore adds the
 \code{transform_if()} function
 which will tidy this up. \cr
 \cr
-\code{x <- transform(x, cond, trans)} \cr
+\code{x <- transform_if(x, cond, trans)} \cr
 is exactly equivalent to \cr
 \code{x[cond(x)] <- trans(x[cond(x)])} \cr
 \cr

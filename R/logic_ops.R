@@ -96,7 +96,7 @@ NULL
 #' @rdname logic_ops
 #' @export
 `%n&%` <- function(x, y) {
-  (!x) & (!y)
+  ifelse(is.na(x)|is.na(y), NA, (!x) & (!y))
 }
 
 #' @rdname logic_ops

@@ -16,7 +16,10 @@
 #' \cr
 #' The \code{alias %m import <-% pkgs} operator will tell the user
 #' about conflicting objects. It will also inform the user when importing
-#' a package that consists mostly of infix operators.
+#' a package that consists mostly of infix operators. \cr
+#' \cr
+#' Note: the user should not use this operator unless the user knows what he/she is doing. \cr
+#' The operator will give a warning when more than 3 packages being imported into the same alias.
 #'
 #' @param alias a variable name (unquoted),
 #' giving the (not yet existing) object
@@ -47,6 +50,9 @@
 `%m import <-%` <- function(alias, pkgs) {
   if(length(pkgs)!=length(unique(pkgs))) {
     stop("one or more duplicate packages given")
+  }
+  if(length(pkgs)>3) {
+    warning("More than 3 packages are being imported into the same alias...")
   }
 
   if(length(pkgs)==1){

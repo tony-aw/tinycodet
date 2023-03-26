@@ -34,7 +34,7 @@ The \code{\%s/\%} returns a integer vector of the same length as \code{x}.
 \description{
 String arithmetic operators. \cr
 \cr
-The \code{x \%s+\% y } operator is equivalent to \code{paste0(x,y)}. \cr
+The \code{x \%s+\% y } operator is equivalent to \code{stringi::stri_c(x,y)}. \cr
 \cr
 The \code{x \%s-\% p } operator removes character/pattern defined in \code{p} from \code{x}. \cr
 \cr

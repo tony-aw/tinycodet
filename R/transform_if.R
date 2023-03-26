@@ -10,7 +10,7 @@
 #' \code{transform_if()} function
 #' which will tidy this up. \cr
 #' \cr
-#' \code{x <- transform(x, cond, trans)} \cr
+#' \code{x <- transform_if(x, cond, trans)} \cr
 #' is exactly equivalent to \cr
 #' \code{x[cond(x)] <- trans(x[cond(x)])} \cr
 #' \cr
@@ -64,6 +64,9 @@
 #' @rdname transform_if
 #' @export
 transform_if <- function(x, cond, trans=NULL) {
+  if(!isTRUE(is.function(cond)) | !isTRUE(is.function(trans))) {
+    stop("`cond` and `trans` must both be functions")
+  }
   y <- x
   indx <- cond(y)
   if(is.null(trans)){

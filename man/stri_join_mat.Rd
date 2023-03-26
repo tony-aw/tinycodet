@@ -58,7 +58,7 @@ stri_join_mat(sorted, margin=2)
 x <- c("Hello everyone", "Goodbye everyone")
 print(x)
 mat <- stringi::stri_split_boundaries(x, simplify = TRUE, type="word")
-rank <- matrix(stringi::stri_rank(as.vector(mat)), ncol=ncol(mat))
+rank <- stringi::stri_rank(as.vector(mat)) |> matrix(ncol=ncol(mat))
 sorted <- mat \%row~\% rank
 print(sorted)
 stri_c_mat(sorted, margin=1) # <- alias for stri_join_mat
@@ -71,7 +71,7 @@ stri_c_mat(sorted, margin=2)
 x <- c("Hello, who are you? Oh, really?! Cool!", "I don't care. But I really don't.")
 print(x)
 mat <- stringi::stri_split_boundaries(x, simplify = TRUE, type="sentence")
-rank <- matrix(stringi::stri_rank(as.vector(mat)), ncol=ncol(mat))
+rank <- stringi::stri_rank(as.vector(mat)) |> matrix(ncol=ncol(mat))
 sorted <- mat \%row~\% rank
 print(sorted)
 stri_paste_mat(sorted, margin=1) # <- another alias for stri_join_mat

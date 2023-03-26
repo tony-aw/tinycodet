@@ -41,3 +41,4 @@ Depends:
     R (>= 4.1.0)
 Imports: 
     stringi (>= 1.7.12)
+Config/testthat/edition: 3

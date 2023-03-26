@@ -49,7 +49,7 @@
 #' mat <- matrix(sample(1:25), nrow=5)
 #' print(mat)
 #' rank <- sample(1:length(mat)) |> matrix(ncol=ncol(mat)) # randomized rank
-#' mat %row~%  rank# randomly shuffle every row independently
+#' mat %row~% rank # randomly shuffle every row independently
 #' mat %col~% rank # randomize shuffle every column independently
 #'
 #' # character matrix ====

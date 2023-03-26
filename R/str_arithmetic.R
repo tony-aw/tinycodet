@@ -3,7 +3,7 @@
 #'@description
 #' String arithmetic operators. \cr
 #' \cr
-#' The \code{x %s+% y } operator is equivalent to \code{paste0(x,y)}. \cr
+#' The \code{x %s+% y } operator is equivalent to \code{stringi::stri_c(x,y)}. \cr
 #' \cr
 #' The \code{x %s-% p } operator removes character/pattern defined in \code{p} from \code{x}. \cr
 #' \cr
@@ -67,7 +67,9 @@ NULL
 
 #' @rdname str_arithmetic
 #' @export
-`%s+%` <- function(x, y) { paste0(x, y) }
+`%s+%` <- function(x, y) {
+  stringi::`%stri+%`(x, y)
+}
 
 #' @rdname str_arithmetic
 #' @export
@@ -82,7 +84,7 @@ NULL
 #' @rdname str_arithmetic
 #' @export
 `%s*%` <- function (x, n) {
-  strrep(x, n)
+  stringi::`%stri*%`(x, n)
 }
 
 #' @rdname str_arithmetic

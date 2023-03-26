@@ -36,7 +36,10 @@ For example: \cr
 \cr
 The \code{alias \%m import <-\% pkgs} operator will tell the user
 about conflicting objects. It will also inform the user when importing
-a package that consists mostly of infix operators.
+a package that consists mostly of infix operators. \cr
+\cr
+Note: the user should not use this operator unless the user knows what he/she is doing. \cr
+The operator will give a warning when more than 3 packages being imported into the same alias.
 }
 \examples{
 

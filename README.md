@@ -2,8 +2,9 @@
 - <a href="#tidyoperators" id="toc-tidyoperators">tidyoperators</a>
   - <a href="#installation" id="toc-installation">Installation</a>
 - <a href="#overview" id="toc-overview">Overview</a>
-- <a href="#simple-additional-logicals"
-  id="toc-simple-additional-logicals">Simple additional logicals</a>
+- <a href="#simple-additional-logic-operators"
+  id="toc-simple-additional-logic-operators">Simple additional logic
+  operators</a>
 - <a href="#safer-float-inequality-operators"
   id="toc-safer-float-inequality-operators">Safer float (in)equality
   operators</a>
@@ -99,7 +100,7 @@ WARNING: This package is still very much experimental. Function names,
 argument names, and so on may change dramatically. Use it for testing
 only, until it’s stable.
 
-CHNAGELOG (EXPERIMENTAL VERSIONS):
+CHANGELOG (EXPERIMENTAL VERSIONS):
 
 - 8 march 2023: `stringi` is now a dependency. Completely re-written the
   ReadMe file, Description, and documentation.
@@ -131,17 +132,21 @@ CHNAGELOG (EXPERIMENTAL VERSIONS):
   description, documentation, and this Read-Me file to reflect the new
   changes, and also fixed some spelling errors. Hopefully this will be
   one of the last major changes I have to make to this R package.
+- 25 march 2023: Now tests using `testthat` added for the
+  `R CMD checks`. The `x %n&% y` operator now returns `NA` if either `x`
+  or `y` or `NA`. The `%s+%` and `%s*%` operators now use `stringi`’s
+  equivalent operators, for more consistency; their in-place modifiers
+  are affected as well. Corrected some small spelling- and grammatical
+  errors in the documentation and the READ-ME.
 
 FUTURE PLANS:
 
 I believe `tidyoperators` is slowly getting closer to becoming stable.
 There does not appear a need to add/remove many more
 functions/operators, although some functions, operators or arguments may
-need to be tweaked and/or optimized. Although tests have already been
-performed on the functions and operators in this package, more extensive
-tests will soon be created. Once I am fully satisfied with the R package
-(which may take a while, as I am a bit of a perfectionist), I may
-attempt to publish this R package to CRAN.
+need to be tweaked and/or optimized. Once I am fully satisfied with the
+R package (which may take a while, as I am a bit of a perfectionist), I
+may attempt to publish this R package to CRAN.
 
  
 
@@ -150,8 +155,8 @@ attempt to publish this R package to CRAN.
 You can install `tidyoperators` from github like so:
 
 ``` r
-library(devtools)
-devtools::install_github("https://github.com/tony-aw/tidyoperators")
+library(reomtes)
+remotes::install_github("https://github.com/tony-aw/tidyoperators")
 ```
 
 then load it using:
@@ -199,12 +204,6 @@ The `tidyoperators` R package adds the following functionality:
   multi-threading of functions (when appropriate) through third-party
   packages to improve efficiency.
 
-I realize there are other R-packages that cover some of the above
-functionalities. But I often experience that these R packages (or at
-least those I know of) either do not cover all that I required, had some
-inconsistencies, or suffered from some other significant drawbacks.
-Hence this package was created.
-
 Currently this R package is only available on GitHub.
 
 I understand one may not want to go through this entire Read-Me without
@@ -212,7 +211,9 @@ knowing if the R package is worthy of your time. Therefore, allow me to
 give you a quick glimpse of what is possible in this R package before
 jumping into the details.
 
-First, some in-place mathematical arithmetic with `tidyoperators`:
+ 
+
+In-place mathematical arithmetic with `tidyoperators`:
 
 ``` r
 x <- 1:10
@@ -223,7 +224,7 @@ print(x)
 #>  [1]   1   4   9  16  25  36  49  64  81 100
 ```
 
-Second, simple transformations:
+Simple transformations:
 
 ``` r
 # in base R:
@@ -233,47 +234,37 @@ very_long_name_1[very_long_name_1 > 0] <- log(very_long_name_1[very_long_name_1 
 very_long_name_1 |> transform_if(\(x)x>0, log)
 ```
 
-Thirdly, some string sub-setting:
+Float equality checks:
 
 ``` r
-x <- c("Goodmorning -- GOODafternoon -- Goodevening, and goodnight!",
+x <- c(0.3, 0.6, 0.7)
+y <- c(0.1*3, 0.1*6, 0.1*7)
+print(x); print(y)
+#> [1] 0.3 0.6 0.7
+#> [1] 0.3 0.6 0.7
+x == y # gives FALSE, but should be TRUE
+#> [1] FALSE FALSE FALSE
+x %f==% y # here it's done correctly
+#> [1] TRUE TRUE TRUE
+```
+
+Locate $i^{th}$ occurrence of some pattern in a string:
+
+``` r
+x <- c("Goodmorning -- GOODafternoon -- GooDevening, and goodnight!",
        paste0(letters[1:13], collapse=""))
 print(x)
-#> [1] "Goodmorning -- GOODafternoon -- Goodevening, and goodnight!"
+#> [1] "Goodmorning -- GOODafternoon -- GooDevening, and goodnight!"
 #> [2] "abcdefghijklm"
 loc <- stri_locate_ith(
   # locate second-last occurrence of "good" (ignore case) of each string in x:
-  x, -2, regex="good", case_insensitive=TRUE 
+  x, -2, regex="good", case_insensitive=TRUE, simplify = TRUE
 )
-substr_extract(x, loc=loc) # extract second-last "good"
-#> [1] "Good" NA
-substr_repl(x, "??", loc=loc) # replace second-last "good" with "??"
-#> [1] "Goodmorning -- GOODafternoon -- ??evening, and goodnight!"
-#> [2] "abcdefghijklm"
-substr_chartr(x, loc=loc) # switch upper/lower case of second-last "good"
-#> [1] "Goodmorning -- GOODafternoon -- gOODevening, and goodnight!"
-#> [2] "abcdefghijklm"
-substr_addin(x, " ", "after", loc=loc) # add white space after second-last "good"
-#> [1] "Goodmorning -- GOODafternoon -- Good evening, and goodnight!"
-#> [2] "abcdefghijklm"
-substr_addin(x, " ", "before", loc=loc) # add white space before second-last "good"
-#> [1] "Goodmorning -- GOODafternoon --  Goodevening, and goodnight!"
-#> [2] "abcdefghijklm"
-substr_arrange(x, loc=loc) # sort second-last "good"
-#> [1] "Goodmorning -- GOODafternoon -- dGooevening, and goodnight!"
-#> [2] "abcdefghijklm"
-substr_arrange(x, "decr", loc=loc) # reverse-sort second-last "good"
-#> [1] "Goodmorning -- GOODafternoon -- ooGdevening, and goodnight!"
-#> [2] "abcdefghijklm"
-substr_arrange(x, "rev", loc=loc) # reverse second-last "good"
-#> [1] "Goodmorning -- GOODafternoon -- dooGevening, and goodnight!"
-#> [2] "abcdefghijklm"
-substr_arrange(x, "rand", loc=loc) # randomly shuffle characters of second-last "good"
-#> [1] "Goodmorning -- GOODafternoon -- oodGevening, and goodnight!"
-#> [2] "abcdefghijklm"
+substr(x, loc[,1], loc[,2])
+#> [1] "GooD" NA
 ```
 
-And some string arithmetic:
+String arithmetic:
 
 ``` r
 "Hello" %s+% " world"
@@ -287,7 +278,7 @@ c("HaHa", "Ho", "Hi", "Hu", "He", "Ha") %s/% "Ha"
 #> [1] 2 0 0 0 0 1
 ```
 
-And lastly some reasonably fast rank-based string re-ordering:
+String re-ordering:
 
 ``` r
 # sorting words:
@@ -308,15 +299,17 @@ Read-Me and perhaps try out the package yourself.
 
  
 
-# Simple additional logicals
+# Simple additional logic operators
 
-The tidyoperators package adds a few basic logical operators:
+The tidyoperators package adds a few basic logic operators:
 
 - `%xor%`: Exclusive OR
-- `%n&%`: NOT AND (i.e. `(!x) & (!y)`)
-- `%out%`: the opposite of `%in%` (i.e. `!x %in% y`)
+- `%n&%`: NOT AND (i.e. `(!x) & (!y)`). Note that if either `x` or `y`
+  is `NA`, `%n&%` will also give `NA` (unlike `(!x) & (!y)`, which would
+  give `FALSE`.)
 - `%?=%`: checks if both `x` and `y` are unknown or unreal (NA, NaN,
   Inf, -Inf)
+- `%out%`: the opposite of `%in%` (i.e. `!x %in% y`)
 - `s %sgrepl% p` checks if pattern `p` (defined as either `regex`, or as
   a call from `s_pattern()`) appears in character vector `s` (info on
   the `s_pattern()` function can be found in the string section of this
@@ -335,7 +328,7 @@ cbind(x, y, "x %xor% y"=x %xor% y, "x %n&% y" = x %n&% y, "x %?=% y" = x %?=% y)
 #> [4,] FALSE FALSE     FALSE     TRUE    FALSE
 #> [5,]    NA    NA        NA       NA     TRUE
 #> [6,] FALSE    NA        NA       NA    FALSE
-#> [7,]  TRUE    NA        NA    FALSE    FALSE
+#> [7,]  TRUE    NA        NA       NA    FALSE
 
 1:3 %out% 1:10
 #> [1] FALSE FALSE FALSE
@@ -535,27 +528,12 @@ Much tidier, no?
 
  
 
-This is not the first or only R package that incorporates in-place
-modifiers. Most notably, the `inplace` R package is devoted entirely to
-in-place modifying mathematical arithmetic. However, `inplace` has a
-nasty side-effect:
-
-If 2 R objects refer to the same values - let’s say `x = 3` and
-`y = 3` - using an in-place modifier from the `inplace` package on `x`
-will also change `y`. This can be very dangerous.
-
-**The `tidyoperators` R package does not have this problem:** modifying
-one object does not affect another object, even if they happen to have
-the same value.
-
- 
-
 # Unreal replacement
 
 Another operator added by `tidyoperators` is `x %unreal <-% y`, which
 replaces all NA, NaN, Inf and -Inf in `x` with the value given in `y`.
 
-So `x %unreal <-% 0` is the same as
+So `x %unreal <-% y` is the same as
 `x[is.na(x)|is.nan(x)|is.infinite(x)] <- y`.
 
  
@@ -582,11 +560,7 @@ very_long_name_1[very_long_name_1 > 0] <- log(very_long_name_1[very_long_name_1 
 becomes cumbersome, and not so tidy.
 
 The tidyoperators package therefore adds the `transform_if()` function
-which will tidy this up. This function is internally defined in only
-vectorized functions, and without loops or apply-like functions, and is
-therefore quite fast.
-
-The above code can now be re-written as:
+which will tidy this up. The above code can now be re-written as:
 
 ``` r
 very_long_name_1 |> transform_if(\(x)x>0, log)
@@ -671,63 +645,63 @@ Examples with a numeric matrix:
 mat <- matrix(sample(1:25), nrow=5)
 print(mat)
 #>      [,1] [,2] [,3] [,4] [,5]
-#> [1,]    1   18   21   22   13
-#> [2,]    2   19   17   12   24
-#> [3,]   23   25    7   20    4
-#> [4,]   11   10    9   16    3
-#> [5,]   14    6    5   15    8
+#> [1,]   25   11   16    9    8
+#> [2,]    4   14   10   15   13
+#> [3,]    7   18    6   12   21
+#> [4,]    1   22   19   17    3
+#> [5,]    2    5   23   20   24
 mat %row~% mat # sort elements of every row
 #>      [,1] [,2] [,3] [,4] [,5]
-#> [1,]    1   13   18   21   22
-#> [2,]    2   12   17   19   24
-#> [3,]    4    7   20   23   25
-#> [4,]    3    9   10   11   16
-#> [5,]    5    6    8   14   15
+#> [1,]    8    9   11   16   25
+#> [2,]    4   10   13   14   15
+#> [3,]    6    7   12   18   21
+#> [4,]    1    3   17   19   22
+#> [5,]    2    5   20   23   24
 mat %row~% -mat # reverse-sort elements of every row
 #>      [,1] [,2] [,3] [,4] [,5]
-#> [1,]   22   21   18   13    1
-#> [2,]   24   19   17   12    2
-#> [3,]   25   23   20    7    4
-#> [4,]   16   11   10    9    3
-#> [5,]   15   14    8    6    5
+#> [1,]   25   16   11    9    8
+#> [2,]   15   14   13   10    4
+#> [3,]   21   18   12    7    6
+#> [4,]   22   19   17    3    1
+#> [5,]   24   23   20    5    2
 mat %col~% mat # sort elements of every column
 #>      [,1] [,2] [,3] [,4] [,5]
-#> [1,]    1    6    5   12    3
-#> [2,]    2   10    7   15    4
-#> [3,]   11   18    9   16    8
-#> [4,]   14   19   17   20   13
-#> [5,]   23   25   21   22   24
+#> [1,]    1    5    6    9    3
+#> [2,]    2   11   10   12    8
+#> [3,]    4   14   16   15   13
+#> [4,]    7   18   19   17   21
+#> [5,]   25   22   23   20   24
 mat %col~% -mat # reverse-sort elements of every column
 #>      [,1] [,2] [,3] [,4] [,5]
-#> [1,]   23   25   21   22   24
-#> [2,]   14   19   17   20   13
-#> [3,]   11   18    9   16    8
-#> [4,]    2   10    7   15    4
-#> [5,]    1    6    5   12    3
+#> [1,]   25   22   23   20   24
+#> [2,]    7   18   19   17   21
+#> [3,]    4   14   16   15   13
+#> [4,]    2   11   10   12    8
+#> [5,]    1    5    6    9    3
 
 mat <- matrix(sample(1:25), nrow=5)
 print(mat)
 #>      [,1] [,2] [,3] [,4] [,5]
-#> [1,]   12    6    4    7    2
-#> [2,]   15   10   25   17   21
-#> [3,]    1   19   16   23   14
-#> [4,]   20   22   18   13    5
-#> [5,]    3   24    9    8   11
+#> [1,]   25    3   23    9   11
+#> [2,]   12    6    4    7   21
+#> [3,]   15   10   24   16    2
+#> [4,]    1   18   14   22    8
+#> [5,]   20   19   17   13    5
 rank <- sample(1:length(mat)) |> matrix(ncol=ncol(mat)) # randomized rank
 mat %row~%  rank# randomly shuffle every row independently
 #>      [,1] [,2] [,3] [,4] [,5]
-#> [1,]    4    2    7   12    6
-#> [2,]   21   17   10   25   15
-#> [3,]   19    1   23   16   14
-#> [4,]   22   13   20   18    5
-#> [5,]    8    9    3   24   11
+#> [1,]   23   11    9    3   25
+#> [2,]   12    4    6    7   21
+#> [3,]    2   15   24   16   10
+#> [4,]    1   14    8   18   22
+#> [5,]   19   20   17    5   13
 mat %col~% rank # randomize shuffle every column independently
 #>      [,1] [,2] [,3] [,4] [,5]
-#> [1,]    1   19    4   17   21
-#> [2,]   20   10   25   23    2
-#> [3,]   15   22    9   13    5
-#> [4,]    3   24   16    8   14
-#> [5,]   12    6   18    7   11
+#> [1,]   20   19   23   16   11
+#> [2,]   15    3   17    9    2
+#> [3,]   12    6   24   13    5
+#> [4,]    1   10    4    7    8
+#> [5,]   25   18   14   22   21
 ```
 
 Examples with a character matrix:
@@ -736,41 +710,40 @@ Examples with a character matrix:
 mat <- matrix(sample(letters, 25), nrow=5)
 print(mat)
 #>      [,1] [,2] [,3] [,4] [,5]
-#> [1,] "v"  "u"  "s"  "k"  "e" 
-#> [2,] "l"  "f"  "c"  "y"  "z" 
-#> [3,] "p"  "q"  "t"  "x"  "n" 
-#> [4,] "a"  "i"  "b"  "d"  "w" 
-#> [5,] "m"  "g"  "j"  "o"  "r"
-rank <- stringi::stri_rank(as.vector(mat))
-rank <- matrix(rank, ncol=ncol(mat))
+#> [1,] "w"  "l"  "s"  "q"  "e" 
+#> [2,] "n"  "p"  "i"  "b"  "j" 
+#> [3,] "t"  "a"  "z"  "r"  "k" 
+#> [4,] "g"  "v"  "y"  "d"  "x" 
+#> [5,] "m"  "f"  "c"  "u"  "o"
+rank <- stringi::stri_rank(as.vector(mat)) |> matrix(ncol=ncol(mat))
 mat %row~% rank # sort elements of every row
 #>      [,1] [,2] [,3] [,4] [,5]
-#> [1,] "e"  "k"  "s"  "u"  "v" 
-#> [2,] "c"  "f"  "l"  "y"  "z" 
-#> [3,] "n"  "p"  "q"  "t"  "x" 
-#> [4,] "a"  "b"  "d"  "i"  "w" 
-#> [5,] "g"  "j"  "m"  "o"  "r"
+#> [1,] "e"  "l"  "q"  "s"  "w" 
+#> [2,] "b"  "i"  "j"  "n"  "p" 
+#> [3,] "a"  "k"  "r"  "t"  "z" 
+#> [4,] "d"  "g"  "v"  "x"  "y" 
+#> [5,] "c"  "f"  "m"  "o"  "u"
 mat %row~% -rank # reverse-sort elements of every row
 #>      [,1] [,2] [,3] [,4] [,5]
-#> [1,] "v"  "u"  "s"  "k"  "e" 
-#> [2,] "z"  "y"  "l"  "f"  "c" 
-#> [3,] "x"  "t"  "q"  "p"  "n" 
-#> [4,] "w"  "i"  "d"  "b"  "a" 
-#> [5,] "r"  "o"  "m"  "j"  "g"
+#> [1,] "w"  "s"  "q"  "l"  "e" 
+#> [2,] "p"  "n"  "j"  "i"  "b" 
+#> [3,] "z"  "t"  "r"  "k"  "a" 
+#> [4,] "y"  "x"  "v"  "g"  "d" 
+#> [5,] "u"  "o"  "m"  "f"  "c"
 mat %col~% rank # sort elements of every column
 #>      [,1] [,2] [,3] [,4] [,5]
-#> [1,] "a"  "f"  "b"  "d"  "e" 
-#> [2,] "l"  "g"  "c"  "k"  "n" 
-#> [3,] "m"  "i"  "j"  "o"  "r" 
-#> [4,] "p"  "q"  "s"  "x"  "w" 
-#> [5,] "v"  "u"  "t"  "y"  "z"
+#> [1,] "g"  "a"  "c"  "b"  "e" 
+#> [2,] "m"  "f"  "i"  "d"  "j" 
+#> [3,] "n"  "l"  "s"  "q"  "k" 
+#> [4,] "t"  "p"  "y"  "r"  "o" 
+#> [5,] "w"  "v"  "z"  "u"  "x"
 mat %col~% -rank # reverse-sort elements of every column
 #>      [,1] [,2] [,3] [,4] [,5]
-#> [1,] "v"  "u"  "t"  "y"  "z" 
-#> [2,] "p"  "q"  "s"  "x"  "w" 
-#> [3,] "m"  "i"  "j"  "o"  "r" 
-#> [4,] "l"  "g"  "c"  "k"  "n" 
-#> [5,] "a"  "f"  "b"  "d"  "e"
+#> [1,] "w"  "v"  "z"  "u"  "x" 
+#> [2,] "t"  "p"  "y"  "r"  "o" 
+#> [3,] "n"  "l"  "s"  "q"  "k" 
+#> [4,] "m"  "f"  "i"  "d"  "j" 
+#> [5,] "g"  "a"  "c"  "b"  "e"
 
 mat <- matrix(sample(letters, 25), nrow=5)
 print(mat)
@@ -859,12 +832,12 @@ print(x)
 #> [2] "I don't care. But I really don't."
 mat <- stringi::stri_split_boundaries(x, simplify = TRUE, type="sentence")
 rank <- sample(1:length(mat)) |> matrix(ncol=ncol(mat))
-sorted <- mat %row~% rank
-print(sorted)
+shuffled <- mat %row~% rank
+print(shuffled)
 #>      [,1]                   [,2]             [,3]                 
 #> [1,] "Hello, who are you? " "Oh, really?! "  "Cool!"              
 #> [2,] ""                     "I don't care. " "But I really don't."
-stri_paste_mat(sorted, margin=1, sep=" ") # <- another alias for stri_join_mat
+stri_paste_mat(shuffled, margin=1, sep=" ") # <- another alias for stri_join_mat
 #> [1] "Hello, who are you?  Oh, really?!  Cool!"
 #> [2] " I don't care.  But I really don't."
 ```
@@ -912,18 +885,18 @@ What this function returns exactly depends on the `simplify` argument.
 If `simplify=FALSE` (the default), it returns a returns a list, one
 element for each string. Each list element consists of a matrix with 2
 columns. The first column gives the start position of the $i^{th}$
-occurrence of pattern `p`. The second column gives the end position of
-the $i^{th}$ occurrence of pattern `p`. This list can be used in
-`stringi` for pattern transformation.
+occurrence of a pattern. The second column gives the end position of the
+$i^{th}$ occurrence of a pattern. This list can be used in `stringi` for
+pattern transformation.
 
 If `simplify=TRUE` it returns a matrix with 3 columns:
 
 - The first column gives the start position of the $i^{th}$ occurrence
-  of pattern `p`.
+  of a pattern.
 - The second column gives the end position of the $i^{th}$ occurrence of
-  pattern `p`.
+  a pattern.
 - The third column gives the length of the position range of the
-  $i^{th}$ occurrence of pattern `p`.
+  $i^{th}$ occurrence of a pattern.
 
 The `stri_locate_ith(x, i, ...)` function uses the exact same argument
 and naming convention as `stringi`, to keep your code consistent. And
@@ -1091,10 +1064,11 @@ x %sget% ss
 #> [1] "a" "n"
 ```
 
-Thus `%sget%` “gets” or extracts the given number of characters from the
-left and the right, and removes the rest. There is also `%strim%`, which
-is the opposite: it trims away the number of characters from the left
-and right as defined in `ss`, leaving you with whatever is left.
+Thus `x %sget% ss` “gets” or extracts the given number of characters
+from the left and the right, and removes the rest. There is also
+`x %strim% ss`, which is the opposite: it trims away the number of
+characters from the left and right as defined in the matrix `ss`,
+leaving you with whatever is left.
 
 Here are again 2 examples:
 
@@ -1287,7 +1261,7 @@ unnecessarily ugly). There are a couple of situations where importing
 multiple packages into a single alias is preferable:
 
 - suppose package `B` is supposed to overwrite a couple of functions
-  from package `A` (for example if package B fixes the functionality
+  from package `A` (for example if package `B` fixes the functionality
   from a function in package `A`). In that case you want to import
   package `A`, and then overwrite it with package `B`.
 - if multiple packages kind of “belong” together, you may not want to
@@ -1308,8 +1282,8 @@ exported functions (unlike `loadNamespace()`, which loads both internal
 and external functions). This is, I think, more desirable, as internal
 function should remain, you know, internal.
 
-The `%m import <-%` operator only uses simple base R functions, and does
-nothing crazy.
+The `%m import <-%` operator will give a warning when one attempts to
+import more than 3 packages under the same alias.
 
 Now, as an example, lets load `data.table`, and then `collapse`, and
 then `tidytable`, all under the same alias, which I will call “ftv” (for
@@ -1338,6 +1312,18 @@ Notice that the messages explain which package will overwrite what.
 
 Now you can of course use those loaded packages as one would normally do
 when using a package alias.
+
+It’s better not to use this method for packages that mainly implement
+operators (such as this very R package), as using something like this:
+
+``` r
+to %m import <-% "tidyoperators"
+tidyoperators$`%row~%`(mat, rank)
+```
+
+is very cumbersome. The `%m import <-%` will therefore also notify the
+user when attempting to import an R-package where more than half of the
+functions are operators.
 
  
 
