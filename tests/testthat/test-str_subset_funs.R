@@ -156,5 +156,5 @@ test_that("substr_arrange with stringfish works", {
   expect_equal(substr_arrange(x, "decr", start=start, end=end, fish=TRUE),
                c("7654321890", "1876543290", "1298765430"))
   expect_equal(substr_arrange(x, "rev", start=start, end=end, fish=TRUE),
-               c("7654321890", "1876543290", "12987654300"))
+               c("7654321890", "1876543290", "1298765430"))
 })
