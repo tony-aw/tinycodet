@@ -11,10 +11,6 @@
 - <a href="#in-place-modifying-mathematical-arithmetic"
   id="toc-in-place-modifying-mathematical-arithmetic">In-place modifying
   mathematical arithmetic</a>
-  - <a href="#the-problem" id="toc-the-problem">The problem</a>
-  - <a href="#the-solution-from-this-r-package"
-    id="toc-the-solution-from-this-r-package">The solution from this R
-    package</a>
 - <a href="#unreal-replacement" id="toc-unreal-replacement">Unreal
   replacement</a>
 - <a href="#the-transform_if-function-and-the-subset_if-operators"
@@ -42,9 +38,9 @@
     id="toc-pattern-attributes-in-strings">Pattern attributes in strings</a>
   - <a href="#pattern-attributes-examples"
     id="toc-pattern-attributes-examples">Pattern attributes examples</a>
-  - <a href="#in-place-modifying-string-arithmetic-and-subsetting"
-    id="toc-in-place-modifying-string-arithmetic-and-subsetting">In-place
-    modifying string arithmetic and subsetting</a>
+  - <a href="#in-place-modifying-string-arithmetic-and-sub-setting"
+    id="toc-in-place-modifying-string-arithmetic-and-sub-setting">In-place
+    modifying string arithmetic and sub-setting</a>
 - <a href="#utility-operator-for-slightly-more-advanced-users"
   id="toc-utility-operator-for-slightly-more-advanced-users">Utility
   operator (for slightly more advanced users)</a>
@@ -455,10 +451,9 @@ integers. These operators do not work for non-numeric objects.
 
 # In-place modifying mathematical arithmetic
 
-## The problem
-
 This R package includes infix operators for in-place modifying
-mathematical arithmetic. But first: what is an in-place modifier?
+mathematical arithmetic.
+
 Consider the following line of code:
 
 ``` r
@@ -484,10 +479,6 @@ mtcars$mpg[mtcars$cyl>6] %<>% raise_to_power(2)
 
 This is better, but still not truly tidy.
 
- 
-
-## The solution from this R package
-
 This R package solves the above laid-out problem by implementing
 in-place modifying mathematical arithmetic for all mathematical
 operators, excluding matrix operators.
@@ -506,11 +497,8 @@ this R-package:
   same as`x <- exp(x)`;
 - `x %alogb <-% exp(1)` is the same as exp(x)\`.
 
-I realize there doesn’t really need to be a `%logb%` operator, but since
-one was needed for the antilogarithm, I added the “regular” logarithm
-also, for consistency. Notice that all in-place modifiers end with `<-%`
-(notice the space). All infix operators that are in-place modifiers in
-this R package end with `<-%`, so that it is clear what it does.
+For consistency, all infix operators that are in-place modifiers in this
+R package end with `<-%` (notice the space).
 
 Lets look at the original problem:
 
@@ -524,7 +512,7 @@ With `tidyoperators` one can now make this more tidy with the following:
 mtcars$mpg[mtcars$cyl>6] %^ <-% 2
 ```
 
-Much tidier, no?
+Much tidier, right?
 
  
 
@@ -793,8 +781,8 @@ list, and then calling `stri_join` inside `do.call()`, which to me just
 seems too much trouble for something *soooo* abysmally simple.
 
 Here a practical example of their usage when re-ordering strings, words,
-or sentences (**notice also the usage the `%row~%` operator, which
-allows for slightly faster re-ordering**) :
+or sentences (notice also the usage the `%row~%` operator, which allows
+for slightly faster re-ordering) :
 
 ``` r
 # sorting characters in strings:
@@ -1154,8 +1142,8 @@ expressions, or something else.
 
 The `tidyoperators` package provides options for these cases. To use
 more refined pattern definition, simply replace the
-argument/right-hand-side expression `p` in the relevant
-functions/operators with a call from the `s_pattern()` function.
+argument/right-hand-side expression `p` in the relevant operators with a
+call from the `s_pattern()` function.
 
 The `s_pattern()` function uses the exact same argument convention as
 `stringi`. For example:
@@ -1171,7 +1159,7 @@ also fill in `ignore.case=TRUE` or `ignore_case=TRUE` instead of
 `case_insensitive=TRUE`, and `s_pattern()` will still understand that.
 
 Note that the `s_pattern()` function only works for the infix operators
-(i.e. functions surrounded by `%` signs).
+(i.e. operator-functions surrounded by `%` signs).
 
  
 
@@ -1223,10 +1211,10 @@ And so on. I’m sure you get the idea.
 
  
 
-## In-place modifying string arithmetic and subsetting
+## In-place modifying string arithmetic and sub-setting
 
-With the exception of `%ss%`, all infix operators (notice: operators,
-not functions) have their in-place modifying equivalent:
+With the exception of `%ss%`, all infix operators for string arithmetic
+and string sub-setting have their in-place modifying equivalent:
 
 - `x %s+ <-% y` is the same as `x <- x %s+% y`
 - `x %s- <-% p` is the same as `x <- x %s-% p`
@@ -1258,7 +1246,7 @@ It does, however, have a drawback: you cannot easily import multiple
 packages under the same alias (actually, it is very possible, but it
 requires converting environments to lists, and that will make your code
 unnecessarily ugly). There are a couple of situations where importing
-multiple packages into a single alias is preferable:
+multiple packages into a single alias might be preferable:
 
 - suppose package `B` is supposed to overwrite a couple of functions
   from package `A` (for example if package `B` fixes the functionality
@@ -1269,8 +1257,8 @@ multiple packages into a single alias is preferable:
 
 One example is the core `fastverse` + `tidyverse` combo: `data.table` +
 `collapse` + `tidytable`. Considering the large amount of functions
-these packages have, (and some which unfortunately have the same name as
-base R functions), one would want to assign them in an alias object. But
+these packages have, some which unfortunately have the same name as base
+R functions, one would want to assign them in an alias object. But
 giving them separate aliases is perhaps undesirable: `tidytable` is
 supposed to overwrite some of the `data.table` functions, and one is
 probably always going to use these 3 packages together.
@@ -1278,13 +1266,13 @@ probably always going to use these 3 packages together.
 This is where the `%m import <-%` operator comes in. It imports multiple
 packages under the same alias, and also informs the user which package
 will overwrite which function, so you will never be surprised. Besides
-importing multiple packages at once, `%m import <-%` also **only** loads
+importing multiple packages at once, `%m import <-%` also only loads
 exported functions (unlike `loadNamespace()`, which loads both internal
 and external functions). This is, I think, more desirable, as internal
 function should remain, you know, internal.
 
-The `%m import <-%` operator will give a warning when one attempts to
-import more than 3 packages under the same alias.
+The `%m import <-%` operator will give a `warning` when the user
+attempts to import more than 3 packages under the same alias.
 
 Now, as an example, lets load `data.table`, and then `collapse`, and
 then `tidytable`, all under the same alias, which I will call “ftv” (for
@@ -1319,7 +1307,7 @@ operators (such as this very R package), as using something like this:
 
 ``` r
 to %m import <-% "tidyoperators"
-tidyoperators$`%row~%`(mat, rank)
+to$`%row~%`(mat, rank)
 ```
 
 is very cumbersome. The `%m import <-%` will therefore also notify the
@@ -1337,12 +1325,12 @@ package.
 
 All the string sub-setting functions have the `fish` argument, which is
 `FALSE` by default. If `fish=TRUE`, these functions will use
-`stringfish` functions instead of base R and `stringi` functions, which
-are faster, and also allow native multi-threading. Note that
-`stringfish` must be installed in order for this to work. And
-`stringfish` needs to be loaded also if you wish to also use
-multi-threading. Multi-threading in `stringfish` can be set-up by
-running `setoption(stringfish.nthreads=cl)` somewhere at the start of
+`stringfish` functions instead of base R and `stringi` functions. The
+stringfish functions are usually faster, and also allow native
+multi-threading. Note that `stringfish` must be installed in order for
+this to work. And `stringfish` needs to be loaded also if you wish to
+also use multi-threading. Multi-threading in `stringfish` can be set-up
+by running `setoption(stringfish.nthreads=cl)` somewhere at the start of
 your code, where `cl` is the number of threads you want to use.
 
 Don’t use multi-threading unless you need to, as multi-threading has
