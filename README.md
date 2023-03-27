@@ -151,7 +151,6 @@ may attempt to publish this R package to CRAN.
 You can install `tidyoperators` from github like so:
 
 ``` r
-library(reomtes)
 remotes::install_github("https://github.com/tony-aw/tidyoperators")
 ```
 
@@ -172,33 +171,29 @@ tidyoperators_help()
 
 The `tidyoperators` R package adds the following functionality:
 
-- Infix logical operators for exclusive-or, not-and, not-in,
+- Infix logical operators for exclusive-or, not-and, not-in, `grepl`,
   number-type, and string-type.
 - Safer (in)equality operators for floating numbers.
 - Infix operators for In-place modifiers for mathematical arithmetic.
-- Infix operators for string arithmetic.
-- Infix operators for string sub-setting.
-- Infix operators for In-place modifying string arithmetic.
-- Infix operators for In-place modifying string sub-setting.
-- The in-place modifying unreal replacer operator.
+- Infix operators for string arithmetic, string sub-setting, and their
+  in-place modifying equivalents.
+- An in-place modifying unreal replacer operator.
 - The tidyoperators package adds additional `stringi` functions, namely
-  `stri_locate_ith` and `stri_join_mat` (and aliases). These functions
-  use the same naming and argument convention as the rest of the
-  `stringi` functions, thus keeping your code consistent.
+  `stri_locate_ith()` and `stri_join_mat()` (and aliases). These
+  functions use the same naming and argument convention as the rest of
+  the `stringi` functions, thus keeping your code consistent.
 - The fully vectorized sub-string functions, that extract, replace,
   add-in, transform, or re-arrange, the $i^{th}$ pattern occurrence or
-  location.
-- The s_pattern helper function for string operators.
-- The `transform_if` function, and some related operators.
+  substring.
+- The `s_pattern()` helper function for the string infix operators.
+- The `transform_if()` function, and some related operators.
 - The `%m import <-%` operator for advanced multi-package aliasing.
-- Most stringi pattern expressions options (regex, fixed, coll,
-  charclass) are available for all string-pattern-related functions,
-  when appropriate.
+- The `stringi` pattern expressions options are available for all
+  string-pattern-related functions, when appropriate.
 - This R package has only one dependency: `stringi`. No other
   dependencies, as to avoid “dependency hell”.
 - Although this package has no other dependencies, it allows
-  multi-threading of functions (when appropriate) through third-party
-  packages to improve efficiency.
+  multi-threading of functions (when appropriate) via `stringfish`.
 
 Currently this R package is only available on GitHub.
 
@@ -306,7 +301,7 @@ The tidyoperators package adds a few basic logic operators:
 - `%?=%`: checks if both `x` and `y` are unknown or unreal (NA, NaN,
   Inf, -Inf)
 - `%out%`: the opposite of `%in%` (i.e. `!x %in% y`)
-- `s %sgrepl% p` checks if pattern `p` (defined as either `regex`, or as
+- `s %sgrep% p` checks if pattern `p` (defined as either `regex`, or as
   a call from `s_pattern()`) appears in character vector `s` (info on
   the `s_pattern()` function can be found in the string section of this
   read-me)
