@@ -66,7 +66,8 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
  - 14 march 2023: changed the utility function to the `%m import <-%` operator. Fixed some linguistic mistakes in the documentation. Added a full documentation pdf. Fixed bugs in all `substr_`-functions. Added `codefactor` badge. Fixed some errors in the Description file. Created and added the pdf manual. Fixed some minor errors in this Read-Me markdown file.
  - 17 march 2023: added infix operators for custom row- and column-wise sorting of matrices. Slightly optimized the `substr_arrange()` function, and added the `opts_collator` argument to it. Re-ordered the sections of this Read-Me file. Adjusted the documentation the reflect the new changes.
  - 19 march 2023: removed the `s_strapply()` function in favor of the now newly added `stri_join_mat()` function and its aliases. Renamed the matrix re-order operators to `%row~%` and `%col~%`. Added a random order option to the `substr_arrange()` function. Adjusted the description, documentation, and this Read-Me file to reflect the new changes, and also fixed some spelling errors. Hopefully this will be one of the last major changes I have to make to this R package.
- - 25 march 2023: Now tests using `testthat` added for the `R CMD checks`. The `x %n&% y` operator now returns `NA` if either `x` or `y` or `NA`. The `%s+%` and `%s*%` operators now use `stringi`'s equivalent operators, for more consistency; their in-place modifiers are affected as well. Corrected some small spelling- and grammatical errors in the documentation and the READ-ME.
+ - 25 march 2023: Now tests using `testthat` added for the `R CMD checks`. The `x %n&% y` operator now returns `NA` if either `x` or `y` or `NA`. The `%s+%` and `%s*%` operators now use `stringi`'s equivalent operators, for more consistency; their in-place modifiers are affected as well. Corrected some small spelling- and grammatical errors in the documentation and the Read-Me.
+ - 28 march 2023: Small textual changes to the Read-Me file.
 
 
 FUTURE PLANS:
@@ -146,7 +147,9 @@ Float equality checks:
 x <- c(0.3, 0.6, 0.7)
 y <- c(0.1*3, 0.1*6, 0.1*7)
 print(x); print(y)
+
 x == y # gives FALSE, but should be TRUE
+
 x %f==% y # here it's done correctly
 ```
 
@@ -516,30 +519,20 @@ repl <- lapply(extr, \(x)chartr(x=x, old = "a-zA-Z", new = "A-Za-z"))
 stringi::stri_sub_all_replace(x, loc, replacement=repl)
 ```
 
-Easy peasy lemon squeezy.
-
-&nbsp;
-
 But now suppose one wants to transform **only** the **second-last** vowel. How are you going to do that? It's not impossible, but also not super straight-forward. For a tidy code, `stringi` really needs some kind of "stri_locate_ith" function. And, of course, the `tidyoperators` package provides just that.
 
-The `stri_locate_ith(x, i, ...)` function locates for every element/string in character vector `x`, the $i^{th}$ occurrence of some (regex/fixed/etc) pattern. When `i` is positive, the occurrence is counted from left to right. Negative values for `i` are also allowed, in which case the occurrence is counted from the right to left. But `i=0` is not allowed though.
-
-Thus, to get the **second** occurrence of some pattern, use `i=2`, and to get the **second-last** occurrence, use `i=-2`.
+The `stri_locate_ith(x, i, ...)` function locates for every element/string in character vector `x`, the $i^{th}$ occurrence of some (regex/fixed/etc) pattern. When `i` is positive, the occurrence is counted from left to right. Negative values for `i` are also allowed, in which case the occurrence is counted from the right to left. But `i=0` is not allowed though. Thus, to get the **second** occurrence of some pattern, use `i=2`, and to get the **second-last** occurrence, use `i=-2`.
 
 What this function returns exactly depends on the `simplify` argument.
 
 If `simplify=FALSE` (the default), it returns a returns a list, one element for each string. Each list element consists of a matrix with 2 columns. The first column gives the start position of the $i^{th}$ occurrence of a pattern. The second column gives the end position of the $i^{th}$ occurrence of a pattern.
 This list can be used in `stringi` for pattern transformation.
 
-If `simplify=TRUE` it returns a matrix with 3 columns:
-
- - The first column gives the start position of the $i^{th}$ occurrence of a pattern.
- - The second column gives the end position of the $i^{th}$ occurrence of a pattern.
- - The third column gives the length of the position range of the $i^{th}$ occurrence of a pattern.
+If `simplify=TRUE` it returns a matrix with 3 columns: start position, end position, and length of position range of the $i^{th}$ occurrence of a pattern. One row for each string of character vector `x`x.
 
 The `stri_locate_ith(x, i, ...)` function uses the exact same argument and naming convention as `stringi`, to keep your code consistent. And just like `stringi::stri_locate_all`, the `stri_locate_ith(x, i, ...)` function is a vectorized function: `x` and  `i` as well as the pattern (`regex, fixed, coll, charclass`) can all be different-valued vectors.
 
-Currently, `stri_locate_ith` internally uses `mapply` for the vectorization. Once this R package is out of the `experimental` phase, I plan to replace `mapply` with a `C++` loop. But rest assured: `stri_locate_ith` is already quite fast.
+Currently, `stri_locate_ith` internally uses `mapply` for the vectorization. Once this R package is out of the `experimental` phase, I plan to replace `mapply` with a `C++` loop, though `stri_locate_ith` is currently already quite fast.
 
 &nbsp;
 
@@ -574,8 +567,7 @@ repl <- lapply(extr, \(x)chartr(x=x, old = "a-zA-Z", new = "A-Za-z"))
 stringi::stri_sub_all_replace(x, loc, replacement=repl)
 ```
 
-Notice that the code is virtually equivalent. We ONLY need to change the locate function. Quite tidy, right?
-
+Notice that the code is virtually equivalent. We ONLY need to change the locate function.
 
 The transformation given in the previous code used `lapply`. I'm sure we want to stick to vectorized functions as much as possible. Therefore, the `tidyoperators` package also adds several fully vectorized `substr_`-functions, which are discussed in the very next section.
 
@@ -587,13 +579,11 @@ The `tidyoperators` R-package includes the following fully vectorized sub-string
  - The `substr_chartr(x, old, new, ...)` function transforms the sub-string at a position (range) using `chartr(old, new)`. By default, it will translate upper-case characters to lower-case, and vice-versa.
  - The `substr_addin(x, addition, side, ...)` function adds the additional string `addition` at the side `side` of a position.
  - The `substr_extract(x, type, ...)` function extracts the string at, before, or after some position (range).
- - The `substr_arrange(x, arr, ...)` function sorts or reverses the sub-string at a position (range).
+ - The `substr_arrange(x, arr, ...)` function re-arranges (sort, reverse, randomize) the sub-string at a position (range).
 
-The "position" in the functions above can be specified either by giving the result of the `stri_locate_ith()` function (see the previous section) in argument `loc`, or one can give manual numerical specifications using the `start, end` or `at` arguments. 
+The "position" in the functions above can be specified either by giving the result of the `stri_locate_ith()` function (see the previous section) in argument `loc`, or one can give manual positions using the `start, end` or `at` arguments. 
 
-
-
-For example:
+Example:
 
 ```{r}
 
@@ -662,10 +652,8 @@ ss <- c(1,0)
 x %strim% ss
 ```
 
-&nbsp;
 
-
-Another fun string operator is `x %ss%  s`. This essentially splits character vector `x` into a vector containing only individual characters; then this vector is subset-ted by the number given in `s`. Honestly, I do not think one would need this often, but it can be handy sometimes. For example:
+Another string operator is `x %ss%  s`. This essentially splits character vector `x` into a vector containing only individual characters; then this vector is subset-ted by the number given in numeric vector `s`. Honestly, I do not think one would need this often, but it can be handy sometimes. For example:
 
 ```{r}
 x <- "Tom Marvolo Riddle"
@@ -679,11 +667,9 @@ toupper(x) %ss% c(14, 4, 6:5, 12, 10:11, 13, 15, 8:9, 17:16, 18, 3:2, 7, 1) |>
 
 ## String arithmetic
 
-Certainly, the `tidyoperators` package is not the first R package to introduce string arithmetic. But I do hope these operators have more consistent naming and functionality.
-
 The `tidyoperators` package adds 4 arithmetic operators:
 
- - `x %s+% y` is the same as `paste0(x, y)`;
+ - `x %s+% y` concatenates `x` and `y`;
  - `x %s-% p` removes pattern `p` from each string in character vector `x`;
  - `x %s*% n` repeats each string in character vector `x` for `n` times;
  - `x %s/% p` counts how often pattern `p` occurs in string or vector `x`
@@ -696,9 +682,6 @@ c("Hello world", "Goodbye world") %s-% " world"
 c("Ha", "Ho", "Hi", "Hu", "He", "Ha") %s*% 2:7
 c("hello world & goodbye world", "world domination!") %s/% "world"
 ```
-
-The tidyoperators R package also includes several string sub-setting functions.
-
 
 It is important to note that the right-side arguments `p`, `y`, and `n` can be a single value, or a vector of the same length as `x`.
 
@@ -728,41 +711,28 @@ Note that the `s_pattern()` function only works for the infix operators (i.e. op
 
 ## Pattern attributes examples
 
+Regular expressions:
+
 ```{r}
-# VOWELS SUBSETTING ====
-
-x <- c("yeay nay or nothing to say", "Goodmorning, goodevening and goodnight",
-       paste0(letters[1:13], collapse=""))
-print(x)
-p <- s_pattern(regex = "a|e|i|o|u", case_insensitive=TRUE)
-
-# PATTERN ARITHMETIC ====
-
 x <- c("Hello world", "Goodbye world")
 p <- s_pattern(regex=" world")
 x %s-% p
 
-
 x <- c("Ha", "Ho", "Hi", "Hu", "He", "Ha") %s*% 10
 p <- s_pattern(regex="Ha")
 x %s/% p
-
 ```
 
-And then some fixed expressions:
+Fixed expressions:
 
 ```{r}
-x <- c("yeay yeay yeay yeay", "nay nay nay nay")
-p <- s_pattern(fixed = "ye")
-
 x <- c("Hello world", "Goodbye world")
 p <- s_pattern(fixed=" world")
 x %s-% p
 
 x <- c("Ha", "Ho", "Hi", "Hu", "He", "Ha") %s*% 10
-p <- s_pattern(coll="Ha")
+p <- s_pattern(fixed="Ha")
 x %s/% p
-
 ```
 
 And so on. I'm sure you get the idea.
@@ -829,11 +799,7 @@ is very cumbersome. The `%m import <-%` will therefore also notify the user when
 
 &nbsp;
 
-# Speed, efficiency, and multi-threading
-
-This section discusses speed and optimization in the `tidyoperators` package.
-
-## Multi-threading in string subsetting functions
+# Speed and multi-threading
 
 All the string sub-setting functions have the `fish` argument, which is `FALSE` by default. If `fish=TRUE`, these functions will use `stringfish` functions instead of base R and `stringi` functions. The stringfish functions are usually faster, and also allow native multi-threading. Note that `stringfish` must be installed in order for this to work. And `stringfish` needs to be loaded also if you wish to also use multi-threading. Multi-threading in `stringfish` can be set-up by running `setoption(stringfish.nthreads=cl)` somewhere at the start of your code, where `cl` is the number of threads you want to use.
 

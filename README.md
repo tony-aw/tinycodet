@@ -44,12 +44,8 @@
 - <a href="#utility-operator-for-slightly-more-advanced-users"
   id="toc-utility-operator-for-slightly-more-advanced-users">Utility
   operator (for slightly more advanced users)</a>
-- <a href="#speed-efficiency-and-multi-threading"
-  id="toc-speed-efficiency-and-multi-threading">Speed, efficiency, and
-  multi-threading</a>
-  - <a href="#multi-threading-in-string-subsetting-functions"
-    id="toc-multi-threading-in-string-subsetting-functions">Multi-threading
-    in string subsetting functions</a>
+- <a href="#speed-and-multi-threading"
+  id="toc-speed-and-multi-threading">Speed and multi-threading</a>
 - <a href="#recommended-r-packages"
   id="toc-recommended-r-packages">Recommended R packages</a>
 - <a href="#compatibility-with-other-operator-related-r-packages"
@@ -133,7 +129,8 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   or `y` or `NA`. The `%s+%` and `%s*%` operators now use `stringi`’s
   equivalent operators, for more consistency; their in-place modifiers
   are affected as well. Corrected some small spelling- and grammatical
-  errors in the documentation and the READ-ME.
+  errors in the documentation and the Read-Me.
+- 28 march 2023: Small textual changes to the Read-Me file.
 
 FUTURE PLANS:
 
@@ -233,8 +230,10 @@ y <- c(0.1*3, 0.1*6, 0.1*7)
 print(x); print(y)
 #> [1] 0.3 0.6 0.7
 #> [1] 0.3 0.6 0.7
+
 x == y # gives FALSE, but should be TRUE
 #> [1] FALSE FALSE FALSE
+
 x %f==% y # here it's done correctly
 #> [1] TRUE TRUE TRUE
 ```
@@ -843,10 +842,6 @@ stringi::stri_sub_all_replace(x, loc, replacement=repl)
 #> [1] "HeLLo WoRLD"   "gOOdbyE wOrld"
 ```
 
-Easy peasy lemon squeezy.
-
- 
-
 But now suppose one wants to transform **only** the **second-last**
 vowel. How are you going to do that? It’s not impossible, but also not
 super straight-forward. For a tidy code, `stringi` really needs some
@@ -858,10 +853,9 @@ element/string in character vector `x`, the $i^{th}$ occurrence of some
 (regex/fixed/etc) pattern. When `i` is positive, the occurrence is
 counted from left to right. Negative values for `i` are also allowed, in
 which case the occurrence is counted from the right to left. But `i=0`
-is not allowed though.
-
-Thus, to get the **second** occurrence of some pattern, use `i=2`, and
-to get the **second-last** occurrence, use `i=-2`.
+is not allowed though. Thus, to get the **second** occurrence of some
+pattern, use `i=2`, and to get the **second-last** occurrence, use
+`i=-2`.
 
 What this function returns exactly depends on the `simplify` argument.
 
@@ -872,14 +866,9 @@ occurrence of a pattern. The second column gives the end position of the
 $i^{th}$ occurrence of a pattern. This list can be used in `stringi` for
 pattern transformation.
 
-If `simplify=TRUE` it returns a matrix with 3 columns:
-
-- The first column gives the start position of the $i^{th}$ occurrence
-  of a pattern.
-- The second column gives the end position of the $i^{th}$ occurrence of
-  a pattern.
-- The third column gives the length of the position range of the
-  $i^{th}$ occurrence of a pattern.
+If `simplify=TRUE` it returns a matrix with 3 columns: start position,
+end position, and length of position range of the $i^{th}$ occurrence of
+a pattern. One row for each string of character vector `x`x.
 
 The `stri_locate_ith(x, i, ...)` function uses the exact same argument
 and naming convention as `stringi`, to keep your code consistent. And
@@ -889,8 +878,8 @@ function is a vectorized function: `x` and `i` as well as the pattern
 
 Currently, `stri_locate_ith` internally uses `mapply` for the
 vectorization. Once this R package is out of the `experimental` phase, I
-plan to replace `mapply` with a `C++` loop. But rest assured:
-`stri_locate_ith` is already quite fast.
+plan to replace `mapply` with a `C++` loop, though `stri_locate_ith` is
+currently already quite fast.
 
  
 
@@ -931,7 +920,7 @@ stringi::stri_sub_all_replace(x, loc, replacement=repl)
 ```
 
 Notice that the code is virtually equivalent. We ONLY need to change the
-locate function. Quite tidy, right?
+locate function.
 
 The transformation given in the previous code used `lapply`. I’m sure we
 want to stick to vectorized functions as much as possible. Therefore,
@@ -952,15 +941,15 @@ sub-string functions:
   additional string `addition` at the side `side` of a position.
 - The `substr_extract(x, type, ...)` function extracts the string at,
   before, or after some position (range).
-- The `substr_arrange(x, arr, ...)` function sorts or reverses the
-  sub-string at a position (range).
+- The `substr_arrange(x, arr, ...)` function re-arranges (sort, reverse,
+  randomize) the sub-string at a position (range).
 
 The “position” in the functions above can be specified either by giving
 the result of the `stri_locate_ith()` function (see the previous
-section) in argument `loc`, or one can give manual numerical
-specifications using the `start, end` or `at` arguments.
+section) in argument `loc`, or one can give manual positions using the
+`start, end` or `at` arguments.
 
-For example:
+Example:
 
 ``` r
 
@@ -1071,13 +1060,11 @@ x %strim% ss
 #> [1] "bcdefghijklm" "opqrstuvwxyz"
 ```
 
- 
-
-Another fun string operator is `x %ss%  s`. This essentially splits
+Another string operator is `x %ss%  s`. This essentially splits
 character vector `x` into a vector containing only individual
-characters; then this vector is subset-ted by the number given in `s`.
-Honestly, I do not think one would need this often, but it can be handy
-sometimes. For example:
+characters; then this vector is subset-ted by the number given in
+numeric vector `s`. Honestly, I do not think one would need this often,
+but it can be handy sometimes. For example:
 
 ``` r
 x <- "Tom Marvolo Riddle"
@@ -1090,13 +1077,9 @@ toupper(x) %ss% c(14, 4, 6:5, 12, 10:11, 13, 15, 8:9, 17:16, 18, 3:2, 7, 1) |>
 
 ## String arithmetic
 
-Certainly, the `tidyoperators` package is not the first R package to
-introduce string arithmetic. But I do hope these operators have more
-consistent naming and functionality.
-
 The `tidyoperators` package adds 4 arithmetic operators:
 
-- `x %s+% y` is the same as `paste0(x, y)`;
+- `x %s+% y` concatenates `x` and `y`;
 - `x %s-% p` removes pattern `p` from each string in character vector
   `x`;
 - `x %s*% n` repeats each string in character vector `x` for `n` times;
@@ -1115,9 +1098,6 @@ c("Ha", "Ho", "Hi", "Hu", "He", "Ha") %s*% 2:7
 c("hello world & goodbye world", "world domination!") %s/% "world"
 #> [1] 2 1
 ```
-
-The tidyoperators R package also includes several string sub-setting
-functions.
 
 It is important to note that the right-side arguments `p`, `y`, and `n`
 can be a single value, or a vector of the same length as `x`.
@@ -1160,24 +1140,13 @@ Note that the `s_pattern()` function only works for the infix operators
 
 ## Pattern attributes examples
 
+Regular expressions:
+
 ``` r
-# VOWELS SUBSETTING ====
-
-x <- c("yeay nay or nothing to say", "Goodmorning, goodevening and goodnight",
-       paste0(letters[1:13], collapse=""))
-print(x)
-#> [1] "yeay nay or nothing to say"            
-#> [2] "Goodmorning, goodevening and goodnight"
-#> [3] "abcdefghijklm"
-p <- s_pattern(regex = "a|e|i|o|u", case_insensitive=TRUE)
-
-# PATTERN ARITHMETIC ====
-
 x <- c("Hello world", "Goodbye world")
 p <- s_pattern(regex=" world")
 x %s-% p
 #> [1] "Hello"   "Goodbye"
-
 
 x <- c("Ha", "Ho", "Hi", "Hu", "He", "Ha") %s*% 10
 p <- s_pattern(regex="Ha")
@@ -1185,19 +1154,16 @@ x %s/% p
 #> [1] 10  0  0  0  0 10
 ```
 
-And then some fixed expressions:
+Fixed expressions:
 
 ``` r
-x <- c("yeay yeay yeay yeay", "nay nay nay nay")
-p <- s_pattern(fixed = "ye")
-
 x <- c("Hello world", "Goodbye world")
 p <- s_pattern(fixed=" world")
 x %s-% p
 #> [1] "Hello"   "Goodbye"
 
 x <- c("Ha", "Ho", "Hi", "Hu", "He", "Ha") %s*% 10
-p <- s_pattern(coll="Ha")
+p <- s_pattern(fixed="Ha")
 x %s/% p
 #> [1] 10  0  0  0  0 10
 ```
@@ -1311,12 +1277,7 @@ functions are operators.
 
  
 
-# Speed, efficiency, and multi-threading
-
-This section discusses speed and optimization in the `tidyoperators`
-package.
-
-## Multi-threading in string subsetting functions
+# Speed and multi-threading
 
 All the string sub-setting functions have the `fish` argument, which is
 `FALSE` by default. If `fish=TRUE`, these functions will use
