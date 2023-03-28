@@ -138,7 +138,7 @@ Simple transformations:
 very_long_name_1[very_long_name_1 > 0] <- log(very_long_name_1[very_long_name_1 > 0])
 
 # with tidyoperators:
-very_long_name_1 |> transform_if(\(x)x>0, log)
+very_long_name_1 %<>% transform_if(\(x)x>0, log)
 ```
 
 Float equality checks:
