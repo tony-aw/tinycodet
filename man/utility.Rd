@@ -2,7 +2,7 @@
 % Please edit documentation in R/utility.R
 \name{\%m import <-\%}
 \alias{\%m import <-\%}
-\title{Utility operator}
+\title{Utility: Multi-package aliasing operator (for slightly more advanced users)}
 \usage{
 alias \%m import <-\% pkgs
 }

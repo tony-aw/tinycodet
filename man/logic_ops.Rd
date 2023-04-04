@@ -87,9 +87,14 @@ The \code{s \%sgrep\% p} operator is a vectorized operator that checks
 for every value of character vector \code{s} if it has pattern \code{p}.
 }
 \examples{
-x <- c(TRUE, FALSE, TRUE, FALSE, NA, FALSE, TRUE)
-y <- c(FALSE, TRUE, TRUE, FALSE, NA, NA, NA)
-cbind(x, y, "x \%xor\% y"=x \%xor\% y, "x \%n&\% y" = x \%n&\% y, "x \%?=\% y" = x \%?=\% y)
+x <- c(TRUE, FALSE, TRUE, FALSE, NA, NaN, Inf, -Inf, TRUE, FALSE)
+y <- c(FALSE, TRUE, TRUE, FALSE, rep(NA, 6))
+outcome <- data.frame(
+  x=x, y=y,
+  "x \%xor\% y"=x \%xor\% y, "x \%n&\% y" = x \%n&\% y, "x \%?=\% y" = x \%?=\% y,
+  check.names = FALSE
+)
+print(outcome)
 
 1:3 \%out\% 1:10
 1:10 \%out\% 1:3

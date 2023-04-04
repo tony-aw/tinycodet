@@ -1,22 +1,55 @@
-x <- c(TRUE, FALSE, TRUE, FALSE, NA, FALSE, TRUE)
-y <- c(FALSE, TRUE, TRUE, FALSE, NA, NA, NA)
-outcome <- cbind("x %xor% y"=x %xor% y, "x %n&% y" = x %n&% y, "x %?=% y" = x %?=% y)
-expected <- cbind(
-  "x %xor% y"=c(T,T,F,F,NA,NA,NA),
-  "x %n&% y" =c(F,F,F,T,NA,NA,NA),
-  "x %?=% y" =c(F,F,F,F,T,F,F)
+x <- c(TRUE, FALSE, TRUE, FALSE)
+y <- c(FALSE, TRUE, TRUE, FALSE)
+outcome <- data.frame(
+  x=x, y=y,
+  "x %xor% y"=x %xor% y, "x %n&% y" = x %n&% y, "x %?=% y" = x %?=% y,
+  check.names = FALSE
 )
-
-test_that("negating logic works", {
+expected <- data.frame(
+  x,y,
+  "x %xor% y"=c(T,T,F,F),
+  "x %n&% y" =c(F,F,F,T),
+  "x %?=% y" =c(F,F,F,F),
+  check.names = FALSE
+)
+test_that("negating logic works (1)", {
   expect_equal(outcome, expected)
 })
 
-test_that("out works (1)", {
-  expect_equal(0:3 %out% 1:10, c(T, F,F,F))
+
+df <- expand.grid(x = c(NA, NaN, Inf, -Inf), y = c(NA, NaN, Inf, -Inf))
+x <- df$x
+y <- df$y
+outcome <- data.frame(
+  x=x, y=y,
+  "x %xor% y"=x %xor% y, "x %n&% y" = x %n&% y, "x %?=% y" = x %?=% y,
+  check.names = FALSE
+)
+expected <- data.frame(
+  x,y,
+  "x %xor% y" = ifelse(is.infinite(df$x)&is.infinite(df$y), FALSE, NA),
+  "x %n&% y" = ifelse(is.infinite(df$x)&is.infinite(df$y), FALSE, NA),
+  "x %?=% y" = rep(TRUE, 16),
+  check.names = FALSE
+)
+test_that("negating logic works (2)", {
+  expect_equal(outcome, expected)
 })
-test_that("out works (2)", {
+
+
+df <- expand.grid(x = rep(c(NA, NaN, Inf, -Inf), 2), y = rep(c(TRUE, FALSE), 4))
+x <- df$x
+y <- df$y
+test_that("negating logic works (3)", {
+  expect_equal(x %?=% y, rep(FALSE, 64))
+})
+
+
+test_that("out works", {
+  expect_equal(0:3 %out% 1:10, c(T, F,F,F))
   expect_equal(1:10 %out% 1:3, c(rep(F, 3), rep(T, 7)))
 })
+
 
 n <- c(0:5, 0:-5, 0.1, -0.1, 0, 1, Inf, -Inf, NA, NaN)
 cbind(1:length(n), n)

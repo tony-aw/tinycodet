@@ -44,4 +44,18 @@ test_that("float >= is FALSE (x < y)", {
   expect_equal((x-1) %f>=% y, rep(FALSE, 3))
 })
 
+x <- c(0.3, 0.6, 0.7)
+bnd <- matrix(c(0.29, 0.59, 0.69, 0.31, 0.61, 0.71), ncol=2)
+test_that("float boundaries (matrix)", {
+  expect_equal(x %f{}% bnd, rep(TRUE, 3))
+  expect_equal(x %f!{}% bnd, rep(FALSE, 3))
+  expect_equal(x %f{}% -bnd, rep(FALSE, 3))
+  expect_equal(x %f!{}% -bnd, rep(TRUE, 3))
+})
 
+test_that("float boundaries (vector)", {
+  expect_equal(0.3 %f{}% c(0.29, 0.31), TRUE)
+  expect_equal(0.3 %f!{}% c(0.29, 0.31), FALSE)
+  expect_equal(-0.3 %f{}% c(0.29, 0.31), FALSE)
+  expect_equal(-0.3 %f!{}% c(0.29, 0.31), TRUE)
+})

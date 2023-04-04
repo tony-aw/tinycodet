@@ -8,6 +8,8 @@
 \alias{\%f>\%}
 \alias{\%f<=\%}
 \alias{\%f>=\%}
+\alias{\%f{}\%}
+\alias{\%f!{}\%}
 \title{Safer float (in)equality operators}
 \usage{
 x \%f==\% y
@@ -21,10 +23,19 @@ x \%f>\% y
 x \%f<=\% y
 
 x \%f>=\% y
+
+x \%f{}\% bnd
+
+x \%f!{}\% bnd
 }
 \arguments{
 \item{x, y}{numeric vectors, matrices, or arrays,
 though these operators were specifically designed for floats (class "double").}
+
+\item{bnd}{either a vector of length 2, or a matrix with 2 columns and 1 row,
+or else a matrix with 2 columns where \code{nrow(bnd)==length(x)}. \cr
+The first element/column of \code{bnd} gives the lower bound of the closed interval; \cr
+The second element/column of \code{bnd} gives the upper bound of the closed interval; \cr}
 }
 \description{
 The \code{\%f==\%, \%f!=\% \%f<\%, \%f>\%, \%f<=\%, \%f>=\%} operators perform "float logic".
@@ -40,6 +51,13 @@ For example: \code{0.1*7 == 0.7} returns \code{FALSE}, even though they are equa
 due to the way floating numbers are stored in programming languages like R.
 But \code{0.1*7 \%f==\% 0.7} returns \code{TRUE}.  \cr
 \cr
+There are also the \code{x \%f{}\% bnd} and \code{x \%f!{}\% bnd} operators,
+where \code{bnd} is a vector of length 2,
+or a 2-column matrix (\code{nrow(bnd)==length(x)} or \code{nrow(bnd)==1}). \cr
+The \code{x \%f{}\% bnd} operator checks if \code{x}
+is within the closed interval with bounds defined by \code{bnd}. \cr
+The \code{x \%f!{}\% bnd} operator checks if \code{x}
+is outside the closed interval with bounds defined by \code{bnd}. \cr
 }
 \examples{
 x <- c(0.3, 0.6, 0.7)
@@ -55,6 +73,11 @@ x \%f<\% y # correct
 x \%f>\% y # correct
 x \%f<=\% y # correct
 x \%f>=\% y # correct
+
+x <- c(0.3, 0.6, 0.7)
+bnd <- matrix(c(0.29, 0.59, 0.69, 0.31, 0.61, 0.71), ncol=2)
+x \%f{}\% bnd
+x \%f!{}\% bnd
 
 # These operators still work for non-float numerics also:
 x <- 1:5

@@ -41,9 +41,10 @@
   - <a href="#in-place-modifying-string-arithmetic-and-sub-setting"
     id="toc-in-place-modifying-string-arithmetic-and-sub-setting">In-place
     modifying string arithmetic and sub-setting</a>
-- <a href="#utility-operator-for-slightly-more-advanced-users"
-  id="toc-utility-operator-for-slightly-more-advanced-users">Utility
-  operator (for slightly more advanced users)</a>
+- <a
+  href="#utility-multi-package-aliasing-operator-for-slightly-more-advanced-users"
+  id="toc-utility-multi-package-aliasing-operator-for-slightly-more-advanced-users">Utility:
+  Multi-package aliasing operator (for slightly more advanced users)</a>
 - <a href="#speed-and-multi-threading"
   id="toc-speed-and-multi-threading">Speed and multi-threading</a>
 - <a href="#recommended-r-packages"
@@ -94,43 +95,48 @@ only, until it’s stable.
 
 CHANGELOG (EXPERIMENTAL VERSIONS):
 
-- 8 march 2023: `stringi` is now a dependency. Completely re-written the
+- 8 March 2023: `stringi` is now a dependency. Completely re-written the
   ReadMe file, Description, and documentation.
-- 9 march 2023: added the “which”-operators.
-- 10 march 2023: `s_strapply()` now uses `stringi`, and uses `apply()`
+- 9 March 2023: added the “which”-operators.
+- 10 March 2023: `s_strapply()` now uses `stringi`, and uses `apply()`
   instead of `sapply()`. Renamed the which operators `%[sp]%` and
   `%[!sp]%` to `%[grep]%` and `%[!grep]%` to make their meaning more
   obvious. Added this Change log to the ReadMe file.
-- 11 march 2023: replaced the “which”-operators with the
+- 11 March 2023: replaced the “which”-operators with the
   `transform_if()` function and the subset_if operators.
-- 13 march 2023: changed the name and argument convention of many of the
+- 13 March 2023: changed the name and argument convention of many of the
   string related functions to be more consistent. Changed the return of
   non-matches in the substr\_-functions.
-- 14 march 2023: changed the utility function to the `%m import <-%`
+- 14 March 2023: changed the utility function to the `%m import <-%`
   operator. Fixed some linguistic mistakes in the documentation. Added a
   full documentation pdf. Fixed bugs in all `substr_`-functions. Added
   `codefactor` badge. Fixed some errors in the Description file. Created
   and added the pdf manual. Fixed some minor errors in this Read-Me
   markdown file.
-- 17 march 2023: added infix operators for custom row- and column-wise
+- 17 March 2023: added infix operators for custom row- and column-wise
   sorting of matrices. Slightly optimized the `substr_arrange()`
   function, and added the `opts_collator` argument to it. Re-ordered the
   sections of this Read-Me file. Adjusted the documentation the reflect
   the new changes.
-- 19 march 2023: removed the `s_strapply()` function in favor of the now
+- 19 March 2023: removed the `s_strapply()` function in favor of the now
   newly added `stri_join_mat()` function and its aliases. Renamed the
   matrix re-order operators to `%row~%` and `%col~%`. Added a random
   order option to the `substr_arrange()` function. Adjusted the
   description, documentation, and this Read-Me file to reflect the new
   changes, and also fixed some spelling errors. Hopefully this will be
   one of the last major changes I have to make to this R package.
-- 25 march 2023: Now tests using `testthat` added for the
+- 25 March 2023: Now tests using `testthat` added for the
   `R CMD checks`. The `x %n&% y` operator now returns `NA` if either `x`
   or `y` or `NA`. The `%s+%` and `%s*%` operators now use `stringi`’s
   equivalent operators, for more consistency; their in-place modifiers
   are affected as well. Corrected some small spelling- and grammatical
   errors in the documentation and the Read-Me.
-- 28 march 2023: Small textual changes to the Read-Me file.
+- 28 March 2023: Small textual changes to the Read-Me file.
+- 4 April 2023: Added the `x % f{}% bnd` and `x % f!{}% bnd` operators.
+  Adjusted the `%?=%` operator: now `NA %?=% Inf` and similar equality
+  checks will also return `TRUE`. Added more tests with `testthat`.
+  Adjusted the Read-Me file and documentations in accordance with these
+  changes.
 
 FUTURE PLANS:
 
@@ -308,17 +314,30 @@ The tidyoperators package adds a few basic logic operators:
 Here are some examples:
 
 ``` r
-x <- c(TRUE, FALSE, TRUE, FALSE, NA, FALSE, TRUE)
-y <- c(FALSE, TRUE, TRUE, FALSE, NA, NA, NA)
-cbind(x, y, "x %xor% y"=x %xor% y, "x %n&% y" = x %n&% y, "x %?=% y" = x %?=% y)
-#>          x     y x %xor% y x %n&% y x %?=% y
-#> [1,]  TRUE FALSE      TRUE    FALSE    FALSE
-#> [2,] FALSE  TRUE      TRUE    FALSE    FALSE
-#> [3,]  TRUE  TRUE     FALSE    FALSE    FALSE
-#> [4,] FALSE FALSE     FALSE     TRUE    FALSE
-#> [5,]    NA    NA        NA       NA     TRUE
-#> [6,] FALSE    NA        NA       NA    FALSE
-#> [7,]  TRUE    NA        NA       NA    FALSE
+x <- c(TRUE, FALSE, TRUE, FALSE, NA, NaN, Inf, -Inf, TRUE, FALSE)
+y <- c(FALSE, TRUE, TRUE, FALSE, rep(NA, 6))
+outcome <- data.frame(
+  x=x, y=y,
+  "x %xor% y"=x %xor% y, "x %n&% y" = x %n&% y, "x %?=% y" = x %?=% y,
+  check.names = FALSE
+)
+kable(outcome)
+```
+
+|    x | y     | x %xor% y | x %n&% y | x %?=% y |
+|-----:|:------|:----------|:---------|:---------|
+|    1 | FALSE | TRUE      | FALSE    | FALSE    |
+|    0 | TRUE  | TRUE      | FALSE    | FALSE    |
+|    1 | TRUE  | FALSE     | FALSE    | FALSE    |
+|    0 | FALSE | FALSE     | TRUE     | FALSE    |
+|   NA | NA    | NA        | NA       | TRUE     |
+|  NaN | NA    | NA        | NA       | TRUE     |
+|  Inf | NA    | NA        | NA       | TRUE     |
+| -Inf | NA    | NA        | NA       | TRUE     |
+|    1 | NA    | NA        | NA       | FALSE    |
+|    0 | NA    | NA        | NA       | FALSE    |
+
+``` r
 
 1:3 %out% 1:10
 #> [1] FALSE FALSE FALSE
@@ -435,6 +454,13 @@ x %f<=% y # correct
 #> [1] TRUE TRUE TRUE
 x %f>=% y # correct
 #> [1] TRUE TRUE TRUE
+
+x <- c(0.3, 0.6, 0.7)
+bnd <- matrix(c(x-0.1, x+0.1), ncol=2)
+x %f{}% bnd
+#> [1] TRUE TRUE TRUE
+x %f!{}% bnd
+#> [1] FALSE FALSE FALSE
 ```
 
 Although designed for objects (vectors, matrices, arrays) of class
@@ -608,10 +634,10 @@ I.e.:
 
 The `tidyoperators` R package adds 2 additional matrix operators:
 
-- The `x %row~% rank` operator re-orders the elements of every row of
-  matrix `x` by the rank given in matrix `rank`.
-- The `x %col~% rank` operator re-orders the elements of every column of
-  matrix `x` by the rank given in matrix `rank`.
+- The `x %row~% rank` operator re-orders the elements within every row
+  of matrix `x` by the rank given in matrix `rank`.
+- The `x %col~% rank` operator re-orders the elements within every
+  column of matrix `x` by the rank given in matrix `rank`.
 
 If matrix `x` is a numeric matrix, and one wants to order the elements
 of every row or column numerically, `x %row~% x` or `x %col~% x` would
@@ -620,6 +646,15 @@ suffice, respectively.
 If matrix `x` is not numeric, `x %row~% x` and `x %col~% x`are still
 possible, but probably not the best option. In the non-numeric case,
 providing a ranking matrix would be better.
+
+If `rank` is a non-repeating sample of random integers
+(i.e. `sample(1:length(x), replace=FALSE)`), `x %row~% rank` will
+randomly shuffle the elements of every row, where the shuffling order of
+every row is independent of the other rows. Similarly, `x %col~% rank`
+will randomly shuffle the elements of every column, where the shuffling
+order of every column is independent of the other columns
+
+ 
 
 Examples with a numeric matrix:
 
@@ -670,14 +705,14 @@ print(mat)
 #> [4,]    1   18   14   22    8
 #> [5,]   20   19   17   13    5
 rank <- sample(1:length(mat)) |> matrix(ncol=ncol(mat)) # randomized rank
-mat %row~%  rank# randomly shuffle every row independently
+mat %row~%  rank# random shuffle every row independent of other rows
 #>      [,1] [,2] [,3] [,4] [,5]
 #> [1,]   23   11    9    3   25
 #> [2,]   12    4    6    7   21
 #> [3,]    2   15   24   16   10
 #> [4,]    1   14    8   18   22
 #> [5,]   19   20   17    5   13
-mat %col~% rank # randomize shuffle every column independently
+mat %col~% rank # random shuffle every column independent of other columns
 #>      [,1] [,2] [,3] [,4] [,5]
 #> [1,]   20   19   23   16   11
 #> [2,]   15    3   17    9    2
@@ -736,14 +771,14 @@ print(mat)
 #> [4,] "j"  "h"  "k"  "t"  "b" 
 #> [5,] "p"  "a"  "q"  "e"  "y"
 rank <- sample(1:length(mat)) |> matrix(ncol=ncol(mat)) # randomized rank
-mat %row~%  rank# randomly shuffle every row independently
+mat %row~%  rank# random shuffle every row independent of other rows
 #>      [,1] [,2] [,3] [,4] [,5]
 #> [1,] "z"  "f"  "s"  "u"  "c" 
 #> [2,] "r"  "l"  "w"  "o"  "m" 
 #> [3,] "n"  "x"  "d"  "v"  "g" 
 #> [4,] "k"  "b"  "j"  "h"  "t" 
 #> [5,] "a"  "p"  "y"  "e"  "q"
-mat %col~% rank # randomize shuffle every column independently
+mat %col~% rank # random shuffle every column independent of other columns
 #>      [,1] [,2] [,3] [,4] [,5]
 #> [1,] "x"  "a"  "k"  "d"  "n" 
 #> [2,] "z"  "l"  "w"  "f"  "r" 
@@ -775,8 +810,7 @@ list, and then calling `stri_join` inside `do.call()`, which to me just
 seems too much trouble for something *soooo* abysmally simple.
 
 Here a practical example of their usage when re-ordering strings, words,
-or sentences (notice also the usage the `%row~%` operator, which allows
-for slightly faster re-ordering) :
+or sentences :
 
 ``` r
 # sorting characters in strings:
@@ -785,7 +819,7 @@ print(x)
 #> [1] "Hello world"   "Goodbye world"
 mat <- stringi::stri_split_boundaries(x, simplify = TRUE, type="character")
 rank <- stringi::stri_rank(as.vector(mat)) |>  matrix(ncol=ncol(mat))
-sorted <- mat %row~% rank
+sorted <- mat %row~% rank # <- fast sort matrix row-wise
 print(sorted)
 #>      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12] [,13]
 #> [1,] ""   ""   " "  "d"  "e"  "H"  "l"  "l"  "l"  "o"   "o"   "r"   "w"  
@@ -799,7 +833,7 @@ print(x)
 #> [1] "Hello everyone"   "Goodbye everyone"
 mat <- stringi::stri_split_boundaries(x, simplify = TRUE, type="word")
 rank <- stringi::stri_rank(as.vector(mat)) |>  matrix(ncol=ncol(mat))
-sorted <- mat %row~% rank
+sorted <- mat %row~% rank # <- fast sort matrix row-wise
 print(sorted)
 #>      [,1] [,2]       [,3]     
 #> [1,] " "  "everyone" "Hello"  
@@ -814,7 +848,7 @@ print(x)
 #> [2] "I don't care. But I really don't."
 mat <- stringi::stri_split_boundaries(x, simplify = TRUE, type="sentence")
 rank <- sample(1:length(mat)) |> matrix(ncol=ncol(mat))
-shuffled <- mat %row~% rank
+shuffled <- mat %row~% rank # <- fast sort matrix row-wise
 print(shuffled)
 #>      [,1]                   [,2]             [,3]                 
 #> [1,] "Hello, who are you? " "Oh, really?! "  "Cool!"              
@@ -875,11 +909,6 @@ and naming convention as `stringi`, to keep your code consistent. And
 just like `stringi::stri_locate_all`, the `stri_locate_ith(x, i, ...)`
 function is a vectorized function: `x` and `i` as well as the pattern
 (`regex, fixed, coll, charclass`) can all be different-valued vectors.
-
-Currently, `stri_locate_ith` internally uses `mapply` for the
-vectorization. Once this R package is out of the `experimental` phase, I
-plan to replace `mapply` with a `C++` loop, though `stri_locate_ith` is
-currently already quite fast.
 
  
 
@@ -996,6 +1025,8 @@ substr_arrange(x, "rand", loc=loc) # randomly shuffle characters of second-last 
 
 Simple, right?
 
+ 
+
 # Basic string infix operators
 
 The `tidyoperators` R package implements infix operators for string
@@ -1058,19 +1089,6 @@ print(x)
 ss <- c(1,0)
 x %strim% ss
 #> [1] "bcdefghijklm" "opqrstuvwxyz"
-```
-
-Another string operator is `x %ss%  s`. This essentially splits
-character vector `x` into a vector containing only individual
-characters; then this vector is subset-ted by the number given in
-numeric vector `s`. Honestly, I do not think one would need this often,
-but it can be handy sometimes. For example:
-
-``` r
-x <- "Tom Marvolo Riddle"
-toupper(x) %ss% c(14, 4, 6:5, 12, 10:11, 13, 15, 8:9, 17:16, 18, 3:2, 7, 1) |>
-  paste0(collapse = "")
-#> [1] "I AM LORDVOLDEMORT"
 ```
 
  
@@ -1186,12 +1204,11 @@ and string sub-setting have their in-place modifying equivalent:
 
  
 
-# Utility operator (for slightly more advanced users)
+# Utility: Multi-package aliasing operator (for slightly more advanced users)
 
 And finally, as the last functionality in the `tidyoperators` package we
 have the in-place operator `%m import <-%`. This operator requires a
-little bit more advanced knowledge of R, but it will make your life a
-little bit tidyr nonetheless.
+little bit more advanced knowledge of R.
 
 One can import a package and assign an alias to it in base R using:
 
@@ -1201,7 +1218,7 @@ alias <- loadNamespace("packagename")
 
 Using a package alias, instead of using `library` or `require` has
 obvious benefits (i.e. prevent overlapping namespaces, clarify which
-function came from which package, etc.).
+function came from which package).
 
 It does, however, have a drawback: you cannot easily import multiple
 packages under the same alias (actually, it is very possible, but it
@@ -1226,11 +1243,11 @@ probably always going to use these 3 packages together.
 
 This is where the `%m import <-%` operator comes in. It imports multiple
 packages under the same alias, and also informs the user which package
-will overwrite which function, so you will never be surprised. Besides
-importing multiple packages at once, `%m import <-%` also only loads
-exported functions (unlike `loadNamespace()`, which loads both internal
-and external functions). This is, I think, more desirable, as internal
-function should remain, you know, internal.
+will overwrite which function, so you will never be surprised. The
+`%m import <-%` operator also only loads exported functions (unlike
+`loadNamespace()`, which loads both internal and external functions).
+This is, I think, more desirable, as internal function should remain,
+you know, internal.
 
 The `%m import <-%` operator will give a `warning` when the user
 attempts to import more than 3 packages under the same alias.

@@ -1,4 +1,4 @@
-#' Utility operator
+#' Utility: Multi-package aliasing operator (for slightly more advanced users)
 #'
 #'@description
 #' The \code{alias %m import <-% pkgs} operator

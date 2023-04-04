@@ -52,9 +52,14 @@
 #'  *  \code{"special"}: checks if the string consists of only special characters. \cr
 #'
 #' @examples
-#' x <- c(TRUE, FALSE, TRUE, FALSE, NA, FALSE, TRUE)
-#' y <- c(FALSE, TRUE, TRUE, FALSE, NA, NA, NA)
-#' cbind(x, y, "x %xor% y"=x %xor% y, "x %n&% y" = x %n&% y, "x %?=% y" = x %?=% y)
+#' x <- c(TRUE, FALSE, TRUE, FALSE, NA, NaN, Inf, -Inf, TRUE, FALSE)
+#' y <- c(FALSE, TRUE, TRUE, FALSE, rep(NA, 6))
+#' outcome <- data.frame(
+#'   x=x, y=y,
+#'   "x %xor% y"=x %xor% y, "x %n&% y" = x %n&% y, "x %?=% y" = x %?=% y,
+#'   check.names = FALSE
+#' )
+#' print(outcome)
 #'
 #' 1:3 %out% 1:10
 #' 1:10 %out% 1:3
@@ -108,10 +113,9 @@ NULL
 #' @rdname logic_ops
 #' @export
 `%?=%` <- function(x, y) {
-  check.na <- is.na(x) & is.na(y)
-  check.nan <- is.nan(x) & is.nan(y)
-  check.inf <- is.infinite(x) & is.infinite(y)
-  return(check.na|check.nan|check.inf)
+  check.x <- is.na(x)|is.nan(x)|is.infinite(x)
+  check.y <- is.na(y)|is.nan(y)|is.infinite(y)
+  return(check.x & check.y)
 }
 
 #' @rdname logic_ops
