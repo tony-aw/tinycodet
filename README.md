@@ -41,10 +41,11 @@
   - <a href="#in-place-modifying-string-arithmetic-and-sub-setting"
     id="toc-in-place-modifying-string-arithmetic-and-sub-setting">In-place
     modifying string arithmetic and sub-setting</a>
-- <a
-  href="#utility-multi-package-aliasing-operator-for-slightly-more-advanced-users"
-  id="toc-utility-multi-package-aliasing-operator-for-slightly-more-advanced-users">Utility:
-  Multi-package aliasing operator (for slightly more advanced users)</a>
+- <a href="#package-import-management-operator-and-function"
+  id="toc-package-import-management-operator-and-function">Package import
+  management operator and function</a>
+  - <a href="#import-operator" id="toc-import-operator">Import operator</a>
+  - <a href="#import_data" id="toc-import_data">import_data</a>
 - <a href="#speed-and-multi-threading"
   id="toc-speed-and-multi-threading">Speed and multi-threading</a>
 - <a href="#recommended-r-packages"
@@ -137,6 +138,8 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   checks will also return `TRUE`. Added more tests with `testthat`.
   Adjusted the Read-Me file and documentations in accordance with these
   changes.
+- 8 April 2023: Added the `import_data()` function. Adjusted the
+  documentation and this Read-Me file accordingly.
 
 FUTURE PLANS:
 
@@ -1204,7 +1207,9 @@ and string sub-setting have their in-place modifying equivalent:
 
  
 
-# Utility: Multi-package aliasing operator (for slightly more advanced users)
+# Package import management operator and function
+
+## Import operator
 
 And finally, as the last functionality in the `tidyoperators` package we
 have the in-place operator `%m import <-%`. This operator requires a
@@ -1288,9 +1293,42 @@ to %m import <-% "tidyoperators"
 to$`%row~%`(mat, rank)
 ```
 
-is very cumbersome. The `%m import <-%` will therefore also notify the
-user when attempting to import an R-package where more than half of the
-functions are operators.
+is very cumbersome. The `%m import <-%` operator will therefore also
+notify the user when attempting to import an R-package where more than
+half of the functions are operators.
+
+ 
+
+## import_data
+
+The `%m import <-%` imports everything from the package namespace. But
+packages often also have data sets, which are often not part of the
+namespace.
+
+The `data()` function in core R can already load data from packages, but
+this function loads the data into the global environment, instead of
+returning the data directly, making assigning the data to a specific
+variable a bit annoying. Therefore, the `tidyoperators` package
+introduces the `import_data()` function, which directly returns a data
+set from a package.
+
+For example, to import the `chicago` data set from the `gamair` R
+package, and assign it directly to a variable (without having to do
+re-assignment and so on), one simply runs the following:
+
+``` r
+d <- import_data("chicago", "gamair")
+head(d)
+#>   death pm10median pm25median  o3median  so2median    time tmpd
+#> 1   130 -7.4335443         NA -19.59234  1.9280426 -2556.5 31.5
+#> 2   150         NA         NA -19.03861 -0.9855631 -2555.5 33.0
+#> 3   101 -0.8265306         NA -20.21734 -1.8914161 -2554.5 33.0
+#> 4   135  5.5664557         NA -19.67567  6.1393413 -2553.5 29.0
+#> 5   126         NA         NA -19.21734  2.2784649 -2552.5 32.0
+#> 6   130  6.5664557         NA -17.63400  9.8585839 -2551.5 40.0
+```
+
+That’s it.
 
  
 

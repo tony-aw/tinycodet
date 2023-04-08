@@ -57,6 +57,7 @@ that extract, replace, add-in, transform, or re-arrange,
 the ith pattern occurrence or location. \cr
 \item The \link{s_pattern} helper function for string operators. \cr
 \item The \link{transform_if} function, and some related infix operators. \cr
+\item \link[=import_data]{A new package import management operator and function}. \cr
 \item Most \code{stringi} pattern expressions options
 are available for the string-pattern-related functions, when appropriate. \cr
 \item This R package has only one dependency: \code{stringi}.

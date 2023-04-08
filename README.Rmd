@@ -70,6 +70,7 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
  - 25 March 2023: Now tests using `testthat` added for the `R CMD checks`. The `x %n&% y` operator now returns `NA` if either `x` or `y` or `NA`. The `%s+%` and `%s*%` operators now use `stringi`'s equivalent operators, for more consistency; their in-place modifiers are affected as well. Corrected some small spelling- and grammatical errors in the documentation and the Read-Me.
  - 28 March 2023: Small textual changes to the Read-Me file.
  - 4 April 2023: Added the `x % f{}% bnd` and `x % f!{}% bnd` operators. Adjusted the `%?=%` operator: now `NA %?=% Inf` and similar equality checks will also return `TRUE`. Added more tests with `testthat`. Adjusted the Read-Me file and documentations in accordance with these changes.
+ - 8 April 2023: Added the `import_data()` function. Adjusted the documentation and this Read-Me file accordingly.
 
 
 FUTURE PLANS:
@@ -761,7 +762,9 @@ With the exception of  `%ss%`, all infix operators for string arithmetic and str
 
 &nbsp;
 
-# Utility: Multi-package aliasing operator (for slightly more advanced users)
+# Package import management operator and function
+
+## Import operator
 
 And finally, as the last functionality in the `tidyoperators` package we have the in-place operator `%m import <-%`. This operator requires a little bit more advanced knowledge of R.
 
@@ -802,7 +805,25 @@ to %m import <-% "tidyoperators"
 to$`%row~%`(mat, rank)
 ```
 
-is very cumbersome. The `%m import <-%` will therefore also notify the user when attempting to import an R-package where more than half of the functions are operators.
+is very cumbersome. The `%m import <-%` operator will therefore also notify the user when attempting to import an R-package where more than half of the functions are operators.
+
+&nbsp;
+
+## import_data
+
+The `%m import <-%` imports everything from the package namespace. But packages often also have data sets, which are often not part of the namespace.
+
+The `data()` function in core R can already load data from packages, but this function loads the data into the global environment, instead of returning the data directly, making assigning the data to a specific variable a bit annoying.
+Therefore, the `tidyoperators` package introduces the `import_data()` function, which directly returns a data set from a package.
+
+For example, to import the `chicago` data set from the `gamair` R package, and assign it directly to a variable (without having to do re-assignment and so on), one simply runs the following:
+
+```{r}
+d <- import_data("chicago", "gamair")
+head(d)
+```
+
+That's it.
 
 &nbsp;
 
