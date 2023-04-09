@@ -1397,14 +1397,20 @@ substr_arrange(x, "rand", loc=loc, fish = TRUE)
 
 `stringi` is of course required for this packages. Besides that, I
 highly recommend using this R package alongside the 2 major
-operator-related R-packages, namely `magrittr` and `zeallot`.  
+operator-related R-packages, namely `magrittr` and `zeallot`.
+
+For the sake of proper programming etiquette, I also highly recommend
+the `this.path` R package (<https://github.com/ArcadeAntics/this.path>),
+which allows for getting the path of the current script (i.e. get the
+source file location), without all the issues found in packages such as
+the `here` and `whereami` packages.
 
  
 
 # Compatibility with other operator-related R packages
 
 The `stringi` R package has the `%s+%` and `%s*%` operators. They do
-virtually the same things as in `tidyoperators`, and so the masking of
+exactly the same things as in `tidyoperators`, and so the masking of
 these functions can safely be ignored. I also made sure not to name any
 of the operators in `tidyoperators` the same as the operators in
 `magrittr` and `zeallot`, so that should be safe also.

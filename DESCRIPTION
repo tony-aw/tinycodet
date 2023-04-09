@@ -31,7 +31,8 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
-Suggests: 
+Suggests:
+    this.path (>= 1.3.0),
     knitr,
     rmarkdown,
     stringfish (>= 0.15.7),
@@ -42,3 +43,5 @@ Depends:
 Imports: 
     stringi (>= 1.7.12)
 Config/testthat/edition: 3
+URL: https://github.com/tony-aw/tidyoperators
+BugReports: https://github.com/tony-aw/tidyoperators/issues
