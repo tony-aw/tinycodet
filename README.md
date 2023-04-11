@@ -185,9 +185,12 @@ The `tidyoperators` R package adds the following functionality:
   number-type, and string-type.
 - Safer (in)equality operators for floating numbers.
 - Infix operators for In-place modifiers for mathematical arithmetic.
+- An in-place modifying unreal replacer operator.
 - Infix operators for string arithmetic, string sub-setting, and their
   in-place modifying equivalents.
-- An in-place modifying unreal replacer operator.
+- Infix operators for row- and column-wise rank-based re-ordering of
+  matrices.
+- The `transform_if()` function, and some related operators.
 - The tidyoperators package adds additional `stringi` functions, namely
   `stri_locate_ith()` and `stri_join_mat()` (and aliases). These
   functions use the same naming and argument convention as the rest of
@@ -196,10 +199,9 @@ The `tidyoperators` R package adds the following functionality:
   add-in, transform, or re-arrange, the $i^{th}$ pattern occurrence or
   substring.
 - The `s_pattern()` helper function for the string infix operators.
-- The `transform_if()` function, and some related operators.
-- The `%m import <-%` operator for advanced multi-package aliasing.
 - The `stringi` pattern expressions options are available for all
   string-pattern-related functions, when appropriate.
+- Package import management operator and functions.
 - This R package has only one dependency: `stringi`. No other
   dependencies, as to avoid “dependency hell”.
 - Although this package has no other dependencies, it allows
