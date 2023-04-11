@@ -16,23 +16,18 @@ It includes infix operators for the negation of logical operators
 (exclusive-or, not-and, not-in),
 safer float (in)equality operators,
 in-place modifying mathematical arithmetic,
-string arithmetic,
-string sub-setting,
-in-place modifying string arithmetic,
-in-place modifying string sub-setting,
-in-place modifying unreal replacers,
+in-place modifying unreal replacer,
 and infix operators for custom row- and column-wise rank-based ordering of matrices.
-The 'tidyoperators' R-package also adds the stringi-like
-stri_locate_ith and stri_join_mat functions.
-It also adds string functions to replace, extract, add-on, transform, and re-arrange,
-the ith pattern occurrence or position.
-And it includes some helper functions for more complex string arithmetic.
-Most stringi pattern expressions options
-are available for the string-pattern-related functions, when appropriate.
-This package adds the transform_if function.
-This package also allows integrating third-party parallel computing packages
-(like stringfish)
-for some of its functions. \cr
+It also adds some 'stringi'-based string related functions, operators, and in-place modifying operators,
+missing from the 'stringi' R-package.
+Most 'stringi' pattern expressions options
+are available for the string-pattern-related functions/operators, when appropriate.
+This package adds the transform_if functions, and related operators.
+And finally, it also adds some functions and operators
+for more straight-forward package/library management.
+The 'tidyoperators' R-package has only one dependency, namely 'stringi',
+though it does allows multi-threading of some of the string-related functions
+(when appropriate) via the suggested 'stringfish' R-package. \cr
 \cr
 
 The \code{tidyoperators} R package adds the following functionality: \cr
@@ -46,7 +41,7 @@ The \code{tidyoperators} R package adds the following functionality: \cr
 \item Infix operators for \link[=\%s+ <-\%]{In-place modifying string arithmetic}. \cr
 \item Infix operators for \link[=\%sget <-\%]{In-place modifying string sub-setting}. \cr
 \item \link[=\%unreal <-\%]{The in-place modifying unreal replacer operator}. \cr
-\item \link[=\%row~\%]{Infix operators for custom row- and column-wise re-ordering of matrices}. \cr
+\item \link[=\%row~\%]{Infix operators for row- and column-wise rank-based re-ordering of matrices}. \cr
 \item The \code{tidyoperators} package adds additional
 \code{stringi} functions, namely \link{stri_locate_ith} and
 \link{stri_join_mat} (and aliases).

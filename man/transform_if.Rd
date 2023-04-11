@@ -40,8 +40,8 @@ The subset_if - operators all return a vector with the selected elements. \cr
 }
 \description{
 Consider the following code: \cr
-\code{x[cond(x)] <- f(x[cond(x)])} \cr
-Here a conditional subset of the object \code{x} is transformed with function \code{f},
+\code{x[cond(x)] <- trans(x[cond(x)])} \cr
+Here a conditional subset of the object \code{x} is transformed with function \code{trans},
 where the condition is using a function referring to \code{x} itself (namely \code{cond(x)}).
 Consequently, reference to \code{x} is written four times! \cr
 The \code{tidyoperators} package therefore adds the

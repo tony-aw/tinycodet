@@ -1,9 +1,39 @@
-#' Package import management operator and function
+#' Package import management operator and functions
 #'
 #'@description
 #' The \code{alias %m import <-% pkgs} operator
-#' imports the namespaces of multiple R package under the same alias. \cr
+#' imports the namespaces of an R package
+#' (or a small set of R packages that "belong" to each other)
+#' under the same alias. \cr
 #' \cr
+#'
+#' The \code{import_data(dataname, package)} function gets a specified data set from a package. \cr
+#' Unlike \code{utils::data()}, \code{import_data()} returns the dataset directly,
+#' and allows assigning the dataset like so: \cr
+#' \code{mydata <- import_data(...)}. \cr
+#' \cr
+#' The \code{force_libPaths()} function allows the user to force R to specific libraries.
+#' This was needed since base R's \code{.libPaths()} function
+#' only allows adding new library paths, not overwrite existing ones.
+#' The library paths are of course re-set again every time R restarts.
+#'
+#' @param alias a variable name (unquoted),
+#' giving the (not yet existing) object
+#' where the package(s) are to be assigned to.
+#' @param pkgs a character vector with the package name(s). \cr
+#' NOTE: The order matters! If 2 packages share objects with the same name,
+#' the package named last will overwrite the earlier named package.
+#' @param dataname a single string, giving the name of the dataset.
+#' @param package a single string, giving the name of the package.
+#' @param lib_vec a character vector giving the new library path(s). \cr
+#' Just like in \code{.libPaths()}, the order matters: \cr
+#' R will first look for packages in the first path in \code{.libPaths()}, \cr
+#' and if it cannot find the package(s),
+#' it will look for the packages in the second path in \code{.libPaths()},
+#' etc.
+#'
+#'
+#' @details
 #' The \code{alias %m import <-% pkgs} command is essentially the same as \cr
 #' \code{alias <- loadNamespace("packagename")} \cr
 #' except the \code{alias %m import <-% pkgs} operator
@@ -15,22 +45,10 @@
 #' about conflicting objects. It will also inform the user when importing
 #' a package that consists mostly of infix operators. \cr
 #' \cr
-#' Note: the user should not use this operator unless the user knows what he/she is doing. \cr
+#' Note: the user should not use the \code{alias %m import <-% pkgs} operator
+#' unless the user knows what he/she is doing. \cr
 #' The operator will give a warning when more than 3 packages being imported into the same alias. \cr
 #' \cr
-#' The \code{import_data(dataname, package)} function gets a specified data set from a package. \cr
-#' Unlike \code{utils::data()}, \code{import_data()} returns the dataset directly,
-#' and allows assigning the dataset like so: \cr
-#' \code{mydata <- import_data(...)}.
-#'
-#' @param alias a variable name (unquoted),
-#' giving the (not yet existing) object
-#' where the package(s) are to be assigned to.
-#' @param pkgs a character vector with the package name(s). \cr
-#' NOTE: The order matters! If 2 packages share objects with the same name,
-#' the package named last will overwrite the earlier named package.
-#' @param dataname a single string, giving the name of the dataset.
-#' @param package a single string, giving the name of the package.
 #'
 #' @returns
 #' For \code{%m import <-%}: \cr
@@ -40,21 +58,26 @@
 #' \cr
 #' For \code{import_data()}: \cr
 #' Returns the data directly.
-#' Thus, one can assign the data like so: \code{mydata <- import_data(...)}.
+#' Thus, one can assign the data like so: \code{mydata <- import_data(...)}. \cr
+#' \cr
+#' For \code{force_libPaths()}: \cr
+#' Adjusts the R library paths as defined in \code{.libPaths()} directly.
 #'
+#' @references McBain (2019, June 20). Before I Sleep: Hacking R's library paths. Retrieved from https://milesmcbain.com/posts/hacking-r-library-paths/
 #'
 #' @examples
 #'
 #' \dontrun{
+#' force_libPaths("/mylibrary")
 #' fv %m import <-% c("data.table", "collapse", "tidytable")
-#'
 #' d <- import_data("chicago", "gamair")
 #' }
 #'
 #'
 #'
 
-
+#' @name pkgs
+NULL
 
 #' @rdname pkgs
 #' @export
@@ -141,4 +164,16 @@ import_data <- function(dataname, package) {
   return(get(
     utils::data(list=dataname, package = package, envir = environment())
   ))
+}
+
+#' @rdname pkgs
+#' @export
+force_libPaths <- function(lib_vec) {
+  lib_vec <- normalizePath(lib_vec, mustWork = TRUE)
+  shim_fun <- .libPaths
+  shim_env <- new.env(parent = environment(shim_fun))
+  shim_env$.Library <- character()
+  shim_env$.Library.site <- character()
+  environment(shim_fun) <- shim_env
+  shim_fun(lib_vec)
 }

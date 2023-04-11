@@ -1,4 +1,4 @@
-#' Matrix custom re-ordering operators
+#' Infix operators for row- and column-wise rank-based re-ordering of matrices
 #'
 #'@description
 #' Infix operators for custom row- and column-wise rank-based re-ordering of matrices \cr

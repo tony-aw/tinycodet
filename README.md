@@ -41,9 +41,10 @@
   - <a href="#in-place-modifying-string-arithmetic-and-sub-setting"
     id="toc-in-place-modifying-string-arithmetic-and-sub-setting">In-place
     modifying string arithmetic and sub-setting</a>
-- <a href="#package-import-management-operator-and-function"
-  id="toc-package-import-management-operator-and-function">Package import
-  management operator and function</a>
+- <a href="#package-management-operator-and-functions"
+  id="toc-package-management-operator-and-functions">Package management
+  operator and functions</a>
+  - <a href="#force_libpaths" id="toc-force_libpaths">force_libPaths</a>
   - <a href="#import-operator" id="toc-import-operator">Import operator</a>
   - <a href="#import_data" id="toc-import_data">import_data</a>
 - <a href="#speed-and-multi-threading"
@@ -77,18 +78,18 @@ The ‘tidyoperators’ R-package adds some much needed infix operators, and
 a few functions, to make your R code much more tidy. It includes infix
 operators for the negation of logical operators (exclusive-or, not-and,
 not-in), safer float (in)equality operators, in-place modifying
-mathematical arithmetic, string arithmetic, string sub-setting, in-place
-modifying string arithmetic, in-place modifying string sub-setting,
-in-place modifying unreal replacers, and infix operators for custom row-
-and column-wise rank-based ordering of matrices. The ‘tidyoperators’
-R-package also adds the stringi-like stri_locate_ith and stri_join_mat
-functions. It also adds string functions to replace, extract, add-on,
-transform, and re-arrange, the ith pattern occurrence or position. Most
-stringi pattern expressions options are available for the
-string-pattern-related functions, when appropriate. This package adds
-the transform_if function. This package also allows integrating
-third-party parallel computing packages (like stringfish) for some of
-its functions.
+mathematical arithmetic, in-place modifying unreal replacer, and infix
+operators for custom row- and column-wise rank-based ordering of
+matrices. It also adds some ‘stringi’-based string related functions,
+operators, and in-place modifying operators, missing from the ‘stringi’
+R-package. Most ‘stringi’ pattern expressions options are available for
+the string-pattern-related functions/operators, when appropriate. This
+package adds the transform_if functions, and related operators. And
+finally, it also adds some functions and operators for more
+straight-forward package/library management. The ‘tidyoperators’
+R-package has only one dependency, namely ‘stringi’, though it does
+allows multi-threading of some of the string-related functions (when
+appropriate) via the suggested ‘stringfish’ R-package.
 
 WARNING: This package is still very much experimental. Function names,
 argument names, and so on may change dramatically. Use it for testing
@@ -140,6 +141,9 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   changes.
 - 8 April 2023: Added the `import_data()` function. Adjusted the
   documentation and this Read-Me file accordingly.
+- 11 april 2023: Added the `force_libPaths()` function. Shortened the
+  Description text. Adjusted the documentation and this Read-Me file
+  accordingly. Fixed some grammatical errors in the documentation.
 
 FUTURE PLANS:
 
@@ -1207,7 +1211,25 @@ and string sub-setting have their in-place modifying equivalent:
 
  
 
-# Package import management operator and function
+# Package management operator and functions
+
+## force_libPaths
+
+Strangely base R’s `.libPaths()` function only allows adding new library
+paths, not overwrite existing ones (at least not conventionally). The
+`tidyoperators` package therefore adds the `force_libPaths()` function,
+as provided in <https://milesmcbain.com/posts/hacking-r-library-paths/>.
+The `force_libPaths()` function does allow forcing R to only use the
+library paths exactly as specified by the user. This allows for very
+easy project isolation by giving every project its own specific library.
+
+Example:
+
+``` r
+force_libPaths("/mylibrary")
+```
+
+ 
 
 ## Import operator
 

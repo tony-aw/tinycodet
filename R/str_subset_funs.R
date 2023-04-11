@@ -20,7 +20,7 @@
 #' \cr
 #' The \code{substr_arrange(x, arr, ...)} function
 #' sorts (alphabetically or reverse-alphabetically)
-#' or reverse the sub-string at a position (range).
+#' or reverses the sub-string at a position (range).
 #' \cr
 #'
 #' @param x a string or character vector.
