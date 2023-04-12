@@ -630,10 +630,9 @@ object_with_very_long_name %[!if]% \(x)x %in% 1:10
 #>  [1] -10  -9  -8  -7  -6  -5  -4  -3  -2  -1   0
 ```
 
-Note that this function returns object `x`, to modify `x` directly, one
-still has to assign it. To keep your code tidy, consider combining this
-function with `magrittr`’s in-place modifying piper-operator (`%<>%`).
-I.e.:
+Note that to modify `x` directly with `transform_if()`, one still has to
+assign it. To keep your code tidy, consider combining this function with
+`magrittr`’s in-place modifying piper-operator (`%<>%`). I.e.:
 
 `very_long_name_1 %<>% transform_if(cond, trans)`
 
@@ -648,20 +647,21 @@ The `tidyoperators` R package adds 2 additional matrix operators:
 - The `x %col~% rank` operator re-orders the elements within every
   column of matrix `x` by the rank given in matrix `rank`.
 
-If matrix `x` is a numeric matrix, and one wants to order the elements
-of every row or column numerically, `x %row~% x` or `x %col~% x` would
+If matrix `x` is a numeric matrix, and one wants to numerically sort the
+elements of every row or column, `x %row~% x` or `x %col~% x` would
 suffice, respectively.
 
-If matrix `x` is not numeric, `x %row~% x` and `x %col~% x`are still
-possible, but probably not the best option. In the non-numeric case,
-providing a ranking matrix would be better.
+If matrix `x` is not numeric, sorting using `x %row~% x` and
+`x %col~% x`are still possible, but probably not the best option. In the
+non-numeric case, providing a ranking matrix probably would be faster
+and give more accurate ordering.
 
 If `rank` is a non-repeating sample of random integers
 (i.e. `sample(1:length(x), replace=FALSE)`), `x %row~% rank` will
 randomly shuffle the elements of every row, where the shuffling order of
 every row is independent of the other rows. Similarly, `x %col~% rank`
 will randomly shuffle the elements of every column, where the shuffling
-order of every column is independent of the other columns
+order of every column is independent of the other columns.
 
  
 
@@ -741,7 +741,7 @@ print(mat)
 #> [3,] "t"  "a"  "z"  "r"  "k" 
 #> [4,] "g"  "v"  "y"  "d"  "x" 
 #> [5,] "m"  "f"  "c"  "u"  "o"
-rank <- stringi::stri_rank(as.vector(mat)) |> matrix(ncol=ncol(mat))
+rank <- stringi::stri_rank(as.vector(mat)) |> matrix(ncol=ncol(mat)) # rank matrix
 mat %row~% rank # sort elements of every row
 #>      [,1] [,2] [,3] [,4] [,5]
 #> [1,] "e"  "l"  "q"  "s"  "w" 
@@ -903,11 +903,11 @@ pattern, use `i=2`, and to get the **second-last** occurrence, use
 What this function returns exactly depends on the `simplify` argument.
 
 If `simplify=FALSE` (the default), it returns a returns a list, one
-element for each string. Each list element consists of a matrix with 2
-columns. The first column gives the start position of the $i^{th}$
-occurrence of a pattern. The second column gives the end position of the
-$i^{th}$ occurrence of a pattern. This list can be used in `stringi` for
-pattern transformation.
+element for each string. Each list element consists of a matrix with 1
+row and 2 columns. The first column gives the start position of the
+$i^{th}$ occurrence of a pattern. The second column gives the end
+position of the $i^{th}$ occurrence of a pattern. This list can be used
+in `stringi` for pattern transformation.
 
 If `simplify=TRUE` it returns a matrix with 3 columns: start position,
 end position, and length of position range of the $i^{th}$ occurrence of
@@ -987,50 +987,30 @@ the result of the `stri_locate_ith()` function (see the previous
 section) in argument `loc`, or one can give manual positions using the
 `start, end` or `at` arguments.
 
-Example:
+Here are a few examples:
 
 ``` r
-
-x <- c("Goodmorning -- GOODafternoon -- Goodevening, and goodnight!",
-       paste0(letters[1:13], collapse=""))
-print(x)
-#> [1] "Goodmorning -- GOODafternoon -- Goodevening, and goodnight!"
-#> [2] "abcdefghijklm"
+x <- c("AaEeIiOoUu", "bcdfghjklmnpqrstvwxyz")
 loc <- stri_locate_ith(
-  # locate second-last occurrence of "good" (ignore case) of each string in x:
-  x, -2, regex="good", case_insensitive=TRUE 
+  # locate second-last double subsequent vowel (ignore case) of each string in x:
+  x, -2, regex="aa|ee|ii|oo|uu", case_insensitive=TRUE 
 )
-substr_extract(x, loc=loc) # extract second-last "good"
-#> [1] "Good" NA
-substr_extract(x, "before", loc=loc) # extract string before second-last "good"
-#> [1] "Goodmorning -- GOODafternoon -- " NA
-substr_extract(x, "after", loc=loc) # extract string before second-last "good"
-#> [1] "evening, and goodnight!" NA
-substr_repl(x, "??", loc=loc) # replace second-last "good" with "??"
-#> [1] "Goodmorning -- GOODafternoon -- ??evening, and goodnight!"
-#> [2] "abcdefghijklm"
-substr_chartr(x, loc=loc) # switch upper/lower case of second-last "good"
-#> [1] "Goodmorning -- GOODafternoon -- gOODevening, and goodnight!"
-#> [2] "abcdefghijklm"
-substr_addin(x, " ", "after", loc=loc) # add white space after second-last "good"
-#> [1] "Goodmorning -- GOODafternoon -- Good evening, and goodnight!"
-#> [2] "abcdefghijklm"
-substr_addin(x, " ", "before", loc=loc) # add white space before second-last "good"
-#> [1] "Goodmorning -- GOODafternoon --  Goodevening, and goodnight!"
-#> [2] "abcdefghijklm"
-substr_arrange(x, loc=loc) # sort second-last "good"
-#> [1] "Goodmorning -- GOODafternoon -- dGooevening, and goodnight!"
-#> [2] "abcdefghijklm"
-substr_arrange(x, "decr", loc=loc) # reverse-sort second-last "good"
-#> [1] "Goodmorning -- GOODafternoon -- ooGdevening, and goodnight!"
-#> [2] "abcdefghijklm"
-substr_arrange(x, "rev", loc=loc) # reverse second-last "good"
-#> [1] "Goodmorning -- GOODafternoon -- dooGevening, and goodnight!"
-#> [2] "abcdefghijklm"
-substr_arrange(x, "rand", loc=loc) # randomly shuffle characters of second-last "good"
-#> [1] "Goodmorning -- GOODafternoon -- oGodevening, and goodnight!"
-#> [2] "abcdefghijklm"
 ```
+
+|                                            |                |                       |
+|:-------------------------------------------|:---------------|:----------------------|
+| x                                          | AaEeIiOoUu     | bcdfghjklmnpqrstvwxyz |
+| substr_extract(x, loc=loc)                 | Oo             | NA                    |
+| substr_extract(x, “before”, loc=loc)       | AaEeIi         | NA                    |
+| substr_extract(x, “after”, loc=loc)        | Uu             | NA                    |
+| substr_repl(x, “??”, loc=loc)              | AaEeIi??Uu     | bcdfghjklmnpqrstvwxyz |
+| substr_chartr(x, loc=loc)                  | AaEeIioOUu     | bcdfghjklmnpqrstvwxyz |
+| substr_addin(x, “\~\~”, “after”, loc=loc)  | AaEeIiOo\~\~Uu | bcdfghjklmnpqrstvwxyz |
+| substr_addin(x, “\~\~”, “before”, loc=loc) | AaEeIi\~\~OoUu | bcdfghjklmnpqrstvwxyz |
+| substr_arrange(x, loc=loc)                 | AaEeIioOUu     | bcdfghjklmnpqrstvwxyz |
+| substr_arrange(x, “decr”, loc=loc)         | AaEeIiOoUu     | bcdfghjklmnpqrstvwxyz |
+| substr_arrange(x, “rev”, loc=loc)          | AaEeIioOUu     | bcdfghjklmnpqrstvwxyz |
+| substr_arrange(x, “rand”, loc=loc)         | AaEeIioOUu     | bcdfghjklmnpqrstvwxyz |
 
 Simple, right?
 
@@ -1411,7 +1391,7 @@ substr_arrange(x, "decr", loc=loc, fish = TRUE)
 #> [1] "Goodmorning--ooGdevening, and Goodnight"
 #> [2] "abcdefghijklm"
 substr_arrange(x, "rand", loc=loc, fish = TRUE)
-#> [1] "Goodmorning--odGoevening, and Goodnight"
+#> [1] "Goodmorning--ooGdevening, and Goodnight"
 #> [2] "abcdefghijklm"
 ```
 
