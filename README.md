@@ -1225,8 +1225,7 @@ alias <- loadNamespace("packagename")
 Doing the above, instead of attaching a package using `library` or
 `require`, can (sometimes) be quite beneficial (i.e. prevent overlapping
 namespaces, prevent overriding base/core R functions, prevent polluting
-the namespace, clarify which function came from which package) - despite
-the fact that using an alias is not popular among R users.
+the namespace, clarify which function came from which package).
 
 Loading a package alias does have some drawbacks. One is that you cannot
 easily import multiple packages under the same alias. There are a couple
