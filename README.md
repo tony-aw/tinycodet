@@ -1216,22 +1216,22 @@ force_libPaths("/mylibrary")
 
 ## Import operator
 
-One can import a package and assign an alias to it in base R using:
+One can import a package and assign it to an alias in base R using:
 
 ``` r
 alias <- loadNamespace("packagename")
 ```
 
-Using a package alias, instead of using `library` or `require`, has
-obvious benefits (i.e. prevent overlapping namespaces, prevent
-overriding base/core R functions, prevent polluting the namespace,
-clarify which function came from which package).
+Doing the above, instead of attaching a package using `library` or
+`require`, can (sometimes) be quite beneficial (i.e. prevent overlapping
+namespaces, prevent overriding base/core R functions, prevent polluting
+the namespace, clarify which function came from which package) - despite
+the fact that using an alias is not popular among R users.
 
-It does, however, have a drawback: you cannot easily import multiple
-packages under the same alias (actually, it is very possible, but it
-requires converting environments to lists, and that will make your code
-unnecessarily ugly). There are a couple of situations where importing
-multiple packages into a single alias might be preferable:
+Loading a package alias does have some drawbacks. One is that you cannot
+easily import multiple packages under the same alias. There are a couple
+of situations where importing multiple packages into a single alias
+might be preferable:
 
 - suppose package `B` is supposed to overwrite a couple of functions
   from package `A` (for example if package `B` extends or improves the
