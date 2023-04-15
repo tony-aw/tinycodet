@@ -1215,19 +1215,16 @@ force_libPaths("/mylibrary")
 
 ## Import operator
 
-And finally, as the last functionality in the `tidyoperators` package we
-have the in-place operator `%m import <-%`. This operator requires a
-little bit more advanced knowledge of R.
-
 One can import a package and assign an alias to it in base R using:
 
 ``` r
 alias <- loadNamespace("packagename")
 ```
 
-Using a package alias, instead of using `library` or `require` has
-obvious benefits (i.e. prevent overlapping namespaces, clarify which
-function came from which package).
+Using a package alias, instead of using `library` or `require`, has
+obvious benefits (i.e. prevent overlapping namespaces, prevent
+overriding base/core R functions, prevent polluting the namespace,
+clarify which function came from which package).
 
 It does, however, have a drawback: you cannot easily import multiple
 packages under the same alias (actually, it is very possible, but it
@@ -1242,13 +1239,14 @@ multiple packages into a single alias might be preferable:
 - if multiple packages kind of “belong” together, you may not want to
   give these packages separate aliases.
 
-One example is the core `fastverse` + `tidyverse` combo: `data.table` +
-`collapse` + `tidytable`. Considering the large amount of functions
-these packages have, some which unfortunately have the same name as base
-R functions, one would want to assign them in an alias object. But
-giving them separate aliases is perhaps undesirable: `tidytable` is
-supposed to overwrite some of the `data.table` functions, and one is
-probably always going to use these 3 packages together.
+One example is the core `fastverse` + `tidyverse` data wrangling combo:
+`data.table` + `collapse` + `tidytable`. Considering the large amount of
+functions these packages have, some which unfortunately have the same
+name as core R functions, one would probably want to assign them in an
+alias object. But giving them separate aliases is perhaps undesirable:
+`tidytable` is supposed to overwrite some of the `data.table` functions,
+and one is probably always going to use these 3 packages together
+(i.e. they “belong” to each other).
 
 This is where the `%m import <-%` operator comes in. It imports multiple
 packages under the same alias, and also informs the user which package
@@ -1261,8 +1259,8 @@ you know, internal.
 The `%m import <-%` operator will give a `warning` when the user
 attempts to import more than 3 packages under the same alias.
 
-Now, as an example, lets load `data.table`, and then `collapse`, and
-then `tidytable`, all under the same alias, which I will call “ftv” (for
+As an example, lets load `data.table`, and then `collapse`, and then
+`tidytable`, all under the same alias, which I will call “ftv” (for
 “fast-tidy-verse”):
 
 ``` r
