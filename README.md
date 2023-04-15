@@ -1198,12 +1198,13 @@ and string sub-setting have their in-place modifying equivalent:
 ## force_libPaths
 
 Strangely base R’s `.libPaths()` function only allows adding new library
-paths, not overwrite existing ones (at least not conventionally). The
-`tidyoperators` package therefore adds the `force_libPaths()` function,
-as provided in <https://milesmcbain.com/posts/hacking-r-library-paths/>.
-The `force_libPaths()` function does allow forcing R to only use the
-library paths exactly as specified by the user. This allows for very
-easy project isolation by giving every project its own specific library.
+paths, not overwrite existing system or site library paths (at least not
+conventionally). The `tidyoperators` package therefore adds the
+`force_libPaths()` function, as provided in
+<https://milesmcbain.com/posts/hacking-r-library-paths/>. The
+`force_libPaths()` function does allow forcing R to only use the library
+paths exactly as specified by the user. This allows for very easy
+project isolation by giving every project its own specific library.
 
 Example:
 
