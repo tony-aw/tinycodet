@@ -1234,9 +1234,9 @@ unnecessarily ugly). There are a couple of situations where importing
 multiple packages into a single alias might be preferable:
 
 - suppose package `B` is supposed to overwrite a couple of functions
-  from package `A` (for example if package `B` fixes the functionality
-  from a function in package `A`). In that case you want to import
-  package `A`, and then overwrite it with package `B`.
+  from package `A` (for example if package `B` extends or improves the
+  functionality from a function in package `A`). In that case you want
+  to import package `A`, and then overwrite it with package `B`.
 - if multiple packages kind of “belong” together, you may not want to
   give these packages separate aliases.
 
