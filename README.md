@@ -145,9 +145,11 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   changes.
 - 8 April 2023: Added the `import_data()` function. Adjusted the
   documentation and this Read-Me file accordingly.
-- 11 april 2023: Added the `force_libPaths()` function. Shortened the
+- 11 April 2023: Added the `force_libPaths()` function. Shortened the
   Description text. Adjusted the documentation and this Read-Me file
   accordingly. Fixed some grammatical errors in the documentation.
+- 17 April 2023: Small textual changes to the documentation and Read-Me
+  file.
 
 FUTURE PLANS:
 
@@ -1201,13 +1203,13 @@ and string sub-setting have their in-place modifying equivalent:
 
 ## force_libPaths (for Project Isolation)
 
-The `.libPaths()` sets the library paths where R looks for R packages
-when checking or loading/attaching R packages. As such, this function
-could be used for proper Project Isolation. Problem, however, is that
-base R’s `.libPaths()` function for some strange reason only allows
-adding new library paths, not overwrite existing system or site library
-paths (at least not conventionally). This stands in the way of using it
-for straight-forward Project Isolation.
+The base R’s `.libPaths()` function sets the library paths where R looks
+for R packages when checking or loading/attaching R packages. As such,
+this function could be used for proper Project Isolation. Problem,
+however, is that base R’s `.libPaths()` function for some strange reason
+only allows adding new library paths, not overwrite existing system or
+site library paths (at least not conventionally). This stands in the way
+of using it for straight-forward Project Isolation.
 
 The `tidyoperators` package therefore adds the `force_libPaths()`
 function, as provided in
