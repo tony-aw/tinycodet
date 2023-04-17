@@ -1240,9 +1240,11 @@ namespaces, prevent overriding base/core R functions, prevent polluting
 the namespace, clarify which function came from which package).
 
 Loading a package alias does have some drawbacks. One is that you cannot
-easily import multiple packages under the same alias. There are a couple
-of situations where importing multiple packages into a single alias
-might be preferable:
+easily import multiple packages under the same alias. While one would
+probably not want to import **multiple** packages under a single alias
+most of the time, there are actually a couple of situations where
+importing multiple packages into a single alias might be actually
+preferable:
 
 - suppose package `B` is supposed to overwrite a couple of functions
   from package `A` (for example if package `B` extends or improves the
