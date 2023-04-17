@@ -768,9 +768,11 @@ With the exception of  `%ss%`, all infix operators for string arithmetic and str
 
 # Package management operator and functions
 
-## force_libPaths
+## force_libPaths (for Project Isolation)
 
-Strangely base R's `.libPaths()` function only allows adding new library paths, not overwrite existing system or site library paths (at least not conventionally). The `tidyoperators` package therefore adds the `force_libPaths()` function, as provided in https://milesmcbain.com/posts/hacking-r-library-paths/. The `force_libPaths()` function does allow forcing R to only use the library paths exactly as specified by the user. This allows for very easy project isolation by giving every project its own specific library.
+The `.libPaths()` sets the library paths where R looks for R packages when checking or loading/attaching R packages. As such, this function could be used for proper Project Isolation. Problem, however, is that base R's `.libPaths()` function for some strange reason only allows adding new library paths, not overwrite existing system or site library paths (at least not conventionally). This stands in the way of using it for straight-forward Project Isolation.
+
+The `tidyoperators` package therefore adds the `force_libPaths()` function, as provided in https://milesmcbain.com/posts/hacking-r-library-paths/. The `force_libPaths()` function does allow forcing R to only use the library paths exactly as specified by the user. This allows for very easy project isolation by giving every project its own specific library.
 
 Example:
 
@@ -781,7 +783,7 @@ force_libPaths("/mylibrary")
 
 &nbsp;
 
-## Import operator
+## Import operator (for Namespace control)
 
 One can import a package and assign it to an alias in base R using:
 

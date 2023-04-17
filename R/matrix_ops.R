@@ -20,11 +20,18 @@
 #' \code{x %row~% x} or \code{x %col~% x} would suffice, respectively. \cr
 #' \cr
 #' If matrix \code{x} is not numeric,
-#' \code{x %row~% x} and \code{x %col~% x} are still possible,
+#' sorting the elements using \code{x %row~% x} and \code{x %col~% x} are still possible,
 #' but probably not the best option.
 #' In the non-numeric case,
 #' providing a ranking matrix for \code{rank} would be faster and give more accurate ordering.
 #' See the examples section. \cr
+#' \cr
+#' If \code{rank} is a non-repeating sample of random integers
+#' (i.e. \code{sample(1:length(x), replace=FALSE)}),
+#' \code{x %row~% rank} will randomly shuffle the elements of every row,
+#' where the shuffling order of every row is independent of the other rows. \cr
+#' Similarly, \code{x %col~% rank} will randomly shuffle the elements of every column,
+#' where the shuffling order of every column is independent of the other columns. \cr
 #' \cr
 #' These operators internally only use vectorized operations
 #' (no loops or apply-like functions),

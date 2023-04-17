@@ -44,8 +44,12 @@
 - <a href="#package-management-operator-and-functions"
   id="toc-package-management-operator-and-functions">Package management
   operator and functions</a>
-  - <a href="#force_libpaths" id="toc-force_libpaths">force_libPaths</a>
-  - <a href="#import-operator" id="toc-import-operator">Import operator</a>
+  - <a href="#force_libpaths-for-project-isolation"
+    id="toc-force_libpaths-for-project-isolation">force_libPaths (for
+    Project Isolation)</a>
+  - <a href="#import-operator-for-namespace-control"
+    id="toc-import-operator-for-namespace-control">Import operator (for
+    Namespace control)</a>
   - <a href="#import_data" id="toc-import_data">import_data</a>
 - <a href="#speed-and-multi-threading"
   id="toc-speed-and-multi-threading">Speed and multi-threading</a>
@@ -1195,12 +1199,18 @@ and string sub-setting have their in-place modifying equivalent:
 
 # Package management operator and functions
 
-## force_libPaths
+## force_libPaths (for Project Isolation)
 
-Strangely base R’s `.libPaths()` function only allows adding new library
-paths, not overwrite existing system or site library paths (at least not
-conventionally). The `tidyoperators` package therefore adds the
-`force_libPaths()` function, as provided in
+The `.libPaths()` sets the library paths where R looks for R packages
+when checking or loading/attaching R packages. As such, this function
+could be used for proper Project Isolation. Problem, however, is that
+base R’s `.libPaths()` function for some strange reason only allows
+adding new library paths, not overwrite existing system or site library
+paths (at least not conventionally). This stands in the way of using it
+for straight-forward Project Isolation.
+
+The `tidyoperators` package therefore adds the `force_libPaths()`
+function, as provided in
 <https://milesmcbain.com/posts/hacking-r-library-paths/>. The
 `force_libPaths()` function does allow forcing R to only use the library
 paths exactly as specified by the user. This allows for very easy
@@ -1214,7 +1224,7 @@ force_libPaths("/mylibrary")
 
  
 
-## Import operator
+## Import operator (for Namespace control)
 
 One can import a package and assign it to an alias in base R using:
 

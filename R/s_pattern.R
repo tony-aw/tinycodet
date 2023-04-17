@@ -78,14 +78,14 @@ s_pattern <- function(...) {
     "charclass" %in% names(out)
   )
   if(sum(check.names)!=1){
-    stop("you have to specify either `regex`, `fixed`, `coll`, or `charclass`")
+    stop("you have to specify either `regex`, `fixed`, `coll`, `boundary`, or `charclass`")
   }
   indx.ic <- which(names(out)=="ignore.case"|names(out)=="ignore_case")
   if(length(indx.ic)==1){
     names(out)[indx.ic] <- "case_insensitive"
   }
   if(length(indx.ic)>1){
-    stop("multiple synonyms for case insensitivity given; only one can be given")
+    stop("multiple synonyms for argument `case_insensitive` given; only one can be given")
   }
   attr(out, "engine") <- "stringi"
   return(out)
