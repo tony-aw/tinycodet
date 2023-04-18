@@ -12,7 +12,7 @@ Welcome to the \code{tidyoperators} help page! \cr
 The 'tidyoperators' R-package adds some much needed infix operators,
 and a few functions,
 to make your R code much more tidy.
-It includes infix operators for the negation of logical operators
+It includes infix operators for additional logic operators
 (exclusive-or, not-and, not-in),
 safer float (in)equality operators,
 in-place modifying mathematical arithmetic,

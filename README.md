@@ -80,7 +80,7 @@ public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostat
 
 The ‘tidyoperators’ R-package adds some much needed infix operators, and
 a few functions, to make your R code much more tidy. It includes infix
-operators for the negation of logical operators (exclusive-or, not-and,
+operators for additional logic operators (exclusive-or, not-and,
 not-in), safer float (in)equality operators, in-place modifying
 mathematical arithmetic, in-place modifying unreal replacer, and infix
 operators for custom row- and column-wise rank-based ordering of
