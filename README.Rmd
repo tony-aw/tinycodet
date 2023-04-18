@@ -750,7 +750,6 @@ x %s/% p
 
 And so on. I'm sure you get the idea.
 
-
 &nbsp;
 
 ## In-place modifying string arithmetic and sub-setting
@@ -848,7 +847,7 @@ That's it.
 
 All the string sub-setting functions have the `fish` argument, which is `FALSE` by default. If `fish=TRUE`, these functions will use `stringfish` functions instead of base R and `stringi` functions. The stringfish functions are usually faster, and also allow native multi-threading. Note that `stringfish` must be installed in order for this to work. And `stringfish` needs to be loaded also if you wish to also use multi-threading. Multi-threading in `stringfish` can be set-up by running `setoption(stringfish.nthreads=cl)` somewhere at the start of your code, where `cl` is the number of threads you want to use.
 
-Don't use multi-threading unless you need to, as multi-threading has some overhead, thus its only faster with very large character strings.
+Don't use multi-threading unless you need to, as multi-threading has some overhead, thus its only faster with very large character vectors.
 
 Example:
 

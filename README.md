@@ -1361,7 +1361,7 @@ by running `setoption(stringfish.nthreads=cl)` somewhere at the start of
 your code, where `cl` is the number of threads you want to use.
 
 Don’t use multi-threading unless you need to, as multi-threading has
-some overhead, thus its only faster with very large character strings.
+some overhead, thus its only faster with very large character vectors.
 
 Example:
 
