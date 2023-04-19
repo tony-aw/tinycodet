@@ -44,13 +44,16 @@
 - <a href="#package-management-operator-and-functions"
   id="toc-package-management-operator-and-functions">Package management
   operator and functions</a>
-  - <a href="#force_libpaths-for-project-isolation"
-    id="toc-force_libpaths-for-project-isolation">force_libPaths (for
-    Project Isolation)</a>
-  - <a href="#import-operator-for-namespace-control"
-    id="toc-import-operator-for-namespace-control">Import operator (for
-    Namespace control)</a>
+  - <a href="#force_libpaths-for-easy-project-isolation"
+    id="toc-force_libpaths-for-easy-project-isolation">force_libPaths (for
+    easy Project Isolation)</a>
+  - <a href="#import-operator-for-more-namespace-control"
+    id="toc-import-operator-for-more-namespace-control">Import operator (for
+    more Namespace control)</a>
   - <a href="#import_data" id="toc-import_data">import_data</a>
+  - <a href="#on-date-based-version-control-the-alternative-to-mran"
+    id="toc-on-date-based-version-control-the-alternative-to-mran">On
+    date-based version control: the alternative to MRAN</a>
 - <a href="#speed-and-multi-threading"
   id="toc-speed-and-multi-threading">Speed and multi-threading</a>
 - <a href="#recommended-r-packages"
@@ -1201,7 +1204,7 @@ and string sub-setting have their in-place modifying equivalent:
 
 # Package management operator and functions
 
-## force_libPaths (for Project Isolation)
+## force_libPaths (for easy Project Isolation)
 
 The base R’s `.libPaths()` function sets the library paths where R looks
 for R packages when checking or loading/attaching R packages. As such,
@@ -1226,7 +1229,7 @@ force_libPaths("/mylibrary")
 
  
 
-## Import operator (for Namespace control)
+## Import operator (for more Namespace control)
 
 One can import a package and assign it to an alias in base R using:
 
@@ -1242,9 +1245,8 @@ the namespace, clarify which function came from which package).
 Loading a package alias does have some drawbacks. One is that you cannot
 easily import multiple packages under the same alias. While one would
 probably not want to import **multiple** packages under a single alias
-most of the time, there are actually a couple of situations where
-importing multiple packages into a single alias might be actually
-preferable:
+most of the time, there may be a couple of situations where importing
+multiple packages into a single alias might be actually preferable:
 
 - suppose package `B` is supposed to overwrite a couple of functions
   from package `A` (for example if package `B` extends or improves the
@@ -1345,6 +1347,33 @@ head(d)
 ```
 
 That’s it.
+
+ 
+
+## On date-based version control: the alternative to MRAN
+
+As MRAN is no longer available, RStudio/Posit has taken up the mantle to
+provide date-based version control.
+
+Simply go to
+<https://packagemanager.rstudio.com/client/#/repos/2/overview>. Then
+select a date and select your operating system (or, if you want to
+install from Source, leave it to Source). Scroll down to “Example
+repository setup code”, and copy the code into R to use the repository.
+
+For example, to set the repository URL in your current R script such
+that R packages from CRAN are downloaded and installed as they were
+available on 2 January 2023, when using a Microsoft Windows OS, simply
+run the following:
+
+``` r
+options(repos = c(REPO_NAME = "https://packagemanager.rstudio.com/cran/2023-01-02"))
+```
+
+Using this in combination with project isolation (like using
+`force_libPaths()`) allows for complete control over your packages,
+ensuring your code will run even several years after you wrote your
+code.
 
  
 
