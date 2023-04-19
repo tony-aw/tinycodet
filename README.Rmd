@@ -31,25 +31,20 @@ set.seed(1)
 ![](tidyoperators.svg)
 
 
-The 'tidyoperators' R-package adds some much needed infix operators,
+The `tidyoperators` R-package adds some much needed infix operators,
     and a few functions,
     to make your R code much more tidy.
-    It includes infix operators for additional logic operators
-    (exclusive-or, not-and, not-in),
+    It includes infix operators for additional logic operators,
     safer float (in)equality operators,
     in-place modifying mathematical arithmetic,
-    in-place modifying unreal replacer,
     and infix operators for custom row- and column-wise rank-based ordering of matrices.
-    It also adds some 'stringi'-based string related functions, operators, and in-place modifying operators,
-    missing from the 'stringi' R-package.
-    Most 'stringi' pattern expressions options
-    are available for the string-pattern-related functions/operators, when appropriate.
+    It also adds some `stringi`-based string related functions, operators, and in-place modifying operators.
     This package adds the transform_if functions, and related operators.
-    And finally, it also adds some functions and operators
-    for more straight-forward package/library management.
-    The 'tidyoperators' R-package has only one dependency, namely 'stringi',
+    And finally, it also adds some functions and an operator
+    for easier package/library management.
+    The `tidyoperators` R-package has only one dependency, namely `stringi`,
     though it does allows multi-threading of some of the string-related functions
-    (when appropriate) via the suggested 'stringfish' R-package.
+    (when appropriate) via the suggested `stringfish` R-package.
 
 WARNING: This package is still very much experimental. Function names, argument names, and so on may change dramatically. Use it for testing only, until it's stable.
 
@@ -169,16 +164,8 @@ loc <- stri_locate_ith(
 substr(x, loc[,1], loc[,2])
 ```
 
-String arithmetic:
 
-```{r}
-"Hello" %s+% " world"
-c("Hello world", "Goodbye world") %s-% " world"
-c("Ha", "Ho", "Hi", "Hu", "He", "Ha") %s*% 10
-c("HaHa", "Ho", "Hi", "Hu", "He", "Ha") %s/% "Ha"
-```
-
-String re-ordering:
+String re-ordering using matrix re-ordering:
 
 ```{r}
 # sorting words:
@@ -597,13 +584,13 @@ The `tidyoperators` R-package includes the following fully vectorized sub-string
 
 The "position" in the functions above can be specified either by giving the result of the `stri_locate_ith()` function (see the previous section) in argument `loc`, or one can give manual positions using the `start, end` or `at` arguments. 
 
-Here are a few examples:
+Examples:
 
 ```{r}
-x <- c("AaEeIiOoUu", "bcdfghjklmnpqrstvwxyz")
+x <- c("Good - good - GOOD", "Good - GOOD - good")
 loc <- stri_locate_ith(
-  # locate second-last double subsequent vowel (ignore case) of each string in x:
-  x, -2, regex="aa|ee|ii|oo|uu", case_insensitive=TRUE 
+  # locate second "good" (ignore case) of each string in x:
+  x, 2, regex="good", case_insensitive=TRUE 
 )
 ```
 
@@ -627,8 +614,6 @@ tab <- tab |> as.matrix() |> t()
 kable(tab)
 ```
 
-
-Simple, right?
 
 &nbsp;
 
@@ -696,7 +681,7 @@ c("Ha", "Ho", "Hi", "Hu", "He", "Ha") %s*% 2:7
 c("hello world & goodbye world", "world domination!") %s/% "world"
 ```
 
-It is important to note that the right-side arguments `p`, `y`, and `n` can be a single value, or a vector of the same length as `x`.
+The right-side arguments `p`, `y`, and `n` can be a single value, or a vector of the same length as `x`.
 
 &nbsp;
 
@@ -847,7 +832,7 @@ That's it.
 
 As MRAN is no longer available, RStudio/Posit has taken up the mantle to provide date-based version control.
 
-Simply go to https://packagemanager.rstudio.com/client/#/repos/2/overview.  Then select a date and select your operating system (or, if you want to install from Source, leave it to Source). Scroll down to "Example repository setup code", and copy the code into R to use the repository.
+Simply go to https://packagemanager.rstudio.com/client/#/repos/2/overview. Then select a date and select your operating system (or, if you want to install from Source, leave it to Source). Scroll down to "Example repository setup code", and copy the code into R to use the repository.
 
 For example, to set the repository URL in your current R script such that R packages from CRAN are downloaded and installed as they were available on 2 January 2023, when using a Microsoft Windows OS, simply run the following:
 

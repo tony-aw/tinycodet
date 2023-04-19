@@ -6,19 +6,14 @@
 #' The 'tidyoperators' R-package adds some much needed infix operators,
 #' and a few functions,
 #' to make your R code much more tidy.
-#' It includes infix operators for additional logic operators
-#' (exclusive-or, not-and, not-in),
+#' It includes infix operators for additional logic operators,
 #' safer float (in)equality operators,
 #' in-place modifying mathematical arithmetic,
-#' in-place modifying unreal replacer,
 #' and infix operators for custom row- and column-wise rank-based ordering of matrices.
-#' It also adds some 'stringi'-based string related functions, operators, and in-place modifying operators,
-#' missing from the 'stringi' R-package.
-#' Most 'stringi' pattern expressions options
-#' are available for the string-pattern-related functions/operators, when appropriate.
+#' It also adds some 'stringi'-based string related functions, operators, and in-place modifying operators.
 #' This package adds the transform_if functions, and related operators.
-#' And finally, it also adds some functions and operators
-#' for more straight-forward package/library management.
+#' And finally, it also adds some functions and an operator
+#' for easier package/library management.
 #' The 'tidyoperators' R-package has only one dependency, namely 'stringi',
 #' though it does allows multi-threading of some of the string-related functions
 #' (when appropriate) via the suggested 'stringfish' R-package. \cr

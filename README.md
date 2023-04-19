@@ -81,22 +81,18 @@ public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostat
 
 ![](tidyoperators.svg)
 
-The ‘tidyoperators’ R-package adds some much needed infix operators, and
+The `tidyoperators` R-package adds some much needed infix operators, and
 a few functions, to make your R code much more tidy. It includes infix
-operators for additional logic operators (exclusive-or, not-and,
-not-in), safer float (in)equality operators, in-place modifying
-mathematical arithmetic, in-place modifying unreal replacer, and infix
+operators for additional logic operators, safer float (in)equality
+operators, in-place modifying mathematical arithmetic, and infix
 operators for custom row- and column-wise rank-based ordering of
-matrices. It also adds some ‘stringi’-based string related functions,
-operators, and in-place modifying operators, missing from the ‘stringi’
-R-package. Most ‘stringi’ pattern expressions options are available for
-the string-pattern-related functions/operators, when appropriate. This
-package adds the transform_if functions, and related operators. And
-finally, it also adds some functions and operators for more
-straight-forward package/library management. The ‘tidyoperators’
-R-package has only one dependency, namely ‘stringi’, though it does
-allows multi-threading of some of the string-related functions (when
-appropriate) via the suggested ‘stringfish’ R-package.
+matrices. It also adds some `stringi`-based string related functions,
+operators, and in-place modifying operators. This package adds the
+transform_if functions, and related operators. And finally, it also adds
+some functions and an operator for easier package/library management.
+The `tidyoperators` R-package has only one dependency, namely `stringi`,
+though it does allows multi-threading of some of the string-related
+functions (when appropriate) via the suggested `stringfish` R-package.
 
 WARNING: This package is still very much experimental. Function names,
 argument names, and so on may change dramatically. Use it for testing
@@ -278,21 +274,7 @@ substr(x, loc[,1], loc[,2])
 #> [1] "GooD" NA
 ```
 
-String arithmetic:
-
-``` r
-"Hello" %s+% " world"
-#> [1] "Hello world"
-c("Hello world", "Goodbye world") %s-% " world"
-#> [1] "Hello"   "Goodbye"
-c("Ha", "Ho", "Hi", "Hu", "He", "Ha") %s*% 10
-#> [1] "HaHaHaHaHaHaHaHaHaHa" "HoHoHoHoHoHoHoHoHoHo" "HiHiHiHiHiHiHiHiHiHi"
-#> [4] "HuHuHuHuHuHuHuHuHuHu" "HeHeHeHeHeHeHeHeHeHe" "HaHaHaHaHaHaHaHaHaHa"
-c("HaHa", "Ho", "Hi", "Hu", "He", "Ha") %s/% "Ha"
-#> [1] 2 0 0 0 0 1
-```
-
-String re-ordering:
+String re-ordering using matrix re-ordering:
 
 ``` r
 # sorting words:
@@ -996,32 +978,30 @@ the result of the `stri_locate_ith()` function (see the previous
 section) in argument `loc`, or one can give manual positions using the
 `start, end` or `at` arguments.
 
-Here are a few examples:
+Examples:
 
 ``` r
-x <- c("AaEeIiOoUu", "bcdfghjklmnpqrstvwxyz")
+x <- c("Good - good - GOOD", "Good - GOOD - good")
 loc <- stri_locate_ith(
-  # locate second-last double subsequent vowel (ignore case) of each string in x:
-  x, -2, regex="aa|ee|ii|oo|uu", case_insensitive=TRUE 
+  # locate second "good" (ignore case) of each string in x:
+  x, 2, regex="good", case_insensitive=TRUE 
 )
 ```
 
-|                                            |                |                       |
-|:-------------------------------------------|:---------------|:----------------------|
-| x                                          | AaEeIiOoUu     | bcdfghjklmnpqrstvwxyz |
-| substr_extract(x, loc=loc)                 | Oo             | NA                    |
-| substr_extract(x, “before”, loc=loc)       | AaEeIi         | NA                    |
-| substr_extract(x, “after”, loc=loc)        | Uu             | NA                    |
-| substr_repl(x, “??”, loc=loc)              | AaEeIi??Uu     | bcdfghjklmnpqrstvwxyz |
-| substr_chartr(x, loc=loc)                  | AaEeIioOUu     | bcdfghjklmnpqrstvwxyz |
-| substr_addin(x, “\~\~”, “after”, loc=loc)  | AaEeIiOo\~\~Uu | bcdfghjklmnpqrstvwxyz |
-| substr_addin(x, “\~\~”, “before”, loc=loc) | AaEeIi\~\~OoUu | bcdfghjklmnpqrstvwxyz |
-| substr_arrange(x, loc=loc)                 | AaEeIioOUu     | bcdfghjklmnpqrstvwxyz |
-| substr_arrange(x, “decr”, loc=loc)         | AaEeIiOoUu     | bcdfghjklmnpqrstvwxyz |
-| substr_arrange(x, “rev”, loc=loc)          | AaEeIioOUu     | bcdfghjklmnpqrstvwxyz |
-| substr_arrange(x, “rand”, loc=loc)         | AaEeIioOUu     | bcdfghjklmnpqrstvwxyz |
-
-Simple, right?
+|                                            |                        |                        |
+|:-------------------------------------------|:-----------------------|:-----------------------|
+| x                                          | Good - good - GOOD     | Good - GOOD - good     |
+| substr_extract(x, loc=loc)                 | good                   | GOOD                   |
+| substr_extract(x, “before”, loc=loc)       | Good -                 | Good -                 |
+| substr_extract(x, “after”, loc=loc)        | \- GOOD                | \- good                |
+| substr_repl(x, “??”, loc=loc)              | Good - ?? - GOOD       | Good - ?? - good       |
+| substr_chartr(x, loc=loc)                  | Good - GOOD - GOOD     | Good - good - good     |
+| substr_addin(x, “\~\~”, “after”, loc=loc)  | Good - good\~\~ - GOOD | Good - GOOD\~\~ - good |
+| substr_addin(x, “\~\~”, “before”, loc=loc) | Good - \~\~good - GOOD | Good - \~\~GOOD - good |
+| substr_arrange(x, loc=loc)                 | Good - dgoo - GOOD     | Good - DGOO - good     |
+| substr_arrange(x, “decr”, loc=loc)         | Good - oogd - GOOD     | Good - OOGD - good     |
+| substr_arrange(x, “rev”, loc=loc)          | Good - doog - GOOD     | Good - DOOG - good     |
+| substr_arrange(x, “rand”, loc=loc)         | Good - ogod - GOOD     | Good - ODGO - good     |
 
  
 
@@ -1115,8 +1095,8 @@ c("hello world & goodbye world", "world domination!") %s/% "world"
 #> [1] 2 1
 ```
 
-It is important to note that the right-side arguments `p`, `y`, and `n`
-can be a single value, or a vector of the same length as `x`.
+The right-side arguments `p`, `y`, and `n` can be a single value, or a
+vector of the same length as `x`.
 
  
 
@@ -1432,7 +1412,7 @@ substr_arrange(x, "decr", loc=loc, fish = TRUE)
 #> [1] "Goodmorning--ooGdevening, and Goodnight"
 #> [2] "abcdefghijklm"
 substr_arrange(x, "rand", loc=loc, fish = TRUE)
-#> [1] "Goodmorning--ooGdevening, and Goodnight"
+#> [1] "Goodmorning--Gdooevening, and Goodnight"
 #> [2] "abcdefghijklm"
 ```
 
