@@ -144,8 +144,8 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
 - 11 April 2023: Added the `force_libPaths()` function. Shortened the
   Description text. Adjusted the documentation and this Read-Me file
   accordingly. Fixed some grammatical errors in the documentation.
-- 17 April 2023: Small textual changes to the documentation and Read-Me
-  file.
+- 17 & 20 April 2023: Small textual changes to the documentation and
+  Read-Me. file.
 
 FUTURE PLANS:
 
@@ -183,11 +183,9 @@ tidyoperators_help()
 
 The `tidyoperators` R package adds the following functionality:
 
-- Infix logical operators for exclusive-or, not-and, not-in, `grepl`,
-  number-type, and string-type.
-- Safer (in)equality operators for floating numbers.
+- Additional infix logic operators.
+- Safer (in)equality operators for float numbers.
 - Infix operators for In-place modifiers for mathematical arithmetic.
-- An in-place modifying unreal replacer operator.
 - Infix operators for string arithmetic, string sub-setting, and their
   in-place modifying equivalents.
 - Infix operators for row- and column-wise rank-based re-ordering of
