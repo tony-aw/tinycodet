@@ -758,7 +758,7 @@ With the exception of  `%ss%`, all infix operators for string arithmetic and str
 
 # Package management operator and functions
 
-## force_libPaths (for easy Project Isolation)
+## force_libPaths (for simple Project Isolation)
 
 The base R's `.libPaths()` function sets the library paths where R looks for R packages when checking or loading/attaching R packages. As such, this function could be used for proper Project Isolation. Problem, however, is that base R's `.libPaths()` function for some strange reason only allows adding new library paths, not overwrite existing system or site library paths (at least not conventionally). This stands in the way of using it for straight-forward Project Isolation.
 
@@ -891,9 +891,11 @@ I also highly recommend the `this.path` R package (https://github.com/ArcadeAnti
 
 &nbsp;
 
-# Compatibility with other operator-related R packages
+# Compatibility with other R packages
 
 The `stringi` R package has the `%s+%` and `%s*%` operators. They do exactly the same things as in `tidyoperators`, and so the masking of these functions can safely be ignored. I also made sure not to name any of the operators in `tidyoperators` the same as the operators in `magrittr` and `zeallot`, so that should be safe also.
+
+The `force_libPaths()` function is meant for super simple project isolation. One should probably not use the `force_libPaths()` function in a script when already using another system for project isolation like `renv` or `packrat`. It's either one or the other.
 
 &nbsp;
 

@@ -44,9 +44,9 @@
 - <a href="#package-management-operator-and-functions"
   id="toc-package-management-operator-and-functions">Package management
   operator and functions</a>
-  - <a href="#force_libpaths-for-easy-project-isolation"
-    id="toc-force_libpaths-for-easy-project-isolation">force_libPaths (for
-    easy Project Isolation)</a>
+  - <a href="#force_libpaths-for-simple-project-isolation"
+    id="toc-force_libpaths-for-simple-project-isolation">force_libPaths (for
+    simple Project Isolation)</a>
   - <a href="#import-operator-for-more-namespace-control"
     id="toc-import-operator-for-more-namespace-control">Import operator (for
     more Namespace control)</a>
@@ -58,9 +58,9 @@
   id="toc-speed-and-multi-threading">Speed and multi-threading</a>
 - <a href="#recommended-r-packages"
   id="toc-recommended-r-packages">Recommended R packages</a>
-- <a href="#compatibility-with-other-operator-related-r-packages"
-  id="toc-compatibility-with-other-operator-related-r-packages">Compatibility
-  with other operator-related R packages</a>
+- <a href="#compatibility-with-other-r-packages"
+  id="toc-compatibility-with-other-r-packages">Compatibility with other R
+  packages</a>
 - <a href="#conclusion" id="toc-conclusion">Conclusion</a>
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -1188,7 +1188,7 @@ and string sub-setting have their in-place modifying equivalent:
 
 # Package management operator and functions
 
-## force_libPaths (for easy Project Isolation)
+## force_libPaths (for simple Project Isolation)
 
 The base R’s `.libPaths()` function sets the library paths where R looks
 for R packages when checking or loading/attaching R packages. As such,
@@ -1436,13 +1436,18 @@ the `here` and `whereami` packages.
 
  
 
-# Compatibility with other operator-related R packages
+# Compatibility with other R packages
 
 The `stringi` R package has the `%s+%` and `%s*%` operators. They do
 exactly the same things as in `tidyoperators`, and so the masking of
 these functions can safely be ignored. I also made sure not to name any
 of the operators in `tidyoperators` the same as the operators in
 `magrittr` and `zeallot`, so that should be safe also.
+
+The `force_libPaths()` function is meant for super simple project
+isolation. One should probably not use the `force_libPaths()` function
+in a script when already using another system for project isolation like
+`renv` or `packrat`. It’s either one or the other.
 
  
 
