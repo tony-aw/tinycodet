@@ -1,7 +1,10 @@
 
 - <a href="#tidyoperators" id="toc-tidyoperators">tidyoperators</a>
+  - <a href="#description" id="toc-description">Description</a>
+  - <a href="#changelog-and-status" id="toc-changelog-and-status">Changelog
+    and status</a>
   - <a href="#installation" id="toc-installation">Installation</a>
-- <a href="#overview" id="toc-overview">Overview</a>
+  - <a href="#overview" id="toc-overview">Overview</a>
 - <a href="#additional-logic-operators"
   id="toc-additional-logic-operators">Additional logic operators</a>
 - <a href="#safer-float-inequality-operators"
@@ -76,7 +79,9 @@ public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostat
 [![](https://img.shields.io/badge/ORCID-0000--0001--9498--8379-green.svg)](https://orcid.org/0000-0001-9498-8379)
 <!-- badges: end -->
 
-![](tidyoperators.svg)
+![](tidyoperators.svg)  
+
+## Description
 
 The `tidyoperators` R-package adds some much needed infix operators, and
 a few functions, to make your R code much more tidy. It includes infix
@@ -90,6 +95,10 @@ some functions and an operator for easier package/library management.
 The `tidyoperators` R-package has only one dependency, namely `stringi`,
 though it does allows multi-threading of some of the string-related
 functions (when appropriate) via the suggested `stringfish` R-package.
+
+ 
+
+## Changelog and status
 
 WARNING: This package is still very much experimental. Function names,
 argument names, and so on may change dramatically. Use it for testing
@@ -179,7 +188,9 @@ using:
 tidyoperators_help()
 ```
 
-# Overview
+ 
+
+## Overview
 
 The `tidyoperators` R package adds the following functionality:
 

@@ -29,7 +29,9 @@ set.seed(1)
 <!-- badges: end -->
 
 ![](tidyoperators.svg)
+&nbsp;
 
+## Description
 
 The `tidyoperators` R-package adds some much needed infix operators,
     and a few functions,
@@ -45,6 +47,10 @@ The `tidyoperators` R-package adds some much needed infix operators,
     The `tidyoperators` R-package has only one dependency, namely `stringi`,
     though it does allows multi-threading of some of the string-related functions
     (when appropriate) via the suggested `stringfish` R-package.
+
+&nbsp;
+
+## Changelog and status
 
 WARNING: This package is still very much experimental. Function names, argument names, and so on may change dramatically. Use it for testing only, until it's stable.
 
@@ -92,8 +98,9 @@ and one can open the introduction page to the `tidyoperators` package using:
 tidyoperators_help()
 ```
 
+&nbsp;
 
-# Overview
+## Overview
 
 The `tidyoperators` R package adds the following functionality:
  
