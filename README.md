@@ -2,34 +2,31 @@
 - <a href="#tidyoperators" id="toc-tidyoperators">tidyoperators</a>
   - <a href="#installation" id="toc-installation">Installation</a>
 - <a href="#overview" id="toc-overview">Overview</a>
-- <a href="#simple-additional-logic-operators"
-  id="toc-simple-additional-logic-operators">Simple additional logic
-  operators</a>
+- <a href="#additional-logic-operators"
+  id="toc-additional-logic-operators">Additional logic operators</a>
 - <a href="#safer-float-inequality-operators"
   id="toc-safer-float-inequality-operators">Safer float (in)equality
   operators</a>
 - <a href="#in-place-modifying-mathematical-arithmetic"
   id="toc-in-place-modifying-mathematical-arithmetic">In-place modifying
   mathematical arithmetic</a>
-- <a href="#unreal-replacement" id="toc-unreal-replacement">Unreal
-  replacement</a>
-- <a href="#the-transform_if-function-and-the-subset_if-operators"
-  id="toc-the-transform_if-function-and-the-subset_if-operators">The
-  transform_if function, and the subset_if operators</a>
+- <a href="#the-transform_if-function-and-related-operators"
+  id="toc-the-transform_if-function-and-related-operators">The
+  transform_if function, and related operators</a>
 - <a href="#matrix-rank-based-re-ordering-infix-operators"
   id="toc-matrix-rank-based-re-ordering-infix-operators">Matrix rank-based
   re-ordering infix operators</a>
-- <a href="#additional-stringi-functions"
-  id="toc-additional-stringi-functions">Additional stringi functions</a>
+- <a href="#string-functions" id="toc-string-functions">String
+  functions</a>
   - <a href="#matrix-joining" id="toc-matrix-joining">Matrix joining</a>
   - <a href="#locate-ith-pattern-for-stringi"
     id="toc-locate-ith-pattern-for-stringi">Locate <span
     class="math inline"><em>i</em><sup><em>t</em><em>h</em></sup></span>
     pattern for stringi</a>
-- <a href="#substr---functions" id="toc-substr---functions">Substr -
-  functions</a>
-- <a href="#basic-string-infix-operators"
-  id="toc-basic-string-infix-operators">Basic string infix operators</a>
+  - <a href="#substr---functions" id="toc-substr---functions">Substr -
+    functions</a>
+- <a href="#string-infix-operators" id="toc-string-infix-operators">String
+  infix operators</a>
   - <a href="#string-subsetting-operators"
     id="toc-string-subsetting-operators">String subsetting operators</a>
   - <a href="#string-arithmetic" id="toc-string-arithmetic">String
@@ -295,7 +292,7 @@ Read-Me and perhaps try out the package yourself.
 
  
 
-# Simple additional logic operators
+# Additional logic operators
 
 The tidyoperators package adds a few basic logic operators:
 
@@ -536,17 +533,7 @@ Much tidier, right?
 
  
 
-# Unreal replacement
-
-Another operator added by `tidyoperators` is `x %unreal <-% y`, which
-replaces all NA, NaN, Inf and -Inf in `x` with the value given in `y`.
-
-So `x %unreal <-% y` is the same as
-`x[is.na(x)|is.nan(x)|is.infinite(x)] <- y`.
-
- 
-
-# The transform_if function, and the subset_if operators
+# The transform_if function, and related operators
 
 Then we have the subset_if operators, and the `transform_if()` function.
 
@@ -626,6 +613,12 @@ assign it. To keep your code tidy, consider combining this function with
 `magrittr`’s in-place modifying piper-operator (`%<>%`). I.e.:
 
 `very_long_name_1 %<>% transform_if(cond, trans)`
+
+Another operator added by `tidyoperators` is `x %unreal <-% y`, which
+replaces all NA, NaN, Inf and -Inf in `x` with the value given in `y`.
+
+So `x %unreal <-% y` is the same as
+`x[is.na(x)|is.nan(x)|is.infinite(x)] <- y`.
 
  
 
@@ -793,7 +786,7 @@ loops or apply-like functions.
 
  
 
-# Additional stringi functions
+# String functions
 
 ## Matrix joining
 
@@ -956,7 +949,9 @@ want to stick to vectorized functions as much as possible. Therefore,
 the `tidyoperators` package also adds several fully vectorized
 `substr_`-functions, which are discussed in the very next section.
 
-# Substr - functions
+ 
+
+## Substr - functions
 
 The `tidyoperators` R-package includes the following fully vectorized
 sub-string functions:
@@ -1005,7 +1000,7 @@ loc <- stri_locate_ith(
 
  
 
-# Basic string infix operators
+# String infix operators
 
 The `tidyoperators` R package implements infix operators for string
 arithmetic and sub-setting, as well some of their in-place modifier
