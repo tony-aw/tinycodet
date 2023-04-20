@@ -28,7 +28,6 @@
 #' * Infix operators for \link[=%ss%]{string sub-setting}. \cr
 #' * Infix operators for \link[=%s+ <-%]{In-place modifying string arithmetic}. \cr
 #' * Infix operators for \link[=%sget <-%]{In-place modifying string sub-setting}. \cr
-#' * \link[=%unreal <-%]{The in-place modifying unreal replacer operator}. \cr
 #' * \link[=%row~%]{Infix operators for row- and column-wise rank-based re-ordering of matrices}. \cr
 #' * The \code{tidyoperators} package adds additional
 #' \code{stringi} functions, namely \link{stri_locate_ith} and

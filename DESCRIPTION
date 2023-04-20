@@ -12,7 +12,7 @@ Description: The 'tidyoperators' R-package adds some much needed infix operators
     in-place modifying mathematical arithmetic,
     and infix operators for custom row- and column-wise rank-based ordering of matrices.
     It also adds some 'stringi'-based string related functions, operators, and in-place modifying operators.
-    This package adds the transform_if functions, and related operators.
+    This package adds the transform_if function, and related operators.
     And finally, it also adds some functions and an operator
     for easier package/library management.
     The 'tidyoperators' R-package has only one dependency, namely 'stringi',

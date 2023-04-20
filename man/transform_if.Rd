@@ -4,6 +4,7 @@
 \alias{transform_if}
 \alias{\%[if]\%}
 \alias{\%[!if]\%}
+\alias{\%unreal <-\%}
 \title{The transform_if function and the subset_if operators}
 \usage{
 transform_if(x, cond, trans = NULL)
@@ -11,6 +12,8 @@ transform_if(x, cond, trans = NULL)
 x \%[if]\% cond
 
 x \%[!if]\% cond
+
+x \%unreal <-\% repl
 }
 \arguments{
 \item{x}{a vector, matrix, or array.}
@@ -23,6 +26,8 @@ of the same length/dimensions as \code{x} (for example: \code{is.na}). \cr
 }}
 
 \item{trans}{the transformation function to use. For example: \code{log}.}
+
+\item{repl}{the replacement value.}
 }
 \value{
 The \code{transform_if()} function
@@ -37,6 +42,10 @@ I.e.: \cr
 \cr
 The subset_if - operators all return a vector with the selected elements. \cr
 \cr
+The \code{x \%unreal <-\% repl} operator does not return any value: \cr
+it is an in-place modifiers, and thus modifies \code{x} directly.
+The object \code{x} is modified such that all
+\code{NA}, \code{NaN} and \code{Inf} elements are replaced with \code{repl}.
 }
 \description{
 Consider the following code: \cr
@@ -52,17 +61,17 @@ which will tidy this up. \cr
 is exactly equivalent to \cr
 \code{x[cond(x)] <- trans(x[cond(x)])} \cr
 \cr
-Besides \code{transform_if},
-the \code{tidyoperators} package also adds 2 "subset_if" operators: \cr
-\cr
+The \code{tidyoperators} package also adds 2 "subset_if" operators: \cr
 The \code{x \%[if]\% cond} operator
 selects elements from vector/matrix/array \code{x},
 for which the result of \code{cond(x)} returns \code{TRUE}. \cr
-\cr
 The \code{x \%[!if]\% cond} operator
 selects elements from vector/matrix/array \code{x},
 for which the result of \code{cond(x)} returns \code{FALSE}. \cr
 \cr
+The \code{tidyoperators} package also adds the \code{x \%unreal <-\% repl} operator: \cr
+\code{x \%unreal <-\% repl} is the same as
+\code{x[is.na(x)|is.nan(x)|is.infinite(x)] <- repl} \cr
 }
 \details{
 The \code{transform_if(x, cond, trans)} function
@@ -74,4 +83,9 @@ print(object_with_very_long_name)
 object_with_very_long_name |> transform_if(\(x)x>0, log)
 object_with_very_long_name \%[if]\% \(x)x \%in\% 1:10
 object_with_very_long_name \%[!if]\% \(x)x \%in\% 1:10
+
+x <- c(1:9, NA, NaN, Inf)
+print(x)
+x \%unreal <-\% 0 # same as x[is.na(x)|is.nan(x)|is.infinite(x)] <- 0
+print(x)
 }

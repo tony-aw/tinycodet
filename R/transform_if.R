@@ -14,17 +14,17 @@
 #' is exactly equivalent to \cr
 #' \code{x[cond(x)] <- trans(x[cond(x)])} \cr
 #' \cr
-#' Besides \code{transform_if},
-#' the \code{tidyoperators} package also adds 2 "subset_if" operators: \cr
-#' \cr
+#' The \code{tidyoperators} package also adds 2 "subset_if" operators: \cr
 #' The \code{x %\[if\]% cond} operator
 #' selects elements from vector/matrix/array \code{x},
 #' for which the result of \code{cond(x)} returns \code{TRUE}. \cr
-#' \cr
 #' The \code{x %\[!if\]% cond} operator
 #' selects elements from vector/matrix/array \code{x},
 #' for which the result of \code{cond(x)} returns \code{FALSE}. \cr
 #' \cr
+#' The \code{tidyoperators} package also adds the \code{x %unreal <-% repl} operator: \cr
+#' \code{x %unreal <-% repl} is the same as
+#' \code{x[is.na(x)|is.nan(x)|is.infinite(x)] <- repl} \cr
 #'
 #' @param x a vector, matrix, or array.
 #' @param cond a function that returns a binary logic (\code{TRUE,FALSE}) vector
@@ -32,6 +32,7 @@
 #'  * Elements of \code{x} for which \code{cond(x)==TRUE} are transformed / selected; \cr
 #'  * Elements of \code{x} for which \code{cond(x)==FALSE} are not transformed /selected. \cr
 #' @param trans the transformation function to use. For example: \code{log}.
+#' @param repl the replacement value.
 #'
 #' @details
 #' The \code{transform_if(x, cond, trans)} function
@@ -50,6 +51,10 @@
 #' \cr
 #' The subset_if - operators all return a vector with the selected elements. \cr
 #' \cr
+#' The \code{x %unreal <-% repl} operator does not return any value: \cr
+#' it is an in-place modifiers, and thus modifies \code{x} directly.
+#' The object \code{x} is modified such that all
+#' \code{NA}, \code{NaN} and \code{Inf} elements are replaced with \code{repl}.
 #'
 #'
 #' @examples
@@ -58,6 +63,11 @@
 #' object_with_very_long_name |> transform_if(\(x)x>0, log)
 #' object_with_very_long_name %[if]% \(x)x %in% 1:10
 #' object_with_very_long_name %[!if]% \(x)x %in% 1:10
+#'
+#' x <- c(1:9, NA, NaN, Inf)
+#' print(x)
+#' x %unreal <-% 0 # same as x[is.na(x)|is.nan(x)|is.infinite(x)] <- 0
+#' print(x)
 
 
 
@@ -96,4 +106,15 @@ transform_if <- function(x, cond, trans=NULL) {
     stop("cond must return either TRUE or FALSE")
   }
   return(x[!indx])
+}
+
+
+#' @rdname transform_if
+#' @export
+`%unreal <-%` <- function(x, repl) {
+  y <- x
+  y[is.na(y)|is.nan(y)|is.infinite(y)] <- repl
+  temp_name <- substitute(x)
+
+  eval(call("<-", temp_name, y), envir = parent.frame(n = 1))
 }
