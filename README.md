@@ -1202,8 +1202,9 @@ The `tidyoperators` package therefore adds the `force_libPaths()`
 function, as provided in
 <https://milesmcbain.com/posts/hacking-r-library-paths/>. The
 `force_libPaths()` function does allow forcing R to only use the library
-paths exactly as specified by the user. This allows for very easy
-project isolation by giving every project its own specific library.
+paths exactly as specified by the user. Running this function at the
+start of every script in a project allows for very easy and light-weight
+project isolation.
 
 Example:
 
