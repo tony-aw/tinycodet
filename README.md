@@ -1459,7 +1459,9 @@ of the operators in `tidyoperators` the same as the operators in
 The `force_libPaths()` function is meant for super simple project
 isolation. One should probably not use the `force_libPaths()` function
 in a script when already using another system for project isolation like
-`renv` or `packrat`. It’s either one or the other.
+`renv` or `packrat`. It’s either one or the other. Note also that `renv`
+does not understand custom package loaders. But the rest of
+`tidyoperators` is fully compatible with `renv`.
 
  
 
