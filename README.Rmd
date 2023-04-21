@@ -887,8 +887,10 @@ substr_arrange(x, "rand", loc=loc, fish = TRUE)
 
 `stringi` is of course required for this packages. Besides that, I highly recommend using this R package alongside the 2 major operator-related R-packages, namely `magrittr` and `zeallot`.
 
-For the sake of proper programming etiquette, 
-I also highly recommend the `this.path` R package (https://github.com/ArcadeAntics/this.path), which allows for getting the path of the current script (i.e. get the source file location), without all the issues found in packages such as the `here` and `whereami` packages.
+For proper programming etiquette, I also highly recommend the following R packages:
+
+ - The `this.path` R package (https://github.com/ArcadeAntics/this.path), which allows for getting the path of the current script (i.e. get the source file location), without all the issues found in packages such as the `here` and `whereami` packages.
+ - The `rlang` R package, which one can use to get (among other things) more detailed back-traced errors, warnings, and messages.
 
 &nbsp;
 
