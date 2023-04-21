@@ -1459,9 +1459,22 @@ of the operators in `tidyoperators` the same as the operators in
 The `force_libPaths()` function is meant for super simple project
 isolation. One should probably not use the `force_libPaths()` function
 in a script when already using another system for project isolation like
-`renv` or `packrat`. It’s either one or the other. Note also that `renv`
-does not understand custom package loaders. But the rest of
-`tidyoperators` is fully compatible with `renv`.
+`renv` or `packrat`. It’s either one or the other. The rest of
+`tidyoperators` is compatible with `renv`.
+
+Note that by default, `renv` only registers packages calls using plain
+`library()` calls. Anything different from that, even things like
+`for(... in ...){library(...)}` or `if(...){library(...)}`, will not be
+understood by `renv`. Therefore, if using `renv`, please make sure to
+set the following:
+
+``` r
+renv::settings$snapshot.type("all")
+```
+
+This will make sure that all manner of package loads - including
+`alias $m import <-% pkgs` from `tidyoperators` - will all be registered
+by `renv`.
 
  
 
