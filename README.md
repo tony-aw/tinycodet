@@ -1462,19 +1462,21 @@ in a script when already using another system for project isolation like
 `renv` or `packrat`. It’s either one or the other. The rest of
 `tidyoperators` is compatible with `renv`.
 
-Note that by default, `renv` only registers packages calls using plain
-`library()` calls. Anything different from that, even things like
-`for(... in ...){library(...)}` or `if(...){library(...)}`, will not be
-understood by `renv`. Therefore, if using `renv`, please make sure to
-set the following:
+Note that, by default, `renv` only registers packages loads using plain
+`library()` or `require()` calls. Anything different from that, even
+things like `for(... in ...)library(...)` or `if(...)library(...)`, will
+not be understood by `renv`. Therefore, if using `renv`, please make
+sure to set the following:
 
 ``` r
 renv::settings$snapshot.type("all")
 ```
 
-This will make sure that all manner of package loads - including
-`alias $m import <-% pkgs` from `tidyoperators` - will all be registered
-by `renv`.
+This will make sure that all packages installed in your project library,
+regardless of how they are loaded, will all be registered by `renv`.
+This makes `renv` compatible with calls like `alias $m import <-% pkgs`
+from `tidyoperators`, and things like `for(... in ...)library(...)` or
+`if(...)library(...)`.
 
  
 
