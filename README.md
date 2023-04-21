@@ -41,9 +41,8 @@
   - <a href="#in-place-modifying-string-arithmetic-and-sub-setting"
     id="toc-in-place-modifying-string-arithmetic-and-sub-setting">In-place
     modifying string arithmetic and sub-setting</a>
-- <a href="#package-management-operator-and-functions"
-  id="toc-package-management-operator-and-functions">Package management
-  operator and functions</a>
+- <a href="#package-management" id="toc-package-management">Package
+  management</a>
   - <a href="#force_libpaths-for-simple-project-isolation"
     id="toc-force_libpaths-for-simple-project-isolation">force_libPaths (for
     simple Project Isolation)</a>
@@ -1186,7 +1185,7 @@ and string sub-setting have their in-place modifying equivalent:
 
  
 
-# Package management operator and functions
+# Package management
 
 ## force_libPaths (for simple Project Isolation)
 
@@ -1223,9 +1222,9 @@ alias <- loadNamespace("packagename")
 ```
 
 Doing the above, instead of attaching a package using `library` or
-`require`, can (sometimes) be quite beneficial (i.e. prevent overlapping
+`require`, can (sometimes) be quite beneficial: i.e. prevent overlapping
 namespaces, prevent overriding base/core R functions, prevent polluting
-the namespace, clarify which function came from which package).
+the namespace, clarify which function came from which package.
 
 Loading a package alias does have some drawbacks. One is that you cannot
 easily import multiple packages under the same alias. While one would
@@ -1233,11 +1232,18 @@ probably not want to import **multiple** packages under a single alias
 most of the time, there may be a couple of situations where importing
 multiple packages into a single alias might be actually preferable:
 
-- suppose package `B` is supposed to overwrite a couple of functions
+- Suppose package `B` is supposed to overwrite a couple of functions
   from package `A` (for example if package `B` extends or improves the
   functionality from a function in package `A`). In that case you want
   to import package `A`, and then overwrite it with package `B`.
-- if multiple packages kind of “belong” together, you may not want to
+- Although one should definitely keep the number of dependencies to a
+  minimal, there will inevitably be packages that really need one or
+  more dependencies. And sometimes one needs to directly access the
+  functions from the dependencies also. Importing those dependencies
+  under a different alias would in such a case probably be undesirable.
+  Instead, one may want to import the dependencies under the same alias
+  as the primary package.
+- If multiple packages kind of “belong” together, you may not want to
   give these packages separate aliases.
 
 One example is the core `fastverse` + `tidyverse` data wrangling combo:
