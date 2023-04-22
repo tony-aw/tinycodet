@@ -21,7 +21,6 @@
 #' * \code{s_pattern(regex=p, case_insensitive=FALSE, ...)}
 #' * \code{s_pattern(fixed=p, ...)}
 #' * \code{s_pattern(coll=p, ...)}
-#' * \code{s_pattern(boundary=p, ...)}
 #' * \code{s_pattern(charclass=p, ...)}
 #'
 #' All arguments in \code{s_pattern()} are simply passed to the
@@ -40,7 +39,7 @@
 #'
 #'
 #' @param ... pass \code{stringi} arguments here.
-#' I.e. \code{regex=p}, \code{boundary=p}, \code{coll=p}, \code{charclass=p}, \code{case_insensitive=FALSE}, etc.
+#' I.e. \code{regex=p}, \code{coll=p}, \code{charclass=p}, \code{case_insensitive=FALSE}, etc.
 #' See the documentation in the \code{stringi} R package.
 #'
 #'
@@ -74,11 +73,10 @@ s_pattern <- function(...) {
     "regex" %in% names(out),
     "fixed" %in% names(out),
     "coll" %in% names(out),
-    "boundary" %in% names(out),
     "charclass" %in% names(out)
   )
   if(sum(check.names)!=1){
-    stop("you have to specify either `regex`, `fixed`, `coll`, `boundary`, or `charclass`")
+    stop("you have to specify either `regex`, `fixed`, `coll`, or `charclass`")
   }
   indx.ic <- which(names(out)=="ignore.case"|names(out)=="ignore_case")
   if(length(indx.ic)==1){

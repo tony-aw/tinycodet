@@ -4,17 +4,7 @@
 \alias{stri_locate_ith}
 \title{Locate \eqn{i^{th}} Pattern Occurrence}
 \usage{
-stri_locate_ith(
-  str,
-  i,
-  ...,
-  regex,
-  fixed,
-  coll,
-  charclass,
-  boundaries,
-  simplify = FALSE
-)
+stri_locate_ith(str, i, ..., regex, fixed, coll, charclass, simplify = FALSE)
 }
 \arguments{
 \item{str}{a string or character vector.}
@@ -39,8 +29,8 @@ and if \code{i <= -3} the first instance will be located. \cr}
 
 \item{...}{more arguments to be supplied to \link[stringi]{stri_locate}.}
 
-\item{regex, fixed, coll, charclass, boundaries}{character vector of search patterns,
-as in \link[stringi]{stri_locate} and \link[stringi]{stri_locate_all_boundaries}. \cr}
+\item{regex, fixed, coll, charclass}{a character vector of search patterns,
+as in \link[stringi]{stri_locate}. \cr}
 
 \item{simplify}{either \code{TRUE} or \code{FALSE} (default = \code{FALSE}): \cr
 \itemize{

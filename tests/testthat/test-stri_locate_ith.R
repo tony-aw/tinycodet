@@ -33,9 +33,3 @@ out <- stri_locate_ith(x, 1, coll='HLADNY', strength=1, locale='sk_SK', simplify
 test_that("stri_locate_ith (coll)", {
   expect_equal(substr(x, out[,1], out[,2]), x)
 })
-
-x <- c("hello world", "goodbye world")
-out <- stri_locate_ith(x, c(1, -1), boundaries = "word", simplify = TRUE)
-test_that("stri_locate_ith (boundaries)", {
-  expect_equal(substr(x, out[,1], out[,2]), c("hello", "world"))
-})

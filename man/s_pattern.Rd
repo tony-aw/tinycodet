@@ -8,7 +8,7 @@ s_pattern(...)
 }
 \arguments{
 \item{...}{pass \code{stringi} arguments here.
-I.e. \code{regex=p}, \code{boundary=p}, \code{coll=p}, \code{charclass=p}, \code{case_insensitive=FALSE}, etc.
+I.e. \code{regex=p}, \code{coll=p}, \code{charclass=p}, \code{case_insensitive=FALSE}, etc.
 See the documentation in the \code{stringi} R package.}
 }
 \value{
@@ -34,7 +34,6 @@ The \code{s_pattern()} function uses the exact same argument convention as \code
 \item \code{s_pattern(regex=p, case_insensitive=FALSE, ...)}
 \item \code{s_pattern(fixed=p, ...)}
 \item \code{s_pattern(coll=p, ...)}
-\item \code{s_pattern(boundary=p, ...)}
 \item \code{s_pattern(charclass=p, ...)}
 }
 

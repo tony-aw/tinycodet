@@ -154,9 +154,7 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   accordingly. Fixed some grammatical errors in the documentation.
 - 17 & 20 April 2023: Small textual changes to the documentation and
   Read-Me. file.
-- 22 April 2023: Added the `boundaries` argument to the
-  `stri_locate_ith()` function. Added more tests for
-  `stri_locate_ith()`.
+- 22 April 2023: Added more tests for `stri_locate_ith()`.
 
 FUTURE PLANS:
 
@@ -912,8 +910,7 @@ The `stri_locate_ith(x, i, ...)` function uses the exact same argument
 and naming convention as `stringi`, to keep your code consistent. And
 just like `stringi::stri_locate_all`, the `stri_locate_ith(x, i, ...)`
 function is a vectorized function: `x` and `i` as well as the pattern
-(`regex, fixed, coll, charclass, boundaries`) can all be
-different-valued vectors.
+(`regex, fixed, coll, charclass`) can all be different-valued vectors.
 
  
 
@@ -1129,7 +1126,6 @@ The `s_pattern()` function uses the exact same argument convention as
 - `s_pattern(regex=p, case_insensitive=FALSE, ...)`
 - `s_pattern(fixed=p, ...)`
 - `s_pattern(coll=p, ...)`
-- `s_pattern(boundary=p, ...)`
 - `s_pattern(charclass=p, ...)`
 
 For consistency with base R and with packages such as `stringr`, one can
