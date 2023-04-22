@@ -7,8 +7,8 @@
 #'
 #'
 #' @param str a string or character vector.
-#' @param regex,fixed,coll,charclass character vector of search patterns,
-#' as in \link[stringi]{stri_locate}. \cr
+#' @param regex,fixed,coll,charclass,boundaries character vector of search patterns,
+#' as in \link[stringi]{stri_locate} and \link[stringi]{stri_locate_all_boundaries}. \cr
 #' @param i a number, or a numeric vector of the same length as \code{str}.
 #' This gives the \eqn{i^{th}} instance to be replaced. \cr
 #' Positive numbers are counting from the left. Negative numbers are counting from the right.
@@ -116,7 +116,7 @@
 #' @rdname stri_locate_ith
 #' @export
 stri_locate_ith <- function(
-    str, i, ... , regex, fixed, coll, charclass, simplify=FALSE
+    str, i, ... , regex, fixed, coll, charclass, boundaries, simplify=FALSE
 ) {
   x <- str
   if(length(i)==1) i <- rep(i, length(x))
@@ -125,19 +125,34 @@ stri_locate_ith <- function(
   }
   providedarg <- c(
     regex = !missing(regex), fixed = !missing(fixed),
-    coll = !missing(coll), charclass = !missing(charclass)
+    coll = !missing(coll), charclass = !missing(charclass),
+    boundaries = !missing(boundaries)
   )
   if(sum(providedarg) != 1) {
-    stop("you have to specify either `regex`, `fixed`, `coll`, or `charclass`")
+    stop(
+      "you have to specify either `regex`, `fixed`, `coll`, `charclass`, or `boundaries`"
+    )
   }
   if (providedarg["regex"])
-    p1 <- stringi::stri_locate_all_regex(str=x, regex, ...)
+    p1 <- stringi::stri_locate_all_regex(
+      str=x, regex, omit_no_match = FALSE, get_length = FALSE, ...
+    )
   else if (providedarg["fixed"])
-    p1 <- stringi::stri_locate_all_fixed(str=x, fixed, ...)
+    p1 <- stringi::stri_locate_all_fixed(
+      str=x, fixed, omit_no_match = FALSE, get_length = FALSE, ...
+    )
   else if (providedarg["coll"])
-    p1 <- stringi::stri_locate_all_coll(str=x, coll, ...)
+    p1 <- stringi::stri_locate_all_coll(
+      str=x, coll, omit_no_match = FALSE, get_length = FALSE, ...
+    )
   else if (providedarg["charclass"])
-    p1 <- stringi::stri_locate_all_charclass(str=x, charclass, ...)
+    p1 <- stringi::stri_locate_all_charclass(
+      str=x, charclass, omit_no_match = FALSE, get_length = FALSE, ...
+    )
+  else if (providedarg["boundaries"])
+    p1 <- stringi::stri_locate_all_boundaries(
+      str=x, type=boundaries, omit_no_match = FALSE, get_length = FALSE, ...
+    )
 
   n.matches <- vapply(p1, nrow, FUN.VALUE = integer(1))
   i[i<0] <- pmax(n.matches[i<0] - abs(i[i<0]+1), 1)

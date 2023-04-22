@@ -49,7 +49,7 @@
 #' through third-party packages (like \code{stringfish}). \cr
 #' \cr
 #'
-#' Please also have a look at the Read-Me file on the Github main page of this package:
+#' Please also have a look at the Read-Me file on the Github main page before using this package:
 #' https://github.com/tony-aw/tidyoperators
 #'
 #'

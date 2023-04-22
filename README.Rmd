@@ -70,6 +70,7 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
  - 8 April 2023: Added the `import_data()` function. Adjusted the documentation and this Read-Me file accordingly.
  - 11 April 2023: Added the `force_libPaths()` function. Shortened the Description text. Adjusted the documentation and this Read-Me file accordingly. Fixed some grammatical errors in the documentation.
  - 17 & 20 April 2023: Small textual changes to the documentation and Read-Me. file.
+ - 22 April 2023: Added the `boundaries` argument to the `stri_locate_ith()` function. Added more tests for `stri_locate_ith()`.
 
 
 FUTURE PLANS:
@@ -535,7 +536,7 @@ This list can be used in `stringi` for pattern transformation.
 
 If `simplify=TRUE` it returns a matrix with 3 columns: start position, end position, and length of position range of the $i^{th}$ occurrence of a pattern. One row for each string of character vector `x`x.
 
-The `stri_locate_ith(x, i, ...)` function uses the exact same argument and naming convention as `stringi`, to keep your code consistent. And just like `stringi::stri_locate_all`, the `stri_locate_ith(x, i, ...)` function is a vectorized function: `x` and  `i` as well as the pattern (`regex, fixed, coll, charclass`) can all be different-valued vectors.
+The `stri_locate_ith(x, i, ...)` function uses the exact same argument and naming convention as `stringi`, to keep your code consistent. And just like `stringi::stri_locate_all`, the `stri_locate_ith(x, i, ...)` function is a vectorized function: `x` and  `i` as well as the pattern (`regex, fixed, coll, charclass, boundaries`) can all be different-valued vectors.
 
 
 &nbsp;
