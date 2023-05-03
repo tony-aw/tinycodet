@@ -538,8 +538,6 @@ With `tidyoperators` one can now make this more tidy with the following:
 mtcars$mpg[mtcars$cyl>6] %^ <-% 2
 ```
 
-Much tidier, right?
-
  
 
 # The transform_if function, and related operators
@@ -567,10 +565,8 @@ The tidyoperators package therefore adds the `transform_if()` function
 which will tidy this up. The above code can now be re-written as:
 
 ``` r
-very_long_name_1 |> transform_if(\(x)x>0, log)
+very_long_name_1 %<>% transform_if(\(x)x>0, log)
 ```
-
-Much tidyr, right?
 
 Besides `transform_if`, the tidyoperators package also adds 2
 “subset_if” operators:
@@ -582,7 +578,7 @@ Besides `transform_if`, the tidyoperators package also adds 2
   vector/matrix/array `x`, for which the result of `cond(x)` returns
   `FALSE`.
 
-Here are a few examples to see these in action:
+For example:
 
 ``` r
 object_with_very_long_name <- matrix(-10:9, ncol=2)
@@ -598,30 +594,11 @@ print(object_with_very_long_name)
 #>  [8,]   -3    7
 #>  [9,]   -2    8
 #> [10,]   -1    9
-object_with_very_long_name |> transform_if(\(x)x>0, log)
-#>       [,1]      [,2]
-#>  [1,]  -10 0.0000000
-#>  [2,]   -9 0.0000000
-#>  [3,]   -8 0.6931472
-#>  [4,]   -7 1.0986123
-#>  [5,]   -6 1.3862944
-#>  [6,]   -5 1.6094379
-#>  [7,]   -4 1.7917595
-#>  [8,]   -3 1.9459101
-#>  [9,]   -2 2.0794415
-#> [10,]   -1 2.1972246
-
 object_with_very_long_name %[if]% \(x)x %in% 1:10
 #> [1] 1 2 3 4 5 6 7 8 9
 object_with_very_long_name %[!if]% \(x)x %in% 1:10
 #>  [1] -10  -9  -8  -7  -6  -5  -4  -3  -2  -1   0
 ```
-
-Note that to modify `x` directly with `transform_if()`, one still has to
-assign it. To keep your code tidy, consider combining this function with
-`magrittr`’s in-place modifying piper-operator (`%<>%`). I.e.:
-
-`very_long_name_1 %<>% transform_if(cond, trans)`
 
 Another operator added by `tidyoperators` is `x %unreal <-% y`, which
 replaces all NA, NaN, Inf and -Inf in `x` with the value given in `y`.
@@ -1189,9 +1166,13 @@ and string sub-setting have their in-place modifying equivalent:
 
 ## force_libPaths (for simple Project Isolation)
 
+The `renv` R package is the go-to R package for complex project
+isolation. But sometimes you just have a few simple R scripts, and only
+need quick and simple project isolation.
+
 The base R’s `.libPaths()` function sets the library paths where R looks
 for R packages when checking or loading/attaching R packages. As such,
-this function could be used for proper Project Isolation. Problem,
+this function could be used for simple Project Isolation. Problem,
 however, is that base R’s `.libPaths()` function for some strange reason
 only allows adding new library paths, not overwrite existing system or
 site library paths (at least not conventionally). This stands in the way
@@ -1210,6 +1191,9 @@ Example:
 ``` r
 force_libPaths("/mylibrary")
 ```
+
+For more complex project isolation, please use `renv` instead. Do not
+use both `renv` and `force_libPaths()` in the same project.
 
  
 
@@ -1251,12 +1235,12 @@ One example is the core `fastverse` + `tidyverse` data wrangling combo:
 functions these packages have, some which unfortunately have the same
 name as core R functions, one would probably want to assign them in an
 alias object. But giving them separate aliases is perhaps undesirable:
-`tidytable` is supposed to overwrite some of the `data.table` functions,
-and one is probably always going to use these 3 packages together
-(i.e. they “belong” to each other).
+`tidytable` and `collapse` both use `data.table` as a (suggested)
+dependency, and one is probably going to use functions from `data.table`
+itself alongside `tidytable` and `collapse`.
 
 This is where the `%m import <-%` operator comes in. It imports multiple
-packages under the same alias, and also informs the user which package
+R packages under the same alias, and also informs the user which package
 will overwrite which function, so you will never be surprised. The
 `%m import <-%` operator also only loads exported functions (unlike
 `loadNamespace()`, which loads both internal and external functions).
@@ -1280,7 +1264,7 @@ ftv %m import <-% c("data.table", "collapse", "tidytable")
 #> Importing package: tidytable...
 #> The following conflicting objects detected:
 #>  
-#> %chin%, %like%, last, fread, setDTthreads, data.table, first, getDTthreads, fwrite, %between%, between
+#> first, %chin%, getDTthreads, data.table, %between%, last, setDTthreads, between, fwrite, fread, %like%
 #>  
 #> tidytable will overwrite conflicting objects from previous imported packages...
 #> 
@@ -1482,4 +1466,4 @@ from `tidyoperators`, and things like `for(... in ...)library(...)` or
 
 # Conclusion
 
-I hope this R package will make your life a little bit tidyr.
+I hope this R package will make your life a little bit tidier.
