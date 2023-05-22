@@ -32,8 +32,9 @@
     id="toc-pattern-attributes-in-strings">Pattern attributes in strings</a>
   - <a href="#pattern-attributes-examples"
     id="toc-pattern-attributes-examples">Pattern attributes examples</a>
-- <a href="#dont-repeat-yourself" id="toc-dont-repeat-yourself">“Don’t
-  Repeat Yourself”</a>
+- <a href="#dont-repeat-yourself---operators"
+  id="toc-dont-repeat-yourself---operators">“Don’t Repeat Yourself” -
+  operators</a>
   - <a href="#the-transform_if-function-and-related-operators"
     id="toc-the-transform_if-function-and-related-operators">The
     transform_if function, and related operators</a>
@@ -213,7 +214,7 @@ The `tidyoperators` R package adds the following functionality:
   string-pattern-related functions, when appropriate.
 - Several in-place modifying arithmetic and string operators, and a few
   functions, to help reduce repetitive codes, for the sake of the “Don’t
-  Repeat Yourself”-coding principle.
+  Repeat Yourself”-coding principle (`DRY`).
 - Package import management operator and functions.
 - This R package has only one dependency: `stringi`. No other
   dependencies, as to avoid “dependency hell”.
@@ -1017,7 +1018,7 @@ And so on. I’m sure you get the idea.
 
  
 
-# “Don’t Repeat Yourself”
+# “Don’t Repeat Yourself” - operators
 
 ## The transform_if function, and related operators
 
