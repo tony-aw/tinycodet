@@ -10,12 +10,6 @@
 - <a href="#safer-float-inequality-operators"
   id="toc-safer-float-inequality-operators">Safer float (in)equality
   operators</a>
-- <a href="#in-place-modifying-mathematical-arithmetic"
-  id="toc-in-place-modifying-mathematical-arithmetic">In-place modifying
-  mathematical arithmetic</a>
-- <a href="#the-transform_if-function-and-related-operators"
-  id="toc-the-transform_if-function-and-related-operators">The
-  transform_if function, and related operators</a>
 - <a href="#matrix-rank-based-re-ordering-infix-operators"
   id="toc-matrix-rank-based-re-ordering-infix-operators">Matrix rank-based
   re-ordering infix operators</a>
@@ -38,10 +32,18 @@
     id="toc-pattern-attributes-in-strings">Pattern attributes in strings</a>
   - <a href="#pattern-attributes-examples"
     id="toc-pattern-attributes-examples">Pattern attributes examples</a>
+- <a href="#dont-repeat-yourself" id="toc-dont-repeat-yourself">“Don’t
+  Repeat Yourself”</a>
+  - <a href="#the-transform_if-function-and-related-operators"
+    id="toc-the-transform_if-function-and-related-operators">The
+    transform_if function, and related operators</a>
+  - <a href="#in-place-modifying-mathematical-arithmetic"
+    id="toc-in-place-modifying-mathematical-arithmetic">In-place modifying
+    mathematical arithmetic</a>
   - <a href="#in-place-modifying-string-arithmetic-and-sub-setting"
     id="toc-in-place-modifying-string-arithmetic-and-sub-setting">In-place
     modifying string arithmetic and sub-setting</a>
-- <a href="#package-management" id="toc-package-management">Package
+- <a href="#library-management" id="toc-library-management">Library
   management</a>
   - <a href="#force_libpaths-for-simple-project-isolation"
     id="toc-force_libpaths-for-simple-project-isolation">force_libPaths (for
@@ -74,7 +76,6 @@ status](https://github.com/tony-aw/tidyoperators/workflows/R-CMD-check/badge.svg
 has not yet been a stable, usable release suitable for the
 public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 [![](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-[![CodeFactor](https://www.codefactor.io/repository/github/tony-aw/tidyoperators/badge)](https://www.codefactor.io/repository/github/tony-aw/tidyoperators)
 [![](https://img.shields.io/badge/ORCID-0000--0001--9498--8379-green.svg)](https://orcid.org/0000-0001-9498-8379)
 <!-- badges: end -->
 
@@ -85,15 +86,15 @@ public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostat
 The `tidyoperators` R-package adds some much needed infix operators, and
 a few functions, to make your R code much more tidy. It includes infix
 operators for additional logic operators, safer float (in)equality
-operators, in-place modifying mathematical arithmetic, and infix
-operators for custom row- and column-wise rank-based ordering of
-matrices. It also adds some `stringi`-based string related functions,
-operators, and in-place modifying operators. This package adds the
-transform_if functions, and related operators. And finally, it also adds
-some functions and an operator for easier package/library management.
-The `tidyoperators` R-package has only one dependency, namely `stringi`,
-though it does allows multi-threading of some of the string-related
-functions (when appropriate) via the suggested `stringfish` R-package.
+operators, and infix operators for custom row- and column-wise
+rank-based ordering of matrices. It also adds some `stringi`-based
+string related functions and operators. It also adds operators and a few
+functions to help reduce unnecessary repetitive code. And finally, it
+also adds some functions and an operator for easier package/library
+management. The `tidyoperators` R-package has only one dependency,
+namely `stringi`, though it does allows multi-threading of some of the
+string-related functions (when appropriate) via the suggested
+`stringfish` R-package.
 
  
 
@@ -155,6 +156,8 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
 - 17 & 20 April 2023: Small textual changes to the documentation and
   Read-Me. file.
 - 22 April 2023: Added more tests for `stri_locate_ith()`.
+- 22 May 2023: Re-arranged the sections of the Read-Me file. Removed the
+  CodeFactor badge as it was bugging out for some reason.
 
 FUTURE PLANS:
 
@@ -196,12 +199,8 @@ The `tidyoperators` R package adds the following functionality:
 
 - Additional infix logic operators.
 - Safer (in)equality operators for float numbers.
-- Infix operators for In-place modifiers for mathematical arithmetic.
-- Infix operators for string arithmetic, string sub-setting, and their
-  in-place modifying equivalents.
 - Infix operators for row- and column-wise rank-based re-ordering of
   matrices.
-- The `transform_if()` function, and some related operators.
 - The tidyoperators package adds additional `stringi` functions, namely
   `stri_locate_ith()` and `stri_join_mat()` (and aliases). These
   functions use the same naming and argument convention as the rest of
@@ -212,6 +211,9 @@ The `tidyoperators` R package adds the following functionality:
 - The `s_pattern()` helper function for the string infix operators.
 - The `stringi` pattern expressions options are available for all
   string-pattern-related functions, when appropriate.
+- Several in-place modifying arithmetic and string operators, and a few
+  functions, to help reduce repetitive codes, for the sake of the “Don’t
+  Repeat Yourself”-coding principle.
 - Package import management operator and functions.
 - This R package has only one dependency: `stringi`. No other
   dependencies, as to avoid “dependency hell”.
@@ -422,15 +424,15 @@ s[s %=strtype% "special"]
 # Safer float (in)equality operators
 
 This package adds the `%f==%, %f!=% %f<%, %f>%, %f<=%, %f>=%` operators,
-which perform “float logic”. They are virtually equivalent to the
-regular (in)equality operators, `==, !=, <, >, <=, >=`, except for one
-aspect. The float logic operators assume that if the absolute difference
-between `x` and `y` is smaller than the Machine tolerance,
+which perform a form of “float logic”. They are virtually equivalent to
+the regular (in)equality operators, `==, !=, <, >, <=, >=`, except for
+one aspect. The float logic operators assume that if the absolute
+difference between `x` and `y` is smaller than the Machine tolerance,
 `sqrt(.Machine$double.eps)`, then `x` and `y` ought to be consider to be
 equal. Thus these provide safer float (in)equality operators. For
 example: `(0.1*7) == 0.7` returns `FALSE`, even though they are equal,
 due to the way floating numbers are stored in programming languages like
-R. But `(0.1*7) %f==% 0.7` returns `TRUE`.
+R, Python, etc. But `(0.1*7) %f==% 0.7` returns `TRUE`.
 
 Some examples:
 
@@ -472,139 +474,6 @@ x %f!{}% bnd
 Although designed for objects (vectors, matrices, arrays) of class
 `double` (floating numbers), these operators also work correctly for
 integers. These operators do not work for non-numeric objects.
-
- 
-
-# In-place modifying mathematical arithmetic
-
-This R package includes infix operators for in-place modifying
-mathematical arithmetic.
-
-Consider the following line of code:
-
-``` r
-mtcars$mpg[mtcars$cyl>6] <- mtcars$mpg[mtcars$cyl>6]^2
-```
-
-The same expression, `mtcars$mpg[mtcars$cyl>6]`, is written twice,
-making this code rather long and cumbersome, even though we’re just
-squaring the expression. The well-known `magrittr` R-package has an
-in-place modifier pipe, `%<>%`. This works excellent for actual
-functions, like so:
-
-``` r
-mtcars$mpg[mtcars$cyl>6] %<>% mean() # same as mtcars$mpg[mtcars$cyl>6] <- mean(mtcars$mpg[mtcars$cyl>6])
-```
-
-But for arithmetic, one needs to translate the operators into a
-function, and then perform the in-place modifier pipe:
-
-``` r
-mtcars$mpg[mtcars$cyl>6] %<>% raise_to_power(2)
-```
-
-This is better, but still not truly tidy.
-
-This R package solves the above laid-out problem by implementing
-in-place modifying mathematical arithmetic for all mathematical
-operators, excluding matrix operators.
-
-Here is a list of all in-place mathematical modifiers implemented in
-this R-package:
-
-- `x %+ <-% y` is the same as`x <- x + y`;
-- `x %- <-% y` is the same as`x <- x - y`;
-- `x %* <-% y` is the same as`x <- x * y`;
-- `x %/ <-% y` is the same as`x <- x / y`;
-- `x %^ <-% p` is the same as`x <- x^p`;
-- `x %rt <-% p` is the same as`x <- x^(1/p)`;
-- `x %logb <-% b` is the same as`x <- log(x, base=b)`;
-- `x %alogb <-% b` is the same as`x <- b^x`; if `b=exp(1)`, this is the
-  same as`x <- exp(x)`;
-- `x %alogb <-% exp(1)` is the same as exp(x)\`.
-
-For consistency, all infix operators that are in-place modifiers in this
-R package end with `<-%` (notice the space).
-
-Lets look at the original problem:
-
-``` r
-mtcars$mpg[mtcars$cyl>6] <- mtcars$mpg[mtcars$cyl>6]^2
-```
-
-With `tidyoperators` one can now make this more tidy with the following:
-
-``` r
-mtcars$mpg[mtcars$cyl>6] %^ <-% 2
-```
-
- 
-
-# The transform_if function, and related operators
-
-Then we have the subset_if operators, and the `transform_if()` function.
-
-Consider the following code:
-
-`x[cond(x)] <- f(x[cond(x)])`
-
-Here a conditional subset of the object `x` is transformed with function
-`f`, where the condition is using a function referring to `x` itself (in
-this case `cond(x)`). Consequently, reference to `x` is written **four
-times**! If the object has a short name like “x, this doesn’t matter too
-much. But if the object has a longer name like `very_long_name_1`, doing
-something like this:
-
-``` r
-very_long_name_1[very_long_name_1 > 0] <- log(very_long_name_1[very_long_name_1 > 0])
-```
-
-becomes cumbersome, and not so tidy.
-
-The tidyoperators package therefore adds the `transform_if()` function
-which will tidy this up. The above code can now be re-written as:
-
-``` r
-very_long_name_1 %<>% transform_if(\(x)x>0, log)
-```
-
-Besides `transform_if`, the tidyoperators package also adds 2
-“subset_if” operators:
-
-- The `x %[if]% cond` operator selects elements from vector/matrix/array
-  `x`, for which the result of `cond(x)` returns `TRUE`.
-
-- The `x %[!if]% cond` operator selects elements from
-  vector/matrix/array `x`, for which the result of `cond(x)` returns
-  `FALSE`.
-
-For example:
-
-``` r
-object_with_very_long_name <- matrix(-10:9, ncol=2)
-print(object_with_very_long_name)
-#>       [,1] [,2]
-#>  [1,]  -10    0
-#>  [2,]   -9    1
-#>  [3,]   -8    2
-#>  [4,]   -7    3
-#>  [5,]   -6    4
-#>  [6,]   -5    5
-#>  [7,]   -4    6
-#>  [8,]   -3    7
-#>  [9,]   -2    8
-#> [10,]   -1    9
-object_with_very_long_name %[if]% \(x)x %in% 1:10
-#> [1] 1 2 3 4 5 6 7 8 9
-object_with_very_long_name %[!if]% \(x)x %in% 1:10
-#>  [1] -10  -9  -8  -7  -6  -5  -4  -3  -2  -1   0
-```
-
-Another operator added by `tidyoperators` is `x %unreal <-% y`, which
-replaces all NA, NaN, Inf and -Inf in `x` with the value given in `y`.
-
-So `x %unreal <-% y` is the same as
-`x[is.na(x)|is.nan(x)|is.infinite(x)] <- y`.
 
  
 
@@ -1148,6 +1017,143 @@ And so on. I’m sure you get the idea.
 
  
 
+# “Don’t Repeat Yourself”
+
+## The transform_if function, and related operators
+
+“Don’t Repeat Yourself”, sometimes abbreviated as “DRY”, is the coding
+principle that you should try to reduce repeating patterns in your code
+(within reason).
+
+Consider the following code:
+
+`x[cond(x)] <- f(x[cond(x)])`
+
+Here a conditional subset of the object `x` is transformed with function
+`f`, where the condition is using a function referring to `x` itself (in
+this case `cond(x)`). Consequently, reference to `x` is written **four
+times**! If the object has a short name like “x, this doesn’t matter too
+much. But if the object has a longer name like `very_long_name_1`, doing
+something like this:
+
+``` r
+very_long_name_1[very_long_name_1 > 0] <- log(very_long_name_1[very_long_name_1 > 0])
+```
+
+becomes cumbersome, and not so tidy.
+
+The tidyoperators package therefore adds the `transform_if()` function
+which will tidy this up. The above code can now be re-written as:
+
+``` r
+very_long_name_1 %<>% transform_if(\(x)x>0, log)
+```
+
+Besides `transform_if`, the tidyoperators package also adds 2
+“subset_if” operators:
+
+- The `x %[if]% cond` operator selects elements from vector/matrix/array
+  `x`, for which the result of `cond(x)` returns `TRUE`.
+
+- The `x %[!if]% cond` operator selects elements from
+  vector/matrix/array `x`, for which the result of `cond(x)` returns
+  `FALSE`.
+
+For example:
+
+``` r
+object_with_very_long_name <- matrix(-10:9, ncol=2)
+print(object_with_very_long_name)
+#>       [,1] [,2]
+#>  [1,]  -10    0
+#>  [2,]   -9    1
+#>  [3,]   -8    2
+#>  [4,]   -7    3
+#>  [5,]   -6    4
+#>  [6,]   -5    5
+#>  [7,]   -4    6
+#>  [8,]   -3    7
+#>  [9,]   -2    8
+#> [10,]   -1    9
+object_with_very_long_name %[if]% \(x)x %in% 1:10
+#> [1] 1 2 3 4 5 6 7 8 9
+object_with_very_long_name %[!if]% \(x)x %in% 1:10
+#>  [1] -10  -9  -8  -7  -6  -5  -4  -3  -2  -1   0
+```
+
+Another operator added by `tidyoperators` is `x %unreal <-% y`, which
+replaces all NA, NaN, Inf and -Inf in `x` with the value given in `y`.
+
+So `x %unreal <-% y` is the same as
+`x[is.na(x)|is.nan(x)|is.infinite(x)] <- y`.
+
+ 
+
+## In-place modifying mathematical arithmetic
+
+This R package includes infix operators for in-place modifying
+mathematical arithmetic.
+
+Consider the following line of code:
+
+``` r
+mtcars$mpg[mtcars$cyl>6] <- mtcars$mpg[mtcars$cyl>6]^2
+```
+
+The same expression, `mtcars$mpg[mtcars$cyl>6]`, is written twice,
+making this code rather long and cumbersome, even though we’re just
+squaring the expression. The well-known `magrittr` R-package has an
+in-place modifier pipe, `%<>%`. This works excellent for actual
+functions, like so:
+
+``` r
+mtcars$mpg[mtcars$cyl>6] %<>% mean() # same as mtcars$mpg[mtcars$cyl>6] <- mean(mtcars$mpg[mtcars$cyl>6])
+```
+
+But for arithmetic, one needs to translate the operators into a
+function, and then perform the in-place modifier pipe:
+
+``` r
+mtcars$mpg[mtcars$cyl>6] %<>% raise_to_power(2)
+```
+
+This is better, but still not truly tidy.
+
+This R package solves the above laid-out problem by implementing
+in-place modifying mathematical arithmetic for all mathematical
+operators, excluding matrix operators.
+
+Here is a list of all in-place mathematical modifiers implemented in
+this R-package:
+
+- `x %+ <-% y` is the same as`x <- x + y`;
+- `x %- <-% y` is the same as`x <- x - y`;
+- `x %* <-% y` is the same as`x <- x * y`;
+- `x %/ <-% y` is the same as`x <- x / y`;
+- `x %^ <-% p` is the same as`x <- x^p`;
+- `x %rt <-% p` is the same as`x <- x^(1/p)`;
+- `x %logb <-% b` is the same as`x <- log(x, base=b)`;
+- `x %alogb <-% b` is the same as`x <- b^x`; if `b=exp(1)`, this is the
+  same as`x <- exp(x)`;
+- `x %alogb <-% exp(1)` is the same as exp(x)\`.
+
+For consistency, all infix operators that are in-place modifiers in this
+R package end with `<-%` (notice the space).
+
+Lets look at the original problem:
+
+``` r
+mtcars$mpg[mtcars$cyl>6] <- mtcars$mpg[mtcars$cyl>6]^2
+```
+
+With `tidyoperators` one can now make this more tidy with the following:
+
+``` r
+mtcars$mpg[mtcars$cyl>6] %^ <-% 2
+```
+
+ 
+
 ## In-place modifying string arithmetic and sub-setting
 
 With the exception of `%ss%`, all infix operators for string arithmetic
@@ -1162,7 +1168,7 @@ and string sub-setting have their in-place modifying equivalent:
 
  
 
-# Package management
+# Library management
 
 ## force_libPaths (for simple Project Isolation)
 
