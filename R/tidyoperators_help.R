@@ -4,19 +4,17 @@
 #' Welcome to the \code{tidyoperators} help page! \cr
 #' \cr
 #' The 'tidyoperators' R-package adds some much needed infix operators,
-#' and a few functions,
-#' to make your R code much more tidy.
+#' and a few functions, to make your R code much more tidy.
 #' It includes infix operators for additional logic operators,
 #' safer float (in)equality operators,
-#' in-place modifying mathematical arithmetic,
-#' and infix operators for custom row- and column-wise rank-based ordering of matrices.
-#' It also adds some 'stringi'-based string related functions, operators, and in-place modifying operators.
-#' This package adds the transform_if functions, and related operators.
-#' And finally, it also adds some functions and an operator
-#' for easier package/library management.
+#' and infix operators for custom row- and column-wise ordering of matrices.
+#' It also adds some stringi-based string related functions and operators.
+#' It also adds operators and a few functions to help reduce unnecessary repetitive code.
+#' And finally, it also adds some functions and an operator for easier package/library management.
 #' The 'tidyoperators' R-package has only one dependency, namely 'stringi',
 #' though it does allows multi-threading of some of the string-related functions
-#' (when appropriate) via the suggested 'stringfish' R-package. \cr
+#' (when appropriate)
+#' via the suggested 'stringfish' R-package. \cr
 #' \cr
 #'
 #' The \code{tidyoperators} R package adds the following functionality: \cr

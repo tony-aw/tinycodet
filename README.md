@@ -27,10 +27,10 @@
     id="toc-string-subsetting-operators">String subsetting operators</a>
   - <a href="#string-arithmetic" id="toc-string-arithmetic">String
     arithmetic</a>
-  - <a href="#pattern-attributes-in-strings"
-    id="toc-pattern-attributes-in-strings">Pattern attributes in strings</a>
-  - <a href="#pattern-attributes-examples"
-    id="toc-pattern-attributes-examples">Pattern attributes examples</a>
+  - <a
+    href="#specifying-pattern-search-attributes-in-string-infix-operators"
+    id="toc-specifying-pattern-search-attributes-in-string-infix-operators">Specifying
+    Pattern search attributes in string infix operators</a>
 - <a href="#dont-repeat-yourself---operators"
   id="toc-dont-repeat-yourself---operators">“Don’t Repeat Yourself” -
   operators</a>
@@ -157,6 +157,11 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
 - 22 April 2023: Added more tests for `stri_locate_ith()`.
 - 22 May 2023: Re-arranged the sections of the Read-Me file. Removed the
   CodeFactor badge as it was bugging out for some reason.
+- 25 May 2023: The `stri_locate_ith()` function slightly re-written to
+  be even faster, and improved its documentation. Edited the
+  description. Changed the documentation regarding matrix operators, as
+  I suspect the usage of the word “rank” might be confusing. Also edited
+  this Read-Me file a bit.
 
 FUTURE PLANS:
 
@@ -494,7 +499,7 @@ If matrix `x` is not numeric, sorting using `x %row~% x` and
 non-numeric case, providing a matrix of ordering ranks would probably be
 faster and give more accurate ordering.
 
-If `mat` is a matrix of non-repeating sample of random integers
+If `mat` is a matrix of non-repeating random integers
 (i.e. `sample(1:length(x), replace=FALSE)`), `x %row~% mat` will
 randomly shuffle the elements of every row, where the shuffling order of
 every row is independent of the other rows. Similarly, `x %col~% mat`
@@ -942,7 +947,7 @@ vector of the same length as `x`.
 
  
 
-## Pattern attributes in strings
+## Specifying Pattern search attributes in string infix operators
 
 The `x %s-% p` and `x %s/% p` operators (and their in-place equivalents,
 given later), and the `%sgrep%` operator perform pattern matching for
@@ -966,18 +971,11 @@ The `s_pattern()` function uses the exact same argument convention as
 - `s_pattern(coll=p, ...)`
 - `s_pattern(charclass=p, ...)`
 
-For consistency with base R and with packages such as `stringr`, one can
-also fill in `ignore.case=TRUE` or `ignore_case=TRUE` instead of
-`case_insensitive=TRUE`, and `s_pattern()` will still understand that.
-
 Note that the `s_pattern()` function only works for the infix operators
-(i.e. operator-functions surrounded by `%` signs).
+(functions surrounded by `%` signs) related to strings in this R
+package.
 
- 
-
-## Pattern attributes examples
-
-Regular expressions:
+Examples with Regular expressions:
 
 ``` r
 x <- c("Hello world", "Goodbye world")
@@ -991,7 +989,7 @@ x %s/% p
 #> [1] 10  0  0  0  0 10
 ```
 
-Fixed expressions:
+Examples with Fixed expressions:
 
 ``` r
 x <- c("Hello world", "Goodbye world")
@@ -1262,7 +1260,7 @@ ftv %m import <-% c("data.table", "collapse", "tidytable")
 #> Importing package: tidytable...
 #> The following conflicting objects detected:
 #>  
-#> first, %chin%, getDTthreads, data.table, %between%, last, setDTthreads, between, fwrite, fread, %like%
+#> %chin%, %like%, last, fread, setDTthreads, data.table, first, getDTthreads, fwrite, %between%, between
 #>  
 #> tidytable will overwrite conflicting objects from previous imported packages...
 #> 

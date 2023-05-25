@@ -60,7 +60,7 @@
 #'
 #' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 #' print(x)
-#' p <- s_pattern(regex=rep("A|E|I|O|U", 2), ignore.case=TRUE)
+#' p <- s_pattern(regex=rep("A|E|I|O|U", 2), case_insensitive=TRUE)
 #' x %s/% p # count how often vowels appear in each string of vector x.
 #'
 

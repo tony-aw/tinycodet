@@ -4,29 +4,29 @@
 \alias{matrix_ops}
 \alias{\%row~\%}
 \alias{\%col~\%}
-\title{Infix operators for row- and column-wise rank-based re-ordering of matrices}
+\title{Infix operators for row- and column-wise re-ordering of matrices}
 \usage{
-x \%row~\% rank
+x \%row~\% mat
 
-x \%col~\% rank
+x \%col~\% mat
 }
 \arguments{
 \item{x}{a matrix}
 
-\item{rank}{a matrix with the same dimensions as \code{x},
-giving the ordering rank of every element of matrix \code{x}. \cr}
+\item{mat}{a matrix with the same dimensions as \code{x},
+giving the ordering ranks of every element of matrix \code{x}. \cr}
 }
 \value{
 A modified matrix.
 }
 \description{
-Infix operators for custom row- and column-wise rank-based re-ordering of matrices \cr
+Infix operators for custom row- and column-wise re-ordering of matrices \cr
 \cr
-The \code{x \%row~\% rank} operator re-orders the elements of every row of matrix \code{x}
-according to the rank given in matrix \code{rank}. \cr
+The \code{x \%row~\% mat} operator re-orders the elements of every row of matrix \code{x}
+according to the ordering ranks given in matrix \code{mat}. \cr
 \cr
-The \code{x \%col~\% rank} operator re-orders the elements of every column of matrix \code{x}
-according to the rank given in matrix \code{rank}. \cr
+The \code{x \%col~\% mat} operator re-orders the elements of every column of matrix \code{x}
+according to the ordering ranks given in matrix \code{mat}. \cr
 \cr
 }
 \details{
@@ -38,14 +38,14 @@ If matrix \code{x} is not numeric,
 sorting the elements using \code{x \%row~\% x} and \code{x \%col~\% x} are still possible,
 but probably not the best option.
 In the non-numeric case,
-providing a ranking matrix for \code{rank} would be faster and give more accurate ordering.
+providing a matrix of ordering ranks for \code{mat} would be faster and give more accurate ordering.
 See the examples section. \cr
 \cr
-If \code{rank} is a non-repeating sample of random integers
-(i.e. \code{sample(1:length(x), replace=FALSE)}),
-\code{x \%row~\% rank} will randomly shuffle the elements of every row,
+If \code{mat} is a matrix of non-repeating random integers
+(i.e. \code{sample(1:length(x), replace=FALSE) sample(1:length(x)) |> matrix(ncol=ncol(x))}),
+\code{x \%row~\% mat} will randomly shuffle the elements of every row,
 where the shuffling order of every row is independent of the other rows. \cr
-Similarly, \code{x \%col~\% rank} will randomly shuffle the elements of every column,
+Similarly, \code{x \%col~\% mat} will randomly shuffle the elements of every column,
 where the shuffling order of every column is independent of the other columns. \cr
 \cr
 These operators internally only use vectorized operations
@@ -57,35 +57,34 @@ and are faster than re-ordering matrices using loops or apply-like functions.
 
 # numeric matrix ====
 
-mat <- matrix(sample(1:25), nrow=5)
-print(mat)
-mat \%row~\% mat # sort elements of every row
-mat \%row~\% -mat # reverse-sort elements of every row
-mat \%col~\% mat # sort elements of every column
-mat \%col~\% -mat # reverse-sort elements of every column
+x <- matrix(sample(1:25), nrow=5)
+print(x)
+x \%row~\% x # sort elements of every row
+x \%row~\% -x # reverse-sort elements of every row
+x \%col~\% x # sort elements of every column
+x \%col~\% -x # reverse-sort elements of every column
 
-mat <- matrix(sample(1:25), nrow=5)
-print(mat)
-rank <- sample(1:length(mat)) |> matrix(ncol=ncol(mat)) # randomized rank
-mat \%row~\% rank # randomly shuffle every row independently
-mat \%col~\% rank # randomize shuffle every column independently
+x <- matrix(sample(1:25), nrow=5)
+print(x)
+mat <- sample(1:length(x)) |> matrix(ncol=ncol(x)) # matrix of non-repeating random integers
+x \%row~\% mat # randomly shuffle every row independently
+x \%col~\% mat # randomize shuffle every column independently
 
 # character matrix ====
 
-mat <- matrix(sample(letters, 25), nrow=5)
-print(mat)
-rank <- stringi::stri_rank(as.vector(mat)) # alphabetic ranking from stringi
-rank <- matrix(rank, ncol=ncol(mat)) # rank matrix
-mat \%row~\% rank # sort elements of every row
-mat \%row~\% -rank # reverse-sort elements of every row
-mat \%col~\% rank # sort elements of every column
-mat \%col~\% -rank # reverse-sort elements of every column
+x <- matrix(sample(letters, 25), nrow=5)
+print(x)
+mat <- stringi::stri_rank(as.vector(x)) |> matrix(ncol=ncol(x))
+x \%row~\% mat # sort elements of every row
+x \%row~\% -mat # reverse-sort elements of every row
+x \%col~\% mat # sort elements of every column
+x \%col~\% -mat # reverse-sort elements of every column
 
-mat <- matrix(sample(letters, 25), nrow=5)
-print(mat)
-rank <- sample(1:length(mat)) |> matrix(ncol=ncol(mat)) # randomized rank
-mat \%row~\%  rank# randomly shuffle every row independently
-mat \%col~\% rank # randomize shuffle every column independently
+x <- matrix(sample(letters, 25), nrow=5)
+print(x)
+mat <- sample(1:length(x)) |> matrix(ncol=ncol(x)) # matrix of non-repeating random integers
+x \%row~\% mat # randomly shuffle every row independently
+x \%col~\% mat # randomize shuffle every column independently
 
 
 

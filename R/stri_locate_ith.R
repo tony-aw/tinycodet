@@ -52,6 +52,10 @@
 #' The second column gives the end position of the \eqn{i^{th}} occurrence of the pattern. \cr
 #' The third column gives the length of the position range of
 #' the \eqn{i^{th}} occurrence of the pattern. \cr
+#' \cr
+#' If no matches are found in a string,
+#' \code{NA} is filled in for the start and end positions (and length).
+#' \cr
 #'
 #'
 #'
@@ -132,24 +136,41 @@ stri_locate_ith <- function(
       "you have to specify either `regex`, `fixed`, `coll`, `charclass`"
     )
   }
-  if (providedarg["regex"])
-    p1 <- stringi::stri_locate_all_regex(
-      str=x, regex, omit_no_match = FALSE, get_length = FALSE, ...
-    )
-  else if (providedarg["fixed"])
-    p1 <- stringi::stri_locate_all_fixed(
-      str=x, fixed, omit_no_match = FALSE, get_length = FALSE, ...
-    )
-  else if (providedarg["coll"])
-    p1 <- stringi::stri_locate_all_coll(
-      str=x, coll, omit_no_match = FALSE, get_length = FALSE, ...
-    )
-  else if (providedarg["charclass"])
-    p1 <- stringi::stri_locate_all_charclass(
-      str=x, charclass, omit_no_match = FALSE, get_length = FALSE, ...
-    )
 
-  n.matches <- vapply(p1, nrow, FUN.VALUE = integer(1))
+  if (providedarg["regex"]) {
+    p1 <- stringi::stri_locate_all_regex(
+      str=x, pattern=regex, omit_no_match = FALSE, get_length = FALSE, ...
+    )
+    n.matches <- stringi::stri_count_regex(
+      str=x, pattern=regex, ...
+    )
+  }
+  else if (providedarg["fixed"]) {
+    p1 <- stringi::stri_locate_all_fixed(
+      str=x, pattern=fixed, omit_no_match = FALSE, get_length = FALSE, ...
+    )
+    n.matches <- stringi::stri_count_fixed(
+      str=x, pattern=fixed, ...
+    )
+  }
+  else if (providedarg["coll"]) {
+    p1 <- stringi::stri_locate_all_coll(
+      str=x, pattern=coll, omit_no_match = FALSE, get_length = FALSE, ...
+    )
+    n.matches <- stringi::stri_count_coll(
+      str=x, pattern=coll, ...
+    )
+  }
+  else if (providedarg["charclass"]) {
+    p1 <- stringi::stri_locate_all_charclass(
+      str=x, pattern=charclass, omit_no_match = FALSE, get_length = FALSE, ...
+    )
+    n.matches <- stringi::stri_count_charclass(
+      str=x, pattern=charclass, ...
+    )
+  }
+
+  n.matches <- pmax(n.matches, 1) # if no matches found, n.matches must be 1 so that NA is returned.
   i[i<0] <- pmax(n.matches[i<0] - abs(i[i<0]+1), 1)
   i[i>0] <- pmin(i[i>0], n.matches[i>0])
   p2 <- mapply(function(x, i)x[i, ,drop=FALSE], x=p1, i=i, SIMPLIFY = FALSE)

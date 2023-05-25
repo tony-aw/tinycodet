@@ -56,6 +56,10 @@ The first column gives the start position of the \eqn{i^{th}} occurrence of the 
 The second column gives the end position of the \eqn{i^{th}} occurrence of the pattern. \cr
 The third column gives the length of the position range of
 the \eqn{i^{th}} occurrence of the pattern. \cr
+\cr
+If no matches are found in a string,
+\code{NA} is filled in for the start and end positions (and length).
+\cr
 }
 \description{
 The \code{stri_locate_ith} function

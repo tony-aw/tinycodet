@@ -70,6 +70,7 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
  - 17 & 20 April 2023: Small textual changes to the documentation and Read-Me. file.
  - 22 April 2023: Added more tests for `stri_locate_ith()`.
  - 22 May 2023: Re-arranged the sections of the Read-Me file. Removed the CodeFactor badge as it was bugging out for some reason.
+ - 25 May 2023: The `stri_locate_ith()` function slightly re-written to be even faster, and improved its documentation. Edited the description. Changed the documentation regarding matrix operators, as I suspect the usage of the word "rank" might be confusing. Also edited this Read-Me file a bit.
 
 
 FUTURE PLANS:
@@ -309,7 +310,7 @@ If matrix `x` is a numeric matrix, and one wants to numerically sort the element
 
 If matrix `x` is not numeric, sorting using `x %row~% x` and `x %col~% x `are still possible, but probably not the best option. In the non-numeric case, providing a matrix of ordering ranks would probably be faster and give more accurate ordering.
 
-If `mat` is a matrix of non-repeating sample of random integers (i.e. `sample(1:length(x), replace=FALSE)`), `x %row~% mat` will randomly shuffle the elements of every row, where the shuffling order of every row is independent of the other rows. Similarly, `x %col~% mat` will randomly shuffle the elements of every column, where the shuffling order of every column is independent of the other columns.
+If `mat` is a matrix of non-repeating random integers (i.e. `sample(1:length(x), replace=FALSE)`), `x %row~% mat` will randomly shuffle the elements of every row, where the shuffling order of every row is independent of the other rows. Similarly, `x %col~% mat` will randomly shuffle the elements of every column, where the shuffling order of every column is independent of the other columns.
 
 &nbsp;
 
@@ -575,7 +576,7 @@ The right-side arguments `p`, `y`, and `n` can be a single value, or a vector of
 
 &nbsp;
 
-## Pattern attributes in strings
+## Specifying Pattern search attributes in string infix operators
 
 The `x %s-% p` and `x %s/% p` operators (and their in-place equivalents, given later), and the `%sgrep%` operator perform pattern matching for various purposes. By default the pattern matching is interpreted as case-sensitive `regex` patterns from `stringi`.
 
@@ -590,15 +591,10 @@ The `s_pattern()` function uses the exact same argument convention as `stringi`.
  - `s_pattern(coll=p, ...)`
  - `s_pattern(charclass=p, ...)`
 
-For consistency with base R and with packages such as `stringr`, one can also fill in `ignore.case=TRUE` or `ignore_case=TRUE` instead of `case_insensitive=TRUE`, and `s_pattern()` will still understand that.
+Note that the `s_pattern()` function only works for the infix operators (functions surrounded by `%` signs) related to strings in this R package.
 
-Note that the `s_pattern()` function only works for the infix operators (i.e. operator-functions surrounded by `%` signs).
 
-&nbsp;
-
-## Pattern attributes examples
-
-Regular expressions:
+Examples with Regular expressions:
 
 ```{r}
 x <- c("Hello world", "Goodbye world")
@@ -610,7 +606,7 @@ p <- s_pattern(regex="Ha")
 x %s/% p
 ```
 
-Fixed expressions:
+Examples with Fixed expressions:
 
 ```{r}
 x <- c("Hello world", "Goodbye world")
