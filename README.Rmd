@@ -37,7 +37,7 @@ The `tidyoperators` R-package adds some much needed infix operators,
     to make your R code much more tidy.
     It includes infix operators for additional logic operators,
     safer float (in)equality operators,
-    and infix operators for custom row- and column-wise rank-based ordering of matrices.
+    and infix operators for custom row- and column-wise ordering of matrices.
     It also adds some `stringi`-based string related functions and operators.
     It also adds operators and a few functions to help reduce unnecessary repetitive code.
     And finally, it also adds some functions and an operator
@@ -106,7 +106,7 @@ The `tidyoperators` R package adds the following functionality:
  
  - Additional infix logic operators.
  - Safer (in)equality operators for float numbers.
- - Infix operators for row- and column-wise rank-based re-ordering of matrices.
+ - Infix operators for row- and column-wise re-ordering of matrices.
  - The tidyoperators package adds additional `stringi` functions, namely `stri_locate_ith()` and `stri_join_mat()` (and aliases). These functions use the same naming and argument convention as the rest of the `stringi` functions, thus keeping your code consistent.
  - The fully vectorized sub-string functions, that extract, replace, add-in, transform, or re-arrange, the $i^{th}$ pattern occurrence or substring.
  - The `s_pattern()` helper function for the string infix operators.
@@ -175,11 +175,12 @@ String re-ordering using matrix re-ordering:
 # sorting words:
 x <- c("Hello everyone, I'm here", "Goodbye everyone")
 print(x)
-mat <- stringi::stri_split_boundaries(
+x <- stringi::stri_split_boundaries(
   x, simplify = TRUE, type="word" # vector to matrix
 )
-rank <- stringi::stri_rank(as.vector(mat)) |>  matrix(ncol=ncol(mat))
-sorted <- mat %row~% rank # rank based matrix re-ordering
+mat <- stringi::stri_rank(as.vector(x)) |>
+  matrix(ncol=ncol(x)) # matrix of ordering ranks
+sorted <- x %row~% mat # matrix re-ordering
 stri_c_mat(sorted, margin=1, sep=" ") # row-wise concatenate strings
 ```
 
@@ -297,55 +298,56 @@ Although designed for objects (vectors, matrices, arrays) of class `double` (flo
 
 &nbsp;
 
-# Matrix rank-based re-ordering infix operators
+# Matrix re-ordering operators
 
 The `tidyoperators` R package adds 2 additional matrix operators:
 
- - The `x %row~% rank` operator re-orders the elements within every row of matrix `x` by the rank given in matrix `rank`.
- - The `x %col~% rank` operator re-orders the elements within every column of matrix `x` by the rank given in matrix `rank`.
+ - The `x %row~% mat` operator re-orders the elements within every row of matrix `x` by the ordering ranks given in matrix `mat`.
+ - The `x %col~% mat` operator re-orders the elements within every column of matrix `x` by the ordering ranks given in matrix `mat`.
  
 If matrix `x` is a numeric matrix, and one wants to numerically sort the elements of every row or column, `x %row~% x` or `x %col~% x` would suffice, respectively.
 
-If matrix `x` is not numeric, sorting using `x %row~% x` and `x %col~% x `are still possible, but probably not the best option. In the non-numeric case, providing a ranking matrix probably would be faster and give more accurate ordering.
+If matrix `x` is not numeric, sorting using `x %row~% x` and `x %col~% x `are still possible, but probably not the best option. In the non-numeric case, providing a matrix of ordering ranks would probably be faster and give more accurate ordering.
 
-If `rank` is a non-repeating sample of random integers (i.e. `sample(1:length(x), replace=FALSE)`), `x %row~% rank` will randomly shuffle the elements of every row, where the shuffling order of every row is independent of the other rows. Similarly, `x %col~% rank` will randomly shuffle the elements of every column, where the shuffling order of every column is independent of the other columns.
+If `mat` is a matrix of non-repeating sample of random integers (i.e. `sample(1:length(x), replace=FALSE)`), `x %row~% mat` will randomly shuffle the elements of every row, where the shuffling order of every row is independent of the other rows. Similarly, `x %col~% mat` will randomly shuffle the elements of every column, where the shuffling order of every column is independent of the other columns.
 
 &nbsp;
 
 Examples with a numeric matrix:
 
 ```{r}
-mat <- matrix(sample(1:25), nrow=5)
-print(mat)
-mat %row~% mat # sort elements of every row
-mat %row~% -mat # reverse-sort elements of every row
-mat %col~% mat # sort elements of every column
-mat %col~% -mat # reverse-sort elements of every column
+x <- matrix(sample(1:25), nrow=5)
+print(x)
+x %row~% x # sort elements of every row
+x %row~% -x # reverse-sort elements of every row
+x %col~% x # sort elements of every column
+x %col~% -x # reverse-sort elements of every column
 
-mat <- matrix(sample(1:25), nrow=5)
-print(mat)
-rank <- sample(1:length(mat)) |> matrix(ncol=ncol(mat)) # randomized rank
-mat %row~%  rank# random shuffle every row independent of other rows
-mat %col~% rank # random shuffle every column independent of other columns
+x <- matrix(sample(1:25), nrow=5)
+print(x)
+rand <- sample(1:length(x)) |> matrix(ncol=ncol(x)) # matrix of random integers
+x %row~% rand # random shuffle every row independent of other rows
+x %col~% rand # random shuffle every column independent of other columns
 ```
 
 
 Examples with a character matrix:
 
 ```{r}
-mat <- matrix(sample(letters, 25), nrow=5)
-print(mat)
-rank <- stringi::stri_rank(as.vector(mat)) |> matrix(ncol=ncol(mat)) # rank matrix
-mat %row~% rank # sort elements of every row
-mat %row~% -rank # reverse-sort elements of every row
-mat %col~% rank # sort elements of every column
-mat %col~% -rank # reverse-sort elements of every column
+x <- matrix(sample(letters, 25), nrow=5)
+print(x)
+mat <- stringi::stri_rank(as.vector(x)) |>
+  matrix(ncol=ncol(x)) # matrix of ordering ranks
+x %row~% mat # sort elements of every row
+x %row~% -mat # reverse-sort elements of every row
+x %col~% mat # sort elements of every column
+x %col~% -mat # reverse-sort elements of every column
 
-mat <- matrix(sample(letters, 25), nrow=5)
-print(mat)
-rank <- sample(1:length(mat)) |> matrix(ncol=ncol(mat)) # randomized rank
-mat %row~%  rank# random shuffle every row independent of other rows
-mat %col~% rank # random shuffle every column independent of other columns
+x <- matrix(sample(letters, 25), nrow=5)
+print(x)
+rand <- sample(1:length(x)) |> matrix(ncol=ncol(x)) # matrix of random integers
+x %row~% rand # random shuffle every row independent of other rows
+x %col~% rand # random shuffle every column independent of other columns
 ```
 
 These operators internally only use vectorized operations (no loops or apply-like functions), and are faster than re-ordering matrices using loops or apply-like functions.
@@ -362,33 +364,31 @@ The `tidyoperators` package adds a tiny additional function to `stringi`:
 
 As the name suggests, these functions perform row-wise (`margin=1`; the default) or column-wise (`margin=2`) joining of a matrix of strings, thereby transforming it to a vector of strings. You can do this already in base R, but it requires converting the matrix to a data.frame or list, and then calling `stri_join` inside `do.call()`, which to me just seems too much trouble for something *soooo* abysmally simple.
 
-Here a practical example of their usage when re-ordering strings, words, or sentences :
+Here is an example of their usage when re-ordering strings, words, or sentences :
 
 ```{r}
 # sorting characters in strings:
 x <- c("Hello world", "Goodbye world")
 print(x)
-mat <- stringi::stri_split_boundaries(x, simplify = TRUE, type="character")
-rank <- stringi::stri_rank(as.vector(mat)) |>  matrix(ncol=ncol(mat))
-sorted <- mat %row~% rank # <- fast sort matrix row-wise
-print(sorted)
+x <- stringi::stri_split_boundaries(x, simplify = TRUE, type="character")
+mat <- stringi::stri_rank(as.vector(x)) |>  matrix(ncol=ncol(x))
+sorted <- x %row~% mat # fast sort matrix row-wise
 stri_join_mat(sorted, margin=1, sep="") # <- using new function here
 
 # sorting words:
 x <- c("Hello everyone", "Goodbye everyone")
 print(x)
-mat <- stringi::stri_split_boundaries(x, simplify = TRUE, type="word")
-rank <- stringi::stri_rank(as.vector(mat)) |>  matrix(ncol=ncol(mat))
-sorted <- mat %row~% rank # <- fast sort matrix row-wise
-print(sorted)
+x <- stringi::stri_split_boundaries(x, simplify = TRUE, type="word")
+mat <- stringi::stri_rank(as.vector(x)) |>  matrix(ncol=ncol(x))
+sorted <- x %row~% mat # <- fast sort matrix row-wise
 stri_c_mat(sorted, margin=1, sep=" ") # <- alias for stri_join_mat
 
 # randomly shuffle sentences:
 x <- c("Hello, who are you? Oh, really?! Cool!", "I don't care. But I really don't.")
 print(x)
-mat <- stringi::stri_split_boundaries(x, simplify = TRUE, type="sentence")
-rank <- sample(1:length(mat)) |> matrix(ncol=ncol(mat))
-shuffled <- mat %row~% rank # <- fast sort matrix row-wise
+x <- stringi::stri_split_boundaries(x, simplify = TRUE, type="sentence")
+mat <- sample(1:length(x)) |> matrix(ncol=ncol(x))
+shuffled <- x %row~% mat # <- fast sort matrix row-wise
 print(shuffled)
 stri_paste_mat(shuffled, margin=1, sep=" ") # <- another alias for stri_join_mat
 ```
@@ -456,7 +456,7 @@ repl <- lapply(extr, \(x)chartr(x=x, old = "a-zA-Z", new = "A-Za-z"))
 stringi::stri_sub_all_replace(x, loc, replacement=repl)
 ```
 
-Notice that the code is virtually equivalent. We ONLY need to change the locate function.
+Notice that the code is virtually equivalent. We *only* need to change the locate function.
 
 The transformation given in the previous code used `lapply`. I'm sure we want to stick to vectorized functions as much as possible. Therefore, the `tidyoperators` package also adds several fully vectorized `substr_`-functions, which are discussed in the very next section.
 
@@ -807,7 +807,7 @@ It's better not to use this method for packages that mainly implement operators 
 
 ```{r eval=FALSE}
 to %m import <-% "tidyoperators"
-to$`%row~%`(mat, rank)
+to$`%row~%`(x, mat)
 ```
 
 is very cumbersome. The `%m import <-%` operator will therefore also notify the user when attempting to import an R-package where more than half of the functions are operators.

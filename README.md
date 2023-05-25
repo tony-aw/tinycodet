@@ -10,9 +10,8 @@
 - <a href="#safer-float-inequality-operators"
   id="toc-safer-float-inequality-operators">Safer float (in)equality
   operators</a>
-- <a href="#matrix-rank-based-re-ordering-infix-operators"
-  id="toc-matrix-rank-based-re-ordering-infix-operators">Matrix rank-based
-  re-ordering infix operators</a>
+- <a href="#matrix-re-ordering-operators"
+  id="toc-matrix-re-ordering-operators">Matrix re-ordering operators</a>
 - <a href="#string-functions" id="toc-string-functions">String
   functions</a>
   - <a href="#matrix-joining" id="toc-matrix-joining">Matrix joining</a>
@@ -87,15 +86,14 @@ public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostat
 The `tidyoperators` R-package adds some much needed infix operators, and
 a few functions, to make your R code much more tidy. It includes infix
 operators for additional logic operators, safer float (in)equality
-operators, and infix operators for custom row- and column-wise
-rank-based ordering of matrices. It also adds some `stringi`-based
-string related functions and operators. It also adds operators and a few
-functions to help reduce unnecessary repetitive code. And finally, it
-also adds some functions and an operator for easier package/library
-management. The `tidyoperators` R-package has only one dependency,
-namely `stringi`, though it does allows multi-threading of some of the
-string-related functions (when appropriate) via the suggested
-`stringfish` R-package.
+operators, and infix operators for custom row- and column-wise ordering
+of matrices. It also adds some `stringi`-based string related functions
+and operators. It also adds operators and a few functions to help reduce
+unnecessary repetitive code. And finally, it also adds some functions
+and an operator for easier package/library management. The
+`tidyoperators` R-package has only one dependency, namely `stringi`,
+though it does allows multi-threading of some of the string-related
+functions (when appropriate) via the suggested `stringfish` R-package.
 
  
 
@@ -200,8 +198,7 @@ The `tidyoperators` R package adds the following functionality:
 
 - Additional infix logic operators.
 - Safer (in)equality operators for float numbers.
-- Infix operators for row- and column-wise rank-based re-ordering of
-  matrices.
+- Infix operators for row- and column-wise re-ordering of matrices.
 - The tidyoperators package adds additional `stringi` functions, namely
   `stri_locate_ith()` and `stri_join_mat()` (and aliases). These
   functions use the same naming and argument convention as the rest of
@@ -290,11 +287,12 @@ String re-ordering using matrix re-ordering:
 x <- c("Hello everyone, I'm here", "Goodbye everyone")
 print(x)
 #> [1] "Hello everyone, I'm here" "Goodbye everyone"
-mat <- stringi::stri_split_boundaries(
+x <- stringi::stri_split_boundaries(
   x, simplify = TRUE, type="word" # vector to matrix
 )
-rank <- stringi::stri_rank(as.vector(mat)) |>  matrix(ncol=ncol(mat))
-sorted <- mat %row~% rank # rank based matrix re-ordering
+mat <- stringi::stri_rank(as.vector(x)) |>
+  matrix(ncol=ncol(x)) # matrix of ordering ranks
+sorted <- x %row~% mat # matrix re-ordering
 stri_c_mat(sorted, margin=1, sep=" ") # row-wise concatenate strings
 #> [1] "      , everyone Hello here I'm" "       everyone Goodbye"
 ```
@@ -478,14 +476,14 @@ integers. These operators do not work for non-numeric objects.
 
  
 
-# Matrix rank-based re-ordering infix operators
+# Matrix re-ordering operators
 
 The `tidyoperators` R package adds 2 additional matrix operators:
 
-- The `x %row~% rank` operator re-orders the elements within every row
-  of matrix `x` by the rank given in matrix `rank`.
-- The `x %col~% rank` operator re-orders the elements within every
-  column of matrix `x` by the rank given in matrix `rank`.
+- The `x %row~% mat` operator re-orders the elements within every row of
+  matrix `x` by the ordering ranks given in matrix `mat`.
+- The `x %col~% mat` operator re-orders the elements within every column
+  of matrix `x` by the ordering ranks given in matrix `mat`.
 
 If matrix `x` is a numeric matrix, and one wants to numerically sort the
 elements of every row or column, `x %row~% x` or `x %col~% x` would
@@ -493,13 +491,13 @@ suffice, respectively.
 
 If matrix `x` is not numeric, sorting using `x %row~% x` and
 `x %col~% x`are still possible, but probably not the best option. In the
-non-numeric case, providing a ranking matrix probably would be faster
-and give more accurate ordering.
+non-numeric case, providing a matrix of ordering ranks would probably be
+faster and give more accurate ordering.
 
-If `rank` is a non-repeating sample of random integers
-(i.e. `sample(1:length(x), replace=FALSE)`), `x %row~% rank` will
+If `mat` is a matrix of non-repeating sample of random integers
+(i.e. `sample(1:length(x), replace=FALSE)`), `x %row~% mat` will
 randomly shuffle the elements of every row, where the shuffling order of
-every row is independent of the other rows. Similarly, `x %col~% rank`
+every row is independent of the other rows. Similarly, `x %col~% mat`
 will randomly shuffle the elements of every column, where the shuffling
 order of every column is independent of the other columns.
 
@@ -508,36 +506,36 @@ order of every column is independent of the other columns.
 Examples with a numeric matrix:
 
 ``` r
-mat <- matrix(sample(1:25), nrow=5)
-print(mat)
+x <- matrix(sample(1:25), nrow=5)
+print(x)
 #>      [,1] [,2] [,3] [,4] [,5]
 #> [1,]   25   11   16    9    8
 #> [2,]    4   14   10   15   13
 #> [3,]    7   18    6   12   21
 #> [4,]    1   22   19   17    3
 #> [5,]    2    5   23   20   24
-mat %row~% mat # sort elements of every row
+x %row~% x # sort elements of every row
 #>      [,1] [,2] [,3] [,4] [,5]
 #> [1,]    8    9   11   16   25
 #> [2,]    4   10   13   14   15
 #> [3,]    6    7   12   18   21
 #> [4,]    1    3   17   19   22
 #> [5,]    2    5   20   23   24
-mat %row~% -mat # reverse-sort elements of every row
+x %row~% -x # reverse-sort elements of every row
 #>      [,1] [,2] [,3] [,4] [,5]
 #> [1,]   25   16   11    9    8
 #> [2,]   15   14   13   10    4
 #> [3,]   21   18   12    7    6
 #> [4,]   22   19   17    3    1
 #> [5,]   24   23   20    5    2
-mat %col~% mat # sort elements of every column
+x %col~% x # sort elements of every column
 #>      [,1] [,2] [,3] [,4] [,5]
 #> [1,]    1    5    6    9    3
 #> [2,]    2   11   10   12    8
 #> [3,]    4   14   16   15   13
 #> [4,]    7   18   19   17   21
 #> [5,]   25   22   23   20   24
-mat %col~% -mat # reverse-sort elements of every column
+x %col~% -x # reverse-sort elements of every column
 #>      [,1] [,2] [,3] [,4] [,5]
 #> [1,]   25   22   23   20   24
 #> [2,]    7   18   19   17   21
@@ -545,23 +543,23 @@ mat %col~% -mat # reverse-sort elements of every column
 #> [4,]    2   11   10   12    8
 #> [5,]    1    5    6    9    3
 
-mat <- matrix(sample(1:25), nrow=5)
-print(mat)
+x <- matrix(sample(1:25), nrow=5)
+print(x)
 #>      [,1] [,2] [,3] [,4] [,5]
 #> [1,]   25    3   23    9   11
 #> [2,]   12    6    4    7   21
 #> [3,]   15   10   24   16    2
 #> [4,]    1   18   14   22    8
 #> [5,]   20   19   17   13    5
-rank <- sample(1:length(mat)) |> matrix(ncol=ncol(mat)) # randomized rank
-mat %row~%  rank# random shuffle every row independent of other rows
+rand <- sample(1:length(x)) |> matrix(ncol=ncol(x)) # matrix of random integers
+x %row~% rand # random shuffle every row independent of other rows
 #>      [,1] [,2] [,3] [,4] [,5]
 #> [1,]   23   11    9    3   25
 #> [2,]   12    4    6    7   21
 #> [3,]    2   15   24   16   10
 #> [4,]    1   14    8   18   22
 #> [5,]   19   20   17    5   13
-mat %col~% rank # random shuffle every column independent of other columns
+x %col~% rand # random shuffle every column independent of other columns
 #>      [,1] [,2] [,3] [,4] [,5]
 #> [1,]   20   19   23   16   11
 #> [2,]   15    3   17    9    2
@@ -573,37 +571,38 @@ mat %col~% rank # random shuffle every column independent of other columns
 Examples with a character matrix:
 
 ``` r
-mat <- matrix(sample(letters, 25), nrow=5)
-print(mat)
+x <- matrix(sample(letters, 25), nrow=5)
+print(x)
 #>      [,1] [,2] [,3] [,4] [,5]
 #> [1,] "w"  "l"  "s"  "q"  "e" 
 #> [2,] "n"  "p"  "i"  "b"  "j" 
 #> [3,] "t"  "a"  "z"  "r"  "k" 
 #> [4,] "g"  "v"  "y"  "d"  "x" 
 #> [5,] "m"  "f"  "c"  "u"  "o"
-rank <- stringi::stri_rank(as.vector(mat)) |> matrix(ncol=ncol(mat)) # rank matrix
-mat %row~% rank # sort elements of every row
+mat <- stringi::stri_rank(as.vector(x)) |>
+  matrix(ncol=ncol(x)) # matrix of ordering ranks
+x %row~% mat # sort elements of every row
 #>      [,1] [,2] [,3] [,4] [,5]
 #> [1,] "e"  "l"  "q"  "s"  "w" 
 #> [2,] "b"  "i"  "j"  "n"  "p" 
 #> [3,] "a"  "k"  "r"  "t"  "z" 
 #> [4,] "d"  "g"  "v"  "x"  "y" 
 #> [5,] "c"  "f"  "m"  "o"  "u"
-mat %row~% -rank # reverse-sort elements of every row
+x %row~% -mat # reverse-sort elements of every row
 #>      [,1] [,2] [,3] [,4] [,5]
 #> [1,] "w"  "s"  "q"  "l"  "e" 
 #> [2,] "p"  "n"  "j"  "i"  "b" 
 #> [3,] "z"  "t"  "r"  "k"  "a" 
 #> [4,] "y"  "x"  "v"  "g"  "d" 
 #> [5,] "u"  "o"  "m"  "f"  "c"
-mat %col~% rank # sort elements of every column
+x %col~% mat # sort elements of every column
 #>      [,1] [,2] [,3] [,4] [,5]
 #> [1,] "g"  "a"  "c"  "b"  "e" 
 #> [2,] "m"  "f"  "i"  "d"  "j" 
 #> [3,] "n"  "l"  "s"  "q"  "k" 
 #> [4,] "t"  "p"  "y"  "r"  "o" 
 #> [5,] "w"  "v"  "z"  "u"  "x"
-mat %col~% -rank # reverse-sort elements of every column
+x %col~% -mat # reverse-sort elements of every column
 #>      [,1] [,2] [,3] [,4] [,5]
 #> [1,] "w"  "v"  "z"  "u"  "x" 
 #> [2,] "t"  "p"  "y"  "r"  "o" 
@@ -611,23 +610,23 @@ mat %col~% -rank # reverse-sort elements of every column
 #> [4,] "m"  "f"  "i"  "d"  "j" 
 #> [5,] "g"  "a"  "c"  "b"  "e"
 
-mat <- matrix(sample(letters, 25), nrow=5)
-print(mat)
+x <- matrix(sample(letters, 25), nrow=5)
+print(x)
 #>      [,1] [,2] [,3] [,4] [,5]
 #> [1,] "z"  "u"  "c"  "f"  "s" 
 #> [2,] "o"  "l"  "w"  "m"  "r" 
 #> [3,] "x"  "g"  "v"  "d"  "n" 
 #> [4,] "j"  "h"  "k"  "t"  "b" 
 #> [5,] "p"  "a"  "q"  "e"  "y"
-rank <- sample(1:length(mat)) |> matrix(ncol=ncol(mat)) # randomized rank
-mat %row~%  rank# random shuffle every row independent of other rows
+rand <- sample(1:length(x)) |> matrix(ncol=ncol(x)) # matrix of random integers
+x %row~% rand # random shuffle every row independent of other rows
 #>      [,1] [,2] [,3] [,4] [,5]
 #> [1,] "z"  "f"  "s"  "u"  "c" 
 #> [2,] "r"  "l"  "w"  "o"  "m" 
 #> [3,] "n"  "x"  "d"  "v"  "g" 
 #> [4,] "k"  "b"  "j"  "h"  "t" 
 #> [5,] "a"  "p"  "y"  "e"  "q"
-mat %col~% rank # random shuffle every column independent of other columns
+x %col~% rand # random shuffle every column independent of other columns
 #>      [,1] [,2] [,3] [,4] [,5]
 #> [1,] "x"  "a"  "k"  "d"  "n" 
 #> [2,] "z"  "l"  "w"  "f"  "r" 
@@ -658,21 +657,17 @@ in base R, but it requires converting the matrix to a data.frame or
 list, and then calling `stri_join` inside `do.call()`, which to me just
 seems too much trouble for something *soooo* abysmally simple.
 
-Here a practical example of their usage when re-ordering strings, words,
-or sentences :
+Here is an example of their usage when re-ordering strings, words, or
+sentences :
 
 ``` r
 # sorting characters in strings:
 x <- c("Hello world", "Goodbye world")
 print(x)
 #> [1] "Hello world"   "Goodbye world"
-mat <- stringi::stri_split_boundaries(x, simplify = TRUE, type="character")
-rank <- stringi::stri_rank(as.vector(mat)) |>  matrix(ncol=ncol(mat))
-sorted <- mat %row~% rank # <- fast sort matrix row-wise
-print(sorted)
-#>      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12] [,13]
-#> [1,] ""   ""   " "  "d"  "e"  "H"  "l"  "l"  "l"  "o"   "o"   "r"   "w"  
-#> [2,] " "  "b"  "d"  "d"  "e"  "G"  "l"  "o"  "o"  "o"   "r"   "w"   "y"
+x <- stringi::stri_split_boundaries(x, simplify = TRUE, type="character")
+mat <- stringi::stri_rank(as.vector(x)) |>  matrix(ncol=ncol(x))
+sorted <- x %row~% mat # fast sort matrix row-wise
 stri_join_mat(sorted, margin=1, sep="") # <- using new function here
 #> [1] " deHllloorw"   " bddeGlooorwy"
 
@@ -680,13 +675,9 @@ stri_join_mat(sorted, margin=1, sep="") # <- using new function here
 x <- c("Hello everyone", "Goodbye everyone")
 print(x)
 #> [1] "Hello everyone"   "Goodbye everyone"
-mat <- stringi::stri_split_boundaries(x, simplify = TRUE, type="word")
-rank <- stringi::stri_rank(as.vector(mat)) |>  matrix(ncol=ncol(mat))
-sorted <- mat %row~% rank # <- fast sort matrix row-wise
-print(sorted)
-#>      [,1] [,2]       [,3]     
-#> [1,] " "  "everyone" "Hello"  
-#> [2,] " "  "everyone" "Goodbye"
+x <- stringi::stri_split_boundaries(x, simplify = TRUE, type="word")
+mat <- stringi::stri_rank(as.vector(x)) |>  matrix(ncol=ncol(x))
+sorted <- x %row~% mat # <- fast sort matrix row-wise
 stri_c_mat(sorted, margin=1, sep=" ") # <- alias for stri_join_mat
 #> [1] "  everyone Hello"   "  everyone Goodbye"
 
@@ -695,9 +686,9 @@ x <- c("Hello, who are you? Oh, really?! Cool!", "I don't care. But I really don
 print(x)
 #> [1] "Hello, who are you? Oh, really?! Cool!"
 #> [2] "I don't care. But I really don't."
-mat <- stringi::stri_split_boundaries(x, simplify = TRUE, type="sentence")
-rank <- sample(1:length(mat)) |> matrix(ncol=ncol(mat))
-shuffled <- mat %row~% rank # <- fast sort matrix row-wise
+x <- stringi::stri_split_boundaries(x, simplify = TRUE, type="sentence")
+mat <- sample(1:length(x)) |> matrix(ncol=ncol(x))
+shuffled <- x %row~% mat # <- fast sort matrix row-wise
 print(shuffled)
 #>      [,1]                   [,2]             [,3]                 
 #> [1,] "Hello, who are you? " "Oh, really?! "  "Cool!"              
@@ -797,8 +788,8 @@ stringi::stri_sub_all_replace(x, loc, replacement=repl)
 #> [1] "HELLo WORLD"   "goodbyE world"
 ```
 
-Notice that the code is virtually equivalent. We ONLY need to change the
-locate function.
+Notice that the code is virtually equivalent. We *only* need to change
+the locate function.
 
 The transformation given in the previous code used `lapply`. I’m sure we
 want to stick to vectorized functions as much as possible. Therefore,
@@ -1290,7 +1281,7 @@ operators (such as this very R package), as using something like this:
 
 ``` r
 to %m import <-% "tidyoperators"
-to$`%row~%`(mat, rank)
+to$`%row~%`(x, mat)
 ```
 
 is very cumbersome. The `%m import <-%` operator will therefore also
