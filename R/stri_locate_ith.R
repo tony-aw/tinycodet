@@ -171,8 +171,10 @@ stri_locate_ith <- function(
   }
 
   n.matches <- pmax(n.matches, 1) # if no matches found, n.matches must be 1 so that NA is returned.
-  i[i<0] <- pmax(n.matches[i<0] - abs(i[i<0]+1), 1)
-  i[i>0] <- pmin(i[i>0], n.matches[i>0])
+  neg <- i < 0
+  pos <- i > 0
+  i[neg] <- pmax(n.matches[neg] - abs(i[neg]+1), 1)
+  i[pos] <- pmin(i[pos], n.matches[pos])
   p2 <- mapply(function(x, i)x[i, ,drop=FALSE], x=p1, i=i, SIMPLIFY = FALSE)
 
   if(!simplify) {
