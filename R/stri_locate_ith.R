@@ -26,7 +26,8 @@
 #' For example: suppose a string has \code{3} instances of some pattern; \cr
 #' then if \code{i >= 4} the third instance will be located, \cr
 #' and if \code{i <= -3} the first instance will be located. \cr
-#' @param ... more arguments to be supplied to \link[stringi]{stri_locate}.
+#' @param ... more arguments to be supplied to
+#' \link[stringi]{stri_locate} and \link[stringi]{stri_count}.
 #' @param simplify either \code{TRUE} or \code{FALSE} (default = \code{FALSE}): \cr
 #'  * If \code{FALSE}, \code{stri_locate_ith} returns a list,
 #'  usable in the \link[stringi]{stri_sub_all} functions
@@ -122,10 +123,12 @@
 stri_locate_ith <- function(
     str, i, ... , regex, fixed, coll, charclass, simplify=FALSE
 ) {
-  x <- str
-  if(length(i)==1) i <- rep(i, length(x))
-  if(length(i)!=length(x)) {
+  if(length(i)==1) i <- rep(i, length(str))
+  if(length(i)!=length(str)) {
     stop("`i` must be the same length as `str`, or be a length of 1")
+  }
+  if(any(i==0)){
+    stop("`i` is not allowed to be zero")
   }
   providedarg <- c(
     regex = !missing(regex), fixed = !missing(fixed),
@@ -139,34 +142,34 @@ stri_locate_ith <- function(
 
   if (providedarg["regex"]) {
     p1 <- stringi::stri_locate_all_regex(
-      str=x, pattern=regex, omit_no_match = FALSE, get_length = FALSE, ...
+      str=str, pattern=regex, omit_no_match = FALSE, get_length = FALSE, ...
     )
     n.matches <- stringi::stri_count_regex(
-      str=x, pattern=regex, ...
+      str=str, pattern=regex, ...
     )
   }
   else if (providedarg["fixed"]) {
     p1 <- stringi::stri_locate_all_fixed(
-      str=x, pattern=fixed, omit_no_match = FALSE, get_length = FALSE, ...
+      str=str, pattern=fixed, omit_no_match = FALSE, get_length = FALSE, ...
     )
     n.matches <- stringi::stri_count_fixed(
-      str=x, pattern=fixed, ...
+      str=str, pattern=fixed, ...
     )
   }
   else if (providedarg["coll"]) {
     p1 <- stringi::stri_locate_all_coll(
-      str=x, pattern=coll, omit_no_match = FALSE, get_length = FALSE, ...
+      str=str, pattern=coll, omit_no_match = FALSE, get_length = FALSE, ...
     )
     n.matches <- stringi::stri_count_coll(
-      str=x, pattern=coll, ...
+      str=str, pattern=coll, ...
     )
   }
   else if (providedarg["charclass"]) {
     p1 <- stringi::stri_locate_all_charclass(
-      str=x, pattern=charclass, omit_no_match = FALSE, get_length = FALSE, ...
+      str=str, pattern=charclass, omit_no_match = FALSE, get_length = FALSE, ...
     )
     n.matches <- stringi::stri_count_charclass(
-      str=x, pattern=charclass, ...
+      str=str, pattern=charclass, ...
     )
   }
 

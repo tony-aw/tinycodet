@@ -27,7 +27,8 @@ For example: suppose a string has \code{3} instances of some pattern; \cr
 then if \code{i >= 4} the third instance will be located, \cr
 and if \code{i <= -3} the first instance will be located. \cr}
 
-\item{...}{more arguments to be supplied to \link[stringi]{stri_locate}.}
+\item{...}{more arguments to be supplied to
+\link[stringi]{stri_locate} and \link[stringi]{stri_count}.}
 
 \item{regex, fixed, coll, charclass}{a character vector of search patterns,
 as in \link[stringi]{stri_locate}. \cr}
