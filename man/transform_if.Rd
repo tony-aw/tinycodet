@@ -4,16 +4,16 @@
 \alias{transform_if}
 \alias{\%[if]\%}
 \alias{\%[!if]\%}
-\alias{\%unreal <-\%}
+\alias{\%unreal =\%}
 \title{The transform_if function and the subset_if operators}
 \usage{
-transform_if(x, cond, trans = NULL)
+transform_if(x, cond, trans)
 
 x \%[if]\% cond
 
 x \%[!if]\% cond
 
-x \%unreal <-\% repl
+x \%unreal =\% repl
 }
 \arguments{
 \item{x}{a vector, matrix, or array.}
@@ -42,7 +42,7 @@ I.e.: \cr
 \cr
 The subset_if - operators all return a vector with the selected elements. \cr
 \cr
-The \code{x \%unreal <-\% repl} operator does not return any value: \cr
+The \code{x \%unreal =\% repl} operator does not return any value: \cr
 it is an in-place modifiers, and thus modifies \code{x} directly.
 The object \code{x} is modified such that all
 \code{NA}, \code{NaN} and \code{Inf} elements are replaced with \code{repl}.
@@ -69,8 +69,8 @@ The \code{x \%[!if]\% cond} operator
 selects elements from vector/matrix/array \code{x},
 for which the result of \code{cond(x)} returns \code{FALSE}. \cr
 \cr
-The \code{tidyoperators} package also adds the \code{x \%unreal <-\% repl} operator: \cr
-\code{x \%unreal <-\% repl} is the same as
+The \code{tidyoperators} package also adds the \code{x \%unreal =\% repl} operator: \cr
+\code{x \%unreal =\% repl} is the same as
 \code{x[is.na(x)|is.nan(x)|is.infinite(x)] <- repl} \cr
 }
 \details{
@@ -86,6 +86,6 @@ object_with_very_long_name \%[!if]\% \(x)x \%in\% 1:10
 
 x <- c(1:9, NA, NaN, Inf)
 print(x)
-x \%unreal <-\% 0 # same as x[is.na(x)|is.nan(x)|is.infinite(x)] <- 0
+x \%unreal =\% 0 # same as x[is.na(x)|is.nan(x)|is.infinite(x)] <- 0
 print(x)
 }

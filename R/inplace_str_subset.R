@@ -3,9 +3,9 @@
 #' @description
 #' In-place modifier versions of string subsetting: \cr
 #' \cr
-#' \code{x %sget <-% ss } is the same as \code{ x <- x %sget% ss} \cr
+#' \code{x %sget =% ss } is the same as \code{ x <- x %sget% ss} \cr
 #' \cr
-#' \code{x %strim <-% ss } is the same as \code{ x <- x %strim% ss} \cr
+#' \code{x %strim =% ss } is the same as \code{ x <- x %strim% ss} \cr
 #' \cr
 #'
 #' See also the documentation on string subsetting (\link[=%ss%]{string subset}). \cr
@@ -22,12 +22,12 @@
 #'
 #' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 #' print(x)
-#' x %sget <-% ss # same as x <- x %sget% ss
+#' x %sget =% ss # same as x <- x %sget% ss
 #' print(x)
 #'
 #' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 #' print(x)
-#' x %strim <-% ss # same as x <- x %strim% ss
+#' x %strim =% ss # same as x <- x %strim% ss
 #' print(x)
 #'
 #'
@@ -38,12 +38,12 @@
 #'
 #' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 #' print(x)
-#' x %sget <-% ss # same as x <- x %sget% ss
+#' x %sget =% ss # same as x <- x %sget% ss
 #' print(x)
 #'
 #' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 #' print(x)
-#' x %strim <-% ss # same as x <- x %strim% ss
+#' x %strim =% ss # same as x <- x %strim% ss
 #' print(x)
 #'
 
@@ -52,13 +52,13 @@ NULL
 
 #' @rdname inplace_str_subset
 #' @export
-`%sget <-%` <- function(x, ss) {
+`%sget =%` <- function(x, ss) {
   eval(call("<-", substitute(x), x %sget% ss), envir = parent.frame(n = 1))
 }
 
 #' @rdname inplace_str_subset
 #' @export
-`%strim <-%` <- function(x, ss) {
+`%strim =%` <- function(x, ss) {
   eval(call("<-", substitute(x), x %strim% ss), envir = parent.frame(n = 1))
 }
 

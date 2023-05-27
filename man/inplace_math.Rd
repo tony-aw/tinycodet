@@ -2,31 +2,31 @@
 % Please edit documentation in R/inplace_math.R
 \name{inplace_math}
 \alias{inplace_math}
-\alias{\%+ <-\%}
-\alias{\%- <-\%}
-\alias{\%* <-\%}
-\alias{\%/ <-\%}
-\alias{\%^ <-\%}
-\alias{\%rt <-\%}
-\alias{\%logb <-\%}
-\alias{\%alogb <-\%}
+\alias{\%+ =\%}
+\alias{\%- =\%}
+\alias{\%* =\%}
+\alias{\%/ =\%}
+\alias{\%^ =\%}
+\alias{\%rt =\%}
+\alias{\%logb =\%}
+\alias{\%alog =\%}
 \title{In-place modifying mathematical arithmetic}
 \usage{
-x \%+ <-\% y
+x \%+ =\% y
 
-x \%- <-\% y
+x \%- =\% y
 
-x \%* <-\% y
+x \%* =\% y
 
-x \%/ <-\% y
+x \%/ =\% y
 
-x \%^ <-\% p
+x \%^ =\% p
 
-x \%rt <-\% p
+x \%rt =\% p
 
-x \%logb <-\% b
+x \%logb =\% b
 
-x \%alogb <-\% b
+x \%alog =\% b
 }
 \arguments{
 \item{x}{a number or numeric (or 'number-like') vector, matrix, or array.}
@@ -46,66 +46,66 @@ These operators do not return any value: they are in-place modifiers, and thus m
 \description{
 In-place modifiers for addition, subtraction, multiplication, division, power, root, logarithm, and anti-logarithm. \cr
 
-\code{x \%+ <-\% y } is the same as \code{x <- x + y} \cr
+\code{x \%+ =\% y } is the same as \code{x <- x + y} \cr
 \cr
-\code{x \%- <-\% y } is the same as \code{x <- x - y} \cr
+\code{x \%- =\% y } is the same as \code{x <- x - y} \cr
 \cr
-\code{x \%* <-\% y } is the same as \code{x <- x * y} \cr
+\code{x \%* =\% y } is the same as \code{x <- x * y} \cr
 \cr
-\code{x \%/ <-\% y } is the same as \code{x <- x / y} \cr
+\code{x \%/ =\% y } is the same as \code{x <- x / y} \cr
 \cr
-\code{x \%^ <-\% p } is the same as \code{x <- x^p} \cr
+\code{x \%^ =\% p } is the same as \code{x <- x^p} \cr
 \cr
-\code{x \%rt <-\% p } is the same as \code{x <- x^(1/p)} \cr
+\code{x \%rt =\% p } is the same as \code{x <- x^(1/p)} \cr
 \cr
-\code{x \%logb <-\% b } is the same as \code{x <- log(x, base=b)} \cr
+\code{x \%logb =\% b } is the same as \code{x <- log(x, base=b)} \cr
 \cr
-\code{x \%alogb <-\% b } is the same as \code{x <- b^x}; if \code{b=exp(1)}, this is the same as \code{x <- exp(x)} \cr
+\code{x \%alog =\% b } is the same as \code{x <- b^x}; if \code{b=exp(1)}, this is the same as \code{x <- exp(x)} \cr
 }
 \examples{
 x <- matrix(rpois(10, 10), ncol=2)
 print(x)
-x \%+ <-\% 3 # same as x <- x + 3
+x \%+ =\% 3 # same as x <- x + 3
 print(x)
 
 x <- matrix(rpois(10, 10), ncol=2)
 print(x)
-x \%- <-\% 3 # same as x <- x - 3
+x \%- =\% 3 # same as x <- x - 3
 print(x)
 
 x <- matrix(rpois(10, 10), ncol=2)
 print(x)
-x \%* <-\% 3 # same as x <- x * 3
+x \%* =\% 3 # same as x <- x * 3
 print(x)
 
 x <- matrix(rpois(10, 10), ncol=2)
 print(x)
-x \%/ <-\% 3 # same as x <- x / 3
+x \%/ =\% 3 # same as x <- x / 3
 print(x)
 
 x <- matrix(rpois(10, 10), ncol=2)
 print(x)
-x \%^ <-\% 3 # same as x <- x^3
+x \%^ =\% 3 # same as x <- x^3
 print(x)
 
 x <- matrix(rpois(10, 10), ncol=2)
 print(x)
-x \%rt <-\% 3 # same as x <- x^(1/3)
+x \%rt =\% 3 # same as x <- x^(1/3)
 print(x)
 
 x <- matrix(rpois(10, 10), ncol=2)
 print(x)
-x \%logb <-\% 3 # same as x <- log(x, base=3)
+x \%logb =\% 3 # same as x <- log(x, base=3)
 print(x)
 
 x <- matrix(rpois(10, 10), ncol=2)
 print(x)
-x \%alogb <-\% 3 # same as x <- 3^x
+x \%alog =\% 3 # same as x <- 3^x
 print(x)
 
 x <- 3
 print(x)
-x \%alogb <-\% exp(1) # same as x <- exp(x)
+x \%alog =\% exp(1) # same as x <- exp(x)
 print(x)
 exp(3) # notice this is the same.
 

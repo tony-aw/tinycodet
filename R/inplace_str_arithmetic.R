@@ -3,17 +3,16 @@
 #' @description
 #' In-place modifier versions of string arithmetic: \cr
 #'
-#' \code{x %s+ <-% y } is the same as \code{ x <- x %s+% y} \cr
+#' \code{x %s+ =% y } is the same as \code{ x <- x %s+% y} \cr
 #' \cr
-#' \code{x %s- <-% p } is the same as \code{ x <- x %s-% p} \cr
+#' \code{x %s- =% p } is the same as \code{ x <- x %s-% p} \cr
 #' \cr
-#' \code{x %s* <-% n } is the same as \code{ x <- x %s*% n} \cr
+#' \code{x %s* =% n } is the same as \code{ x <- x %s*% n} \cr
 #' \cr
-#' \code{x %s/ <-% p } is the same as \code{ x <- x %s/% p} \cr
+#' \code{x %s/ =% p } is the same as \code{ x <- x %s/% p} \cr
 #' \cr
 #'
 #' See also the documentation on string arithmetic: \link[=%s+%]{string arithmetic}. \cr
-#' Note that there is no in-place modifier versions of \code{%ss%}, \code{s_extract()}, and \code{s_repl()}.\cr
 #' \cr
 #'
 #' @param x,y,p,n see \link[=%s+%]{string arithmetic} and \link{s_pattern}.
@@ -28,22 +27,22 @@
 #'
 #' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 #' print(x)
-#' x %s+ <-% y # same as x <- x %s+% y
+#' x %s+ =% y # same as x <- x %s+% y
 #' print(x)
 #'
 #' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 #' print(x)
-#' x %s- <-% p # same as x <- x %s-% p
+#' x %s- =% p # same as x <- x %s-% p
 #' print(x)
 #'
 #' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 #' print(x)
-#' x %s* <-% n # same as x <- x %s\*% n
+#' x %s* =% n # same as x <- x %s\*% n
 #' print(x)
 #'
 #' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 #' print(x)
-#' x %s/ <-% p # same as x <- x %s/% p
+#' x %s/ =% p # same as x <- x %s/% p
 #' print(x)
 #'
 #'
@@ -57,22 +56,22 @@
 #'
 #' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 #' print(x)
-#' x %s+ <-% y # same as x <- x %s+% y
+#' x %s+ =% y # same as x <- x %s+% y
 #' print(x)
 #'
 #' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 #' print(x)
-#' x %s- <-% p # same as x <- x %s-% p
+#' x %s- =% p # same as x <- x %s-% p
 #' print(x)
 #'
 #' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 #' print(x)
-#' x %s* <-% n # same as x <- x %s\*% n
+#' x %s* =% n # same as x <- x %s\*% n
 #' print(x)
 #'
 #' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 #' print(x)
-#' x %s/ <-% p # same as x <- x %s/% p
+#' x %s/ =% p # same as x <- x %s/% p
 #' print(x)
 #'
 
@@ -81,25 +80,25 @@ NULL
 
 #' @rdname inplace_str_arithmetic
 #' @export
-`%s+ <-%` <- function(x, y) {
+`%s+ =%` <- function(x, y) {
   eval(call("<-", substitute(x), x %s+% y), envir = parent.frame(n = 1))
 }
 
 #' @rdname inplace_str_arithmetic
 #' @export
-`%s- <-%` <- function(x, p) {
+`%s- =%` <- function(x, p) {
   eval(call("<-", substitute(x), x %s-% p), envir = parent.frame(n = 1))
 }
 
 #' @rdname inplace_str_arithmetic
 #' @export
-`%s* <-%` <- function(x, n) {
+`%s* =%` <- function(x, n) {
   eval(call("<-", substitute(x), x %s*% n), envir = parent.frame(n = 1))
 }
 
 #' @rdname inplace_str_arithmetic
 #' @export
-`%s/ <-%` <- function(x, p) {
+`%s/ =%` <- function(x, p) {
   eval(call("<-", substitute(x), x %s/% p), envir = parent.frame(n = 1))
 }
 

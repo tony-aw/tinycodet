@@ -6,7 +6,8 @@
 #' (or a small set of R packages that "belong" to each other)
 #' under the same alias. \cr
 #' \cr
-#'
+#' The \code{import_lsf(package, ...)} function gets a list of exported functions from a package. \cr
+#' \cr
 #' The \code{import_data(dataname, package)} function gets a specified data set from a package. \cr
 #' Unlike \code{utils::data()}, \code{import_data()} returns the dataset directly,
 #' and allows assigning the dataset like so: \cr
@@ -25,6 +26,11 @@
 #' the package named last will overwrite the earlier named package.
 #' @param dataname a single string, giving the name of the dataset.
 #' @param package a single string, giving the name of the package.
+#' @param inop \code{TRUE} or \code{FALSE},
+#' indicating whether infix operators should be included in the list of functions.
+#' @param regfun \code{TRUE} or \code{FALSE},
+#' indicating whether regular functions - exlcuding infix operators -
+#' should be included in the list of functions.
 #' @param lib_vec a character vector giving the new library path(s). \cr
 #' Just like in \code{.libPaths()}, the order matters: \cr
 #' R will first look for packages in the first path in \code{.libPaths()}, \cr
@@ -164,6 +170,23 @@ import_data <- function(dataname, package) {
   return(get(
     utils::data(list=dataname, package = package, envir = environment())
   ))
+}
+
+#' @rdname pkgs
+#' @export
+import_lsf <- function(package, inop=TRUE, regfun=TRUE) {
+  if(length(package)>1){
+    stop("only a single package can be given")
+  }
+  ns <- getNamespaceExports(package)
+  out <- character(0)
+  if(inop) {
+    out <- c(out, grep("%|:=", ns, value = TRUE))
+  }
+  if(regfun) {
+    out <- c(out, grep("%|:=", ns, value = TRUE, invert = TRUE))
+  }
+  return(out)
 }
 
 #' @rdname pkgs

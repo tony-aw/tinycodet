@@ -28,11 +28,11 @@ The \code{tidyoperators} R package adds the following functionality: \cr
 \itemize{
 \item \link[=\%xor\%]{Infix logical operators} for exclusive-or, not-and, not-in, number-type, and string-type. \cr
 \item \link[=\%f==\%]{Safer (in)equality operators for floating numbers}. \cr
-\item Infix operators for \link[=\%+ <-\%]{In-place modifiers for mathematical arithmetic}. \cr
+\item Infix operators for \link[=\%+ =\%]{In-place modifiers for mathematical arithmetic}. \cr
 \item Infix operators for \link[=\%s+\%]{string arithmetic}. \cr
 \item Infix operators for \link[=\%ss\%]{string sub-setting}. \cr
-\item Infix operators for \link[=\%s+ <-\%]{In-place modifying string arithmetic}. \cr
-\item Infix operators for \link[=\%sget <-\%]{In-place modifying string sub-setting}. \cr
+\item Infix operators for \link[=\%s+ =\%]{In-place modifying string arithmetic}. \cr
+\item Infix operators for \link[=\%sget =\%]{In-place modifying string sub-setting}. \cr
 \item \link[=\%row~\%]{Infix operators for row- and column-wise rank-based re-ordering of matrices}. \cr
 \item The \code{tidyoperators} package adds additional
 \code{stringi} functions, namely \link{stri_locate_ith} and
@@ -55,6 +55,6 @@ through third-party packages (like \code{stringfish}). \cr
 \cr
 }
 
-Please also have a look at the Read-Me file on the Github main page before using this package:
-https://github.com/tony-aw/tidyoperators
+Please also have a look at the Read-Me file on the Github main page before using this package: \cr
+\url{https://github.com/tony-aw/tidyoperators}
 }

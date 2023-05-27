@@ -2,13 +2,13 @@
 % Please edit documentation in R/inplace_str_subset.R
 \name{inplace_str_subset}
 \alias{inplace_str_subset}
-\alias{\%sget <-\%}
-\alias{\%strim <-\%}
+\alias{\%sget =\%}
+\alias{\%strim =\%}
 \title{In place modifying string subsetting}
 \usage{
-x \%sget <-\% ss
+x \%sget =\% ss
 
-x \%strim <-\% ss
+x \%strim =\% ss
 }
 \arguments{
 \item{x, ss}{see \link[=\%ss\%]{string subset}.}
@@ -19,9 +19,9 @@ These operators do not return any value: they are in-place modifiers, and thus m
 \description{
 In-place modifier versions of string subsetting: \cr
 \cr
-\code{x \%sget <-\% ss } is the same as \code{ x <- x \%sget\% ss} \cr
+\code{x \%sget =\% ss } is the same as \code{ x <- x \%sget\% ss} \cr
 \cr
-\code{x \%strim <-\% ss } is the same as \code{ x <- x \%strim\% ss} \cr
+\code{x \%strim =\% ss } is the same as \code{ x <- x \%strim\% ss} \cr
 \cr
 
 See also the documentation on string subsetting (\link[=\%ss\%]{string subset}). \cr
@@ -33,12 +33,12 @@ ss <- c(2,2)
 
 x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 print(x)
-x \%sget <-\% ss # same as x <- x \%sget\% ss
+x \%sget =\% ss # same as x <- x \%sget\% ss
 print(x)
 
 x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 print(x)
-x \%strim <-\% ss # same as x <- x \%strim\% ss
+x \%strim =\% ss # same as x <- x \%strim\% ss
 print(x)
 
 
@@ -49,12 +49,12 @@ ss <- c(2,2)
 
 x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 print(x)
-x \%sget <-\% ss # same as x <- x \%sget\% ss
+x \%sget =\% ss # same as x <- x \%sget\% ss
 print(x)
 
 x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 print(x)
-x \%strim <-\% ss # same as x <- x \%strim\% ss
+x \%strim =\% ss # same as x <- x \%strim\% ss
 print(x)
 
 }

@@ -71,6 +71,7 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
  - 22 April 2023: Added more tests for `stri_locate_ith()`.
  - 22 May 2023: Re-arranged the sections of the Read-Me file. Removed the CodeFactor badge as it was bugging out for some reason.
  - 25 May 2023: The `stri_locate_ith()` function slightly re-written to be even faster, and improved its documentation. Edited the description. Changed the documentation regarding matrix operators, as I suspect the usage of the word "rank" might be confusing. Also edited this Read-Me file a bit.
+ - 27 May 2023: Changed the naming convention of in-place modifiers to end with `   =%`. Added the `import_lsf()` function. Fixed a mistake in the documentation of the `transform_if()`.
 
 
 FUTURE PLANS:
@@ -108,12 +109,12 @@ The `tidyoperators` R package adds the following functionality:
  - Additional infix logic operators.
  - Safer (in)equality operators for float numbers.
  - Infix operators for row- and column-wise re-ordering of matrices.
+ - Several in-place modifying arithmetic and string operators, and a few functions, to help reduce repetitive codes, for the sake of the "Don't Repeat Yourself"-coding principle (`DRY`).
+ - Package import management operator and functions.
  - The tidyoperators package adds additional `stringi` functions, namely `stri_locate_ith()` and `stri_join_mat()` (and aliases). These functions use the same naming and argument convention as the rest of the `stringi` functions, thus keeping your code consistent.
  - The fully vectorized sub-string functions, that extract, replace, add-in, transform, or re-arrange, the $i^{th}$ pattern occurrence or substring.
  - The `s_pattern()` helper function for the string infix operators.
  - The `stringi` pattern expressions options are available for all string-pattern-related functions, when appropriate.
- - Several in-place modifying arithmetic and string operators, and a few functions, to help reduce repetitive codes, for the sake of the "Don't Repeat Yourself"-coding principle (`DRY`).
- - Package import management operator and functions.
  - This R package has only one dependency: `stringi`. No other dependencies, as to avoid "dependency hell".
  - Although this package has no other dependencies, it allows multi-threading of functions (when appropriate) via `stringfish`.
 
@@ -124,26 +125,19 @@ I understand one may not want to go through this entire Read-Me without knowing 
 
 &nbsp;
 
-In-place mathematical arithmetic with `tidyoperators`:
-
-```{r}
-x <- 1:10
-print(x)
-x %^ <-% 2 # is the same as x <- x^2
-print(x)
-```
-
-Simple transformations:
+Operators and functions for the "Don't Repeat Yourself" principle:
 
 ```{r eval=FALSE}
 # in base R:
 very_long_name_1[very_long_name_1 > 0] <- log(very_long_name_1[very_long_name_1 > 0])
+very_long_name_1 <- very_long_name_1^2
 
 # with tidyoperators:
 very_long_name_1 %<>% transform_if(\(x)x>0, log)
+very_long_name_1 %^ =% 2
 ```
 
-Float equality checks:
+Safer float equality checks:
 
 ```{r}
 x <- c(0.3, 0.6, 0.7)
@@ -648,6 +642,7 @@ The tidyoperators package therefore adds the `transform_if()` function which wil
 very_long_name_1 %<>% transform_if(\(x)x>0, log)
 ```
 
+Note that `x` must be a vector, matrix, or array.
 
 Besides `transform_if`, the tidyoperators package also adds 2 "subset_if" operators:
 
@@ -665,9 +660,9 @@ object_with_very_long_name %[!if]% \(x)x %in% 1:10
 ```
 
 
-Another operator added by `tidyoperators` is `x %unreal <-% y`, which replaces all NA, NaN, Inf and -Inf in `x` with the value given in `y`.
+Another operator added by `tidyoperators` is `x %unreal =% y`, which replaces all NA, NaN, Inf and -Inf in `x` with the value given in `y`.
 
-So `x %unreal <-% y` is the same as `x[is.na(x)|is.nan(x)|is.infinite(x)] <- y`.
+So `x %unreal =% y` is the same as `x[is.na(x)|is.nan(x)|is.infinite(x)] <- y`.
 
 
 &nbsp;
@@ -702,17 +697,17 @@ This R package solves the above laid-out problem by implementing in-place modify
 
 Here is a list of all in-place mathematical modifiers implemented in this R-package:
 
- - `x %+ <-% y` is the same as`x <- x + y`;
- - `x %- <-% y` is the same as`x <- x - y`;
- - `x %* <-% y` is the same as`x <- x * y`;
- - `x %/ <-% y` is the same as`x <- x / y`;
- - `x %^ <-% p` is the same as`x <- x^p`;
- - `x %rt <-% p` is the same as`x <- x^(1/p)`;
- - `x %logb <-% b` is the same as`x <- log(x, base=b)`;
- - `x %alogb <-% b` is the same as`x <- b^x`; if `b=exp(1)`, this is the same as`x <- exp(x)`;
- - `x %alogb <-% exp(1)` is the same as exp(x)`.
-
-For consistency, all infix operators that are in-place modifiers in this R package end with `    <-%` (notice the space).
+ - `x %+ =% y` is the same as`x <- x + y`;
+ - `x %- =% y` is the same as`x <- x - y`;
+ - `x %* =% y` is the same as`x <- x * y`;
+ - `x %/ =% y` is the same as`x <- x / y`;
+ - `x %^ =% p` is the same as`x <- x^p`;
+ - `x %rt =% p` is the same as`x <- x^(1/p)`;
+ - `x %logb =% b` is the same as`x <- log(x, base=b)`;
+ - `x %alog =% b` is the same as`x <- b^x`; if `b=exp(1)`, this is the same as`x <- exp(x)`;
+ - `x %alog =% exp(1)` is the same as exp(x)`.
+ 
+All in-place modifying operators in this package end with " $\space$ =" (notice the extra space before the `=`). 
 
 Lets look at the original problem:
 
@@ -723,7 +718,7 @@ mtcars$mpg[mtcars$cyl>6] <- mtcars$mpg[mtcars$cyl>6]^2
 With `tidyoperators` one can now make this more tidy with the following:
 
 ```{r eval=FALSE}
-mtcars$mpg[mtcars$cyl>6] %^ <-% 2
+mtcars$mpg[mtcars$cyl>6] %^ =% 2
 ```
 
 
@@ -734,12 +729,12 @@ mtcars$mpg[mtcars$cyl>6] %^ <-% 2
 
 With the exception of  `%ss%`, all infix operators for string arithmetic and string sub-setting have their in-place modifying equivalent:
 
- - `x %s+ <-% y` is the same as `x <- x %s+% y`
- - `x %s- <-% p` is the same as `x <- x %s-% p`
- - `x %s* <-% n` is the same as `x <- x %s*% n`
- - `x %s/ <-% p` is the same as `x <- x %s/% p`
- - `x %sget <-% ss` is the same as `x <- x %sget% ss`
- - `x %strim <-% ss` is the same as `x <- x %strim% ss`
+ - `x %s+ =% y` is the same as `x <- x %s+% y`
+ - `x %s- =% p` is the same as `x <- x %s-% p`
+ - `x %s* =% n` is the same as `x <- x %s*% n`
+ - `x %s/ =% p` is the same as `x <- x %s/% p`
+ - `x %sget =% ss` is the same as `x <- x %sget% ss`
+ - `x %strim =% ss` is the same as `x <- x %strim% ss`
 
 
 &nbsp;

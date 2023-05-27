@@ -22,8 +22,8 @@
 #' selects elements from vector/matrix/array \code{x},
 #' for which the result of \code{cond(x)} returns \code{FALSE}. \cr
 #' \cr
-#' The \code{tidyoperators} package also adds the \code{x %unreal <-% repl} operator: \cr
-#' \code{x %unreal <-% repl} is the same as
+#' The \code{tidyoperators} package also adds the \code{x %unreal =% repl} operator: \cr
+#' \code{x %unreal =% repl} is the same as
 #' \code{x[is.na(x)|is.nan(x)|is.infinite(x)] <- repl} \cr
 #'
 #' @param x a vector, matrix, or array.
@@ -51,7 +51,7 @@
 #' \cr
 #' The subset_if - operators all return a vector with the selected elements. \cr
 #' \cr
-#' The \code{x %unreal <-% repl} operator does not return any value: \cr
+#' The \code{x %unreal =% repl} operator does not return any value: \cr
 #' it is an in-place modifiers, and thus modifies \code{x} directly.
 #' The object \code{x} is modified such that all
 #' \code{NA}, \code{NaN} and \code{Inf} elements are replaced with \code{repl}.
@@ -66,25 +66,20 @@
 #'
 #' x <- c(1:9, NA, NaN, Inf)
 #' print(x)
-#' x %unreal <-% 0 # same as x[is.na(x)|is.nan(x)|is.infinite(x)] <- 0
+#' x %unreal =% 0 # same as x[is.na(x)|is.nan(x)|is.infinite(x)] <- 0
 #' print(x)
 
 
 
 #' @rdname transform_if
 #' @export
-transform_if <- function(x, cond, trans=NULL) {
+transform_if <- function(x, cond, trans) {
   if(!isTRUE(is.function(cond)) | !isTRUE(is.function(trans))) {
     stop("`cond` and `trans` must both be functions")
   }
   y <- x
   indx <- cond(y)
-  if(is.null(trans)){
-    return(y[indx])
-  }
-  if(!is.null(trans)){
-    y[indx] <- trans(y[indx])
-  }
+  y[indx] <- trans(y[indx])
   return(y)
 }
 
@@ -111,7 +106,7 @@ transform_if <- function(x, cond, trans=NULL) {
 
 #' @rdname transform_if
 #' @export
-`%unreal <-%` <- function(x, repl) {
+`%unreal =%` <- function(x, repl) {
   y <- x
   y[is.na(y)|is.nan(y)|is.infinite(y)] <- repl
   temp_name <- substitute(x)

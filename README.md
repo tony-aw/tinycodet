@@ -162,6 +162,9 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   description. Changed the documentation regarding matrix operators, as
   I suspect the usage of the word “rank” might be confusing. Also edited
   this Read-Me file a bit.
+- 27 May 2023: Changed the naming convention of in-place modifiers to
+  end with `=%`. Added the `import_lsf()` function. Fixed a mistake in
+  the documentation of the `transform_if()`.
 
 FUTURE PLANS:
 
@@ -204,6 +207,10 @@ The `tidyoperators` R package adds the following functionality:
 - Additional infix logic operators.
 - Safer (in)equality operators for float numbers.
 - Infix operators for row- and column-wise re-ordering of matrices.
+- Several in-place modifying arithmetic and string operators, and a few
+  functions, to help reduce repetitive codes, for the sake of the “Don’t
+  Repeat Yourself”-coding principle (`DRY`).
+- Package import management operator and functions.
 - The tidyoperators package adds additional `stringi` functions, namely
   `stri_locate_ith()` and `stri_join_mat()` (and aliases). These
   functions use the same naming and argument convention as the rest of
@@ -214,10 +221,6 @@ The `tidyoperators` R package adds the following functionality:
 - The `s_pattern()` helper function for the string infix operators.
 - The `stringi` pattern expressions options are available for all
   string-pattern-related functions, when appropriate.
-- Several in-place modifying arithmetic and string operators, and a few
-  functions, to help reduce repetitive codes, for the sake of the “Don’t
-  Repeat Yourself”-coding principle (`DRY`).
-- Package import management operator and functions.
 - This R package has only one dependency: `stringi`. No other
   dependencies, as to avoid “dependency hell”.
 - Although this package has no other dependencies, it allows
@@ -232,28 +235,19 @@ jumping into the details.
 
  
 
-In-place mathematical arithmetic with `tidyoperators`:
-
-``` r
-x <- 1:10
-print(x)
-#>  [1]  1  2  3  4  5  6  7  8  9 10
-x %^ <-% 2 # is the same as x <- x^2
-print(x)
-#>  [1]   1   4   9  16  25  36  49  64  81 100
-```
-
-Simple transformations:
+Operators and functions for the “Don’t Repeat Yourself” principle:
 
 ``` r
 # in base R:
 very_long_name_1[very_long_name_1 > 0] <- log(very_long_name_1[very_long_name_1 > 0])
+very_long_name_1 <- very_long_name_1^2
 
 # with tidyoperators:
 very_long_name_1 %<>% transform_if(\(x)x>0, log)
+very_long_name_1 %^ =% 2
 ```
 
-Float equality checks:
+Safer float equality checks:
 
 ``` r
 x <- c(0.3, 0.6, 0.7)
@@ -1039,6 +1033,8 @@ which will tidy this up. The above code can now be re-written as:
 very_long_name_1 %<>% transform_if(\(x)x>0, log)
 ```
 
+Note that `x` must be a vector, matrix, or array.
+
 Besides `transform_if`, the tidyoperators package also adds 2
 “subset_if” operators:
 
@@ -1071,10 +1067,10 @@ object_with_very_long_name %[!if]% \(x)x %in% 1:10
 #>  [1] -10  -9  -8  -7  -6  -5  -4  -3  -2  -1   0
 ```
 
-Another operator added by `tidyoperators` is `x %unreal <-% y`, which
+Another operator added by `tidyoperators` is `x %unreal =% y`, which
 replaces all NA, NaN, Inf and -Inf in `x` with the value given in `y`.
 
-So `x %unreal <-% y` is the same as
+So `x %unreal =% y` is the same as
 `x[is.na(x)|is.nan(x)|is.infinite(x)] <- y`.
 
  
@@ -1116,19 +1112,19 @@ operators, excluding matrix operators.
 Here is a list of all in-place mathematical modifiers implemented in
 this R-package:
 
-- `x %+ <-% y` is the same as`x <- x + y`;
-- `x %- <-% y` is the same as`x <- x - y`;
-- `x %* <-% y` is the same as`x <- x * y`;
-- `x %/ <-% y` is the same as`x <- x / y`;
-- `x %^ <-% p` is the same as`x <- x^p`;
-- `x %rt <-% p` is the same as`x <- x^(1/p)`;
-- `x %logb <-% b` is the same as`x <- log(x, base=b)`;
-- `x %alogb <-% b` is the same as`x <- b^x`; if `b=exp(1)`, this is the
+- `x %+ =% y` is the same as`x <- x + y`;
+- `x %- =% y` is the same as`x <- x - y`;
+- `x %* =% y` is the same as`x <- x * y`;
+- `x %/ =% y` is the same as`x <- x / y`;
+- `x %^ =% p` is the same as`x <- x^p`;
+- `x %rt =% p` is the same as`x <- x^(1/p)`;
+- `x %logb =% b` is the same as`x <- log(x, base=b)`;
+- `x %alog =% b` is the same as`x <- b^x`; if `b=exp(1)`, this is the
   same as`x <- exp(x)`;
-- `x %alogb <-% exp(1)` is the same as exp(x)\`.
+- `x %alog =% exp(1)` is the same as exp(x)\`.
 
-For consistency, all infix operators that are in-place modifiers in this
-R package end with `<-%` (notice the space).
+All in-place modifying operators in this package end with ” $\space$ =”
+(notice the extra space before the `=`).
 
 Lets look at the original problem:
 
@@ -1139,7 +1135,7 @@ mtcars$mpg[mtcars$cyl>6] <- mtcars$mpg[mtcars$cyl>6]^2
 With `tidyoperators` one can now make this more tidy with the following:
 
 ``` r
-mtcars$mpg[mtcars$cyl>6] %^ <-% 2
+mtcars$mpg[mtcars$cyl>6] %^ =% 2
 ```
 
  
@@ -1149,12 +1145,12 @@ mtcars$mpg[mtcars$cyl>6] %^ <-% 2
 With the exception of `%ss%`, all infix operators for string arithmetic
 and string sub-setting have their in-place modifying equivalent:
 
-- `x %s+ <-% y` is the same as `x <- x %s+% y`
-- `x %s- <-% p` is the same as `x <- x %s-% p`
-- `x %s* <-% n` is the same as `x <- x %s*% n`
-- `x %s/ <-% p` is the same as `x <- x %s/% p`
-- `x %sget <-% ss` is the same as `x <- x %sget% ss`
-- `x %strim <-% ss` is the same as `x <- x %strim% ss`
+- `x %s+ =% y` is the same as `x <- x %s+% y`
+- `x %s- =% p` is the same as `x <- x %s-% p`
+- `x %s* =% n` is the same as `x <- x %s*% n`
+- `x %s/ =% p` is the same as `x <- x %s/% p`
+- `x %sget =% ss` is the same as `x <- x %sget% ss`
+- `x %strim =% ss` is the same as `x <- x %strim% ss`
 
  
 

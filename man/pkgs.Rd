@@ -4,12 +4,15 @@
 \alias{pkgs}
 \alias{\%m import <-\%}
 \alias{import_data}
+\alias{import_lsf}
 \alias{force_libPaths}
 \title{Package import management operator and functions}
 \usage{
 alias \%m import <-\% pkgs
 
 import_data(dataname, package)
+
+import_lsf(package, inop = TRUE, regfun = TRUE)
 
 force_libPaths(lib_vec)
 }
@@ -25,6 +28,13 @@ the package named last will overwrite the earlier named package.}
 \item{dataname}{a single string, giving the name of the dataset.}
 
 \item{package}{a single string, giving the name of the package.}
+
+\item{inop}{\code{TRUE} or \code{FALSE},
+indicating whether infix operators should be included in the list of functions.}
+
+\item{regfun}{\code{TRUE} or \code{FALSE},
+indicating whether regular functions - exlcuding infix operators -
+should be included in the list of functions.}
 
 \item{lib_vec}{a character vector giving the new library path(s). \cr
 Just like in \code{.libPaths()}, the order matters: \cr
@@ -52,7 +62,8 @@ imports the namespaces of an R package
 (or a small set of R packages that "belong" to each other)
 under the same alias. \cr
 \cr
-
+The \code{import_lsf(package, ...)} function gets a list of exported functions from a package. \cr
+\cr
 The \code{import_data(dataname, package)} function gets a specified data set from a package. \cr
 Unlike \code{utils::data()}, \code{import_data()} returns the dataset directly,
 and allows assigning the dataset like so: \cr
