@@ -15,10 +15,10 @@
 - <a href="#string-functions" id="toc-string-functions">String
   functions</a>
   - <a href="#matrix-joining" id="toc-matrix-joining">Matrix joining</a>
-  - <a href="#locate-ith-pattern-for-stringi"
-    id="toc-locate-ith-pattern-for-stringi">Locate <span
-    class="math inline"><em>i</em><sup><em>t</em><em>h</em></sup></span>
-    pattern for stringi</a>
+  - <a href="#locate-itextrmth-pattern-for-stringi"
+    id="toc-locate-itextrmth-pattern-for-stringi">Locate <span
+    class="math inline"><em>i</em><sup>th</sup></span> pattern for
+    stringi</a>
   - <a href="#substr---functions" id="toc-substr---functions">Substr -
     functions</a>
 - <a href="#string-infix-operators" id="toc-string-infix-operators">String
@@ -57,6 +57,9 @@
     date-based version control: the alternative to MRAN</a>
 - <a href="#speed-and-multi-threading"
   id="toc-speed-and-multi-threading">Speed and multi-threading</a>
+  - <a href="#stri_locate_ith" id="toc-stri_locate_ith">stri_locate_ith</a>
+  - <a href="#substr-functions"
+    id="toc-substr-functions">Substr-functions</a>
 - <a href="#recommended-r-packages"
   id="toc-recommended-r-packages">Recommended R packages</a>
 - <a href="#compatibility-with-other-r-packages"
@@ -165,6 +168,10 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
 - 27 May 2023: Changed the naming convention of in-place modifiers to
   end with `=%`. Added the `import_lsf()` function. Fixed a mistake in
   the documentation of the `transform_if()`.
+- 29 May 2023 The `stri_locate_ith()` now returns a matrix like
+  `stri_locate_first/last`. Moreover, I replaced the `mapply` call with
+  only vectorized functions; `stri_locate_ith()` is now almost as fast
+  as the `stringi` functions it calls.
 
 FUTURE PLANS:
 
@@ -216,8 +223,8 @@ The `tidyoperators` R package adds the following functionality:
   functions use the same naming and argument convention as the rest of
   the `stringi` functions, thus keeping your code consistent.
 - The fully vectorized sub-string functions, that extract, replace,
-  add-in, transform, or re-arrange, the $i^{th}$ pattern occurrence or
-  substring.
+  add-in, transform, or re-arrange, the $i^\textrm{th}$ pattern
+  occurrence or substring.
 - The `s_pattern()` helper function for the string infix operators.
 - The `stringi` pattern expressions options are available for all
   string-pattern-related functions, when appropriate.
@@ -263,7 +270,7 @@ x %f==% y # here it's done correctly
 #> [1] TRUE TRUE TRUE
 ```
 
-Locate $i^{th}$ occurrence of some pattern in a string:
+Locate $i^\textrm{th}$ occurrence of some pattern in a string:
 
 ``` r
 x <- c("Goodmorning -- GOODafternoon -- GooDevening, and goodnight!",
@@ -273,8 +280,7 @@ print(x)
 #> [2] "abcdefghijklm"
 loc <- stri_locate_ith(
   # locate second-last occurrence of "good" (ignore case) of each string in x:
-  x, -2, regex="good", case_insensitive=TRUE, simplify = TRUE
-)
+  x, -2, regex="good", case_insensitive=TRUE)
 substr(x, loc[,1], loc[,2])
 #> [1] "GooD" NA
 ```
@@ -699,20 +705,21 @@ stri_paste_mat(shuffled, margin=1, sep=" ") # <- another alias for stri_join_mat
 
  
 
-## Locate $i^{th}$ pattern for stringi
+## Locate $i^\textrm{th}$ pattern for stringi
 
-Suppose one wants to transform all vowels in the strings of a character
-vector `x` such that all upper case vowels become lower case, and
-vice-versa. One can do that completely in `stringi` + base R as follows:
+Suppose one wants to transform the first vowels in the strings of a
+character vector `x` such that all upper case vowels become lower case,
+and vice-versa. One can do that completely in `stringi` + base R as
+follows:
 
 ``` r
 
 x <- c("HELLO WORLD", "goodbye world")
-loc <- stringi::stri_locate_all(x, regex="a|e|i|o|u", case_insensitive=TRUE)
-extr <- stringi::stri_sub_all(x, from=loc)
+loc <- stringi::stri_locate_first(x, regex="a|e|i|o|u", case_insensitive=TRUE)
+extr <- stringi::stri_sub(x, from=loc)
 repl <- lapply(extr, \(x)chartr(x=x, old = "a-zA-Z", new = "A-Za-z"))
-stringi::stri_sub_all_replace(x, loc, replacement=repl)
-#> [1] "HeLLo WoRLD"   "gOOdbyE wOrld"
+stringi::stri_sub_replace(x, loc, replacement=repl)
+#> [1] "HeLLO WORLD"   "gOodbye world"
 ```
 
 But now suppose one wants to transform **only** the **second-last**
@@ -721,69 +728,39 @@ super straight-forward. For a tidy code, `stringi` really needs some
 kind of “stri_locate_ith” function. And, of course, the `tidyoperators`
 package provides just that.
 
-The `stri_locate_ith(x, i, ...)` function locates for every
-element/string in character vector `x`, the $i^{th}$ occurrence of some
-(regex/fixed/etc) pattern. When `i` is positive, the occurrence is
-counted from left to right. Negative values for `i` are also allowed, in
-which case the occurrence is counted from the right to left. But `i=0`
-is not allowed though. Thus, to get the **second** occurrence of some
-pattern, use `i=2`, and to get the **second-last** occurrence, use
+The `stri_locate_ith(str, i, ...)` function locates for every
+element/string in character vector `x`, the $i^\textrm{th}$ occurrence
+of some (regex/fixed/etc) pattern. When `i` is positive, the occurrence
+is counted from left to right. Negative values for `i` are also allowed,
+in which case the occurrence is counted from the right to left. But
+`i=0` is not allowed though. Thus, to get the **second** occurrence of
+some pattern, use `i=2`, and to get the **second-last** occurrence, use
 `i=-2`.
 
-What this function returns exactly depends on the `simplify` argument.
-
-If `simplify=FALSE` (the default), it returns a returns a list, one
-element for each string. Each list element consists of a matrix with 1
-row and 2 columns. The first column gives the start position of the
-$i^{th}$ occurrence of a pattern. The second column gives the end
-position of the $i^{th}$ occurrence of a pattern. This list can be used
-in `stringi` for pattern transformation.
-
-If `simplify=TRUE` it returns a matrix with 3 columns: start position,
-end position, and length of position range of the $i^{th}$ occurrence of
-a pattern. One row for each string of character vector `x`x.
-
-The `stri_locate_ith(x, i, ...)` function uses the exact same argument
+The `stri_locate_ith(str, i, ...)` function uses the exact same argument
 and naming convention as `stringi`, to keep your code consistent. And
-just like `stringi::stri_locate_all`, the `stri_locate_ith(x, i, ...)`
-function is a vectorized function: `x` and `i` as well as the pattern
-(`regex, fixed, coll, charclass`) can all be different-valued vectors.
+just like `stringi::stri_locate_first/last`, the
+`stri_locate_ith(str, i, ...)` function is a vectorized function: `x`
+and `i` as well as the pattern (`regex, fixed, coll, charclass`) can all
+be different-valued vectors. It is also vectorized in the sense that no
+loops (in R) are used, only vectorized functions.
 
  
 
-Now back to the original problem.
-
-So we previously transformed all vowels in the strings of a character
-vector `x` such that all upper case vowels become lower case, and
-vice-versa, like so:
-
-``` r
-x <- c("HELLO WORLD", "goodbye world")
-
-loc <- stringi::stri_locate_all(x, regex="a|e|i|o|u", case_insensitive=TRUE)
-
-extr <- stringi::stri_sub_all(x, from=loc)
-repl <- lapply(extr, \(x)chartr(x=x, old = "a-zA-Z", new = "A-Za-z"))
-stringi::stri_sub_all_replace(x, loc, replacement=repl)
-#> [1] "HeLLo WoRLD"   "gOOdbyE wOrld"
-```
-
-This transforms all occurrences.
-
-But to transform **only** the **second-last** occurrence, one can now
-use `stri_locate_ith()` in a very similar way as was done with
-`stri_locate_all`:
+To transform **only** the **second-last** occurrence, one can now use
+`stri_locate_ith()` in a very similar way as was done with
+`stri_locate_first/last`:
 
 ``` r
 x <- c("HELLO WORLD", "goodbye world")
 
 loc <- stri_locate_ith( # this part is the key-difference
-  x, -2, regex="a|e|i|o|u", case_insensitive=TRUE, simplify = FALSE 
+  x, -2, regex="a|e|i|o|u", case_insensitive=TRUE
 )
 
-extr <- stringi::stri_sub_all(x, from=loc)
+extr <- stringi::stri_sub(x, from=loc[,1:2])
 repl <- lapply(extr, \(x)chartr(x=x, old = "a-zA-Z", new = "A-Za-z"))
-stringi::stri_sub_all_replace(x, loc, replacement=repl)
+stringi::stri_sub_replace(x, loc[,1:2], replacement=repl)
 #> [1] "HELLo WORLD"   "goodbyE world"
 ```
 
@@ -800,7 +777,7 @@ the `tidyoperators` package also adds several fully vectorized
 ## Substr - functions
 
 The `tidyoperators` R-package includes the following fully vectorized
-sub-string functions:
+“substr-” functions:
 
 - The `substr_repl(x, rp, ...)` function replaces a position (range)
   with string `rp`.
@@ -1345,6 +1322,22 @@ code.
  
 
 # Speed and multi-threading
+
+## stri_locate_ith
+
+The `stri_locate_ith()` function needs to know the number of matches of
+some pattern for every string in a character vector, as well as the
+actual matches themselves, before being able to actually give the
+$i^\textrm{th}$ occurrence of some pattern. Thus `stri_locate_ith()` (at
+least in its current implementation) cannot be faster than the combined
+runtime of the `stri_locate_all()` and `stri_count()` functions. As
+`stri_locate_ith()` is written mostly only in fully vectorized
+statements in R (no loop), the function hardly takes more than twice the
+time of `stri_locate_all()` and `stri_count()` combined.
+
+ 
+
+## Substr-functions
 
 All the string sub-setting functions have the `fish` argument, which is
 `FALSE` by default. If `fish=TRUE`, these functions will use

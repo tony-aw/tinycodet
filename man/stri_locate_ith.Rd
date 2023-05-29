@@ -4,7 +4,7 @@
 \alias{stri_locate_ith}
 \title{Locate \eqn{i^{th}} Pattern Occurrence}
 \usage{
-stri_locate_ith(str, i, ..., regex, fixed, coll, charclass, simplify = FALSE)
+stri_locate_ith(str, i, ..., regex, fixed, coll, charclass)
 }
 \arguments{
 \item{str}{a string or character vector.}
@@ -32,34 +32,11 @@ and if \code{i <= -3} the first instance will be located. \cr}
 
 \item{regex, fixed, coll, charclass}{a character vector of search patterns,
 as in \link[stringi]{stri_locate}. \cr}
-
-\item{simplify}{either \code{TRUE} or \code{FALSE} (default = \code{FALSE}): \cr
-\itemize{
-\item If \code{FALSE}, \code{stri_locate_ith} returns a list,
-usable in the \link[stringi]{stri_sub_all} functions
-(for example: to transform all matches). \cr
-\item If \code{TRUE}, \code{stri_locate_ith}
-returns an integer matrix of positions and lengths. \cr
-}}
 }
 \value{
-If \code{simplify = FALSE}, \code{stri_locate_ith} returns a list, one element for each string.
-Each list element consists of a matrix with 2 columns and one row: \cr
-The first column gives the start position of the \eqn{i^{th}} occurrence of the pattern. \cr
-The second column gives the end position of the \eqn{i^{th}} occurrence of the pattern. \cr
-When \code{simplify=FALSE}, the results can be used in the \code{from} argument
-in the \link[stringi]{stri_sub_all} functions,
-for example to transform the \eqn{i^{th}} matches
-(see examples section below). \cr
-\cr
-If \code{simplify = TRUE} (default), \code{stri_locate_ith} this returns an integer matrix with 3 columns: \cr
-The first column gives the start position of the \eqn{i^{th}} occurrence of the pattern. \cr
-The second column gives the end position of the \eqn{i^{th}} occurrence of the pattern. \cr
-The third column gives the length of the position range of
-the \eqn{i^{th}} occurrence of the pattern. \cr
-\cr
-If no matches are found in a string,
-\code{NA} is filled in for the start and end positions (and length).
+The \code{stri_locate_ith()} function returns an integer matrix with two columns,
+giving the start and end positions of the \eqn{i^{th}} matches,
+and two \code{NA}s if no matches are found.
 \cr
 }
 \description{
@@ -73,14 +50,14 @@ some character vector. \cr
 
 x <- rep(paste0(1:10, collapse=""), 10)
 print(x)
-out <- stri_locate_ith(x, 1:10, regex = as.character(1:10), simplify=TRUE)
+out <- stri_locate_ith(x, 1:10, regex = as.character(1:10))
 cbind(1:10, out)
 
 
 x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 print(x)
 p <- rep("a|e|i|o|u",2)
-out <- stri_locate_ith(x, c(-1, 1), regex=p, simplify=TRUE)
+out <- stri_locate_ith(x, c(-1, 1), regex=p)
 print(out)
 substr(x, out[,1], out[,2])
 
@@ -93,7 +70,7 @@ substr(x, out[,1], out[,2])
 x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 print(x)
 p <- rep("A|E|I|O|U", 2)
-out <- stri_locate_ith(x, c(1, -1), regex=p, case_insensitive=TRUE, simplify=TRUE)
+out <- stri_locate_ith(x, c(1, -1), regex=p, case_insensitive=TRUE)
 substr(x, out[,1], out[,2])
 
 
@@ -105,7 +82,7 @@ x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 print(x)
 # multi-character pattern:
 p <- rep("AB", 2)
-out <- stri_locate_ith(x, c(1, -1), regex=p, simplify=TRUE, case_insensitive=TRUE)
+out <- stri_locate_ith(x, c(1, -1), regex=p, case_insensitive=TRUE)
 print(out)
 substr(x, out[,1], out[,2])
 
@@ -116,10 +93,10 @@ substr(x, out[,1], out[,2])
 # Replacement transformation using stringi ====
 
 x <- c("hello world", "goodbye world")
-loc <- stri_locate_ith(x, c(1, -1), regex="a|e|i|o|u", simplify = FALSE)
-extr <- stringi::stri_sub_all(x, from=loc)
+loc <- stri_locate_ith(x, c(1, -1), regex="a|e|i|o|u")
+extr <- stringi::stri_sub(x, from=loc)
 repl <- lapply(extr, \(x)chartr(x, old = "a-zA-Z", new = "A-Za-z"))
-stringi::stri_sub_all_replace(x, loc, replacement=repl)
+stringi::stri_sub_replace(x, loc, replacement=repl)
 
 
 }
