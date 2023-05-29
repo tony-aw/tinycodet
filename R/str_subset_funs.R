@@ -26,10 +26,7 @@
 #' @param x a string or character vector.
 #' @param rp a string, or a character vector of the same length as \code{x},
 #' giving the replacing strings.
-#' @param loc The result from the \link{stri_locate_ith} function.
-#' It does not matter if the result is in the list form (\code{simplify = FALSE}),
-#' or in the matrix form (\code{simplify = TRUE}).
-#' See \link{stri_locate_ith}. \cr
+#' @param loc The result from the \link{stri_locate_ith} function. \cr
 #' NOTE: you cannot fill in both \code{loc} and \code{start,end},
 #' or both \code{loc} and \code{at}. Choose one or the other.
 #' @param at an integer, or integer vector of the same length as \code{x}.
@@ -159,9 +156,6 @@ substr_repl <- function(
   if(is.null(loc)){
     loc <- cbind(start, end)
   }
-  if(is.list(loc)) {
-    loc <- do.call(rbind, loc)
-  }
   if(nrow(loc)!=length(x) & nrow(loc)!=1) {
     stop("x and loc/start/end must be have matching dimensions")
   }
@@ -220,9 +214,6 @@ substr_chartr <- function(
   if(is.null(loc)){
     loc <- cbind(start, end)
   }
-  if(is.list(loc)) {
-    loc <- do.call(rbind, loc)
-  }
   if(nrow(loc)!=length(x) & nrow(loc)!=1) {
     stop("x and loc/start/end must be have matching dimensions")
   }
@@ -279,9 +270,6 @@ substr_addin <- function(
   }
   if(is.null(loc)){
     loc <- cbind(at, at)
-  }
-  if(is.list(loc)) {
-    loc <- do.call(rbind, loc)
   }
   if(nrow(loc)!=length(x) & nrow(loc)!=1) {
     stop("`x` and `loc`/`at` must be have matching dimensions")
@@ -345,9 +333,6 @@ substr_extract <- function(
   if(is.null(loc)){
     loc <- cbind(start, end)
   }
-  if(is.list(loc)) {
-    loc <- do.call(rbind, loc)
-  }
   if(nrow(loc)!=length(x) & nrow(loc)!=1) {
     stop("x and loc/start/end must be have matching dimensions")
   }
@@ -396,9 +381,6 @@ substr_arrange <- function(
   }
   if(is.null(loc)){
     loc <- cbind(start, end)
-  }
-  if(is.list(loc)) {
-    loc <- do.call(rbind, loc)
   }
   if(nrow(loc)!=length(x) & nrow(loc)!=1) {
     stop("x and loc/start/end must be have matching dimensions")

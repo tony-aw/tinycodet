@@ -61,10 +61,7 @@ giving the replacing strings.}
 \item{...}{only applicable if \code{fish=TRUE};
 other arguments to be passed to the \code{stringfish} functions.}
 
-\item{loc}{The result from the \link{stri_locate_ith} function.
-It does not matter if the result is in the list form (\code{simplify = FALSE}),
-or in the matrix form (\code{simplify = TRUE}).
-See \link{stri_locate_ith}. \cr
+\item{loc}{The result from the \link{stri_locate_ith} function. \cr
 NOTE: you cannot fill in both \code{loc} and \code{start,end},
 or both \code{loc} and \code{at}. Choose one or the other.}
 

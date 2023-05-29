@@ -168,7 +168,7 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
 - 27 May 2023: Changed the naming convention of in-place modifiers to
   end with `=%`. Added the `import_lsf()` function. Fixed a mistake in
   the documentation of the `transform_if()`.
-- 29 May 2023 The `stri_locate_ith()` now returns a matrix like
+- 29 May 2023: The `stri_locate_ith()` now returns a matrix like
   `stri_locate_first/last`. Moreover, I replaced the `mapply` call with
   only vectorized functions; `stri_locate_ith()` is now almost as fast
   as the `stringi` functions it calls.
@@ -707,10 +707,10 @@ stri_paste_mat(shuffled, margin=1, sep=" ") # <- another alias for stri_join_mat
 
 ## Locate $i^\textrm{th}$ pattern for stringi
 
-Suppose one wants to transform the first vowels in the strings of a
-character vector `x` such that all upper case vowels become lower case,
-and vice-versa. One can do that completely in `stringi` + base R as
-follows:
+Suppose one wants to transform the **first** vowels in the strings of a
+character vector `str`, such that all upper case vowels become lower
+case, and vice-versa. One can do that completely in `stringi` + base R
+as follows:
 
 ``` r
 
@@ -722,14 +722,14 @@ stringi::stri_sub_replace(x, loc, replacement=repl)
 #> [1] "HeLLO WORLD"   "gOodbye world"
 ```
 
-But now suppose one wants to transform **only** the **second-last**
-vowel. How are you going to do that? It’s not impossible, but also not
-super straight-forward. For a tidy code, `stringi` really needs some
-kind of “stri_locate_ith” function. And, of course, the `tidyoperators`
-package provides just that.
+But now suppose one wants to transform the **second-last** vowel. How
+are you going to do that? It’s not impossible, but also not super
+straight-forward. For a tidy code, `stringi` really needs some kind of
+“stri_locate_ith” function. And, of course, the `tidyoperators` package
+provides just that.
 
 The `stri_locate_ith(str, i, ...)` function locates for every
-element/string in character vector `x`, the $i^\textrm{th}$ occurrence
+element/string in character vector `str`, the $i^\textrm{th}$ occurrence
 of some (regex/fixed/etc) pattern. When `i` is positive, the occurrence
 is counted from left to right. Negative values for `i` are also allowed,
 in which case the occurrence is counted from the right to left. But
@@ -740,14 +740,14 @@ some pattern, use `i=2`, and to get the **second-last** occurrence, use
 The `stri_locate_ith(str, i, ...)` function uses the exact same argument
 and naming convention as `stringi`, to keep your code consistent. And
 just like `stringi::stri_locate_first/last`, the
-`stri_locate_ith(str, i, ...)` function is a vectorized function: `x`
+`stri_locate_ith(str, i, ...)` function is a vectorized function: `str`
 and `i` as well as the pattern (`regex, fixed, coll, charclass`) can all
 be different-valued vectors. It is also vectorized in the sense that no
 loops (in R) are used, only vectorized functions.
 
  
 
-To transform **only** the **second-last** occurrence, one can now use
+To transform the **second-last** occurrence, one can now use
 `stri_locate_ith()` in a very similar way as was done with
 `stri_locate_first/last`:
 
