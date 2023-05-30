@@ -1,4 +1,4 @@
-#' Sub-string functions
+#' Substr - functions
 #'
 #'@description
 #' Fully vectorized sub-string functions. \cr
@@ -29,7 +29,8 @@
 #' @param loc The result from the \link{stri_locate_ith} function. \cr
 #' NOTE: you cannot fill in both \code{loc} and \code{start,end},
 #' or both \code{loc} and \code{at}. Choose one or the other.
-#' @param at an integer, or integer vector of the same length as \code{x}.
+#' @param at an integer, or integer vector of the same length as \code{x},
+#' giving the position after or before which the string is to be added.
 #' @param start,end integers, or integer vectors of the same length as \code{x},
 #' giving the start and end position of the range to be modified.
 #' @param old,new see \link[base]{chartr}.

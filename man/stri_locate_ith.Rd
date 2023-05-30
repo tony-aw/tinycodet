@@ -95,7 +95,7 @@ substr(x, out[,1], out[,2])
 x <- c("hello world", "goodbye world")
 loc <- stri_locate_ith(x, c(1, -1), regex="a|e|i|o|u")
 extr <- stringi::stri_sub(x, from=loc)
-repl <- lapply(extr, \(x)chartr(x, old = "a-zA-Z", new = "A-Za-z"))
+repl <- chartr(extr, old = "a-zA-Z", new = "A-Za-z")
 stringi::stri_sub_replace(x, loc, replacement=repl)
 
 

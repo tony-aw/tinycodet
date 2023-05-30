@@ -172,6 +172,8 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   `stri_locate_first/last`. Moreover, I replaced the `mapply` call with
   only vectorized functions; `stri_locate_ith()` is now almost as fast
   as the `stringi` functions it calls.
+- 30 May 2023: Fixed some lingering mistakes in the documentations, that
+  were left over since the changes from 29 May 2023.
 
 FUTURE PLANS:
 
@@ -717,7 +719,7 @@ as follows:
 x <- c("HELLO WORLD", "goodbye world")
 loc <- stringi::stri_locate_first(x, regex="a|e|i|o|u", case_insensitive=TRUE)
 extr <- stringi::stri_sub(x, from=loc)
-repl <- lapply(extr, \(x)chartr(x=x, old = "a-zA-Z", new = "A-Za-z"))
+repl <- chartr(extr, old = "a-zA-Z", new = "A-Za-z")
 stringi::stri_sub_replace(x, loc, replacement=repl)
 #> [1] "HeLLO WORLD"   "gOodbye world"
 ```
@@ -758,26 +760,21 @@ loc <- stri_locate_ith( # this part is the key-difference
   x, -2, regex="a|e|i|o|u", case_insensitive=TRUE
 )
 
-extr <- stringi::stri_sub(x, from=loc[,1:2])
-repl <- lapply(extr, \(x)chartr(x=x, old = "a-zA-Z", new = "A-Za-z"))
-stringi::stri_sub_replace(x, loc[,1:2], replacement=repl)
+extr <- stringi::stri_sub(x, from=loc)
+repl <- chartr(extr, old = "a-zA-Z", new = "A-Za-z")
+stringi::stri_sub_replace(x, loc, replacement=repl)
 #> [1] "HELLo WORLD"   "goodbyE world"
 ```
 
 Notice that the code is virtually equivalent. We *only* need to change
 the locate function.
 
-The transformation given in the previous code used `lapply`. I’m sure we
-want to stick to vectorized functions as much as possible. Therefore,
-the `tidyoperators` package also adds several fully vectorized
-`substr_`-functions, which are discussed in the very next section.
-
  
 
 ## Substr - functions
 
-The `tidyoperators` R-package includes the following fully vectorized
-“substr-” functions:
+The `tidyoperators` R-package includes the following “substr-”
+functions:
 
 - The `substr_repl(x, rp, ...)` function replaces a position (range)
   with string `rp`.

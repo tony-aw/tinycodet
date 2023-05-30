@@ -6,7 +6,7 @@
 \alias{substr_addin}
 \alias{substr_extract}
 \alias{substr_arrange}
-\title{Sub-string functions}
+\title{Substr - functions}
 \usage{
 substr_repl(x, rp, ..., loc = NULL, start = NULL, end = NULL, fish = FALSE)
 
@@ -84,7 +84,8 @@ giving the string(s) to add-in.}
 \item{side}{which side of the position to add in the string.
 Either \code{"before"} or \code{"after"}.}
 
-\item{at}{an integer, or integer vector of the same length as \code{x}.}
+\item{at}{an integer, or integer vector of the same length as \code{x},
+giving the position after or before which the string is to be added.}
 
 \item{type}{a single string, giving the part of the string to extract.
 3 options available: \cr
