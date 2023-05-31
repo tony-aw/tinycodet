@@ -752,11 +752,9 @@ Loading a package alias does have some drawbacks. One is that you cannot easily 
 
  - Suppose package `B` is supposed to overwrite a couple of functions from package `A` (for example if package `B` extends or improves the functionality from a function in package `A`). In that case you want to import package `A`, and then overwrite it with package `B`.
  - A package may have many extensions you may want to load together. For example: `ggplot2` has many extensions (see https://exts.ggplot2.tidyverse.org/gallery/). If one wishes to alias `ggplot2` including some of its many extensions, one must be able to load multiple R packages under the same alias.
- - A package may add functionality to another package, without it being a strict dependency. For example: `collapse` and `tidytable` both add functionality to `data.table`. If one wishes to alias `data.table`, one may want to load those other 2 packages under the same alias.
- - A package may add function
- - If multiple packages kind of "belong" together, you may not want to give these packages separate aliases. For example, the `data.table` and `collapse` packages are the core packages of the `fastverse`, and in that sense belong to each other.
+ - If multiple packages kind of "belong" together, you may not want to give these packages separate aliases. For example, the `data.table` and `collapse` packages are among the core packages of the `fastverse`, and in that sense belong to each other.
 
-So there are several cases where it is perhaps diserable to load multiple packages under the same alias. And that is where the `%m import <-%` operator comes in. It imports multiple R packages under the same alias, and also informs the user which package will overwrite which function, so you will never be surprised. The `%m import <-%` operator also only loads exported functions (unlike `loadNamespace()`, which loads both internal and external functions). This is, I think, more desirable, as internal function should remain, you know, internal.
+So there are several cases where it is perhaps desirable to load multiple packages under the same alias. And that is where the `%m import <-%` operator comes in. It imports multiple R packages under the same alias, and also informs the user which package will overwrite which function, so you will never be surprised. The `%m import <-%` operator also only loads exported functions (unlike `loadNamespace()`, which loads both internal and external functions). This is, I think, more desirable, as internal function should remain, you know, internal.
 
 The `%m import <-%` operator will give a `warning` when the user attempts to import more than 3 packages under the same alias.
 

@@ -1192,17 +1192,12 @@ multiple packages into a single alias might be actually preferable:
   <https://exts.ggplot2.tidyverse.org/gallery/>). If one wishes to alias
   `ggplot2` including some of its many extensions, one must be able to
   load multiple R packages under the same alias.
-- A package may add functionality to another package, without it being a
-  strict dependency. For example: `collapse` and `tidytable` both add
-  functionality to `data.table`. If one wishes to alias `data.table`,
-  one may want to load those other 2 packages under the same alias.
-- A package may add function
 - If multiple packages kind of “belong” together, you may not want to
   give these packages separate aliases. For example, the `data.table`
-  and `collapse` packages are the core packages of the `fastverse`, and
-  in that sense belong to each other.
+  and `collapse` packages are among the core packages of the
+  `fastverse`, and in that sense belong to each other.
 
-So there are several cases where it is perhaps diserable to load
+So there are several cases where it is perhaps desirable to load
 multiple packages under the same alias. And that is where the
 `%m import <-%` operator comes in. It imports multiple R packages under
 the same alias, and also informs the user which package will overwrite
