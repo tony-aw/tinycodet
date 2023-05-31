@@ -51,6 +51,7 @@
   - <a href="#import-operator-for-more-namespace-control"
     id="toc-import-operator-for-more-namespace-control">Import operator (for
     more Namespace control)</a>
+  - <a href="#import_lsf" id="toc-import_lsf">import_lsf</a>
   - <a href="#import_data" id="toc-import_data">import_data</a>
   - <a href="#on-date-based-version-control-the-alternative-to-mran"
     id="toc-on-date-based-version-control-the-alternative-to-mran">On
@@ -1186,42 +1187,39 @@ multiple packages into a single alias might be actually preferable:
   from package `A` (for example if package `B` extends or improves the
   functionality from a function in package `A`). In that case you want
   to import package `A`, and then overwrite it with package `B`.
-- Although one should definitely keep the number of dependencies to a
-  minimal, there will inevitably be packages that really need one or
-  more dependencies. And sometimes one needs to directly access the
-  functions from the dependencies also. Importing those dependencies
-  under a different alias would in such a case probably be undesirable.
-  Instead, one may want to import the dependencies under the same alias
-  as the primary package.
+- A package may have many extensions you may want to load together. For
+  example: `ggplot2` has many extensions (see
+  <https://exts.ggplot2.tidyverse.org/gallery/>). If one wishes to alias
+  `ggplot2` including some of its many extensions, one must be able to
+  load multiple R packages under the same alias.
+- A package may add functionality to another package, without it being a
+  strict dependency. For example: `collapse` and `tidytable` both add
+  functionality to `data.table`. If one wishes to alias `data.table`,
+  one may want to load those other 2 packages under the same alias.
+- A package may add function
 - If multiple packages kind of “belong” together, you may not want to
-  give these packages separate aliases.
+  give these packages separate aliases. For example, the `data.table`
+  and `collapse` packages are the core packages of the `fastverse`, and
+  in that sense belong to each other.
 
-One example is the core `fastverse` + `tidyverse` data wrangling combo:
-`data.table` + `collapse` + `tidytable`. Considering the large amount of
-functions these packages have, some which unfortunately have the same
-name as core R functions, one would probably want to assign them in an
-alias object. But giving them separate aliases is perhaps undesirable:
-`tidytable` and `collapse` both use `data.table` as a (suggested)
-dependency, and one is probably going to use functions from `data.table`
-itself alongside `tidytable` and `collapse`.
-
-This is where the `%m import <-%` operator comes in. It imports multiple
-R packages under the same alias, and also informs the user which package
-will overwrite which function, so you will never be surprised. The
-`%m import <-%` operator also only loads exported functions (unlike
-`loadNamespace()`, which loads both internal and external functions).
-This is, I think, more desirable, as internal function should remain,
-you know, internal.
+So there are several cases where it is perhaps diserable to load
+multiple packages under the same alias. And that is where the
+`%m import <-%` operator comes in. It imports multiple R packages under
+the same alias, and also informs the user which package will overwrite
+which function, so you will never be surprised. The `%m import <-%`
+operator also only loads exported functions (unlike `loadNamespace()`,
+which loads both internal and external functions). This is, I think,
+more desirable, as internal function should remain, you know, internal.
 
 The `%m import <-%` operator will give a `warning` when the user
 attempts to import more than 3 packages under the same alias.
 
 As an example, lets load `data.table`, and then `collapse`, and then
-`tidytable`, all under the same alias, which I will call “ftv” (for
-“fast-tidy-verse”):
+`tidytable`, all under the same alias, which I will call “fv” (for
+“fastverse”):
 
 ``` r
-ftv %m import <-% c("data.table", "collapse", "tidytable")
+fv %m import <-% c("data.table", "collapse", "tidytable")
 #> Importing package: data.table...
 #> 
 #> Importing package: collapse...
@@ -1235,7 +1233,7 @@ ftv %m import <-% c("data.table", "collapse", "tidytable")
 #> tidytable will overwrite conflicting objects from previous imported packages...
 #> 
 #> Done
-#> You can now access the functions using ftv$...
+#> You can now access the functions using fv$...
 #> methods will work like normally.
 ```
 
@@ -1244,17 +1242,50 @@ Notice that the messages explain which package will overwrite what.
 Now you can of course use those loaded packages as one would normally do
 when using a package alias.
 
-It’s better not to use this method for packages that mainly implement
-operators (such as this very R package), as using something like this:
+ 
+
+## import_lsf
+
+Although operators are also loaded in the alias, it may be cumbersome to
+use them from the alias. For example this:
 
 ``` r
 to %m import <-% "tidyoperators"
 to$`%row~%`(x, mat)
 ```
 
-is very cumbersome. The `%m import <-%` operator will therefore also
-notify the user when attempting to import an R-package where more than
-half of the functions are operators.
+is very cumbersome. Therefore, `tidyoperators` also adds the
+`import_lsf(..., type="inops")` function, which can list all infix
+operators from a package. This can then be used in the `include.only`
+argument of the `library()` function.
+
+For example, the following code loads data.table, collapse and tidytable
+under the same alias, and only attaches the infix operators to the
+namespace:
+
+``` r
+fv %m import <-% c("data.table", "collapse", "tidytable")
+#> Importing package: data.table...
+#> 
+#> Importing package: collapse...
+#> no conflicts
+#> 
+#> Importing package: tidytable...
+#> The following conflicting objects detected:
+#>  
+#> %chin%, %like%, last, fread, setDTthreads, data.table, first, getDTthreads, fwrite, %between%, between
+#>  
+#> tidytable will overwrite conflicting objects from previous imported packages...
+#> 
+#> Done
+#> You can now access the functions using fv$...
+#> methods will work like normally.
+library(data.table, include.only = import_lsf("data.table", type="inops"))
+#> Warning: package 'data.table' was built under R version 4.2.3
+library(collapse, include.only = import_lsf("collapse", type="inops"))
+#> Warning: package 'collapse' was built under R version 4.2.3
+#> collapse 1.9.5, see ?`collapse-package` or ?`collapse-documentation`
+```
 
  
 
