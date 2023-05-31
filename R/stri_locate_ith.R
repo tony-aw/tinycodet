@@ -160,7 +160,7 @@ stri_locate_ith <- function(
   i[neg] <- pmax(n.matches[neg] - abs(i[neg]+1), 1)
   i[pos] <- pmin(i[pos], n.matches[pos])
 
-  rowind <- i + c(0, n.matches)[1:n]
+  rowind <- i + c(0, cumsum(n.matches))[1:n]
   mat <- do.call(rbind, p1)
   mat <- mat[rowind, , drop=FALSE]
   colnames(mat) <- c("start", "end")

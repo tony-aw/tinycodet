@@ -11,7 +11,6 @@ test_that("stri_locate_ith (positions)", {
   expect_equal(outcome, expected)
 })
 
-
 x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 out1 <- stri_locate_ith(x, c(-1, 1), regex=c("A|E|I|O|U","a|e|i|o|u"), case_insensitive=TRUE)
 out2 <- stri_locate_ith(x, c(-1, 1), regex=c("A|E|I|O|U","a|e|i|o|u"), case_insensitive=FALSE)
@@ -34,3 +33,24 @@ test_that("stri_locate_ith (coll)", {
   expect_equal(substr(x, out[,1], out[,2]), x)
 })
 
+x <- lapply(1:10, function(x)paste0(sample(c(letters, LETTERS)), collapse = ""))
+p <- "a|e|i|o|u"
+tonyfirst <- stri_locate_ith(x, 1, regex=p, case_insensitive=TRUE)
+strifirst <- stringi::stri_locate_first(x, regex=p, case_insensitive=TRUE)
+tonylast <- stri_locate_ith(x, -1, regex=p, case_insensitive=TRUE)
+strilast <- stringi::stri_locate_last(x, regex=p, case_insensitive=TRUE)
+test_that("stringi & tidyops matchn regex", {
+  expect_equal(tonyfirst, strifirst)
+  expect_equal(tonylast, strilast)
+})
+
+x <- lapply(1:10, function(x)paste0(sample(1:10), collapse = ""))
+p <- "1"
+tonyfirst <- stri_locate_ith(x, 1, fixed=p, case_insensitive=TRUE)
+strifirst <- stringi::stri_locate_first(x, fixed=p, case_insensitive=TRUE)
+tonylast <- stri_locate_ith(x, -1, fixed=p, case_insensitive=TRUE)
+strilast <- stringi::stri_locate_last(x, fixed=p, case_insensitive=TRUE)
+test_that("stringi & tidyops matchn fixed", {
+  expect_equal(tonyfirst, strifirst)
+  expect_equal(tonylast, strilast)
+})
