@@ -897,7 +897,7 @@ x %strim% ss
 
 ## String arithmetic
 
-The `tidyoperators` package adds 4 arithmetic operators:
+The `tidyoperators` package adds 4 string arithmetic operators:
 
 - `x %s+% y` concatenates `x` and `y`;
 - `x %s-% p` removes pattern `p` from each string in character vector
@@ -1015,7 +1015,7 @@ The tidyoperators package therefore adds the
 up. The above code can now be re-written as:
 
 ``` r
-very_long_name_1 %<>% transform_if(\(x)x>0, log, \(x)^2)
+very_long_name_1 %<>% transform_if(\(x)x>0, log, \(x)x^2)
 ```
 
 Note that `x` must be a vector, matrix, or array. Unlike `ifelse`, the
