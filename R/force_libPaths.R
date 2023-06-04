@@ -3,8 +3,8 @@
 #' @description
 #'
 #' The \code{force_libPaths()} function allows the user to force R to specific libraries.
-#' This was needed since base R's \code{.libPaths()} function
-#' only allows adding new library paths, not overwrite existing ones.
+#' This may in some occasions be needed as base R's \code{.libPaths()} function
+#' only allows adding new library paths, not overwrite existing site or system libraries
 #' The library paths are of course re-set again every time R restarts.
 #'
 #' @param lib_vec a character vector giving the new library path(s). \cr
@@ -17,7 +17,7 @@
 #'
 #'
 #' @returns
-#' \code{force_libPaths()}: sdjusts the R library paths as defined in \code{.libPaths()} directly.
+#' \code{force_libPaths()}: adjusts the R library paths as defined in \code{.libPaths()} directly.
 #'
 #' @references McBain (2019, June 20). Before I Sleep: Hacking R's library paths. Retrieved from https://milesmcbain.com/posts/hacking-r-library-paths/
 #'

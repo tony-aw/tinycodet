@@ -37,7 +37,7 @@
 #' the ith pattern occurrence or location. \cr
 #' * The \link{s_pattern} helper function for string operators. \cr
 #' * The \link{transform_if} function, and some related infix operators. \cr
-#' * \link[=import_data]{A new package import management operator and function}. \cr
+#' * \link[=import_data]{New package import functions}. \cr
 #' * Most \code{stringi} pattern expressions options
 #' are available for the string-pattern-related functions, when appropriate. \cr
 #' * This R package has only one dependency: \code{stringi}.

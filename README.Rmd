@@ -74,6 +74,7 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
  - 27 May 2023: Changed the naming convention of in-place modifiers to end with `   =%`. Added the `import_lsf()` function. Fixed a mistake in the documentation of the `transform_if()`.
  - 29 May 2023: The `stri_locate_ith()` now returns a matrix like `stri_locate_first/last`. Moreover, I replaced the `mapply` call with only vectorized functions; `stri_locate_ith()` is now almost as fast as the `stringi` functions it calls.
  - 30 May 2023: Fixed some lingering mistakes in the documentations, that were left over since the changes from 29 May 2023.
+ - 4 June 2023: Major changes this time. The `tranform_if()` function now allows the user to specify 2 transformation functions, one for if the condition is `TRUE`, and the other for `FALSE`. Added the `import_inops()` function. Changed the `alias %m import <-% pkgs` operator into the `import_as()` function. Added the `pkgs %installed in% lib.loc%` operator. Re-arranged this Read-Me file a bit.
 
 
 FUTURE PLANS:
@@ -602,24 +603,28 @@ And so on. I'm sure you get the idea.
 
 Consider the following code:
 
-`x[cond(x)] <- f(x[cond(x)])`
+`x <- ifelse(cond(x), f(x), g(x))`
 
-Here a conditional subset of the object `x` is transformed with function `f`, where the condition is using a function referring to `x` itself (in this case `cond(x)`). Consequently, reference to `x` is written **four times**!
+Here a conditional subset of the object `x` is transformed where the condition is using a function referring to `x` itself. Consequently, reference to `x` is written **four times**!
 If the object has a short name like "x, this doesn't matter too much. But if the object has a longer name like `very_long_name_1`, doing something like this:
 
 ```{r eval=FALSE}
-very_long_name_1[very_long_name_1 > 0] <- log(very_long_name_1[very_long_name_1 > 0])
+very_long_name_1 <- ifelse(
+  very_long_name_1>0,  log(very_long_name_1), very_long_name_1^2
+)
 ```
 
-becomes cumbersome, and not so tidy.
+becomes cumbersome quickly.
 
-The tidyoperators package therefore adds the `transform_if()` function which will tidy this up. The above code can now be re-written as:
+The tidyoperators package therefore adds the `transform_if(x, cond, trans_T, trans_F)` function which will tidy this up.
+The above code can now be re-written as:
 
 ```{r eval=FALSE}
-very_long_name_1 %<>% transform_if(\(x)x>0, log)
+very_long_name_1 %<>% transform_if(\(x)x>0, log, \(x)^2)
 ```
 
 Note that `x` must be a vector, matrix, or array.
+Unlike `ifelse`, the transformations in `transform_if()` are evaluated as `trans_T(x[cond(x)])` and `trans_F(x[!cond(x)])`, ensuring no unnecessary warnings or errors occur.
 
 Besides `transform_if`, the tidyoperators package also adds 2 "subset_if" operators:
 
@@ -717,84 +722,75 @@ With the exception of  `%ss%`, all infix operators for string arithmetic and str
 &nbsp;
 
 
-# Library management
+# Import functions and operator
 
-## force_libPaths (for simple Project Isolation)
+## import_as
 
-The `renv` R package is the go-to R package for complex project isolation. But sometimes you just have a few simple R scripts, and only need quick and simple project isolation.
-
-The base R's `.libPaths()` function sets the library paths where R looks for R packages when checking or loading/attaching R packages. As such, this function could be used for simple Project Isolation. Problem, however, is that base R's `.libPaths()` function for some strange reason only allows adding new library paths, not overwrite existing system or site library paths (at least not conventionally). This stands in the way of using it for straight-forward Project Isolation.
-
-The `tidyoperators` package therefore adds the `force_libPaths()` function, as provided in https://milesmcbain.com/posts/hacking-r-library-paths/. The `force_libPaths()` function does allow forcing R to only use the library paths exactly as specified by the user. Running this function at the start of every script in a project allows for very easy and light-weight project isolation.
-
-Example:
+One can load - but not attach - a package and assign it to an alias in base R using:
 
 ```{r eval=FALSE}
-force_libPaths("/mylibrary")
+alias <- loadNamespace("packagename", lib.loc = lib.loc)
 ```
 
-For more complex project isolation, please use `renv` instead. Do not use both `renv` and `force_libPaths()` in the same project.
-
-
-&nbsp;
-
-## Import operator (for more Namespace control)
-
-One can import a package and assign it to an alias in base R using:
-
-```{r eval=FALSE}
-alias <- loadNamespace("packagename")
-```
-
-Doing the above, instead of attaching a package using `library` or `require`, can (sometimes) be quite beneficial: i.e. prevent overlapping namespaces, prevent overriding base/core R functions, prevent polluting the namespace, clarify which function came from which package.
+Doing the above, instead of attaching a package using `library()` or `require()`, can (sometimes) be quite beneficial: i.e. prevent overlapping namespaces, prevent overriding base/core R functions, prevent polluting the namespace, clarify which function came from which package.
 
 Loading a package alias does have some drawbacks. One is that you cannot easily import multiple packages under the same alias. While one would probably not want to import **multiple** packages under a single alias most of the time, there may be a couple of situations where importing multiple packages into a single alias might be actually preferable:
 
- - Suppose package `B` is supposed to overwrite a couple of functions from package `A` (for example if package `B` extends or improves the functionality from a function in package `A`). In that case you want to import package `A`, and then overwrite it with package `B`.
+ - A package may have one or several dependencies that are supposed to be loaded together. For example: the `tidytable` package essentially needs the `data.table` package to be loaded also.
  - A package may have many extensions you may want to load together. For example: `ggplot2` has many extensions (see https://exts.ggplot2.tidyverse.org/gallery/). If one wishes to alias `ggplot2` including some of its many extensions, one must be able to load multiple R packages under the same alias.
- - If multiple packages kind of "belong" together, you may not want to give these packages separate aliases. For example, the `data.table` and `collapse` packages are among the core packages of the `fastverse`, and in that sense belong to each other.
+ - Suppose package `B` is supposed to overwrite a couple of functions from package `A` (for example if package `B` extends or improves the functionality from a function in package `A`). In that case you want to import package `A`, and then overwrite it with package `B`.
 
-So there are several cases where it is perhaps desirable to load multiple packages under the same alias. And that is where the `%m import <-%` operator comes in. It imports multiple R packages under the same alias, and also informs the user which package will overwrite which function, so you will never be surprised. The `%m import <-%` operator also only loads exported functions (unlike `loadNamespace()`, which loads both internal and external functions). This is, I think, more desirable, as internal function should remain, you know, internal.
+So there are several cases where it is perhaps desirable to load multiple packages under the same alias. And that is where `tidyoperator`'s `import_as()` function comes in. It allows loading multiple R packages under the same alias, and also informs the user which objects from a package will overwrite which objects from other packages, so you will never be surprised. The `import_as()` function also only loads exported functions (unlike `loadNamespace()`, which loads both internal and external functions). This is, I think, more desirable, as internal function should remain, you know, internal.
 
-The `%m import <-%` operator will give a `warning` when the user attempts to import more than 3 packages under the same alias.
+`import_as(alias, pkgs, lib.loc)` is thus essentially the multi-package equivalent of `alias <- loadNamespace(package, lib.loc)`.
 
-As an example, lets load `data.table`, and then `collapse`, and then `tidytable`, all under the same alias, which I will call "fv" (for "fastverse"):
+Here is one example. Lets load  `data.table` and then `tidytable`, under the same alias, which I will call "tdt" (for "tidy data.table"):
 
 ```{r}
-fv %m import <-% c("data.table", "collapse", "tidytable")
+pkgs <- c("data.table", "tidytable")
+import_as(fv, pkgs) # this creates the fv object
 ```
 
-Notice that the messages explain which package will overwrite what.
 
 Now you can of course use those loaded packages as one would normally do when using a package alias.
 
+A few notes on the usage of this operator when importing multiple R packages under the same alias:
+
+ - The order of the character vector matters! If 2 packages share objects with the same name, the package named last will overwrite the earlier named package.
+ - When supplying more than one package to the `import_as()` function, it is strongly advised to only import packages together under the same alias that are (reverse) dependencies of each other (i.e. they appear in each others Depends or Imports sections in the Description file).
+ - Related to the previous point, the `import_as()` function only performs a very basic check for dependencies; the user is expected to use the `import_as()` function responsibly.
+
 &nbsp;
 
-## import_lsf
+## import_inops
 
-Although operators are also loaded in the alias, it may be cumbersome to use them from the alias. For example this:
+When aliasing an R package, infix operators are also loaded in the alias. However, it may be cumbersome to use them from the alias. For example this:
 
 ```{r eval=FALSE}
-to %m import <-% "tidyoperators"
+to loadNamespace("tidyoperators")
 to$`%row~%`(x, mat)
 ```
 
-is very cumbersome. Therefore,  `tidyoperators` also adds the `import_lsf(..., type="inops")` function, which can list all infix operators from a package. This can then be used in the `include.only` argument of the `library()` function.
 
-For example, the following code loads data.table, collapse and tidytable under the same alias, and only attaches the infix operators to the namespace:
+is very cumbersome. Therefore,  `tidyoperators` also adds the `import_inops(pkgs)` function, which exposes the infix operators from the packages specified in character vector `pkgs` to the current environment.
+
+For example, the following code imports `data.table` and `tidytable`, and also exposes the infix operators from those packages to the (global) environment:
 
 ```{r}
-fv %m import <-% c("data.table", "collapse", "tidytable")
-library(data.table, include.only = import_lsf("data.table", type="inops"))
-library(collapse, include.only = import_lsf("collapse", type="inops"))
+pkgs <- c("data.table", "tidytable")
+import_as(fv, pkgs) # this creates the fv object
+import_inops(pkgs)
 ```
 
+Just like in `import_as()`, the order of the packages matter whenever there's a conflict.
+
+The `import_inops()` functions has the `exclude` and `include.only` arguments to specify exactly which infix operators to expose to the current environment. This can be handy to prevent overwriting any (user defined) infix operators already present in the current environment.
 
 &nbsp;
 
 ## import_data
 
-The `%m import <-%` imports everything from the package namespace. But packages often also have data sets, which are often not part of the namespace.
+The `import_as()` function imports everything from the package namespace. But packages often also have data sets, which are often not part of the namespace.
 
 The `data()` function in core R can already load data from packages, but this function loads the data into the global environment, instead of returning the data directly, making assigning the data to a specific variable a bit annoying.
 Therefore, the `tidyoperators` package introduces the `import_data()` function, which directly returns a data set from a package.
@@ -806,9 +802,26 @@ d <- import_data("chicago", "gamair")
 head(d)
 ```
 
-That's it.
+&nbsp;
+
+## installed in - operator
+
+The `pkgs %installed in% lib.loc` operator checks if one or more package(s) `pkgs` exist(s) in library location `lib.loc`.
+Now you no longer have to attach a package with `require()` simply to check if it exists. Moreover, this operator makes it syntactically explicit in your code where you are looking for your R package(s).
+
+Example:
+
+```{r}
+pkgs <- c("data.table", "tidytable")
+pkgs %installed in% .libPaths()
+```
+
+
+Note that all "import_" functions in the `tidyoperators` package have a `lib.loc` argument to explicitly specify from where to get your packages (just like the `library()` function).
 
 &nbsp;
+
+# On libraries
 
 ## On date-based version control: the alternative to MRAN
 
@@ -823,6 +836,25 @@ options(repos = c(REPO_NAME = "https://packagemanager.rstudio.com/cran/2023-01-0
 ```
 
 Using this in combination with project isolation (like using `force_libPaths()`) allows for complete control over your packages, ensuring your code will run even several years after you wrote your code.
+
+&nbsp;
+
+## force_libPaths (for simple Project Isolation)
+
+The `renv` R package is the go-to R package for complex project isolation. But sometimes you just have a few simple R scripts, and only need quick and simple project isolation.
+
+The base R's `.libPaths()` function sets the library paths where R looks for R packages when checking or loading/attaching R packages. As such, this function can be used for simple Project Isolation. In some occasions you may want to completely overwrite the libraries, including the system and site library paths. The `.libPaths()` functions does not allow the user to do that.
+
+The `tidyoperators` package therefore adds the `force_libPaths()` function, as provided in https://milesmcbain.com/posts/hacking-r-library-paths/. The `force_libPaths()` function does allow forcing R to only use the library paths exactly as specified by the user.
+
+Example:
+
+```{r eval=FALSE}
+force_libPaths("/mylibrary")
+```
+
+For more complex project isolation, please use `renv` instead. Do not use both `renv` and `force_libPaths()` (or even base R's `.libPaths()`) in the same project.
+
 
 &nbsp;
 
@@ -882,7 +914,7 @@ For proper programming etiquette, I also highly recommend the following R packag
 
 The `stringi` R package has the `%s+%` and `%s*%` operators. They do exactly the same things as in `tidyoperators`, and so the masking of these functions can safely be ignored. I also made sure not to name any of the operators in `tidyoperators` the same as the operators in `magrittr` and `zeallot`, so that should be safe also.
 
-The `force_libPaths()` function is meant for super simple project isolation. One should probably not use the `force_libPaths()` function in a script when already using another system for project isolation like `renv` or `packrat`. It's either one or the other. The rest of `tidyoperators` is compatible with `renv`.
+The `force_libPaths()` function is meant for super simple project isolation. One should probably not use the `force_libPaths()` function in a script when already using another system for project isolation like `renv` or `packrat`. In fact, you probably shouldn't use even base R's `.libPaths()` function when also using `renv`. It's either one or the other. The rest of the functions and operators in `tidyoperators` are of course fully compatible with `renv`.
 
 Note that, by default, `renv` only registers packages loads using plain `library()` or `require()` calls. Anything different from that, even things like `for(... in ...)library(...)` or `if(...)library(...)`, will not be understood by `renv`. Therefore, if using `renv`, please make sure to set the following:
 
@@ -890,7 +922,7 @@ Note that, by default, `renv` only registers packages loads using plain `library
 renv::settings$snapshot.type("all")
 ```
 
-This will make sure that all packages installed in your project library, regardless of how they are loaded,  will all be registered by `renv`. This makes `renv` compatible with calls like  `alias $m import <-% pkgs` from `tidyoperators`, and things like `for(... in ...)library(...)` or `if(...)library(...)`.
+This will make sure that all packages installed in your project library, regardless of how they are loaded,  will all be registered by `renv`. This makes `renv` compatible with calls like  `import_as` from `tidyoperators`, and things like `for(... in ...)library(...)` or `if(...)library(...)`.
 
 &nbsp;
 

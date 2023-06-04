@@ -7,7 +7,7 @@
 \alias{\%unreal =\%}
 \title{The transform_if function and the subset_if operators}
 \usage{
-transform_if(x, cond, trans)
+transform_if(x, cond, trans_T = function(x) x, trans_F = function(x) x)
 
 x \%[if]\% cond
 
@@ -19,47 +19,41 @@ x \%unreal =\% repl
 \item{x}{a vector, matrix, or array.}
 
 \item{cond}{a function that returns a binary logic (\code{TRUE,FALSE}) vector
-of the same length/dimensions as \code{x} (for example: \code{is.na}). \cr
-\itemize{
-\item Elements of \code{x} for which \code{cond(x)==TRUE} are transformed / selected; \cr
-\item Elements of \code{x} for which \code{cond(x)==FALSE} are not transformed /selected. \cr
-}}
+of the same length/dimensions as \code{x} (for example: \code{is.na}).}
 
-\item{trans}{the transformation function to use. For example: \code{log}.}
+\item{trans_T}{the transformation function to use when \code{cond(x)==TRUE}. \cr
+For example: \code{log}. \cr
+If this is not specified, \code{trans_T} defaults to \code{function(x)x}.}
+
+\item{trans_F}{the transformation function to use when \code{cond(x)==FALSE}. \cr
+For example: \code{log}. \cr
+If this is not specified, \code{trans_F} defaults to \code{function(x)x}.}
 
 \item{repl}{the replacement value.}
 }
 \value{
-The \code{transform_if()} function
-returns the same object \code{x}, with the same dimensions,
-except with the subset transformed. \cr
-Note that this function \strong{returns} object \code{x},
-to modify \code{x} directly, one still has to assign it.
-To keep your code tidy, consider combining this function with
-\code{magrittr}'s in-place modifying piper-operator (\code{\%<>\%}).
-I.e.: \cr
-\code{very_long_name_1 \%<>\% transform_if(cond, trans)} \cr
+For \code{transform_if()}: \cr
+Similar to \link[base]{ifelse}.
+However, unlike \code{ifelse()}, the transformations are evaluated as
+\code{trans_T(x[cond(x)])} and \code{trans_F(x[!cond(x)])},
+ensuring no unnecessary warnings or errors occur. \cr
 \cr
 The subset_if - operators all return a vector with the selected elements. \cr
 \cr
 The \code{x \%unreal =\% repl} operator does not return any value: \cr
-it is an in-place modifiers, and thus modifies \code{x} directly.
+It is an in-place modifiers, and thus modifies \code{x} directly.
 The object \code{x} is modified such that all
 \code{NA}, \code{NaN} and \code{Inf} elements are replaced with \code{repl}.
 }
 \description{
 Consider the following code: \cr
-\code{x[cond(x)] <- trans(x[cond(x)])} \cr
-Here a conditional subset of the object \code{x} is transformed with function \code{trans},
-where the condition is using a function referring to \code{x} itself (namely \code{cond(x)}).
+\code{ifelse(cond(x), f(x), g(x))} \cr
+Here a conditional subset of the object \code{x} is transformed,
+where the condition is using a function referring to \code{x} itself.
 Consequently, reference to \code{x} is written four times! \cr
 The \code{tidyoperators} package therefore adds the
 \code{transform_if()} function
 which will tidy this up. \cr
-\cr
-\code{x <- transform_if(x, cond, trans)} \cr
-is exactly equivalent to \cr
-\code{x[cond(x)] <- trans(x[cond(x)])} \cr
 \cr
 The \code{tidyoperators} package also adds 2 "subset_if" operators: \cr
 The \code{x \%[if]\% cond} operator
@@ -81,6 +75,7 @@ does not rely on any explicit or implicit loops, nor any third-party functions.
 object_with_very_long_name <- matrix(-10:9, ncol=2)
 print(object_with_very_long_name)
 object_with_very_long_name |> transform_if(\(x)x>0, log)
+object_with_very_long_name |> transform_if(\(x)x>0, log, \(x)x^2)
 object_with_very_long_name \%[if]\% \(x)x \%in\% 1:10
 object_with_very_long_name \%[!if]\% \(x)x \%in\% 1:10
 

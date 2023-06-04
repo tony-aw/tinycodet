@@ -2,27 +2,57 @@
 % Please edit documentation in R/import.R
 \name{import}
 \alias{import}
-\alias{\%m import <-\%}
+\alias{import_as}
+\alias{import_inops}
 \alias{import_data}
 \alias{import_lsf}
-\title{Package import management operator and functions}
+\alias{\%installed in\%}
+\title{Additional package import management}
 \usage{
-alias \%m import <-\% pkgs
+import_as(alias, pkgs, lib.loc = .libPaths())
 
-import_data(dataname, package)
+import_inops(pkgs, lib.loc = .libPaths(), exclude, include.only)
 
-import_lsf(package, type)
+import_data(dataname, package, lib.loc = .libPaths())
+
+import_lsf(package, type, lib.loc = .libPaths())
+
+pkgs \%installed in\% lib.loc
 }
 \arguments{
 \item{alias}{a variable name (unquoted),
 giving the (not yet existing) object
-where the package(s) are to be assigned to.}
+where the package(s) are to be assigned to. \cr
+Syntactically invalid names are not allowed for the alias name.}
 
-\item{pkgs}{a character vector with the package name(s). \cr
-NOTE: The order matters! If 2 packages share objects with the same name,
-the package named last will overwrite the earlier named package.}
+\item{pkgs}{a single string, or character vector, with the package name(s). \cr
+NOTE (1): The order of the character vector matters! If 2 packages share objects with the same name,
+the package named last will overwrite the earlier named package. \cr
+NOTE (2): When supplying more than one package to \code{import_as()},
+it is strongly advised to only import packages together under the same alias that are (reverse)
+dependencies of each other
+(i.e. they appear in each others Depends or Imports sections in the Description files). \cr
+NOTE (3): Related to NOTE (2),
+the \code{import_as()} function only performs a very basic check for dependencies;
+the user is expected to use the \code{import_as()} function responsibly.}
 
-\item{dataname}{a single string, giving the name of the dataset.}
+\item{lib.loc}{character vector specifying library search path
+(the location of R library trees to search through).
+This is usually \code{.libPaths()}.
+See also \link[base]{loadNamespace}.}
+
+\item{exclude}{a character vector,
+giving the infix operators NOT to expose to the current environment. \cr
+This can be handy to prevent overwriting any (user defined)
+infix operators already present in the current environment.}
+
+\item{include.only}{a character vector,
+giving the infix operators to expose to the current environment,
+and the rest of the operators will not be exposed. \cr
+This can be handy to prevent overwriting any (user defined)
+infix operators already present in the current environment.}
+
+\item{dataname}{a single string, giving the name of the data set.}
 
 \item{package}{a single string, giving the name of the package.}
 
@@ -32,58 +62,83 @@ the package named last will overwrite the earlier named package.}
 \code{"all"}: All functions, both regular and infix operators. \cr}
 }
 \value{
-For \code{\%m import <-\%}: \cr
+For \code{import_as}: \cr
 The variable named in the \code{alias} argument will be created
 (if it did not already exist),
 and it will contain the (merged) package environment. \cr
+If argument \code{expose_inops = TRUE},
+the infix operators of the specified package(s) are placed in the current environment. \cr
 \cr
 For \code{import_data()}: \cr
 Returns the data directly.
 Thus, one can assign the data like so: \code{mydata <- import_data(...)}. \cr
 \cr
 For \code{import_lsf()}: \cr
-A vector of function and/or operator names. \cr
-This vector can be directly used in the \code{include.only} argument of the
-\code{library()} function. \cr
+Returns a character vector of function and/or operator names. \cr
+\cr
+For \code{pkgs \%installed in\% lib.loc}: \cr
+Returns a logical vector, where \code{TRUE} indicates a package is installed,
+and \code{FALSE} indicates a package is not installed. \cr
+\cr
 }
 \description{
-The \code{alias \%m import <-\% pkgs} operator
+These functions and operator are focussed on making it easier to
+use packages without having to explicitly attaching them to your namespace. \cr
+\cr
+\code{import_as}: \cr
+The \code{import_as()} function
 imports the namespaces of an R package
 (or a small set of R packages that "belong" to each other)
 under the same alias. \cr
 \cr
-The \code{import_lsf(package, ...)} function gets a list of exported functions from a package. \cr
+\code{import_inops}: \cr
+The \code{import_inops()} function
+exposes the infix operators of the specified packages to the current environment
+(usually the global environment). \cr
+To ensure the user can still verify which operator function came from which package,
+a "package" attribute is added to each exposed operator. \cr
+Naturally, the namespaces of the operators remain intact. \cr
 \cr
-The \code{import_data(dataname, package)} function gets a specified data set from a package. \cr
-Unlike \code{utils::data()}, the \code{import_data()} function returns the dataset directly,
-and allows assigning the dataset like so: \cr
+\code{import_data}: \cr
+The \code{import_data()} function gets a specified data set from a package. \cr
+Unlike \code{utils::data()}, the \code{import_data()} function returns the data set directly,
+and allows assigning the data set like so: \cr
 \code{mydata <- import_data(...)}. \cr
+\cr
+\code{import_lsf}: \cr
+The \code{import_lsf(package, ...)} function gets a list of exported functions/operators from a package. \cr
+\cr
+\code{pkgs \%installed in\% lib.loc}: \cr
+The \code{pkgs \%installed in\% lib.loc} operator
+checks if one or more package(s) \code{pkgs} exist(s) in library location \code{lib.loc}. \cr
+Now you no longer have to attach a package with \code{require()} simply to check if it exists. \cr
+Moreover, this operator makes it syntactically explicit in your code
+where you are looking for your R package(s). \cr
 \cr
 }
 \details{
-The \code{alias \%m import <-\% pkgs} command is essentially the same as \cr
-\code{alias <- loadNamespace("packagename")} \cr
-except the \code{alias \%m import <-\% pkgs} operator
+The \code{import_as(alias, pkgs, lib.loc)} command is essentially the same as \cr
+\code{alias <- loadNamespace("packagename", lib.loc)} \cr
+except that \code{import_as(alias, pkgs, lib.loc)}
 allows assigning multiple packages to the same alias,
-and this operator does not import internal functions
+and \code{import_as(alias, pkgs, lib.loc)} does not import internal functions
 (i.e. internal functions are kept internal, as they should). \cr
 \cr
-The \code{alias \%m import <-\% pkgs} operator will tell the user
-about conflicting objects. It will also inform the user when importing
-a package that consists mostly of infix operators. \cr
+The \code{import_as} and \code{import_inops} functions will inform the user
+about conflicting objects. \cr
 \cr
-Note: the user should not use the \code{alias \%m import <-\% pkgs} operator
-unless the user knows what he/she is doing. \cr
-The operator will give a warning when more than 3 packages being imported into the same alias. \cr
+The \code{import_as} function will give a warning when more than 3 packages being imported into the same alias. \cr
 \cr
 }
 \examples{
 
 \dontrun{
-fv \%m import <-\% c("data.table", "collapse", "tidytable")
-library(data.table, include.only = import_lsf("data.table", type="inops"))
-library(collapse, include.only = import_lsf("collapse", type="inops"))
+pkgs <- c(unlist(tools::package_dependencies("devtools")), "devtools")
+pkgs \%installed in\% .libPaths()
+import_as(devt, pkgs) # this creates the devt object
+import_inops(pkgs)
 d <- import_data("chicago", "gamair")
+head(d)
 }
 
 
