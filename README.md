@@ -1161,9 +1161,10 @@ package.
 
 Loading a package alias does have some drawbacks. One is that you cannot
 easily import multiple packages under the same alias. While one would
-probably not want to import **multiple** packages under a single alias
-most of the time, there may be a couple of situations where importing
-multiple packages into a single alias might be actually preferable:
+probably don’t want to import **multiple** packages under a **single
+alias** most of the time, there may be a couple of situations where
+importing multiple packages into a single alias might be actually
+preferable:
 
 - A package may have one or several dependencies that are supposed to be
   loaded together. For example: the `tidytable` package essentially
@@ -1196,7 +1197,7 @@ the same alias, which I will call “tdt” (for “tidy data.table”):
 
 ``` r
 pkgs <- c("data.table", "tidytable")
-import_as(fv, pkgs) # this creates the fv object
+import_as(tdt, pkgs) # this creates the tdt object
 #> Importing package: data.table...
 #> 
 #> Importing package: tidytable...
@@ -1207,7 +1208,7 @@ import_as(fv, pkgs) # this creates the fv object
 #> tidytable will overwrite conflicting objects from previous imported packages...
 #> 
 #> Done
-#> You can now access the functions using fv$...
+#> You can now access the functions using tdt$...
 #> (S3)methods will work like normally.
 ```
 
@@ -1246,25 +1247,11 @@ is very cumbersome. Therefore, `tidyoperators` also adds the
 the packages specified in character vector `pkgs` to the current
 environment.
 
-For example, the following code imports `data.table` and `tidytable`,
-and also exposes the infix operators from those packages to the (global)
-environment:
+For example, exposes the infix operators from the `tidytable` and
+`data.table` R packages to the (global) environment:
 
 ``` r
 pkgs <- c("data.table", "tidytable")
-import_as(fv, pkgs) # this creates the fv object
-#> Importing package: data.table...
-#> 
-#> Importing package: tidytable...
-#> The following conflicting objects detected:
-#>  
-#> NA, last, fread, first, between
-#>  
-#> tidytable will overwrite conflicting objects from previous imported packages...
-#> 
-#> Done
-#> You can now access the functions using fv$...
-#> (S3)methods will work like normally.
 import_inops(pkgs)
 #> Getting infix operators from package: data.table...
 #> 
@@ -1319,10 +1306,10 @@ head(d)
 ## installed in - operator
 
 The `pkgs %installed in% lib.loc` operator checks if one or more
-package(s) `pkgs` exist(s) in library location `lib.loc`. Now you no
-longer have to attach a package with `require()` simply to check if it
-exists. Moreover, this operator makes it syntactically explicit in your
-code where you are looking for your R package(s).
+package(s) `pkgs` exist(s) in library location `lib.loc`, and does so
+**without attaching** the package in question. Moreover, this operator
+allows the user to make it more syntactically explicit in your code
+where you are looking for your R package(s).
 
 Example:
 
@@ -1335,7 +1322,7 @@ pkgs %installed in% .libPaths()
 
 Note that all “import\_” functions in the `tidyoperators` package have a
 `lib.loc` argument to explicitly specify from where to get your packages
-(just like the `library()` function).
+(just like base R’s `library()` function).
 
  
 
@@ -1492,6 +1479,10 @@ R packages:
   and `whereami` packages.
 - The `rlang` R package, which one can use to get (among other things)
   more detailed back-traced errors, warnings, and messages.
+- The `import` R package, which allows attaching packages **locally**.
+  For example: attaching a package **only** inside a function
+  environment, without affecting general namespace outside of the
+  function environment.
 
  
 

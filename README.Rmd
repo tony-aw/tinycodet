@@ -734,7 +734,7 @@ alias <- loadNamespace("packagename", lib.loc = lib.loc)
 
 Doing the above, instead of attaching a package using `library()` or `require()`, can (sometimes) be quite beneficial: i.e. prevent overlapping namespaces, prevent overriding base/core R functions, prevent polluting the namespace, clarify which function came from which package.
 
-Loading a package alias does have some drawbacks. One is that you cannot easily import multiple packages under the same alias. While one would probably not want to import **multiple** packages under a single alias most of the time, there may be a couple of situations where importing multiple packages into a single alias might be actually preferable:
+Loading a package alias does have some drawbacks. One is that you cannot easily import multiple packages under the same alias. While one would probably don't want to import **multiple** packages under a **single alias** most of the time, there may be a couple of situations where importing multiple packages into a single alias might be actually preferable:
 
  - A package may have one or several dependencies that are supposed to be loaded together. For example: the `tidytable` package essentially needs the `data.table` package to be loaded also.
  - A package may have many extensions you may want to load together. For example: `ggplot2` has many extensions (see https://exts.ggplot2.tidyverse.org/gallery/). If one wishes to alias `ggplot2` including some of its many extensions, one must be able to load multiple R packages under the same alias.
@@ -748,7 +748,7 @@ Here is one example. Lets load  `data.table` and then `tidytable`, under the sam
 
 ```{r}
 pkgs <- c("data.table", "tidytable")
-import_as(fv, pkgs) # this creates the fv object
+import_as(tdt, pkgs) # this creates the tdt object
 ```
 
 
@@ -774,11 +774,10 @@ to$`%row~%`(x, mat)
 
 is very cumbersome. Therefore,  `tidyoperators` also adds the `import_inops(pkgs)` function, which exposes the infix operators from the packages specified in character vector `pkgs` to the current environment.
 
-For example, the following code imports `data.table` and `tidytable`, and also exposes the infix operators from those packages to the (global) environment:
+For example, exposes the infix operators from the `tidytable` and `data.table` R packages to the (global) environment:
 
 ```{r}
 pkgs <- c("data.table", "tidytable")
-import_as(fv, pkgs) # this creates the fv object
 import_inops(pkgs)
 ```
 
@@ -806,8 +805,7 @@ head(d)
 
 ## installed in - operator
 
-The `pkgs %installed in% lib.loc` operator checks if one or more package(s) `pkgs` exist(s) in library location `lib.loc`.
-Now you no longer have to attach a package with `require()` simply to check if it exists. Moreover, this operator makes it syntactically explicit in your code where you are looking for your R package(s).
+The `pkgs %installed in% lib.loc` operator checks if one or more package(s) `pkgs` exist(s) in library location `lib.loc`, and does so **without attaching** the package in question. Moreover, this operator allows the user to make it more syntactically explicit in your code where you are looking for your R package(s).
 
 Example:
 
@@ -817,7 +815,7 @@ pkgs %installed in% .libPaths()
 ```
 
 
-Note that all "import_" functions in the `tidyoperators` package have a `lib.loc` argument to explicitly specify from where to get your packages (just like the `library()` function).
+Note that all "import_" functions in the `tidyoperators` package have a `lib.loc` argument to explicitly specify from where to get your packages (just like base R's `library()` function).
 
 &nbsp;
 
@@ -907,6 +905,7 @@ For proper programming etiquette, I also highly recommend the following R packag
 
  - The `this.path` R package (https://github.com/ArcadeAntics/this.path), which allows for getting the path of the current script (i.e. get the source file location), without all the issues found in packages such as the `here` and `whereami` packages.
  - The `rlang` R package, which one can use to get (among other things) more detailed back-traced errors, warnings, and messages.
+ - The `import` R package, which allows attaching packages **locally**. For example: attaching a package **only** inside a function environment, without affecting general namespace outside of the function environment.
 
 &nbsp;
 
