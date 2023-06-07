@@ -732,7 +732,8 @@ One can load - but not attach - a package and assign it to an alias in base R us
 alias <- loadNamespace("packagename", lib.loc = lib.loc)
 ```
 
-Doing the above, instead of attaching a package using `library()` or `require()`, can (sometimes) be quite beneficial: i.e. prevent overlapping namespaces, prevent overriding base/core R functions, prevent polluting the namespace, clarify which function came from which package.
+Doing the above, instead of attaching a package using `library()` or `require()`, can (often) be quite beneficial for several reasons.
+i.e. prevent overlapping namespaces, prevent overriding base/core R functions, prevent polluting the namespace, clarify which function came from which package, allowing a package to be loaded locally (like only within a function environment), etc.
 
 Loading a package alias does have some drawbacks. One is that you cannot easily import multiple packages under the same alias. While one would probably don't want to import **multiple** packages under a **single alias** most of the time, there may be a couple of situations where importing multiple packages into a single alias might be actually preferable:
 
@@ -772,9 +773,9 @@ to$`%row~%`(x, mat)
 ```
 
 
-is very cumbersome. Therefore,  `tidyoperators` also adds the `import_inops(pkgs)` function, which exposes the infix operators from the packages specified in character vector `pkgs` to the current environment.
+is very cumbersome. Therefore,  `tidyoperators` also adds the `import_inops(pkgs)` function, which exposes the infix operators from the packages specified in character vector `pkgs` to the current, local environment.
 
-For example, exposes the infix operators from the `tidytable` and `data.table` R packages to the (global) environment:
+For example, exposes the infix operators from the `tidytable` and `data.table` R packages to the current environment, in this case the global environment:
 
 ```{r}
 pkgs <- c("data.table", "tidytable")
@@ -905,7 +906,6 @@ For proper programming etiquette, I also highly recommend the following R packag
 
  - The `this.path` R package (https://github.com/ArcadeAntics/this.path), which allows for getting the path of the current script (i.e. get the source file location), without all the issues found in packages such as the `here` and `whereami` packages.
  - The `rlang` R package, which one can use to get (among other things) more detailed back-traced errors, warnings, and messages.
- - The `import` R package, which allows attaching packages **locally**. For example: attaching a package **only** inside a function environment, without affecting general namespace outside of the function environment.
 
 &nbsp;
 

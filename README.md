@@ -1154,10 +1154,11 @@ alias <- loadNamespace("packagename", lib.loc = lib.loc)
 ```
 
 Doing the above, instead of attaching a package using `library()` or
-`require()`, can (sometimes) be quite beneficial: i.e. prevent
-overlapping namespaces, prevent overriding base/core R functions,
-prevent polluting the namespace, clarify which function came from which
-package.
+`require()`, can (often) be quite beneficial for several reasons.
+i.e. prevent overlapping namespaces, prevent overriding base/core R
+functions, prevent polluting the namespace, clarify which function came
+from which package, allowing a package to be loaded locally (like only
+within a function environment), etc.
 
 Loading a package alias does have some drawbacks. One is that you cannot
 easily import multiple packages under the same alias. While one would
@@ -1244,11 +1245,12 @@ to$`%row~%`(x, mat)
 
 is very cumbersome. Therefore, `tidyoperators` also adds the
 `import_inops(pkgs)` function, which exposes the infix operators from
-the packages specified in character vector `pkgs` to the current
+the packages specified in character vector `pkgs` to the current, local
 environment.
 
 For example, exposes the infix operators from the `tidytable` and
-`data.table` R packages to the (global) environment:
+`data.table` R packages to the current environment, in this case the
+global environment:
 
 ``` r
 pkgs <- c("data.table", "tidytable")
@@ -1479,10 +1481,6 @@ R packages:
   and `whereami` packages.
 - The `rlang` R package, which one can use to get (among other things)
   more detailed back-traced errors, warnings, and messages.
-- The `import` R package, which allows attaching packages **locally**.
-  For example: attaching a package **only** inside a function
-  environment, without affecting general namespace outside of the
-  function environment.
 
  
 
