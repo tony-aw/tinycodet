@@ -203,7 +203,8 @@ You can install `tidyoperators` from github like so:
 remotes::install_github("https://github.com/tony-aw/tidyoperators")
 ```
 
-then load it using:
+You can attach the package (thus exposing its functions to your current
+namespace), using:
 
 ``` r
 library(tidyoperators)
@@ -213,7 +214,7 @@ and one can open the introduction page to the `tidyoperators` package
 using:
 
 ``` r
-tidyoperators_help()
+tidyoperators::tidyoperators_help()
 ```
 
  
