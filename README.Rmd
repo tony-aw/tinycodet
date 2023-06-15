@@ -75,6 +75,7 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
  - 29 May 2023: The `stri_locate_ith()` now returns a matrix like `stri_locate_first/last`. Moreover, I replaced the `mapply` call with only vectorized functions; `stri_locate_ith()` is now almost as fast as the `stringi` functions it calls.
  - 30 May 2023: Fixed some lingering mistakes in the documentations, that were left over since the changes from 29 May 2023.
  - 4 June 2023: Major changes this time. The `tranform_if()` function now allows the user to specify 2 transformation functions, one for if the condition is `TRUE`, and the other for `FALSE`. Added the `import_inops()` function. Changed the `alias %m import <-% pkgs` operator into the `import_as()` function. Added the `pkgs %installed in% lib.loc%` operator. Re-arranged this Read-Me file a bit.
+ - 15 June 2023: Re-written parts of this Read-Me file.
 
 
 FUTURE PLANS:
@@ -294,8 +295,8 @@ x %f!{}% bnd
 
 Although designed for objects (vectors, matrices, arrays) of class `double` (floating numbers), these operators also work correctly for integers. These operators do not work for non-numeric objects.
 
-
 &nbsp;
+
 
 # Matrix re-ordering operators
 
@@ -822,6 +823,31 @@ Note that all "import_" functions in the `tidyoperators` package have a `lib.loc
 
 # On libraries
 
+## Setting relative paths
+
+Finding the source file location of your script (or project) is possible with R packages such as `this.path` and `here`.
+
+When employing both project isolation and version control, it may be preferable to find the source file location without external R packages ("external" meaning not base packages, not pre-installed recommended R packages, and not R packages that are bundled with Rstudio). The reason is as follows. If one relies on an R package to set the relative path of your project-specific library one gets into a circular problem: you need the R package to set your library path, but you need your library path to install the package.
+
+Luckily, one can actually find your script's working directory in base R without external R packages like `this.path` `here`.
+
+Without Rstudio, one can use the `commandArgs()` function.
+
+When using RStudio, one can use `rstudioapi::getSourceEditorContext()$path`.
+
+Contrary to popular believe, do something like this:
+
+```{r eval=FALSE}
+mydir <- rstudioapi::getSourceEditorContext()$path |> dirname()
+setwd(mydir)
+getwd()
+```
+
+is NOT bad practice. Even when changing the working directory, the above code works pretty much as one would expect.
+
+
+&nbsp;
+
 ## On date-based version control: the alternative to MRAN
 
 As MRAN is no longer available, RStudio/Posit has taken up the mantle to provide date-based version control.
@@ -904,7 +930,6 @@ substr_arrange(x, "rand", loc=loc, fish = TRUE)
 
 For proper programming etiquette, I also highly recommend the following R packages:
 
- - The `this.path` R package (https://github.com/ArcadeAntics/this.path), which allows for getting the path of the current script (i.e. get the source file location), without all the issues found in packages such as the `here` and `whereami` packages.
  - The `rlang` R package, which one can use to get (among other things) more detailed back-traced errors, warnings, and messages.
 
 &nbsp;

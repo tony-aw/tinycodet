@@ -1,73 +1,49 @@
 
-- <a href="#tidyoperators" id="toc-tidyoperators">tidyoperators</a>
-  - <a href="#description" id="toc-description">Description</a>
-  - <a href="#changelog-and-status" id="toc-changelog-and-status">Changelog
-    and status</a>
-  - <a href="#installation" id="toc-installation">Installation</a>
-  - <a href="#overview" id="toc-overview">Overview</a>
-- <a href="#additional-logic-operators"
-  id="toc-additional-logic-operators">Additional logic operators</a>
-- <a href="#safer-float-inequality-operators"
-  id="toc-safer-float-inequality-operators">Safer float (in)equality
-  operators</a>
-- <a href="#matrix-re-ordering-operators"
-  id="toc-matrix-re-ordering-operators">Matrix re-ordering operators</a>
-- <a href="#string-functions" id="toc-string-functions">String
-  functions</a>
-  - <a href="#matrix-joining" id="toc-matrix-joining">Matrix joining</a>
-  - <a href="#locate-itextrmth-pattern-for-stringi"
-    id="toc-locate-itextrmth-pattern-for-stringi">Locate <span
-    class="math inline"><em>i</em><sup>th</sup></span> pattern for
-    stringi</a>
-  - <a href="#substr---functions" id="toc-substr---functions">Substr -
-    functions</a>
-- <a href="#string-infix-operators" id="toc-string-infix-operators">String
-  infix operators</a>
-  - <a href="#string-subsetting-operators"
-    id="toc-string-subsetting-operators">String subsetting operators</a>
-  - <a href="#string-arithmetic" id="toc-string-arithmetic">String
-    arithmetic</a>
-  - <a
-    href="#specifying-pattern-search-attributes-in-string-infix-operators"
-    id="toc-specifying-pattern-search-attributes-in-string-infix-operators">Specifying
-    Pattern search attributes in string infix operators</a>
-- <a href="#dont-repeat-yourself---operators"
-  id="toc-dont-repeat-yourself---operators">“Don’t Repeat Yourself” -
-  operators</a>
-  - <a href="#the-transform_if-function-and-related-operators"
-    id="toc-the-transform_if-function-and-related-operators">The
-    transform_if function, and related operators</a>
-  - <a href="#in-place-modifying-mathematical-arithmetic"
-    id="toc-in-place-modifying-mathematical-arithmetic">In-place modifying
-    mathematical arithmetic</a>
-  - <a href="#in-place-modifying-string-arithmetic-and-sub-setting"
-    id="toc-in-place-modifying-string-arithmetic-and-sub-setting">In-place
-    modifying string arithmetic and sub-setting</a>
-- <a href="#import-functions-and-operator"
-  id="toc-import-functions-and-operator">Import functions and operator</a>
-  - <a href="#import_as" id="toc-import_as">import_as</a>
-  - <a href="#import_inops" id="toc-import_inops">import_inops</a>
-  - <a href="#import_data" id="toc-import_data">import_data</a>
-  - <a href="#installed-in---operator"
-    id="toc-installed-in---operator">installed in - operator</a>
-- <a href="#on-libraries" id="toc-on-libraries">On libraries</a>
-  - <a href="#on-date-based-version-control-the-alternative-to-mran"
-    id="toc-on-date-based-version-control-the-alternative-to-mran">On
-    date-based version control: the alternative to MRAN</a>
-  - <a href="#force_libpaths-for-simple-project-isolation"
-    id="toc-force_libpaths-for-simple-project-isolation">force_libPaths (for
-    simple Project Isolation)</a>
-- <a href="#speed-and-multi-threading"
-  id="toc-speed-and-multi-threading">Speed and multi-threading</a>
-  - <a href="#stri_locate_ith" id="toc-stri_locate_ith">stri_locate_ith</a>
-  - <a href="#substr-functions"
-    id="toc-substr-functions">Substr-functions</a>
-- <a href="#recommended-r-packages"
-  id="toc-recommended-r-packages">Recommended R packages</a>
-- <a href="#compatibility-with-other-r-packages"
-  id="toc-compatibility-with-other-r-packages">Compatibility with other R
-  packages</a>
-- <a href="#conclusion" id="toc-conclusion">Conclusion</a>
+- [tidyoperators](#tidyoperators)
+  - [Description](#description)
+  - [Changelog and status](#changelog-and-status)
+  - [Installation](#installation)
+  - [Overview](#overview)
+- [Additional logic operators](#additional-logic-operators)
+- [Safer float (in)equality
+  operators](#safer-float-inequality-operators)
+- [Matrix re-ordering operators](#matrix-re-ordering-operators)
+- [String functions](#string-functions)
+  - [Matrix joining](#matrix-joining)
+  - [Locate $i^\textrm{th}$ pattern for
+    stringi](#locate-itextrmth-pattern-for-stringi)
+  - [Substr - functions](#substr---functions)
+- [String infix operators](#string-infix-operators)
+  - [String subsetting operators](#string-subsetting-operators)
+  - [String arithmetic](#string-arithmetic)
+  - [Specifying Pattern search attributes in string infix
+    operators](#specifying-pattern-search-attributes-in-string-infix-operators)
+- [“Don’t Repeat Yourself” -
+  operators](#dont-repeat-yourself---operators)
+  - [The transform_if function, and related
+    operators](#the-transform_if-function-and-related-operators)
+  - [In-place modifying mathematical
+    arithmetic](#in-place-modifying-mathematical-arithmetic)
+  - [In-place modifying string arithmetic and
+    sub-setting](#in-place-modifying-string-arithmetic-and-sub-setting)
+- [Import functions and operator](#import-functions-and-operator)
+  - [import_as](#import_as)
+  - [import_inops](#import_inops)
+  - [import_data](#import_data)
+  - [installed in - operator](#installed-in---operator)
+- [On libraries](#on-libraries)
+  - [Setting relative paths](#setting-relative-paths)
+  - [On date-based version control: the alternative to
+    MRAN](#on-date-based-version-control-the-alternative-to-mran)
+  - [force_libPaths (for simple Project
+    Isolation)](#force_libpaths-for-simple-project-isolation)
+- [Speed and multi-threading](#speed-and-multi-threading)
+  - [stri_locate_ith](#stri_locate_ith)
+  - [Substr-functions](#substr-functions)
+- [Recommended R packages](#recommended-r-packages)
+- [Compatibility with other R
+  packages](#compatibility-with-other-r-packages)
+- [Conclusion](#conclusion)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -183,6 +159,7 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   operator into the `import_as()` function. Added the
   `pkgs %installed in% lib.loc%` operator. Re-arranged this Read-Me file
   a bit.
+- 15 June 2023: Re-written parts of this Read-Me file.
 
 FUTURE PLANS:
 
@@ -374,7 +351,7 @@ The `n %=numtype% numtype` operator will check for every value of
 numeric vector `n` if it can be considered a number belonging to type
 `numtype`. The following values for `numtype` are allowed:
 
-- “\~0”: zero, or else a number whose absolute value is smaller than the
+- “~0”: zero, or else a number whose absolute value is smaller than the
   Machine tolerance (`sqrt(.Machine$double.eps)`);
 - “B”: binary numbers (0 or 1);
 - “prop”: proportions;
@@ -813,20 +790,20 @@ loc <- stri_locate_ith(
 )
 ```
 
-|                                            |                        |                        |
-|:-------------------------------------------|:-----------------------|:-----------------------|
-| x                                          | Good - good - GOOD     | Good - GOOD - good     |
-| substr_extract(x, loc=loc)                 | good                   | GOOD                   |
-| substr_extract(x, “before”, loc=loc)       | Good -                 | Good -                 |
-| substr_extract(x, “after”, loc=loc)        | \- GOOD                | \- good                |
-| substr_repl(x, “??”, loc=loc)              | Good - ?? - GOOD       | Good - ?? - good       |
-| substr_chartr(x, loc=loc)                  | Good - GOOD - GOOD     | Good - good - good     |
-| substr_addin(x, “\~\~”, “after”, loc=loc)  | Good - good\~\~ - GOOD | Good - GOOD\~\~ - good |
-| substr_addin(x, “\~\~”, “before”, loc=loc) | Good - \~\~good - GOOD | Good - \~\~GOOD - good |
-| substr_arrange(x, loc=loc)                 | Good - dgoo - GOOD     | Good - DGOO - good     |
-| substr_arrange(x, “decr”, loc=loc)         | Good - oogd - GOOD     | Good - OOGD - good     |
-| substr_arrange(x, “rev”, loc=loc)          | Good - doog - GOOD     | Good - DOOG - good     |
-| substr_arrange(x, “rand”, loc=loc)         | Good - ogod - GOOD     | Good - ODGO - good     |
+|                                           |                       |                       |
+|:------------------------------------------|:----------------------|:----------------------|
+| x                                         | Good - good - GOOD    | Good - GOOD - good    |
+| substr_extract(x, loc=loc)                | good                  | GOOD                  |
+| substr_extract(x, “before”, loc=loc)      | Good -                | Good -                |
+| substr_extract(x, “after”, loc=loc)       | \- GOOD               | \- good               |
+| substr_repl(x, “??”, loc=loc)             | Good - ?? - GOOD      | Good - ?? - good      |
+| substr_chartr(x, loc=loc)                 | Good - GOOD - GOOD    | Good - good - good    |
+| substr_addin(x, “\~~”, “after”, loc=loc)  | Good - good\~~ - GOOD | Good - GOOD\~~ - good |
+| substr_addin(x, “\~~”, “before”, loc=loc) | Good - \~~good - GOOD | Good - \~~GOOD - good |
+| substr_arrange(x, loc=loc)                | Good - dgoo - GOOD    | Good - DGOO - good    |
+| substr_arrange(x, “decr”, loc=loc)        | Good - oogd - GOOD    | Good - OOGD - good    |
+| substr_arrange(x, “rev”, loc=loc)         | Good - doog - GOOD    | Good - DOOG - good    |
+| substr_arrange(x, “rand”, loc=loc)        | Good - ogod - GOOD    | Good - ODGO - good    |
 
  
 
@@ -1331,6 +1308,41 @@ Note that all “import\_” functions in the `tidyoperators` package have a
 
 # On libraries
 
+## Setting relative paths
+
+Finding the source file location of your script (or project) is possible
+with R packages such as `this.path` and `here`.
+
+When employing both project isolation and version control, it may be
+preferable to find the source file location without external R packages
+(“external” meaning not base packages, not pre-installed recommended R
+packages, and not R packages that are bundled with Rstudio). The reason
+is as follows. If one relies on an R package to set the relative path of
+your project-specific library one gets into a circular problem: you need
+the R package to set your library path, but you need your library path
+to install the package.
+
+Luckily, one can actually find your script’s working directory in base R
+without external R packages like `this.path` `here`.
+
+Without Rstudio, one can use the `commandArgs()` function.
+
+When using RStudio, one can use
+`rstudioapi::getSourceEditorContext()$path`.
+
+Contrary to popular believe, do something like this:
+
+``` r
+mydir <- rstudioapi::getSourceEditorContext()$path |> dirname()
+setwd(mydir)
+getwd()
+```
+
+is NOT bad practice. Even when changing the working directory, the above
+code works pretty much as one would expect.
+
+ 
+
 ## On date-based version control: the alternative to MRAN
 
 As MRAN is no longer available, RStudio/Posit has taken up the mantle to
@@ -1475,11 +1487,6 @@ operator-related R-packages, namely `magrittr` and `zeallot`.
 For proper programming etiquette, I also highly recommend the following
 R packages:
 
-- The `this.path` R package
-  (<https://github.com/ArcadeAntics/this.path>), which allows for
-  getting the path of the current script (i.e. get the source file
-  location), without all the issues found in packages such as the `here`
-  and `whereami` packages.
 - The `rlang` R package, which one can use to get (among other things)
   more detailed back-traced errors, warnings, and messages.
 
