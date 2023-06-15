@@ -75,7 +75,7 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
  - 29 May 2023: The `stri_locate_ith()` now returns a matrix like `stri_locate_first/last`. Moreover, I replaced the `mapply` call with only vectorized functions; `stri_locate_ith()` is now almost as fast as the `stringi` functions it calls.
  - 30 May 2023: Fixed some lingering mistakes in the documentations, that were left over since the changes from 29 May 2023.
  - 4 June 2023: Major changes this time. The `tranform_if()` function now allows the user to specify 2 transformation functions, one for if the condition is `TRUE`, and the other for `FALSE`. Added the `import_inops()` function. Changed the `alias %m import <-% pkgs` operator into the `import_as()` function. Added the `pkgs %installed in% lib.loc%` operator. Re-arranged this Read-Me file a bit.
- - 15 June 2023: Re-written parts of this Read-Me file.
+ - 15 June 2023: Rewritten this Read-Me a bit. Added a module import system (`alias %source module <-% list(file=..)` operator and `source_inops()` function).
 
 
 FUTURE PLANS:
@@ -295,8 +295,9 @@ x %f!{}% bnd
 
 Although designed for objects (vectors, matrices, arrays) of class `double` (floating numbers), these operators also work correctly for integers. These operators do not work for non-numeric objects.
 
-&nbsp;
 
+&nbsp;
+&nbsp;
 
 # Matrix re-ordering operators
 
@@ -723,7 +724,7 @@ With the exception of  `%ss%`, all infix operators for string arithmetic and str
 &nbsp;
 
 
-# Import functions and operator
+# Import management
 
 ## import_as
 
@@ -821,6 +822,14 @@ Note that all "import_" functions in the `tidyoperators` package have a `lib.loc
 
 &nbsp;
 
+## Sourcing modules
+
+R packages need to be checked, maintained, its dependencies kept minimal, made to be user friendly, AND reviewed by CRAN (and they really deserve some rest now and then). For a set of random functions, one is better off simply putting it in a script (and perhaps publish the script on GitHub), and sourcing the script as a module, instead of creating an R package out of it.
+
+To (hopefully) encourage this more, the `tidyoperators` R package adds the `alias %source module <-% list(file=..)` operator and the `source_inops()` function. The `alias %source module <-% list(file=..)` operator sources a script and returns all the objects in the script under an `alias`, similar to `import_as()`. The `source_inops()` function sources a script and places all infix operators in the script (if any) in the current environment (like the Global environment, or the environment within a function), similar to `import_inops()`.
+
+&nbsp;
+
 # On libraries
 
 ## Setting relative paths
@@ -835,7 +844,7 @@ Without Rstudio, one can use the `commandArgs()` function.
 
 When using RStudio, one can use `rstudioapi::getSourceEditorContext()$path`.
 
-Contrary to popular believe, do something like this:
+Contrary to popular believe, doing something like this:
 
 ```{r eval=FALSE}
 mydir <- rstudioapi::getSourceEditorContext()$path |> dirname()
@@ -843,7 +852,7 @@ setwd(mydir)
 getwd()
 ```
 
-is NOT bad practice. Even when changing the working directory, the above code works pretty much as one would expect.
+is NOT bad practice. The above code works pretty much as one would expect, and does not go against proper coding etiquettes.
 
 
 &nbsp;
@@ -931,6 +940,7 @@ substr_arrange(x, "rand", loc=loc, fish = TRUE)
 For proper programming etiquette, I also highly recommend the following R packages:
 
  - The `rlang` R package, which one can use to get (among other things) more detailed back-traced errors, warnings, and messages.
+ - The `fastverse` set of R packages (https://github.com/fastverse/fastverse), which are a set of R packages for (mostly) data wrangling focused on high speed and minimal dependencies.
 
 &nbsp;
 

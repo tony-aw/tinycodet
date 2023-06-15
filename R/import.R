@@ -1,7 +1,7 @@
 #' Additional package import management
 #'
 #' @description
-#' These functions and operator are focussed on making it easier to
+#' These functions and operator are focused on making it easier to
 #' use packages without having to explicitly attaching them to your namespace. \cr
 #' \cr
 #' \code{import_as}: \cr
@@ -13,7 +13,7 @@
 #' \code{import_inops}: \cr
 #' The \code{import_inops()} function
 #' exposes the infix operators of the specified packages to the current environment
-#' (usually the global environment). \cr
+#' (like the global environment, or the environment within a function). \cr
 #' To ensure the user can still verify which operator function came from which package,
 #' a "package" attribute is added to each exposed operator. \cr
 #' Naturally, the namespaces of the operators remain intact. \cr
@@ -89,8 +89,11 @@
 #' The variable named in the \code{alias} argument will be created
 #' (if it did not already exist),
 #' and it will contain the (merged) package environment. \cr
-#' If argument \code{expose_inops = TRUE},
-#' the infix operators of the specified package(s) are placed in the current environment. \cr
+#' \cr
+#' For \code{import_inops()}: \cr
+#' The infix operators from the specified packages will be placed
+#' in the current environment
+#' (like the Global environment, or the environment within a function).\cr
 #' \cr
 #' For \code{import_data()}: \cr
 #' Returns the data directly.

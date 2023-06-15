@@ -26,11 +26,12 @@
     arithmetic](#in-place-modifying-mathematical-arithmetic)
   - [In-place modifying string arithmetic and
     sub-setting](#in-place-modifying-string-arithmetic-and-sub-setting)
-- [Import functions and operator](#import-functions-and-operator)
+- [Import management](#import-management)
   - [import_as](#import_as)
   - [import_inops](#import_inops)
   - [import_data](#import_data)
   - [installed in - operator](#installed-in---operator)
+  - [Sourcing modules](#sourcing-modules)
 - [On libraries](#on-libraries)
   - [Setting relative paths](#setting-relative-paths)
   - [On date-based version control: the alternative to
@@ -159,7 +160,9 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   operator into the `import_as()` function. Added the
   `pkgs %installed in% lib.loc%` operator. Re-arranged this Read-Me file
   a bit.
-- 15 June 2023: Re-written parts of this Read-Me file.
+- 15 June 2023: Rewritten this Read-Me a bit. Added a module import
+  system (`alias %source module <-% list(file=..)` operator and
+  `source_inops()` function).
 
 FUTURE PLANS:
 
@@ -468,7 +471,7 @@ Although designed for objects (vectors, matrices, arrays) of class
 `double` (floating numbers), these operators also work correctly for
 integers. These operators do not work for non-numeric objects.
 
- 
+   
 
 # Matrix re-ordering operators
 
@@ -1120,7 +1123,7 @@ and string sub-setting have their in-place modifying equivalent:
 
  
 
-# Import functions and operator
+# Import management
 
 ## import_as
 
@@ -1306,6 +1309,26 @@ Note that all “import\_” functions in the `tidyoperators` package have a
 
  
 
+## Sourcing modules
+
+R packages need to be checked, maintained, its dependencies kept
+minimal, made to be user friendly, AND reviewed by CRAN (and they really
+deserve some rest now and then). For a set of random functions, one is
+better off simply putting it in a script (and perhaps publish the script
+on GitHub), and sourcing the script as a module, instead of creating an
+R package out of it.
+
+To (hopefully) encourage this more, the `tidyoperators` R package adds
+the `alias %source module <-% list(file=..)` operator and the
+`source_inops()` function. The `alias %source module <-% list(file=..)`
+operator sources a script and returns all the objects in the script
+under an `alias`, similar to `import_as()`. The `source_inops()`
+function sources a script and places all infix operators in the script
+(if any) in the current environment (like the Global environment, or the
+environment within a function), similar to `import_inops()`.
+
+ 
+
 # On libraries
 
 ## Setting relative paths
@@ -1330,7 +1353,7 @@ Without Rstudio, one can use the `commandArgs()` function.
 When using RStudio, one can use
 `rstudioapi::getSourceEditorContext()$path`.
 
-Contrary to popular believe, do something like this:
+Contrary to popular believe, doing something like this:
 
 ``` r
 mydir <- rstudioapi::getSourceEditorContext()$path |> dirname()
@@ -1338,8 +1361,8 @@ setwd(mydir)
 getwd()
 ```
 
-is NOT bad practice. Even when changing the working directory, the above
-code works pretty much as one would expect.
+is NOT bad practice. The above code works pretty much as one would
+expect, and does not go against proper coding etiquettes.
 
  
 
@@ -1489,6 +1512,10 @@ R packages:
 
 - The `rlang` R package, which one can use to get (among other things)
   more detailed back-traced errors, warnings, and messages.
+- The `fastverse` set of R packages
+  (<https://github.com/fastverse/fastverse>), which are a set of R
+  packages for (mostly) data wrangling focused on high speed and minimal
+  dependencies.
 
  
 
