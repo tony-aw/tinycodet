@@ -396,7 +396,7 @@ stri_paste_mat(shuffled, margin=1, sep=" ") # <- another alias for stri_join_mat
 
 &nbsp;
 
-## Locate $i^\textrm{th}$ pattern for stringi
+## stri_locate_ith
 
 Suppose one wants to transform the **first** vowels in the strings of a character vector `str`, such that all upper case vowels become lower case, and vice-versa.
 One can do that completely in `stringi` + base R as follows:

@@ -10,8 +10,7 @@
 - [Matrix re-ordering operators](#matrix-re-ordering-operators)
 - [String functions](#string-functions)
   - [Matrix joining](#matrix-joining)
-  - [Locate $i^\textrm{th}$ pattern for
-    stringi](#locate-itextrmth-pattern-for-stringi)
+  - [stri_locate_ith](#stri_locate_ith)
   - [Substr - functions](#substr---functions)
 - [String infix operators](#string-infix-operators)
   - [String subsetting operators](#string-subsetting-operators)
@@ -39,7 +38,7 @@
   - [force_libPaths (for simple Project
     Isolation)](#force_libpaths-for-simple-project-isolation)
 - [Speed and multi-threading](#speed-and-multi-threading)
-  - [stri_locate_ith](#stri_locate_ith)
+  - [stri_locate_ith](#stri_locate_ith-1)
   - [Substr-functions](#substr-functions)
 - [Recommended R packages](#recommended-r-packages)
 - [Compatibility with other R
@@ -697,7 +696,7 @@ stri_paste_mat(shuffled, margin=1, sep=" ") # <- another alias for stri_join_mat
 
  
 
-## Locate $i^\textrm{th}$ pattern for stringi
+## stri_locate_ith
 
 Suppose one wants to transform the **first** vowels in the strings of a
 character vector `str`, such that all upper case vowels become lower
