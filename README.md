@@ -5,8 +5,8 @@
   - [Installation](#installation)
   - [Overview](#overview)
 - [Additional logic operators](#additional-logic-operators)
-- [Safer float (in)equality
-  operators](#safer-float-inequality-operators)
+- [Safer float truth testing
+  operators](#safer-float-truth-testing-operators)
 - [Matrix re-ordering operators](#matrix-re-ordering-operators)
 - [String functions](#string-functions)
   - [Matrix joining](#matrix-joining)
@@ -160,8 +160,9 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   `pkgs %installed in% lib.loc%` operator. Re-arranged this Read-Me file
   a bit.
 - 15 June 2023: Rewritten this Read-Me a bit. Added a module import
-  system (`alias %source module <-% list(file=..)` operator and
+  system (`alias %source module <-% list(file=...)` operator and
   `source_inops()` function).
+- 16 June 2023: Fixed some minor errors in the documentation.
 
 FUTURE PLANS:
 
@@ -233,7 +234,8 @@ jumping into the details.
 
  
 
-Operators and functions for the “Don’t Repeat Yourself” principle:
+Operators and functions for the “Don’t Repeat Yourself” coding
+principle:
 
 ``` r
 # in base R:
@@ -245,7 +247,7 @@ very_long_name_1 %<>% transform_if(\(x)x>0, log)
 very_long_name_1 %^ =% 2
 ```
 
-Safer float equality checks:
+Safer float truth testing:
 
 ``` r
 x <- c(0.3, 0.6, 0.7)
@@ -291,6 +293,14 @@ mat <- stringi::stri_rank(as.vector(x)) |>
 sorted <- x %row~% mat # matrix re-ordering
 stri_c_mat(sorted, margin=1, sep=" ") # row-wise concatenate strings
 #> [1] "      , everyone Hello here I'm" "       everyone Goodbye"
+```
+
+Sourcing a module under an alias:
+
+``` r
+alias %source module <-% list(file="mydir/mymodule.R")
+
+alias$function(...)
 ```
 
 If you’re still interested, I invite you to read the rest of this
@@ -416,7 +426,7 @@ s[s %=strtype% "special"]
 
  
 
-# Safer float (in)equality operators
+# Safer float truth testing operators
 
 This package adds the `%f==%, %f!=% %f<%, %f>%, %f<=%, %f>=%` operators,
 which perform a form of “float logic”. They are virtually equivalent to
@@ -1141,11 +1151,10 @@ from which package, allowing a package to be loaded locally (like only
 within a function environment), etc.
 
 Loading a package alias does have some drawbacks. One is that you cannot
-easily import multiple packages under the same alias. While one would
-probably don’t want to import **multiple** packages under a **single
-alias** most of the time, there may be a couple of situations where
-importing multiple packages into a single alias might be actually
-preferable:
+easily import multiple packages under the same alias. While one probably
+wouldn’t want to import **multiple** packages under a **single alias**
+most of the time, there may be a couple of situations where importing
+multiple packages into a single alias might be actually preferable:
 
 - A package may have one or several dependencies that are supposed to be
   loaded together. For example: the `tidytable` package essentially
@@ -1318,8 +1327,8 @@ on GitHub), and sourcing the script as a module, instead of creating an
 R package out of it.
 
 To (hopefully) encourage this more, the `tidyoperators` R package adds
-the `alias %source module <-% list(file=..)` operator and the
-`source_inops()` function. The `alias %source module <-% list(file=..)`
+the `alias %source module <-% list(file=...)` operator and the
+`source_inops()` function. The `alias %source module <-% list(file=...)`
 operator sources a script and returns all the objects in the script
 under an `alias`, similar to `import_as()`. The `source_inops()`
 function sources a script and places all infix operators in the script
