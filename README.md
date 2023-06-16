@@ -1245,7 +1245,7 @@ import_inops(pkgs)
 #> Done
 ```
 
-Just like in `import_as()`, the order of the packages matter whenever
+Just like in `import_as()`, the order of the packages matters whenever
 there’s a conflict.
 
 The `import_inops()` functions has the `exclude` and `include.only`
@@ -1342,11 +1342,11 @@ preferable to find the source file location without external R packages
 packages, and not R packages that are bundled with Rstudio). The reason
 is as follows. If one relies on an R package to set the relative path of
 your project-specific library one gets into a circular problem: you need
-the R package to set your library path, but you need your library path
-to install the package.
+the R package to set your library’s relative path, but you need your
+library’s relative path to install the package.
 
-Luckily, one can actually find your script’s working directory in base R
-without external R packages like `this.path` `here`.
+Luckily, one can actually find your active script’s location in base R
+without external R packages like `this.path` or `here`.
 
 Without Rstudio, one can use the `commandArgs()` function.
 
@@ -1362,7 +1362,7 @@ getwd()
 ```
 
 is NOT bad practice. The above code works pretty much as one would
-expect, and does not go against proper coding etiquettes.
+expect, and does not go against proper coding etiquette.
 
  
 
