@@ -76,7 +76,7 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
  - 30 May 2023: Fixed some lingering mistakes in the documentations, that were left over since the changes from 29 May 2023.
  - 4 June 2023: Major changes this time. The `tranform_if()` function now allows the user to specify 2 transformation functions, one for if the condition is `TRUE`, and the other for `FALSE`. Added the `import_inops()` function. Changed the `alias %m import <-% pkgs` operator into the `import_as()` function. Added the `pkgs %installed in% lib.loc%` operator. Re-arranged this Read-Me file a bit.
  - 15 June 2023: Rewritten this Read-Me a bit. Added a module import system (`alias %source module <-% list(file=...)` operator and `source_inops()` function).
- - 16 June 2023: RENAMED THIS R-PACKAGE TO  `tinyoperators`, to prevent confusion as it does not hold to the "tidy philosophy". Fixed some minor errors in the documentation. Removed `force_libPaths()`, as it may encourage bad coding practices.
+ - 16 June 2023: RENAMED THIS R-PACKAGE TO  `tinyoperators`, to prevent confusion as it holds to the tinyverse philosophy, rather then the "tidy philosophy". Fixed some minor errors in the documentation. Removed `force_libPaths()`, as it may encourage bad coding practices.
 
 
 FUTURE PLANS:

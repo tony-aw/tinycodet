@@ -161,9 +161,9 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   system (`alias %source module <-% list(file=...)` operator and
   `source_inops()` function).
 - 16 June 2023: RENAMED THIS R-PACKAGE TO `tinyoperators`, to prevent
-  confusion as it does not hold to the “tidy philosophy”. Fixed some
-  minor errors in the documentation. Removed `force_libPaths()`, as it
-  may encourage bad coding practices.
+  confusion as it holds to the tinyverse philosophy, rather then the
+  “tidy philosophy”. Fixed some minor errors in the documentation.
+  Removed `force_libPaths()`, as it may encourage bad coding practices.
 
 FUTURE PLANS:
 
