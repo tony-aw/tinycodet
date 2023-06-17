@@ -30,7 +30,7 @@ s_get_pattern_attr_internal <- function(p) {
 
 #' @keywords internal
 #' @noRd
-.internal_get_deps <- function(package, lib.loc, deps_type=c("Depends", "Imports")) {
+.internal_get_deps <- function(package, lib.loc, deps_type=c("Depends", "Imports", "LinkingTo")) {
   # based of https://stackoverflow.com/questions/30223957/elegantly-extract-r-package-dependencies-of-a-package-not-listed-on-cran
   dcf <- read.dcf(file.path(system.file("DESCRIPTION", package = package, lib.loc = lib.loc)))
   jj <- intersect(deps_type, colnames(dcf))
@@ -43,7 +43,7 @@ s_get_pattern_attr_internal <- function(p) {
 #' @noRd
 .internal_check_deps_overlap_any <- function(pkgs, lib.loc) {
   all_deps <- sapply(
-    pkgs, .internal_get_deps, lib.loc=lib.loc, deps_type=c("Depends", "Imports")
+    pkgs, .internal_get_deps, lib.loc=lib.loc, deps_type=c("Depends", "Imports", "LinkingTo")
   ) |> unlist() |> unname()
   check <- any(pkgs %in% all_deps)
   return(check)

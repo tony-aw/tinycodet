@@ -10,12 +10,13 @@
 #' (like the global environment, or the environment within a function). \cr
 #' \cr
 #' Note that the \code{alias %source module <-% list(file=...)} operator and
-#' the \code{source_inops()} function do NOT suppress output (i.e. plots) from the sourced
-#' module file.
+#' the \code{source_inops()} function do NOT suppress output
+#' (i.e. plots, prints, messages)
+#' from the sourced module file. \cr
 #'
 #' @param alias a variable name (unquoted),
 #' giving the (not yet existing) object
-#' where the package(s) are to be assigned to. \cr
+#' where the sourced objects from the module are to be assigned to. \cr
 #' Syntactically invalid names are not allowed for the alias name.
 #' @param lst a named list, giving the arguments to be passed to the
 #' \link[base]{source} function. \cr
@@ -75,7 +76,14 @@ source_inops <- function(...) {
   do.call(source, c(list(local=tempenv), ...))
   operators <- names(tempenv)[unlist(eapply(tempenv, is.function))]
   operators <- stringi::stri_subset(operators, regex="%|:=")
-  for(op in operators) {
-    eval(call("<-", op, tempenv[[op]]), envir = parent.frame(n = 1))
+  if(length(operators)==0) {
+    message("no infix operators found in sourced module")
   }
+  if(length(operators)>0) {
+    message("placing operators in current environment...")
+    for(op in operators) {
+      eval(call("<-", op, tempenv[[op]]), envir = parent.frame(n = 1))
+    }
+  }
+
 }

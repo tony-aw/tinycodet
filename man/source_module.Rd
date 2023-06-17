@@ -13,7 +13,7 @@ source_inops(...)
 \arguments{
 \item{alias}{a variable name (unquoted),
 giving the (not yet existing) object
-where the package(s) are to be assigned to. \cr
+where the sourced objects from the module are to be assigned to. \cr
 Syntactically invalid names are not allowed for the alias name.}
 
 \item{lst}{a named list, giving the arguments to be passed to the
@@ -46,8 +46,9 @@ to the current environment
 (like the global environment, or the environment within a function). \cr
 \cr
 Note that the \code{alias \%source module <-\% list(file=...)} operator and
-the \code{source_inops()} function do NOT suppress output (i.e. plots) from the sourced
-module file.
+the \code{source_inops()} function do NOT suppress output
+(i.e. plots, prints, messages)
+from the sourced module file. \cr
 }
 \examples{
 

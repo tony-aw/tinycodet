@@ -1,18 +1,18 @@
-Package: tidyoperators
-Title: Infix operators for tidier R code
+Package: tinyoperators
+Title: Infix operators and some functions to help in proper coding etiquette
 Version: 0.0.9
 Authors@R: 
     person("Tony", "Wilkes", , "tony_a_wilkes@outlook.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-9498-8379"))
-Description: The 'tidyoperators' R-package adds some much needed infix operators,
-    and a few functions, to make your R code much more tidy.
+Description: The 'tinyoperators' R-package adds some much needed infix operators,
+    and a few functions, to make your R code much more tiny.
     It includes infix operators for additional logic operators,
     safer float (in)equality operators,
     and infix operators for custom row- and column-wise ordering of matrices.
     It also adds some stringi-based string related functions and operators.
     It also adds operators and a few functions to help reduce unnecessary repetitive code.
     And finally, it also adds some functions and an operator for easier package/library management.
-    The 'tidyoperators' R-package has only one dependency, namely 'stringi',
+    The 'tinyoperators' R-package has only one dependency, namely 'stringi',
     though it does allows multi-threading of some of the string-related functions
     (when appropriate)
     via the suggested 'stringfish' R-package.
@@ -33,5 +33,5 @@ Depends:
 Imports:
     stringi (>= 1.7.12)
 Config/testthat/edition: 3
-URL: https://github.com/tony-aw/tidyoperators
-BugReports: https://github.com/tony-aw/tidyoperators/issues
+URL: https://github.com/tony-aw/tinyoperators
+BugReports: https://github.com/tony-aw/tinyoperators/issues

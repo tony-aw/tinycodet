@@ -68,7 +68,7 @@ or both \code{loc} and \code{at}. Choose one or the other.}
 \item{start, end}{integers, or integer vectors of the same length as \code{x},
 giving the start and end position of the range to be modified.}
 
-\item{fish}{although \code{tidyoperators} has no dependencies other than \code{stringi},
+\item{fish}{although \code{tinyoperators} has no dependencies other than \code{stringi},
 it does allow the internal functions to use the multi-threadable \code{stringfish}
 functions. To do so, set \code{fish=TRUE};
 this requires \code{stringfish} to be installed.}

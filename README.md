@@ -1,5 +1,5 @@
 
-- [tidyoperators](#tidyoperators)
+- [tinyoperators](#tinyoperators)
   - [Description](#description)
   - [Changelog and status](#changelog-and-status)
   - [Installation](#installation)
@@ -17,8 +17,7 @@
   - [String arithmetic](#string-arithmetic)
   - [Specifying Pattern search attributes in string infix
     operators](#specifying-pattern-search-attributes-in-string-infix-operators)
-- [“Don’t Repeat Yourself” -
-  operators](#dont-repeat-yourself---operators)
+- [“DRY” - operators](#dry---operators)
   - [The transform_if function, and related
     operators](#the-transform_if-function-and-related-operators)
   - [In-place modifying mathematical
@@ -35,8 +34,7 @@
   - [Setting relative paths](#setting-relative-paths)
   - [On date-based version control: the alternative to
     MRAN](#on-date-based-version-control-the-alternative-to-mran)
-  - [force_libPaths (for simple Project
-    Isolation)](#force_libpaths-for-simple-project-isolation)
+  - [On simple project isolation](#on-simple-project-isolation)
 - [Speed and multi-threading](#speed-and-multi-threading)
   - [stri_locate_ith](#stri_locate_ith-1)
   - [Substr-functions](#substr-functions)
@@ -47,12 +45,12 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# tidyoperators
+# tinyoperators
 
 <!-- badges: start -->
 
 [![R build
-status](https://github.com/tony-aw/tidyoperators/workflows/R-CMD-check/badge.svg)](https://github.com/tony-aw/tidyoperators/actions)
+status](https://github.com/tony-aw/tinyoperators/workflows/R-CMD-check/badge.svg)](https://github.com/tony-aw/tinyoperators/actions)
 [![Project Status: WIP - Initial development is in progress, but there
 has not yet been a stable, usable release suitable for the
 public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
@@ -60,19 +58,19 @@ public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostat
 [![](https://img.shields.io/badge/ORCID-0000--0001--9498--8379-green.svg)](https://orcid.org/0000-0001-9498-8379)
 <!-- badges: end -->
 
-![](tidyoperators.svg)  
+![](tinyoperators.svg)  
 
 ## Description
 
-The `tidyoperators` R-package adds some much needed infix operators, and
-a few functions, to make your R code much more tidy. It includes infix
+The `tinyoperators` R-package adds some much needed infix operators, and
+a few functions, to make your R code much more tiny. It includes infix
 operators for additional logic operators, safer float (in)equality
 operators, and infix operators for custom row- and column-wise ordering
 of matrices. It also adds some `stringi`-based string related functions
 and operators. It also adds operators and a few functions to help reduce
 unnecessary repetitive code. And finally, it also adds some functions
 and an operator for easier package/library management. The
-`tidyoperators` R-package has only one dependency, namely `stringi`,
+`tinyoperators` R-package has only one dependency, namely `stringi`,
 though it does allows multi-threading of some of the string-related
 functions (when appropriate) via the suggested `stringfish` R-package.
 
@@ -162,11 +160,14 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
 - 15 June 2023: Rewritten this Read-Me a bit. Added a module import
   system (`alias %source module <-% list(file=...)` operator and
   `source_inops()` function).
-- 16 June 2023: Fixed some minor errors in the documentation.
+- 16 June 2023: RENAMED THIS R-PACKAGE TO `tinyoperators`, to prevent
+  confusion as it does not hold to the “tidy philosophy”. Fixed some
+  minor errors in the documentation. Removed `force_libPaths()`, as it
+  may encourage bad coding practices.
 
 FUTURE PLANS:
 
-I believe `tidyoperators` is slowly getting closer to becoming stable.
+I believe `tinyoperators` is slowly getting closer to becoming stable.
 There does not appear a need to add/remove many more
 functions/operators, although some functions, operators or arguments may
 need to be tweaked and/or optimized. Once I am fully satisfied with the
@@ -177,31 +178,31 @@ may attempt to publish this R package to CRAN.
 
 ## Installation
 
-You can install `tidyoperators` from github like so:
+You can install `tinyoperators` from github like so:
 
 ``` r
-remotes::install_github("https://github.com/tony-aw/tidyoperators")
+remotes::install_github("https://github.com/tony-aw/tinyoperators")
 ```
 
 You can attach the package (thus exposing its functions to your current
 namespace), using:
 
 ``` r
-library(tidyoperators)
+library(tinyoperators)
 ```
 
-and one can open the introduction page to the `tidyoperators` package
+and one can open the introduction page to the `tinyoperators` package
 using:
 
 ``` r
-tidyoperators::tidyoperators_help()
+tinyoperators::tinyoperators_help()
 ```
 
  
 
 ## Overview
 
-The `tidyoperators` R package adds the following functionality:
+The `tinyoperators` R package adds the following functionality:
 
 - Additional infix logic operators.
 - Safer (in)equality operators for float numbers.
@@ -210,7 +211,7 @@ The `tidyoperators` R package adds the following functionality:
   functions, to help reduce repetitive codes, for the sake of the “Don’t
   Repeat Yourself”-coding principle (`DRY`).
 - Package import management operator and functions.
-- The tidyoperators package adds additional `stringi` functions, namely
+- The tinyoperators package adds additional `stringi` functions, namely
   `stri_locate_ith()` and `stri_join_mat()` (and aliases). These
   functions use the same naming and argument convention as the rest of
   the `stringi` functions, thus keeping your code consistent.
@@ -242,7 +243,7 @@ principle:
 very_long_name_1[very_long_name_1 > 0] <- log(very_long_name_1[very_long_name_1 > 0])
 very_long_name_1 <- very_long_name_1^2
 
-# with tidyoperators:
+# with tinyoperators:
 very_long_name_1 %<>% transform_if(\(x)x>0, log)
 very_long_name_1 %^ =% 2
 ```
@@ -310,7 +311,7 @@ Read-Me and perhaps try out the package yourself.
 
 # Additional logic operators
 
-The tidyoperators package adds a few basic logic operators:
+The tinyoperators package adds a few basic logic operators:
 
 - `%xor%`: Exclusive OR
 - `%n&%`: NOT AND (i.e. `(!x) & (!y)`). Note that if either `x` or `y`
@@ -428,16 +429,17 @@ s[s %=strtype% "special"]
 
 # Safer float truth testing operators
 
-This package adds the `%f==%, %f!=% %f<%, %f>%, %f<=%, %f>=%` operators,
-which perform a form of “float logic”. They are virtually equivalent to
-the regular (in)equality operators, `==, !=, <, >, <=, >=`, except for
-one aspect. The float logic operators assume that if the absolute
-difference between `x` and `y` is smaller than the Machine tolerance,
-`sqrt(.Machine$double.eps)`, then `x` and `y` ought to be consider to be
-equal. Thus these provide safer float (in)equality operators. For
-example: `(0.1*7) == 0.7` returns `FALSE`, even though they are equal,
-due to the way floating numbers are stored in programming languages like
-R, Python, etc. But `(0.1*7) %f==% 0.7` returns `TRUE`.
+This package adds the `%f==%, %f!=% %f<%, %f>%, %f<=%, %f>=%`
+(in)equality operators, which perform safer float truth testing. They
+are virtually equivalent to the regular (in)equality operators,
+`==, !=, <, >, <=, >=`, except for one aspect. The float truth testing
+operators assume that if the absolute difference between `x` and `y` is
+smaller than the Machine tolerance, `sqrt(.Machine$double.eps)`, then
+`x` and `y` ought to be consider to be equal. Thus these provide safer
+float (in)equality operators. For example: `(0.1*7) == 0.7` returns
+`FALSE`, even though they are equal, due to the way floating numbers are
+stored in programming languages like R, Python, etc. But
+`(0.1*7) %f==% 0.7` returns `TRUE`.
 
 Some examples:
 
@@ -480,11 +482,11 @@ Although designed for objects (vectors, matrices, arrays) of class
 `double` (floating numbers), these operators also work correctly for
 integers. These operators do not work for non-numeric objects.
 
-   
+ 
 
 # Matrix re-ordering operators
 
-The `tidyoperators` R package adds 2 additional matrix operators:
+The `tinyoperators` R package adds 2 additional matrix operators:
 
 - The `x %row~% mat` operator re-orders the elements within every row of
   matrix `x` by the ordering ranks given in matrix `mat`.
@@ -651,7 +653,7 @@ loops or apply-like functions.
 
 ## Matrix joining
 
-The `tidyoperators` package adds a tiny additional function to
+The `tinyoperators` package adds a tiny additional function to
 `stringi`:
 
 `stri_join_mat` (and their aliases `stri_c_mat` and `stri_paste_mat`).
@@ -725,8 +727,8 @@ stringi::stri_sub_replace(x, loc, replacement=repl)
 
 But now suppose one wants to transform the **second-last** vowel. How
 are you going to do that? It’s not impossible, but also not super
-straight-forward. For a tidy code, `stringi` really needs some kind of
-“stri_locate_ith” function. And, of course, the `tidyoperators` package
+straight-forward. For a tiny code, `stringi` really needs some kind of
+“stri_locate_ith” function. And, of course, the `tinyoperators` package
 provides just that.
 
 The `stri_locate_ith(str, i, ...)` function locates for every
@@ -772,7 +774,7 @@ the locate function.
 
 ## Substr - functions
 
-The `tidyoperators` R-package includes the following “substr-”
+The `tinyoperators` R-package includes the following “substr-”
 functions:
 
 - The `substr_repl(x, rp, ...)` function replaces a position (range)
@@ -821,7 +823,7 @@ loc <- stri_locate_ith(
 
 # String infix operators
 
-The `tidyoperators` R package implements infix operators for string
+The `tinyoperators` R package implements infix operators for string
 arithmetic and sub-setting, as well some of their in-place modifier
 equivalents. For consistency, and to avoid masking other common
 operators, all string-related operators start with `%s`, where the “s”
@@ -887,7 +889,7 @@ x %strim% ss
 
 ## String arithmetic
 
-The `tidyoperators` package adds 4 string arithmetic operators:
+The `tinyoperators` package adds 4 string arithmetic operators:
 
 - `x %s+% y` concatenates `x` and `y`;
 - `x %s-% p` removes pattern `p` from each string in character vector
@@ -925,7 +927,7 @@ But, of course, sometimes one wants to change this. For example, one may
 want it to be case insensitive. Or perhaps one wants to use fixed
 expressions, or something else.
 
-The `tidyoperators` package provides options for these cases. To use
+The `tinyoperators` package provides options for these cases. To use
 more refined pattern definition, simply replace the
 argument/right-hand-side expression `p` in the relevant operators with a
 call from the `s_pattern()` function.
@@ -974,7 +976,7 @@ And so on. I’m sure you get the idea.
 
  
 
-# “Don’t Repeat Yourself” - operators
+# “DRY” - operators
 
 ## The transform_if function, and related operators
 
@@ -1000,8 +1002,8 @@ very_long_name_1 <- ifelse(
 
 becomes cumbersome quickly.
 
-The tidyoperators package therefore adds the
-`transform_if(x, cond, trans_T, trans_F)` function which will tidy this
+The tinyoperators package therefore adds the
+`transform_if(x, cond, trans_T, trans_F)` function which will tiny this
 up. The above code can now be re-written as:
 
 ``` r
@@ -1013,7 +1015,7 @@ transformations in `transform_if()` are evaluated as
 `trans_T(x[cond(x)])` and `trans_F(x[!cond(x)])`, ensuring no
 unnecessary warnings or errors occur.
 
-Besides `transform_if`, the tidyoperators package also adds 2
+Besides `transform_if`, the tinyoperators package also adds 2
 “subset_if” operators:
 
 - The `x %[if]% cond` operator selects elements from vector/matrix/array
@@ -1045,7 +1047,7 @@ object_with_very_long_name %[!if]% \(x)x %in% 1:10
 #>  [1] -10  -9  -8  -7  -6  -5  -4  -3  -2  -1   0
 ```
 
-Another operator added by `tidyoperators` is `x %unreal =% y`, which
+Another operator added by `tinyoperators` is `x %unreal =% y`, which
 replaces all NA, NaN, Inf and -Inf in `x` with the value given in `y`.
 
 So `x %unreal =% y` is the same as
@@ -1081,7 +1083,7 @@ function, and then perform the in-place modifier pipe:
 mtcars$mpg[mtcars$cyl>6] %<>% raise_to_power(2)
 ```
 
-This is better, but still not truly tidy.
+This is better, but still not truly tiny.
 
 This R package solves the above laid-out problem by implementing
 in-place modifying mathematical arithmetic for all mathematical
@@ -1110,7 +1112,7 @@ Lets look at the original problem:
 mtcars$mpg[mtcars$cyl>6] <- mtcars$mpg[mtcars$cyl>6]^2
 ```
 
-With `tidyoperators` one can now make this more tidy with the following:
+With `tinyoperators` one can now make this more tiny with the following:
 
 ``` r
 mtcars$mpg[mtcars$cyl>6] %^ =% 2
@@ -1136,8 +1138,8 @@ and string sub-setting have their in-place modifying equivalent:
 
 ## import_as
 
-One can load - but not attach - a package and assign it to an alias in
-base R using:
+One can load a package without attaching it, and assign it to an alias,
+in base R, using:
 
 ``` r
 alias <- loadNamespace("packagename", lib.loc = lib.loc)
@@ -1171,7 +1173,7 @@ multiple packages into a single alias might be actually preferable:
 
 So there are several cases where it is perhaps desirable to load
 multiple packages under the same alias. And that is where
-`tidyoperator`’s `import_as()` function comes in. It allows loading
+`tinyoperator`’s `import_as()` function comes in. It allows loading
 multiple R packages under the same alias, and also informs the user
 which objects from a package will overwrite which objects from other
 packages, so you will never be surprised. The `import_as()` function
@@ -1183,11 +1185,11 @@ desirable, as internal function should remain, you know, internal.
 equivalent of `alias <- loadNamespace(package, lib.loc)`.
 
 Here is one example. Lets load `data.table` and then `tidytable`, under
-the same alias, which I will call “tdt” (for “tidy data.table”):
+the same alias, which I will call “fv” (for “fastverse”):
 
 ``` r
 pkgs <- c("data.table", "tidytable")
-import_as(tdt, pkgs) # this creates the tdt object
+import_as(fv, pkgs) # this creates the fv object
 #> Importing package: data.table...
 #> 
 #> Importing package: tidytable...
@@ -1198,7 +1200,7 @@ import_as(tdt, pkgs) # this creates the tdt object
 #> tidytable will overwrite conflicting objects from previous imported packages...
 #> 
 #> Done
-#> You can now access the functions using tdt$...
+#> You can now access the functions using fv$...
 #> (S3)methods will work like normally.
 ```
 
@@ -1228,14 +1230,15 @@ alias. However, it may be cumbersome to use them from the alias. For
 example this:
 
 ``` r
-to loadNamespace("tidyoperators")
+to loadNamespace("tinyoperators")
 to$`%row~%`(x, mat)
 ```
 
-is very cumbersome. Therefore, `tidyoperators` also adds the
+is very cumbersome. Therefore, `tinyoperators` also adds the
 `import_inops(pkgs)` function, which exposes the infix operators from
-the packages specified in character vector `pkgs` to the current, local
-environment.
+the packages specified in character vector `pkgs` to the current
+environment (like the global environment, or the environment within a
+function), instead of attaching the functions to the global namespace.
 
 For example, exposes the infix operators from the `tidytable` and
 `data.table` R packages to the current environment, in this case the
@@ -1272,7 +1275,7 @@ part of the namespace.
 The `data()` function in core R can already load data from packages, but
 this function loads the data into the global environment, instead of
 returning the data directly, making assigning the data to a specific
-variable a bit annoying. Therefore, the `tidyoperators` package
+variable a bit annoying. Therefore, the `tinyoperators` package
 introduces the `import_data()` function, which directly returns a data
 set from a package.
 
@@ -1311,7 +1314,7 @@ pkgs %installed in% .libPaths()
 #>       TRUE       TRUE
 ```
 
-Note that all “import\_” functions in the `tidyoperators` package have a
+Note that all “import\_” functions in the `tinyoperators` package have a
 `lib.loc` argument to explicitly specify from where to get your packages
 (just like base R’s `library()` function).
 
@@ -1326,7 +1329,7 @@ better off simply putting it in a script (and perhaps publish the script
 on GitHub), and sourcing the script as a module, instead of creating an
 R package out of it.
 
-To (hopefully) encourage this more, the `tidyoperators` R package adds
+To (hopefully) encourage this more, the `tinyoperators` R package adds
 the `alias %source module <-% list(file=...)` operator and the
 `source_inops()` function. The `alias %source module <-% list(file=...)`
 operator sources a script and returns all the objects in the script
@@ -1334,6 +1337,15 @@ under an `alias`, similar to `import_as()`. The `source_inops()`
 function sources a script and places all infix operators in the script
 (if any) in the current environment (like the Global environment, or the
 environment within a function), similar to `import_inops()`.
+
+Example:
+
+``` r
+alias %source module <-% list(file="mydir/mymodule.R")
+source_inops(file="mydir/mymodule.R")
+
+alias$function(...)
+```
 
  
 
@@ -1401,34 +1413,15 @@ code.
 
  
 
-## force_libPaths (for simple Project Isolation)
-
-The `renv` R package is the go-to R package for complex project
-isolation. But sometimes you just have a few simple R scripts, and only
-need quick and simple project isolation.
+## On simple project isolation
 
 The base R’s `.libPaths()` function sets the library paths where R looks
 for R packages when checking or loading/attaching R packages. As such,
-this function can be used for simple Project Isolation. In some
-occasions you may want to completely overwrite the libraries, including
-the system and site library paths. The `.libPaths()` functions does not
-allow the user to do that.
-
-The `tidyoperators` package therefore adds the `force_libPaths()`
-function, as provided in
-<https://milesmcbain.com/posts/hacking-r-library-paths/>. The
-`force_libPaths()` function does allow forcing R to only use the library
-paths exactly as specified by the user.
-
-Example:
-
-``` r
-force_libPaths("/mylibrary")
-```
-
-For more complex project isolation, please use `renv` instead. Do not
-use both `renv` and `force_libPaths()` (or even base R’s `.libPaths()`)
-in the same project.
+this function can be used for simple Project Isolation. It is generally
+good practice to install external libraries (“external” meaning not base
+packages, not pre-installed recommended R packages, and not R packages
+that are bundled with Rstudio) in a separate (project specific) library
+path.
 
  
 
@@ -1518,36 +1511,28 @@ operator-related R-packages, namely `magrittr` and `zeallot`.
 For proper programming etiquette, I also highly recommend the following
 R packages:
 
-- The `rlang` R package, which one can use to get (among other things)
-  more detailed back-traced errors, warnings, and messages.
 - The `fastverse` set of R packages
   (<https://github.com/fastverse/fastverse>), which are a set of R
-  packages for (mostly) data wrangling focused on high speed and minimal
-  dependencies.
+  packages for (mostly) data wrangling focused on high speed, better
+  memory management, and minimal dependencies. These packages also tend
+  to suffer less from the over-enthusiastic use of
+  non-standard-evaluation compared to typical tidyverse packages.
 
  
 
 # Compatibility with other R packages
 
 The `stringi` R package has the `%s+%` and `%s*%` operators. They do
-exactly the same things as in `tidyoperators`, and so the masking of
+exactly the same things as in `tinyoperators`, and so the masking of
 these functions can safely be ignored. I also made sure not to name any
-of the operators in `tidyoperators` the same as the operators in
+of the operators in `tinyoperators` the same as the operators in
 `magrittr` and `zeallot`, so that should be safe also.
 
-The `force_libPaths()` function is meant for super simple project
-isolation. One should probably not use the `force_libPaths()` function
-in a script when already using another system for project isolation like
-`renv` or `packrat`. In fact, you probably shouldn’t use even base R’s
-`.libPaths()` function when also using `renv`. It’s either one or the
-other. The rest of the functions and operators in `tidyoperators` are of
-course fully compatible with `renv`.
-
-Note that, by default, `renv` only registers packages loads using plain
-`library()` or `require()` calls. Anything different from that, even
-things like `for(... in ...)library(...)` or `if(...)library(...)`, will
-not be understood by `renv`. Therefore, if using `renv`, please make
-sure to set the following:
+When using `renv`, note that it only registers packages loads using
+plain `library()` or `require()` calls. Anything different from that,
+even things like `for(... in ...)library(...)` or `if(...)library(...)`,
+will not be understood by `renv`. Therefore, if using `renv`, please
+make sure to set the following:
 
 ``` r
 renv::settings$snapshot.type("all")
@@ -1556,11 +1541,12 @@ renv::settings$snapshot.type("all")
 This will make sure that all packages installed in your project library,
 regardless of how they are loaded, will all be registered by `renv`.
 This makes `renv` compatible with calls like `import_as` from
-`tidyoperators`, and things like `for(... in ...)library(...)` or
+`tinyoperators`, and things like `for(... in ...)library(...)` or
 `if(...)library(...)`.
 
  
 
 # Conclusion
 
-I hope this R package will make your life a little bit tidier.
+I hope this R package will make your life a little bit easier, and your
+R environment a little bit tinier.

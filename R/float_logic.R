@@ -1,15 +1,16 @@
 #' Safer float (in)equality operators
 #'
 #'@description
-#' The \code{%f==%, %f!=% %f<%, %f>%, %f<=%, %f>=%} operators perform "float logic".
+#' The \code{%f==%, %f!=% %f<%, %f>%, %f<=%, %f>=%} (in)equality operator
+#' perform float truth testing.
 #' They are virtually equivalent to the regular (in)equality operators, \cr
 #' \code{==, !=, <, >, <=, >=}, \cr
 #' except for one aspect.
-#' The float logic operators assume that if the absolute difference between
+#' The float truth testing operators assume that if the absolute difference between
 #' \code{x} and \code{y} is smaller than the Machine tolerance,
 #' \code{sqrt(.Machine$double.eps)}, then \code{x} and \code{y}
 #' ought to be consider to be equal. \cr
-#' Thus these provide safer float logic. \cr
+#' Thus these provide safer float truth testing. \cr
 #' For example: \code{0.1*7 == 0.7} returns \code{FALSE}, even though they are equal,
 #' due to the way floating numbers are stored in programming languages like R.
 #' But \code{0.1*7 %f==% 0.7} returns \code{TRUE}.  \cr
@@ -77,63 +78,63 @@
 #' x %f<=% y
 #' x %f>=% y
 
-#' @name float_logic
+#' @name float_truth_testing
 NULL
 
-#' @rdname float_logic
+#' @rdname float_truth_testing
 #' @export
 `%f==%` <- function(x, y) {
   return(abs(x - y) < sqrt(.Machine$double.eps))
 }
 
-#' @rdname float_logic
+#' @rdname float_truth_testing
 #' @export
 `%f!=%` <- function(x, y) {
   return(abs(x - y) >= sqrt(.Machine$double.eps))
 }
 
-#' @rdname float_logic
+#' @rdname float_truth_testing
 #' @export
 `%f<%` <- function(x, y) {
   check <- (x %f!=% y)
   return((x < y) & check)
 }
 
-#' @rdname float_logic
+#' @rdname float_truth_testing
 #' @export
 `%f>%` <- function(x, y) {
   check <- (x %f!=% y)
   return((x > y) & check)
 }
 
-#' @rdname float_logic
+#' @rdname float_truth_testing
 #' @export
 `%f<=%` <- function(x, y) {
   check <- (x %f==% y)
   return((x <= y) | check)
 }
 
-#' @rdname float_logic
+#' @rdname float_truth_testing
 #' @export
 `%f>=%` <- function(x, y) {
   check <- (x %f==% y)
   return((x >= y) | check)
 }
 
-#' @rdname float_logic
+#' @rdname float_truth_testing
 #' @export
 `%f{}%` <- function(x, bnd) {
   bnd <- matrix(bnd, ncol=2)
   check <- nrow(bnd)==1 | nrow(bnd)==length(x)
-  if(!check){stop("nrow(bnd) must be equal to 1 or equal the number of elemebts of x")}
+  if(!check){stop("nrow(bnd) must be equal to 1 or equal the number of elements of x")}
   return(x %f>=% bnd[,1] & x %f<=% bnd[,2])
 }
 
-#' @rdname float_logic
+#' @rdname float_truth_testing
 #' @export
 `%f!{}%` <- function(x, bnd) {
   bnd <- matrix(bnd, ncol=2)
   check <- nrow(bnd)==1 | nrow(bnd)==length(x)
-  if(!check){stop("nrow(bnd) must be equal to 1 or equal the number of elemebts of x")}
+  if(!check){stop("nrow(bnd) must be equal to 1 or equal the number of elements of x")}
   return(x %f<% bnd[,1] | x %f>% bnd[,2])
 }

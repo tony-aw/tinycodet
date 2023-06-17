@@ -51,11 +51,11 @@ Consider the following code: \cr
 Here a conditional subset of the object \code{x} is transformed,
 where the condition is using a function referring to \code{x} itself.
 Consequently, reference to \code{x} is written four times! \cr
-The \code{tidyoperators} package therefore adds the
+The \code{tinyoperators} package therefore adds the
 \code{transform_if()} function
-which will tidy this up. \cr
+which will tiny this up. \cr
 \cr
-The \code{tidyoperators} package also adds 2 "subset_if" operators: \cr
+The \code{tinyoperators} package also adds 2 "subset_if" operators: \cr
 The \code{x \%[if]\% cond} operator
 selects elements from vector/matrix/array \code{x},
 for which the result of \code{cond(x)} returns \code{TRUE}. \cr
@@ -63,7 +63,7 @@ The \code{x \%[!if]\% cond} operator
 selects elements from vector/matrix/array \code{x},
 for which the result of \code{cond(x)} returns \code{FALSE}. \cr
 \cr
-The \code{tidyoperators} package also adds the \code{x \%unreal =\% repl} operator: \cr
+The \code{tinyoperators} package also adds the \code{x \%unreal =\% repl} operator: \cr
 \code{x \%unreal =\% repl} is the same as
 \code{x[is.na(x)|is.nan(x)|is.infinite(x)] <- repl} \cr
 }

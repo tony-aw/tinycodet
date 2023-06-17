@@ -150,7 +150,8 @@ import_as <- function(
     if(!check_deps_OK) {
       error.txt <- paste0(
         "Multiple packages specified, but the packages have no dependency overlap at all.",
-        "Function halted"
+        "\n",
+        "Function halted."
       )
       stop(error.txt)
     }

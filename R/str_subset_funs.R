@@ -54,7 +54,7 @@
 #'  * \code{arr = "rand"}: randomly shuffles the sub-string.
 #' @param opts_collator as in \link[stringi]{stri_rank}.
 #' Only used when \code{arr = "incr"} or \code{arr = "decr"}.
-#' @param fish although \code{tidyoperators} has no dependencies other than \code{stringi},
+#' @param fish although \code{tinyoperators} has no dependencies other than \code{stringi},
 #' it does allow the internal functions to use the multi-threadable \code{stringfish}
 #' functions. To do so, set \code{fish=TRUE};
 #' this requires \code{stringfish} to be installed.

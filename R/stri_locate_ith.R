@@ -128,24 +128,21 @@ stri_locate_ith <- function(
     n.matches <- stringi::stri_count_regex(
       str=str, pattern=regex, ...
     )
-  }
-  else if (providedarg["fixed"]) {
+  } else if (providedarg["fixed"]) {
     p1 <- stringi::stri_locate_all_fixed(
       str=str, pattern=fixed, omit_no_match = FALSE, get_length = FALSE, ...
     )
     n.matches <- stringi::stri_count_fixed(
       str=str, pattern=fixed, ...
     )
-  }
-  else if (providedarg["coll"]) {
+  } else if (providedarg["coll"]) {
     p1 <- stringi::stri_locate_all_coll(
       str=str, pattern=coll, omit_no_match = FALSE, get_length = FALSE, ...
     )
     n.matches <- stringi::stri_count_coll(
       str=str, pattern=coll, ...
     )
-  }
-  else if (providedarg["charclass"]) {
+  } else if (providedarg["charclass"]) {
     p1 <- stringi::stri_locate_all_charclass(
       str=str, pattern=charclass, omit_no_match = FALSE, get_length = FALSE, ...
     )

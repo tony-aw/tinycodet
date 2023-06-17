@@ -30,7 +30,7 @@
 #' whereas \code{x %s/% s_pattern(fixed=p, case_insensitive=TRUE) } will do the same,
 #' except it uses fixed (i.e. literal) expression,
 #' and it does not distinguish between upper case and lower case characters. \cr
-#' For consistency with base R and with packages such as \code{stringr},
+#' For consistency with base R,
 #' one can also fill in \code{ignore.case=TRUE} or \code{ignore_case=TRUE}
 #' instead of \code{case_insensitive=TRUE},
 #' and \code{s_pattern} will still understand that.
@@ -44,7 +44,8 @@
 #'
 #'
 #' @details
-#' The \code{s_pattern()} function only works in combination with the functions and operators in this package.
+#' The \code{s_pattern()} function
+#' only works in combination with the functions and operators in this package.
 #' It does not affect functions from base R or functions from other packages.
 #'
 #' @returns
