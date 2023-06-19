@@ -166,7 +166,9 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   Removed `force_libPaths()`, as it may encourage bad coding practices.
 - 19 June 2023: Replaced the in-place mathematical modifiers with a
   generalized, function-based in place (mathematical) modification
-  operator, `%:=%`, to solve precedence issues.
+  operator, `%:=%`, to solve precedence issues. Renamed
+  `alias %source module <-% list(file=...)` to
+  `alias %source from% list(file=...)`. Edited the documentation a bit.
 
 FUTURE PLANS:
 
@@ -302,7 +304,7 @@ stri_c_mat(sorted, margin=1, sep=" ") # row-wise concatenate strings
 Sourcing a module under an alias:
 
 ``` r
-alias %source module <-% list(file="mydir/mymodule.R")
+alias %source from% list(file="mydir/mymodule.R")
 
 alias$function(...)
 ```
@@ -1108,9 +1110,17 @@ mtcars$mpg[mtcars$cyl>6] %:=% \(x)x^2
 This function-based method is used instead of the more traditional
 in-place mathematical modification like `+=` to prevent precedence
 issues (functions come before mathematical arithmetic in `R`).
-Precendence issues are a common occurrence in R packages that attempt to
+Precedence issues are a common occurrence in R packages that attempt to
 implement in-place modifying arithmetic; the `%:=%` does not have this
 problem, as the math is specified inside a function.
+
+In case you’re wondering: the primary differences between
+`tinyoperator`’s `%:=%` and `magrittr`’s `%<>%`, are as follows:
+
+- `%:=%` allows (and is even designed for) anonymous (mathematical)
+  functions, whereas `%<>%` does not allow anonymous functions.
+- `%:=%` is not intended to be chained with more piped functions, unlike
+  `%<>%`.
 
  
 
@@ -1326,8 +1336,8 @@ on GitHub), and sourcing the script as a module, instead of creating an
 R package out of it.
 
 To (hopefully) encourage this more, the `tinyoperators` R package adds
-the `alias %source module <-% list(file=...)` operator and the
-`source_inops()` function. The `alias %source module <-% list(file=...)`
+the `alias %source from% list(file=...)` operator and the
+`source_inops()` function. The `alias %source from% list(file=...)`
 operator sources a script and returns all the objects in the script
 under an `alias`, similar to `import_as()`. The `source_inops()`
 function sources a script and places all infix operators in the script
@@ -1337,7 +1347,7 @@ environment within a function), similar to `import_inops()`.
 Example:
 
 ``` r
-alias %source module <-% list(file="mydir/mymodule.R")
+alias %source from% list(file="mydir/mymodule.R")
 source_inops(file="mydir/mymodule.R")
 
 alias$function(...)
@@ -1430,7 +1440,7 @@ some pattern for every string in a character vector, as well as the
 actual matches themselves, before being able to actually give the
 $i^\textrm{th}$ occurrence of some pattern. Thus `stri_locate_ith()` (at
 least in its current implementation) cannot be faster than the combined
-runtime of the `stri_locate_all()` and `stri_count()` functions. As
+run-time of the `stri_locate_all()` and `stri_count()` functions. As
 `stri_locate_ith()` is written mostly only in fully vectorized
 statements in R (no loop), the function hardly takes more than twice the
 time of `stri_locate_all()` and `stri_count()` combined.

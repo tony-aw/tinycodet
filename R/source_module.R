@@ -1,7 +1,7 @@
 #' Additional module import management
 #'
 #' @description
-#' The \code{alias %source module <-% list(file=...)} operator
+#' The \code{alias %source from% list(file=...)} operator
 #' imports all objects from a source-able script file under an \code{alias}. \cr
 #' \cr
 #' The \code{source_inops()} function
@@ -9,7 +9,7 @@
 #' to the current environment
 #' (like the global environment, or the environment within a function). \cr
 #' \cr
-#' Note that the \code{alias %source module <-% list(file=...)} operator and
+#' Note that the \code{alias %source from% list(file=...)} operator and
 #' the \code{source_inops()} function do NOT suppress output
 #' (i.e. plots, prints, messages)
 #' from the sourced module file. \cr
@@ -20,13 +20,13 @@
 #' Syntactically invalid names are not allowed for the alias name.
 #' @param lst a named list, giving the arguments to be passed to the
 #' \link[base]{source} function. \cr
-#' For example: \code{alias \%source module <-\% list(file="mydir/myscript.R")}
+#' For example: \code{alias \%source from\% list(file="mydir/myscript.R")}
 #' @param ... arguments to be passed to the \link[base]{source} function,
 #' such as the \code{file} argument.
 #'
 #'
 #' @returns
-#' For the \code{alias %source module <-% list(file=...)} operator: \cr
+#' For the \code{alias %source from% list(file=...)} operator: \cr
 #' The variable named as the \code{alias} will be created
 #' (if it did not already exist) in the current environment,
 #' and will contain all objects from the sourced script.
@@ -42,7 +42,7 @@
 #' @examples
 #'
 #' \dontrun{
-#' alias %source module <-% list(file="mydir/mymodule.R")
+#' alias %source from% list(file="mydir/mymodule.R")
 #' source_inops(file="mydir/mymodule.R")
 #' }
 #'
@@ -54,7 +54,7 @@ NULL
 
 #' @rdname source_module
 #' @export
-`%source module <-%` <- function(alias, lst) {
+`%source from%` <- function(alias, lst) {
   check_proper_alias <- c(
     make.names(substitute(alias))==substitute(alias),
     isTRUE(nchar(substitute(alias))>0),
