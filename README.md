@@ -304,9 +304,9 @@ stri_c_mat(sorted, margin=1, sep=" ") # row-wise concatenate strings
 Sourcing a module under an alias:
 
 ``` r
-alias %source from% list(file="mydir/mymodule.R")
+myalias %source from% list(file="mydir/mymodule.R")
 
-alias$function(...)
+myalias$myfunction(...)
 ```
 
 If you’re still interested, I invite you to read the rest of this

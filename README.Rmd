@@ -190,9 +190,9 @@ stri_c_mat(sorted, margin=1, sep=" ") # row-wise concatenate strings
 Sourcing a module under an alias:
 
 ```{r eval=FALSE}
-alias %source from% list(file="mydir/mymodule.R")
+myalias %source from% list(file="mydir/mymodule.R")
 
-alias$function(...)
+myalias$myfunction(...)
 ```
 
 
