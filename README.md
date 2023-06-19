@@ -20,8 +20,8 @@
 - [“DRY” - operators](#dry---operators)
   - [The transform_if function, and related
     operators](#the-transform_if-function-and-related-operators)
-  - [In-place modifying mathematical
-    arithmetic](#in-place-modifying-mathematical-arithmetic)
+  - [Generalized in-place (mathematical)
+    modifier.](#generalized-in-place-mathematical-modifier)
   - [In-place modifying string arithmetic and
     sub-setting](#in-place-modifying-string-arithmetic-and-sub-setting)
 - [Import management](#import-management)
@@ -164,6 +164,9 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   confusion as it holds to the tinyverse philosophy, rather then the
   “tidy philosophy”. Fixed some minor errors in the documentation.
   Removed `force_libPaths()`, as it may encourage bad coding practices.
+- 19 June 2023: Replaced the in-place mathematical modifiers with a
+  generalized, function-based in place (mathematical) modification
+  operator, `%:=%`, to solve precedence issues.
 
 FUTURE PLANS:
 
@@ -438,7 +441,7 @@ smaller than the Machine tolerance, `sqrt(.Machine$double.eps)`, then
 `x` and `y` ought to be consider to be equal. Thus these provide safer
 float (in)equality operators. For example: `(0.1*7) == 0.7` returns
 `FALSE`, even though they are equal, due to the way floating numbers are
-stored in programming languages like R, Python, etc. But
+stored in programming languages like `R`, `Python`, etc. But
 `(0.1*7) %f==% 0.7` returns `TRUE`.
 
 Some examples:
@@ -1055,7 +1058,7 @@ So `x %unreal =% y` is the same as
 
  
 
-## In-place modifying mathematical arithmetic
+## Generalized in-place (mathematical) modifier.
 
 This R package includes infix operators for in-place modifying
 mathematical arithmetic.
@@ -1083,28 +1086,11 @@ function, and then perform the in-place modifier pipe:
 mtcars$mpg[mtcars$cyl>6] %<>% raise_to_power(2)
 ```
 
-This is better, but still not truly tiny.
+This is better, but can we do even better?
 
-This R package solves the above laid-out problem by implementing
-in-place modifying mathematical arithmetic for all mathematical
-operators, excluding matrix operators.
-
-Here is a list of all in-place mathematical modifiers implemented in
-this R-package:
-
-- `x %+ =% y` is the same as`x <- x + y`;
-- `x %- =% y` is the same as`x <- x - y`;
-- `x %* =% y` is the same as`x <- x * y`;
-- `x %/ =% y` is the same as`x <- x / y`;
-- `x %^ =% p` is the same as`x <- x^p`;
-- `x %rt =% p` is the same as`x <- x^(1/p)`;
-- `x %logb =% b` is the same as`x <- log(x, base=b)`;
-- `x %alog =% b` is the same as`x <- b^x`; if `b=exp(1)`, this is the
-  same as`x <- exp(x)`;
-- `x %alog =% exp(1)` is the same as exp(x)\`.
-
-All in-place modifying operators in this package end with ” $\space$ =”
-(notice the extra space before the `=`).
+This R package solves the above laid-out problem by implementing a
+generalized in-place (mathematical) modifier, through the `x %:=% f`
+operator.
 
 Lets look at the original problem:
 
@@ -1112,11 +1098,19 @@ Lets look at the original problem:
 mtcars$mpg[mtcars$cyl>6] <- mtcars$mpg[mtcars$cyl>6]^2
 ```
 
-With `tinyoperators` one can now make this more tiny with the following:
+With `tinyoperators` one can now make this more compact (more “tiny”, if
+you will) as follows:
 
 ``` r
-mtcars$mpg[mtcars$cyl>6] %^ =% 2
+mtcars$mpg[mtcars$cyl>6] %:=% \(x)x^2
 ```
+
+This function-based method is used instead of the more traditional
+in-place mathematical modification like `+=` to prevent precedence
+issues (functions come before mathematical arithmetic in `R`).
+Precendence issues are a common occurrence in R packages that attempt to
+implement in-place modifying arithmetic; the `%:=%` does not have this
+problem, as the math is specified inside a function.
 
  
 
@@ -1131,6 +1125,8 @@ and string sub-setting have their in-place modifying equivalent:
 - `x %s/ =% p` is the same as `x <- x %s/% p`
 - `x %sget =% ss` is the same as `x <- x %sget% ss`
 - `x %strim =% ss` is the same as `x <- x %strim% ss`
+
+Notice the extra space before the `=` sign.
 
  
 
@@ -1185,11 +1181,11 @@ desirable, as internal function should remain, you know, internal.
 equivalent of `alias <- loadNamespace(package, lib.loc)`.
 
 Here is one example. Lets load `data.table` and then `tidytable`, under
-the same alias, which I will call “fv” (for “fastverse”):
+the same alias, which I will call “tdt” (for “tidy data.table”):
 
 ``` r
 pkgs <- c("data.table", "tidytable")
-import_as(fv, pkgs) # this creates the fv object
+import_as(tdt, pkgs) # this creates the tdt object
 #> Importing package: data.table...
 #> 
 #> Importing package: tidytable...
@@ -1200,7 +1196,7 @@ import_as(fv, pkgs) # this creates the fv object
 #> tidytable will overwrite conflicting objects from previous imported packages...
 #> 
 #> Done
-#> You can now access the functions using fv$...
+#> You can now access the functions using tdt$...
 #> (S3)methods will work like normally.
 ```
 

@@ -21,12 +21,13 @@
 #' \cr
 #' * \link[=%xor%]{Infix logical operators} for exclusive-or, not-and, not-in, number-type, and string-type. \cr
 #' * \link[=%f==%]{Safer (in)equality operators for floating numbers}. \cr
-#' * Infix operators for \link[=%+ =%]{In-place modifiers for mathematical arithmetic}. \cr
 #' * Infix operators for \link[=%s+%]{string arithmetic}. \cr
 #' * Infix operators for \link[=%ss%]{string sub-setting}. \cr
-#' * Infix operators for \link[=%s+ =%]{In-place modifying string arithmetic}. \cr
-#' * Infix operators for \link[=%sget =%]{In-place modifying string sub-setting}. \cr
-#' * \link[=%row~%]{Infix operators for row- and column-wise rank-based re-ordering of matrices}. \cr
+#' * Several operators for the "Don't Repeat Yourself" coding principle (\code{DRY}).
+#' This includes the \link[=%:=%]{generalized in-place (mathematical) modification operator},
+#' infix operators for \link[=%s+ =%]{In-place modifying string arithmetic},
+#' and infix operators for \link[=%sget =%]{In-place modifying string sub-setting}. \cr
+#' * \link[=%row~%]{Infix operators for row- and column-wise re-ordering of matrices}. \cr
 #' * The \code{tinyoperators} package adds additional
 #' \code{stringi} functions, namely \link{stri_locate_ith} and
 #' \link{stri_join_mat} (and aliases).
@@ -34,17 +35,18 @@
 #' the \code{stringi} functions, thus keeping your code consistent. \cr
 #' * The fully vectorized \link[=substr_repl]{sub-string functions},
 #' that extract, replace, add-in, transform, or re-arrange,
-#' the ith pattern occurrence or location. \cr
+#' the \eqn{i^{th}} pattern occurrence or location. \cr
 #' * The \link{s_pattern} helper function for string operators. \cr
 #' * The \link{transform_if} function, and some related infix operators. \cr
-#' * \link[=import_data]{New package import functions}. \cr
+#' * \link[=import_data]{New package import functions},
+#' and \link[=source_inops]{new module sourcing functions}. \cr
 #' * Most \code{stringi} pattern expressions options
 #' are available for the string-pattern-related functions, when appropriate. \cr
 #' * This R package has only one dependency: \code{stringi}.
-#' No other dependencies, as to avoid "dependency hell". \cr
+#' No other dependencies, as to avoid \code{"dependency hell"}. \cr
 #' * Although this package has no other dependencies,
-#' it allows multi-threading of functions (when appropriate)
-#' through third-party packages (like \code{stringfish}). \cr
+#' it allows multi-threading of the sub-string functions
+#' through the \code{stringfish} R package. \cr
 #' \cr
 #'
 #' Please also have a look at the Read-Me file on the Github main page before using this package: \cr

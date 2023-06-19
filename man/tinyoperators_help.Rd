@@ -28,12 +28,13 @@ The \code{tinyoperators} R package adds the following functionality: \cr
 \itemize{
 \item \link[=\%xor\%]{Infix logical operators} for exclusive-or, not-and, not-in, number-type, and string-type. \cr
 \item \link[=\%f==\%]{Safer (in)equality operators for floating numbers}. \cr
-\item Infix operators for \link[=\%+ =\%]{In-place modifiers for mathematical arithmetic}. \cr
 \item Infix operators for \link[=\%s+\%]{string arithmetic}. \cr
 \item Infix operators for \link[=\%ss\%]{string sub-setting}. \cr
-\item Infix operators for \link[=\%s+ =\%]{In-place modifying string arithmetic}. \cr
-\item Infix operators for \link[=\%sget =\%]{In-place modifying string sub-setting}. \cr
-\item \link[=\%row~\%]{Infix operators for row- and column-wise rank-based re-ordering of matrices}. \cr
+\item Several operators for the "Don't Repeat Yourself" coding principle (\code{DRY}).
+This includes the \link[=\%:=\%]{generalized in-place (mathematical) modification operator},
+infix operators for \link[=\%s+ =\%]{In-place modifying string arithmetic},
+and infix operators for \link[=\%sget =\%]{In-place modifying string sub-setting}. \cr
+\item \link[=\%row~\%]{Infix operators for row- and column-wise re-ordering of matrices}. \cr
 \item The \code{tinyoperators} package adds additional
 \code{stringi} functions, namely \link{stri_locate_ith} and
 \link{stri_join_mat} (and aliases).
@@ -41,17 +42,18 @@ These functions use the same naming and argument convention as the rest of
 the \code{stringi} functions, thus keeping your code consistent. \cr
 \item The fully vectorized \link[=substr_repl]{sub-string functions},
 that extract, replace, add-in, transform, or re-arrange,
-the ith pattern occurrence or location. \cr
+the \eqn{i^{th}} pattern occurrence or location. \cr
 \item The \link{s_pattern} helper function for string operators. \cr
 \item The \link{transform_if} function, and some related infix operators. \cr
-\item \link[=import_data]{New package import functions}. \cr
+\item \link[=import_data]{New package import functions},
+and \link[=source_inops]{new module sourcing functions}. \cr
 \item Most \code{stringi} pattern expressions options
 are available for the string-pattern-related functions, when appropriate. \cr
 \item This R package has only one dependency: \code{stringi}.
-No other dependencies, as to avoid "dependency hell". \cr
+No other dependencies, as to avoid \code{"dependency hell"}. \cr
 \item Although this package has no other dependencies,
-it allows multi-threading of functions (when appropriate)
-through third-party packages (like \code{stringfish}). \cr
+it allows multi-threading of the sub-string functions
+through the \code{stringfish} R package. \cr
 \cr
 }
 

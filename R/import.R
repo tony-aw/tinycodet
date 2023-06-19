@@ -129,7 +129,7 @@ NULL
 #' @export
 import_as <- function(
     alias, pkgs, lib.loc=.libPaths()
-    ) {
+) {
   if(length(pkgs)!=length(unique(pkgs))) {
     stop("one or more duplicate packages given")
   }
