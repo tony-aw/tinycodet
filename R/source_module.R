@@ -63,8 +63,14 @@ NULL
   if(isFALSE(all(check_proper_alias))){
     stop("Syntactically invalid name for object `alias`")
   }
+  message("Importing module ... \n")
   tempenv <- new.env(parent=parent.frame())
   do.call(source, c(lst, local=tempenv))
+  message(paste0(
+    "Done", "\n",
+    "You can now access the sourced objects using ",
+    substitute(alias), "$...", "\n"
+  ))
   eval(call("<-", substitute(alias), tempenv), envir = parent.frame(n = 1))
 }
 
