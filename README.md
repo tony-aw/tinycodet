@@ -1347,10 +1347,10 @@ environment within a function), similar to `import_inops()`.
 Example:
 
 ``` r
-alias %source from% list(file="mydir/mymodule.R")
+myalias %source from% list(file="mydir/mymodule.R")
 source_inops(file="mydir/mymodule.R")
 
-alias$function(...)
+myalias$myfunction(...)
 ```
 
  

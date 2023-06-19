@@ -835,10 +835,10 @@ To (hopefully) encourage this more, the `tinyoperators` R package adds the `alia
 Example:
 
 ```{r eval=FALSE}
-alias %source from% list(file="mydir/mymodule.R")
+myalias %source from% list(file="mydir/mymodule.R")
 source_inops(file="mydir/mymodule.R")
 
-alias$function(...)
+myalias$myfunction(...)
 ```
 
 
