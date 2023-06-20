@@ -1156,13 +1156,12 @@ attaching the package, are as follows:
 1)  prevent overlapping namespaces / masking functions
 2)  prevent overriding core R functions
 3)  clarify which function came from which package
-4)  allowing a package to be loaded locally (like only within a function
-    environment) instead of globally
+4)  prevent attaching functions from a package globally
 5)  prevent polluting the namespace (the more packages that are
     attached, the higher chance of masking functions, and the more
     difficult to de-bug your code)
 
-But the advantages of attaching a package instead of loading without
+The advantages of attaching a package instead of loading without
 attaching are as follows:
 
 1)  Less typing: You have to type less to use functions. This is
@@ -1172,12 +1171,13 @@ attaching are as follows:
     using `::` or `alias$`.
 2)  More collective usage: If multiple packages are meant to work
     together, constantly switching between the different package
-    name/alias prefixes may eventually become annoying and even
-    syntactically chaotic-looking.
+    name/alias -prefixes may eventually become annoying and even
+    syntactically chaotic.
 
 What `tinyoperators` attempts to do with its import system, is to
 somewhat find the best of both worlds. Basically, `tinyoperators` has
-functions that allow the following functionality lacking in base R:
+functions that allow the following import functionality lacking in base
+R:
 
 - Allow **multiple related** packages to be loaded under **one alias**.
   This essentially combines the attaching advantage of “collective
