@@ -37,7 +37,6 @@
 #' that extract, replace, add-in, transform, or re-arrange,
 #' the \eqn{i^{th}} pattern occurrence or location. \cr
 #' * The \link{s_pattern} helper function for string operators. \cr
-#' * The \link{transform_if} function, and some related infix operators. \cr
 #' * \link[=import_data]{New package import functions},
 #' and \link[=source_inops]{new module sourcing functions}. \cr
 #' * Most \code{stringi} pattern expressions options

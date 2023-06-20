@@ -29,8 +29,7 @@
 #' For the \code{alias %source from% list(file=...)} operator: \cr
 #' The variable named as the \code{alias} will be created
 #' (if it did not already exist) in the current environment,
-#' and will contain all objects from the sourced script.
-#' and it will contain the (merged) package environment. \cr
+#' and will contain all objects from the sourced script. \cr
 #' \cr
 #' For \code{source_inops()}: \cr
 #' The infix operators from the specified module will be placed

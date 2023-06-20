@@ -26,7 +26,8 @@ where the package(s) are to be assigned to. \cr
 Syntactically invalid names are not allowed for the alias name.}
 
 \item{pkgs}{a single string, or character vector, with the package name(s). \cr
-NOTE (1): The order of the character vector matters! If 2 packages share objects with the same name,
+NOTE (1): The order of the character vector matters!
+If multiple packages share objects with the same name,
 the package named last will overwrite the earlier named package. \cr
 NOTE (2): When supplying more than one package to \code{import_as()},
 it is strongly advised to only import packages together under the same alias that are (reverse)
@@ -57,9 +58,9 @@ infix operators already present in the current environment.}
 \item{package}{a single string, giving the name of the package.}
 
 \item{type}{The type of functions to list. Possibilities: \cr
-\code{"inops"} or \code{"operators"}: Only infix operators (functions surrounded by percentage signs). \cr
+\code{"inops"} or \code{"operators"}: Only infix operators. \cr
 \code{"regfuns"}: Only regular functions (thus excluding infix operators). \cr
-\code{"all"}: All functions, both regular and infix operators. \cr}
+\code{"all"}: All functions, both regular functions and infix operators. \cr}
 }
 \value{
 For \code{import_as}: \cr
@@ -80,7 +81,7 @@ For \code{import_lsf()}: \cr
 Returns a character vector of function and/or operator names. \cr
 \cr
 For \code{pkgs \%installed in\% lib.loc}: \cr
-Returns a logical vector, where \code{TRUE} indicates a package is installed,
+Returns a named logical vector, where \code{TRUE} indicates a package is installed,
 and \code{FALSE} indicates a package is not installed. \cr
 \cr
 }
