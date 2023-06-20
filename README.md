@@ -25,22 +25,23 @@
   - [In-place modifying string arithmetic and
     sub-setting](#in-place-modifying-string-arithmetic-and-sub-setting)
 - [Import management](#import-management)
+  - [Introduction](#introduction)
   - [import_as](#import_as)
   - [import_inops](#import_inops)
   - [import_data](#import_data)
   - [installed in - operator](#installed-in---operator)
   - [Sourcing modules](#sourcing-modules)
-- [On libraries](#on-libraries)
-  - [Setting relative paths](#setting-relative-paths)
-  - [On date-based version control: the alternative to
-    MRAN](#on-date-based-version-control-the-alternative-to-mran)
-  - [On simple project isolation](#on-simple-project-isolation)
+  - [Using libraries](#using-libraries)
+    - [Setting relative paths](#setting-relative-paths)
+    - [On date-based version control: the alternative to
+      MRAN](#on-date-based-version-control-the-alternative-to-mran)
+    - [On simple project isolation](#on-simple-project-isolation)
 - [Speed and multi-threading](#speed-and-multi-threading)
   - [stri_locate_ith](#stri_locate_ith-1)
   - [Substr-functions](#substr-functions)
-- [Recommended R packages](#recommended-r-packages)
 - [Compatibility with other R
   packages](#compatibility-with-other-r-packages)
+- [Recommended R packages](#recommended-r-packages)
 - [Conclusion](#conclusion)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -169,6 +170,7 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   operator, `%:=%`, to solve precedence issues. Renamed
   `alias %source module <-% list(file=...)` to
   `alias %source from% list(file=...)`. Edited the documentation a bit.
+- 20 June 2023: Extended the Read-Me more.
 
 FUTURE PLANS:
 
@@ -1142,6 +1144,57 @@ Notice the extra space before the `=` sign.
 
 # Import management
 
+## Introduction
+
+One can load a package without attaching a package (i.e. using `::` or
+using a package alias), or one can attach a package (i.e. using
+`library` or `require()`). Both options have their pros and cons.
+
+The benefits of loading a package using `::` or an alias, instead of
+attaching the package, are as follows:
+
+1)  prevent overlapping namespaces / masking functions
+2)  prevent overriding core R functions
+3)  clarify which function came from which package
+4)  allowing a package to be loaded locally (like only within a function
+    environment) instead of globally
+5)  prevent polluting the namespace (the more packages that are
+    attached, the higher chance of masking functions, and the more
+    difficult to de-bug your code)
+
+But the advantages of attaching a package instead of loading without
+attaching are as follows:
+
+1)  Less typing: You have to type less to use functions. This is
+    especially handy for **infix operators** - which `tinyoperators`
+    obviously focuses on - as operators use special characters, which
+    require them to be surrounded by back-ticks when using `::` or
+    `alias$`.
+2)  More collective usage: If multiple packages are meant to work
+    together, constantly switching between the different package
+    name/alias prefixes may eventually become annoying and even
+    syntactically chaotic-looking.
+
+What `tinyoperators` attempts to do with its import system, is to
+somewhat find the best of both worlds. Basically, `tinyoperators` has
+functions that allow the following functionality lacking in base R:
+
+- Allow **multiple related** packages to be loaded under **one alias**.
+  This essentially combines the attaching advantage of “collective
+  usage”, whilst keeping most advantages of not attaching a package.
+- Allow **exposing** of infix operators to the **current environment**.
+  This gains advantages “less typing” whilst simultaneously avoiding the
+  disadvantage of “global assignment”.
+
+Moreover, `tinyoperators` extends this functionality to also work on
+**sourced modules**.
+
+What follows are descriptions of functions that together form this new,
+infix-operator friendly **&** multi-package assignment friendly, import
+management system.
+
+ 
+
 ## import_as
 
 One can load a package without attaching it, and assign it to an alias,
@@ -1153,7 +1206,7 @@ alias <- loadNamespace("packagename", lib.loc = lib.loc)
 
 Doing the above, instead of attaching a package using `library()` or
 `require()`, can (often) be quite beneficial for several reasons.
-i.e. prevent overlapping namespaces, prevent overriding base/core R
+i.e. prevent overlapping namespaces, prevent overriding core R
 functions, prevent polluting the namespace, clarify which function came
 from which package, allowing a package to be loaded locally (like only
 within a function environment), etc.
@@ -1162,8 +1215,11 @@ Loading a package alias does have some drawbacks. One is that you cannot
 easily import multiple packages under the same alias. While one probably
 wouldn’t want to import **multiple** packages under a **single alias**
 most of the time, there may be a couple of situations where importing
-multiple packages into a single alias might be actually preferable:
+multiple packages into a single alias may be actually preferable:
 
+- If multiple packages are meant to work together, constantly switching
+  between the different package name/alias prefixes may eventually
+  become annoying and even syntactically chaotic-looking.
 - A package may have one or several dependencies that are supposed to be
   loaded together. For example: the `tidytable` package essentially
   needs the `data.table` package to be loaded also.
@@ -1178,14 +1234,18 @@ multiple packages into a single alias might be actually preferable:
   to import package `A`, and then overwrite it with package `B`.
 
 So there are several cases where it is perhaps desirable to load
-multiple packages under the same alias. And that is where
-`tinyoperator`’s `import_as()` function comes in. It allows loading
-multiple R packages under the same alias, and also informs the user
-which objects from a package will overwrite which objects from other
-packages, so you will never be surprised. The `import_as()` function
-also only loads exported functions (unlike `loadNamespace()`, which
-loads both internal and external functions). This is, I think, more
-desirable, as internal function should remain, you know, internal.
+multiple packages under the same alias. And in fact R’s inability to
+load multiple packages under a single alias is one of the reasons to
+prefer attaching packages over using a package alias.
+
+And that is where `tinyoperator`’s `import_as()` function comes in. It
+allows loading **multiple related** R packages under the same alias, and
+also informs the user which objects from a package will overwrite which
+objects from other packages, so you will never be surprised. The
+`import_as()` function also only loads exported functions (unlike
+`loadNamespace()`, which loads both internal and external functions).
+This is, I think, more desirable, as internal function should remain,
+you know, internal.
 
 `import_as(alias, pkgs, lib.loc)` is thus essentially the multi-package
 equivalent of `alias <- loadNamespace(package, lib.loc)`.
@@ -1231,24 +1291,28 @@ packages under the same alias:
 
 ## import_inops
 
-When aliasing an R package, infix operators are also loaded in the
-alias. However, it may be cumbersome to use them from the alias. For
-example this:
+Another reason why attaching a package is preferred over using a package
+alias, despite the problems of attaching a package, is that it may be
+cumbersome to use infix operators from an alias. For example this:
 
 ``` r
 to loadNamespace("tinyoperators")
 to$`%row~%`(x, mat)
+# or this:
+tinyoperators::`%row~%`(x, mat)
 ```
 
-is very cumbersome. Therefore, `tinyoperators` also adds the
-`import_inops(pkgs)` function, which exposes the infix operators from
-the packages specified in character vector `pkgs` to the current
-environment (like the global environment, or the environment within a
-function), instead of attaching the functions to the global namespace.
+is very cumbersome.
 
-For example, exposes the infix operators from the `tidytable` and
-`data.table` R packages to the current environment, in this case the
-global environment:
+Therefore, `tinyoperators` also adds the `import_inops(pkgs)` function,
+which exposes the infix operators from the packages specified in
+character vector `pkgs` to the current environment (like the global
+environment, or the environment within a function), instead of attaching
+the functions to the global namespace.
+
+For example, the following code exposes the infix operators from the
+`tidytable` and `data.table` R packages to the current environment, in
+this case the global environment:
 
 ``` r
 pkgs <- c("data.table", "tidytable")
@@ -1355,21 +1419,21 @@ myalias$myfunction(...)
 
  
 
-# On libraries
+## Using libraries
 
-## Setting relative paths
+### Setting relative paths
 
 Finding the source file location of your script (or project) is possible
 with R packages such as `this.path` and `here`.
 
 When employing both project isolation and version control, it may be
 preferable to find the source file location without external R packages
-(“external” meaning not base packages, not pre-installed recommended R
-packages, and not R packages that are bundled with Rstudio). The reason
-is as follows. If one relies on an R package to set the relative path of
-your project-specific library one gets into a circular problem: you need
-the R package to set your library’s relative path, but you need your
-library’s relative path to install the package.
+(“external” meaning not base packages, not R packages that come
+pre-installed with R, and not R packages that are bundled with Rstudio).
+The reason is as follows. If one relies on an R package to set the
+relative path of your project-specific library one gets into a circular
+problem: you need the R package to set your library’s relative path, but
+you need your library’s relative path to install the package.
 
 Luckily, one can actually find your active script’s location in base R
 without external R packages like `this.path` or `here`.
@@ -1392,42 +1456,20 @@ expect, and does not go against proper coding etiquette.
 
  
 
-## On date-based version control: the alternative to MRAN
+### On date-based version control: the alternative to MRAN
 
 As MRAN is no longer available, RStudio/Posit has taken up the mantle to
-provide date-based version control.
+provide date-based version control;
 
-Simply go to
-<https://packagemanager.rstudio.com/client/#/repos/2/overview>. Then
-select a date and select your operating system (or, if you want to
-install from Source, leave it to Source). Scroll down to “Example
-repository setup code”, and copy the code into R to use the repository.
-
-For example, to set the repository URL in your current R script such
-that R packages from CRAN are downloaded and installed as they were
-available on 2 January 2023, when using a Microsoft Windows OS, simply
-run the following:
-
-``` r
-options(repos = c(REPO_NAME = "https://packagemanager.rstudio.com/cran/2023-01-02"))
-```
-
-Using this in combination with project isolation (like using
-`force_libPaths()`) allows for complete control over your packages,
-ensuring your code will run even several years after you wrote your
-code.
+see <https://packagemanager.rstudio.com/client/#/repos/2/overview>.
 
  
 
-## On simple project isolation
+### On simple project isolation
 
 The base R’s `.libPaths()` function sets the library paths where R looks
 for R packages when checking or loading/attaching R packages. As such,
-this function can be used for simple Project Isolation. It is generally
-good practice to install external libraries (“external” meaning not base
-packages, not pre-installed recommended R packages, and not R packages
-that are bundled with Rstudio) in a separate (project specific) library
-path.
+this function can be used for simple Project Isolation.
 
  
 
@@ -1508,24 +1550,6 @@ substr_arrange(x, "rand", loc=loc, fish = TRUE)
 
  
 
-# Recommended R packages
-
-`stringi` is of course required for this packages. Besides that, I
-highly recommend using this R package alongside the 2 major
-operator-related R-packages, namely `magrittr` and `zeallot`.
-
-For proper programming etiquette, I also highly recommend the following
-R packages:
-
-- The `fastverse` set of R packages
-  (<https://github.com/fastverse/fastverse>), which are a set of R
-  packages for (mostly) data wrangling focused on high speed, better
-  memory management, and minimal dependencies. These packages also tend
-  to suffer less from the over-enthusiastic use of
-  non-standard-evaluation compared to typical tidyverse packages.
-
- 
-
 # Compatibility with other R packages
 
 The `stringi` R package has the `%s+%` and `%s*%` operators. They do
@@ -1533,6 +1557,20 @@ exactly the same things as in `tinyoperators`, and so the masking of
 these functions can safely be ignored. I also made sure not to name any
 of the operators in `tinyoperators` the same as the operators in
 `magrittr` and `zeallot`, so that should be safe also.
+
+ 
+
+The `import` R package provides somewhat similar capabilities to the
+`tinyoperators` import management system, but it’s still different. The
+`tinyoperators` import system focuses more on exposing infix operators
+to the current environment, and allowing multiple related packages to be
+loaded under the same alias and exposing infix operators, both of which
+the `import` package does not really provide (as far as I know).
+Strictly speaking there is no incompatibility between `tinyoperators`
+and `import`. You can safely use both implementations of the import
+system, if you wish.
+
+ 
 
 When using `renv`, note that it only registers packages loads using
 plain `library()` or `require()` calls. Anything different from that,
@@ -1549,6 +1587,21 @@ regardless of how they are loaded, will all be registered by `renv`.
 This makes `renv` compatible with calls like `import_as` from
 `tinyoperators`, and things like `for(... in ...)library(...)` or
 `if(...)library(...)`.
+
+ 
+
+# Recommended R packages
+
+`stringi` is of course required for this packages. Besides that, I
+highly recommend using this R package alongside the 2 major
+operator-related R-packages, namely `magrittr` and `zeallot`.
+
+I also highly recommend the `fastverse` set of R packages
+(<https://github.com/fastverse/fastverse>), which are a set of R
+packages for (mostly) data wrangling, focused on high speed, better
+memory management, and minimal dependencies. These packages also tend to
+suffer less from the over-enthusiastic use of non-standard-evaluation
+compared to typical tidyverse packages.
 
  
 

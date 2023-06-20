@@ -78,6 +78,7 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
  - 15 June 2023: Rewritten this Read-Me a bit. Added a module import system (`alias %source module <-% list(file=...)` operator and `source_inops()` function).
  - 16 June 2023: RENAMED THIS R-PACKAGE TO  `tinyoperators`, to prevent confusion as it holds to the tinyverse philosophy, rather then the "tidy philosophy". Fixed some minor errors in the documentation. Removed `force_libPaths()`, as it may encourage bad coding practices.
  - 19 June 2023: Replaced the in-place mathematical modifiers with a generalized, function-based in place (mathematical) modification operator, `%:=%`, to solve precedence issues. Renamed `alias %source module <-% list(file=...)` to `alias %source from% list(file=...)`. Edited the documentation a bit.
+ - 20 June 2023: Extended the import section of this Read-Me more.
 
 
 FUTURE PLANS:
@@ -730,6 +731,35 @@ Notice the extra space before the `=` sign.
 
 # Import management
 
+## Introduction
+
+One can load a package without attaching a package (i.e. using `::` or using a package alias), or one can attach a package (i.e. using `library` or `require()`). Both options have their pros and cons.
+
+The benefits of loading a package using `::` or an alias, instead of attaching the package, are as follows:
+
+ 1) prevent overlapping namespaces / masking functions
+ 2) prevent overriding core R functions
+ 3) clarify which function came from which package
+ 4) allowing a package to be loaded locally (like only within a function environment) instead of globally
+ 5) prevent polluting the namespace (the more packages that are attached, the higher chance of masking functions, and the more difficult to de-bug your code)
+
+But the advantages of attaching a package instead of loading without attaching are as follows:
+
+ 1) Less typing: You have to type less to use functions. This is particularly relevant for **infix operators** - which `tinyoperators` obviously focuses on - as operators use special characters, which require them to be surrounded by back-ticks when using `::` or `alias$`.
+ 2) More collective usage: If multiple packages are meant to work together, constantly switching between the different package name/alias prefixes may eventually become annoying and even syntactically chaotic-looking.
+
+
+What `tinyoperators` attempts to do with its import system, is to somewhat find the best of both worlds. Basically, `tinyoperators` has functions that allow the following functionality lacking in base R:
+
+ - Allow **multiple related** packages to be loaded under **one alias**. This essentially combines the attaching advantage of "collective usage", whilst keeping most advantages of not attaching a package.
+ - Allow **exposing infix operators** to the **current environment**. This gains advantages "less typing" whilst simultaneously avoiding the disadvantage of "global assignment".
+
+Moreover, `tinyoperators` extends this functionality to also work on **sourced modules**.
+
+What follows are descriptions of functions that together form this new, infix-operator friendly **&** multi-package assignment friendly, import management system.
+
+&nbsp;
+
 ## import_as
 
 One can load a package without attaching it, and assign it to an alias, in base R, using:
@@ -739,15 +769,18 @@ alias <- loadNamespace("packagename", lib.loc = lib.loc)
 ```
 
 Doing the above, instead of attaching a package using `library()` or `require()`, can (often) be quite beneficial for several reasons.
-i.e. prevent overlapping namespaces, prevent overriding base/core R functions, prevent polluting the namespace, clarify which function came from which package, allowing a package to be loaded locally (like only within a function environment), etc.
+i.e. prevent overlapping namespaces, prevent overriding core R functions, prevent polluting the namespace, clarify which function came from which package, allowing a package to be loaded locally (like only within a function environment), etc.
 
-Loading a package alias does have some drawbacks. One is that you cannot easily import multiple packages under the same alias. While one probably wouldn't want to import **multiple** packages under a **single alias** most of the time, there may be a couple of situations where importing multiple packages into a single alias might be actually preferable:
+Loading a package alias does have some drawbacks. One is that you cannot easily import multiple packages under the same alias. While one probably wouldn't want to import **multiple** packages under a **single alias** most of the time, there may be a couple of situations where importing multiple packages into a single alias may be actually preferable:
 
+ - If multiple packages are meant to work together, constantly switching between the different package name/alias prefixes may eventually become annoying and even syntactically chaotic-looking.
  - A package may have one or several dependencies that are supposed to be loaded together. For example: the `tidytable` package essentially needs the `data.table` package to be loaded also.
  - A package may have many extensions you may want to load together. For example: `ggplot2` has many extensions (see https://exts.ggplot2.tidyverse.org/gallery/). If one wishes to alias `ggplot2` including some of its many extensions, one must be able to load multiple R packages under the same alias.
  - Suppose package `B` is supposed to overwrite a couple of functions from package `A` (for example if package `B` extends or improves the functionality from a function in package `A`). In that case you want to import package `A`, and then overwrite it with package `B`.
 
-So there are several cases where it is perhaps desirable to load multiple packages under the same alias. And that is where `tinyoperator`'s `import_as()` function comes in. It allows loading multiple R packages under the same alias, and also informs the user which objects from a package will overwrite which objects from other packages, so you will never be surprised. The `import_as()` function also only loads exported functions (unlike `loadNamespace()`, which loads both internal and external functions). This is, I think, more desirable, as internal function should remain, you know, internal.
+So there are several cases where it is perhaps desirable to load multiple packages under the same alias. And in fact R's inability to load multiple packages under a single alias is one of the reasons to prefer attaching packages over using a package alias.
+
+And that is where `tinyoperator`'s `import_as()` function comes in. It allows loading **multiple related** R packages under the same alias, and also informs the user which objects from a package will overwrite which objects from other packages, so you will never be surprised. The `import_as()` function also only loads exported functions (unlike `loadNamespace()`, which loads both internal and external functions). This is, I think, more desirable, as internal function should remain, you know, internal.
 
 `import_as(alias, pkgs, lib.loc)` is thus essentially the multi-package equivalent of `alias <- loadNamespace(package, lib.loc)`.
 
@@ -771,17 +804,26 @@ A few notes on the usage of this operator when importing multiple R packages und
 
 ## import_inops
 
-When aliasing an R package, infix operators are also loaded in the alias. However, it may be cumbersome to use them from the alias. For example this:
+Another reason why attaching a package is preferred over using a package alias, despite the problems of attaching a package, is that it may be cumbersome to use infix operators from an alias. For example this:
+
 
 ```{r eval=FALSE}
 to loadNamespace("tinyoperators")
 to$`%row~%`(x, mat)
 ```
 
+or this:
 
-is very cumbersome. Therefore,  `tinyoperators` also adds the `import_inops(pkgs)` function, which exposes the infix operators from the packages specified in character vector `pkgs` to the current environment (like the global environment, or the environment within a function), instead of attaching the functions to the global namespace.
+```{r eval=FALSE}
+tinyoperators::`%row~%`(x, mat)
+```
 
-For example, exposes the infix operators from the `tidytable` and `data.table` R packages to the current environment, in this case the global environment:
+
+is very cumbersome.
+
+Therefore, `tinyoperators` also adds the `import_inops(pkgs)` function, which exposes the infix operators from the packages specified in character vector `pkgs` to the current environment (like the global environment, or the environment within a function), instead of attaching the functions to the global namespace.
+
+For example, the following code exposes the infix operators from the `tidytable` and `data.table` R packages to the current environment, in this case the global environment:
 
 ```{r}
 pkgs <- c("data.table", "tidytable")
@@ -791,6 +833,10 @@ import_inops(pkgs)
 Just like in `import_as()`, the order of the packages matters whenever there's a conflict.
 
 The `import_inops()` functions has the `exclude` and `include.only` arguments to specify exactly which infix operators to expose to the current environment. This can be handy to prevent overwriting any (user defined) infix operators already present in the current environment.
+
+To ensure the user can still verify which operator function came from which package, a "package" attribute is added to each exposed operator.
+Naturally, the namespaces of the operators remain intact.
+
 
 &nbsp;
 
@@ -841,17 +887,16 @@ source_inops(file="mydir/mymodule.R")
 myalias$myfunction(...)
 ```
 
-
-
 &nbsp;
 
-# On libraries
 
-## Setting relative paths
+## Using libraries
+
+### Setting relative paths
 
 Finding the source file location of your script (or project) is possible with R packages such as `this.path` and `here`.
 
-When employing both project isolation and version control, it may be preferable to find the source file location without external R packages ("external" meaning not base packages, not pre-installed recommended R packages, and not R packages that are bundled with Rstudio). The reason is as follows. If one relies on an R package to set the relative path of your project-specific library one gets into a circular problem: you need the R package to set your library's relative path, but you need your library's relative path to install the package.
+When employing both project isolation and version control, it may be preferable to find the source file location without external R packages ("external" meaning not base packages, not R packages that come pre-installed with R, and not R packages that are bundled with Rstudio). The reason is as follows. If one relies on an R package to set the relative path of your project-specific library one gets into a circular problem: you need the R package to set your library's relative path, but you need your library's relative path to install the package.
 
 Luckily, one can actually find your active script's location in base R without external R packages like `this.path` or `here`.
 
@@ -872,25 +917,17 @@ is NOT bad practice. The above code works pretty much as one would expect, and d
 
 &nbsp;
 
-## On date-based version control: the alternative to MRAN
+### On date-based version control: the alternative to MRAN
 
-As MRAN is no longer available, RStudio/Posit has taken up the mantle to provide date-based version control.
+As MRAN is no longer available, RStudio/Posit has taken up the mantle to provide date-based version control;
 
-Simply go to https://packagemanager.rstudio.com/client/#/repos/2/overview. Then select a date and select your operating system (or, if you want to install from Source, leave it to Source). Scroll down to "Example repository setup code", and copy the code into R to use the repository.
-
-For example, to set the repository URL in your current R script such that R packages from CRAN are downloaded and installed as they were available on 2 January 2023, when using a Microsoft Windows OS, simply run the following:
-
-```{r}
-options(repos = c(REPO_NAME = "https://packagemanager.rstudio.com/cran/2023-01-02"))
-```
-
-Using this in combination with project isolation (like using `force_libPaths()`) allows for complete control over your packages, ensuring your code will run even several years after you wrote your code.
+see https://packagemanager.rstudio.com/client/#/repos/2/overview.
 
 &nbsp;
 
-## On simple project isolation
+### On simple project isolation
 
-The base R's `.libPaths()` function sets the library paths where R looks for R packages when checking or loading/attaching R packages. As such, this function can be used for simple Project Isolation. It is generally good practice to install external libraries ("external" meaning not base packages, not pre-installed recommended R packages, and not R packages that are bundled with Rstudio) in a separate (project specific) library path.
+The base R's `.libPaths()` function sets the library paths where R looks for R packages when checking or loading/attaching R packages. As such, this function can be used for simple Project Isolation.
 
 
 &nbsp;
@@ -936,19 +973,15 @@ substr_arrange(x, "rand", loc=loc, fish = TRUE)
 
 &nbsp;
 
-# Recommended R packages
-
-`stringi` is of course required for this packages. Besides that, I highly recommend using this R package alongside the 2 major operator-related R-packages, namely `magrittr` and `zeallot`.
-
-For proper programming etiquette, I also highly recommend the following R packages:
-
- - The `fastverse` set of R packages (https://github.com/fastverse/fastverse), which are a set of R packages for (mostly) data wrangling focused on high speed, better memory management, and minimal dependencies. These packages also tend to suffer less from the over-enthusiastic use of non-standard-evaluation compared to typical tidyverse packages.
-
-&nbsp;
-
 # Compatibility with other R packages
 
 The `stringi` R package has the `%s+%` and `%s*%` operators. They do exactly the same things as in `tinyoperators`, and so the masking of these functions can safely be ignored. I also made sure not to name any of the operators in `tinyoperators` the same as the operators in `magrittr` and `zeallot`, so that should be safe also.
+
+&nbsp;
+
+The `import` R package provides somewhat similar capabilities to the `tinyoperators` import management system, but it's still different. The `tinyoperators` import system focuses more on exposing infix operators to the current environment, and allowing multiple related packages to be loaded under the same alias and exposing infix operators, both of which the `import` package does not really provide (as far as I know). Strictly speaking there is no incompatibility between `tinyoperators` and `import`. You can safely use both implementations of the import system, if you wish.
+
+&nbsp;
 
 When using `renv`, note that it only registers packages loads using plain `library()` or `require()` calls. Anything different from that, even things like `for(... in ...)library(...)` or `if(...)library(...)`, will not be understood by `renv`. Therefore, if using `renv`, please make sure to set the following:
 
@@ -957,6 +990,16 @@ renv::settings$snapshot.type("all")
 ```
 
 This will make sure that all packages installed in your project library, regardless of how they are loaded,  will all be registered by `renv`. This makes `renv` compatible with calls like  `import_as` from `tinyoperators`, and things like `for(... in ...)library(...)` or `if(...)library(...)`.
+
+
+&nbsp;
+
+# Recommended R packages
+
+`stringi` is of course required for this packages. Besides that, I highly recommend using this R package alongside the 2 major operator-related R-packages, namely `magrittr` and `zeallot`.
+
+I also highly recommend the `fastverse` set of R packages (https://github.com/fastverse/fastverse), which are a set of R packages for (mostly) data wrangling, focused on high speed, better memory management, and minimal dependencies. These packages also tend to suffer less from the over-enthusiastic use of non-standard-evaluation compared to typical tidyverse packages.
+
 
 &nbsp;
 
