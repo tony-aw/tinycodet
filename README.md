@@ -170,7 +170,7 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   operator, `%:=%`, to solve precedence issues. Renamed
   `alias %source module <-% list(file=...)` to
   `alias %source from% list(file=...)`. Edited the documentation a bit.
-- 20 June 2023: Extended the Read-Me more.
+- 20 June 2023: Extended the import section of this Read-Me more.
 
 FUTURE PLANS:
 
@@ -1166,10 +1166,10 @@ But the advantages of attaching a package instead of loading without
 attaching are as follows:
 
 1)  Less typing: You have to type less to use functions. This is
-    especially handy for **infix operators** - which `tinyoperators`
-    obviously focuses on - as operators use special characters, which
-    require them to be surrounded by back-ticks when using `::` or
-    `alias$`.
+    particularly relevant for **infix operators** - which
+    `tinyoperators` obviously focuses on - as operators use special
+    characters, which require them to be surrounded by back-ticks when
+    using `::` or `alias$`.
 2)  More collective usage: If multiple packages are meant to work
     together, constantly switching between the different package
     name/alias prefixes may eventually become annoying and even
@@ -1182,7 +1182,7 @@ functions that allow the following functionality lacking in base R:
 - Allow **multiple related** packages to be loaded under **one alias**.
   This essentially combines the attaching advantage of “collective
   usage”, whilst keeping most advantages of not attaching a package.
-- Allow **exposing** of infix operators to the **current environment**.
+- Allow **exposing infix operators** to the **current environment**.
   This gains advantages “less typing” whilst simultaneously avoiding the
   disadvantage of “global assignment”.
 
@@ -1298,7 +1298,11 @@ cumbersome to use infix operators from an alias. For example this:
 ``` r
 to loadNamespace("tinyoperators")
 to$`%row~%`(x, mat)
-# or this:
+```
+
+or this:
+
+``` r
 tinyoperators::`%row~%`(x, mat)
 ```
 
@@ -1333,6 +1337,10 @@ The `import_inops()` functions has the `exclude` and `include.only`
 arguments to specify exactly which infix operators to expose to the
 current environment. This can be handy to prevent overwriting any (user
 defined) infix operators already present in the current environment.
+
+To ensure the user can still verify which operator function came from
+which package, a “package” attribute is added to each exposed operator.
+Naturally, the namespaces of the operators remain intact.
 
  
 
@@ -1423,20 +1431,10 @@ myalias$myfunction(...)
 
 ### Setting relative paths
 
-Finding the source file location of your script (or project) is possible
-with R packages such as `this.path` and `here`.
-
-When employing both project isolation and version control, it may be
-preferable to find the source file location without external R packages
-(“external” meaning not base packages, not R packages that come
-pre-installed with R, and not R packages that are bundled with Rstudio).
-The reason is as follows. If one relies on an R package to set the
-relative path of your project-specific library one gets into a circular
-problem: you need the R package to set your library’s relative path, but
-you need your library’s relative path to install the package.
-
-Luckily, one can actually find your active script’s location in base R
-without external R packages like `this.path` or `here`.
+One can find your active script’s location in base R without external R
+packages (“external” meaning not base packages, not recommended R
+packages that come pre-installed with R, and not R packages that are
+bundled with Rstudio) like `this.path` or `here`.
 
 Without Rstudio, one can use the `commandArgs()` function.
 
