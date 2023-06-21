@@ -27,13 +27,6 @@
 #' \code{import_lsf}: \cr
 #' The \code{import_lsf(package, ...)} function gets a list of exported functions/operators from a package. \cr
 #' \cr
-#' \code{pkgs %installed in% lib.loc}: \cr
-#' The \code{pkgs %installed in% lib.loc} operator
-#' checks if one or more package(s) \code{pkgs} exist(s) in library location \code{lib.loc}. \cr
-#' Now you no longer have to attach a package with \code{require()} simply to check if it exists. \cr
-#' Moreover, this operator makes it syntactically explicit in your code
-#' where you are looking for your R package(s). \cr
-#' \cr
 #'
 #' @param alias a variable name (unquoted),
 #' giving the (not yet existing) object
@@ -103,17 +96,12 @@
 #' For \code{import_lsf()}: \cr
 #' Returns a character vector of function and/or operator names. \cr
 #' \cr
-#' For \code{pkgs %installed in% lib.loc}: \cr
-#' Returns a named logical vector, where \code{TRUE} indicates a package is installed,
-#' and \code{FALSE} indicates a package is not installed. \cr
-#' \cr
 #'
 #'
 #' @examples
 #'
 #' \dontrun{
 #' pkgs <- c(unlist(tools::package_dependencies("devtools")), "devtools")
-#' pkgs %installed in% .libPaths()
 #' import_as(devt, pkgs) # this creates the devt object
 #' import_inops(pkgs)
 #' d <- import_data("chicago", "gamair")
@@ -295,13 +283,5 @@ import_lsf <- function(package, type, lib.loc=.libPaths()) {
   if(type=="all") {
     out <- ns
   }
-  return(out)
-}
-
-#' @rdname import
-#' @export
-`%installed in%` <- function(pkgs, lib.loc) {
-  temp.fun <- function(x)nzchar(system.file(package=x, lib.loc=lib.loc))
-  out <- sapply(pkgs, temp.fun)
   return(out)
 }

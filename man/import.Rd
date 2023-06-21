@@ -6,7 +6,6 @@
 \alias{import_inops}
 \alias{import_data}
 \alias{import_lsf}
-\alias{\%installed in\%}
 \title{Additional package import management}
 \usage{
 import_as(alias, pkgs, lib.loc = .libPaths())
@@ -16,8 +15,6 @@ import_inops(pkgs, lib.loc = .libPaths(), exclude, include.only)
 import_data(dataname, package, lib.loc = .libPaths())
 
 import_lsf(package, type, lib.loc = .libPaths())
-
-pkgs \%installed in\% lib.loc
 }
 \arguments{
 \item{alias}{a variable name (unquoted),
@@ -80,10 +77,6 @@ Thus, one can assign the data like so: \code{mydata <- import_data(...)}. \cr
 For \code{import_lsf()}: \cr
 Returns a character vector of function and/or operator names. \cr
 \cr
-For \code{pkgs \%installed in\% lib.loc}: \cr
-Returns a named logical vector, where \code{TRUE} indicates a package is installed,
-and \code{FALSE} indicates a package is not installed. \cr
-\cr
 }
 \description{
 These functions and operator are focused on making it easier to
@@ -112,13 +105,6 @@ and allows assigning the data set like so: \cr
 \code{import_lsf}: \cr
 The \code{import_lsf(package, ...)} function gets a list of exported functions/operators from a package. \cr
 \cr
-\code{pkgs \%installed in\% lib.loc}: \cr
-The \code{pkgs \%installed in\% lib.loc} operator
-checks if one or more package(s) \code{pkgs} exist(s) in library location \code{lib.loc}. \cr
-Now you no longer have to attach a package with \code{require()} simply to check if it exists. \cr
-Moreover, this operator makes it syntactically explicit in your code
-where you are looking for your R package(s). \cr
-\cr
 }
 \details{
 The \code{import_as(alias, pkgs, lib.loc)} command is essentially the same as \cr
@@ -138,7 +124,6 @@ The \code{import_as} function will give a warning when more than 3 packages bein
 
 \dontrun{
 pkgs <- c(unlist(tools::package_dependencies("devtools")), "devtools")
-pkgs \%installed in\% .libPaths()
 import_as(devt, pkgs) # this creates the devt object
 import_inops(pkgs)
 d <- import_data("chicago", "gamair")

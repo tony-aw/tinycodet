@@ -29,7 +29,7 @@
   - [import_as](#import_as)
   - [import_inops](#import_inops)
   - [import_data](#import_data)
-  - [installed in - operator](#installed-in---operator)
+  - [lib.loc](#libloc)
   - [Sourcing modules](#sourcing-modules)
 - [Speed and multi-threading](#speed-and-multi-threading)
   - [stri_locate_ith](#stri_locate_ith-1)
@@ -170,7 +170,8 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
 - 20 June 2023: Extended the import section of this Read-Me more.
 - 21 June 2023: Migrated the tests from `testthat` to `tinytest`. Added
   tests for the new `%:=%` operator. Adjusted the documentation, and
-  this Read-Me file.
+  this Read-Me file. Renamed the `%source from%` operator to
+  `%@source%`. Removed the `%installed in%` operator.
 
 FUTURE PLANS:
 
@@ -1183,8 +1184,8 @@ R:
   This essentially combines the attaching advantage of “collective
   usage”, whilst keeping most advantages of not attaching a package.
 - Allow **exposing infix operators** to the **current environment**.
-  This gains advantages “less typing” whilst simultaneously avoiding the
-  disadvantage of “global assignment”.
+  This gains the advantage of “less typing” whilst simultaneously
+  avoiding the disadvantage of “global assignment”.
 
 Moreover, `tinyoperators` extends this functionality to also work on
 **sourced modules**.
@@ -1375,51 +1376,32 @@ head(d)
 
  
 
-## installed in - operator
+## lib.loc
 
-The `pkgs %installed in% lib.loc` operator checks if one or more
-package(s) `pkgs` exist(s) in library location `lib.loc`, and does so
-**without attaching** the package in question. Moreover, this operator
-allows the user to make it more syntactically explicit in your code
-where you are looking for your R package(s).
-
-Example:
-
-``` r
-pkgs <- c("data.table", "tidytable")
-pkgs %installed in% .libPaths()
-#> data.table  tidytable 
-#>       TRUE       TRUE
-```
-
-Note that all “import\_” functions in the `tinyoperators` package have a
-`lib.loc` argument to explicitly specify from where to get your packages
-(just like base R’s `library()` function).
+All “import\_” functions in the `tinyoperators` package have a `lib.loc`
+argument to explicitly specify from where to get your packages (just
+like base R’s `library()` function).
 
  
 
 ## Sourcing modules
 
-R packages need to be checked, maintained, its dependencies kept
-minimal, made to be user friendly, AND reviewed by CRAN (and they really
-deserve some rest now and then). For a set of random functions, one is
-better off simply putting it in a script (and perhaps publish the script
-on GitHub), and sourcing the script as a module, instead of creating an
-R package out of it.
-
-To (hopefully) encourage this more, the `tinyoperators` R package adds
-the `alias %source from% list(file=...)` operator and the
-`source_inops()` function. The `alias %source from% list(file=...)`
-operator sources a script and returns all the objects in the script
-under an `alias`, similar to `import_as()`. The `source_inops()`
-function sources a script and places all infix operators in the script
-(if any) in the current environment (like the Global environment, or the
-environment within a function), similar to `import_inops()`.
+Scripts with functions that you source (sometimes referred to as
+“modules”) can be kind of seen as mini-packages. So `tinyoperators` adds
+the functionality similar to the `import_` functions, to sourcing
+modules. To this end, the `tinyoperators` R package adds the
+`alias %@source% list(file=...)` operator and the `source_inops()`
+function. The `alias %@source% list(file=...)` operator sources a script
+and returns all the objects in the script under an `alias`, similar to
+`import_as()`. The `source_inops()` function sources a script and places
+all infix operators in the script (if any) in the current environment
+(like the Global environment, or the environment within a function),
+similar to `import_inops()`.
 
 Example:
 
 ``` r
-myalias %source from% list(file="mydir/mymodule.R")
+myalias %@source% list(file="mydir/mymodule.R")
 source_inops(file="mydir/mymodule.R")
 
 myalias$myfunction(...)

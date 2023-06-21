@@ -74,7 +74,7 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
  - 16 June 2023: RENAMED THIS R-PACKAGE TO  `tinyoperators`, to prevent confusion as it holds to the tinyverse philosophy, rather then the "tidy philosophy". Fixed some minor errors in the documentation. Removed `force_libPaths()`, as it may encourage bad coding practices.
  - 19 June 2023: Replaced the in-place mathematical modifiers with a generalized, function-based in place (mathematical) modification operator, `%:=%`, to solve precedence issues. Renamed `alias %source module <-% list(file=...)` to `alias %source from% list(file=...)`. Edited the documentation a bit.
  - 20 June 2023: Extended the import section of this Read-Me more.
- - 21 June 2023: Migrated the tests from `testthat` to `tinytest`. Added tests for the new `%:=%` operator. Adjusted the documentation, and this Read-Me file.
+ - 21 June 2023: Migrated the tests from `testthat` to `tinytest`. Added tests for the new `%:=%` operator. Adjusted the documentation, and this Read-Me file. Renamed the `%source from%` operator to `%@source%`. Removed the `%installed in%` operator.
 
 
 FUTURE PLANS:
@@ -748,7 +748,7 @@ The advantages of attaching a package instead of loading without attaching are a
 What `tinyoperators` attempts to do with its import system, is to somewhat find the best of both worlds. Basically, `tinyoperators` has functions that allow the following import functionality lacking in base R:
 
  - Allow **multiple related** packages to be loaded under **one alias**. This essentially combines the attaching advantage of "collective usage", whilst keeping most advantages of not attaching a package.
- - Allow **exposing infix operators** to the **current environment**. This gains advantages "less typing" whilst simultaneously avoiding the disadvantage of "global assignment".
+ - Allow **exposing infix operators** to the **current environment**. This gains the advantage of "less typing" whilst simultaneously avoiding the disadvantage of "global assignment".
 
 Moreover, `tinyoperators` extends this functionality to also work on **sourced modules**.
 
@@ -851,32 +851,20 @@ head(d)
 
 &nbsp;
 
-## installed in - operator
+## lib.loc
 
-The `pkgs %installed in% lib.loc` operator checks if one or more package(s) `pkgs` exist(s) in library location `lib.loc`, and does so **without attaching** the package in question. Moreover, this operator allows the user to make it more syntactically explicit in your code where you are looking for your R package(s).
-
-Example:
-
-```{r}
-pkgs <- c("data.table", "tidytable")
-pkgs %installed in% .libPaths()
-```
-
-
-Note that all "import_" functions in the `tinyoperators` package have a `lib.loc` argument to explicitly specify from where to get your packages (just like base R's `library()` function).
+All "import_" functions in the `tinyoperators` package have a `lib.loc` argument to explicitly specify from where to get your packages (just like base R's `library()` function).
 
 &nbsp;
 
 ## Sourcing modules
 
-R packages need to be checked, maintained, its dependencies kept minimal, made to be user friendly, AND reviewed by CRAN (and they really deserve some rest now and then). For a set of random functions, one is better off simply putting it in a script (and perhaps publish the script on GitHub), and sourcing the script as a module, instead of creating an R package out of it.
-
-To (hopefully) encourage this more, the `tinyoperators` R package adds the `alias %source from% list(file=...)` operator and the `source_inops()` function. The `alias %source from% list(file=...)` operator sources a script and returns all the objects in the script under an `alias`, similar to `import_as()`. The `source_inops()` function sources a script and places all infix operators in the script (if any) in the current environment (like the Global environment, or the environment within a function), similar to `import_inops()`.
+Scripts with functions that you source (sometimes referred to as "modules") can be kind of seen as mini-packages. So `tinyoperators` adds the functionality similar to the `import_` functions, to sourcing modules. To this end, the `tinyoperators` R package adds the `alias %@source% list(file=...)` operator and the `source_inops()` function. The `alias %@source% list(file=...)` operator sources a script and returns all the objects in the script under an `alias`, similar to `import_as()`. The `source_inops()` function sources a script and places all infix operators in the script (if any) in the current environment (like the Global environment, or the environment within a function), similar to `import_inops()`.
 
 Example:
 
 ```{r eval=FALSE}
-myalias %source from% list(file="mydir/mymodule.R")
+myalias %@source% list(file="mydir/mymodule.R")
 source_inops(file="mydir/mymodule.R")
 
 myalias$myfunction(...)
