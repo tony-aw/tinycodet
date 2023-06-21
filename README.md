@@ -31,11 +31,6 @@
   - [import_data](#import_data)
   - [installed in - operator](#installed-in---operator)
   - [Sourcing modules](#sourcing-modules)
-  - [Using libraries](#using-libraries)
-    - [Setting relative paths](#setting-relative-paths)
-    - [On date-based version control: the alternative to
-      MRAN](#on-date-based-version-control-the-alternative-to-mran)
-    - [On simple project isolation](#on-simple-project-isolation)
 - [Speed and multi-threading](#speed-and-multi-threading)
   - [stri_locate_ith](#stri_locate_ith-1)
   - [Substr-functions](#substr-functions)
@@ -59,19 +54,21 @@ public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostat
 [![](https://img.shields.io/badge/ORCID-0000--0001--9498--8379-green.svg)](https://orcid.org/0000-0001-9498-8379)
 <!-- badges: end -->
 
-![](tinyoperators.svg)  
+![](man/figures/tinyoperators.svg)  
 
 ## Description
 
 The `tinyoperators` R-package adds some much needed infix operators, and
-a few functions, to make your R code much more tiny. It includes infix
-operators for additional logic operators, safer float (in)equality
-operators, and infix operators for custom row- and column-wise ordering
-of matrices. It also adds some `stringi`-based string related functions
-and operators. It also adds operators and a few functions to help reduce
-unnecessary repetitive code. And finally, it also adds some functions
-and an operator for easier package/library management. The
-`tinyoperators` R-package has only one dependency, namely `stringi`,
+a few functions. It primarily focuses on 4 things:
+
+1)  Float truth testing.
+2)  Functions and operators to help reduce repetitive code.
+3)  Extending the string manipulation capabilities of the `stringi` R
+    package.
+4)  A new package and module import system, that combines the benefits
+    of aliasing a package with the benefits of attaching a package.
+
+The `tinyoperators` R-package has only one dependency, namely `stringi`,
 though it does allows multi-threading of some of the string-related
 functions (when appropriate) via the suggested `stringfish` R-package.
 
@@ -171,6 +168,9 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   `alias %source module <-% list(file=...)` to
   `alias %source from% list(file=...)`. Edited the documentation a bit.
 - 20 June 2023: Extended the import section of this Read-Me more.
+- 21 June 2023: Migrated the tests from `testthat` to `tinytest`. Added
+  tests for the new `%:=%` operator. Adjusted the documentation, and
+  this Read-Me file.
 
 FUTURE PLANS:
 
@@ -1424,50 +1424,6 @@ source_inops(file="mydir/mymodule.R")
 
 myalias$myfunction(...)
 ```
-
- 
-
-## Using libraries
-
-### Setting relative paths
-
-One can find your active script’s location in base R without external R
-packages (“external” meaning not base packages, not recommended R
-packages that come pre-installed with R, and not R packages that are
-bundled with Rstudio) like `this.path` or `here`.
-
-Without Rstudio, one can use the `commandArgs()` function.
-
-When using RStudio, one can use
-`rstudioapi::getSourceEditorContext()$path`.
-
-Contrary to popular believe, doing something like this:
-
-``` r
-mydir <- rstudioapi::getSourceEditorContext()$path |> dirname()
-setwd(mydir)
-getwd()
-```
-
-is NOT bad practice. The above code works pretty much as one would
-expect, and does not go against proper coding etiquette.
-
- 
-
-### On date-based version control: the alternative to MRAN
-
-As MRAN is no longer available, RStudio/Posit has taken up the mantle to
-provide date-based version control;
-
-see <https://packagemanager.rstudio.com/client/#/repos/2/overview>.
-
- 
-
-### On simple project isolation
-
-The base R’s `.libPaths()` function sets the library paths where R looks
-for R packages when checking or loading/attaching R packages. As such,
-this function can be used for simple Project Isolation.
 
  
 
