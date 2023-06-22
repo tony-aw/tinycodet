@@ -735,7 +735,7 @@ stringi::stri_sub_replace(x, loc, replacement=repl)
 
 But now suppose one wants to transform the **second-last** vowel. How
 are you going to do that? It’s not impossible, but also not super
-straight-forward. For a tiny code, `stringi` really needs some kind of
+straight-forward. For clear code, `stringi` really needs some kind of
 “stri_locate_ith” function. And, of course, the `tinyoperators` package
 provides just that.
 
@@ -1010,8 +1010,8 @@ very_long_name_1 <- ifelse(
 
 becomes cumbersome quickly.
 
-The tinyoperators package therefore adds the
-`transform_if(x, cond, trans_T, trans_F)` function which will tiny this
+The `tinyoperators` package therefore adds the
+`transform_if(x, cond, trans_T, trans_F)` function which will “dry” this
 up. The above code can now be re-written as:
 
 ``` r
@@ -1023,7 +1023,7 @@ transformations in `transform_if()` are evaluated as
 `trans_T(x[cond(x)])` and `trans_F(x[!cond(x)])`, ensuring no
 unnecessary warnings or errors occur.
 
-Besides `transform_if`, the tinyoperators package also adds 2
+Besides `transform_if`, the `tinyoperators` package also adds 2
 “subset_if” operators:
 
 - The `x %[if]% cond` operator selects elements from vector/matrix/array
