@@ -3,14 +3,16 @@
 #'@description
 #' Welcome to the \code{tinyoperators} help page! \cr
 #' \cr
-#' The \code{tinyoperators} R-package adds some much needed infix operators,
+#' The \code{tinyoperators} R-package adds some infix operators,
 #' and a few functions. \cr
 #' It primarily focuses on 4 things: \cr
+#' \cr
 #' (1) Float truth testing. \cr
-#' (2) Functions and operators to help reduce repetitive code. \cr
+#' (2) Reducing repetitive code. \cr
 #' (3) Extending the string manipulation capabilities of the \code{stringi} R package. \cr
 #' (4) A new package and module import system,
 #' that combines the benefits of aliasing a package with the benefits of attaching a package. \cr
+#' \cr
 #' The \code{tinyoperators} R-package has only one dependency,
 #' namely \code{stringi},
 #' though it does allows multi-threading of some of the string-related functions
