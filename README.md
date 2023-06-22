@@ -21,7 +21,7 @@
   - [The transform_if function, and related
     operators](#the-transform_if-function-and-related-operators)
   - [Generalized in-place (mathematical)
-    modifier.](#generalized-in-place-mathematical-modifier)
+    modifier](#generalized-in-place-mathematical-modifier)
   - [In-place modifying string arithmetic and
     sub-setting](#in-place-modifying-string-arithmetic-and-sub-setting)
 - [Import management](#import-management)
@@ -307,7 +307,7 @@ stri_c_mat(sorted, margin=1, sep=" ") # row-wise concatenate strings
 Sourcing a module under an alias:
 
 ``` r
-myalias %source from% list(file="mydir/mymodule.R")
+myalias %@source% list(file="mydir/mymodule.R")
 
 myalias$myfunction(...)
 ```
@@ -1063,7 +1063,7 @@ So `x %unreal =% y` is the same as
 
  
 
-## Generalized in-place (mathematical) modifier.
+## Generalized in-place (mathematical) modifier
 
 This R package includes infix operators for in-place modifying
 mathematical arithmetic.

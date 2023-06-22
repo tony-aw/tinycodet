@@ -187,7 +187,7 @@ stri_c_mat(sorted, margin=1, sep=" ") # row-wise concatenate strings
 Sourcing a module under an alias:
 
 ```{r eval=FALSE}
-myalias %source from% list(file="mydir/mymodule.R")
+myalias %@source% list(file="mydir/mymodule.R")
 
 myalias$myfunction(...)
 ```
@@ -659,7 +659,7 @@ So `x %unreal =% y` is the same as `x[is.na(x)|is.nan(x)|is.infinite(x)] <- y`.
 &nbsp;
 
 
-## Generalized in-place (mathematical) modifier.
+## Generalized in-place (mathematical) modifier
 
 
 This R package includes infix operators for in-place modifying mathematical arithmetic.
