@@ -32,10 +32,10 @@ set.seed(1)
 
 ## Description
 
-The `tinyoperators` R-package adds some much needed infix operators, and a few functions. It primarily focuses on 4 things:
+The `tinyoperators` R-package adds some infix operators, and a few functions. It primarily focuses on 4 things:
 
  1) Float truth testing.
- 2) Functions and operators to help reduce repetitive code.
+ 2) Reducing repetitive code.
  3) Extending the string manipulation capabilities of the `stringi` R package.
  4) A new package and module import system,  that combines the benefits of aliasing a package with the benefits of attaching a package.
 
