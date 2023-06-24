@@ -59,7 +59,8 @@ public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostat
 ## Description
 
 The `tinyoperators` R-package adds some infix operators, and a few
-functions. It primarily focuses on 4 things:
+functions, for better coding etiquette. It primarily focuses on 4
+things:
 
 1)  Float truth testing.
 2)  Reducing repetitive code.
@@ -236,24 +237,25 @@ The `tinyoperators` R package adds the following functionality:
 
 Currently this R package is only available on GitHub.
 
-I understand one may not want to go through this entire Read-Me without
-knowing if the R package is worthy of your time. Therefore, allow me to
-give you a quick glimpse of what is possible in this R package before
-jumping into the details.
-
  
 
-Operators and functions for the “Don’t Repeat Yourself” coding
-principle:
+I understand you may not want to go through this entire Read-Me without
+knowing if the R package is even worthy of your time. Therefore, allow
+me to give you a quick glimpse of what is possible in this R package
+before jumping into the details.
+
+Operators and functions to reduce repetitive code:
 
 ``` r
 # in base R:
-very_long_name_1[very_long_name_1 > 0] <- log(very_long_name_1[very_long_name_1 > 0])
-very_long_name_1 <- very_long_name_1^2
+very_long_name_1 <- ifelse(
+  very_long_name_1 > 0, log(very_long_name_1), very_long_name_1^2
+)
+mtcars$mpg[mtcars$cyl>6] <- (mtcars$mpg[mtcars$cyl>6])^2
 
 # with tinyoperators:
-very_long_name_1 %<>% transform_if(\(x)x>0, log)
-very_long_name_1 %^ =% 2
+very_long_name_1 %<>% transform_if(\(x)x>0, log, \(x)x^2)
+mtcars$mpg[mtcars$cyl>6] %:=% \(x)x^2
 ```
 
 Safer float truth testing:
@@ -313,7 +315,7 @@ myalias$myfunction(...)
 ```
 
 If you’re still interested, I invite you to read the rest of this
-Read-Me and perhaps try out the package yourself.
+Read-Me, and perhaps try out the package yourself.
 
  
 
