@@ -41,6 +41,8 @@ The `tinyoperators` R-package adds some infix operators, and a few functions, fo
 
 The `tinyoperators` R-package has only one dependency, namely `stringi`, though it does allows multi-threading of some of the string-related functions (when appropriate) via the suggested `stringfish` R-package.
 
+Most functions in this R-package are fully vectorized and reasonably well optimized.
+
 &nbsp;
 
 ## Changelog and status
@@ -109,20 +111,18 @@ tinyoperators::tinyoperators_help()
 
 ## Overview
 
-The `tinyoperators` R package adds the following functionality:
- 
- - Additional infix logic operators.
- - Safer (in)equality operators for float numbers.
- - Infix operators for row- and column-wise re-ordering of matrices.
- - Several in-place modifying arithmetic and string operators, and a few functions, to help reduce repetitive codes, for the sake of the "Don't Repeat Yourself"-coding principle (`DRY`).
- - Package import management operator and functions.
- - The tinyoperators package adds additional `stringi` functions, namely `stri_locate_ith()` and `stri_join_mat()` (and aliases). These functions use the same naming and argument convention as the rest of the `stringi` functions, thus keeping your code consistent.
- - The fully vectorized sub-string functions, that extract, replace, add-in, transform, or re-arrange, the $i^\textrm{th}$ pattern occurrence or substring.
- - The `s_pattern()` helper function for the string infix operators.
- - The `stringi` pattern expressions options are available for all string-pattern-related functions, when appropriate.
- - This R package has only one dependency: `stringi`. No other dependencies, as to avoid "dependency hell".
- - Although this package has no other dependencies, it allows multi-threading of functions (when appropriate) via `stringfish`.
+The `tinyoperators` R-package adds some infix operators, and a few functions, for better coding etiquette. It primarily focuses on 4 things:
 
+ 1) Float truth testing.
+ 2) Reducing repetitive code.
+ 3) Extending the string manipulation capabilities of the `stringi` R package.
+ 4) A new package and module import system,  that combines the benefits of aliasing a package with the benefits of attaching a package.
+
+The `tinyoperators` R-package has only one dependency, namely `stringi`, though it does allows multi-threading of some of the string-related functions (when appropriate) via the suggested `stringfish` R-package.
+
+Most functions in this R-package are fully vectorized and reasonably well optimized.
+
+&nbsp;
 
 Currently this R package is only available on GitHub.
 
@@ -136,13 +136,13 @@ Operators and functions to reduce repetitive code:
 
 ```{r eval=FALSE}
 # in base R:
-very_long_name_1 <- ifelse(
+very_long_name_1 <- ifelse(# repetitive, and gives unnecessary warning
   very_long_name_1 > 0, log(very_long_name_1), very_long_name_1^2
 )
 mtcars$mpg[mtcars$cyl>6] <- (mtcars$mpg[mtcars$cyl>6])^2
 
 # with tinyoperators:
-very_long_name_1 %<>% transform_if(\(x)x>0, log, \(x)x^2)
+very_long_name_1 %<>% transform_if(\(x)x>0, log, \(x)x^2) # compact & no warning
 mtcars$mpg[mtcars$cyl>6] %:=% \(x)x^2
 ```
 
