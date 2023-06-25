@@ -8,7 +8,13 @@
 \alias{import_lsf}
 \title{Additional package import management}
 \usage{
-import_as(alias, pkgs, lib.loc = .libPaths())
+import_as(
+  alias,
+  package,
+  deps = FALSE,
+  extensions = NULL,
+  lib.loc = .libPaths()
+)
 
 import_inops(pkgs, lib.loc = .libPaths(), exclude, include.only)
 
@@ -22,22 +28,38 @@ giving the (not yet existing) object
 where the package(s) are to be assigned to. \cr
 Syntactically invalid names are not allowed for the alias name.}
 
-\item{pkgs}{a single string, or character vector, with the package name(s). \cr
-NOTE (1): The order of the character vector matters!
+\item{package}{a single string, giving the name of the package.}
+
+\item{deps}{either logical, or a character vector. \cr
+If \code{FALSE} (default), no dependencies are loaded under the alias. \cr
+If \code{TRUE}, ALL dependencies are loaded under the alias. \cr
+If a character vector, then it is taken as the dependencies of the
+package to be loaded also under the alias. \cr
+NOTE (1): "Dependencies" here are defined as any package appearing in the
+"Depends", "Imports", or "LinkingTo" sections of the Description file of the
+package. \cr
+NOTE (2): If \code{deps} is a character vector:
+The order of the character vector matters!
 If multiple packages share objects with the same name,
-the package named last will overwrite the earlier named package. \cr
-NOTE (2): When supplying more than one package to \code{import_as()},
-it is strongly advised to only import packages together under the same alias that are (reverse)
-dependencies of each other
-(i.e. they appear in each others Depends or Imports sections in the Description files). \cr
-NOTE (3): Related to NOTE (2),
-the \code{import_as()} function only performs a very basic check for dependencies;
-the user is expected to use the \code{import_as()} function responsibly.}
+the package named last will overwrite the earlier named package. \cr}
+
+\item{extensions}{a character vector,
+giving the names of the reverse-dependencies of the
+package to be loaded also under the alias.
+Defaults to \code{NULL}, which means no extensions are loaded. \cr
+NOTE: The order of the character vector matters!
+If multiple packages share objects with the same name,
+the package named last will overwrite the earlier named package. \cr}
 
 \item{lib.loc}{character vector specifying library search path
 (the location of R library trees to search through).
 This is usually \code{.libPaths()}.
 See also \link[base]{loadNamespace}.}
+
+\item{pkgs}{a single string, or character vector, with the package name(s). \cr
+NOTE: The order of the character vector matters!
+If multiple packages share objects with the same name,
+the package named last will overwrite the earlier named package. \cr}
 
 \item{exclude}{a character vector,
 giving the infix operators NOT to expose to the current environment. \cr
@@ -51,8 +73,6 @@ This can be handy to prevent overwriting any (user defined)
 infix operators already present in the current environment.}
 
 \item{dataname}{a single string, giving the name of the data set.}
-
-\item{package}{a single string, giving the name of the package.}
 
 \item{type}{The type of functions to list. Possibilities: \cr
 \code{"inops"} or \code{"operators"}: Only infix operators. \cr
@@ -107,24 +127,32 @@ The \code{import_lsf(package, ...)} function gets a list of exported functions/o
 \cr
 }
 \details{
-The \code{import_as(alias, pkgs, lib.loc)} command is essentially the same as \cr
-\code{alias <- loadNamespace("packagename", lib.loc)} \cr
-except that \code{import_as(alias, pkgs, lib.loc)}
-allows assigning multiple packages to the same alias,
-and \code{import_as(alias, pkgs, lib.loc)} does not import internal functions
-(i.e. internal functions are kept internal, as they should). \cr
-\cr
+In general: \cr
 The \code{import_as} and \code{import_inops} functions will inform the user
 about conflicting objects. \cr
 \cr
-The \code{import_as} function will give a warning when more than 3 packages being imported into the same alias. \cr
+For \code{import_as()}: \cr
+The \code{import_as()} function will first load the dependencies
+in the order specified in argument \code{deps}, if any,
+then it loads the package named in argument \code{package},
+then it loads the extensions in the order specified in argument \code{extensions},
+if any. \cr
+The \code{import_as()} function does not import internal functions
+(i.e. internal functions are kept internal, as they should). \cr
+\cr
+For \code{import_inops()}: \cr
+The \code{import_inops()} function is less strict than \code{import_as()}
+in terms of which R packages can be called together.
+But still the packages specified in argument \code{pkgs} need to have SOME
+overlap in their dependencies.
 \cr
 }
 \examples{
 
 \dontrun{
-pkgs <- c(unlist(tools::package_dependencies("devtools")), "devtools")
-import_as(devt, pkgs) # this creates the devt object
+deps <- unlist(tools::package_dependencies("devtools"))
+pkgs <- c(deps, "devtools")
+import_as(devt, "devtools", deps = TRUE) # this creates the devt object
 import_inops(pkgs)
 d <- import_data("chicago", "gamair")
 head(d)

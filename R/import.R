@@ -32,17 +32,30 @@
 #' giving the (not yet existing) object
 #' where the package(s) are to be assigned to. \cr
 #' Syntactically invalid names are not allowed for the alias name.
-#' @param pkgs a single string, or character vector, with the package name(s). \cr
-#' NOTE (1): The order of the character vector matters!
+#' @param package a single string, giving the name of the package.
+#' @param deps either logical, or a character vector. \cr
+#' If \code{FALSE} (default), no dependencies are loaded under the alias. \cr
+#' If \code{TRUE}, ALL dependencies are loaded under the alias. \cr
+#' If a character vector, then it is taken as the dependencies of the
+#' package to be loaded also under the alias. \cr
+#' NOTE (1): "Dependencies" here are defined as any package appearing in the
+#' "Depends", "Imports", or "LinkingTo" sections of the Description file of the
+#' package. \cr
+#' NOTE (2): If \code{deps} is a character vector:
+#' The order of the character vector matters!
 #' If multiple packages share objects with the same name,
 #' the package named last will overwrite the earlier named package. \cr
-#' NOTE (2): When supplying more than one package to \code{import_as()},
-#' it is strongly advised to only import packages together under the same alias that are (reverse)
-#' dependencies of each other
-#' (i.e. they appear in each others Depends or Imports sections in the Description files). \cr
-#' NOTE (3): Related to NOTE (2),
-#' the \code{import_as()} function only performs a very basic check for dependencies;
-#' the user is expected to use the \code{import_as()} function responsibly.
+#' @param extensions a character vector,
+#' giving the names of the reverse-dependencies of the
+#' package to be loaded also under the alias.
+#' Defaults to \code{NULL}, which means no extensions are loaded. \cr
+#' NOTE: The order of the character vector matters!
+#' If multiple packages share objects with the same name,
+#' the package named last will overwrite the earlier named package. \cr
+#' @param pkgs a single string, or character vector, with the package name(s). \cr
+#' NOTE: The order of the character vector matters!
+#' If multiple packages share objects with the same name,
+#' the package named last will overwrite the earlier named package. \cr
 #' @param exclude a character vector,
 #' giving the infix operators NOT to expose to the current environment. \cr
 #' This can be handy to prevent overwriting any (user defined)
@@ -57,7 +70,7 @@
 #' This is usually \code{.libPaths()}.
 #' See also \link[base]{loadNamespace}.
 #' @param dataname a single string, giving the name of the data set.
-#' @param package a single string, giving the name of the package.
+#' 
 #' @param type The type of functions to list. Possibilities: \cr
 #' \code{"inops"} or \code{"operators"}: Only infix operators. \cr
 #' \code{"regfuns"}: Only regular functions (thus excluding infix operators). \cr
@@ -65,17 +78,24 @@
 #'
 #'
 #' @details
-#' The \code{import_as(alias, pkgs, lib.loc)} command is essentially the same as \cr
-#' \code{alias <- loadNamespace("packagename", lib.loc)} \cr
-#' except that \code{import_as(alias, pkgs, lib.loc)}
-#' allows assigning multiple packages to the same alias,
-#' and \code{import_as(alias, pkgs, lib.loc)} does not import internal functions
-#' (i.e. internal functions are kept internal, as they should). \cr
-#' \cr
+#' In general: \cr
 #' The \code{import_as} and \code{import_inops} functions will inform the user
 #' about conflicting objects. \cr
 #' \cr
-#' The \code{import_as} function will give a warning when more than 3 packages being imported into the same alias. \cr
+#' For \code{import_as()}: \cr
+#' The \code{import_as()} function will first load the dependencies
+#' in the order specified in argument \code{deps}, if any,
+#' then it loads the package named in argument \code{package},
+#' then it loads the extensions in the order specified in argument \code{extensions},
+#' if any. \cr
+#' The \code{import_as()} function does not import internal functions
+#' (i.e. internal functions are kept internal, as they should). \cr
+#' \cr
+#' For \code{import_inops()}: \cr
+#' The \code{import_inops()} function is less strict than \code{import_as()}
+#' in terms of which R packages can be called together.
+#' But still the packages specified in argument \code{pkgs} need to have SOME
+#' overlap in their dependencies.
 #' \cr
 #'
 #' @returns
@@ -101,8 +121,9 @@
 #' @examples
 #'
 #' \dontrun{
-#' pkgs <- c(unlist(tools::package_dependencies("devtools")), "devtools")
-#' import_as(devt, pkgs) # this creates the devt object
+#' deps <- unlist(tools::package_dependencies("devtools"))
+#' pkgs <- c(deps, "devtools")
+#' import_as(devt, "devtools", deps = TRUE) # this creates the devt object
 #' import_inops(pkgs)
 #' d <- import_data("chicago", "gamair")
 #' head(d)
@@ -117,14 +138,10 @@ NULL
 #' @rdname import
 #' @export
 import_as <- function(
-    alias, pkgs, lib.loc=.libPaths()
+    alias, package, deps=FALSE, extensions=NULL, lib.loc=.libPaths()
 ) {
-  if(length(pkgs)!=length(unique(pkgs))) {
-    stop("one or more duplicate packages given")
-  }
-  if(length(pkgs)>3) {
-    warning("More than 3 packages are being imported into the same alias...")
-  }
+  
+  # Check alias:
   check_proper_alias <- c(
     make.names(substitute(alias))==substitute(alias),
     isTRUE(nchar(substitute(alias))>0),
@@ -133,54 +150,96 @@ import_as <- function(
   if(isFALSE(all(check_proper_alias))){
     stop("Syntactically invalid name for object `alias`")
   }
-
-  if(length(pkgs)>1) {
-    check_deps_OK <- .internal_check_deps_overlap_any(pkgs, lib.loc=lib.loc)
-    if(!check_deps_OK) {
+  
+  # check package:
+  if(length(package)>1){
+    stop("Only a single package can be given in the `package` argument")
+  }
+  check_install <- package %installed in% lib.loc
+  if(isFALSE(check_install)) {
+    stop("Given package not installed!")
+  }
+  
+  # Check dependencies:
+  actual_deps <- .internal_get_deps(
+    package, lib.loc=.libPaths(), deps_type=c("Depends", "Imports", "LinkingTo")
+  )
+  if(length(actual_deps)>10){
+    message("Note: this package has a lot of dependencies")
+  }
+  if(isFALSE(deps)) {
+    deps <- NULL
+  }
+  if(isTRUE(deps)){
+    deps <- actual_deps
+  }
+  if(is.character(deps) & length(deps)>0) {
+    if(length(deps)!=length(unique(deps))) {
+      stop("one or more duplicate dependent packages given")
+    }
+    
+    wrong_deps <- deps[!deps %installed in% lib.loc]
+    if(length(wrong_deps)>0) {
       error.txt <- paste0(
-        "Multiple packages specified, but the packages have no dependency overlap at all.",
+        "The following dependent packages are not installed:",
         "\n",
-        "Function halted."
+        paste0(wrong_deps, collapse = ", ")
+      )
+      stop(error.txt)
+    }
+    
+    if(is.character(deps)) {
+      wrong_deps <- deps[!deps %in% actual_deps]
+      if(length(wrong_deps)>0) {
+        error.txt <- paste0(
+          "The following dependent packages are not in Depends or Imports:",
+          "\n",
+          paste0(wrong_deps, collapse = ", ")
+        )
+        stop(error.txt)
+      }
+    }
+  }
+  
+  
+  # Check extensions:
+  if(!is.null(extensions) & is.character(extensions) & length(extensions)>0) {
+    if(length(extensions)!=length(unique(extensions))) {
+      stop("one or more duplicate dependent packages given")
+    }
+    
+    wrong_extensions <- extensions[!extensions %installed in% lib.loc]
+    if(length(wrong_extensions)>0) {
+      error.txt <- paste0(
+        "The following extenions are not installed:",
+        "\n",
+        paste0(wrong_extensions, collapse = ", ")
+      )
+      stop(error.txt)
+    }
+    tempfun <- function(x){
+      deps <- .internal_get_deps(x, lib.loc=lib.loc, deps_type=c("Depends", "Imports", "LinkingTo"))
+      return(package %in% deps)
+    }
+    check_extensions <- sapply(
+      extensions, tempfun
+    )
+    wrong_extensions <- extensions[!check_extensions]
+    if(length(wrong_extensions)>0) {
+      error.txt <- paste0(
+        "The following extensions were not found to be actual reverse dependencies:",
+        "\n",
+        paste0(wrong_extensions, collapse = ", ")
       )
       stop(error.txt)
     }
   }
-
-  export_names_all <- character()
-  export_names_allconflicts <- character()
-  namespaces <- list()
-  for (i in 1:length(pkgs)) {
-    message(paste0("Importing package: ", pkgs[i], "..."))
-    namespace_current <- .internal_prep_Namespace(pkgs[i], lib.loc)
-    export_names_current <- names(namespace_current)
-
-    prop.infix <- mean(grepl("%|:=", export_names_current))
-    if(prop.infix >= 0.5) {
-      message(paste0(
-        "NOTE: Most functions in this package are infix operators;",
-        "\n",
-        "consider using library(", pkgs[i], ") instead."
-      ))
-    }
-
-    export_names_intersection <- intersect(export_names_current, export_names_all)
-    if(length(export_names_intersection)==0 & i>1) {
-      message("no conflicts")
-    }
-    if(length(export_names_intersection)>0) {
-      message(
-        "The following conflicting objects detected:",
-        "\n \n",
-        paste0(export_names_intersection, collapse = ", "),
-        "\n \n",
-        pkgs[i], " will overwrite conflicting objects from previous imported packages..."
-      )
-    }
-    export_names_allconflicts <- c(export_names_intersection, export_names_allconflicts)
-    export_names_all <- c(export_names_current, export_names_all)
-    namespaces <- utils::modifyList(namespaces, namespace_current)
-    message("\n")
-  }
+  
+  
+  pkgs <- c(deps, package, extensions)
+  
+  namespaces <- .internal_import_namespaces(pkgs, lib.loc = lib.loc)
+  
   message(paste0(
     "Done", "\n",
     "You can now access the functions using ", substitute(alias), "$...", "\n",
@@ -199,6 +258,18 @@ import_inops <- function(pkgs, lib.loc=.libPaths(), exclude, include.only) {
   }
   if(!missing(exclude) & !missing(include.only)){
     stop("Canntot specify both `exclude` and `include.only`; specify only one or none.")
+  }
+  
+  if(length(pkgs)>1) {
+    check_deps_OK <- .internal_check_deps_overlap_any(pkgs, lib.loc=lib.loc)
+    if(!check_deps_OK) {
+      error.txt <- paste0(
+        "Multiple packages specified, but the packages have no dependency overlap at all.",
+        "\n",
+        "Function halted."
+      )
+      stop(error.txt)
+    }
   }
 
   export_names_all <- character()
@@ -285,3 +356,6 @@ import_lsf <- function(package, type, lib.loc=.libPaths()) {
   }
   return(out)
 }
+
+
+

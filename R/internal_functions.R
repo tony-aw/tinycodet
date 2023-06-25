@@ -30,7 +30,7 @@ s_get_pattern_attr_internal <- function(p) {
 
 #' @keywords internal
 #' @noRd
-.internal_get_deps <- function(package, lib.loc, deps_type=c("Depends", "Imports", "LinkingTo")) {
+.internal_get_deps <- function(package, lib.loc, deps_type) {
   # based of https://stackoverflow.com/questions/30223957/elegantly-extract-r-package-dependencies-of-a-package-not-listed-on-cran
   dcf <- read.dcf(file.path(system.file("DESCRIPTION", package = package, lib.loc = lib.loc)))
   jj <- intersect(deps_type, colnames(dcf))
@@ -49,6 +49,45 @@ s_get_pattern_attr_internal <- function(p) {
   return(check)
 }
 
+.internal_import_namespaces <- function(pkgs, lib.loc){
+  export_names_all <- character()
+  export_names_allconflicts <- character()
+  namespaces <- list()
+  for (i in 1:length(pkgs)) {
+    message(paste0("Importing package: ", pkgs[i], "..."))
+    namespace_current <- .internal_prep_Namespace(pkgs[i], lib.loc)
+    export_names_current <- names(namespace_current)
+    
+    prop.infix <- mean(grepl("%|:=", export_names_current))
+    if(prop.infix >= 0.5) {
+      message(paste0(
+        "NOTE: Most functions in this package are infix operators;",
+        "\n",
+        "consider using library(", pkgs[i], ") instead."
+      ))
+    }
+    
+    export_names_intersection <- intersect(export_names_current, export_names_all)
+    if(length(export_names_intersection)==0 & i>1) {
+      message("no conflicts")
+    }
+    if(length(export_names_intersection)>0) {
+      message(
+        "The following conflicting objects detected:",
+        "\n \n",
+        paste0(export_names_intersection, collapse = ", "),
+        "\n \n",
+        pkgs[i], " will overwrite conflicting objects from previous imported packages..."
+      )
+    }
+    export_names_allconflicts <- c(export_names_intersection, export_names_allconflicts)
+    export_names_all <- c(export_names_current, export_names_all)
+    namespaces <- utils::modifyList(namespaces, namespace_current)
+    message("\n")
+  }
+  return(namespaces)
+}
+
 #' @keywords internal
 #' @noRd
 .internal_f_function_exists <- function(package, funcname) {
@@ -57,3 +96,4 @@ s_get_pattern_attr_internal <- function(p) {
     TRUE
   }, error = function(...) { FALSE })
 }
+

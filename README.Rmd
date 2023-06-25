@@ -77,6 +77,7 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
  - 19 June 2023: Replaced the in-place mathematical modifiers with a generalized, function-based in place (mathematical) modification operator, `%:=%`, to solve precedence issues. Renamed `alias %source module <-% list(file=...)` to `alias %source from% list(file=...)`. Edited the documentation a bit.
  - 20 June 2023: Extended the import section of this Read-Me more.
  - 21 June 2023: Migrated the tests from `testthat` to `tinytest`. Added tests for the new `%:=%` operator. Adjusted the documentation, and this Read-Me file. Renamed the `%source from%` operator to `%@source%`. Removed the `%installed in%` operator.
+ - 26 June 2023: Another major change. Made `import_as()` much, much stricter. Brought back the `pkgs %installed in% lib.loc%` operator. Adjusted the documentation accordingly. Asked some people to start testing the R package, as it is nearing it's final form before getting out of the experimental life cycle.
 
 
 FUTURE PLANS:
@@ -752,7 +753,7 @@ The advantages of attaching a package instead of loading without attaching are a
 
 What `tinyoperators` attempts to do with its import system, is to somewhat find the best of both worlds. Basically, `tinyoperators` has functions that allow the following import functionality lacking in base R:
 
- - Allow **multiple related** packages to be loaded under **one alias**. This essentially combines the attaching advantage of "collective usage", whilst keeping most advantages of not attaching a package.
+ - Allow package + its dependencies + its extensions (reverse dependencies) to be loaded under **one alias**. This essentially combines the attaching advantage of "collective usage", whilst keeping most advantages of not attaching a package.
  - Allow **exposing infix operators** to the **current environment**. This gains the advantage of "less typing" whilst simultaneously avoiding the disadvantage of "global assignment".
 
 Moreover, `tinyoperators` extends this functionality to also work on **sourced modules**.
@@ -781,25 +782,28 @@ Loading a package alias does have some drawbacks. One is that you cannot easily 
 
 So there are several cases where it is perhaps desirable to load multiple packages under the same alias. And in fact R's inability to load multiple packages under a single alias is one of the reasons to prefer attaching packages over using a package alias.
 
-And that is where `tinyoperator`'s `import_as()` function comes in. It allows loading **multiple related** R packages under the same alias, and also informs the user which objects from a package will overwrite which objects from other packages, so you will never be surprised. The `import_as()` function also only loads exported functions (unlike `loadNamespace()`, which loads both internal and external functions). This is, I think, more desirable, as internal function should remain, you know, internal.
+And that is where `tinyoperator`'s `import_as()` function comes in. It loads an R package under an alias, and also loads any specified **dependencies** or **extensions** (=reverse-dependencies) of the package under the very same alias. It also informs the user which objects from a package will overwrite which objects from other packages, so you will never be surprised. The `import_as()` function also only loads exported functions (unlike `loadNamespace()`, which loads both internal and external functions). This is, I think, more desirable, as internal function should remain, you know, internal.
 
-`import_as(alias, pkgs, lib.loc)` is thus essentially the multi-package equivalent of `alias <- loadNamespace(package, lib.loc)`.
+`import_as()` is thus essentially the multi-package equivalent of `alias <- loadNamespace(package, lib.loc)`.
 
 Here is one example. Lets load  `data.table` and then `tidytable`, under the same alias, which I will call "tdt" (for "tidy data.table"):
 
 ```{r}
-pkgs <- c("data.table", "tidytable")
-import_as(tdt, pkgs) # this creates the tdt object
+import_as(tdt, "tidytable", deps="data.table") # this creates the tdt object
 ```
+
+Notice that the above is the same as:
+
+```{r}
+import_as(tdt, "data.table", extensions = "tidytable") # this creates the tdt object
+```
+
 
 
 Now you can of course use those loaded packages as one would normally do when using a package alias.
 
-A few notes on the usage of this operator when importing multiple R packages under the same alias:
+The `import_as()` function will first load the dependencies in the order specified in argument `deps` (so the order matters), if any. Then it loads the package named in argument `package`. And then it loads the extensions in the order specified in argument `extensions` (again, the order matters), if any.
 
- - The order of the character vector matters! If 2 packages share objects with the same name, the package named last will overwrite the earlier named package.
- - When supplying more than one package to the `import_as()` function, it is strongly advised to only import packages together under the same alias that are (reverse) dependencies of each other (i.e. they appear in each others Depends or Imports sections in the Description file).
- - Related to the previous point, the `import_as()` function only performs a very basic check for dependencies; the user is expected to use the `import_as()` function responsibly.
 
 &nbsp;
 
