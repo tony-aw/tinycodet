@@ -925,7 +925,8 @@ The `tinyverse` attempts to minimize dependencies, and thus avoid using external
 
 There are some forms of proper coding etiquette that are traditionally achieved through external R packages - even though they can be solved quite well without external R packages (especially since R version 4+). Since this R package adheres to the `tinyverse` philosophy and focuses on coding etiquette, some of these solutions will briefly be given without the use of external R packages:
 
- - Force an error when using a function that appears in multiple attached packages: one can use the `options(conflicts.policy = ...)` to specify when such an error should be enforced.
+ - Give warnings when partial argument matching occurs: one can use `options( warnPartialMatchArgs = TRUE, warnPartialMatchAttr = TRUE, warnPartialMatchDollar = TRUE)`.
+  - Force an error when using a function that appears in multiple attached packages: one can use the `options(conflicts.policy = ...)` to specify when such an error should be enforced.
  - Get path of current script or project: without Rstudio one can use `commandArgs()` function; with RStudio one can use `rstudioapi::getSourceEditorContext()$path`. Using `setwd("..")` will set the working directory one folder up - which would often be your project root folder.
  - Project isolation: set your library to a folder specific to your project (i.e. using `.libPaths()`).
  - Date-based version control: As MRAN is no longer available, one may use the RStudio package manager website as your repository (see https://packagemanager.posit.com/client/#/repos/2/overview or https://packagemanager.posit.co/client/#/repos/2/overview).

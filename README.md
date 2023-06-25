@@ -1503,6 +1503,8 @@ Since this R package adheres to the `tinyverse` philosophy and focuses
 on coding etiquette, some of these solutions will briefly be given
 without the use of external R packages:
 
+- Give warnings when partial argument matching occurs: one can use
+  `options( warnPartialMatchArgs = TRUE, warnPartialMatchAttr = TRUE, warnPartialMatchDollar = TRUE)`.
 - Force an error when using a function that appears in multiple attached
   packages: one can use the `options(conflicts.policy = ...)` to specify
   when such an error should be enforced.
