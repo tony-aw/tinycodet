@@ -1237,12 +1237,12 @@ multiple packages into a single alias may be actually preferable:
 - A package may have many extensions you may want to load together. For
   example: `ggplot2` has many extensions (see
   <https://exts.ggplot2.tidyverse.org/gallery/>). If one wishes to alias
-  `ggplot2` including some of its many extensions, one must be able to
+  `ggplot2` including some of its many extensions, it would be nice to
   load multiple R packages under the same alias.
 - Suppose package `B` is supposed to overwrite a couple of functions
   from package `A` (for example if package `B` extends or improves the
-  functionality from a function in package `A`). In that case you want
-  to import package `A`, and then overwrite it with package `B`.
+  functionality from a function in package `A`). In that case you may
+  want to import package `A`, and then overwrite it with package `B`.
 
 So there are several cases where it is perhaps desirable to load
 multiple packages under the same alias.

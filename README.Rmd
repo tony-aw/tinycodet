@@ -778,8 +778,8 @@ Loading a package alias does have some drawbacks. One is that you cannot easily 
 
  - If multiple packages are meant to work together, constantly switching between the different package name/alias prefixes may eventually become annoying and even syntactically chaotic-looking.
  - A package may have one or several dependencies that are supposed to be loaded together. For example: the `tidytable` package essentially needs the `data.table` package to be loaded also.
- - A package may have many extensions you may want to load together. For example: `ggplot2` has many extensions (see https://exts.ggplot2.tidyverse.org/gallery/). If one wishes to alias `ggplot2` including some of its many extensions, one must be able to load multiple R packages under the same alias.
- - Suppose package `B` is supposed to overwrite a couple of functions from package `A` (for example if package `B` extends or improves the functionality from a function in package `A`). In that case you want to import package `A`, and then overwrite it with package `B`.
+ - A package may have many extensions you may want to load together. For example: `ggplot2` has many extensions (see https://exts.ggplot2.tidyverse.org/gallery/). If one wishes to alias `ggplot2` including some of its many extensions, it would be nice to load multiple R packages under the same alias.
+ - Suppose package `B` is supposed to overwrite a couple of functions from package `A` (for example if package `B` extends or improves the functionality from a function in package `A`). In that case you may want to import package `A`, and then overwrite it with package `B`.
 
 So there are several cases where it is perhaps desirable to load multiple packages under the same alias.
 
