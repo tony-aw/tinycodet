@@ -1264,10 +1264,13 @@ the main arguments of the `import_as()` function are:
 
 - `alias`: the name (unquoted) of the alias under which to load the main
   package, and any specified (reverse) dependencies.
-- `package`: the name (string) of the main package to load.
+- `main_package`: the name (string) of the main package to load.
 - `depends`: a character vector giving the dependencies of the main
   package to load under the alias also. One can also set this to `TRUE`,
-  in which case ALL dependencies of the main package are loaded.
+  in which case ALL dependencies of the `main_package` are loaded.
+- `enhances`: a character vector giving the enhances of the main package
+  to load under the alias also. One can also set this to `TRUE`, in
+  which case ALL enhances of the `main_package` are loaded.
 - `extends`: a character vector giving the
   extensions/reverse-dependencies of the main package to load under the
   same alias also.

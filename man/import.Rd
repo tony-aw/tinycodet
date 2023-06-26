@@ -10,8 +10,9 @@
 \usage{
 import_as(
   alias,
-  package,
+  main_package,
   depends = FALSE,
+  enhances = FALSE,
   extends = NULL,
   lib.loc = .libPaths()
 )
@@ -28,26 +29,39 @@ giving the (not yet existing) object
 where the package(s) are to be assigned to. \cr
 Syntactically invalid names are not allowed for the alias name.}
 
-\item{package}{a single string, giving the name of the package.}
+\item{main_package}{a single string, giving the name of the main package to load under the given alias.}
 
 \item{depends}{either logical, or a character vector. \cr
 If \code{FALSE} (default), no dependencies are loaded under the alias. \cr
-If \code{TRUE}, ALL dependencies of \code{package} are loaded under the alias. \cr
+If \code{TRUE}, ALL dependencies of the \code{main_package} are loaded under the alias. \cr
 If a character vector, then it is taken as the dependencies of the
 package to be loaded also under the alias. \cr
 NOTE (1): "Dependencies" here are defined as any package appearing in the
 "Depends", "Imports", or "LinkingTo" sections of the Description file of the
-package. \cr
+\code{main_package}. \cr
 NOTE (2): If \code{depends} is a character vector:
 The order of the character vector matters!
 If multiple packages share objects with the same name,
 the package named last will overwrite the earlier named package. \cr}
 
+\item{enhances}{either logical, or a character vector. \cr
+If \code{FALSE} (default), no enhances are loaded under the alias. \cr
+If \code{TRUE}, ALL "Enhances" packages are loaded under the alias. \cr
+If a character vector, then it is taken as the list of enhanced packages
+to be loaded also under the alias. \cr
+NOTE(1): Enhances are defined as packages appearing in the "Enhances" section
+of the Description file of the \code{main_package}. \cr
+NOTE (2): The order of the character vector matters!
+If multiple packages share objects with the same name,
+the package named last will overwrite the earlier named package. \cr}
+
 \item{extends}{a character vector,
 giving the names of the reverse-dependencies of the
-package to be loaded also under the alias.
+\code{main_package} to be loaded also under the alias.
 Defaults to \code{NULL}, which means no extensions are loaded. \cr
-NOTE: The order of the character vector matters!
+NOTE (1): "Extensions" here are defined as reverse-depends or reverse-imports.
+It does not matter if these are CRAN or non-CRAN packages. \cr
+NOTE (2): The order of the character vector matters!
 If multiple packages share objects with the same name,
 the package named last will overwrite the earlier named package. \cr}
 
@@ -57,22 +71,31 @@ This is usually \code{.libPaths()}.
 See also \link[base]{loadNamespace}.}
 
 \item{pkgs}{a single string, or character vector, with the package name(s). \cr
-NOTE: The order of the character vector matters!
+NOTE (1): The order of the character vector matters!
 If multiple packages share objects with the same name,
-the package named last will overwrite the earlier named package. \cr}
+the package named last will overwrite the earlier named package. \cr
+NOTE (2): The \code{import_inops} function performs a basic check
+that the packages are mostly (reverse) dependencies of each other.
+If not, it will give an error.}
 
 \item{exclude}{a character vector,
 giving the infix operators NOT to expose to the current environment. \cr
 This can be handy to prevent overwriting any (user defined)
-infix operators already present in the current environment.}
+infix operators already present in the current environment. \cr
+NOTE: You cannot specify both the \code{exclude} and \code{include.only} arguments.
+Only one or the other, or neither.}
 
 \item{include.only}{a character vector,
 giving the infix operators to expose to the current environment,
 and the rest of the operators will not be exposed. \cr
 This can be handy to prevent overwriting any (user defined)
-infix operators already present in the current environment.}
+infix operators already present in the current environment. \cr
+NOTE: You cannot specify both the \code{exclude} and \code{include.only} arguments.
+Only one or the other, or neither.}
 
 \item{dataname}{a single string, giving the name of the data set.}
+
+\item{package}{the quoted package name.}
 
 \item{type}{The type of functions to list. Possibilities: \cr
 \code{"inops"} or \code{"operators"}: Only infix operators. \cr
@@ -104,8 +127,8 @@ use packages without having to explicitly attaching them to your namespace. \cr
 \cr
 \code{import_as}: \cr
 The \code{import_as()} function
-imports the namespaces of an R package
-(or a small set of R packages that "belong" to each other)
+imports the namespace of an R package,
+and optionally also its dependencies, enhances, and extensions,
 under the same alias. \cr
 \cr
 \code{import_inops}: \cr
@@ -132,11 +155,9 @@ The \code{import_as} and \code{import_inops} functions will inform the user
 about conflicting objects. \cr
 \cr
 For \code{import_as()}: \cr
-The \code{import_as()} function will first load the dependencies
-in the order specified in argument \code{depends}, if any,
-then it loads the package named in argument \code{package},
-then it loads the extensions in the order specified in argument \code{extends},
-if any. \cr
+The \code{import_as()} function will load the packages in the following order: \cr
+(1) \code{depends}, (2) \code{main_package}, (3) \code{enhances}, (4) \code{extends}. \cr
+Note that suggested packages are not included in the \code{import_as()} function.
 The \code{import_as()} function does not import internal functions
 (i.e. internal functions are kept internal, as they should). \cr
 \cr
@@ -144,7 +165,7 @@ For \code{import_inops()}: \cr
 The \code{import_inops()} function is less strict than \code{import_as()}
 in terms of which R packages can be called together.
 But still the packages specified in argument \code{pkgs} need to have SOME
-overlap in their dependencies.
+overlap in their dependencies. \cr
 \cr
 }
 \examples{

@@ -85,6 +85,132 @@ s_get_pattern_attr_internal <- function(p) {
 
 #' @keywords internal
 #' @noRd
+.internal_import_as_check_depends <- function(package, depends, lib.loc) {
+  
+  actual_depends <- pkgs_get_deps(
+    package, lib.loc=.libPaths(), deps_type=c("Depends", "Imports", "LinkingTo")
+  ) |> unique()
+  if(length(actual_depends)>10){
+    message("Note: this package has a lot of dependencies")
+  }
+  if(isFALSE(depends)) {
+    depends <- NULL
+  }
+  if(isTRUE(depends)){
+    depends <- actual_depends
+  }
+  if(is.character(depends) & length(depends)>0) {
+    if(length(depends)!=length(unique(depends))) {
+      stop("one or more duplicate dependent packages given")
+    }
+    
+    wrong_depends <- depends[!depends %installed in% lib.loc]
+    if(length(wrong_depends)>0) {
+      error.txt <- paste0(
+        "The following dependent packages are not installed:",
+        "\n",
+        paste0(wrong_depends, collapse = ", ")
+      )
+      stop(error.txt)
+    }
+    
+    if(is.character(depends)) {
+      wrong_depends <- depends[!depends %in% actual_depends]
+      if(length(wrong_depends)>0) {
+        error.txt <- paste0(
+          "The following dependent packages are not actual dependencies:",
+          "\n",
+          paste0(wrong_depends, collapse = ", ")
+        )
+        stop(error.txt)
+      }
+    }
+  }
+  return(depends)
+}
+
+#' @keywords internal
+#' @noRd
+.internal_import_as_check_enhances <- function(package, enhances, lib.loc) {
+  actual_enhances <- pkgs_get_deps(
+    package, lib.loc=.libPaths(), deps_type=c("Enhances")
+  ) |> unique()
+  if(isFALSE(enhances)) {
+    enhances <- NULL
+  }
+  if(isTRUE(enhances)){
+    enhances <- actual_enhances
+  }
+  
+  if(is.character(enhances) & length(enhances)>0) {
+    if(length(enhances)!=length(unique(enhances))) {
+      stop("one or more duplicate enhances given")
+    }
+    
+    wrong_enhances <- enhances[!enhances %installed in% lib.loc]
+    if(length(wrong_enhances)>0) {
+      error.txt <- paste0(
+        "The following enhances are not installed:",
+        "\n",
+        paste0(wrong_enhances, collapse = ", ")
+      )
+      stop(error.txt)
+    }
+    
+    wrong_enhances <- enhances[!enhances %in% actual_enhances]
+    if(length(wrong_enhances)>0) {
+      error.txt <- paste0(
+        "The following dependent packages are not in LinkingTo:",
+        "\n",
+        paste0(wrong_enhances, collapse = ", ")
+      )
+      stop(error.txt)
+    }
+  }
+  return(enhances)
+}
+
+#' @keywords internal
+#' @noRd
+.internal_import_as_check_extends <- function(package, extends, lib.loc) {
+  if(!is.null(extends) & is.character(extends) & length(extends)>0) {
+    if(length(extends)!=length(unique(extends))) {
+      stop("one or more duplicate extension packages given")
+    }
+    
+    wrong_extends <- extends[!extends %installed in% lib.loc]
+    if(length(wrong_extends)>0) {
+      error.txt <- paste0(
+        "The following extensions are not installed:",
+        "\n",
+        paste0(wrong_extends, collapse = ", ")
+      )
+      stop(error.txt)
+    }
+    tempfun <- function(x){
+      depends <- pkgs_get_deps(x, lib.loc=lib.loc, deps_type=c("Depends", "Imports"))
+      return(package %in% depends)
+    }
+    check_extends <- sapply(
+      extends, tempfun
+    )
+    wrong_extends <- extends[!check_extends]
+    if(length(wrong_extends)>0) {
+      error.txt <- paste0(
+        "The following extensions were not found to be actual reverse dependencies:",
+        "\n",
+        paste0(wrong_extends, collapse = ", ")
+      )
+      stop(error.txt)
+    }
+  }
+  return(extends)
+}
+
+
+
+#' @keywords internal
+#' @noRd
 .internal_f_function_exists <- function(package, funcname) {
   tryCatch({
     utils::getFromNamespace(funcname, package)
