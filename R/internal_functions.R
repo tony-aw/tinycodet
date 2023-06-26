@@ -18,11 +18,15 @@ s_get_pattern_attr_internal <- function(p) {
 .internal_prep_Namespace <- function(package, lib.loc) {
   ns <- loadNamespace(package, lib.loc = lib.loc) |> as.list(all.names=TRUE, sorted=TRUE)
   names_exported <- names(ns[[".__NAMESPACE__."]][["exports"]])
-  names_inops <- grep(":=|%", names_exported, value = TRUE)
   ns <- ns[names_exported]
-  for (i in names_inops){
-    if(isFALSE(is.null(ns[[i]]))){
+  ns <- ns[!is.na(names(ns))]
+  names_exported <- names(ns)
+  names_inops <- grep(":=|%", names_exported, value = TRUE)
+  if(length(names_inops)>0) {
+    for (i in names_inops){
+      if(isFALSE(is.null(ns[[i]]))){
       attr(ns[[i]], which = "package") <- package
+      }
     }
   }
   return(ns)

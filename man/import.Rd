@@ -11,8 +11,8 @@
 import_as(
   alias,
   package,
-  deps = FALSE,
-  extensions = NULL,
+  depends = FALSE,
+  extends = NULL,
   lib.loc = .libPaths()
 )
 
@@ -30,20 +30,20 @@ Syntactically invalid names are not allowed for the alias name.}
 
 \item{package}{a single string, giving the name of the package.}
 
-\item{deps}{either logical, or a character vector. \cr
+\item{depends}{either logical, or a character vector. \cr
 If \code{FALSE} (default), no dependencies are loaded under the alias. \cr
-If \code{TRUE}, ALL dependencies are loaded under the alias. \cr
+If \code{TRUE}, ALL dependencies of \code{package} are loaded under the alias. \cr
 If a character vector, then it is taken as the dependencies of the
 package to be loaded also under the alias. \cr
 NOTE (1): "Dependencies" here are defined as any package appearing in the
 "Depends", "Imports", or "LinkingTo" sections of the Description file of the
 package. \cr
-NOTE (2): If \code{deps} is a character vector:
+NOTE (2): If \code{depends} is a character vector:
 The order of the character vector matters!
 If multiple packages share objects with the same name,
 the package named last will overwrite the earlier named package. \cr}
 
-\item{extensions}{a character vector,
+\item{extends}{a character vector,
 giving the names of the reverse-dependencies of the
 package to be loaded also under the alias.
 Defaults to \code{NULL}, which means no extensions are loaded. \cr
@@ -133,9 +133,9 @@ about conflicting objects. \cr
 \cr
 For \code{import_as()}: \cr
 The \code{import_as()} function will first load the dependencies
-in the order specified in argument \code{deps}, if any,
+in the order specified in argument \code{depends}, if any,
 then it loads the package named in argument \code{package},
-then it loads the extensions in the order specified in argument \code{extensions},
+then it loads the extensions in the order specified in argument \code{extends},
 if any. \cr
 The \code{import_as()} function does not import internal functions
 (i.e. internal functions are kept internal, as they should). \cr
@@ -150,9 +150,9 @@ overlap in their dependencies.
 \examples{
 
 \dontrun{
-deps <- unlist(tools::package_dependencies("devtools"))
-pkgs <- c(deps, "devtools")
-import_as(devt, "devtools", deps = TRUE) # this creates the devt object
+depends <- unlist(tools::package_dependencies("devtools"))
+pkgs <- c(depends, "devtools")
+import_as(devt, "devtools", depends = TRUE) # this creates the devt object
 import_inops(pkgs)
 d <- import_data("chicago", "gamair")
 head(d)

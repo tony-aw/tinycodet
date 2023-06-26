@@ -33,19 +33,19 @@
 #' where the package(s) are to be assigned to. \cr
 #' Syntactically invalid names are not allowed for the alias name.
 #' @param package a single string, giving the name of the package.
-#' @param deps either logical, or a character vector. \cr
+#' @param depends either logical, or a character vector. \cr
 #' If \code{FALSE} (default), no dependencies are loaded under the alias. \cr
-#' If \code{TRUE}, ALL dependencies are loaded under the alias. \cr
+#' If \code{TRUE}, ALL dependencies of \code{package} are loaded under the alias. \cr
 #' If a character vector, then it is taken as the dependencies of the
 #' package to be loaded also under the alias. \cr
 #' NOTE (1): "Dependencies" here are defined as any package appearing in the
 #' "Depends", "Imports", or "LinkingTo" sections of the Description file of the
 #' package. \cr
-#' NOTE (2): If \code{deps} is a character vector:
+#' NOTE (2): If \code{depends} is a character vector:
 #' The order of the character vector matters!
 #' If multiple packages share objects with the same name,
 #' the package named last will overwrite the earlier named package. \cr
-#' @param extensions a character vector,
+#' @param extends a character vector,
 #' giving the names of the reverse-dependencies of the
 #' package to be loaded also under the alias.
 #' Defaults to \code{NULL}, which means no extensions are loaded. \cr
@@ -84,9 +84,9 @@
 #' \cr
 #' For \code{import_as()}: \cr
 #' The \code{import_as()} function will first load the dependencies
-#' in the order specified in argument \code{deps}, if any,
+#' in the order specified in argument \code{depends}, if any,
 #' then it loads the package named in argument \code{package},
-#' then it loads the extensions in the order specified in argument \code{extensions},
+#' then it loads the extensions in the order specified in argument \code{extends},
 #' if any. \cr
 #' The \code{import_as()} function does not import internal functions
 #' (i.e. internal functions are kept internal, as they should). \cr
@@ -121,9 +121,9 @@
 #' @examples
 #'
 #' \dontrun{
-#' deps <- unlist(tools::package_dependencies("devtools"))
-#' pkgs <- c(deps, "devtools")
-#' import_as(devt, "devtools", deps = TRUE) # this creates the devt object
+#' depends <- unlist(tools::package_dependencies("devtools"))
+#' pkgs <- c(depends, "devtools")
+#' import_as(devt, "devtools", depends = TRUE) # this creates the devt object
 #' import_inops(pkgs)
 #' d <- import_data("chicago", "gamair")
 #' head(d)
@@ -138,7 +138,7 @@ NULL
 #' @rdname import
 #' @export
 import_as <- function(
-    alias, package, deps=FALSE, extensions=NULL, lib.loc=.libPaths()
+    alias, package, depends=FALSE, extends=NULL, lib.loc=.libPaths()
 ) {
   
   # Check alias:
@@ -161,40 +161,40 @@ import_as <- function(
   }
   
   # Check dependencies:
-  actual_deps <- .internal_get_deps(
+  actual_depends <- .internal_get_deps(
     package, lib.loc=.libPaths(), deps_type=c("Depends", "Imports", "LinkingTo")
   )
-  if(length(actual_deps)>10){
+  if(length(actual_depends)>10){
     message("Note: this package has a lot of dependencies")
   }
-  if(isFALSE(deps)) {
-    deps <- NULL
+  if(isFALSE(depends)) {
+    depends <- NULL
   }
-  if(isTRUE(deps)){
-    deps <- actual_deps
+  if(isTRUE(depends)){
+    depends <- actual_depends
   }
-  if(is.character(deps) & length(deps)>0) {
-    if(length(deps)!=length(unique(deps))) {
+  if(is.character(depends) & length(depends)>0) {
+    if(length(depends)!=length(unique(depends))) {
       stop("one or more duplicate dependent packages given")
     }
     
-    wrong_deps <- deps[!deps %installed in% lib.loc]
-    if(length(wrong_deps)>0) {
+    wrong_depends <- depends[!depends %installed in% lib.loc]
+    if(length(wrong_depends)>0) {
       error.txt <- paste0(
         "The following dependent packages are not installed:",
         "\n",
-        paste0(wrong_deps, collapse = ", ")
+        paste0(wrong_depends, collapse = ", ")
       )
       stop(error.txt)
     }
     
-    if(is.character(deps)) {
-      wrong_deps <- deps[!deps %in% actual_deps]
-      if(length(wrong_deps)>0) {
+    if(is.character(depends)) {
+      wrong_depends <- depends[!depends %in% actual_depends]
+      if(length(wrong_depends)>0) {
         error.txt <- paste0(
           "The following dependent packages are not in Depends or Imports:",
           "\n",
-          paste0(wrong_deps, collapse = ", ")
+          paste0(wrong_depends, collapse = ", ")
         )
         stop(error.txt)
       }
@@ -202,41 +202,41 @@ import_as <- function(
   }
   
   
-  # Check extensions:
-  if(!is.null(extensions) & is.character(extensions) & length(extensions)>0) {
-    if(length(extensions)!=length(unique(extensions))) {
+  # Check extends:
+  if(!is.null(extends) & is.character(extends) & length(extends)>0) {
+    if(length(extends)!=length(unique(extends))) {
       stop("one or more duplicate dependent packages given")
     }
     
-    wrong_extensions <- extensions[!extensions %installed in% lib.loc]
-    if(length(wrong_extensions)>0) {
+    wrong_extends <- extends[!extends %installed in% lib.loc]
+    if(length(wrong_extends)>0) {
       error.txt <- paste0(
-        "The following extenions are not installed:",
+        "The following extensions are not installed:",
         "\n",
-        paste0(wrong_extensions, collapse = ", ")
+        paste0(wrong_extends, collapse = ", ")
       )
       stop(error.txt)
     }
     tempfun <- function(x){
-      deps <- .internal_get_deps(x, lib.loc=lib.loc, deps_type=c("Depends", "Imports", "LinkingTo"))
-      return(package %in% deps)
+      depends <- .internal_get_deps(x, lib.loc=lib.loc, deps_type=c("Depends", "Imports", "LinkingTo"))
+      return(package %in% depends)
     }
-    check_extensions <- sapply(
-      extensions, tempfun
+    check_extends <- sapply(
+      extends, tempfun
     )
-    wrong_extensions <- extensions[!check_extensions]
-    if(length(wrong_extensions)>0) {
+    wrong_extends <- extends[!check_extends]
+    if(length(wrong_extends)>0) {
       error.txt <- paste0(
         "The following extensions were not found to be actual reverse dependencies:",
         "\n",
-        paste0(wrong_extensions, collapse = ", ")
+        paste0(wrong_extends, collapse = ", ")
       )
       stop(error.txt)
     }
   }
   
   
-  pkgs <- c(deps, package, extensions)
+  pkgs <- c(depends, package, extends)
   
   namespaces <- .internal_import_namespaces(pkgs, lib.loc = lib.loc)
   

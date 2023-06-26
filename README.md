@@ -31,6 +31,7 @@
   - [import_data](#import_data)
   - [lib.loc](#libloc)
   - [Sourcing modules](#sourcing-modules)
+  - [A real example](#a-real-example)
 - [Speed and multi-threading](#speed-and-multi-threading)
   - [stri_locate_ith](#stri_locate_ith-1)
   - [Substr-functions](#substr-functions)
@@ -1265,13 +1266,13 @@ Here is one example. Lets load `data.table` and then `tidytable`, under
 the same alias, which I will call “tdt” (for “tidy data.table”):
 
 ``` r
-import_as(tdt, "tidytable", deps="data.table") # this creates the tdt object
+import_as(tdt, "tidytable", depends="data.table") # this creates the tdt object
 #> Importing package: data.table...
 #> 
 #> Importing package: tidytable...
 #> The following conflicting objects detected:
 #>  
-#> NA, last, fread, first, between
+#> last, fread, first, between
 #>  
 #> tidytable will overwrite conflicting objects from previous imported packages...
 #> 
@@ -1283,13 +1284,13 @@ import_as(tdt, "tidytable", deps="data.table") # this creates the tdt object
 Notice that the above is the same as:
 
 ``` r
-import_as(tdt, "data.table", extensions = "tidytable") # this creates the tdt object
+import_as(tdt, "data.table", extends = "tidytable") # this creates the tdt object
 #> Importing package: data.table...
 #> 
 #> Importing package: tidytable...
 #> The following conflicting objects detected:
 #>  
-#> NA, last, fread, first, between
+#> last, fread, first, between
 #>  
 #> tidytable will overwrite conflicting objects from previous imported packages...
 #> 
@@ -1302,9 +1303,9 @@ Now you can of course use those loaded packages as one would normally do
 when using a package alias.
 
 The `import_as()` function will first load the dependencies in the order
-specified in argument `deps` (so the order matters), if any. Then it
+specified in argument `depends` (so the order matters), if any. Then it
 loads the package named in argument `package`. And then it loads the
-extensions in the order specified in argument `extensions` (again, the
+extensions in the order specified in argument `extends` (again, the
 order matters), if any.
 
  
@@ -1424,6 +1425,47 @@ myalias %@source% list(file="mydir/mymodule.R")
 source_inops(file="mydir/mymodule.R")
 
 myalias$myfunction(...)
+```
+
+ 
+
+## A real example
+
+One R package that could really benefit from the import system
+introduced by `tinyoperators`, is the `dplyr` R package. The `dplyr` R
+package overwrites **core R** functions (including base R) and it
+overwrites the pre-installed recommended R packages (such as `MASS`).
+Its function names are so generic that there is no obvious way to tell
+if a function came from `dplyr` (for comparison: one can generally
+recognize `stringi` functions as they all start with `stri_`). Using
+`dplyr::...` could work, but `dplyr` was designed to interact with other
+R packages such as `tidyselect`, and constantly switching between
+`dplyr::...` and `tidyselect::...` is perhaps undesirable. If you look
+at the CRAN page for `dplyr`, you’ll notice it has a lot of reverse
+dependencies, and perhaps you’d like to use one of those extensions
+also.
+
+So here `tinyoperator`’s `import_as()` function can come to the rescue.
+Below `dplyr` is loaded, along with `tidyselect` (which is a
+dependency), and `powerjoin` (which is an extension), all under one
+alias which I’ll call `dr`:
+
+``` r
+import_as(
+  dr, "dplyr", depends="tidyselect", extends = "powerjoin", lib.loc=.libPaths()
+)
+#> Note: this package has a lot of dependencies
+#> Importing package: tidyselect...
+#> 
+#> Importing package: dplyr...
+#> no conflicts
+#> 
+#> Importing package: powerjoin...
+#> no conflicts
+#> 
+#> Done
+#> You can now access the functions using dr$...
+#> (S3)methods will work like normally.
 ```
 
  
