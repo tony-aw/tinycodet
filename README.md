@@ -1245,9 +1245,7 @@ multiple packages into a single alias may be actually preferable:
   to import package `A`, and then overwrite it with package `B`.
 
 So there are several cases where it is perhaps desirable to load
-multiple packages under the same alias. And in fact R’s inability to
-load multiple packages under a single alias is one of the reasons to
-prefer attaching packages over using a package alias.
+multiple packages under the same alias.
 
 And that is where `tinyoperator`’s `import_as()` function comes in. It
 loads an R package under an alias, and also loads any specified
@@ -1260,7 +1258,19 @@ internal and external functions). This is, I think, more desirable, as
 internal function should remain, you know, internal.
 
 `import_as()` is thus essentially the multi-package equivalent of
-`alias <- loadNamespace(package, lib.loc)`.
+`alias <- loadNamespace()`.
+
+the main arguments of the `import_as()` function are:
+
+- `alias`: the name (unquoted) of the alias under which to load the main
+  package, and any specified (reverse) dependencies.
+- `package`: the name (string) of the main package to load.
+- `depends`: a character vector giving the dependencies of the main
+  package to load under the alias also. One can also set this to `TRUE`,
+  in which case ALL dependencies of the main package are loaded.
+- `extends`: a character vector giving the
+  extensions/reverse-dependencies of the main package to load under the
+  same alias also.
 
 Here is one example. Lets load `data.table` and then `tidytable`, under
 the same alias, which I will call “tdt” (for “tidy data.table”):
@@ -1303,10 +1313,10 @@ Now you can of course use those loaded packages as one would normally do
 when using a package alias.
 
 The `import_as()` function will first load the dependencies in the order
-specified in argument `depends` (so the order matters), if any. Then it
+specified in argument `depends` if given (so the order matters). Then it
 loads the package named in argument `package`. And then it loads the
-extensions in the order specified in argument `extends` (again, the
-order matters), if any.
+extensions in the order specified in argument `extends` if given (again,
+the order matters).
 
  
 
@@ -1434,16 +1444,16 @@ myalias$myfunction(...)
 One R package that could really benefit from the import system
 introduced by `tinyoperators`, is the `dplyr` R package. The `dplyr` R
 package overwrites **core R** functions (including base R) and it
-overwrites the pre-installed recommended R packages (such as `MASS`).
-Its function names are so generic that there is no obvious way to tell
-if a function came from `dplyr` (for comparison: one can generally
-recognize `stringi` functions as they all start with `stri_`). Using
-`dplyr::...` could work, but `dplyr` was designed to interact with other
-R packages such as `tidyselect`, and constantly switching between
-`dplyr::...` and `tidyselect::...` is perhaps undesirable. If you look
-at the CRAN page for `dplyr`, you’ll notice it has a lot of reverse
-dependencies, and perhaps you’d like to use one of those extensions
-also.
+overwrites functions from pre-installed recommended R packages (such as
+`MASS`). Its function names are sometimes generic enough that there is
+no obvious way to tell if a function came from `dplyr` (for comparison:
+one can generally recognize `stringi` functions as they all start with
+`stri_`). Using `dplyr::...` could work, but `dplyr` was designed to
+interact with other R packages such as `tidyselect`, and constantly
+switching between `dplyr::...` and `tidyselect::...` is perhaps
+undesirable. If you look at the CRAN page for `dplyr`, you’ll notice it
+has a lot of reverse dependencies, and perhaps you’d like to use one of
+those extensions also.
 
 So here `tinyoperator`’s `import_as()` function can come to the rescue.
 Below `dplyr` is loaded, along with `tidyselect` (which is a
