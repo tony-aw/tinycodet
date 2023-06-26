@@ -1,50 +1,50 @@
 
-- [tinyoperators](#tinyoperators)
-  - [Description](#description)
-  - [Changelog and status](#changelog-and-status)
-  - [Installation](#installation)
-  - [Overview](#overview)
-- [Additional logic operators](#additional-logic-operators)
-- [Safer float truth testing
-  operators](#safer-float-truth-testing-operators)
-- [Matrix re-ordering operators](#matrix-re-ordering-operators)
-- [String functions](#string-functions)
-  - [Matrix joining](#matrix-joining)
-  - [stri_locate_ith](#stri_locate_ith)
-  - [Substr - functions](#substr---functions)
-- [String infix operators](#string-infix-operators)
-  - [String subsetting operators](#string-subsetting-operators)
-  - [String arithmetic](#string-arithmetic)
-  - [Specifying Pattern search attributes in string infix
-    operators](#specifying-pattern-search-attributes-in-string-infix-operators)
-- [“DRY” - operators](#dry---operators)
-  - [The transform_if function, and related
-    operators](#the-transform_if-function-and-related-operators)
-  - [Generalized in-place (mathematical)
-    modifier](#generalized-in-place-mathematical-modifier)
-  - [In-place modifying string arithmetic and
-    sub-setting](#in-place-modifying-string-arithmetic-and-sub-setting)
-- [Import management](#import-management)
-  - [Introduction](#introduction)
-  - [import_as](#import_as)
-  - [import_inops](#import_inops)
-  - [import_data](#import_data)
-  - [lib.loc](#libloc)
-  - [Sourcing modules](#sourcing-modules)
-  - [A real example](#a-real-example)
-- [Speed and multi-threading](#speed-and-multi-threading)
-  - [stri_locate_ith](#stri_locate_ith-1)
-  - [Substr-functions](#substr-functions)
-- [Tinyverse solutions without external R
-  packages](#tinyverse-solutions-without-external-r-packages)
-- [Compatibility with other R
-  packages](#compatibility-with-other-r-packages)
-- [Recommended R packages](#recommended-r-packages)
-- [Conclusion](#conclusion)
+- [1 tinyoperators](#1-tinyoperators)
+  - [1.1 Description](#11-description)
+  - [1.2 Changelog and status](#12-changelog-and-status)
+  - [1.3 Installation](#13-installation)
+  - [1.4 Overview](#14-overview)
+- [2 Additional logic operators](#2-additional-logic-operators)
+- [3 Safer float truth testing
+  operators](#3-safer-float-truth-testing-operators)
+- [4 Matrix re-ordering operators](#4-matrix-re-ordering-operators)
+- [5 String functions](#5-string-functions)
+  - [5.1 Matrix joining](#51-matrix-joining)
+  - [5.2 stri_locate_ith](#52-stri_locate_ith)
+  - [5.3 Substr - functions](#53-substr---functions)
+- [6 String infix operators](#6-string-infix-operators)
+  - [6.1 String subsetting operators](#61-string-subsetting-operators)
+  - [6.2 String arithmetic](#62-string-arithmetic)
+  - [6.3 Specifying Pattern search attributes in string infix
+    operators](#63-specifying-pattern-search-attributes-in-string-infix-operators)
+- [7 “DRY” - operators](#7-dry---operators)
+  - [7.1 The transform_if function, and related
+    operators](#71-the-transform_if-function-and-related-operators)
+  - [7.2 Generalized in-place (mathematical)
+    modifier](#72-generalized-in-place-mathematical-modifier)
+  - [7.3 In-place modifying string arithmetic and
+    sub-setting](#73-in-place-modifying-string-arithmetic-and-sub-setting)
+- [8 Import management](#8-import-management)
+  - [8.1 Introduction](#81-introduction)
+  - [8.2 import_as](#82-import_as)
+  - [8.3 import_inops](#83-import_inops)
+  - [8.4 import_data](#84-import_data)
+  - [8.5 lib.loc](#85-libloc)
+  - [8.6 Sourcing modules](#86-sourcing-modules)
+  - [8.7 A real example](#87-a-real-example)
+- [9 Speed and multi-threading](#9-speed-and-multi-threading)
+  - [9.1 stri_locate_ith](#91-stri_locate_ith)
+  - [9.2 Substr-functions](#92-substr-functions)
+- [10 Tinyverse solutions without external R
+  packages](#10-tinyverse-solutions-without-external-r-packages)
+- [11 Compatibility with other R
+  packages](#11-compatibility-with-other-r-packages)
+- [12 Recommended R packages](#12-recommended-r-packages)
+- [13 Conclusion](#13-conclusion)
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# tinyoperators
+# 1 tinyoperators
 
 <!-- badges: start -->
 
@@ -59,7 +59,7 @@ public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostat
 
 ![](man/figures/tinyoperators.svg)  
 
-## Description
+## 1.1 Description
 
 The `tinyoperators` R-package adds some infix operators, and a few
 functions, for better coding etiquette. It primarily focuses on 4
@@ -81,7 +81,7 @@ well optimized.
 
  
 
-## Changelog and status
+## 1.2 Changelog and status
 
 WARNING: This package is still very much experimental. Function names,
 argument names, and so on may change dramatically. Use it for testing
@@ -196,7 +196,7 @@ may attempt to publish this R package to CRAN.
 
  
 
-## Installation
+## 1.3 Installation
 
 You can install `tinyoperators` from github like so:
 
@@ -220,7 +220,7 @@ tinyoperators::tinyoperators_help()
 
  
 
-## Overview
+## 1.4 Overview
 
 The `tinyoperators` R-package adds some infix operators, and a few
 functions, for better coding etiquette. It primarily focuses on 4
@@ -326,7 +326,7 @@ Read-Me, and perhaps try out the package yourself.
 
  
 
-# Additional logic operators
+# 2 Additional logic operators
 
 The tinyoperators package adds a few basic logic operators:
 
@@ -444,7 +444,7 @@ s[s %=strtype% "special"]
 
  
 
-# Safer float truth testing operators
+# 3 Safer float truth testing operators
 
 This package adds the `%f==%, %f!=% %f<%, %f>%, %f<=%, %f>=%`
 (in)equality operators, which perform safer float truth testing. They
@@ -501,7 +501,7 @@ integers. These operators do not work for non-numeric objects.
 
  
 
-# Matrix re-ordering operators
+# 4 Matrix re-ordering operators
 
 The `tinyoperators` R package adds 2 additional matrix operators:
 
@@ -666,9 +666,9 @@ loops or apply-like functions.
 
  
 
-# String functions
+# 5 String functions
 
-## Matrix joining
+## 5.1 Matrix joining
 
 The `tinyoperators` package adds a tiny additional function to
 `stringi`:
@@ -725,7 +725,7 @@ stri_paste_mat(shuffled, margin=1, sep=" ") # <- another alias for stri_join_mat
 
  
 
-## stri_locate_ith
+## 5.2 stri_locate_ith
 
 Suppose one wants to transform the **first** vowels in the strings of a
 character vector `str`, such that all upper case vowels become lower
@@ -789,7 +789,7 @@ the locate function.
 
  
 
-## Substr - functions
+## 5.3 Substr - functions
 
 The `tinyoperators` R-package includes the following “substr-”
 functions:
@@ -838,7 +838,7 @@ loc <- stri_locate_ith(
 
  
 
-# String infix operators
+# 6 String infix operators
 
 The `tinyoperators` R package implements infix operators for string
 arithmetic and sub-setting, as well some of their in-place modifier
@@ -848,7 +848,7 @@ stands for “string”.
 
  
 
-## String subsetting operators
+## 6.1 String subsetting operators
 
 As a first sub-setting operator, we have `x %sget% ss`, which returns a
 subset of each string in character vector `x`. Here `ss` is a vector of
@@ -904,7 +904,7 @@ x %strim% ss
 
  
 
-## String arithmetic
+## 6.2 String arithmetic
 
 The `tinyoperators` package adds 4 string arithmetic operators:
 
@@ -933,7 +933,7 @@ vector of the same length as `x`.
 
  
 
-## Specifying Pattern search attributes in string infix operators
+## 6.3 Specifying Pattern search attributes in string infix operators
 
 The `x %s-% p` and `x %s/% p` operators (and their in-place equivalents,
 given later), and the `%sgrep%` operator perform pattern matching for
@@ -993,9 +993,9 @@ And so on. I’m sure you get the idea.
 
  
 
-# “DRY” - operators
+# 7 “DRY” - operators
 
-## The transform_if function, and related operators
+## 7.1 The transform_if function, and related operators
 
 “Don’t Repeat Yourself”, sometimes abbreviated as “DRY”, is the coding
 principle that you should try to reduce repeating patterns in your code
@@ -1072,7 +1072,7 @@ So `x %unreal =% y` is the same as
 
  
 
-## Generalized in-place (mathematical) modifier
+## 7.2 Generalized in-place (mathematical) modifier
 
 This R package includes infix operators for in-place modifying
 mathematical arithmetic.
@@ -1136,7 +1136,7 @@ In case you’re wondering: the primary differences between
 
  
 
-## In-place modifying string arithmetic and sub-setting
+## 7.3 In-place modifying string arithmetic and sub-setting
 
 With the exception of `%ss%`, all infix operators for string arithmetic
 and string sub-setting have their in-place modifying equivalent:
@@ -1152,9 +1152,9 @@ Notice the extra space before the `=` sign.
 
  
 
-# Import management
+# 8 Import management
 
-## Introduction
+## 8.1 Introduction
 
 One can load a package without attaching a package (i.e. using `::` or
 using a package alias), or one can attach a package (i.e. using
@@ -1206,7 +1206,7 @@ management system.
 
  
 
-## import_as
+## 8.2 import_as
 
 One can load a package without attaching it, and assign it to an alias,
 in base R, using:
@@ -1320,7 +1320,7 @@ the order matters).
 
  
 
-## import_inops
+## 8.3 import_inops
 
 When aliasing an R package, infix operators are also loaded in the
 alias. However, it may be cumbersome to use them from the alias. For
@@ -1375,7 +1375,7 @@ Naturally, the namespaces of the operators remain intact.
 
  
 
-## import_data
+## 8.4 import_data
 
 The `import_as()` function imports everything from the package
 namespace. But packages often also have data sets, which are often not
@@ -1406,7 +1406,7 @@ head(d)
 
  
 
-## lib.loc
+## 8.5 lib.loc
 
 All “import\_” functions in the `tinyoperators` package have a `lib.loc`
 argument to explicitly specify from where to get your packages (just
@@ -1414,7 +1414,7 @@ like base R’s `loadNamespace()` and `install.packages()` functions).
 
  
 
-## Sourcing modules
+## 8.6 Sourcing modules
 
 Scripts with functions that you source (sometimes referred to as
 “modules”) can be kind of seen as mini-packages. So `tinyoperators` adds
@@ -1439,7 +1439,7 @@ myalias$myfunction(...)
 
  
 
-## A real example
+## 8.7 A real example
 
 One R package that could really benefit from the import system
 introduced by `tinyoperators`, is the `dplyr` R package. The `dplyr` R
@@ -1480,9 +1480,9 @@ import_as(
 
  
 
-# Speed and multi-threading
+# 9 Speed and multi-threading
 
-## stri_locate_ith
+## 9.1 stri_locate_ith
 
 The `stri_locate_ith()` function needs to know the number of matches of
 some pattern for every string in a character vector, as well as the
@@ -1496,7 +1496,7 @@ time of `stri_locate_all()` and `stri_count()` combined.
 
  
 
-## Substr-functions
+## 9.2 Substr-functions
 
 All the string sub-setting functions have the `fish` argument, which is
 `FALSE` by default. If `fish=TRUE`, these functions will use
@@ -1557,7 +1557,7 @@ substr_arrange(x, "rand", loc=loc, fish = TRUE)
 
  
 
-# Tinyverse solutions without external R packages
+# 10 Tinyverse solutions without external R packages
 
 The `tinyverse` attempts to minimize dependencies, and thus avoid using
 external R packages unless necessary. “External R packages” here meaning
@@ -1590,7 +1590,7 @@ without the use of external R packages:
 
  
 
-# Compatibility with other R packages
+# 11 Compatibility with other R packages
 
 The `stringi` R package has the `%s+%` and `%s*%` operators. They do
 exactly the same things as in `tinyoperators`, and so the masking of
@@ -1630,7 +1630,7 @@ This makes `renv` compatible with calls like `import_as` from
 
  
 
-# Recommended R packages
+# 12 Recommended R packages
 
 `stringi` is of course required for this packages. Besides that, I
 highly recommend using this R package alongside the 2 major
@@ -1643,7 +1643,7 @@ memory management, and minimal dependencies.
 
  
 
-# Conclusion
+# 13 Conclusion
 
 I hope this R package will make your life a little bit easier, and your
 R environment a little bit tinier.

@@ -2,6 +2,7 @@
 output:
   github_document:
     toc: true
+    number_sections: true
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
