@@ -135,12 +135,6 @@ s_get_pattern_attr_internal <- function(p) {
   actual_enhances <- pkgs_get_deps(
     package, lib.loc=.libPaths(), deps_type=c("Enhances")
   ) |> unique()
-  if(isFALSE(enhances)) {
-    enhances <- NULL
-  }
-  if(isTRUE(enhances)){
-    enhances <- actual_enhances
-  }
   
   if(is.character(enhances) & length(enhances)>0) {
     if(length(enhances)!=length(unique(enhances))) {

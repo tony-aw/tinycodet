@@ -1,8 +1,8 @@
 #' Additional package import management
 #'
 #' @description
-#' These functions and operator are focused on making it easier to
-#' use packages without having to explicitly attaching them to your namespace. \cr
+#' These functions implement a new package import system,
+#' that attempts to combine the benefits of aliasing a package with the benefits of attaching a package. \cr
 #' \cr
 #' \code{import_as}: \cr
 #' The \code{import_as()} function
@@ -45,30 +45,34 @@
 #' NOTE (2): If \code{depends} is a character vector:
 #' The order of the character vector matters!
 #' If multiple packages share objects with the same name,
-#' the package named last will overwrite the earlier named package. \cr
-#' @param enhances either logical, or a character vector. \cr
-#' If \code{FALSE} (default), no enhances are loaded under the alias. \cr
-#' If \code{TRUE}, ALL "Enhances" packages are loaded under the alias. \cr
-#' If a character vector, then it is taken as the list of enhanced packages
-#' to be loaded also under the alias. \cr
+#' the package named last will overwrite the earlier named packages. \cr
+#' @param enhances a character vector,
+#' giving the names of the packages enhanced by the
+#' \code{main_package} to be loaded also under the alias. \cr
 #' NOTE(1): Enhances are defined as packages appearing in the "Enhances" section
 #' of the Description file of the \code{main_package}. \cr
 #' NOTE (2): The order of the character vector matters!
 #' If multiple packages share objects with the same name,
-#' the package named last will overwrite the earlier named package. \cr
+#' the objects of the package named last will overwrite those of the earlier named packages. \cr
 #' @param extends a character vector,
-#' giving the names of the reverse-dependencies of the
+#' giving the names of the extensions / reverse-dependencies of the
 #' \code{main_package} to be loaded also under the alias.
 #' Defaults to \code{NULL}, which means no extensions are loaded. \cr
 #' NOTE (1): "Extensions" here are defined as reverse-depends or reverse-imports.
 #' It does not matter if these are CRAN or non-CRAN packages. \cr
 #' NOTE (2): The order of the character vector matters!
 #' If multiple packages share objects with the same name,
-#' the package named last will overwrite the earlier named package. \cr
+#' the objects of the package named last will overwrite those of the earlier named packages. \cr
+#' @param loadorder the character vector \cr
+#' \code{c("depends", "main_package", "enhances", "extends")}, \cr
+#' or some re-ordering of this character vector,
+#' giving the relative load order of the groups of packages. \cr
+#' By default this is the character vector \cr
+#' \code{c("depends", "main_package", "enhances", "extends")}.
 #' @param pkgs a single string, or character vector, with the package name(s). \cr
 #' NOTE (1): The order of the character vector matters!
 #' If multiple packages share objects with the same name,
-#' the package named last will overwrite the earlier named package. \cr
+#' the objects of the package named last will overwrite those of the earlier named packages. \cr
 #' NOTE (2): The \code{import_inops} function performs a basic check
 #' that the packages are mostly (reverse) dependencies of each other.
 #' If not, it will give an error.
@@ -97,23 +101,11 @@
 #'
 #'
 #' @details
-#' In general: \cr
-#' The \code{import_as} and \code{import_inops} functions will inform the user
-#' about conflicting objects. \cr
-#' \cr
-#' For \code{import_as()}: \cr
-#' The \code{import_as()} function will load the packages in the following order: \cr
-#' (1) \code{depends}, (2) \code{main_package}, (3) \code{enhances}, (4) \code{extends}. \cr
-#' Note that suggested packages are not included in the \code{import_as()} function.
-#' The \code{import_as()} function does not import internal functions
-#' (i.e. internal functions are kept internal, as they should). \cr
-#' \cr
-#' For \code{import_inops()}: \cr
-#' The \code{import_inops()} function is less strict than \code{import_as()}
-#' in terms of which R packages can be called together.
-#' But still the packages specified in argument \code{pkgs} need to have SOME
-#' overlap in their dependencies. \cr
-#' \cr
+#' For a more detailed description of the import system introduced by the
+#' \code{tinyoperators} R package,
+#' please refer to the Read Me file on the GitHub main page: \cr
+#' \url{https://github.com/tony-aw/tinyoperators} \cr
+#' 
 #'
 #' @returns
 #' For \code{import_as}: \cr
@@ -155,7 +147,8 @@ NULL
 #' @rdname import
 #' @export
 import_as <- function(
-    alias, main_package, depends=FALSE, enhances=FALSE, extends=NULL, 
+    alias, main_package, depends=FALSE, enhances=NULL, extends=NULL, 
+    loadorder = c("depends", "main_package", "enhances", "extends"),
     lib.loc=.libPaths()
 ) {
   
@@ -167,6 +160,13 @@ import_as <- function(
   )
   if(isFALSE(all(check_proper_alias))){
     stop("Syntactically invalid name for object `alias`")
+  }
+  
+  # check load order:
+  loadorder <- tolower(loadorder)
+  check_loadorder <- all(sort(loadorder) == sort(c("depends", "main_package", "enhances", "extends")))
+  if(!isTRUE(check_loadorder)) {
+    stop("Improper load order given")
   }
   
   # check package:
@@ -187,8 +187,17 @@ import_as <- function(
   # Check extends:
   extends <- .internal_import_as_check_extends(main_package, extends, lib.loc)
   
-  pkgs <- c(depends, main_package, enhances, extends) |> unique()
+  # make packages:
+  pkgs <- list(depends=depends, main_package=main_package, enhances=enhances, extends=extends)
+  pkgs <- pkgs[loadorder]
+  pkgs <- do.call(c, pkgs)
+  pkgs <- unique(pkgs)
   
+  if(length(pkgs)>10) {
+    message("Be careful: More than 10 packages are being loaded under the same alias")
+  }
+  
+  # load packages:
   namespaces <- .internal_import_namespaces(pkgs, lib.loc = lib.loc)
   
   message(paste0(
