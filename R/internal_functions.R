@@ -34,20 +34,11 @@ s_get_pattern_attr_internal <- function(p) {
 
 #' @keywords internal
 #' @noRd
-.internal_get_deps <- function(package, lib.loc, deps_type) {
-  # based of https://stackoverflow.com/questions/30223957/elegantly-extract-r-package-dependencies-of-a-package-not-listed-on-cran
-  dcf <- read.dcf(file.path(system.file("DESCRIPTION", package = package, lib.loc = lib.loc)))
-  jj <- intersect(deps_type, colnames(dcf))
-  val <- unlist(strsplit(dcf[, jj], ","), use.names=FALSE)
-  val <- gsub("\\s.*", "", trimws(val))
-  return(val[val != "R"])
-}
-
-#' @keywords internal
-#' @noRd
-.internal_check_deps_overlap_any <- function(pkgs, lib.loc) {
+.internal_check_deps_overlap_any <- function(
+    pkgs, lib.loc, deps_type=c("Depends", "Imports", "LinkingTo")
+) {
   all_deps <- sapply(
-    pkgs, .internal_get_deps, lib.loc=lib.loc, deps_type=c("Depends", "Imports", "LinkingTo")
+    pkgs, pkgs_get_deps, lib.loc=lib.loc, deps_type=deps_type
   ) |> unlist() |> unname()
   check <- any(pkgs %in% all_deps)
   return(check)

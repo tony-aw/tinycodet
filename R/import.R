@@ -161,7 +161,7 @@ import_as <- function(
   }
   
   # Check dependencies:
-  actual_depends <- .internal_get_deps(
+  actual_depends <- pkgs_get_deps(
     package, lib.loc=.libPaths(), deps_type=c("Depends", "Imports", "LinkingTo")
   )
   if(length(actual_depends)>10){
@@ -218,7 +218,7 @@ import_as <- function(
       stop(error.txt)
     }
     tempfun <- function(x){
-      depends <- .internal_get_deps(x, lib.loc=lib.loc, deps_type=c("Depends", "Imports", "LinkingTo"))
+      depends <- pkgs_get_deps(x, lib.loc=lib.loc, deps_type=c("Depends", "Imports", "LinkingTo"))
       return(package %in% depends)
     }
     check_extends <- sapply(
@@ -261,7 +261,9 @@ import_inops <- function(pkgs, lib.loc=.libPaths(), exclude, include.only) {
   }
   
   if(length(pkgs)>1) {
-    check_deps_OK <- .internal_check_deps_overlap_any(pkgs, lib.loc=lib.loc)
+    check_deps_OK <- .internal_check_deps_overlap_any(
+      pkgs, lib.loc=lib.loc, deps_type=c("Depends", "Imports", "LinkingTo")
+    )
     if(!check_deps_OK) {
       error.txt <- paste0(
         "Multiple packages specified, but the packages have no dependency overlap at all.",
