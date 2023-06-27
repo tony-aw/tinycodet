@@ -45,33 +45,6 @@ s_get_pattern_attr_internal <- function(p) {
   return(check)
 }
 
-
-# .internal_import_namespaces <- function(pkgs, lib.loc){
-#   
-#   conflicts.df <- data.frame(
-#     package = character(length(pkgs)),
-#     overwrites = character(length(pkgs))
-#   )
-#   
-#   export_names_all <- character()
-#   namespaces <- list()
-#   for (i in 1:length(pkgs)) {
-#     message(paste0("Importing package: ", pkgs[i], "..."))
-#     namespace_current <- .internal_prep_Namespace(pkgs[i], lib.loc)
-#     export_names_current <- names(namespace_current)
-#     
-#     export_names_intersection <- intersect(export_names_current, export_names_all)
-#     conflicts.df$package[i] <- pkgs[i]
-#     conflicts.df$overwrites[i] <-  paste0(export_names_intersection, collapse = ", ")
-#     
-#     export_names_all <- c(export_names_current, export_names_all)
-#     namespaces <- utils::modifyList(namespaces, namespace_current)
-#   }
-#   message(paste0(capture.output(conflicts.df), collapse = "\n"))
-#   return(namespaces)
-# }
-
-
 .internal_import_namespaces <- function(pkgs, lib.loc){
   export_names_all <- character()
   export_names_allconflicts <- character()
@@ -108,8 +81,14 @@ s_get_pattern_attr_internal <- function(p) {
 #' @noRd
 .internal_import_as_check_depends <- function(package, depends, lib.loc) {
   
-  pkgs_core <- utils::installed.packages(priority = "base") |> rownames()
-  pkgs_preinst <- utils::installed.packages(priority = "recommended") |> rownames()
+  pkgs_core <- c(
+    utils::installed.packages(priority = "base") |> rownames(),
+    utils::installed.packages(lib.loc=lib.loc, priority = "base") |> rownames()
+  ) |> unique()
+  pkgs_preinst <- c(
+    utils::installed.packages(priority = "recommended") |> rownames(),
+    utils::installed.packages(lib.loc=lib.loc, priority = "recommended") |> rownames()
+  ) |> unique()
   
   actual_depends <- pkgs_get_deps(
     package, lib.loc=lib.loc, deps_type=c("Depends", "Imports", "LinkingTo"),
@@ -139,16 +118,14 @@ s_get_pattern_attr_internal <- function(p) {
       stop(error.txt)
     }
     
-    if(is.character(depends)) {
-      wrong_depends <- depends[!depends %in% actual_depends]
-      if(length(wrong_depends)>0) {
-        error.txt <- paste0(
-          "The following dependent packages are not actual dependencies:",
-          "\n",
-          paste0(wrong_depends, collapse = ", ")
-        )
-        stop(error.txt)
-      }
+    wrong_depends <- depends[!depends %in% actual_depends]
+    if(length(wrong_depends)>0) {
+      error.txt <- paste0(
+        "The following dependent packages are not actual dependencies:",
+        "\n",
+        paste0(wrong_depends, collapse = ", ")
+      )
+      stop(error.txt)
     }
   }
   
@@ -181,7 +158,7 @@ s_get_pattern_attr_internal <- function(p) {
     wrong_enhances <- enhances[!enhances %in% actual_enhances]
     if(length(wrong_enhances)>0) {
       error.txt <- paste0(
-        "The following dependent packages are not in LinkingTo:",
+        "The following dependent packages are not in Enhances:",
         "\n",
         paste0(wrong_enhances, collapse = ", ")
       )
@@ -208,6 +185,7 @@ s_get_pattern_attr_internal <- function(p) {
       )
       stop(error.txt)
     }
+    
     tempfun <- function(x){
       depends <- pkgs_get_deps(
         x, lib.loc=lib.loc, deps_type=c("Depends", "Imports"),

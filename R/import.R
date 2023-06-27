@@ -38,15 +38,15 @@
 #' @param package the quoted package name.
 #' @param depends either logical, or a character vector. \cr
 #' If \code{FALSE} (default), no dependencies are loaded under the alias. \cr
-#' If \code{TRUE}, ALL dependencies of the \code{main_package} are loaded under the alias,
+#' If \code{TRUE}, ALL direct dependencies of the \code{main_package} are loaded under the alias,
 #' but \bold{excluding} core/base R packages,
 #' and also \bold{excluding} pre-installed "recommended" R packages.
 #' See also \link{pkgs_get_deps} \cr
-#' If a character vector, then it is taken as the dependencies of the
+#' If a character vector, then it is taken as the direct dependencies of the
 #' package to be loaded also under the alias. \cr
 #' NOTE (1): "Dependencies" here are defined as any package appearing in the
 #' "Depends", "Imports", or "LinkingTo" sections of the Description file of the
-#' \code{main_package}. \cr
+#' \code{main_package}. So no recursive dependencies. \cr
 #' NOTE (2): If \code{depends} is a character vector:
 #' The order of the character vector matters!
 #' If multiple packages share objects with the same name,
@@ -170,20 +170,25 @@ import_as <- function(
     stop("Syntactically invalid name for object `alias`")
   }
   
-  # check load order:
-  loadorder <- tolower(loadorder)
-  check_loadorder <- all(sort(loadorder) == sort(c("depends", "main_package", "enhances", "extends")))
-  if(!isTRUE(check_loadorder)) {
-    stop("Improper load order given")
-  }
-  
-  # check package:
+  # check main_package:
   if(length(main_package)>1){
     stop("Only a single package can be given in the `main_package` argument")
   }
   check_install <- main_package %installed in% lib.loc
   if(isFALSE(check_install)) {
     stop("Given main_package not installed!")
+  }
+  
+  # check library:
+  if(length(lib.loc)<1) {
+    stop("At least one library path must be given")
+  }
+  
+  # check load order:
+  loadorder <- tolower(loadorder)
+  check_loadorder <- all(sort(loadorder) == sort(c("depends", "main_package", "enhances", "extends")))
+  if(!isTRUE(check_loadorder)) {
+    stop("Improper load order given")
   }
   
   # Check dependencies:
@@ -247,6 +252,11 @@ import_inops <- function(pkgs, lib.loc=.libPaths(), exclude, include.only) {
       )
       stop(error.txt)
     }
+  }
+  
+  # check library:
+  if(length(lib.loc)<1) {
+    stop("At least one library path must be given")
   }
   
   # check exclude and include.only:

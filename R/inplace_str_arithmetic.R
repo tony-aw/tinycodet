@@ -13,12 +13,16 @@
 #' \cr
 #'
 #' See also the documentation on string arithmetic: \link[=%s+%]{string arithmetic}. \cr
-#' \cr
+#' 
+#' Some of the internal code of these operators was inspired by the \code{roperators} R package.
+#' 
 #'
 #' @param x,y,p,n see \link[=%s+%]{string arithmetic} and \link{s_pattern}.
 #'
 #' @return
 #' These operators do not return any value: they are in-place modifiers, and thus modify \code{x} directly.
+#'
+#' @references Wiseman B, Nydick S, Jones J (2022). roperators: Additional Operators to Help you Write Cleaner R Code. \url{https://CRAN.R-project.org/package=roperators}
 #'
 #' @examples
 #' y <- "a"

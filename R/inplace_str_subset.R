@@ -10,12 +10,16 @@
 #'
 #' See also the documentation on string subsetting (\link[=%ss%]{string subset}). \cr
 #' Note that there is no in-place modifier versions of \code{%ss%}.\cr
-#' \cr
+#' 
+#' Some of the internal code of these operators was inspired by the \code{roperators} R package.
+#' 
 #'
 #' @param x,ss see \link[=%ss%]{string subset}.
 #'
 #' @return
 #' These operators do not return any value: they are in-place modifiers, and thus modify \code{x} directly.
+#'
+#' @references Wiseman B, Nydick S, Jones J (2022). roperators: Additional Operators to Help you Write Cleaner R Code. \url{https://CRAN.R-project.org/package=roperators}
 #'
 #' @examples
 #' ss <- c(2,2)

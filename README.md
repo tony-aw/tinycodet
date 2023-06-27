@@ -1459,7 +1459,7 @@ dependencies, and perhaps you’d like to use one of those extensions
 also.
 
 So here `tinyoperator`’s `import_as()` function can come to the rescue.
-Below is an example where `dplyr` is loaded, along with all its
+Below is an example where `dplyr` is loaded, along with some
 dependencies, and `powerjoin` (which is an extension), all under one
 alias which I’ll call `dr`.
 
@@ -1470,42 +1470,13 @@ tinyoperators::pkgs_get_deps("dplyr") # a lot of dependencies
 #> [11] "vctrs"
 
 import_as(
-  dr, "dplyr", depends=TRUE, extends = "powerjoin", lib.loc=.libPaths()
+  dr, "dplyr", depends=c("tibble", "tidyselect"), extends = "powerjoin", lib.loc=.libPaths()
 )
-#> Be careful: More than 10 packages are being loaded under the same alias
-#> Importing package: cli...
-#> 
-#> Importing package: generics... no conflicts
-#> 
-#> Importing package: glue... no conflicts
-#> 
-#> Importing package: lifecycle... no conflicts
-#> 
-#> Importing package: magrittr... no conflicts
-#> 
-#> Importing package: pillar... The following conflicting objects detected:
-#> style_bold
-#> pillar will overwrite conflicting objects from previous imported packages...
-#> 
-#> Importing package: R6... no conflicts
-#> 
-#> Importing package: rlang... The following conflicting objects detected:
-#> set_names
-#> rlang will overwrite conflicting objects from previous imported packages...
-#> 
-#> Importing package: tibble... The following conflicting objects detected:
-#> set_char_opts, num, char, set_num_opts
-#> tibble will overwrite conflicting objects from previous imported packages...
+#> Importing package: tibble...
 #> 
 #> Importing package: tidyselect... no conflicts
 #> 
-#> Importing package: vctrs... The following conflicting objects detected:
-#> data_frame
-#> vctrs will overwrite conflicting objects from previous imported packages...
-#> 
-#> Importing package: dplyr... The following conflicting objects detected:
-#> dim_desc, explain
-#> dplyr will overwrite conflicting objects from previous imported packages...
+#> Importing package: dplyr... no conflicts
 #> 
 #> Importing package: powerjoin... no conflicts
 #> 

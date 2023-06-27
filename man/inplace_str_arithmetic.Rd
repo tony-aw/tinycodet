@@ -35,7 +35,8 @@ In-place modifier versions of string arithmetic: \cr
 \cr
 
 See also the documentation on string arithmetic: \link[=\%s+\%]{string arithmetic}. \cr
-\cr
+
+Some of the internal code of these operators was inspired by the \code{roperators} R package.
 }
 \examples{
 y <- "a"
@@ -91,4 +92,7 @@ print(x)
 x \%s/ =\% p # same as x <- x \%s/\% p
 print(x)
 
+}
+\references{
+Wiseman B, Nydick S, Jones J (2022). roperators: Additional Operators to Help you Write Cleaner R Code. \url{https://CRAN.R-project.org/package=roperators}
 }

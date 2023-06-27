@@ -34,15 +34,15 @@ Syntactically invalid names are not allowed for the alias name.}
 
 \item{depends}{either logical, or a character vector. \cr
 If \code{FALSE} (default), no dependencies are loaded under the alias. \cr
-If \code{TRUE}, ALL dependencies of the \code{main_package} are loaded under the alias,
+If \code{TRUE}, ALL direct dependencies of the \code{main_package} are loaded under the alias,
 but \bold{excluding} core/base R packages,
 and also \bold{excluding} pre-installed "recommended" R packages.
 See also \link{pkgs_get_deps} \cr
-If a character vector, then it is taken as the dependencies of the
+If a character vector, then it is taken as the direct dependencies of the
 package to be loaded also under the alias. \cr
 NOTE (1): "Dependencies" here are defined as any package appearing in the
 "Depends", "Imports", or "LinkingTo" sections of the Description file of the
-\code{main_package}. \cr
+\code{main_package}. So no recursive dependencies. \cr
 NOTE (2): If \code{depends} is a character vector:
 The order of the character vector matters!
 If multiple packages share objects with the same name,

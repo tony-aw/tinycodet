@@ -26,7 +26,8 @@ In-place modifier versions of string subsetting: \cr
 
 See also the documentation on string subsetting (\link[=\%ss\%]{string subset}). \cr
 Note that there is no in-place modifier versions of \code{\%ss\%}.\cr
-\cr
+
+Some of the internal code of these operators was inspired by the \code{roperators} R package.
 }
 \examples{
 ss <- c(2,2)
@@ -57,4 +58,7 @@ print(x)
 x \%strim =\% ss # same as x <- x \%strim\% ss
 print(x)
 
+}
+\references{
+Wiseman B, Nydick S, Jones J (2022). roperators: Additional Operators to Help you Write Cleaner R Code. \url{https://CRAN.R-project.org/package=roperators}
 }

@@ -895,13 +895,13 @@ myalias$myfunction(...)
 
 One R package that could benefit from the import system introduced by `tinyoperators`, is the `dplyr` R package. The `dplyr` R package overwrites **core R** functions (including base R) and it overwrites functions from pre-installed recommended R packages (such as `MASS`). Its function names are sometimes generic enough that there is no obvious way to tell if a function came from `dplyr` (for comparison: one can generally recognize `stringi` functions as they all start with `stri_`). Using `dplyr::...` could work, but `dplyr` was designed to interact with other R packages such as `tidyselect`, and constantly switching between `dplyr::...` and `tidyselect::...` is perhaps undesirable. If you look at the CRAN page for `dplyr`, you'll notice it has a lot of reverse dependencies, and perhaps you'd like to use one of those extensions also.
 
-So here `tinyoperator`'s `import_as()` function can come to the rescue. Below is an example where `dplyr` is loaded, along with all its dependencies, and `powerjoin` (which is an extension), all under one alias which I'll call `dr`.
+So here `tinyoperator`'s `import_as()` function can come to the rescue. Below is an example where `dplyr` is loaded, along with some dependencies, and `powerjoin` (which is an extension), all under one alias which I'll call `dr`.
 
 ```{r}
 tinyoperators::pkgs_get_deps("dplyr") # a lot of dependencies
 
 import_as(
-  dr, "dplyr", depends=TRUE, extends = "powerjoin", lib.loc=.libPaths()
+  dr, "dplyr", depends=c("tibble", "tidyselect"), extends = "powerjoin", lib.loc=.libPaths()
 )
 ```
 

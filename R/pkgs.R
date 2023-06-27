@@ -64,11 +64,17 @@ pkgs_get_deps <- function(
   val <- gsub("\\s.*", "", trimws(val))
   depends <- val[val != "R"]
   if(!base){
-    pkgs_core <- utils::installed.packages(priority = "base") |> rownames()
+    pkgs_core <- c(
+      utils::installed.packages(priority = "base") |> rownames(),
+      utils::installed.packages(lib.loc=lib.loc, priority = "base") |> rownames()
+    ) |> unique()
     depends <- setdiff(depends, pkgs_core)
   }
   if(!recom) {
-    pkgs_preinst <- utils::installed.packages(priority = "recommended") |> rownames()
+    pkgs_preinst <- c(
+      utils::installed.packages(priority = "recommended") |> rownames(),
+      utils::installed.packages(lib.loc=lib.loc, priority = "recommended") |> rownames()
+    ) |> unique()
     depends <- setdiff(depends, pkgs_preinst)
   }
   return(depends)
