@@ -45,31 +45,51 @@ s_get_pattern_attr_internal <- function(p) {
   return(check)
 }
 
+
+# .internal_import_namespaces <- function(pkgs, lib.loc){
+#   
+#   conflicts.df <- data.frame(
+#     package = character(length(pkgs)),
+#     overwrites = character(length(pkgs))
+#   )
+#   
+#   export_names_all <- character()
+#   namespaces <- list()
+#   for (i in 1:length(pkgs)) {
+#     message(paste0("Importing package: ", pkgs[i], "..."))
+#     namespace_current <- .internal_prep_Namespace(pkgs[i], lib.loc)
+#     export_names_current <- names(namespace_current)
+#     
+#     export_names_intersection <- intersect(export_names_current, export_names_all)
+#     conflicts.df$package[i] <- pkgs[i]
+#     conflicts.df$overwrites[i] <-  paste0(export_names_intersection, collapse = ", ")
+#     
+#     export_names_all <- c(export_names_current, export_names_all)
+#     namespaces <- utils::modifyList(namespaces, namespace_current)
+#   }
+#   message(paste0(capture.output(conflicts.df), collapse = "\n"))
+#   return(namespaces)
+# }
+
+
 .internal_import_namespaces <- function(pkgs, lib.loc){
   export_names_all <- character()
   export_names_allconflicts <- character()
   namespaces <- list()
   for (i in 1:length(pkgs)) {
-    message(paste0("Importing package: ", pkgs[i], "..."))
     namespace_current <- .internal_prep_Namespace(pkgs[i], lib.loc)
     export_names_current <- names(namespace_current)
-    
-    prop.infix <- mean(grepl("%|:=", export_names_current))
-    if(prop.infix >= 0.5) {
-      message(paste0(
-        "NOTE: Most functions in this package are infix operators;",
-        "\n",
-        "consider using library(", pkgs[i], ") instead."
-      ))
-    }
-    
+
     export_names_intersection <- intersect(export_names_current, export_names_all)
+    if(i==1){
+      message("Importing package: ", pkgs[i], "...")
+    }
     if(length(export_names_intersection)==0 & i>1) {
-      message("no conflicts")
+      message("Importing package: ", pkgs[i], "... no conflicts")
     }
     if(length(export_names_intersection)>0) {
       message(
-        "The following conflicting objects detected:",
+        "Importing package: ", pkgs[i], "... The following conflicting objects detected:",
         "\n",
         paste0(export_names_intersection, collapse = ", "),
         "\n",
@@ -79,7 +99,7 @@ s_get_pattern_attr_internal <- function(p) {
     export_names_allconflicts <- c(export_names_intersection, export_names_allconflicts)
     export_names_all <- c(export_names_current, export_names_all)
     namespaces <- utils::modifyList(namespaces, namespace_current)
-    message("\n")
+    message("")
   }
   return(namespaces)
 }

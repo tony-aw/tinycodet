@@ -260,33 +260,37 @@ import_inops <- function(pkgs, lib.loc=.libPaths(), exclude, include.only) {
   namespaces <- list()
 
   for (i in 1:length(pkgs)) {
-    message(paste0("Getting infix operators from package: ", pkgs[i], "..."))
     namespace_current <- .internal_prep_Namespace(pkgs[i], lib.loc)
     export_names_current <-  grep("%|:=", names(namespace_current), value=TRUE)
 
     if(length(export_names_current)==0){
       message("no infix operators in this package; skipping...")
+      namespace_current <- NULL
     }
 
     if(length(export_names_current)>0) {
 
       export_names_intersection <- intersect(export_names_current, export_names_all)
+      
+      if(i==1){
+        message("Getting infix operators from package: ", pkgs[i], "...")
+      }
       if(length(export_names_intersection)==0 & i>1) {
-        message("no conflicts")
+        message("Getting infix operators from package: ", pkgs[i], "... no conflicts")
       }
       if(length(export_names_intersection)>0) {
         message(
-          "The following conflicting infix operators detected:",
+          "Getting infix operators from package: ", pkgs[i], "... The following infix operators detected:",
           "\n",
           paste0(export_names_intersection, collapse = ", "),
           "\n",
-          pkgs[i], " will overwrite conflicting infix operators from previous packages..."
+          pkgs[i], " will overwrite conflicting infix operators from previous imported packages..."
         )
       }
       export_names_allconflicts <- c(export_names_intersection, export_names_allconflicts)
       export_names_all <- c(export_names_current, export_names_all)
       namespaces <- utils::modifyList(namespaces, namespace_current)
-      message("\n")
+      message("")
     }
   }
 

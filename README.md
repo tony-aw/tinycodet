@@ -185,11 +185,12 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   testing the R package, as it is nearing it’s final form before getting
   out of the experimental life cycle.
 - 27 June 2023: Fixed a bug in the `lib.loc` argument of the `import_`
-  functions. Fixed a small bug in an internal function. Added the `base`
-  and `recom` arguments to the `pkgs_get_deps()` function. Clarified the
-  documentation a bit. Fixed some spelling errors. Extended the example
-  in the “import” section of the Read-Me. The Read-Me now has section
-  numbers.
+  functions. Made the output of the `import_` functions a little bit
+  more compact. Fixed a small bug in an internal function. Added the
+  `base` and `recom` arguments to the `pkgs_get_deps()` function.
+  Clarified the documentation a bit. Fixed some spelling errors.
+  Extended the example in the “import” section of the Read-Me. The
+  Read-Me now has section numbers.
 
 FUTURE PLANS:
 
@@ -1288,8 +1289,7 @@ the same alias, which I will call “tdt” (for “tidy data.table”):
 import_as(tdt, "tidytable", depends="data.table") # this creates the tdt object
 #> Importing package: data.table...
 #> 
-#> Importing package: tidytable...
-#> The following conflicting objects detected:
+#> Importing package: tidytable... The following conflicting objects detected:
 #> last, fread, first, between
 #> tidytable will overwrite conflicting objects from previous imported packages...
 #> 
@@ -1304,8 +1304,7 @@ Notice that the above is the same as:
 import_as(tdt, "data.table", extends = "tidytable") # this creates the tdt object
 #> Importing package: data.table...
 #> 
-#> Importing package: tidytable...
-#> The following conflicting objects detected:
+#> Importing package: tidytable... The following conflicting objects detected:
 #> last, fread, first, between
 #> tidytable will overwrite conflicting objects from previous imported packages...
 #> 
@@ -1359,8 +1358,7 @@ pkgs <- c("data.table", "tidytable")
 import_inops(pkgs)
 #> Getting infix operators from package: data.table...
 #> 
-#> Getting infix operators from package: tidytable...
-#> no conflicts
+#> Getting infix operators from package: tidytable... no conflicts
 #> 
 #> Placing infix operators in current environment...
 #> Done
@@ -1477,51 +1475,39 @@ import_as(
 #> Be careful: More than 10 packages are being loaded under the same alias
 #> Importing package: cli...
 #> 
-#> Importing package: generics...
-#> no conflicts
+#> Importing package: generics... no conflicts
 #> 
-#> Importing package: glue...
-#> no conflicts
+#> Importing package: glue... no conflicts
 #> 
-#> Importing package: lifecycle...
-#> no conflicts
+#> Importing package: lifecycle... no conflicts
 #> 
-#> Importing package: magrittr...
-#> no conflicts
+#> Importing package: magrittr... no conflicts
 #> 
-#> Importing package: pillar...
-#> The following conflicting objects detected:
+#> Importing package: pillar... The following conflicting objects detected:
 #> style_bold
 #> pillar will overwrite conflicting objects from previous imported packages...
 #> 
-#> Importing package: R6...
-#> no conflicts
+#> Importing package: R6... no conflicts
 #> 
-#> Importing package: rlang...
-#> The following conflicting objects detected:
+#> Importing package: rlang... The following conflicting objects detected:
 #> set_names
 #> rlang will overwrite conflicting objects from previous imported packages...
 #> 
-#> Importing package: tibble...
-#> The following conflicting objects detected:
+#> Importing package: tibble... The following conflicting objects detected:
 #> set_char_opts, num, char, set_num_opts
 #> tibble will overwrite conflicting objects from previous imported packages...
 #> 
-#> Importing package: tidyselect...
-#> no conflicts
+#> Importing package: tidyselect... no conflicts
 #> 
-#> Importing package: vctrs...
-#> The following conflicting objects detected:
+#> Importing package: vctrs... The following conflicting objects detected:
 #> data_frame
 #> vctrs will overwrite conflicting objects from previous imported packages...
 #> 
-#> Importing package: dplyr...
-#> The following conflicting objects detected:
+#> Importing package: dplyr... The following conflicting objects detected:
 #> dim_desc, explain
 #> dplyr will overwrite conflicting objects from previous imported packages...
 #> 
-#> Importing package: powerjoin...
-#> no conflicts
+#> Importing package: powerjoin... no conflicts
 #> 
 #> Done
 #> You can now access the functions using dr$...

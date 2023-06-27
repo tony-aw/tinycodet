@@ -79,7 +79,7 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
  - 20 June 2023: Extended the import section of this Read-Me more.
  - 21 June 2023: Migrated the tests from `testthat` to `tinytest`. Added tests for the new `%:=%` operator. Adjusted the documentation, and this Read-Me file. Renamed the `%source from%` operator to `%@source%`. Removed the `%installed in%` operator.
  - 26 June 2023: Another major change. Made `import_as()` much, much stricter. Brought back the `pkgs %installed in% lib.loc%` operator. Adjusted the documentation accordingly. Asked some people to start testing the R package, as it is nearing it's final form before getting out of the experimental life cycle.
- - 27 June 2023: Fixed a bug in the `lib.loc` argument of the `import_` functions. Fixed a small bug in an internal function. Added the `base` and `recom` arguments to the `pkgs_get_deps()` function. Clarified the documentation a bit. Fixed some spelling errors. Extended the example in the "import" section of the Read-Me. The Read-Me now has section numbers.
+ - 27 June 2023: Fixed a bug in the `lib.loc` argument of the `import_` functions. Made the output of the `import_` functions a little bit more compact. Fixed a small bug in an internal function. Added the `base` and `recom` arguments to the `pkgs_get_deps()` function. Clarified the documentation a bit. Fixed some spelling errors. Extended the example in the "import" section of the Read-Me. The Read-Me now has section numbers.
 
 
 FUTURE PLANS:
@@ -903,7 +903,7 @@ tinyoperators::pkgs_get_deps("dplyr") # a lot of dependencies
 import_as(
   dr, "dplyr", depends=TRUE, extends = "powerjoin", lib.loc=.libPaths()
 )
-````
+```
 
 Now lets run an example from the `powerjoin` GitHub page (https://github.com/moodymudskipper/powerjoin), using the above alias:
 
