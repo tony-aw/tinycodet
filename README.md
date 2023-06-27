@@ -1174,7 +1174,9 @@ attaching the package, are as follows:
 2)  prevent overriding core R functions
 3)  clarify which function came from which package
 4)  prevent attaching functions from a package globally
-5)  prevent polluting the namespace (the more packages that are
+5)  a package that is not detached also has no detaching issues (like
+    when a package is attached by another attached package)
+6)  prevent polluting the namespace (the more packages that are
     attached, the higher chance of masking functions, and the more
     difficult to de-bug your code)
 
