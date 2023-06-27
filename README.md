@@ -184,6 +184,12 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   Adjusted the documentation accordingly. Asked some people to start
   testing the R package, as it is nearing it’s final form before getting
   out of the experimental life cycle.
+- 27 June 2023: Fixed a bug in the `lib.loc` argument of the `import_`
+  functions. Fixed a small bug in an internal function. Added the `base`
+  and `recom` arguments to the `pkgs_get_deps()` function. Clarified the
+  documentation a bit. Fixed some spelling errors. Extended the example
+  in the “import” section of the Read-Me. The Read-Me now has section
+  numbers.
 
 FUTURE PLANS:
 
@@ -1267,7 +1273,8 @@ the main arguments of the `import_as()` function are:
 - `main_package`: the name (string) of the main package to load.
 - `depends`: a character vector giving the dependencies of the main
   package to load under the alias also. One can also set this to `TRUE`,
-  in which case ALL dependencies of the `main_package` are loaded.
+  in which case all dependencies of the `main_package` are loaded,
+  except base and recommended packages.
 - `enhances`: a character vector giving the packages enhanced by the
   `main_package` to be loaded under the alias also.
 - `extends`: a character vector giving the
@@ -1283,9 +1290,7 @@ import_as(tdt, "tidytable", depends="data.table") # this creates the tdt object
 #> 
 #> Importing package: tidytable...
 #> The following conflicting objects detected:
-#>  
 #> last, fread, first, between
-#>  
 #> tidytable will overwrite conflicting objects from previous imported packages...
 #> 
 #> Done
@@ -1301,9 +1306,7 @@ import_as(tdt, "data.table", extends = "tidytable") # this creates the tdt objec
 #> 
 #> Importing package: tidytable...
 #> The following conflicting objects detected:
-#>  
 #> last, fread, first, between
-#>  
 #> tidytable will overwrite conflicting objects from previous imported packages...
 #> 
 #> Done
@@ -1458,19 +1461,64 @@ dependencies, and perhaps you’d like to use one of those extensions
 also.
 
 So here `tinyoperator`’s `import_as()` function can come to the rescue.
-Below `dplyr` is loaded, along with `tidyselect` (which is a
-dependency), and `powerjoin` (which is an extension), all under one
-alias which I’ll call `dr`:
+Below is an example where `dplyr` is loaded, along with all its
+dependencies, and `powerjoin` (which is an extension), all under one
+alias which I’ll call `dr`.
 
 ``` r
+tinyoperators::pkgs_get_deps("dplyr") # a lot of dependencies
+#>  [1] "cli"        "generics"   "glue"       "lifecycle"  "magrittr"  
+#>  [6] "pillar"     "R6"         "rlang"      "tibble"     "tidyselect"
+#> [11] "vctrs"
+
 import_as(
-  dr, "dplyr", depends="tidyselect", extends = "powerjoin", lib.loc=.libPaths()
+  dr, "dplyr", depends=TRUE, extends = "powerjoin", lib.loc=.libPaths()
 )
-#> Note: this package has a lot of dependencies
+#> Be careful: More than 10 packages are being loaded under the same alias
+#> Importing package: cli...
+#> 
+#> Importing package: generics...
+#> no conflicts
+#> 
+#> Importing package: glue...
+#> no conflicts
+#> 
+#> Importing package: lifecycle...
+#> no conflicts
+#> 
+#> Importing package: magrittr...
+#> no conflicts
+#> 
+#> Importing package: pillar...
+#> The following conflicting objects detected:
+#> style_bold
+#> pillar will overwrite conflicting objects from previous imported packages...
+#> 
+#> Importing package: R6...
+#> no conflicts
+#> 
+#> Importing package: rlang...
+#> The following conflicting objects detected:
+#> set_names
+#> rlang will overwrite conflicting objects from previous imported packages...
+#> 
+#> Importing package: tibble...
+#> The following conflicting objects detected:
+#> set_char_opts, num, char, set_num_opts
+#> tibble will overwrite conflicting objects from previous imported packages...
+#> 
 #> Importing package: tidyselect...
+#> no conflicts
+#> 
+#> Importing package: vctrs...
+#> The following conflicting objects detected:
+#> data_frame
+#> vctrs will overwrite conflicting objects from previous imported packages...
 #> 
 #> Importing package: dplyr...
-#> no conflicts
+#> The following conflicting objects detected:
+#> dim_desc, explain
+#> dplyr will overwrite conflicting objects from previous imported packages...
 #> 
 #> Importing package: powerjoin...
 #> no conflicts
@@ -1478,6 +1526,121 @@ import_as(
 #> Done
 #> You can now access the functions using dr$...
 #> (S3)methods will work like normally.
+```
+
+Now lets run an example from the `powerjoin` GitHub page
+(<https://github.com/moodymudskipper/powerjoin>), using the above alias:
+
+``` r
+male_penguins <- dr$tribble(
+     ~name,    ~species,     ~island, ~flipper_length_mm, ~body_mass_g,
+ "Giordan",    "Gentoo",    "Biscoe",               222L,        5250L,
+  "Lynden",    "Adelie", "Torgersen",               190L,        3900L,
+  "Reiner",    "Adelie",     "Dream",               185L,        3650L
+)
+
+female_penguins <- dr$tribble(
+     ~name,    ~species,  ~island, ~flipper_length_mm, ~body_mass_g,
+  "Alonda",    "Gentoo", "Biscoe",               211,        4500L,
+     "Ola",    "Adelie",  "Dream",               190,        3600L,
+"Mishayla",    "Gentoo", "Biscoe",               215,        4750L,
+)
+dr$check_specs()
+#> # powerjoin check specifications
+#> ℹ implicit_keys
+#> → column_conflict
+#> → duplicate_keys_left
+#> → duplicate_keys_right
+#> → unmatched_keys_left
+#> → unmatched_keys_right
+#> → missing_key_combination_left
+#> → missing_key_combination_right
+#> → inconsistent_factor_levels
+#> → inconsistent_type
+#> → grouped_input
+#> → na_keys
+
+dr$power_inner_join(
+  male_penguins[c("species", "island")],
+  female_penguins[c("species", "island")]
+)
+#> Joining, by = c("species", "island")
+#> # A tibble: 3 × 2
+#>   species island
+#>   <chr>   <chr> 
+#> 1 Gentoo  Biscoe
+#> 2 Gentoo  Biscoe
+#> 3 Adelie  Dream
+```
+
+Notice that the only change made, is that all functions start with
+`dr$`, the rest is the same. No need for constantly switching between
+`tibble::...`, `dplyr::...`, `powerjoin::...` and so on - yet it is
+still clear from the code that they came from the `dplyr` + `powerjoin`
+family, and there is no fear of overwriting functions from other R
+packages - let alone core R functions.
+
+For comparison, here is the original code, used with attaching a package
+instead of using an alias:
+
+``` r
+library(MASS)
+library(powerjoin)
+#> Warning: package 'powerjoin' was built under R version 4.2.3
+library(dplyr) # <- dplyr overwrites base R and recommended R packages
+#> Warning: package 'dplyr' was built under R version 4.2.3
+#> 
+#> Attaching package: 'dplyr'
+#> The following object is masked from 'package:MASS':
+#> 
+#>     select
+#> The following objects are masked from 'package:stats':
+#> 
+#>     filter, lag
+#> The following objects are masked from 'package:base':
+#> 
+#>     intersect, setdiff, setequal, union
+
+male_penguins <- tribble(
+     ~name,    ~species,     ~island, ~flipper_length_mm, ~body_mass_g,
+ "Giordan",    "Gentoo",    "Biscoe",               222L,        5250L,
+  "Lynden",    "Adelie", "Torgersen",               190L,        3900L,
+  "Reiner",    "Adelie",     "Dream",               185L,        3650L
+)
+
+female_penguins <- tribble(
+     ~name,    ~species,  ~island, ~flipper_length_mm, ~body_mass_g,
+  "Alonda",    "Gentoo", "Biscoe",               211,        4500L,
+     "Ola",    "Adelie",  "Dream",               190,        3600L,
+"Mishayla",    "Gentoo", "Biscoe",               215,        4750L,
+)
+
+check_specs()
+#> # powerjoin check specifications
+#> ℹ implicit_keys
+#> → column_conflict
+#> → duplicate_keys_left
+#> → duplicate_keys_right
+#> → unmatched_keys_left
+#> → unmatched_keys_right
+#> → missing_key_combination_left
+#> → missing_key_combination_right
+#> → inconsistent_factor_levels
+#> → inconsistent_type
+#> → grouped_input
+#> → na_keys
+
+power_inner_join(
+  male_penguins[c("species", "island")],
+  female_penguins[c("species", "island")]
+)
+#> Joining, by = c("species", "island")
+#> # A tibble: 3 × 2
+#>   species island
+#>   <chr>   <chr> 
+#> 1 Gentoo  Biscoe
+#> 2 Gentoo  Biscoe
+#> 3 Adelie  Dream
 ```
 
  
@@ -1642,6 +1805,9 @@ I also highly recommend the `fastverse` set of R packages
 (<https://github.com/fastverse/fastverse>), which are a set of R
 packages for (mostly) data wrangling, focused on high speed, better
 memory management, and minimal dependencies.
+
+For quick ’n easy back-tracing of errors, I recommend the `rlang` R
+package.
 
  
 

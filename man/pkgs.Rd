@@ -8,7 +8,9 @@
 pkgs_get_deps(
   package,
   lib.loc = .libPaths(),
-  deps_type = c("Depends", "Imports", "LinkingTo", "Suggests")
+  deps_type = c("Depends", "Imports", "LinkingTo"),
+  base = FALSE,
+  recom = FALSE
 )
 
 pkgs \%installed in\% lib.loc
@@ -21,7 +23,17 @@ pkgs \%installed in\% lib.loc
 This is usually \code{.libPaths()}.
 See also \link[base]{loadNamespace}.}
 
-\item{deps_type}{a character vector, giving the dependency types to be used. Defaults to all types.}
+\item{deps_type}{a character vector, giving the dependency types to be used. \cr
+Defaults to \code{c("Depends", "Imports", "LinkingTo")}.}
+
+\item{base}{logical,
+indicating whether base/core R packages should be included (\code{TRUE}),
+or not included (\code{FALSE}; the default).}
+
+\item{recom}{logical,
+indicating whether the pre-installed "recommended" R packages should be included (\code{TRUE}),
+or not included (\code{FALSE}; the default).
+Note that only the recommended R packages actually installed in your system are taken into consideration.}
 
 \item{pkgs}{a single string, or character vector, with the package name(s).}
 }

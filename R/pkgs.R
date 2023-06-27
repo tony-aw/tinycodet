@@ -16,7 +16,15 @@
 #' (the location of R library trees to search through).
 #' This is usually \code{.libPaths()}.
 #' See also \link[base]{loadNamespace}.
-#' @param deps_type a character vector, giving the dependency types to be used. Defaults to all types.
+#' @param deps_type a character vector, giving the dependency types to be used. \cr
+#' Defaults to \code{c("Depends", "Imports", "LinkingTo")}.
+#' @param base logical,
+#' indicating whether base/core R packages should be included (\code{TRUE}),
+#' or not included (\code{FALSE}; the default).
+#' @param recom logical,
+#' indicating whether the pre-installed "recommended" R packages should be included (\code{TRUE}),
+#' or not included (\code{FALSE}; the default).
+#' Note that only the recommended R packages actually installed in your system are taken into consideration.
 #'
 #' @returns
 #' For  \code{pkgs %installed in% lib.loc}:
@@ -43,7 +51,8 @@
 #' @rdname pkgs
 #' @export
 pkgs_get_deps <- function(
-    package, lib.loc=.libPaths(), deps_type=c("Depends", "Imports", "LinkingTo", "Suggests")
+    package, lib.loc=.libPaths(), deps_type=c("Depends", "Imports", "LinkingTo"),
+    base=FALSE, recom=FALSE
 ) {
   if(length(package)>1){
     stop("Only one package can be given")
@@ -53,7 +62,16 @@ pkgs_get_deps <- function(
   jj <- intersect(deps_type, colnames(dcf))
   val <- unlist(strsplit(dcf[, jj], ","), use.names=FALSE)
   val <- gsub("\\s.*", "", trimws(val))
-  return(val[val != "R"])
+  depends <- val[val != "R"]
+  if(!base){
+    pkgs_core <- utils::installed.packages(priority = "base") |> rownames()
+    depends <- setdiff(depends, pkgs_core)
+  }
+  if(!recom) {
+    pkgs_preinst <- utils::installed.packages(priority = "recommended") |> rownames()
+    depends <- setdiff(depends, pkgs_preinst)
+  }
+  return(depends)
 }
 
 #' @rdname pkgs

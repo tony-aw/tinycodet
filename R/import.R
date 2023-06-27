@@ -8,7 +8,9 @@
 #' The \code{import_as()} function
 #' imports the namespace of an R package,
 #' and optionally also its dependencies, enhances, and extensions,
-#' under the same alias. \cr
+#' under the same alias.
+#' The specified alias will be placed in the current environment
+#' (like the global environment, or the environment within a function). \cr
 #' \cr
 #' \code{import_inops}: \cr
 #' The \code{import_inops()} function
@@ -36,7 +38,10 @@
 #' @param package the quoted package name.
 #' @param depends either logical, or a character vector. \cr
 #' If \code{FALSE} (default), no dependencies are loaded under the alias. \cr
-#' If \code{TRUE}, ALL dependencies of the \code{main_package} are loaded under the alias. \cr
+#' If \code{TRUE}, ALL dependencies of the \code{main_package} are loaded under the alias,
+#' but \bold{excluding} core/base R packages,
+#' and also \bold{excluding} pre-installed "recommended" R packages.
+#' See also \link{pkgs_get_deps} \cr
 #' If a character vector, then it is taken as the dependencies of the
 #' package to be loaded also under the alias. \cr
 #' NOTE (1): "Dependencies" here are defined as any package appearing in the
@@ -101,6 +106,7 @@
 #'
 #'
 #' @details
+#' Regarding "
 #' For a more detailed description of the import system introduced by the
 #' \code{tinyoperators} R package,
 #' please refer to the Read Me file on the GitHub main page: \cr
@@ -111,7 +117,9 @@
 #' For \code{import_as}: \cr
 #' The variable named in the \code{alias} argument will be created
 #' (if it did not already exist),
-#' and it will contain the (merged) package environment. \cr
+#' in the current environment
+#' (like the global environment, or the environment within a function).
+#' The alias object will contain the (merged) package environment. \cr
 #' \cr
 #' For \code{import_inops()}: \cr
 #' The infix operators from the specified packages will be placed
@@ -269,9 +277,9 @@ import_inops <- function(pkgs, lib.loc=.libPaths(), exclude, include.only) {
       if(length(export_names_intersection)>0) {
         message(
           "The following conflicting infix operators detected:",
-          "\n \n",
+          "\n",
           paste0(export_names_intersection, collapse = ", "),
-          "\n \n",
+          "\n",
           pkgs[i], " will overwrite conflicting infix operators from previous packages..."
         )
       }

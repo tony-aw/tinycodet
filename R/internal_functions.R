@@ -38,7 +38,8 @@ s_get_pattern_attr_internal <- function(p) {
     pkgs, lib.loc, deps_type=c("Depends", "Imports", "LinkingTo")
 ) {
   all_deps <- sapply(
-    pkgs, pkgs_get_deps, lib.loc=lib.loc, deps_type=deps_type
+    pkgs, function(p)pkgs_get_deps(p, lib.loc=lib.loc, deps_type=deps_type,
+    base=FALSE, recom=FALSE)
   ) |> unlist() |> unname()
   check <- any(pkgs %in% all_deps)
   return(check)
@@ -69,9 +70,9 @@ s_get_pattern_attr_internal <- function(p) {
     if(length(export_names_intersection)>0) {
       message(
         "The following conflicting objects detected:",
-        "\n \n",
+        "\n",
         paste0(export_names_intersection, collapse = ", "),
-        "\n \n",
+        "\n",
         pkgs[i], " will overwrite conflicting objects from previous imported packages..."
       )
     }
@@ -87,18 +88,22 @@ s_get_pattern_attr_internal <- function(p) {
 #' @noRd
 .internal_import_as_check_depends <- function(package, depends, lib.loc) {
   
+  pkgs_core <- utils::installed.packages(priority = "base") |> rownames()
+  pkgs_preinst <- utils::installed.packages(priority = "recommended") |> rownames()
+  
   actual_depends <- pkgs_get_deps(
-    package, lib.loc=.libPaths(), deps_type=c("Depends", "Imports", "LinkingTo")
+    package, lib.loc=lib.loc, deps_type=c("Depends", "Imports", "LinkingTo"),
+    base=TRUE, recom=TRUE
   ) |> unique()
-  if(length(actual_depends)>10){
-    message("Note: this package has a lot of dependencies")
-  }
+  
   if(isFALSE(depends)) {
     depends <- NULL
   }
+  
   if(isTRUE(depends)){
-    depends <- actual_depends
+    depends <- setdiff(actual_depends, c(pkgs_core, pkgs_preinst))
   }
+  
   if(is.character(depends) & length(depends)>0) {
     if(length(depends)!=length(unique(depends))) {
       stop("one or more duplicate dependent packages given")
@@ -126,6 +131,7 @@ s_get_pattern_attr_internal <- function(p) {
       }
     }
   }
+  
   return(depends)
 }
 
@@ -133,7 +139,8 @@ s_get_pattern_attr_internal <- function(p) {
 #' @noRd
 .internal_import_as_check_enhances <- function(package, enhances, lib.loc) {
   actual_enhances <- pkgs_get_deps(
-    package, lib.loc=.libPaths(), deps_type=c("Enhances")
+    package, lib.loc=lib.loc, deps_type=c("Enhances"),
+    base=TRUE, recom=TRUE
   ) |> unique()
   
   if(is.character(enhances) & length(enhances)>0) {
@@ -182,7 +189,10 @@ s_get_pattern_attr_internal <- function(p) {
       stop(error.txt)
     }
     tempfun <- function(x){
-      depends <- pkgs_get_deps(x, lib.loc=lib.loc, deps_type=c("Depends", "Imports"))
+      depends <- pkgs_get_deps(
+        x, lib.loc=lib.loc, deps_type=c("Depends", "Imports"),
+        base=FALSE, recom=FALSE
+      )
       return(package %in% depends)
     }
     check_extends <- sapply(

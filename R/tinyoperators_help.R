@@ -51,7 +51,7 @@
 #' through the \code{stringfish} R package. \cr
 #' \cr
 #'
-#' Please also have a look at the Read-Me file on the Github main page before using this package: \cr
+#' Please also have a look at the Read-Me file on the GitHub main page before using this package: \cr
 #' \url{https://github.com/tony-aw/tinyoperators}
 #'
 #'

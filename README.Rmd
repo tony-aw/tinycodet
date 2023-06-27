@@ -79,6 +79,7 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
  - 20 June 2023: Extended the import section of this Read-Me more.
  - 21 June 2023: Migrated the tests from `testthat` to `tinytest`. Added tests for the new `%:=%` operator. Adjusted the documentation, and this Read-Me file. Renamed the `%source from%` operator to `%@source%`. Removed the `%installed in%` operator.
  - 26 June 2023: Another major change. Made `import_as()` much, much stricter. Brought back the `pkgs %installed in% lib.loc%` operator. Adjusted the documentation accordingly. Asked some people to start testing the R package, as it is nearing it's final form before getting out of the experimental life cycle.
+ - 27 June 2023: Fixed a bug in the `lib.loc` argument of the `import_` functions. Fixed a small bug in an internal function. Added the `base` and `recom` arguments to the `pkgs_get_deps()` function. Clarified the documentation a bit. Fixed some spelling errors. Extended the example in the "import" section of the Read-Me. The Read-Me now has section numbers.
 
 
 FUTURE PLANS:
@@ -791,7 +792,7 @@ the main arguments of the `import_as()` function are:
 
  - `alias`: the name (unquoted) of the alias under which to load the main package, and any specified (reverse) dependencies.
  - `main_package`: the name (string) of the main package to load.
- - `depends`: a character vector giving the dependencies of the main package to load under the alias also. One can also set this to `TRUE`, in which case ALL dependencies of the `main_package` are loaded.
+ - `depends`: a character vector giving the dependencies of the main package to load under the alias also. One can also set this to `TRUE`, in which case all dependencies of the `main_package` are loaded, except base and recommended packages.
  - `enhances`: a character vector giving the packages enhanced by the `main_package` to be loaded under the alias also.
  - `extends`: a character vector giving the extensions/reverse-dependencies of the main package to load under the same alias also.
 
@@ -894,12 +895,72 @@ myalias$myfunction(...)
 
 One R package that could benefit from the import system introduced by `tinyoperators`, is the `dplyr` R package. The `dplyr` R package overwrites **core R** functions (including base R) and it overwrites functions from pre-installed recommended R packages (such as `MASS`). Its function names are sometimes generic enough that there is no obvious way to tell if a function came from `dplyr` (for comparison: one can generally recognize `stringi` functions as they all start with `stri_`). Using `dplyr::...` could work, but `dplyr` was designed to interact with other R packages such as `tidyselect`, and constantly switching between `dplyr::...` and `tidyselect::...` is perhaps undesirable. If you look at the CRAN page for `dplyr`, you'll notice it has a lot of reverse dependencies, and perhaps you'd like to use one of those extensions also.
 
-So here `tinyoperator`'s `import_as()` function can come to the rescue. Below `dplyr` is loaded, along with `tidyselect` (which is a dependency), and `powerjoin` (which is an extension), all under one alias which I'll call `dr`:
+So here `tinyoperator`'s `import_as()` function can come to the rescue. Below is an example where `dplyr` is loaded, along with all its dependencies, and `powerjoin` (which is an extension), all under one alias which I'll call `dr`.
 
 ```{r}
+tinyoperators::pkgs_get_deps("dplyr") # a lot of dependencies
+
 import_as(
-  dr, "dplyr", depends="tidyselect", extends = "powerjoin", lib.loc=.libPaths()
+  dr, "dplyr", depends=TRUE, extends = "powerjoin", lib.loc=.libPaths()
 )
+````
+
+Now lets run an example from the `powerjoin` GitHub page (https://github.com/moodymudskipper/powerjoin), using the above alias:
+
+```{r}
+male_penguins <- dr$tribble(
+     ~name,    ~species,     ~island, ~flipper_length_mm, ~body_mass_g,
+ "Giordan",    "Gentoo",    "Biscoe",               222L,        5250L,
+  "Lynden",    "Adelie", "Torgersen",               190L,        3900L,
+  "Reiner",    "Adelie",     "Dream",               185L,        3650L
+)
+
+female_penguins <- dr$tribble(
+     ~name,    ~species,  ~island, ~flipper_length_mm, ~body_mass_g,
+  "Alonda",    "Gentoo", "Biscoe",               211,        4500L,
+     "Ola",    "Adelie",  "Dream",               190,        3600L,
+"Mishayla",    "Gentoo", "Biscoe",               215,        4750L,
+)
+dr$check_specs()
+
+dr$power_inner_join(
+  male_penguins[c("species", "island")],
+  female_penguins[c("species", "island")]
+)
+
+```
+
+
+Notice that the only change made, is that all functions start with `dr$`, the rest is the same. No need for constantly switching between `tibble::...`, `dplyr::...`, `powerjoin::...` and so on - yet it is still clear from the code that they came from the `dplyr` + `powerjoin` family, and there is no fear of overwriting functions from other R packages - let alone core R functions.
+
+For comparison, here is the original code, used with attaching a package instead of using an alias:
+
+```{r}
+library(MASS)
+library(powerjoin)
+library(dplyr) # <- dplyr overwrites base R and recommended R packages
+
+male_penguins <- tribble(
+     ~name,    ~species,     ~island, ~flipper_length_mm, ~body_mass_g,
+ "Giordan",    "Gentoo",    "Biscoe",               222L,        5250L,
+  "Lynden",    "Adelie", "Torgersen",               190L,        3900L,
+  "Reiner",    "Adelie",     "Dream",               185L,        3650L
+)
+
+female_penguins <- tribble(
+     ~name,    ~species,  ~island, ~flipper_length_mm, ~body_mass_g,
+  "Alonda",    "Gentoo", "Biscoe",               211,        4500L,
+     "Ola",    "Adelie",  "Dream",               190,        3600L,
+"Mishayla",    "Gentoo", "Biscoe",               215,        4750L,
+)
+
+check_specs()
+
+power_inner_join(
+  male_penguins[c("species", "island")],
+  female_penguins[c("species", "island")]
+)
+
 ```
 
 
@@ -988,6 +1049,8 @@ This will make sure that all packages installed in your project library, regardl
 `stringi` is of course required for this packages. Besides that, I highly recommend using this R package alongside the 2 major operator-related R-packages, namely `magrittr` and `zeallot`.
 
 I also highly recommend the `fastverse` set of R packages (https://github.com/fastverse/fastverse), which are a set of R packages for (mostly) data wrangling, focused on high speed, better memory management, and minimal dependencies.
+
+For quick 'n easy back-tracing of errors, I recommend the `rlang` R package.
 
 
 &nbsp;
