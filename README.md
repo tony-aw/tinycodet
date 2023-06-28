@@ -1502,9 +1502,9 @@ If you look at the CRAN page for `dplyr`, you’ll notice it has a lot of
 reverse dependencies, and perhaps you’d like to use one of those
 extensions also.
 
-So here `tinyoperator`’s `import_as()` function can come to the rescue.
-Below is an example where `dplyr` is loaded, and `powerjoin` (which is
-an extension), all under one alias which I’ll call `dr`.
+So here `tinyoperator`’s `import_as()` function might help. Below is an
+example where `dplyr` is loaded, and `powerjoin` (which is an
+extension), all under one alias which I’ll call `dr`.
 
 ``` r
 tinyoperators::pkgs_get_deps("dplyr") # a lot of dependencies
