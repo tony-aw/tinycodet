@@ -11,10 +11,10 @@
 import_as(
   alias,
   main_package,
-  depends = FALSE,
+  dependencies = FALSE,
   enhances = NULL,
-  extends = NULL,
-  loadorder = c("depends", "main_package", "enhances", "extends"),
+  extensions = NULL,
+  loadorder = c("dependencies", "main_package", "enhances", "extensions"),
   lib.loc = .libPaths()
 )
 
@@ -32,7 +32,7 @@ Syntactically invalid names are not allowed for the alias name.}
 
 \item{main_package}{a single string, giving the name of the main package to load under the given alias.}
 
-\item{depends}{either logical, or a character vector. \cr
+\item{dependencies}{either logical, or a character vector. \cr
 If \code{FALSE} (default), no dependencies are loaded under the alias. \cr
 If \code{TRUE}, ALL direct dependencies of the \code{main_package} are loaded under the alias,
 but \bold{excluding} core/base R packages,
@@ -43,7 +43,7 @@ package to be loaded also under the alias. \cr
 NOTE (1): "Dependencies" here are defined as any package appearing in the
 "Depends", "Imports", or "LinkingTo" sections of the Description file of the
 \code{main_package}. So no recursive dependencies. \cr
-NOTE (2): If \code{depends} is a character vector:
+NOTE (2): If \code{dependencies} is a character vector:
 The order of the character vector matters!
 If multiple packages share objects with the same name,
 the package named last will overwrite the earlier named packages. \cr}
@@ -51,15 +51,16 @@ the package named last will overwrite the earlier named packages. \cr}
 \item{enhances}{a character vector,
 giving the names of the packages enhanced by the
 \code{main_package} to be loaded also under the alias. \cr
+Defaults to \code{NULL}, which means no enhances are loaded. \cr
 NOTE(1): Enhances are defined as packages appearing in the "Enhances" section
 of the Description file of the \code{main_package}. \cr
 NOTE (2): The order of the character vector matters!
 If multiple packages share objects with the same name,
 the objects of the package named last will overwrite those of the earlier named packages. \cr}
 
-\item{extends}{a character vector,
+\item{extensions}{a character vector,
 giving the names of the extensions / reverse-dependencies of the
-\code{main_package} to be loaded also under the alias.
+\code{main_package} to be loaded also under the alias. \cr
 Defaults to \code{NULL}, which means no extensions are loaded. \cr
 NOTE (1): "Extensions" here are defined as reverse-depends or reverse-imports.
 It does not matter if these are CRAN or non-CRAN packages. \cr
@@ -68,11 +69,16 @@ If multiple packages share objects with the same name,
 the objects of the package named last will overwrite those of the earlier named packages. \cr}
 
 \item{loadorder}{the character vector \cr
-\code{c("depends", "main_package", "enhances", "extends")}, \cr
+\code{c("dependencies", "main_package", "enhances", "extensions")}, \cr
 or some re-ordering of this character vector,
 giving the relative load order of the groups of packages. \cr
 By default this is the character vector \cr
-\code{c("depends", "main_package", "enhances", "extends")}.}
+\code{c("dependencies", "main_package", "enhances", "extensions")}, \cr
+which results in the following load order: \cr
+(1) The dependencies, in the order specified by the \code{depenencies} argument. \cr
+(2) The main_package (see argument \code{main_package}). \cr
+(3) The enhances, in the order specified by the \code{enhances} argument. \cr
+(4) The reverse-dependencies/extensions, in the order specified by the \code{extensions} argument. \cr}
 
 \item{lib.loc}{character vector specifying library search path
 (the location of R library trees to search through).
@@ -163,23 +169,22 @@ The \code{import_lsf(package, ...)} function gets a list of exported functions/o
 \cr
 }
 \details{
-Regarding "
+The \code{import_as()} function
+does not allow importing base/core R under an alias, so don't try. \cr
 For a more detailed description of the import system introduced by the
 \code{tinyoperators} R package,
 please refer to the Read Me file on the GitHub main page: \cr
 \url{https://github.com/tony-aw/tinyoperators} \cr
 }
 \examples{
-
 \dontrun{
-depends <- unlist(tools::package_dependencies("devtools"))
-pkgs <- c(depends, "devtools")
-import_as(devt, "devtools", depends = TRUE) # this creates the devt object
-import_inops(pkgs)
+import_as( # this creates the dr object
+dr, "dplyr", depends=c("tibble", "tidyselect"), extends = "powerjoin"
+) 
+import_inops("data.table")
 d <- import_data("chicago", "gamair")
 head(d)
 }
-
 
 
 }

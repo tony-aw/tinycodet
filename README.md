@@ -31,7 +31,7 @@
   - [8.4 import_data](#84-import_data)
   - [8.5 lib.loc](#85-libloc)
   - [8.6 Sourcing modules](#86-sourcing-modules)
-  - [8.7 A real example](#87-a-real-example)
+  - [8.7 An example](#87-an-example)
 - [9 Speed and multi-threading](#9-speed-and-multi-threading)
   - [9.1 stri_locate_ith](#91-stri_locate_ith)
   - [9.2 Substr-functions](#92-substr-functions)
@@ -191,6 +191,8 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   Clarified the documentation a bit. Fixed some spelling errors.
   Extended the example in the “import” section of the Read-Me. The
   Read-Me now has section numbers.
+- 28 June 2023: renamed the `depends` and `extends` arguments of
+  `import_as()` to `dependencies` and `extenions`, to avoid confusion.
 
 FUTURE PLANS:
 
@@ -211,8 +213,8 @@ You can install `tinyoperators` from github like so:
 remotes::install_github("https://github.com/tony-aw/tinyoperators")
 ```
 
-You can attach the package (thus exposing its functions to your current
-namespace), using:
+You can attach the package - thus exposing its functions to your
+namespace - using:
 
 ``` r
 library(tinyoperators)
@@ -1267,18 +1269,18 @@ internal function should remain, you know, internal.
 `import_as()` is thus essentially the multi-package equivalent of
 `alias <- loadNamespace()`.
 
-the main arguments of the `import_as()` function are:
+The main arguments of the `import_as()` function are:
 
 - `alias`: the name (unquoted) of the alias under which to load the main
   package, and any specified (reverse) dependencies.
 - `main_package`: the name (string) of the main package to load.
-- `depends`: a character vector giving the dependencies of the main
+- `dependencies`: a character vector giving the dependencies of the main
   package to load under the alias also. One can also set this to `TRUE`,
   in which case all dependencies of the `main_package` are loaded,
   except base and recommended packages.
 - `enhances`: a character vector giving the packages enhanced by the
   `main_package` to be loaded under the alias also.
-- `extends`: a character vector giving the
+- `extensions`: a character vector giving the
   extensions/reverse-dependencies of the main package to load under the
   same alias also.
 
@@ -1286,7 +1288,7 @@ Here is one example. Lets load `data.table` and then `tidytable`, under
 the same alias, which I will call “tdt” (for “tidy data.table”):
 
 ``` r
-import_as(tdt, "tidytable", depends="data.table") # this creates the tdt object
+import_as(tdt, "tidytable", dependencies="data.table") # this creates the tdt object
 #> Importing package: data.table...
 #> 
 #> Importing package: tidytable... The following conflicting objects detected:
@@ -1301,7 +1303,7 @@ import_as(tdt, "tidytable", depends="data.table") # this creates the tdt object
 Notice that the above is the same as:
 
 ``` r
-import_as(tdt, "data.table", extends = "tidytable") # this creates the tdt object
+import_as(tdt, "data.table", extensions = "tidytable") # this creates the tdt object
 #> Importing package: data.table...
 #> 
 #> Importing package: tidytable... The following conflicting objects detected:
@@ -1317,10 +1319,10 @@ Now you can of course use those loaded packages as one would normally do
 when using a package alias.
 
 The `import_as()` function will first load the dependencies in the order
-specified in argument `depends` if given (so the order matters). Then it
-loads the package named in argument `package`. And then it loads the
-extensions in the order specified in argument `extends` if given (again,
-the order matters).
+specified in argument `dependencies` if given (so the order matters).
+Then it loads the package named in argument `package`. And then it loads
+the extensions in the order specified in argument `extensions` if given
+(again, the order matters).
 
  
 
@@ -1442,24 +1444,47 @@ myalias$myfunction(...)
 
  
 
-## 8.7 A real example
+## 8.7 An example
 
 One R package that could benefit from the import system introduced by
 `tinyoperators`, is the `dplyr` R package. The `dplyr` R package
 overwrites **core R** functions (including base R) and it overwrites
 functions from pre-installed recommended R packages (such as `MASS`).
-Its function names are sometimes generic enough that there is no obvious
-way to tell if a function came from `dplyr` (for comparison: one can
-generally recognize `stringi` functions as they all start with `stri_`).
-Using `dplyr::...` could work, but `dplyr` was designed to interact with
-other R packages such as `tidyselect`, and constantly switching between
-`dplyr::...` and `tidyselect::...` is perhaps undesirable. If you look
-at the CRAN page for `dplyr`, you’ll notice it has a lot of reverse
-dependencies, and perhaps you’d like to use one of those extensions
-also.
+I.e.:
+
+``` r
+library(MASS)
+library(dplyr) # <- notice dplyr overwrites base R and recommended R packages
+#> Warning: package 'dplyr' was built under R version 4.2.3
+#> 
+#> Attaching package: 'dplyr'
+#> The following object is masked from 'package:MASS':
+#> 
+#>     select
+#> The following objects are masked from 'package:stats':
+#> 
+#>     filter, lag
+#> The following objects are masked from 'package:base':
+#> 
+#>     intersect, setdiff, setequal, union
+
+# detaching dplyr again:
+detach("package:dplyr")
+```
+
+Moreover, `dplyr`’s function names are sometimes generic enough that
+there is no obvious way to tell if a function came from `dplyr` or some
+other package (for comparison: one can generally recognize `stringi`
+functions as they all start with `stri_`). Using `dplyr$` could work,
+but `dplyr` was designed to interact with other R packages such as
+`tidyselect`, and constantly switching between `dplyr$` and
+`tidyselect$` (or some abbreviation like `ts$`) is perhaps undesirable.
+If you look at the CRAN page for `dplyr`, you’ll notice it has a lot of
+reverse dependencies, and perhaps you’d like to use one of those
+extensions also.
 
 So here `tinyoperator`’s `import_as()` function can come to the rescue.
-Below is an example where `dplyr` is loaded, along with some
+Below is an example where `dplyr` is loaded, along with its
 dependencies, and `powerjoin` (which is an extension), all under one
 alias which I’ll call `dr`.
 
@@ -1470,13 +1495,42 @@ tinyoperators::pkgs_get_deps("dplyr") # a lot of dependencies
 #> [11] "vctrs"
 
 import_as(
-  dr, "dplyr", depends=c("tibble", "tidyselect"), extends = "powerjoin", lib.loc=.libPaths()
+  dr, "dplyr", dependencies=TRUE, extensions = "powerjoin", lib.loc=.libPaths()
 )
-#> Importing package: tibble...
+#> Be careful: More than 10 packages are being loaded under the same alias
+#> Importing package: cli...
+#> 
+#> Importing package: generics... no conflicts
+#> 
+#> Importing package: glue... no conflicts
+#> 
+#> Importing package: lifecycle... no conflicts
+#> 
+#> Importing package: magrittr... no conflicts
+#> 
+#> Importing package: pillar... The following conflicting objects detected:
+#> style_bold
+#> pillar will overwrite conflicting objects from previous imported packages...
+#> 
+#> Importing package: R6... no conflicts
+#> 
+#> Importing package: rlang... The following conflicting objects detected:
+#> set_names
+#> rlang will overwrite conflicting objects from previous imported packages...
+#> 
+#> Importing package: tibble... The following conflicting objects detected:
+#> set_char_opts, num, char, set_num_opts
+#> tibble will overwrite conflicting objects from previous imported packages...
 #> 
 #> Importing package: tidyselect... no conflicts
 #> 
-#> Importing package: dplyr... no conflicts
+#> Importing package: vctrs... The following conflicting objects detected:
+#> data_frame
+#> vctrs will overwrite conflicting objects from previous imported packages...
+#> 
+#> Importing package: dplyr... The following conflicting objects detected:
+#> dim_desc, explain
+#> dplyr will overwrite conflicting objects from previous imported packages...
 #> 
 #> Importing package: powerjoin... no conflicts
 #> 
@@ -1484,6 +1538,35 @@ import_as(
 #> You can now access the functions using dr$...
 #> (S3)methods will work like normally.
 ```
+
+The functions from `dplyr` can now be used with the `dr$` prefix. This
+way, base R functions are no longer overwritten, and it will be clear
+for someone who reads your code whether functions like the `filter()`
+function is the base R filter function, or the `dplyr` filter function,
+as the latter would be called as `dr$filter()`.
+
+Let’s first run a simple dplyr example code:
+
+``` r
+library(magrittr)
+#> Warning: package 'magrittr' was built under R version 4.2.3
+d <- import_data("starwars", "dplyr")
+d %>%
+  dr$filter(species == "Droid") %>%
+  dr$select(name, dr$ends_with("color"))
+#> # A tibble: 6 × 4
+#>   name   hair_color skin_color  eye_color
+#>   <chr>  <chr>      <chr>       <chr>    
+#> 1 C-3PO  <NA>       gold        yellow   
+#> 2 R2-D2  <NA>       white, blue red      
+#> 3 R5-D4  <NA>       white, red  red      
+#> 4 IG-88  none       metal       red      
+#> 5 R4-P17 none       silver, red red, blue
+#> 6 BB8    none       none        black
+```
+
+Just add `dr$` in front of the functions you’d normally use, and
+everything works just as expected.
 
 Now lets run an example from the `powerjoin` GitHub page
 (<https://github.com/moodymudskipper/powerjoin>), using the above alias:
@@ -1532,73 +1615,10 @@ dr$power_inner_join(
 
 Notice that the only change made, is that all functions start with
 `dr$`, the rest is the same. No need for constantly switching between
-`tibble::...`, `dplyr::...`, `powerjoin::...` and so on - yet it is
-still clear from the code that they came from the `dplyr` + `powerjoin`
-family, and there is no fear of overwriting functions from other R
-packages - let alone core R functions.
-
-For comparison, here is the original code, used with attaching a package
-instead of using an alias:
-
-``` r
-library(MASS)
-library(powerjoin)
-#> Warning: package 'powerjoin' was built under R version 4.2.3
-library(dplyr) # <- dplyr overwrites base R and recommended R packages
-#> Warning: package 'dplyr' was built under R version 4.2.3
-#> 
-#> Attaching package: 'dplyr'
-#> The following object is masked from 'package:MASS':
-#> 
-#>     select
-#> The following objects are masked from 'package:stats':
-#> 
-#>     filter, lag
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, setdiff, setequal, union
-
-male_penguins <- tribble(
-     ~name,    ~species,     ~island, ~flipper_length_mm, ~body_mass_g,
- "Giordan",    "Gentoo",    "Biscoe",               222L,        5250L,
-  "Lynden",    "Adelie", "Torgersen",               190L,        3900L,
-  "Reiner",    "Adelie",     "Dream",               185L,        3650L
-)
-
-female_penguins <- tribble(
-     ~name,    ~species,  ~island, ~flipper_length_mm, ~body_mass_g,
-  "Alonda",    "Gentoo", "Biscoe",               211,        4500L,
-     "Ola",    "Adelie",  "Dream",               190,        3600L,
-"Mishayla",    "Gentoo", "Biscoe",               215,        4750L,
-)
-
-check_specs()
-#> # powerjoin check specifications
-#> ℹ implicit_keys
-#> → column_conflict
-#> → duplicate_keys_left
-#> → duplicate_keys_right
-#> → unmatched_keys_left
-#> → unmatched_keys_right
-#> → missing_key_combination_left
-#> → missing_key_combination_right
-#> → inconsistent_factor_levels
-#> → inconsistent_type
-#> → grouped_input
-#> → na_keys
-
-power_inner_join(
-  male_penguins[c("species", "island")],
-  female_penguins[c("species", "island")]
-)
-#> Joining, by = c("species", "island")
-#> # A tibble: 3 × 2
-#>   species island
-#>   <chr>   <chr> 
-#> 1 Gentoo  Biscoe
-#> 2 Gentoo  Biscoe
-#> 3 Adelie  Dream
-```
+`dplyr::...`, `powerjoin::...` and so on - yet it is still clear from
+the code that they came from the `dplyr` + `powerjoin` family, and there
+is no fear of overwriting functions from other R packages - let alone
+core R functions.
 
  
 

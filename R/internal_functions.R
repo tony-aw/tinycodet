@@ -108,14 +108,18 @@ s_get_pattern_attr_internal <- function(p) {
       stop("one or more duplicate dependent packages given")
     }
     
-    wrong_depends <- depends[!depends %installed in% lib.loc]
-    if(length(wrong_depends)>0) {
+    uninstalled_depends <- depends[!depends %installed in% lib.loc]
+    if(length(uninstalled_depends)>0) {
       error.txt <- paste0(
         "The following dependent packages are not installed:",
         "\n",
-        paste0(wrong_depends, collapse = ", ")
+        paste0(uninstalled_depends, collapse = ", ")
       )
       stop(error.txt)
+    }
+    
+    if(any(depends %in% pkgs_core)) {
+      stop("`import_as()` does not allow loading base/core R under an alias")
     }
     
     wrong_depends <- depends[!depends %in% actual_depends]
@@ -140,20 +144,33 @@ s_get_pattern_attr_internal <- function(p) {
     base=TRUE, recom=TRUE
   ) |> unique()
   
+  pkgs_core <- c(
+    utils::installed.packages(priority = "base") |> rownames(),
+    utils::installed.packages(lib.loc=lib.loc, priority = "base") |> rownames()
+  ) |> unique()
+  pkgs_preinst <- c(
+    utils::installed.packages(priority = "recommended") |> rownames(),
+    utils::installed.packages(lib.loc=lib.loc, priority = "recommended") |> rownames()
+  ) |> unique()
+  
   if(is.character(enhances) & length(enhances)>0) {
     if(length(enhances)!=length(unique(enhances))) {
       stop("one or more duplicate enhances given")
     }
     
-    wrong_enhances <- enhances[!enhances %installed in% lib.loc]
-    if(length(wrong_enhances)>0) {
+   uninstalled_enhances <- enhances[!enhances %installed in% lib.loc]
+    if(length(uninstalled_enhances)>0) {
       error.txt <- paste0(
         "The following enhances are not installed:",
         "\n",
-        paste0(wrong_enhances, collapse = ", ")
+        paste0(uninstalled_enhances, collapse = ", ")
       )
       stop(error.txt)
     }
+   
+   if(any(enhances %in% pkgs_core)) {
+     stop("`import_as()` does not allow loading base/core R under an alias")
+   }
     
     wrong_enhances <- enhances[!enhances %in% actual_enhances]
     if(length(wrong_enhances)>0) {
@@ -171,19 +188,33 @@ s_get_pattern_attr_internal <- function(p) {
 #' @keywords internal
 #' @noRd
 .internal_import_as_check_extends <- function(package, extends, lib.loc) {
+  
+  pkgs_core <- c(
+    utils::installed.packages(priority = "base") |> rownames(),
+    utils::installed.packages(lib.loc=lib.loc, priority = "base") |> rownames()
+  ) |> unique()
+  pkgs_preinst <- c(
+    utils::installed.packages(priority = "recommended") |> rownames(),
+    utils::installed.packages(lib.loc=lib.loc, priority = "recommended") |> rownames()
+  ) |> unique()
+  
   if(!is.null(extends) & is.character(extends) & length(extends)>0) {
     if(length(extends)!=length(unique(extends))) {
       stop("one or more duplicate extension packages given")
     }
     
-    wrong_extends <- extends[!extends %installed in% lib.loc]
-    if(length(wrong_extends)>0) {
+    uninstalled_extends <- extends[!extends %installed in% lib.loc]
+    if(length(uninstalled_extends)>0) {
       error.txt <- paste0(
         "The following extensions are not installed:",
         "\n",
-        paste0(wrong_extends, collapse = ", ")
+        paste0(uninstalled_extends, collapse = ", ")
       )
       stop(error.txt)
+    }
+    
+    if(any(extends %in% pkgs_core)) {
+      stop("`import_as()` does not allow loading base/core R under an alias")
     }
     
     tempfun <- function(x){
