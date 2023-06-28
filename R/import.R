@@ -35,13 +35,21 @@
 #' where the package(s) are to be assigned to. \cr
 #' Syntactically invalid names are not allowed for the alias name.
 #' @param main_package a single string, giving the name of the main package to load under the given alias.
+#' @param foreign_exports logical. \cr
+#' Some R packages export functions that are  not defined in their own package,
+#' but in their direct dependencies; "foreign exports", if you will. \cr
+#' If \code{foreign_exports = TRUE} these foreign exports are added to the namespace of \code{main_package},
+#' even if \code{dependencies = FALSE}. \cr
+#' If \code{foreign_exports = FALSE}, these foreign exports are not added,
+#' and the user must specify the appropriate packages in argument \code{dependencies}. \cr
+#' Defaults to \code{TRUE}, which is similar to the behaviour of base R's \link{::} operator.
 #' @param package the quoted package name.
 #' @param dependencies either logical, or a character vector. \cr
 #' If \code{FALSE} (default), no dependencies are loaded under the alias. \cr
 #' If \code{TRUE}, ALL direct dependencies of the \code{main_package} are loaded under the alias,
-#' but \bold{excluding} core/base R packages,
+#' but \bold{excluding} baee/core R,
 #' and also \bold{excluding} pre-installed "recommended" R packages.
-#' See also \link{pkgs_get_deps} \cr
+#' See also \link{pkgs_get_deps}. \cr
 #' If a character vector, then it is taken as the direct dependencies of the
 #' package to be loaded also under the alias. \cr
 #' NOTE (1): "Dependencies" here are defined as any package appearing in the
@@ -73,11 +81,12 @@
 #' \code{c("dependencies", "main_package", "enhances", "extensions")}, \cr
 #' or some re-ordering of this character vector,
 #' giving the relative load order of the groups of packages. \cr
-#' By default this is the character vector \cr
+#' The default setting (which is highly recommended) is the character vector \cr
 #' \code{c("dependencies", "main_package", "enhances", "extensions")}, \cr
 #' which results in the following load order: \cr
 #' (1) The dependencies, in the order specified by the \code{depenencies} argument. \cr
-#' (2) The main_package (see argument \code{main_package}). \cr
+#' (2) The main_package (see argument \code{main_package}),
+#' including foreing exports (if \code{foreign_exports=TRUE}). \cr
 #' (3) The enhances, in the order specified by the \code{enhances} argument. \cr
 #' (4) The reverse-dependencies/extensions, in the order specified by the \code{extensions} argument. \cr
 #' @param pkgs a single string, or character vector, with the package name(s). \cr
@@ -160,9 +169,9 @@ NULL
 #' @rdname import
 #' @export
 import_as <- function(
-    alias, main_package, dependencies=FALSE, enhances=NULL, extensions=NULL, 
-    loadorder = c("dependencies", "main_package", "enhances", "extensions"),
-    lib.loc=.libPaths()
+    alias, main_package, foreign_exports=TRUE, dependencies=FALSE, enhances=NULL, extensions=NULL,
+    lib.loc=.libPaths(),
+    loadorder = c("dependencies", "main_package", "enhances", "extensions")
 ) {
   
   # Check alias:
@@ -216,7 +225,44 @@ import_as <- function(
   }
   
   # load packages:
-  namespaces <- .internal_import_namespaces(pkgs, lib.loc = lib.loc)
+  export_names_all <- character()
+  export_names_allconflicts <- character()
+  namespaces <- list()
+  for (i in 1:length(pkgs)) {
+    namespace_current <- .internal_prep_Namespace(pkgs[i], lib.loc)
+    
+    if(pkgs[i]==main_package & foreign_exports) {
+      message("listing foreign exports from package: ", pkgs[i], "...")
+      namespace_current <- utils::modifyList(
+        namespace_current,
+        .internal_get_foreignexports_ns(main_package, lib.loc)
+      )
+      
+    }
+    
+    export_names_current <- names(namespace_current)
+    
+    export_names_intersection <- intersect(export_names_current, export_names_all)
+    if(i==1){
+      message("Importing package: ", pkgs[i], "...")
+    }
+    if(length(export_names_intersection)==0 & i>1) {
+      message("Importing package: ", pkgs[i], "... no conflicts")
+    }
+    if(length(export_names_intersection)>0) {
+      message(
+        "Importing package: ", pkgs[i], "... The following conflicting objects detected:",
+        "\n",
+        paste0(export_names_intersection, collapse = ", "),
+        "\n",
+        pkgs[i], " will overwrite conflicting objects from previous imported packages..."
+      )
+    }
+    export_names_allconflicts <- c(export_names_intersection, export_names_allconflicts)
+    export_names_all <- c(export_names_current, export_names_all)
+    namespaces <- utils::modifyList(namespaces, namespace_current)
+    message("")
+  }
   
   message(paste0(
     "Done", "\n",

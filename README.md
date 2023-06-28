@@ -30,8 +30,9 @@
   - [8.3 import_inops](#83-import_inops)
   - [8.4 import_data](#84-import_data)
   - [8.5 lib.loc](#85-libloc)
-  - [8.6 Sourcing modules](#86-sourcing-modules)
-  - [8.7 An example](#87-an-example)
+  - [8.6 Regarding pronouns](#86-regarding-pronouns)
+  - [8.7 Sourcing modules](#87-sourcing-modules)
+  - [8.8 An example](#88-an-example)
 - [9 Speed and multi-threading](#9-speed-and-multi-threading)
   - [9.1 stri_locate_ith](#91-stri_locate_ith)
   - [9.2 Substr-functions](#92-substr-functions)
@@ -192,7 +193,8 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   Extended the example in the “import” section of the Read-Me. The
   Read-Me now has section numbers.
 - 28 June 2023: renamed the `depends` and `extends` arguments of
-  `import_as()` to `dependencies` and `extenions`, to avoid confusion.
+  `import_as()` to `dependencies` and `extenions`, to avoid confusion,
+  and added the `foreign_exports` argument as well.
 
 FUTURE PLANS:
 
@@ -1291,8 +1293,9 @@ the same alias, which I will call “tdt” (for “tidy data.table”):
 import_as(tdt, "tidytable", dependencies="data.table") # this creates the tdt object
 #> Importing package: data.table...
 #> 
+#> listing foreign exports from package: tidytable...
 #> Importing package: tidytable... The following conflicting objects detected:
-#> last, fread, first, between
+#> last, fread, first, between, %chin%, %like%, setDTthreads, data.table, getDTthreads, fwrite, %between%
 #> tidytable will overwrite conflicting objects from previous imported packages...
 #> 
 #> Done
@@ -1304,6 +1307,7 @@ Notice that the above is the same as:
 
 ``` r
 import_as(tdt, "data.table", extensions = "tidytable") # this creates the tdt object
+#> listing foreign exports from package: data.table...
 #> Importing package: data.table...
 #> 
 #> Importing package: tidytable... The following conflicting objects detected:
@@ -1419,7 +1423,16 @@ like base R’s `loadNamespace()` and `install.packages()` functions).
 
  
 
-## 8.6 Sourcing modules
+## 8.6 Regarding pronouns
+
+The `magrittr` and `rlang` packages add “pronouns” to R: `.`, `. data`,
+`.env`. Fret not, for pronouns work regardless if you attached a package
+or not. And you don’t need to use something like `rlang::.data` or
+`rlang$.data` for a pronoun to work. They just work.
+
+ 
+
+## 8.7 Sourcing modules
 
 Scripts with functions that you source (sometimes referred to as
 “modules”) can be kind of seen as mini-packages. So `tinyoperators` adds
@@ -1444,7 +1457,7 @@ myalias$myfunction(...)
 
  
 
-## 8.7 An example
+## 8.8 An example
 
 One R package that could benefit from the import system introduced by
 `tinyoperators`, is the `dplyr` R package. The `dplyr` R package
@@ -1484,9 +1497,8 @@ reverse dependencies, and perhaps you’d like to use one of those
 extensions also.
 
 So here `tinyoperator`’s `import_as()` function can come to the rescue.
-Below is an example where `dplyr` is loaded, along with its
-dependencies, and `powerjoin` (which is an extension), all under one
-alias which I’ll call `dr`.
+Below is an example where `dplyr` is loaded, and `powerjoin` (which is
+an extension), all under one alias which I’ll call `dr`.
 
 ``` r
 tinyoperators::pkgs_get_deps("dplyr") # a lot of dependencies
@@ -1495,42 +1507,10 @@ tinyoperators::pkgs_get_deps("dplyr") # a lot of dependencies
 #> [11] "vctrs"
 
 import_as(
-  dr, "dplyr", dependencies=TRUE, extensions = "powerjoin", lib.loc=.libPaths()
+  dr, "dplyr", extensions = "powerjoin", lib.loc=.libPaths()
 )
-#> Be careful: More than 10 packages are being loaded under the same alias
-#> Importing package: cli...
-#> 
-#> Importing package: generics... no conflicts
-#> 
-#> Importing package: glue... no conflicts
-#> 
-#> Importing package: lifecycle... no conflicts
-#> 
-#> Importing package: magrittr... no conflicts
-#> 
-#> Importing package: pillar... The following conflicting objects detected:
-#> style_bold
-#> pillar will overwrite conflicting objects from previous imported packages...
-#> 
-#> Importing package: R6... no conflicts
-#> 
-#> Importing package: rlang... The following conflicting objects detected:
-#> set_names
-#> rlang will overwrite conflicting objects from previous imported packages...
-#> 
-#> Importing package: tibble... The following conflicting objects detected:
-#> set_char_opts, num, char, set_num_opts
-#> tibble will overwrite conflicting objects from previous imported packages...
-#> 
-#> Importing package: tidyselect... no conflicts
-#> 
-#> Importing package: vctrs... The following conflicting objects detected:
-#> data_frame
-#> vctrs will overwrite conflicting objects from previous imported packages...
-#> 
-#> Importing package: dplyr... The following conflicting objects detected:
-#> dim_desc, explain
-#> dplyr will overwrite conflicting objects from previous imported packages...
+#> listing foreign exports from package: dplyr...
+#> Importing package: dplyr...
 #> 
 #> Importing package: powerjoin... no conflicts
 #> 
@@ -1552,7 +1532,7 @@ library(magrittr)
 #> Warning: package 'magrittr' was built under R version 4.2.3
 d <- import_data("starwars", "dplyr")
 d %>%
-  dr$filter(species == "Droid") %>%
+  dr$filter(.data$species == "Droid") %>% # notice the pronounce can be used without problems
   dr$select(name, dr$ends_with("color"))
 #> # A tibble: 6 × 4
 #>   name   hair_color skin_color  eye_color

@@ -11,11 +11,12 @@
 import_as(
   alias,
   main_package,
+  foreign_exports = TRUE,
   dependencies = FALSE,
   enhances = NULL,
   extensions = NULL,
-  loadorder = c("dependencies", "main_package", "enhances", "extensions"),
-  lib.loc = .libPaths()
+  lib.loc = .libPaths(),
+  loadorder = c("dependencies", "main_package", "enhances", "extensions")
 )
 
 import_inops(pkgs, lib.loc = .libPaths(), exclude, include.only)
@@ -32,12 +33,21 @@ Syntactically invalid names are not allowed for the alias name.}
 
 \item{main_package}{a single string, giving the name of the main package to load under the given alias.}
 
+\item{foreign_exports}{logical. \cr
+Some R packages export functions that are  not defined in their own package,
+but in their direct dependencies; "foreign exports", if you will. \cr
+If \code{foreign_exports = TRUE} these foreign exports are added to the namespace of \code{main_package},
+even if \code{dependencies = FALSE}. \cr
+If \code{foreign_exports = FALSE}, these foreign exports are not added,
+and the user must specify the appropriate packages in argument \code{dependencies}. \cr
+Defaults to \code{TRUE}, which is similar to the behaviour of base R's \link{::} operator.}
+
 \item{dependencies}{either logical, or a character vector. \cr
 If \code{FALSE} (default), no dependencies are loaded under the alias. \cr
 If \code{TRUE}, ALL direct dependencies of the \code{main_package} are loaded under the alias,
-but \bold{excluding} core/base R packages,
+but \bold{excluding} baee/core R,
 and also \bold{excluding} pre-installed "recommended" R packages.
-See also \link{pkgs_get_deps} \cr
+See also \link{pkgs_get_deps}. \cr
 If a character vector, then it is taken as the direct dependencies of the
 package to be loaded also under the alias. \cr
 NOTE (1): "Dependencies" here are defined as any package appearing in the
@@ -68,22 +78,23 @@ NOTE (2): The order of the character vector matters!
 If multiple packages share objects with the same name,
 the objects of the package named last will overwrite those of the earlier named packages. \cr}
 
-\item{loadorder}{the character vector \cr
-\code{c("dependencies", "main_package", "enhances", "extensions")}, \cr
-or some re-ordering of this character vector,
-giving the relative load order of the groups of packages. \cr
-By default this is the character vector \cr
-\code{c("dependencies", "main_package", "enhances", "extensions")}, \cr
-which results in the following load order: \cr
-(1) The dependencies, in the order specified by the \code{depenencies} argument. \cr
-(2) The main_package (see argument \code{main_package}). \cr
-(3) The enhances, in the order specified by the \code{enhances} argument. \cr
-(4) The reverse-dependencies/extensions, in the order specified by the \code{extensions} argument. \cr}
-
 \item{lib.loc}{character vector specifying library search path
 (the location of R library trees to search through).
 This is usually \code{.libPaths()}.
 See also \link[base]{loadNamespace}.}
+
+\item{loadorder}{the character vector \cr
+\code{c("dependencies", "main_package", "enhances", "extensions")}, \cr
+or some re-ordering of this character vector,
+giving the relative load order of the groups of packages. \cr
+The default setting (which is highly recommended) is the character vector \cr
+\code{c("dependencies", "main_package", "enhances", "extensions")}, \cr
+which results in the following load order: \cr
+(1) The dependencies, in the order specified by the \code{depenencies} argument. \cr
+(2) The main_package (see argument \code{main_package}),
+including foreing exports (if \code{foreign_exports=TRUE}). \cr
+(3) The enhances, in the order specified by the \code{enhances} argument. \cr
+(4) The reverse-dependencies/extensions, in the order specified by the \code{extensions} argument. \cr}
 
 \item{pkgs}{a single string, or character vector, with the package name(s). \cr
 NOTE (1): The order of the character vector matters!

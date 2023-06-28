@@ -45,37 +45,49 @@ s_get_pattern_attr_internal <- function(p) {
   return(check)
 }
 
-.internal_import_namespaces <- function(pkgs, lib.loc){
-  export_names_all <- character()
-  export_names_allconflicts <- character()
-  namespaces <- list()
-  for (i in 1:length(pkgs)) {
-    namespace_current <- .internal_prep_Namespace(pkgs[i], lib.loc)
-    export_names_current <- names(namespace_current)
-
-    export_names_intersection <- intersect(export_names_current, export_names_all)
-    if(i==1){
-      message("Importing package: ", pkgs[i], "...")
-    }
-    if(length(export_names_intersection)==0 & i>1) {
-      message("Importing package: ", pkgs[i], "... no conflicts")
-    }
-    if(length(export_names_intersection)>0) {
-      message(
-        "Importing package: ", pkgs[i], "... The following conflicting objects detected:",
-        "\n",
-        paste0(export_names_intersection, collapse = ", "),
-        "\n",
-        pkgs[i], " will overwrite conflicting objects from previous imported packages..."
-      )
-    }
-    export_names_allconflicts <- c(export_names_intersection, export_names_allconflicts)
-    export_names_all <- c(export_names_current, export_names_all)
-    namespaces <- utils::modifyList(namespaces, namespace_current)
-    message("")
+.internal_get_foreignexports_ns <- function(main_package, lib.loc) {
+  ns <- loadNamespace(main_package, lib.loc = lib.loc) |> as.list(all.names=TRUE, sorted=TRUE)
+  names_exports <- names(ns[[".__NAMESPACE__."]][["exports"]])
+  lst_imports <- ns[[".__NAMESPACE__."]][["imports"]]
+  pkgs_core <- c(
+    utils::installed.packages(priority = "base") |> rownames(),
+    utils::installed.packages(lib.loc=lib.loc, priority = "base") |> rownames()
+  ) |> unique()
+  
+  lst_imports <- lst_imports[!names(lst_imports) %in% pkgs_core]
+  pkgs <- names(lst_imports) |> unique()
+  
+  uninstalled_pkgs <- pkgs[!pkgs %installed in% lib.loc]
+  if(length(uninstalled_pkgs)>0) {
+    error.txt <- paste0(
+      "The following dependent packages (for the forein exports) are not installed:",
+      "\n",
+      paste0(uninstalled_pkgs, collapse = ", ")
+    )
+    stop(error.txt)
   }
-  return(namespaces)
+  
+  ns_foreign <- list()
+  for (i in pkgs) {
+    names_funs <- lst_imports[names(lst_imports) %in% i] |> unlist()
+    names_funs <- intersect(names_exports, names_funs)
+    ns_i <- .internal_prep_Namespace(i, lib.loc = lib.loc) |> as.environment()
+    names_funs <- intersect(names_funs, names(ns_i))
+    ns_temp <- mget(
+      names_funs, envir = ns_i,
+      inherits = FALSE
+    )
+    ns_foreign <- utils::modifyList(
+      ns_foreign, ns_temp
+    )
+  }
+  return(ns_foreign)
 }
+
+# .internal_import_namespaces <- function(pkgs, lib.loc){
+#   
+#   return(namespaces)
+# }
 
 #' @keywords internal
 #' @noRd

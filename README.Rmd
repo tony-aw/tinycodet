@@ -80,7 +80,7 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
  - 21 June 2023: Migrated the tests from `testthat` to `tinytest`. Added tests for the new `%:=%` operator. Adjusted the documentation, and this Read-Me file. Renamed the `%source from%` operator to `%@source%`. Removed the `%installed in%` operator.
  - 26 June 2023: Another major change. Made `import_as()` much, much stricter. Brought back the `pkgs %installed in% lib.loc%` operator. Adjusted the documentation accordingly. Asked some people to start testing the R package, as it is nearing it's final form before getting out of the experimental life cycle.
  - 27 June 2023: Fixed a bug in the `lib.loc` argument of the `import_` functions. Made the output of the `import_` functions a little bit more compact. Fixed a small bug in an internal function. Added the `base` and `recom` arguments to the `pkgs_get_deps()` function. Clarified the documentation a bit. Fixed some spelling errors. Extended the example in the "import" section of the Read-Me. The Read-Me now has section numbers.
- - 28 June 2023: renamed the `depends` and `extends` arguments of `import_as()` to `dependencies` and `extenions`, to avoid confusion.
+ - 28 June 2023: renamed the `depends` and `extends` arguments of `import_as()` to `dependencies` and `extenions`, to avoid confusion, and added the `foreign_exports` argument as well.
 
 
 FUTURE PLANS:
@@ -874,6 +874,14 @@ head(d)
 
 All "import_" functions in the `tinyoperators` package have a `lib.loc` argument to explicitly specify from where to get your packages (just like base R's `loadNamespace()` and `install.packages()` functions).
 
+
+&nbsp;
+
+## Regarding pronouns
+
+The `magrittr` and `rlang` packages add "pronouns" to R: `.`, `. data`, `.env`. Fret not, for pronouns work regardless if you attached a package or not. And you don't need to use something like `rlang::.data` or `rlang$.data` for a pronoun to work. They just work.
+
+
 &nbsp;
 
 ## Sourcing modules
@@ -906,13 +914,13 @@ detach("package:dplyr")
 
 Moreover, `dplyr`'s function names are sometimes generic enough that there is no obvious way to tell if a function came from `dplyr` or some other package (for comparison: one can generally recognize `stringi` functions as they all start with `stri_`). Using `dplyr$` could work, but `dplyr` was designed to interact with other R packages such as `tidyselect`, and constantly switching between `dplyr$` and `tidyselect$` (or some abbreviation like `ts$`) is perhaps undesirable. If you look at the CRAN page for `dplyr`, you'll notice it has a lot of reverse dependencies, and perhaps you'd like to use one of those extensions also.
 
-So here `tinyoperator`'s `import_as()` function can come to the rescue. Below is an example where `dplyr` is loaded, along with its dependencies, and `powerjoin` (which is an extension), all under one alias which I'll call `dr`.
+So here `tinyoperator`'s `import_as()` function can come to the rescue. Below is an example where `dplyr` is loaded, and `powerjoin` (which is an extension), all under one alias which I'll call `dr`.
 
 ```{r}
 tinyoperators::pkgs_get_deps("dplyr") # a lot of dependencies
 
 import_as(
-  dr, "dplyr", dependencies=TRUE, extensions = "powerjoin", lib.loc=.libPaths()
+  dr, "dplyr", extensions = "powerjoin", lib.loc=.libPaths()
 )
 ```
 
@@ -924,7 +932,7 @@ Let's first run a simple dplyr example code:
 library(magrittr)
 d <- import_data("starwars", "dplyr")
 d %>%
-  dr$filter(species == "Droid") %>%
+  dr$filter(.data$species == "Droid") %>% # notice the pronounce can be used without problems
   dr$select(name, dr$ends_with("color"))
 ```
 
