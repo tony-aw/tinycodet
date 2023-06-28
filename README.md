@@ -63,8 +63,7 @@ public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostat
 ## 1.1 Description
 
 The `tinyoperators` R-package adds some infix operators, and a few
-functions, for better coding etiquette. It primarily focuses on 4
-things:
+functions. It primarily focuses on 4 things:
 
 1)  Float truth testing.
 2)  Reducing repetitive code.

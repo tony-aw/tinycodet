@@ -47,11 +47,12 @@
 #' @param dependencies either logical, or a character vector. \cr
 #' If \code{FALSE} (default), no dependencies are loaded under the alias. \cr
 #' If \code{TRUE}, ALL direct dependencies of the \code{main_package} are loaded under the alias,
-#' but \bold{excluding} baee/core R,
-#' and also \bold{excluding} pre-installed "recommended" R packages.
+#' but \bold{excluding} base/core R,
+#' and also \bold{excluding} pre-installed "recommended" R packages. \cr
 #' See also \link{pkgs_get_deps}. \cr
 #' If a character vector, then it is taken as the direct dependencies of the
 #' package to be loaded also under the alias. \cr
+#' \cr
 #' NOTE (1): "Dependencies" here are defined as any package appearing in the
 #' "Depends", "Imports", or "LinkingTo" sections of the Description file of the
 #' \code{main_package}. So no recursive dependencies. \cr
@@ -63,6 +64,7 @@
 #' giving the names of the packages enhanced by the
 #' \code{main_package} to be loaded also under the alias. \cr
 #' Defaults to \code{NULL}, which means no enhances are loaded. \cr
+#' \cr
 #' NOTE(1): Enhances are defined as packages appearing in the "Enhances" section
 #' of the Description file of the \code{main_package}. \cr
 #' NOTE (2): The order of the character vector matters!
@@ -72,6 +74,7 @@
 #' giving the names of the extensions / reverse-dependencies of the
 #' \code{main_package} to be loaded also under the alias. \cr
 #' Defaults to \code{NULL}, which means no extensions are loaded. \cr
+#' \cr
 #' NOTE (1): "Extensions" here are defined as reverse-depends or reverse-imports.
 #' It does not matter if these are CRAN or non-CRAN packages. \cr
 #' NOTE (2): The order of the character vector matters!
@@ -81,15 +84,17 @@
 #' \code{c("dependencies", "main_package", "enhances", "extensions")}, \cr
 #' or some re-ordering of this character vector,
 #' giving the relative load order of the groups of packages. \cr
+#' \cr
 #' The default setting (which is highly recommended) is the character vector \cr
 #' \code{c("dependencies", "main_package", "enhances", "extensions")}, \cr
 #' which results in the following load order: \cr
 #' (1) The dependencies, in the order specified by the \code{depenencies} argument. \cr
 #' (2) The main_package (see argument \code{main_package}),
-#' including foreing exports (if \code{foreign_exports=TRUE}). \cr
+#' including foreigg exports (if \code{foreign_exports=TRUE}). \cr
 #' (3) The enhances, in the order specified by the \code{enhances} argument. \cr
 #' (4) The reverse-dependencies/extensions, in the order specified by the \code{extensions} argument. \cr
 #' @param pkgs a single string, or character vector, with the package name(s). \cr
+#' \cr
 #' NOTE (1): The order of the character vector matters!
 #' If multiple packages share objects with the same name,
 #' the objects of the package named last will overwrite those of the earlier named packages. \cr
@@ -100,6 +105,7 @@
 #' giving the infix operators NOT to expose to the current environment. \cr
 #' This can be handy to prevent overwriting any (user defined)
 #' infix operators already present in the current environment. \cr
+#' \cr
 #' NOTE: You cannot specify both the \code{exclude} and \code{include.only} arguments.
 #' Only one or the other, or neither.
 #' @param include.only a character vector,
@@ -107,11 +113,12 @@
 #' and the rest of the operators will not be exposed. \cr
 #' This can be handy to prevent overwriting any (user defined)
 #' infix operators already present in the current environment. \cr
+#' \cr
 #' NOTE: You cannot specify both the \code{exclude} and \code{include.only} arguments.
 #' Only one or the other, or neither.
 #' @param lib.loc character vector specifying library search path
-#' (the location of R library trees to search through).
-#' This is usually \code{.libPaths()}.
+#' (the location of R library trees to search through). \cr
+#' This is usually \code{.libPaths()}. \cr
 #' See also \link[base]{loadNamespace}.
 #' @param dataname a single string, giving the name of the data set.
 #' @param type The type of functions to list. Possibilities: \cr

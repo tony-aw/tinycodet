@@ -33,7 +33,7 @@ set.seed(1)
 
 ## Description
 
-The `tinyoperators` R-package adds some infix operators, and a few functions, for better coding etiquette. It primarily focuses on 4 things:
+The `tinyoperators` R-package adds some infix operators, and a few functions. It primarily focuses on 4 things:
 
  1) Float truth testing.
  2) Reducing repetitive code.
