@@ -1212,10 +1212,9 @@ Moreover, `tinyoperators` extends this functionality to also work on
 
 Just to clarify: I am not claiming this import system provided in the
 `tinyoperators` package is always the best system or whatever. This is
-just another option I lovingly share with R users, just like the
-`import` and `box` packages provide additional options. Please feel free
-to completely ignore this section if you really prefer using `library()`
-:-)
+just another option provided, just like the `import` and `box` packages
+provide additional options. Please feel free to completely ignore this
+section if you prefer using `library()` :-)
 
 What follows are descriptions of functions that together form this new,
 infix-operator friendly **&** multi-package assignment friendly, import
