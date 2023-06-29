@@ -40,9 +40,7 @@ The `tinyoperators` R-package adds some infix operators, and a few functions. It
  3) Extending the string manipulation capabilities of the `stringi` R package.
  4) A new package and module import system,  that combines the benefits of aliasing a package with the benefits of attaching a package.
 
-The `tinyoperators` R-package has only one dependency, namely `stringi`, though it does allows multi-threading of some of the string-related functions (when appropriate) via the suggested `stringfish` R-package.
-
-Most functions in this R-package are fully vectorized and reasonably well optimized.
+The `tinyoperators` R-package has only one dependency, namely `stringi`, though it does allows multi-threading of some of the string-related functions (when appropriate) via the suggested `stringfish` R-package. Most functions in this R-package are fully vectorized and have been optimized for optimal speed and performance.
 
 &nbsp;
 
@@ -450,6 +448,10 @@ stringi::stri_sub_replace(x, loc, replacement=repl)
 ```
 
 Notice that the code is virtually equivalent. We *only* need to change the locate function.
+
+Regarding its speed:
+
+The `stri_locate_ith()` function needs to know the number of matches of some pattern for every string in a character vector, as well as the actual matches themselves, before being able to actually give the $i^\textrm{th}$ occurrence of some pattern. Thus `stri_locate_ith()` (at least in its current implementation) cannot be faster than the combined run-time of the `stri_locate_all()` and `stri_count()` functions. As `stri_locate_ith()` is written only in fully vectorized statements in R (no loops), the function hardly takes more than twice the time of `stri_locate_all()` and `stri_count()` combined.
 
 &nbsp;
 
@@ -970,17 +972,11 @@ Notice that the only change made, is that all functions start with `dr$`, the re
 
 &nbsp;
 
-# Speed and multi-threading
-
-## stri_locate_ith
-
-The `stri_locate_ith()` function needs to know the number of matches of some pattern for every string in a character vector, as well as the actual matches themselves, before being able to actually give the $i^\textrm{th}$ occurrence of some pattern. Thus `stri_locate_ith()` (at least in its current implementation) cannot be faster than the combined run-time of the `stri_locate_all()` and `stri_count()` functions. As `stri_locate_ith()` is written mostly only in fully vectorized statements in R (no loop), the function hardly takes more than twice the time of `stri_locate_all()` and `stri_count()` combined.
-
-&nbsp;
+# Multi-threading
 
 ## Substr-functions
 
-All the string sub-setting functions have the `fish` argument, which is `FALSE` by default. If `fish=TRUE`, these functions will use `stringfish` functions instead of base R and `stringi` functions. The stringfish functions are usually faster, and also allow native multi-threading. Note that `stringfish` must be installed in order for this to work. And `stringfish` needs to be loaded also if you wish to also use multi-threading. Multi-threading in `stringfish` can be set-up by running `setoption(stringfish.nthreads=cl)` somewhere at the start of your code, where `cl` is the number of threads you want to use.
+All the string sub-setting functions have the `fish` argument, which is `FALSE` by default. If `fish=TRUE`, these functions will use `stringfish` functions instead of base R and `stringi` functions. The stringfish functions are usually faster, and also allow native multi-threading. Note that `stringfish` must be installed in order for this to work. Multi-threading in `stringfish` can be set-up by running `setoption(stringfish.nthreads=cl)` somewhere at the start of your code, where `cl` is the number of threads you want to use.
 
 Don't use multi-threading unless you need to, as multi-threading has some overhead, thus its only faster with very large character vectors.
 
