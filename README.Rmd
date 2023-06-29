@@ -795,22 +795,22 @@ And that is where `tinyoperator`'s `import_as()` function comes in. It loads an 
 
 The main arguments of the `import_as()` function are:
 
- - `alias`: the name (unquoted) of the alias under which to load the main package, and any specified (reverse) dependencies.
+ - `alias`: the name (unquoted) of the alias under which to load the main package, and any specified (reverse) dependencies. To keep aliases easily distinguished from other objects that can also be subset with the `$` operator, I recommend starting all alias names with a dot (`.`).
  - `main_package`: the name (string) of the main package to load.
- - `dependencies`: a character vector giving the dependencies of the main package to load under the alias also. One can also set this to `TRUE`, in which case all dependencies of the `main_package` are loaded, except base and recommended packages.
- - `enhances`: a character vector giving the packages enhanced by the `main_package` to be loaded under the alias also.
- - `extensions`: a character vector giving the extensions/reverse-dependencies of the main package to load under the same alias also.
+ - `dependencies`: a character vector giving the dependencies of the main package to load under the alias also. One can also set this to `TRUE`, in which case all dependencies of the `main_package` are loaded, except base and recommended packages. Default is `FALSE`.
+ - `enhances`: an optional character vector giving the packages enhanced by the `main_package` to be loaded under the alias also.
+ - `extensions`: an optional character vector giving the extensions/reverse-dependencies of the main package to load under the same alias also.
 
-Here is one example. Lets load  `data.table` and then `tidytable`, under the same alias, which I will call "tdt" (for "tidy data.table"):
+Here is one example. Lets load  `data.table` and then `tidytable`, under the same alias, which I will call ".tdt" (for "tidy data.table"):
 
 ```{r}
-import_as(tdt, "tidytable", dependencies="data.table") # this creates the tdt object
+import_as(.tdt, "tidytable", dependencies="data.table") # this creates the tdt object
 ```
 
 Notice that the above is the same as:
 
 ```{r}
-import_as(tdt, "data.table", extensions = "tidytable") # this creates the tdt object
+import_as(.tdt, "data.table", extensions = "tidytable") # this creates the tdt object
 ```
 
 
@@ -826,8 +826,8 @@ The `import_as()` function will first load the dependencies in the order specifi
 When aliasing an R package, infix operators are also loaded in the alias. However, it may be cumbersome to use them from the alias. For example this:
 
 ```{r eval=FALSE}
-to <- loadNamespace("tinyoperators")
-to$`%row~%`(x, mat)
+import_as(.to, "tinyoperators")
+.to$`%row~%`(x, mat)
 ```
 
 or this:
@@ -881,9 +881,9 @@ All "import_" functions in the `tinyoperators` package have a `lib.loc` argument
 
 &nbsp;
 
-## Regarding pronouns
+## On pronouns and aliases
 
-The `magrittr` and `rlang` packages add "pronouns" to R: `.`, `. data`, `.env`. Fret not, for pronouns work regardless if you attached a package or not. And you don't need to use something like `rlang::.data` or `rlang$.data` for a pronoun to work. They just work.
+The `magrittr` and `rlang` packages add "pronouns" to R: `.`, `. data`, `.env`. Fret not, for pronouns work regardless if you attached a package or not. And you don't need to use something like `rlang::.data` or `.rlang$.data` for a pronoun to work. They just work.
 
 
 &nbsp;
@@ -895,10 +895,10 @@ Scripts with functions that you source (sometimes referred to as "modules") can 
 Example:
 
 ```{r eval=FALSE}
-myalias %@source% list(file="mydir/mymodule.R")
+.myalias %@source% list(file="mydir/mymodule.R")
 source_inops(file="mydir/mymodule.R")
 
-myalias$myfunction(...)
+.myalias$myfunction(...)
 ```
 
 
@@ -916,7 +916,7 @@ library(dplyr) # <- notice dplyr overwrites base R and recommended R packages
 detach("package:dplyr")
 ```
 
-Moreover, `dplyr`'s function names are sometimes generic enough that there is no obvious way to tell if a function came from `dplyr` or some other package (for comparison: one can generally recognize `stringi` functions as they all start with `stri_`). Using `dplyr$` could work, but `dplyr` was designed to interact with other R packages such as `tidyselect`, and constantly switching between `dplyr$` and `tidyselect$` (or some abbreviation like `ts$`) is perhaps undesirable. If you look at the CRAN page for `dplyr`, you'll notice it has a lot of reverse dependencies, and perhaps you'd like to use one of those extensions also.
+Moreover, `dplyr`'s function names are sometimes generic enough that there is no obvious way to tell if a function came from `dplyr` or some other package (for comparison: one can generally recognize `stringi` functions as they all start with `stri_`). Moreover, `dplyr` was designed to interact with other R packages such as `tidyselect`, and constantly switching between package prefixes or aliases is perhaps undesirable. If you look at the CRAN page for `dplyr`, you'll notice it has a lot of reverse dependencies, and perhaps you'd like to use one of those extensions also.
 
 So here `tinyoperator`'s `import_as()` function might help. Below is an example where `dplyr` is loaded, and `powerjoin` (which is an extension), all under one alias which I'll call `dr`.
 
@@ -924,11 +924,11 @@ So here `tinyoperator`'s `import_as()` function might help. Below is an example 
 tinyoperators::pkgs_get_deps("dplyr") # a lot of dependencies
 
 import_as(
-  dr, "dplyr", extensions = "powerjoin", lib.loc=.libPaths()
+  .dr, "dplyr", extensions = "powerjoin", lib.loc=.libPaths()
 )
 ```
 
-The functions from `dplyr` can now be used with the `dr$` prefix. This way, base R functions are no longer overwritten, and it will be clear for someone who reads your code whether functions like the `filter()` function is the base R filter function, or the `dplyr` filter function, as the latter would be called as `dr$filter()`.
+The functions from `dplyr` can now be used with the `.dr$` prefix. This way, base R functions are no longer overwritten, and it will be clear for someone who reads your code whether functions like the `filter()` function is the base R filter function, or the `dplyr` filter function, as the latter would be called as `.dr$filter()`.
 
 Let's first run a simple dplyr example code:
 
@@ -936,31 +936,31 @@ Let's first run a simple dplyr example code:
 library(magrittr)
 d <- import_data("starwars", "dplyr")
 d %>%
-  dr$filter(.data$species == "Droid") %>% # notice the pronounce can be used without problems
-  dr$select(name, dr$ends_with("color"))
+  .dr$filter(.data$species == "Droid") %>% # notice the pronounce can be used without problems
+  .dr$select(name, .dr$ends_with("color"))
 ```
 
-Just add `dr$` in front of the functions you'd normally use, and everything works just as expected.
+Just add `.dr$` in front of the functions you'd normally use, and everything works just as expected.
 
 Now lets run an example from the `powerjoin` GitHub page (https://github.com/moodymudskipper/powerjoin), using the above alias:
 
 ```{r}
-male_penguins <- dr$tribble(
+male_penguins <- .dr$tribble(
      ~name,    ~species,     ~island, ~flipper_length_mm, ~body_mass_g,
  "Giordan",    "Gentoo",    "Biscoe",               222L,        5250L,
   "Lynden",    "Adelie", "Torgersen",               190L,        3900L,
   "Reiner",    "Adelie",     "Dream",               185L,        3650L
 )
 
-female_penguins <- dr$tribble(
+female_penguins <- .dr$tribble(
      ~name,    ~species,  ~island, ~flipper_length_mm, ~body_mass_g,
   "Alonda",    "Gentoo", "Biscoe",               211,        4500L,
      "Ola",    "Adelie",  "Dream",               190,        3600L,
 "Mishayla",    "Gentoo", "Biscoe",               215,        4750L,
 )
-dr$check_specs()
+.dr$check_specs()
 
-dr$power_inner_join(
+.dr$power_inner_join(
   male_penguins[c("species", "island")],
   female_penguins[c("species", "island")]
 )
@@ -968,7 +968,7 @@ dr$power_inner_join(
 ```
 
 
-Notice that the only change made, is that all functions start with `dr$`, the rest is the same. No need for constantly switching between `dplyr::...`, `powerjoin::...` and so on - yet it is still clear from the code that they came from the `dplyr` + `powerjoin` family, and there is no fear of overwriting functions from other R packages - let alone core R functions.
+Notice that the only change made, is that all functions start with `.dr$`, the rest is the same. No need for constantly switching between `dplyr::...`, `powerjoin::...` and so on - yet it is still clear from the code that they came from the `dplyr` + `powerjoin` family, and there is no fear of overwriting functions from other R packages - let alone core R functions.
 
 &nbsp;
 
