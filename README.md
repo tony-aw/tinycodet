@@ -1235,7 +1235,7 @@ management system.
 ## 8.2 import_as
 
 One can load a package without attaching it, and assign it to an alias,
-in base R, using:
+in base R, using, for example:
 
 ``` r
 alias <- loadNamespace("packagename", lib.loc = lib.loc)
@@ -1283,16 +1283,13 @@ loads exported functions (unlike `loadNamespace()`, which loads both
 internal and external functions). This is, I think, more desirable, as
 internal function should remain, you know, internal.
 
-`import_as()` is thus essentially the multi-package equivalent of
-`alias <- loadNamespace()`.
+`import_as(alias, ...)` is thus essentially the multi-package equivalent
+of `alias <- loadNamespace(...)`.
 
 The main arguments of the `import_as()` function are:
 
 - `alias`: the name (unquoted) of the alias under which to load the main
-  package, and any specified (reverse) dependencies. To keep aliases
-  easily distinguished from other objects that can also be subset with
-  the `$` operator, I recommend starting all alias names with a dot
-  (`.`).
+  package, and any specified (reverse) dependencies.
 - `main_package`: the name (string) of the main package to load.
 - `dependencies`: a character vector giving the dependencies of the main
   package to load under the alias also. One can also set this to `TRUE`,
@@ -1305,10 +1302,10 @@ The main arguments of the `import_as()` function are:
   same alias also.
 
 Here is one example. Lets load `data.table` and then `tidytable`, under
-the same alias, which I will call “.tdt” (for “tidy data.table”):
+the same alias, which I will call “tdt” (for “tidy data.table”):
 
 ``` r
-import_as(.tdt, "tidytable", dependencies="data.table") # this creates the tdt object
+import_as(tdt, "tidytable", dependencies="data.table") # this creates the tdt object
 #> Importing package: data.table...
 #> 
 #> listing foreign exports from package: tidytable...
@@ -1317,14 +1314,14 @@ import_as(.tdt, "tidytable", dependencies="data.table") # this creates the tdt o
 #> tidytable will overwrite conflicting objects from previous imported packages...
 #> 
 #> Done
-#> You can now access the functions using .tdt$...
+#> You can now access the functions using tdt$...
 #> (S3)methods will work like normally.
 ```
 
 Notice that the above is the same as:
 
 ``` r
-import_as(.tdt, "data.table", extensions = "tidytable") # this creates the tdt object
+import_as(tdt, "data.table", extensions = "tidytable") # this creates the tdt object
 #> listing foreign exports from package: data.table...
 #> Importing package: data.table...
 #> 
@@ -1333,7 +1330,7 @@ import_as(.tdt, "data.table", extensions = "tidytable") # this creates the tdt o
 #> tidytable will overwrite conflicting objects from previous imported packages...
 #> 
 #> Done
-#> You can now access the functions using .tdt$...
+#> You can now access the functions using tdt$...
 #> (S3)methods will work like normally.
 ```
 
@@ -1467,10 +1464,10 @@ similar to `import_inops()`.
 Example:
 
 ``` r
-.myalias %@source% list(file="mydir/mymodule.R")
+myalias %@source% list(file="mydir/mymodule.R")
 source_inops(file="mydir/mymodule.R")
 
-.myalias$myfunction(...)
+myalias$myfunction(...)
 ```
 
  
@@ -1524,7 +1521,7 @@ tinyoperators::pkgs_get_deps("dplyr") # a lot of dependencies
 #> [11] "vctrs"
 
 import_as(
-  .dr, "dplyr", extensions = "powerjoin", lib.loc=.libPaths()
+  dr, "dplyr", extensions = "powerjoin", lib.loc=.libPaths()
 )
 #> listing foreign exports from package: dplyr...
 #> Importing package: dplyr...
@@ -1532,15 +1529,15 @@ import_as(
 #> Importing package: powerjoin... no conflicts
 #> 
 #> Done
-#> You can now access the functions using .dr$...
+#> You can now access the functions using dr$...
 #> (S3)methods will work like normally.
 ```
 
-The functions from `dplyr` can now be used with the `.dr$` prefix. This
+The functions from `dplyr` can now be used with the `dr$` prefix. This
 way, base R functions are no longer overwritten, and it will be clear
 for someone who reads your code whether functions like the `filter()`
 function is the base R filter function, or the `dplyr` filter function,
-as the latter would be called as `.dr$filter()`.
+as the latter would be called as `dr$filter()`.
 
 Let’s first run a simple dplyr example code:
 
@@ -1549,8 +1546,8 @@ library(magrittr)
 #> Warning: package 'magrittr' was built under R version 4.2.3
 d <- import_data("starwars", "dplyr")
 d %>%
-  .dr$filter(.data$species == "Droid") %>% # notice the pronounce can be used without problems
-  .dr$select(name, .dr$ends_with("color"))
+  dr$filter(.data$species == "Droid") %>% # notice the pronounce can be used without problems
+  dr$select(name, dr$ends_with("color"))
 #> # A tibble: 6 × 4
 #>   name   hair_color skin_color  eye_color
 #>   <chr>  <chr>      <chr>       <chr>    
@@ -1562,27 +1559,27 @@ d %>%
 #> 6 BB8    none       none        black
 ```
 
-Just add `.dr$` in front of the functions you’d normally use, and
+Just add `dr$` in front of the functions you’d normally use, and
 everything works just as expected.
 
 Now lets run an example from the `powerjoin` GitHub page
 (<https://github.com/moodymudskipper/powerjoin>), using the above alias:
 
 ``` r
-male_penguins <- .dr$tribble(
+male_penguins <- dr$tribble(
      ~name,    ~species,     ~island, ~flipper_length_mm, ~body_mass_g,
  "Giordan",    "Gentoo",    "Biscoe",               222L,        5250L,
   "Lynden",    "Adelie", "Torgersen",               190L,        3900L,
   "Reiner",    "Adelie",     "Dream",               185L,        3650L
 )
 
-female_penguins <- .dr$tribble(
+female_penguins <- dr$tribble(
      ~name,    ~species,  ~island, ~flipper_length_mm, ~body_mass_g,
   "Alonda",    "Gentoo", "Biscoe",               211,        4500L,
      "Ola",    "Adelie",  "Dream",               190,        3600L,
 "Mishayla",    "Gentoo", "Biscoe",               215,        4750L,
 )
-.dr$check_specs()
+dr$check_specs()
 #> # powerjoin check specifications
 #> ℹ implicit_keys
 #> → column_conflict
@@ -1597,7 +1594,7 @@ female_penguins <- .dr$tribble(
 #> → grouped_input
 #> → na_keys
 
-.dr$power_inner_join(
+dr$power_inner_join(
   male_penguins[c("species", "island")],
   female_penguins[c("species", "island")]
 )
@@ -1611,7 +1608,7 @@ female_penguins <- .dr$tribble(
 ```
 
 Notice that the only change made, is that all functions start with
-`.dr$`, the rest is the same. No need for constantly switching between
+`dr$`, the rest is the same. No need for constantly switching between
 `dplyr::...`, `powerjoin::...` and so on - yet it is still clear from
 the code that they came from the `dplyr` + `powerjoin` family, and there
 is no fear of overwriting functions from other R packages - let alone
