@@ -20,15 +20,18 @@
 #' Syntactically invalid names are not allowed for the alias name.
 #' @param lst a named list, giving the arguments to be passed to the
 #' \link[base]{source} function. \cr
-#' For example: \code{alias \%@@source\% list(file="mydir/myscript.R")}
+#' For example: \code{alias \%@@source\% list(file="mydir/myscript.R")} \cr
+#' The \code{local} argument should not be included in the list.
 #' @param ... arguments to be passed to the \link[base]{source} function,
-#' such as the \code{file} argument.
+#' such as the \code{file} argument. \cr
+#' The \code{local} argument should not be included.
 #'
 #'
 #' @returns
 #' For the \code{alias %@@source% list(file=...)} operator: \cr
 #' The variable named as the \code{alias} will be created
-#' (if it did not already exist) in the current environment,
+#' (if it did not already exist) in the current environment
+#' (like the Global environment, or the environment within a function),
 #' and will contain all objects from the sourced script. \cr
 #' \cr
 #' For \code{source_inops()}: \cr
@@ -36,7 +39,8 @@
 #' in the current environment
 #' (like the Global environment, or the environment within a function).\cr
 #' \cr
-#'
+#' 
+#' @seealso \link[=pkgs_get_deps]{pkgs}, \link[=import_as]{import}, [base::source()]
 #'
 #' @examples
 #'
@@ -54,13 +58,23 @@ NULL
 #' @rdname source_module
 #' @export
 `%@source%` <- function(alias, lst) {
+  # Check alias:
+  alias_chr <- as.character(substitute(alias))
   check_proper_alias <- c(
-    make.names(substitute(alias))==substitute(alias),
-    isTRUE(nchar(substitute(alias))>0),
-    length(substitute(alias))==1
+    make.names(alias_chr)==alias_chr,
+    isTRUE(nchar(alias_chr)>0),
+    length(alias_chr)==1,
+    !startsWith(alias_chr, ".")
   )
-  if(isFALSE(all(check_proper_alias))){
+  if(!isTRUE(all(check_proper_alias))){
     stop("Syntactically invalid name for object `alias`")
+  }
+  if(any(names(lst) %in% c("local"))) {
+    stop(paste0(
+      "Do not supply the `local` argument:",
+      "\n",
+      "Environment is already specified by the alias"
+    ))
   }
   message("Importing module ... \n")
   tempenv <- new.env(parent=parent.frame())
@@ -77,8 +91,18 @@ NULL
 #' @rdname source_module
 #' @export
 source_inops <- function(...) {
+  
+  lst <- list(...)
+  if(any(names(lst) %in% c("local"))) {
+    stop(paste0(
+      "Do not supply the `local` argument:",
+      "\n",
+      "Environment is already specified by the alias"
+    ))
+  }
+  
   tempenv <- new.env(parent=parent.frame())
-  do.call(source, c(list(local=tempenv), ...))
+  do.call(source, c(list(local=tempenv), lst))
   operators <- names(tempenv)[unlist(eapply(tempenv, is.function))]
   operators <- stringi::stri_subset(operators, regex="%|:=")
   if(length(operators)==0) {
@@ -90,5 +114,5 @@ source_inops <- function(...) {
       eval(call("<-", op, tempenv[[op]]), envir = parent.frame(n = 1))
     }
   }
-
+  
 }

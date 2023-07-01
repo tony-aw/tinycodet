@@ -45,6 +45,8 @@ s_get_pattern_attr_internal <- function(p) {
   return(check)
 }
 
+#' @keywords internal
+#' @noRd
 .internal_get_foreignexports_ns <- function(main_package, lib.loc) {
   ns <- loadNamespace(main_package, lib.loc = lib.loc) |> as.list(all.names=TRUE, sorted=TRUE)
   names_exports <- names(ns[[".__NAMESPACE__."]][["exports"]])
@@ -83,11 +85,6 @@ s_get_pattern_attr_internal <- function(p) {
   }
   return(ns_foreign)
 }
-
-# .internal_import_namespaces <- function(pkgs, lib.loc){
-#   
-#   return(namespaces)
-# }
 
 #' @keywords internal
 #' @noRd
@@ -252,7 +249,12 @@ s_get_pattern_attr_internal <- function(p) {
   return(extends)
 }
 
-
+#' @keywords internal
+#' @noRd
+.internal_require_ns <- function(pkgs, lib.loc) {
+  temp.fun <- function(x)isTRUE(requireNamespace(package=x, lib.loc=lib.loc, quietly = TRUE))
+  out <- sapply(pkgs, temp.fun)
+}
 
 #' @keywords internal
 #' @noRd

@@ -18,15 +18,18 @@ Syntactically invalid names are not allowed for the alias name.}
 
 \item{lst}{a named list, giving the arguments to be passed to the
 \link[base]{source} function. \cr
-For example: \code{alias \%@source\% list(file="mydir/myscript.R")}}
+For example: \code{alias \%@source\% list(file="mydir/myscript.R")} \cr
+The \code{local} argument should not be included in the list.}
 
 \item{...}{arguments to be passed to the \link[base]{source} function,
-such as the \code{file} argument.}
+such as the \code{file} argument. \cr
+The \code{local} argument should not be included.}
 }
 \value{
 For the \code{alias \%@source\% list(file=...)} operator: \cr
 The variable named as the \code{alias} will be created
-(if it did not already exist) in the current environment,
+(if it did not already exist) in the current environment
+(like the Global environment, or the environment within a function),
 and will contain all objects from the sourced script. \cr
 \cr
 For \code{source_inops()}: \cr
@@ -58,4 +61,7 @@ source_inops(file="mydir/mymodule.R")
 
 
 
+}
+\seealso{
+\link[=pkgs_get_deps]{pkgs}, \link[=import_as]{import}, \code{\link[base:source]{base::source()}}
 }

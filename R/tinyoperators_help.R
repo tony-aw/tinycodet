@@ -18,6 +18,8 @@
 #' though it does allows multi-threading of some of the string-related functions
 #' (when appropriate)
 #' via the suggested \code{stringfish} R-package. \cr
+#' Most functions in this R-package are fully vectorized
+#' and have been optimized for optimal speed and performance.
 #' \cr
 #'
 #' The \code{tinyoperators} R package adds the following functionality: \cr

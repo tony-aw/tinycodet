@@ -8,9 +8,14 @@
 #' where you are looking for your R package(s). \cr
 #' \cr
 #' The \code{pkgs_get_deps()} function gets the dependencies of a package
-#' from the Description file. It works on non-CRAN packages also.
+#' from the Description file. It works on non-CRAN packages also. \cr
+#' \cr
+#' The \code{alias %::?% fun_name} operator
+#' finds the help file for function \code{fun_name} loaded in the \code{alias}.
 #'
 #' @param pkgs a single string, or character vector, with the package name(s).
+#' @param alias the alias created by \link{import_as}, either as string or expression.
+#' @param f the function name, either as string or expression.
 #' @param package a single string giving the package name
 #' @param lib.loc character vector specifying library search path
 #' (the location of R library trees to search through).
@@ -43,10 +48,17 @@
 #' \dontrun{
 #' pkgs <- c(unlist(tools::package_dependencies("devtools")), "devtools")
 #' pkgs %installed in% .libPaths()
+#' import_as( # this creates the 'dr.' object
+#' dr., "dplyr", depends=c("tibble", "tidyselect"), extends = "powerjoin"
+#' ) 
+#' dr. %::?% mutate
 #' }
 #'
 #'
 #'
+
+#' @name pkgs
+NULL
 
 #' @rdname pkgs
 #' @export
@@ -88,3 +100,22 @@ pkgs_get_deps <- function(
   return(out)
 }
 
+#' @rdname pkgs
+#' @export
+`%::?%` <- function(alias, f) {
+  if(is.character(alias)) {
+    alias <- eval(str2expression(alias))
+  }
+  fun_name <- as.character(substitute(f))
+  if(!isTRUE(all(length(fun_name)==1))){
+    stop("can only give one function on the right hand side.")
+  }
+  check_fun_name <- fun_name %in% names(alias)
+  if(!isTRUE(check_fun_name)){
+    stop(paste0(
+      "function `", fun_name,"` does not appear in alias `", substitute(alias), "`"
+    ))
+  }
+  package <- getNamespaceName(environment(alias[[fun_name]]))
+  utils::help(fun_name, package = as.character(package))
+}

@@ -32,7 +32,9 @@
   - [8.5 lib.loc](#85-libloc)
   - [8.6 On pronouns and aliases](#86-on-pronouns-and-aliases)
   - [8.7 Sourcing modules](#87-sourcing-modules)
-  - [8.8 An example](#88-an-example)
+  - [8.8 Miscellaneous functions and
+    operators](#88-miscellaneous-functions-and-operators)
+  - [8.9 An example](#89-an-example)
 - [9 Multi-threading](#9-multi-threading)
   - [9.1 Substr-functions](#91-substr-functions)
 - [10 Tinyverse solutions without external R
@@ -192,6 +194,10 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
 - 28 June 2023: renamed the `depends` and `extends` arguments of
   `import_as()` to `dependencies` and `extenions`, to avoid confusion,
   and added the `foreign_exports` argument as well.
+- 1 July 2023: Added the `overwrite` argument to `import_as()`, and made
+  its alias checks more rigorous. Adjusted the documentation a bit.
+  Added some more tests. Fixed some minor bugs in the `source_module`
+  functions.
 
 FUTURE PLANS:
 
@@ -1289,7 +1295,15 @@ of `alias <- loadNamespace(...)`.
 The main arguments of the `import_as()` function are:
 
 - `alias`: the name (unquoted) of the alias under which to load the main
-  package, and any specified (reverse) dependencies.
+  package, and any specified (reverse) dependencies. To keep aliases
+  easily distinguished from other objects that can also be subset with
+  the `$` operator, I recommend ending (not starting!) the names of all
+  alias names with a dot (.).
+- `foreign_exports`: Some R packages export functions that are not
+  defined in their own package, but in their direct dependencies -
+  “foreign exports”. If `TRUE` (default), these foreign exports are
+  added to the alias, analogous to the behaviour of base R’s `::`
+  operator. If `FALSE`, foreign exports are not added.
 - `main_package`: the name (string) of the main package to load.
 - `dependencies`: a character vector giving the dependencies of the main
   package to load under the alias also. One can also set this to `TRUE`,
@@ -1300,12 +1314,16 @@ The main arguments of the `import_as()` function are:
 - `extensions`: an optional character vector giving the
   extensions/reverse-dependencies of the main package to load under the
   same alias also.
+- `overwrite`: if `TRUE`, the given alias will overwrite any existing
+  object with the same name. If `FALSE` (default), `import_as()` will
+  return an error if an object with the same name as given in argument
+  `alias` already exists.
 
 Here is one example. Lets load `data.table` and then `tidytable`, under
-the same alias, which I will call “tdt” (for “tidy data.table”):
+the same alias, which I will call “tdt.” (for “tidy data.table”):
 
 ``` r
-import_as(tdt, "tidytable", dependencies="data.table") # this creates the tdt object
+import_as(tdt., "tidytable", dependencies="data.table", overwrite = TRUE) # this creates the tdt. object
 #> Importing package: data.table...
 #> 
 #> listing foreign exports from package: tidytable...
@@ -1314,14 +1332,14 @@ import_as(tdt, "tidytable", dependencies="data.table") # this creates the tdt ob
 #> tidytable will overwrite conflicting objects from previous imported packages...
 #> 
 #> Done
-#> You can now access the functions using tdt$...
+#> You can now access the functions using tdt.$...
 #> (S3)methods will work like normally.
 ```
 
 Notice that the above is the same as:
 
 ``` r
-import_as(tdt, "data.table", extensions = "tidytable") # this creates the tdt object
+import_as(tdt., "data.table", extensions = "tidytable", overwrite = TRUE) # this creates the tdt. object
 #> listing foreign exports from package: data.table...
 #> Importing package: data.table...
 #> 
@@ -1330,18 +1348,16 @@ import_as(tdt, "data.table", extensions = "tidytable") # this creates the tdt ob
 #> tidytable will overwrite conflicting objects from previous imported packages...
 #> 
 #> Done
-#> You can now access the functions using tdt$...
+#> You can now access the functions using tdt.$...
 #> (S3)methods will work like normally.
 ```
 
 Now you can of course use those loaded packages as one would normally do
 when using a package alias.
 
-The `import_as()` function will first load the dependencies in the order
-specified in argument `dependencies` if given (so the order matters).
-Then it loads the package named in argument `package`. And then it loads
-the extensions in the order specified in argument `extensions` if given
-(again, the order matters).
+The order in which `import_as()` loads the packages under the given
+alias is specified by the `loadorder` argument. See the help file for
+details.
 
  
 
@@ -1352,8 +1368,8 @@ alias. However, it may be cumbersome to use them from the alias. For
 example this:
 
 ``` r
-import_as(.to, "tinyoperators")
-.to$`%row~%`(x, mat)
+import_as(to., "tinyoperators")
+to.$`%row~%`(x, mat)
 ```
 
 or this:
@@ -1464,15 +1480,62 @@ similar to `import_inops()`.
 Example:
 
 ``` r
-myalias %@source% list(file="mydir/mymodule.R")
-source_inops(file="mydir/mymodule.R")
+myalias. %@source% list(file="sourcetest.R")
+#> Importing module ...
+#> Done
+#> You can now access the sourced objects using myalias.$...
+source_inops(file="sourcetest.R")
+#> placing operators in current environment...
 
-myalias$myfunction(...)
+myalias.$helloworld()
+#> [1] "hello world"
+```
+
+Another example, this time using an expression:
+
+``` r
+exprs <- expression({
+  helloworld = function()print("helloworld")
+  goodbyeworld <- function() print("goodbye world")
+  `%s+test%` <- function(x,y) stringi::`%s+%`(x,y)
+  `%s*test%` <- function(x,y) stringi::`%s*%`(x,y)
+})
+
+myalias. %@source% list(exprs=exprs)
+#> Importing module ...
+#> Done
+#> You can now access the sourced objects using myalias.$...
+myalias.$helloworld()
+#> [1] "helloworld"
+
+
+temp.fun <- function(){
+  source_inops(exprs=exprs)
+  ls()
+}
+temp.fun()
+#> placing operators in current environment...
+#> [1] "%s*test%" "%s+test%"
 ```
 
  
 
-## 8.8 An example
+## 8.8 Miscellaneous functions and operators
+
+There are some additional miscellaneous functions related to the import
+system that should perhaps be mentioned also:
+
+- the `pkgs_get_deps()` function gets the dependencies (or the enhances)
+  of a package, regardless if the package is CRAN or non-CRAN.
+- the `pkgs %installed in% lib.loc` operator checks if the packages
+  specified in character vector `pkgs` are installed in library paths
+  `lib.loc`, and does this WITHOUT attaching or even loading a package.
+- `alias %::?% fun_name` gets the help file for a function `fun_name`
+  from the `alias` object.
+
+ 
+
+## 8.9 An example
 
 One R package that could benefit from the import system introduced by
 `tinyoperators`, is the `dplyr` R package. The `dplyr` R package
@@ -1512,7 +1575,7 @@ those extensions also.
 
 So here `tinyoperator`’s `import_as()` function might help. Below is an
 example where `dplyr` is loaded, and `powerjoin` (which is an
-extension), all under one alias which I’ll call `dr`.
+extension), all under one alias which I’ll call “`dr.`”.
 
 ``` r
 tinyoperators::pkgs_get_deps("dplyr") # a lot of dependencies
@@ -1521,7 +1584,7 @@ tinyoperators::pkgs_get_deps("dplyr") # a lot of dependencies
 #> [11] "vctrs"
 
 import_as(
-  dr, "dplyr", extensions = "powerjoin", lib.loc=.libPaths()
+  dr., "dplyr", extensions = "powerjoin", lib.loc=.libPaths()
 )
 #> listing foreign exports from package: dplyr...
 #> Importing package: dplyr...
@@ -1529,25 +1592,29 @@ import_as(
 #> Importing package: powerjoin... no conflicts
 #> 
 #> Done
-#> You can now access the functions using dr$...
+#> You can now access the functions using dr.$...
 #> (S3)methods will work like normally.
+
+import_inops("magrittr") # getting the operators from `magrrittr`
+#> Getting infix operators from package: magrittr...
+#> 
+#> Placing infix operators in current environment...
+#> Done
 ```
 
-The functions from `dplyr` can now be used with the `dr$` prefix. This
+The functions from `dplyr` can now be used with the `dr.$` prefix. This
 way, base R functions are no longer overwritten, and it will be clear
 for someone who reads your code whether functions like the `filter()`
 function is the base R filter function, or the `dplyr` filter function,
-as the latter would be called as `dr$filter()`.
+as the latter would be called as `dr.$filter()`.
 
 Let’s first run a simple dplyr example code:
 
 ``` r
-library(magrittr)
-#> Warning: package 'magrittr' was built under R version 4.2.3
 d <- import_data("starwars", "dplyr")
 d %>%
-  dr$filter(.data$species == "Droid") %>% # notice the pronounce can be used without problems
-  dr$select(name, dr$ends_with("color"))
+  dr.$filter(.data$species == "Droid") %>% # notice the pronoun can be used without problems
+  dr.$select(name, dr.$ends_with("color"))
 #> # A tibble: 6 × 4
 #>   name   hair_color skin_color  eye_color
 #>   <chr>  <chr>      <chr>       <chr>    
@@ -1559,27 +1626,27 @@ d %>%
 #> 6 BB8    none       none        black
 ```
 
-Just add `dr$` in front of the functions you’d normally use, and
+Just add `dr.$` in front of the functions you’d normally use, and
 everything works just as expected.
 
 Now lets run an example from the `powerjoin` GitHub page
 (<https://github.com/moodymudskipper/powerjoin>), using the above alias:
 
 ``` r
-male_penguins <- dr$tribble(
+male_penguins <- dr.$tribble(
      ~name,    ~species,     ~island, ~flipper_length_mm, ~body_mass_g,
  "Giordan",    "Gentoo",    "Biscoe",               222L,        5250L,
   "Lynden",    "Adelie", "Torgersen",               190L,        3900L,
   "Reiner",    "Adelie",     "Dream",               185L,        3650L
 )
 
-female_penguins <- dr$tribble(
+female_penguins <- dr.$tribble(
      ~name,    ~species,  ~island, ~flipper_length_mm, ~body_mass_g,
   "Alonda",    "Gentoo", "Biscoe",               211,        4500L,
      "Ola",    "Adelie",  "Dream",               190,        3600L,
 "Mishayla",    "Gentoo", "Biscoe",               215,        4750L,
 )
-dr$check_specs()
+dr.$check_specs()
 #> # powerjoin check specifications
 #> ℹ implicit_keys
 #> → column_conflict
@@ -1594,7 +1661,7 @@ dr$check_specs()
 #> → grouped_input
 #> → na_keys
 
-dr$power_inner_join(
+dr.$power_inner_join(
   male_penguins[c("species", "island")],
   female_penguins[c("species", "island")]
 )
@@ -1608,7 +1675,7 @@ dr$power_inner_join(
 ```
 
 Notice that the only change made, is that all functions start with
-`dr$`, the rest is the same. No need for constantly switching between
+`dr.$`, the rest is the same. No need for constantly switching between
 `dplyr::...`, `powerjoin::...` and so on - yet it is still clear from
 the code that they came from the `dplyr` + `powerjoin` family, and there
 is no fear of overwriting functions from other R packages - let alone

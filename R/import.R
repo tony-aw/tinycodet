@@ -30,19 +30,24 @@
 #' The \code{import_lsf(package, ...)} function gets a list of exported functions/operators from a package. \cr
 #' \cr
 #'
-#' @param alias a variable name (unquoted),
-#' giving the (not yet existing) object
-#' where the package(s) are to be assigned to. \cr
-#' Syntactically invalid names are not allowed for the alias name.
-#' @param main_package a single string, giving the name of the main package to load under the given alias.
+#' @param alias a syntactically valid non-hidden variable name (unquoted),
+#' giving the alias object
+#' where the package(s) are to be loaded into. \cr
+#' \cr
+#' NOTE: To keep aliases easily distinguished from other objects
+#' that can also be subset with the \code{$} operator,
+#' I recommend ending (not starting!) the names of all alias names
+#' with a dot (\code{.}) or underscore (\code{_}). \cr
+#' @param main_package a single string,
+#' giving the name of the main package to load under the given alias.
 #' @param foreign_exports logical. \cr
 #' Some R packages export functions that are  not defined in their own package,
 #' but in their direct dependencies; "foreign exports", if you will. \cr
-#' If \code{foreign_exports = TRUE} these foreign exports are added to the namespace of \code{main_package},
-#' even if \code{dependencies = FALSE}. \cr
+#' If \code{foreign_exports = TRUE} these foreign exports are added to the alias
+#' (even if \code{dependencies = FALSE}). \cr
 #' If \code{foreign_exports = FALSE}, these foreign exports are not added,
 #' and the user must specify the appropriate packages in argument \code{dependencies}. \cr
-#' Defaults to \code{TRUE}, which is similar to the behaviour of base R's \link{::} operator.
+#' Defaults to \code{TRUE}, which is analogous to the behaviour of base R's \link{::} operator.
 #' @param package the quoted package name.
 #' @param dependencies either logical, or a character vector. \cr
 #' If \code{FALSE} (default), no dependencies are loaded under the alias. \cr
@@ -60,17 +65,17 @@
 #' The order of the character vector matters!
 #' If multiple packages share objects with the same name,
 #' the package named last will overwrite the earlier named packages. \cr
-#' @param enhances a character vector,
+#' @param enhances an optional character vector,
 #' giving the names of the packages enhanced by the
 #' \code{main_package} to be loaded also under the alias. \cr
 #' Defaults to \code{NULL}, which means no enhances are loaded. \cr
 #' \cr
-#' NOTE(1): Enhances are defined as packages appearing in the "Enhances" section
+#' NOTE (1): Enhances are defined as packages appearing in the "Enhances" section
 #' of the Description file of the \code{main_package}. \cr
 #' NOTE (2): The order of the character vector matters!
 #' If multiple packages share objects with the same name,
 #' the objects of the package named last will overwrite those of the earlier named packages. \cr
-#' @param extensions a character vector,
+#' @param extensions an optional character vector,
 #' giving the names of the extensions / reverse-dependencies of the
 #' \code{main_package} to be loaded also under the alias. \cr
 #' Defaults to \code{NULL}, which means no extensions are loaded. \cr
@@ -90,7 +95,7 @@
 #' which results in the following load order: \cr
 #' (1) The dependencies, in the order specified by the \code{depenencies} argument. \cr
 #' (2) The main_package (see argument \code{main_package}),
-#' including foreigg exports (if \code{foreign_exports=TRUE}). \cr
+#' including foreign exports (if \code{foreign_exports=TRUE}). \cr
 #' (3) The enhances, in the order specified by the \code{enhances} argument. \cr
 #' (4) The reverse-dependencies/extensions, in the order specified by the \code{extensions} argument. \cr
 #' @param pkgs a single string, or character vector, with the package name(s). \cr
@@ -101,6 +106,11 @@
 #' NOTE (2): The \code{import_inops} function performs a basic check
 #' that the packages are mostly (reverse) dependencies of each other.
 #' If not, it will give an error.
+#' @param overwrite logical. \cr
+#' If \code{TRUE}, \code{alias} will overwrite any existing object with the same name. \cr
+#' If \code{FALSE}, \code{import_as}
+#' will return an error if an object with the same name as given in
+#' argument \code{alias} already exists. \cr
 #' @param exclude a character vector,
 #' giving the infix operators NOT to expose to the current environment. \cr
 #' This can be handy to prevent overwriting any (user defined)
@@ -125,11 +135,17 @@
 #' \code{"inops"} or \code{"operators"}: Only infix operators. \cr
 #' \code{"regfuns"}: Only regular functions (thus excluding infix operators). \cr
 #' \code{"all"}: All functions, both regular functions and infix operators. \cr
-#'
+#' 
+#' @seealso \link[=pkgs_get_deps]{pkgs}, \link[=source_inops]{source_module}
 #'
 #' @details
 #' The \code{import_as()} function
-#' does not allow importing base/core R under an alias, so don't try. \cr
+#' does not allow importing base/core R under an alias,
+#' so don't try. \cr
+#' \cr
+#' The \code{import_inops()} function does not support overloading operators,
+#' so don't try. \cr
+#' \cr
 #' For a more detailed description of the import system introduced by the
 #' \code{tinyoperators} R package,
 #' please refer to the Read Me file on the GitHub main page: \cr
@@ -139,10 +155,10 @@
 #' @returns
 #' For \code{import_as}: \cr
 #' The variable named in the \code{alias} argument will be created
-#' (if it did not already exist),
 #' in the current environment
 #' (like the global environment, or the environment within a function).
-#' The alias object will contain the (merged) package environment. \cr
+#' The alias object will contain the (merged) package environment. 
+#' If the object already existed, an error is returned. \cr
 #' \cr
 #' For \code{import_inops()}: \cr
 #' The infix operators from the specified packages will be placed
@@ -156,13 +172,14 @@
 #' For \code{import_lsf()}: \cr
 #' Returns a character vector of function and/or operator names. \cr
 #' \cr
-#'
+#' 
 #'
 #' @examples
 #' \dontrun{
-#' import_as( # this creates the dr object
-#' dr, "dplyr", depends=c("tibble", "tidyselect"), extends = "powerjoin"
+#' import_as( # this creates the 'dr.' object
+#' dr., "dplyr", depends=c("tibble", "tidyselect"), extends = "powerjoin"
 #' ) 
+#' dr.$mutate
 #' import_inops("data.table")
 #' d <- import_data("chicago", "gamair")
 #' head(d)
@@ -176,27 +193,47 @@ NULL
 #' @rdname import
 #' @export
 import_as <- function(
-    alias, main_package, foreign_exports=TRUE, dependencies=FALSE, enhances=NULL, extensions=NULL,
-    lib.loc=.libPaths(),
+    alias, main_package, foreign_exports=TRUE,
+    dependencies=FALSE, enhances=NULL, extensions=NULL,
+    lib.loc=.libPaths(), overwrite=FALSE,
     loadorder = c("dependencies", "main_package", "enhances", "extensions")
 ) {
   
   # Check alias:
+  alias_chr <- as.character(substitute(alias))
   check_proper_alias <- c(
-    make.names(substitute(alias))==substitute(alias),
-    isTRUE(nchar(substitute(alias))>0),
-    length(substitute(alias))==1
+    make.names(alias_chr)==alias_chr,
+    isTRUE(nchar(alias_chr)>0),
+    length(alias_chr)==1,
+    !startsWith(alias_chr, ".")
   )
-  if(isFALSE(all(check_proper_alias))){
+  if(!isTRUE(all(check_proper_alias))){
     stop("Syntactically invalid name for object `alias`")
+  }
+  
+  # check overwrite:
+  check_overwrite <- c(
+    isTRUE(overwrite) | isFALSE(overwrite),
+    isTRUE(length(overwrite)==1)
+  )
+  if(!isTRUE(all(check_overwrite))){
+    stop("`overwrite` must be either `TRUE` or `FALSE`")
+  }
+  if(isFALSE(overwrite) & isTRUE(exists(alias_chr, envir = parent.frame(1)))) {
+    error.txt <- paste0(
+      "An object with that name already exists.",
+      "\n",
+      "Please remove the object first, or choose a different alias name."
+    )
+    stop(error.txt)
   }
   
   # check main_package:
   if(length(main_package)>1){
     stop("Only a single package can be given in the `main_package` argument")
   }
-  check_install <- main_package %installed in% lib.loc
-  if(isFALSE(check_install)) {
+  check_install <- .internal_require_ns(main_package, lib.loc)
+  if(!isTRUE(check_install)) {
     stop("Given main_package not installed!")
   }
   
@@ -238,7 +275,7 @@ import_as <- function(
   for (i in 1:length(pkgs)) {
     namespace_current <- .internal_prep_Namespace(pkgs[i], lib.loc)
     
-    if(pkgs[i]==main_package & foreign_exports) {
+    if(pkgs[i]==main_package & isTRUE(foreign_exports)) {
       message("listing foreign exports from package: ", pkgs[i], "...")
       namespace_current <- utils::modifyList(
         namespace_current,
@@ -270,13 +307,13 @@ import_as <- function(
     namespaces <- utils::modifyList(namespaces, namespace_current)
     message("")
   }
-  
-  message(paste0(
-    "Done", "\n",
-    "You can now access the functions using ", substitute(alias), "$...", "\n",
-    "(S3)methods will work like normally. \n"
-  ))
+
   out <- as.environment(namespaces)
+  message(paste0(
+  "Done", "\n",
+  "You can now access the functions using ", alias_chr, "$...", "\n",
+  "(S3)methods will work like normally. \n"
+))
   eval(call("<-", substitute(alias), out), envir = parent.frame(n = 1))
 }
 
@@ -289,7 +326,7 @@ import_inops <- function(pkgs, lib.loc=.libPaths(), exclude, include.only) {
   if(length(pkgs)!=length(unique(pkgs))) {
     stop("one or more duplicate packages given")
   }
-  wrong_pkgs<- pkgs[!pkgs%installed in% lib.loc]
+  wrong_pkgs<- pkgs[!.internal_require_ns(pkgs, lib.loc)]
   if(length(wrong_pkgs)>0) {
     error.txt <- paste0(
       "The following packages are not installed:",
@@ -400,7 +437,7 @@ import_lsf <- function(package, type, lib.loc=.libPaths()) {
     stop("only a single package can be given")
   }
   
-  check <- package %installed in% lib.loc
+  check <- .internal_require_ns(package, lib.loc)
   if(!isTRUE(check)) {
     stop("package not installed")
   }
@@ -421,6 +458,4 @@ import_lsf <- function(package, type, lib.loc=.libPaths()) {
   }
   return(out)
 }
-
-
 
