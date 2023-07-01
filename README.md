@@ -1232,9 +1232,57 @@ just another option provided, just like the `import` and `box` packages
 provide additional options. Please feel free to completely ignore this
 section if you prefer using `library()` :-)
 
-What follows are descriptions of functions that together form this new,
-infix-operator friendly **&** multi-package assignment friendly, import
-management system.
+This section of the Read-Me is rather lengthy, so I will start with a
+super quick example code using this import system:
+
+``` r
+import_as( # loading "dplyr" + its foreign exports + "powerjoin" under alias "dr." 
+  dr., "dplyr", extensions = "powerjoin", overwrite = TRUE
+)
+#> listing foreign exports from package: dplyr...
+#> Importing package: dplyr...
+#> 
+#> Importing package: powerjoin... no conflicts
+#> 
+#> Done
+#> You can now access the functions using dr.$...
+#> (S3)methods will work like normally.
+
+import_inops("magrittr") # getting the operators from `magrrittr`
+#> Getting infix operators from package: magrittr...
+#> 
+#> Placing infix operators in current environment...
+#> Done
+
+d <- import_data("starwars", "dplyr") # directly assigning the "starwars" dataset to object "d"
+
+d %>% dr.$filter(.data$species == "Droid") %>% # notice the pronoun can be used without problems
+  dr.$select(name, dr.$ends_with("color"))
+#> # A tibble: 6 × 4
+#>   name   hair_color skin_color  eye_color
+#>   <chr>  <chr>      <chr>       <chr>    
+#> 1 C-3PO  <NA>       gold        yellow   
+#> 2 R2-D2  <NA>       white, blue red      
+#> 3 R5-D4  <NA>       white, red  red      
+#> 4 IG-88  none       metal       red      
+#> 5 R4-P17 none       silver, red red, blue
+#> 6 BB8    none       none        black
+
+myalias. %@source% list(file="sourcetest.R") # source a script under an alias
+#> Importing module ...
+#> Done
+#> You can now access the sourced objects using myalias.$...
+myalias.$helloworld() # run a function that was just sourced.
+#> [1] "hello world"
+```
+
+The above code is run *without* attaching `dplyr`, `powerjoin`, or its
+dependencies. So none of the problems with attaching a package is
+present.
+
+What follows are descriptions of the functions that together form this
+new, infix-operator friendly **&** multi-package assignment friendly,
+import management system.
 
  
 
@@ -1549,6 +1597,9 @@ library(dplyr) # <- notice dplyr overwrites base R and recommended R packages
 #> Warning: package 'dplyr' was built under R version 4.2.3
 #> 
 #> Attaching package: 'dplyr'
+#> The following object is masked _by_ '.GlobalEnv':
+#> 
+#>     %>%
 #> The following object is masked from 'package:MASS':
 #> 
 #>     select
@@ -1584,7 +1635,7 @@ tinyoperators::pkgs_get_deps("dplyr") # a lot of dependencies
 #> [11] "vctrs"
 
 import_as(
-  dr., "dplyr", extensions = "powerjoin", lib.loc=.libPaths()
+  dr., "dplyr", extensions = "powerjoin", lib.loc=.libPaths(), overwrite = TRUE
 )
 #> listing foreign exports from package: dplyr...
 #> Importing package: dplyr...

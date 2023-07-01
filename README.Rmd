@@ -766,7 +766,28 @@ Moreover, `tinyoperators` extends this functionality to also work on **sourced m
 
 Just to clarify: I am not claiming this import system provided in the `tinyoperators` package is always the best system or whatever. This is just another option provided, just like the `import` and `box` packages provide additional options. Please feel free to completely ignore this section if you prefer using `library()` :-)
 
-What follows are descriptions of functions that together form this new, infix-operator friendly **&** multi-package assignment friendly, import management system.
+This section of the Read-Me is rather lengthy, so I will start with a super quick example code using this import system:
+
+```{r}
+import_as( # loading "dplyr" + its foreign exports + "powerjoin" under alias "dr." 
+  dr., "dplyr", extensions = "powerjoin", overwrite = TRUE
+)
+
+import_inops("magrittr") # getting the operators from `magrrittr`
+
+d <- import_data("starwars", "dplyr") # directly assigning the "starwars" dataset to object "d"
+
+d %>% dr.$filter(.data$species == "Droid") %>% # notice the pronoun can be used without problems
+  dr.$select(name, dr.$ends_with("color"))
+
+myalias. %@source% list(file="sourcetest.R") # source a script under an alias
+myalias.$helloworld() # run a function that was just sourced.
+```
+
+The above code is run *without* attaching `dplyr`, `powerjoin`, or its dependencies. So none of the problems with attaching a package is present.
+
+
+What follows are descriptions of the functions that together form this new, infix-operator friendly **&** multi-package assignment friendly, import management system.
 
 &nbsp;
 
@@ -957,7 +978,7 @@ So here `tinyoperator`'s `import_as()` function might help. Below is an example 
 tinyoperators::pkgs_get_deps("dplyr") # a lot of dependencies
 
 import_as(
-  dr., "dplyr", extensions = "powerjoin", lib.loc=.libPaths()
+  dr., "dplyr", extensions = "powerjoin", lib.loc=.libPaths(), overwrite = TRUE
 )
 
 import_inops("magrittr") # getting the operators from `magrrittr`
