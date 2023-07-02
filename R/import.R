@@ -106,11 +106,6 @@
 #' NOTE (2): The \code{import_inops} function performs a basic check
 #' that the packages are mostly (reverse) dependencies of each other.
 #' If not, it will give an error.
-#' @param overwrite logical. \cr
-#' If \code{TRUE}, \code{alias} will overwrite any existing object with the same name. \cr
-#' If \code{FALSE}, \code{import_as}
-#' will return an error if an object with the same name as given in
-#' argument \code{alias} already exists. \cr
 #' @param exclude a character vector,
 #' giving the infix operators NOT to expose to the current environment. \cr
 #' This can be handy to prevent overwriting any (user defined)
@@ -195,7 +190,7 @@ NULL
 import_as <- function(
     alias, main_package, foreign_exports=TRUE,
     dependencies=FALSE, enhances=NULL, extensions=NULL,
-    lib.loc=.libPaths(), overwrite=FALSE,
+    lib.loc=.libPaths(),
     loadorder = c("dependencies", "main_package", "enhances", "extensions")
 ) {
   
@@ -211,36 +206,16 @@ import_as <- function(
     stop("Syntactically invalid name for object `alias`")
   }
   
-  # check overwrite:
-  check_overwrite <- c(
-    isTRUE(overwrite) | isFALSE(overwrite),
-    isTRUE(length(overwrite)==1)
-  )
-  if(!isTRUE(all(check_overwrite))){
-    stop("`overwrite` must be either `TRUE` or `FALSE`")
-  }
-  if(isFALSE(overwrite) & isTRUE(exists(alias_chr, envir = parent.frame(1)))) {
-    error.txt <- paste0(
-      "An object with that name already exists.",
-      "\n",
-      "Please remove the object first, or choose a different alias name."
-    )
-    stop(error.txt)
+  # check library:
+  if(length(lib.loc)<1) {
+    stop("At least one library path must be given")
   }
   
   # check main_package:
   if(length(main_package)>1){
     stop("Only a single package can be given in the `main_package` argument")
   }
-  check_install <- .internal_require_ns(main_package, lib.loc)
-  if(!isTRUE(check_install)) {
-    stop("Given main_package not installed!")
-  }
-  
-  # check library:
-  if(length(lib.loc)<1) {
-    stop("At least one library path must be given")
-  }
+  .internal_check_pkgs(pkgs=main_package, lib.loc=lib.loc, abortcall=sys.call())
   
   # check load order:
   loadorder <- tolower(loadorder)
@@ -250,13 +225,13 @@ import_as <- function(
   }
   
   # Check dependencies:
-  dependencies <- .internal_import_as_check_depends(main_package, dependencies, lib.loc)
+  dependencies <- .internal_check_depends(main_package, dependencies, lib.loc, abortcall=sys.call())
   
   # Check enhances:
-  enhances <- .internal_import_as_check_enhances(main_package, enhances, lib.loc)
+  enhances <- .internal_check_enhances(main_package, enhances, lib.loc, abortcall=sys.call())
   
   # Check extensions:
-  extensions <- .internal_import_as_check_extends(main_package, extensions, lib.loc)
+  extensions <- .internal_check_extends(main_package, extensions, lib.loc, abortcall=sys.call())
   
   # make packages:
   pkgs <- list(dependencies=dependencies, main_package=main_package, enhances=enhances, extensions=extensions)
@@ -279,7 +254,7 @@ import_as <- function(
       message("listing foreign exports from package: ", pkgs[i], "...")
       namespace_current <- utils::modifyList(
         namespace_current,
-        .internal_get_foreignexports_ns(main_package, lib.loc)
+        .internal_get_foreignexports_ns(main_package, lib.loc, abortcall=sys.call())
       )
       
     }
@@ -322,19 +297,13 @@ import_as <- function(
 #' @export
 import_inops <- function(pkgs, lib.loc=.libPaths(), exclude, include.only) {
   
+  # check library:
+  if(length(lib.loc)<1) {
+    stop("At least one library path must be given")
+  }
+  
   # check packages:
-  if(length(pkgs)!=length(unique(pkgs))) {
-    stop("one or more duplicate packages given")
-  }
-  wrong_pkgs<- pkgs[!.internal_require_ns(pkgs, lib.loc)]
-  if(length(wrong_pkgs)>0) {
-    error.txt <- paste0(
-      "The following packages are not installed:",
-      "\n",
-      paste0(wrong_pkgs, collapse = ", ")
-    )
-    stop(error.txt)
-  }
+  .internal_check_pkgs(pkgs=pkgs, lib.loc=lib.loc, pkgs_txt = "packages", abortcall=sys.call())
   if(length(pkgs)>1) {
     check_deps_OK <- .internal_check_deps_overlap_any(
       pkgs, lib.loc=lib.loc, deps_type=c("Depends", "Imports", "LinkingTo")
@@ -347,11 +316,6 @@ import_inops <- function(pkgs, lib.loc=.libPaths(), exclude, include.only) {
       )
       stop(error.txt)
     }
-  }
-  
-  # check library:
-  if(length(lib.loc)<1) {
-    stop("At least one library path must be given")
   }
   
   # check exclude and include.only:
@@ -402,12 +366,12 @@ import_inops <- function(pkgs, lib.loc=.libPaths(), exclude, include.only) {
   operators <- grep("%|:=", names(namespaces), value=TRUE)
   if(!missing(exclude)){operators <- setdiff(operators, exclude)}
   if(!missing(include.only)){operators <- intersect(operators, include.only)}
-  if(length(operators)==0){
+  if(isTRUE(length(operators)==0)){
     message(
       "No operators to expose..."
     )
   }
-  if(length(operators)>0) {
+  if(isTRUE(length(operators)>0)) {
     message(
       "Placing infix operators in current environment..."
     )

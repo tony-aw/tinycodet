@@ -16,7 +16,6 @@ import_as(
   enhances = NULL,
   extensions = NULL,
   lib.loc = .libPaths(),
-  overwrite = FALSE,
   loadorder = c("dependencies", "main_package", "enhances", "extensions")
 )
 
@@ -91,12 +90,6 @@ the objects of the package named last will overwrite those of the earlier named 
 (the location of R library trees to search through). \cr
 This is usually \code{.libPaths()}. \cr
 See also \link[base]{loadNamespace}.}
-
-\item{overwrite}{logical. \cr
-If \code{TRUE}, \code{alias} will overwrite any existing object with the same name. \cr
-If \code{FALSE}, \code{import_as}
-will return an error if an object with the same name as given in
-argument \code{alias} already exists. \cr}
 
 \item{loadorder}{the character vector \cr
 \code{c("dependencies", "main_package", "enhances", "extensions")}, \cr

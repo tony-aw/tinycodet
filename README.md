@@ -198,6 +198,12 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   its alias checks more rigorous. Adjusted the documentation a bit.
   Added some more tests. Fixed some minor bugs in the `source_module`
   functions.
+- 2 July 2023: Removed the `overwrite` argument from `import_as()` (that
+  was a short-lived argument…), as I’ve found it to be more annoying
+  than it’s worth. Added more internal checks to the `import_` and
+  `source_module` functions. Error messages now display the used
+  exported function instead of internal functions. Adjusted the
+  documentation and Read-Me accordingly.
 
 FUTURE PLANS:
 
@@ -237,8 +243,7 @@ tinyoperators::tinyoperators_help()
 ## 1.4 Overview
 
 The `tinyoperators` R-package adds some infix operators, and a few
-functions, for better coding etiquette. It primarily focuses on 4
-things:
+functions. It primarily focuses on 4 things:
 
 1)  Float truth testing.
 2)  Reducing repetitive code.
@@ -250,9 +255,8 @@ things:
 The `tinyoperators` R-package has only one dependency, namely `stringi`,
 though it does allows multi-threading of some of the string-related
 functions (when appropriate) via the suggested `stringfish` R-package.
-
-Most functions in this R-package are fully vectorized and reasonably
-well optimized.
+Most functions in this R-package are fully vectorized and have been
+optimized for optimal speed and performance.
 
  
 
@@ -264,20 +268,6 @@ I understand you may not want to go through this entire Read-Me without
 knowing if the R package is even worthy of your time. Therefore, allow
 me to give you a quick glimpse of what is possible in this R package
 before jumping into the details.
-
-Operators and functions to reduce repetitive code:
-
-``` r
-# in base R:
-very_long_name_1 <- ifelse(# repetitive, and gives unnecessary warning
-  very_long_name_1 > 0, log(very_long_name_1), very_long_name_1^2
-)
-mtcars$mpg[mtcars$cyl>6] <- (mtcars$mpg[mtcars$cyl>6])^2
-
-# with tinyoperators:
-very_long_name_1 %<>% transform_if(\(x)x>0, log, \(x)x^2) # compact & no warning
-mtcars$mpg[mtcars$cyl>6] %:=% \(x)x^2
-```
 
 Safer float truth testing:
 
@@ -293,6 +283,20 @@ x == y # gives FALSE, but should be TRUE
 
 x %f==% y # here it's done correctly
 #> [1] TRUE TRUE TRUE
+```
+
+Operators and functions to reduce repetitive code:
+
+``` r
+# in base R:
+very_long_name_1 <- ifelse(# repetitive, and gives unnecessary warning
+  very_long_name_1 > 0, log(very_long_name_1), very_long_name_1^2
+)
+mtcars$mpg[mtcars$cyl>6] <- (mtcars$mpg[mtcars$cyl>6])^2
+
+# with tinyoperators:
+very_long_name_1 %<>% transform_if(\(x)x>0, log, \(x)x^2) # compact & no warning
+mtcars$mpg[mtcars$cyl>6] %:=% \(x)x^2
 ```
 
 Locate $i^\textrm{th}$ occurrence of some pattern in a string:
@@ -327,12 +331,48 @@ stri_c_mat(sorted, margin=1, sep=" ") # row-wise concatenate strings
 #> [1] "      , everyone Hello here I'm" "       everyone Goodbye"
 ```
 
-Sourcing a module under an alias:
+Using `tinyoperator's` new import system; note that the following code
+is run **without attaching a single R package**:
 
 ``` r
-myalias %@source% list(file="mydir/mymodule.R")
+import_as( # loading "dplyr" + its foreign exports + "powerjoin" under alias "dr." 
+  dr., "dplyr", extensions = "powerjoin"
+)
+#> listing foreign exports from package: dplyr...
+#> Importing package: dplyr...
+#> 
+#> Importing package: powerjoin... no conflicts
+#> 
+#> Done
+#> You can now access the functions using dr.$...
+#> (S3)methods will work like normally.
 
-myalias$myfunction(...)
+import_inops("magrittr") # exposing operators from `magrrittr` to current env
+#> Getting infix operators from package: magrittr...
+#> 
+#> Placing infix operators in current environment...
+#> Done
+
+d <- import_data("starwars", "dplyr") # directly assigning the "starwars" dataset to object "d"
+
+d %>% dr.$filter(species == "Droid") %>%
+  dr.$select(name, dr.$ends_with("color"))
+#> # A tibble: 6 × 4
+#>   name   hair_color skin_color  eye_color
+#>   <chr>  <chr>      <chr>       <chr>    
+#> 1 C-3PO  <NA>       gold        yellow   
+#> 2 R2-D2  <NA>       white, blue red      
+#> 3 R5-D4  <NA>       white, red  red      
+#> 4 IG-88  none       metal       red      
+#> 5 R4-P17 none       silver, red red, blue
+#> 6 BB8    none       none        black
+
+myalias. %@source% list(file="sourcetest.R") # source a script under an alias
+#> Importing module ...
+#> Done
+#> You can now access the sourced objects using myalias.$...
+myalias.$helloworld() # run a function that was just sourced.
+#> [1] "hello world"
 ```
 
 If you’re still interested, I invite you to read the rest of this
@@ -1233,11 +1273,11 @@ provide additional options. Please feel free to completely ignore this
 section if you prefer using `library()` :-)
 
 This section of the Read-Me is rather lengthy, so I will start with a
-super quick example code using this import system:
+super quick example code using `tinyoperator`’s import system:
 
 ``` r
 import_as( # loading "dplyr" + its foreign exports + "powerjoin" under alias "dr." 
-  dr., "dplyr", extensions = "powerjoin", overwrite = TRUE
+  dr., "dplyr", extensions = "powerjoin"
 )
 #> listing foreign exports from package: dplyr...
 #> Importing package: dplyr...
@@ -1248,7 +1288,7 @@ import_as( # loading "dplyr" + its foreign exports + "powerjoin" under alias "dr
 #> You can now access the functions using dr.$...
 #> (S3)methods will work like normally.
 
-import_inops("magrittr") # getting the operators from `magrrittr`
+import_inops("magrittr") # exposing operators from `magrrittr` to current env
 #> Getting infix operators from package: magrittr...
 #> 
 #> Placing infix operators in current environment...
@@ -1256,7 +1296,7 @@ import_inops("magrittr") # getting the operators from `magrrittr`
 
 d <- import_data("starwars", "dplyr") # directly assigning the "starwars" dataset to object "d"
 
-d %>% dr.$filter(.data$species == "Droid") %>% # notice the pronoun can be used without problems
+d %>% dr.$filter(species == "Droid") %>%
   dr.$select(name, dr.$ends_with("color"))
 #> # A tibble: 6 × 4
 #>   name   hair_color skin_color  eye_color
@@ -1362,16 +1402,12 @@ The main arguments of the `import_as()` function are:
 - `extensions`: an optional character vector giving the
   extensions/reverse-dependencies of the main package to load under the
   same alias also.
-- `overwrite`: if `TRUE`, the given alias will overwrite any existing
-  object with the same name. If `FALSE` (default), `import_as()` will
-  return an error if an object with the same name as given in argument
-  `alias` already exists.
 
 Here is one example. Lets load `data.table` and then `tidytable`, under
 the same alias, which I will call “tdt.” (for “tidy data.table”):
 
 ``` r
-import_as(tdt., "tidytable", dependencies="data.table", overwrite = TRUE) # this creates the tdt. object
+import_as(tdt., "tidytable", dependencies="data.table") # this creates the tdt. object
 #> Importing package: data.table...
 #> 
 #> listing foreign exports from package: tidytable...
@@ -1387,7 +1423,7 @@ import_as(tdt., "tidytable", dependencies="data.table", overwrite = TRUE) # this
 Notice that the above is the same as:
 
 ``` r
-import_as(tdt., "data.table", extensions = "tidytable", overwrite = TRUE) # this creates the tdt. object
+import_as(tdt., "data.table", extensions = "tidytable") # this creates the tdt. object
 #> listing foreign exports from package: data.table...
 #> Importing package: data.table...
 #> 
@@ -1635,7 +1671,7 @@ tinyoperators::pkgs_get_deps("dplyr") # a lot of dependencies
 #> [11] "vctrs"
 
 import_as(
-  dr., "dplyr", extensions = "powerjoin", lib.loc=.libPaths(), overwrite = TRUE
+  dr., "dplyr", extensions = "powerjoin", lib.loc=.libPaths()
 )
 #> listing foreign exports from package: dplyr...
 #> Importing package: dplyr...

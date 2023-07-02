@@ -80,6 +80,7 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
  - 27 June 2023: Fixed a bug in the `lib.loc` argument of the `import_` functions. Made the output of the `import_` functions a little bit more compact. Fixed a small bug in an internal function. Added the `base` and `recom` arguments to the `pkgs_get_deps()` function. Clarified the documentation a bit. Fixed some spelling errors. Extended the example in the "import" section of the Read-Me. The Read-Me now has section numbers.
  - 28 June 2023: renamed the `depends` and `extends` arguments of `import_as()` to `dependencies` and `extenions`, to avoid confusion, and added the `foreign_exports` argument as well.
  - 1 July 2023: Added the `overwrite` argument to `import_as()`, and made its alias checks more rigorous. Adjusted the documentation a bit. Added some more tests. Fixed some minor bugs in the `source_module` functions.
+ - 2 July 2023: Removed the `overwrite` argument from `import_as()` (that was a short-lived argument...), as I've found it to be more annoying than it's worth. Added more internal checks to the `import_` and `source_module` functions. Error messages now display the used exported function instead of internal functions. Adjusted the documentation and Read-Me accordingly.
 
 
 FUTURE PLANS:
@@ -114,16 +115,16 @@ tinyoperators::tinyoperators_help()
 
 ## Overview
 
-The `tinyoperators` R-package adds some infix operators, and a few functions, for better coding etiquette. It primarily focuses on 4 things:
+
+The `tinyoperators` R-package adds some infix operators, and a few functions. It primarily focuses on 4 things:
 
  1) Float truth testing.
  2) Reducing repetitive code.
  3) Extending the string manipulation capabilities of the `stringi` R package.
  4) A new package and module import system,  that combines the benefits of aliasing a package with the benefits of attaching a package.
 
-The `tinyoperators` R-package has only one dependency, namely `stringi`, though it does allows multi-threading of some of the string-related functions (when appropriate) via the suggested `stringfish` R-package.
+The `tinyoperators` R-package has only one dependency, namely `stringi`, though it does allows multi-threading of some of the string-related functions (when appropriate) via the suggested `stringfish` R-package. Most functions in this R-package are fully vectorized and have been optimized for optimal speed and performance.
 
-Most functions in this R-package are fully vectorized and reasonably well optimized.
 
 &nbsp;
 
@@ -133,6 +134,19 @@ Currently this R package is only available on GitHub.
 
 I understand you may not want to go through this entire Read-Me without knowing if the R package is even worthy of your time. Therefore, allow me to give you a quick glimpse of what is possible in this R package before jumping into the details.
 
+
+
+Safer float truth testing:
+
+```{r}
+x <- c(0.3, 0.6, 0.7)
+y <- c(0.1*3, 0.1*6, 0.1*7)
+print(x); print(y)
+
+x == y # gives FALSE, but should be TRUE
+
+x %f==% y # here it's done correctly
+```
 
 
 Operators and functions to reduce repetitive code:
@@ -147,19 +161,6 @@ mtcars$mpg[mtcars$cyl>6] <- (mtcars$mpg[mtcars$cyl>6])^2
 # with tinyoperators:
 very_long_name_1 %<>% transform_if(\(x)x>0, log, \(x)x^2) # compact & no warning
 mtcars$mpg[mtcars$cyl>6] %:=% \(x)x^2
-```
-
-
-Safer float truth testing:
-
-```{r}
-x <- c(0.3, 0.6, 0.7)
-y <- c(0.1*3, 0.1*6, 0.1*7)
-print(x); print(y)
-
-x == y # gives FALSE, but should be TRUE
-
-x %f==% y # here it's done correctly
 ```
 
 
@@ -192,12 +193,22 @@ stri_c_mat(sorted, margin=1, sep=" ") # row-wise concatenate strings
 ```
 
 
-Sourcing a module under an alias:
+Using `tinyoperator's` new import system; note that the following code is run **without attaching a single R package**:
 
-```{r eval=FALSE}
-myalias %@source% list(file="mydir/mymodule.R")
+```{r}
+import_as( # loading "dplyr" + its foreign exports + "powerjoin" under alias "dr." 
+  dr., "dplyr", extensions = "powerjoin"
+)
 
-myalias$myfunction(...)
+import_inops("magrittr") # exposing operators from `magrrittr` to current env
+
+d <- import_data("starwars", "dplyr") # directly assigning the "starwars" dataset to object "d"
+
+d %>% dr.$filter(species == "Droid") %>%
+  dr.$select(name, dr.$ends_with("color"))
+
+myalias. %@source% list(file="sourcetest.R") # source a script under an alias
+myalias.$helloworld() # run a function that was just sourced.
 ```
 
 
@@ -766,18 +777,18 @@ Moreover, `tinyoperators` extends this functionality to also work on **sourced m
 
 Just to clarify: I am not claiming this import system provided in the `tinyoperators` package is always the best system or whatever. This is just another option provided, just like the `import` and `box` packages provide additional options. Please feel free to completely ignore this section if you prefer using `library()` :-)
 
-This section of the Read-Me is rather lengthy, so I will start with a super quick example code using this import system:
+This section of the Read-Me is rather lengthy, so I will start with a super quick example code using `tinyoperator`'s import system:
 
 ```{r}
 import_as( # loading "dplyr" + its foreign exports + "powerjoin" under alias "dr." 
-  dr., "dplyr", extensions = "powerjoin", overwrite = TRUE
+  dr., "dplyr", extensions = "powerjoin"
 )
 
-import_inops("magrittr") # getting the operators from `magrrittr`
+import_inops("magrittr") # exposing operators from `magrrittr` to current env
 
 d <- import_data("starwars", "dplyr") # directly assigning the "starwars" dataset to object "d"
 
-d %>% dr.$filter(.data$species == "Droid") %>% # notice the pronoun can be used without problems
+d %>% dr.$filter(species == "Droid") %>%
   dr.$select(name, dr.$ends_with("color"))
 
 myalias. %@source% list(file="sourcetest.R") # source a script under an alias
@@ -823,18 +834,17 @@ The main arguments of the `import_as()` function are:
  - `dependencies`: a character vector giving the dependencies of the main package to load under the alias also. One can also set this to `TRUE`, in which case all dependencies of the `main_package` are loaded, except base and recommended packages. Default is `FALSE`.
  - `enhances`: an optional character vector giving the packages enhanced by the `main_package` to be loaded under the alias also.
  - `extensions`: an optional character vector giving the extensions/reverse-dependencies of the main package to load under the same alias also.
-  - `overwrite`: if `TRUE`, the given alias will overwrite any existing object with the same name. If `FALSE` (default), `import_as()` will return an error if an object with the same name as given in argument `alias` already exists.
 
 Here is one example. Lets load  `data.table` and then `tidytable`, under the same alias, which I will call "tdt." (for "tidy data.table"):
 
 ```{r}
-import_as(tdt., "tidytable", dependencies="data.table", overwrite = TRUE) # this creates the tdt. object
+import_as(tdt., "tidytable", dependencies="data.table") # this creates the tdt. object
 ```
 
 Notice that the above is the same as:
 
 ```{r}
-import_as(tdt., "data.table", extensions = "tidytable", overwrite = TRUE) # this creates the tdt. object
+import_as(tdt., "data.table", extensions = "tidytable") # this creates the tdt. object
 ```
 
 
@@ -978,7 +988,7 @@ So here `tinyoperator`'s `import_as()` function might help. Below is an example 
 tinyoperators::pkgs_get_deps("dplyr") # a lot of dependencies
 
 import_as(
-  dr., "dplyr", extensions = "powerjoin", lib.loc=.libPaths(), overwrite = TRUE
+  dr., "dplyr", extensions = "powerjoin", lib.loc=.libPaths()
 )
 
 import_inops("magrittr") # getting the operators from `magrrittr`
@@ -1112,4 +1122,5 @@ For quick 'n easy back-tracing of errors, I recommend the `rlang` R package.
 # Conclusion
 
 I hope this R package will make your life a little bit easier, and your R environment a little bit tinier.
+
 
