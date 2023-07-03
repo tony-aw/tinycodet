@@ -43,9 +43,9 @@
 #' giving the string(s) to add-in.
 #' @param type a single string, giving the part of the string to extract.
 #' 3 options available: \cr
-#'  * \code{type = "at"}: extracts the string part at the position range; \cr
-#'  * \code{type = "before"}: extracts the string part before the position range; \cr
-#'  * \code{type = "after"}: extracts the string part after the position range. \cr
+#'  * \code{type = "at"}: extracts the string part at the position range.
+#'  * \code{type = "before"}: extracts the string part before the position range.
+#'  * \code{type = "after"}: extracts the string part after the position range.
 #' @param arr a single string, giving how the sub-string should be arranged.
 #' 3 options available: \cr
 #'  * \code{arr = "incr"}: sort the sub-string alphabetically.
@@ -60,13 +60,6 @@
 #' this requires \code{stringfish} to be installed.
 #' @param ... only applicable if \code{fish=TRUE};
 #' other arguments to be passed to the \code{stringfish} functions.
-#'
-#'
-#' @details
-#' These functions
-#' serve as a way to provide straight-forward sub-string modification and/or extraction. \cr
-#' All substr_ functions internally only use fully vectorized R functions
-#' (no loops or apply-like functions). \cr
 #'
 #'
 #'

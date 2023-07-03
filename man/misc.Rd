@@ -9,13 +9,12 @@ stricter_TrueFalse()
 }
 \value{
 Two objects: \code{T} and \code{F}, both set to \code{NULL}.
-Removing the created \code{T} and \code{F} objects will restore the behaviour. \cr
+Removing the created \code{T} and \code{F} objects will restore their default behaviour. \cr
 }
 \description{
 The \code{stricter_TrueFalse} function re-assigns the \code{T} and \code{F} values to
 \code{NULL}, forcing the user to use \code{TRUE} and \code{FALSE}.
-Removing the created \code{T} and \code{F} objects will restore the behaviour. \cr
-The \code{}
+Removing the created \code{T} and \code{F} objects will restore their default behaviour. \cr
 }
 \examples{
 

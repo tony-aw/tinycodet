@@ -41,9 +41,9 @@ Note that only the recommended R packages actually installed in your system are 
 
 \item{pkgs}{a single string, or character vector, with the package name(s).}
 
-\item{alias}{the alias created by \link{import_as}, either as string or expression.}
+\item{alias}{the alias created by \link{import_as}, either as string or symbolic.}
 
-\item{f}{the function name, either as string or expression.}
+\item{f}{the function name, either as string or symbolic.}
 }
 \value{
 For  \code{pkgs \%installed in\% lib.loc}:
@@ -55,10 +55,12 @@ A character vector of dependencies.
 }
 \description{
 The \code{pkgs \%installed in\% lib.loc} operator
-checks if one or more package(s) \code{pkgs} exist(s) in library location \code{lib.loc}. \cr
-Now you no longer have to attach a package with \code{require()} simply to check if it exists. \cr
-Moreover, this operator makes it syntactically explicit in your code
-where you are looking for your R package(s). \cr
+checks if one or more package(s) \code{pkgs} exist(s)
+in library location \code{lib.loc},
+and does so WITHOUT attaching or even loading the package(s). \cr
+Moreover, this operator forces the user to make it
+syntactically explicit
+where one is looking for installed R package(s). \cr
 \cr
 The \code{pkgs_get_deps()} function gets the dependencies of a package
 from the Description file. It works on non-CRAN packages also. \cr

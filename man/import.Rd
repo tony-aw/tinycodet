@@ -218,5 +218,5 @@ head(d)
 
 }
 \seealso{
-\link[=pkgs_get_deps]{pkgs}, \link[=source_inops]{source_module}
+\link[=source_inops]{source_module}, \link[=pkgs_get_deps]{pkgs}
 }

@@ -204,6 +204,8 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   `source_module` functions. Error messages now display the used
   exported function instead of internal functions. Adjusted the
   documentation and Read-Me accordingly.
+- 3 July 2023: a tiny update; just fixed some minor documentation
+  issues.
 
 FUTURE PLANS:
 
@@ -1222,7 +1224,7 @@ Notice the extra space before the `=` sign.
 
 ## 8.1 Introduction
 
-One can load a package without attaching a package (i.e. using `::` or
+One can load a package without attaching the package (i.e. using `::` or
 using a package alias), or one can attach a package (i.e. using
 `library` or `require()`). Both options have their pros and cons.
 
@@ -1255,13 +1257,14 @@ somewhat find the best of both worlds. Basically, `tinyoperators` has
 functions that allow the following import functionality lacking in base
 R:
 
-- Allow package + its dependencies + its extensions (reverse
-  dependencies) to be loaded under **one alias**. This essentially
-  combines the attaching advantage of “collective usage”, whilst keeping
-  most advantages of not attaching a package.
+- Allow package + its dependencies + its enhances + its extensions to be
+  loaded under **one alias**. This essentially combines the attaching
+  advantage of “collective usage”, whilst keeping most advantages of
+  aliasing a package.
 - Allow **exposing infix operators** to the **current environment**.
-  This gains the advantage of “less typing”, whilst simultaneously
-  avoiding the disadvantage of “global assignment”.
+  This gains the attaching advantage of “less typing”, whilst
+  simultaneously avoiding the disadvantage of attaching functions from a
+  package globally.
 
 Moreover, `tinyoperators` extends this functionality to also work on
 **sourced modules**.
@@ -1269,8 +1272,8 @@ Moreover, `tinyoperators` extends this functionality to also work on
 Just to clarify: I am not claiming this import system provided in the
 `tinyoperators` package is always the best system or whatever. This is
 just another option provided, just like the `import` and `box` packages
-provide additional options. Please feel free to completely ignore this
-section if you prefer using `library()` :-)
+provide their own alternative import systems. Please feel free to
+completely ignore this section if you prefer using `library()` :-)
 
 This section of the Read-Me is rather lengthy, so I will start with a
 super quick example code using `tinyoperator`’s import system:
@@ -1369,13 +1372,13 @@ multiple packages under the same alias.
 
 And that is where `tinyoperator`’s `import_as()` function comes in. It
 loads an R package under an alias, and also loads any specified
-**dependencies** or **extensions** (=reverse-dependencies) of the
-package under the very same alias. It also informs the user which
-objects from a package will overwrite which objects from other packages,
-so you will never be surprised. The `import_as()` function also only
-loads exported functions (unlike `loadNamespace()`, which loads both
-internal and external functions). This is, I think, more desirable, as
-internal function should remain, you know, internal.
+**dependencies**, **enhances** and/or **extensions** of the package
+under the very same alias. It also informs the user which objects from a
+package will overwrite which objects from other packages, so you will
+never be surprised. The `import_as()` function also only loads exported
+functions (unlike `loadNamespace()`, which loads both internal and
+external functions). This is, I think, more desirable, as internal
+function should remain, you know, internal.
 
 `import_as(alias, ...)` is thus essentially the multi-package equivalent
 of `alias <- loadNamespace(...)`.
@@ -1387,12 +1390,12 @@ The main arguments of the `import_as()` function are:
   easily distinguished from other objects that can also be subset with
   the `$` operator, I recommend ending (not starting!) the names of all
   alias names with a dot (.).
+- `main_package`: the name (string) of the main package to load.
 - `foreign_exports`: Some R packages export functions that are not
   defined in their own package, but in their direct dependencies -
   “foreign exports”. If `TRUE` (default), these foreign exports are
   added to the alias, analogous to the behaviour of base R’s `::`
   operator. If `FALSE`, foreign exports are not added.
-- `main_package`: the name (string) of the main package to load.
 - `dependencies`: a character vector giving the dependencies of the main
   package to load under the alias also. One can also set this to `TRUE`,
   in which case all dependencies of the `main_package` are loaded,
@@ -1440,7 +1443,7 @@ Now you can of course use those loaded packages as one would normally do
 when using a package alias.
 
 The order in which `import_as()` loads the packages under the given
-alias is specified by the `loadorder` argument. See the help file for
+alias can be adjusted in the `loadorder` argument. See the help file for
 details.
 
  
@@ -1589,13 +1592,13 @@ myalias. %@source% list(exprs=exprs)
 #> Importing module ...
 #> Done
 #> You can now access the sourced objects using myalias.$...
+
 myalias.$helloworld()
 #> [1] "helloworld"
 
-
 temp.fun <- function(){
-  source_inops(exprs=exprs)
-  ls()
+  source_inops(exprs=exprs) # places the function inside the function environment
+  ls() # list all objects residing within the function definition
 }
 temp.fun()
 #> placing operators in current environment...

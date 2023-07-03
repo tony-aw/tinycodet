@@ -131,7 +131,6 @@
 #' \code{"regfuns"}: Only regular functions (thus excluding infix operators). \cr
 #' \code{"all"}: All functions, both regular functions and infix operators. \cr
 #' 
-#' @seealso \link[=pkgs_get_deps]{pkgs}, \link[=source_inops]{source_module}
 #'
 #' @details
 #' The \code{import_as()} function
@@ -167,6 +166,8 @@
 #' For \code{import_lsf()}: \cr
 #' Returns a character vector of function and/or operator names. \cr
 #' \cr
+#' 
+#' @seealso \link[=source_inops]{source_module}, \link[=pkgs_get_deps]{pkgs}
 #' 
 #'
 #' @examples
@@ -289,7 +290,7 @@ import_as <- function(
   "You can now access the functions using ", alias_chr, "$...", "\n",
   "(S3)methods will work like normally. \n"
 ))
-  eval(call("<-", substitute(alias), out), envir = parent.frame(n = 1))
+  assign(alias_chr, out, envir = parent.frame(n = 1))
 }
 
 
@@ -376,7 +377,7 @@ import_inops <- function(pkgs, lib.loc=.libPaths(), exclude, include.only) {
       "Placing infix operators in current environment..."
     )
     for(op in operators){
-      eval(call("<-", op, namespaces[[op]]), envir = parent.frame(n = 1))
+      assign(op, namespaces[[op]], envir = parent.frame(n = 1))
     }
     message("Done")
   }

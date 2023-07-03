@@ -102,13 +102,12 @@ transform_if <- function(x, cond, trans_T=function(x)x, trans_F=function(x)x) {
   return(x[!indx])
 }
 
-
 #' @rdname transform_if
 #' @export
 `%unreal =%` <- function(x, repl) {
   y <- x
   y[is.na(y)|is.nan(y)|is.infinite(y)] <- repl
   temp_name <- substitute(x)
-
+  
   eval(call("<-", temp_name, y), envir = parent.frame(n = 1))
 }

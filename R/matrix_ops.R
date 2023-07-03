@@ -20,22 +20,20 @@
 #' \code{x %row~% x} or \code{x %col~% x} would suffice, respectively. \cr
 #' \cr
 #' If matrix \code{x} is not numeric,
-#' sorting the elements using \code{x %row~% x} and \code{x %col~% x} are still possible,
+#' sorting the elements using \code{x %row~% x} and \code{x %col~% x} is still possible,
 #' but probably not the best option.
 #' In the non-numeric case,
 #' providing a matrix of ordering ranks for \code{mat} would be faster and give more accurate ordering.
 #' See the examples section. \cr
 #' \cr
 #' If \code{mat} is a matrix of non-repeating random integers
-#' (i.e. \code{sample(1:length(x), replace=FALSE) sample(1:length(x)) |> matrix(ncol=ncol(x))}),
+#' (i.e. \code{sample(1:length(x), replace=FALSE) |> matrix(ncol=ncol(x))}),
 #' \code{x %row~% mat} will randomly shuffle the elements of every row,
 #' where the shuffling order of every row is independent of the other rows. \cr
 #' Similarly, \code{x %col~% mat} will randomly shuffle the elements of every column,
 #' where the shuffling order of every column is independent of the other columns. \cr
 #' \cr
-#' These operators internally only use vectorized operations
-#' (no loops or apply-like functions),
-#' and are faster than re-ordering matrices using loops or apply-like functions.
+#' These operators are faster than re-ordering matrices using loops or apply-like functions.
 #'
 #' @returns
 #' A modified matrix.

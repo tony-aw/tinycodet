@@ -40,7 +40,7 @@
 #' (like the Global environment, or the environment within a function).\cr
 #' \cr
 #' 
-#' @seealso \link[=pkgs_get_deps]{pkgs}, \link[=import_as]{import}, [base::source()]
+#' @seealso \link[=import_as]{import}, \link[=pkgs_get_deps]{pkgs}, [base::source()]
 #'
 #' @examples
 #'
@@ -84,7 +84,7 @@ NULL
     "You can now access the sourced objects using ",
     substitute(alias), "$...", "\n"
   ))
-  eval(call("<-", substitute(alias), tempenv), envir = parent.frame(n = 1))
+  assign(alias_chr, tempenv, envir = parent.frame(n = 1))
 }
 
 
@@ -111,7 +111,7 @@ source_inops <- function(...) {
   if(length(operators)>0) {
     message("placing operators in current environment...")
     for(op in operators) {
-      eval(call("<-", op, tempenv[[op]]), envir = parent.frame(n = 1))
+      assign(op, tempenv[[op]], envir = parent.frame(n = 1))
     }
   }
   

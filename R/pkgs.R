@@ -2,10 +2,12 @@
 #'
 #' @description
 #' The \code{pkgs %installed in% lib.loc} operator
-#' checks if one or more package(s) \code{pkgs} exist(s) in library location \code{lib.loc}. \cr
-#' Now you no longer have to attach a package with \code{require()} simply to check if it exists. \cr
-#' Moreover, this operator makes it syntactically explicit in your code
-#' where you are looking for your R package(s). \cr
+#' checks if one or more package(s) \code{pkgs} exist(s)
+#' in library location \code{lib.loc},
+#' and does so WITHOUT attaching or even loading the package(s). \cr
+#' Moreover, this operator forces the user to make it
+#' syntactically explicit
+#' where one is looking for installed R package(s). \cr
 #' \cr
 #' The \code{pkgs_get_deps()} function gets the dependencies of a package
 #' from the Description file. It works on non-CRAN packages also. \cr
@@ -14,8 +16,8 @@
 #' finds the help file for function \code{fun_name} loaded in the \code{alias}.
 #'
 #' @param pkgs a single string, or character vector, with the package name(s).
-#' @param alias the alias created by \link{import_as}, either as string or expression.
-#' @param f the function name, either as string or expression.
+#' @param alias the alias created by \link{import_as}, either as string or symbolic.
+#' @param f the function name, either as string or symbolic.
 #' @param package a single string giving the package name
 #' @param lib.loc character vector specifying library search path
 #' (the location of R library trees to search through).

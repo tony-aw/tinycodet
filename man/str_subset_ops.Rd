@@ -70,9 +70,7 @@ print(x)
 ss <- c(1,0)
 x \%strim\% ss
 
-
-
-
+"hello" \%ss\% 5:1
 
 
 

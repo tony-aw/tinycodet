@@ -90,9 +90,9 @@ giving the position after or before which the string is to be added.}
 \item{type}{a single string, giving the part of the string to extract.
 3 options available: \cr
 \itemize{
-\item \code{type = "at"}: extracts the string part at the position range; \cr
-\item \code{type = "before"}: extracts the string part before the position range; \cr
-\item \code{type = "after"}: extracts the string part after the position range. \cr
+\item \code{type = "at"}: extracts the string part at the position range.
+\item \code{type = "before"}: extracts the string part before the position range.
+\item \code{type = "after"}: extracts the string part after the position range.
 }}
 
 \item{arr}{a single string, giving how the sub-string should be arranged.
@@ -136,12 +136,6 @@ The \code{substr_arrange(x, arr, ...)} function
 sorts (alphabetically or reverse-alphabetically)
 or reverses the sub-string at a position (range).
 \cr
-}
-\details{
-These functions
-serve as a way to provide straight-forward sub-string modification and/or extraction. \cr
-All substr_ functions internally only use fully vectorized R functions
-(no loops or apply-like functions). \cr
 }
 \examples{
 

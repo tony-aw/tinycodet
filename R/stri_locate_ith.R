@@ -24,10 +24,14 @@
 #' If \code{abs(i)} is larger than the number of instances,
 #' the first (if \code{i < 0}) or last (if \code{i > 0}) instance will be given. \cr
 #' For example: suppose a string has \code{3} instances of some pattern; \cr
-#' then if \code{i >= 4} the third instance will be located, \cr
+#' then if \code{i >= 3} the third instance will be located, \cr
 #' and if \code{i <= -3} the first instance will be located. \cr
 #' @param ... more arguments to be supplied to
-#' \link[stringi]{stri_locate} and \link[stringi]{stri_count}.
+#' \link[stringi]{stri_locate} and \link[stringi]{stri_count}. \cr
+#' Do not supply the arguments
+#' \code{omit_no_match}, \code{get_length}, or \code{pattern},
+#' as they are already specified internally.
+#' Supplying these arguments anyway will result in an error.
 #'
 #'
 #'

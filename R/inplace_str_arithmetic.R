@@ -105,4 +105,3 @@ NULL
 `%s/ =%` <- function(x, p) {
   eval(call("<-", substitute(x), x %s/% p), envir = parent.frame(n = 1))
 }
-

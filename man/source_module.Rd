@@ -63,5 +63,5 @@ source_inops(file="mydir/mymodule.R")
 
 }
 \seealso{
-\link[=pkgs_get_deps]{pkgs}, \link[=import_as]{import}, \code{\link[base:source]{base::source()}}
+\link[=import_as]{import}, \link[=pkgs_get_deps]{pkgs}, \code{\link[base:source]{base::source()}}
 }

@@ -66,4 +66,3 @@ NULL
   eval(call("<-", substitute(x), x %strim% ss), envir = parent.frame(n = 1))
 }
 
-

@@ -42,3 +42,4 @@ NULL
 `%:=%` <- function(x, f) {
   eval(call("<-", substitute(x), f(x)), envir = parent.frame(n = 1))
 }
+
