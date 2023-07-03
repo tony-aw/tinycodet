@@ -29,12 +29,10 @@
   - [8.2 import_as](#82-import_as)
   - [8.3 import_inops](#83-import_inops)
   - [8.4 import_data](#84-import_data)
-  - [8.5 lib.loc](#85-libloc)
-  - [8.6 On pronouns and aliases](#86-on-pronouns-and-aliases)
-  - [8.7 Sourcing modules](#87-sourcing-modules)
-  - [8.8 Miscellaneous functions and
-    operators](#88-miscellaneous-functions-and-operators)
-  - [8.9 An example](#89-an-example)
+  - [8.5 Miscellaneous comments on package
+    imports](#85-miscellaneous-comments-on-package-imports)
+  - [8.6 Sourcing modules](#86-sourcing-modules)
+  - [8.7 An example](#87-an-example)
 - [9 Multi-threading](#9-multi-threading)
   - [9.1 Substr-functions](#91-substr-functions)
 - [10 Tinyverse solutions without external R
@@ -1533,7 +1531,7 @@ head(d)
 
  
 
-## 8.5 lib.loc
+## 8.5 Miscellaneous comments on package imports
 
 All “import\_” functions in the `tinyoperators` package have a `lib.loc`
 argument to explicitly specify from where to get your packages (just
@@ -1541,16 +1539,28 @@ like base R’s `loadNamespace()` and `install.packages()` functions).
 
  
 
-## 8.6 On pronouns and aliases
-
 The `magrittr` and `rlang` packages add “pronouns” to R: `.`, `. data`,
 `.env`. Fret not, for pronouns work regardless if you attached a package
 or not. And you don’t need to use something like `rlang::.data` or
-`.rlang$.data` for a pronoun to work. They just work.
+`rlang.$.data` for a pronoun to work. They just work.
 
  
 
-## 8.7 Sourcing modules
+There are some additional miscellaneous functions related to the package
+import system that should perhaps be mentioned also:
+
+- the `pkgs_get_deps()` function gets the dependencies (or the enhances)
+  of a package, regardless if the package is CRAN or non-CRAN.
+- the `pkgs %installed in% lib.loc` operator checks if the packages
+  specified in character vector `pkgs` are installed in library paths
+  `lib.loc`, and does this **without** attaching or even loading the
+  packages.
+- `alias %::?% fun_name` gets the help file for a function `fun_name`
+  from the `alias` object.
+
+ 
+
+## 8.6 Sourcing modules
 
 Scripts with functions that you source (sometimes referred to as
 “modules”) can be kind of seen as mini-packages. So `tinyoperators` adds
@@ -1607,22 +1617,7 @@ temp.fun()
 
  
 
-## 8.8 Miscellaneous functions and operators
-
-There are some additional miscellaneous functions related to the import
-system that should perhaps be mentioned also:
-
-- the `pkgs_get_deps()` function gets the dependencies (or the enhances)
-  of a package, regardless if the package is CRAN or non-CRAN.
-- the `pkgs %installed in% lib.loc` operator checks if the packages
-  specified in character vector `pkgs` are installed in library paths
-  `lib.loc`, and does this WITHOUT attaching or even loading a package.
-- `alias %::?% fun_name` gets the help file for a function `fun_name`
-  from the `alias` object.
-
- 
-
-## 8.9 An example
+## 8.7 An example
 
 One R package that could benefit from the import system introduced by
 `tinyoperators`, is the `dplyr` R package. The `dplyr` R package
@@ -1770,6 +1765,24 @@ Notice that the only change made, is that all functions start with
 the code that they came from the `dplyr` + `powerjoin` family, and there
 is no fear of overwriting functions from other R packages - let alone
 core R functions.
+
+ 
+
+To show that `import_as()` actually does load all exported functions,
+including foreign exports, consider the following proof:
+
+``` r
+import_as(dr., "dplyr", foreign_exports = TRUE)
+#> listing foreign exports from package: dplyr...
+#> Importing package: dplyr...
+#> 
+#> Done
+#> You can now access the functions using dr.$...
+#> (S3)methods will work like normally.
+foo <- loadNamespace("dplyr") |> getNamespaceExports()
+all(sort(names(dr.)) == sort(foo)) # all is TRUE
+#> [1] TRUE
+```
 
  
 
