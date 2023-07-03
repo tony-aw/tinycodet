@@ -64,6 +64,7 @@ NULL
     make.names(alias_chr)==alias_chr,
     isTRUE(nchar(alias_chr)>0),
     length(alias_chr)==1,
+    isFALSE(alias_chr %in% c("T", "F")),
     !startsWith(alias_chr, ".")
   )
   if(!isTRUE(all(check_proper_alias))){
