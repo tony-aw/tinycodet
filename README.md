@@ -1315,6 +1315,8 @@ myalias. %@source% list(file="sourcetest.R") # source a script under an alias
 #> You can now access the sourced objects using myalias.$...
 myalias.$helloworld() # run a function that was just sourced.
 #> [1] "hello world"
+
+rm(list=ls()) # clearing everything
 ```
 
 The above code is run *without* attaching `dplyr`, `powerjoin`, or its
@@ -1631,9 +1633,6 @@ library(dplyr) # <- notice dplyr overwrites base R and recommended R packages
 #> Warning: package 'dplyr' was built under R version 4.2.3
 #> 
 #> Attaching package: 'dplyr'
-#> The following object is masked _by_ '.GlobalEnv':
-#> 
-#>     %>%
 #> The following object is masked from 'package:MASS':
 #> 
 #>     select

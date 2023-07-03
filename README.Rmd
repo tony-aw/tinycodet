@@ -215,6 +215,11 @@ myalias.$helloworld() # run a function that was just sourced.
 
 If you're still interested, I invite you to read the rest of this Read-Me, and perhaps try out the package yourself.
 
+```{r echo=FALSE}
+rm(list=ls())
+```
+
+
 &nbsp;
 
 # Additional logic operators
@@ -794,6 +799,8 @@ d %>% dr.$filter(species == "Droid") %>%
 
 myalias. %@source% list(file="sourcetest.R") # source a script under an alias
 myalias.$helloworld() # run a function that was just sourced.
+
+rm(list=ls()) # clearing everything
 ```
 
 The above code is run *without* attaching `dplyr`, `powerjoin`, or its dependencies. So none of the problems with attaching a package is present.
