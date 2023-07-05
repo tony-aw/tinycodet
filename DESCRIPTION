@@ -1,6 +1,6 @@
 Package: tinyoperators
 Title: Infix operators and some functions to help in your coding etiquette
-Version: 0.0.9
+Version: 0.0.0.9
 Authors@R: 
     person("Tony", "Wilkes", , "tony_a_wilkes@outlook.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-9498-8379"))
