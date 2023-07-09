@@ -456,9 +456,8 @@ x %d!{}% bnd
 ```
 
 Although designed for objects (vectors, matrices, arrays) of class
-`double` (decimal numbering numbers), these operators also work
-correctly for integers. These operators do not work for non-numeric
-objects.
+`double` (decimal numbers), these operators also work correctly for
+integers. These operators do not work for non-numeric objects.
 
  
 
@@ -1851,9 +1850,9 @@ s[s %=strtype% "special"]
 
 The `tinyoperations` R package also adds a few other things:
 
-- The `stricter_TrueFalse()` function locks `T` and `F` to be unusable,
-  forcing the user to use `TRUE` and `FALSE` instead. Removing the `T`
-  and `F` objects restores their functionality.
+- The `stricter_TrueFalse()` function locks `T` and `F` to prevent the
+  user from re-assigning them. Removing the `T` and `F` objects allows
+  re-assignment again.
 - The `x %<-c% a` operator creates a `CONSTANT` `x` with assignment `a`.
   Constants cannot be changed, only accessed or removed. So if you have
   a piece of code that absolutely requires some constant, use this

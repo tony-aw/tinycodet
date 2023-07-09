@@ -1,9 +1,11 @@
 #' Miscellaneous functions to help your coding etiquette
 #'
 #' @description
-#' The \code{stricter_TrueFalse()} function re-assigns the \code{T} and \code{F} values to
-#' \code{NULL}, and locks them, forcing the user to use \code{TRUE} and \code{FALSE}.
-#' Removing the created \code{T} and \code{F} objects will restore their default behaviour. \cr
+#' The \code{stricter_TrueFalse()} function
+#' locks the \code{T} and \code{F} values,
+#' to prevent the user from re-assigning them. \cr
+#' Removing the created \code{T} and \code{F} objects
+#' allows re-assignment again. \cr
 #' \cr
 #' The \code{X %<-c% A} operator creates a \code{CONSTANT} \code{X}
 #' and assigns \code{A} to it. \cr
@@ -16,8 +18,10 @@
 #'
 #' @returns
 #' For \code{stricter_TrueFalse()}: \cr
-#' Two objects, namely \code{T} and \code{F}, both set to \code{NULL}.
-#' Removing the created \code{T} and \code{F} objects will restore their default behaviour. \cr
+#' Two \code{CONSTANTS}, namely \code{T} and \code{F},
+#' set to \code{TRUE} and \code{FALSE} respectively,
+#' and locked.
+#' Removing the created \code{T} and \code{F} objects allows re-assignment again. \cr
 #' \cr
 #' For \code{X %<-c% A}: \cr
 #' The object \code{X} containing \code{A} is created in the current environment,
@@ -41,10 +45,10 @@ NULL
 #' @rdname misc
 #' @export
 stricter_TrueFalse <- function() {
-  assign("T", NULL, envir = parent.frame(n = 1))
+  assign("T", TRUE, envir = parent.frame(n = 1))
   lockBinding("T", env = parent.frame(n = 1))
 
-  assign("F", NULL, envir = parent.frame(n = 1))
+  assign("F", FALSE, envir = parent.frame(n = 1))
   lockBinding("F", env = parent.frame(n = 1))
 }
 
