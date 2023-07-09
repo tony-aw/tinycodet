@@ -16,7 +16,7 @@
   - [5.2 String arithmetic](#52-string-arithmetic)
   - [5.3 Specifying Pattern search attributes in string infix
     operators](#53-specifying-pattern-search-attributes-in-string-infix-operators)
-- [6 “DRY” - operations](#6-dry---operations)
+- [6 “DRY” operations](#6-dry-operations)
   - [6.1 The transform_if function, and related
     operators](#61-the-transform_if-function-and-related-operators)
   - [6.2 Generalized in-place (mathematical)
@@ -66,7 +66,7 @@ public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostat
 The `tinyoperations` R-package adds some infix operators, and a few
 functions. It primarily focuses on 4 things:
 
-1)  Decimal number (“double”) truth testing.
+1)  Safer decimal number (“double”) truth testing.
 2)  Reducing repetitive code.
 3)  Extending the string manipulation capabilities of the `stringi` R
     package.
@@ -267,7 +267,7 @@ tinyoperations::tinyoperations_help()
 The `tinyoperations` R-package adds some infix operators, and a few
 functions. It primarily focuses on 4 things:
 
-1)  Decimal number (“double”) truth testing.
+1)  Safer decimal number (“double”) truth testing.
 2)  Reducing repetitive code.
 3)  Extending the string manipulation capabilities of the `stringi` R
     package.
@@ -414,9 +414,9 @@ between `x` and `y` is smaller than the Machine tolerance,
 `sqrt(.Machine$double.eps)`, then `x` and `y` ought to be consider to be
 equal. Thus these provide safer decimal number (in)equality operators.
 For example: `(0.1*7) == 0.7` returns `FALSE`, even though they are
-equal, due to the way decimal numbering numbers are stored in
-programming languages like `R`, `Python`, etc. But `(0.1*7) %d==% 0.7`
-returns `TRUE`.
+equal, due to the way decimal numbers are stored in programming
+languages like `R`, `Python`, etc. But `(0.1*7) %d==% 0.7` returns
+`TRUE`.
 
 Some examples:
 
@@ -965,7 +965,7 @@ And so on. I’m sure you get the idea.
 
  
 
-# 6 “DRY” - operations
+# 6 “DRY” operations
 
 ## 6.1 The transform_if function, and related operators
 
@@ -1271,14 +1271,14 @@ So there are several cases where it is perhaps desirable to load
 multiple packages under the same alias.
 
 And that is where `tinyoperations`’s `import_as()` function comes in. It
-loads an R package under an alias, and also loads any specified
-**dependencies**, **enhances** and/or **extensions** of the package
-under the very same alias. It also informs the user which objects from a
-package will overwrite which objects from other packages, so you will
-never be surprised. The `import_as()` function also only loads exported
-functions (unlike `loadNamespace()`, which loads both internal and
-external functions). This is, I think, more desirable, as internal
-function should remain, you know, internal.
+loads an R package + its foreign exports under an alias, and also loads
+any specified **dependencies**, **enhances** and/or **extensions** of
+the package under the very same alias. It also informs the user which
+objects from a package will overwrite which objects from other packages,
+so you will never be surprised. The `import_as()` function also only
+loads exported functions (unlike `loadNamespace()`, which loads both
+internal and external functions). This is, I think, more desirable, as
+internal function should remain, you know, internal.
 
 `import_as(alias, ...)` is thus essentially the multi-package equivalent
 of `alias <- loadNamespace(...)`.
@@ -1304,8 +1304,9 @@ The main arguments of the `import_as()` function are:
   extensions/reverse-dependencies of the main package to load under the
   same alias also.
 
-Here is one example. Lets load `data.table` and then `tidytable`, under
-the same alias, which I will call “tdt.” (for “tidy data.table”):
+Here is one example. Lets load `tidytable` and its dependency
+`data.table`, under the same alias, which I will call “tdt.” (for “tidy
+data.table”):
 
 ``` r
 import_as(tdt., "tidytable", dependencies="data.table") # this creates the tdt. object
@@ -1322,7 +1323,7 @@ import_as(tdt., "tidytable", dependencies="data.table") # this creates the tdt. 
 ```
 
 Now you can of course use those loaded packages as one would normally do
-when using a package alias.
+when using a package alias: `tdt.$some_function()`.
 
 The order in which `import_as()` loads the packages under the given
 alias can be adjusted in the `loadorder` argument. See the help file for
@@ -1697,8 +1698,12 @@ import_as(dr., "dplyr", foreign_exports = TRUE)
 #> You can now access the functions using dr.$...
 #> (S3)methods will work like normally.
 foo <- loadNamespace("dplyr") |> getNamespaceExports()
-all(sort(names(dr.)) == sort(foo)) # all is TRUE
+check <- all(sort(names(dr.)) == sort(foo))
+print(check) # must be TRUE
 #> [1] TRUE
+if(!isTRUE(check)) {
+  stop("I'm really stupid")
+}
 ```
 
 If, for some reason, it is unknown to the user which packages were
@@ -1721,8 +1726,27 @@ import_as(
 #> Done
 #> You can now access the functions using dr.$...
 #> (S3)methods will work like normally.
-attr(dr., "pkgs")$pkgs
+attr(dr., "pkgs")
+#> $packages_order
+#> [1] "tibble"    "dplyr"     "powerjoin"
+#> 
+#> $main_package
+#> [1] "dplyr"
+#> 
+#> $foreign_exports
+#> [1] TRUE
+#> 
+#> $dependencies
+#> [1] "tibble"
+#> 
+#> $enhances
 #> NULL
+#> 
+#> $extensions
+#> [1] "powerjoin"
+#> 
+#> $loadorder
+#> [1] "dependencies" "main_package" "enhances"     "extensions"
 ```
 
  
@@ -1819,8 +1843,6 @@ n[n %=numtype% "prop"]
 #> [1] 0.0 1.0 0.0 0.1 0.0 1.0
 n[n %=numtype% "B"]
 #> [1] 0 1 0 0 1
-n[n %=numtype% "N"]
-#> numeric(0)
 n[n %=numtype% "I"]
 #>  [1]  0  1  2  3  4  5  0 -1 -2 -3 -4 -5  0  1
 n[n %=numtype% "odd"]
@@ -1855,8 +1877,8 @@ The `tinyoperations` R package also adds a few other things:
   re-assignment again.
 - The `X %<-c% A` operator creates a `CONSTANT` `X` with assignment `A`.
   Constants cannot be changed, only accessed or removed. So if you have
-  a piece of code that absolutely requires some unchangeable constant,
-  use this operator to create said constant.
+  a piece of code that requires some unchangeable constant, use this
+  operator to create said constant.
 
  
 

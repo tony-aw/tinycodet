@@ -35,7 +35,7 @@ set.seed(1)
 
 The `tinyoperations` R-package adds some infix operators, and a few functions. It primarily focuses on 4 things:
 
- 1) Decimal number ("double") truth testing.
+ 1) Safer decimal number ("double") truth testing.
  2) Reducing repetitive code.
  3) Extending the string manipulation capabilities of the `stringi` R package.
  4) A new package and module import system,  that combines the benefits of aliasing a package with the benefits of attaching a package.
@@ -120,7 +120,7 @@ tinyoperations::tinyoperations_help()
 
 The `tinyoperations` R-package adds some infix operators, and a few functions. It primarily focuses on 4 things:
 
- 1) Decimal number ("double") truth testing.
+ 1) Safer decimal number ("double") truth testing.
  2) Reducing repetitive code.
  3) Extending the string manipulation capabilities of the `stringi` R package.
  4) A new package and module import system,  that combines the benefits of aliasing a package with the benefits of attaching a package.
@@ -231,7 +231,7 @@ This package adds the `%d==%, %d!=% %d<%, %d>%, %d<=%, %d>=%` (in)equality opera
 `==, !=, <, >, <=, >=`,
 except for one aspect. The decimal number truth testing operators assume that if the absolute difference between `x` and `y` is smaller than the Machine tolerance, `sqrt(.Machine$double.eps)`, then `x` and `y` ought to be consider to be equal.
 Thus these provide safer decimal number (in)equality operators.
-For example: `(0.1*7) == 0.7` returns `FALSE`, even though they are equal, due to the way decimal numbering numbers are stored in programming languages like `R`, `Python`, etc. But `(0.1*7) %d==% 0.7` returns `TRUE`.
+For example: `(0.1*7) == 0.7` returns `FALSE`, even though they are equal, due to the way decimal numbers are stored in programming languages like `R`, `Python`, etc. But `(0.1*7) %d==% 0.7` returns `TRUE`.
 
 Some examples:
 
@@ -563,7 +563,7 @@ And so on. I'm sure you get the idea.
 &nbsp;
 
 
-# "DRY" - operations
+# "DRY" operations
 
 ## The transform_if function, and related operators
 
@@ -756,7 +756,7 @@ Loading a package alias does have some drawbacks. One is that you cannot easily 
 
 So there are several cases where it is perhaps desirable to load multiple packages under the same alias.
 
-And that is where `tinyoperations`'s `import_as()` function comes in. It loads an R package under an alias, and also loads any specified **dependencies**, **enhances** and/or **extensions** of the package under the very same alias. It also informs the user which objects from a package will overwrite which objects from other packages, so you will never be surprised. The `import_as()` function also only loads exported functions (unlike `loadNamespace()`, which loads both internal and external functions). This is, I think, more desirable, as internal function should remain, you know, internal.
+And that is where `tinyoperations`'s `import_as()` function comes in. It loads an R package + its foreign exports under an alias, and also loads any specified **dependencies**, **enhances** and/or **extensions** of the package under the very same alias. It also informs the user which objects from a package will overwrite which objects from other packages, so you will never be surprised. The `import_as()` function also only loads exported functions (unlike `loadNamespace()`, which loads both internal and external functions). This is, I think, more desirable, as internal function should remain, you know, internal.
 
 `import_as(alias, ...)` is thus essentially the multi-package equivalent of `alias <- loadNamespace(...)`.
 
@@ -769,14 +769,14 @@ The main arguments of the `import_as()` function are:
  - `enhances`: an optional character vector giving the packages enhanced by the `main_package` to be loaded under the alias also.
  - `extensions`: an optional character vector giving the extensions/reverse-dependencies of the main package to load under the same alias also.
 
-Here is one example. Lets load  `data.table` and then `tidytable`, under the same alias, which I will call "tdt." (for "tidy data.table"):
+Here is one example. Lets load  `tidytable` and its dependency `data.table`, under the same alias, which I will call "tdt." (for "tidy data.table"):
 
 ```{r}
 import_as(tdt., "tidytable", dependencies="data.table") # this creates the tdt. object
 ```
 
 
-Now you can of course use those loaded packages as one would normally do when using a package alias.
+Now you can of course use those loaded packages as one would normally do when using a package alias: `tdt.$some_function()`.
 
 The order in which `import_as()` loads the packages under the given alias can be adjusted in the `loadorder` argument. See the help file for details.
 
@@ -989,7 +989,12 @@ To show that `import_as()` actually does load all exported functions, including 
 ```{r}
 import_as(dr., "dplyr", foreign_exports = TRUE)
 foo <- loadNamespace("dplyr") |> getNamespaceExports()
-all(sort(names(dr.)) == sort(foo)) # all is TRUE
+check <- all(sort(names(dr.)) == sort(foo))
+print(check) # must be TRUE
+if(!isTRUE(check)) {
+  stop("I'm really stupid")
+}
+
 ```
 
 If, for some reason, it is unknown to the user which packages were loaded under an alias, and/or their load order, one can check the `pkgs` attribute of the alias:
@@ -998,7 +1003,7 @@ If, for some reason, it is unknown to the user which packages were loaded under 
 import_as(
   dr., "dplyr", dependencies = "tibble", extensions = "powerjoin", lib.loc=.libPaths()
 )
-attr(dr., "pkgs")$pkgs
+attr(dr., "pkgs")
 ```
 
 
@@ -1061,7 +1066,6 @@ n <- c(0:5, 0:-5, 0.1, -0.1, 0, 1, Inf, -Inf, NA, NaN)
 n[n %=numtype% "B"]
 n[n %=numtype% "prop"]
 n[n %=numtype% "B"]
-n[n %=numtype% "N"]
 n[n %=numtype% "I"]
 n[n %=numtype% "odd"]
 n[n %=numtype% "even"]
@@ -1084,7 +1088,7 @@ The `tinyoperations` R package also adds a few other things:
 
 
  - The `lock_TF()` function locks `T` and `F` to prevent the user from re-assigning them. Removing the `T` and `F` objects allows re-assignment again.
- - The `X %<-c% A` operator creates a `CONSTANT` `X` with assignment `A`. Constants cannot be changed, only accessed or removed. So if you have a piece of code that absolutely requires some unchangeable constant, use this operator to create said constant.
+ - The `X %<-c% A` operator creates a `CONSTANT` `X` with assignment `A`. Constants cannot be changed, only accessed or removed. So if you have a piece of code that requires some unchangeable constant, use this operator to create said constant.
 
 &nbsp;
 
