@@ -206,7 +206,7 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   documentation and Read-Me accordingly.
 - 3 July 2023: a tiny update; just fixed some minor documentation
   issues.
-- … July 2023: PRE-RELEASE UPDATE + RENAMED PACKAGE TO `tinyoperations`.
+- 9 July 2023: MAJOR UPDATE + RENAMED PACKAGE TO `tinyoperations`.
   Details:… Replaced the `%::?%` operator with the `help.import()`
   function. The `import_as()` function now also adds attributes to the
   alias. Renamed the `import_lsf()` function to `pkg_lsf()`. Renamed the
@@ -214,7 +214,7 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   accepts a single package anyway, and also partially re-wrote the
   function to give more consistently ordered character vectors. Added
   the `overwrite` and `inherits` arguments to `import_inops()`. The
-  `import_as` argument `dependencies` now only accepts an explicit
+  argument `dependencies` in `import_as()` now only accepts an explicit
   character vector as input, as using `TRUE` may result in the ambiguous
   load-order of the dependencies. Each of the `import_` functions now
   have their own separate help page, and also added the
