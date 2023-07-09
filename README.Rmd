@@ -1083,8 +1083,8 @@ s[s %=strtype% "special"]
 The `tinyoperations` R package also adds a few other things:
 
 
- - The `stricter_TrueFalse()` function locks `T` and `F` to prevent the user from re-assigning them. Removing the `T` and `F` objects allows re-assignment again.
- - The `x %<-c% a` operator creates a `CONSTANT` `x` with assignment `a`. Constants cannot be changed, only accessed or removed. So if you have a piece of code that absolutely requires some constant, use this operator to create said constant.
+ - The `lock_TF()` function locks `T` and `F` to prevent the user from re-assigning them. Removing the `T` and `F` objects allows re-assignment again.
+ - The `X %<-c% A` operator creates a `CONSTANT` `X` with assignment `A`. Constants cannot be changed, only accessed or removed. So if you have a piece of code that absolutely requires some unchangeable constant, use this operator to create said constant.
 
 &nbsp;
 

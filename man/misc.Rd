@@ -2,11 +2,11 @@
 % Please edit documentation in R/misc.R
 \name{misc}
 \alias{misc}
-\alias{stricter_TrueFalse}
+\alias{lock_TF}
 \alias{\%<-c\%}
 \title{Miscellaneous functions to help your coding etiquette}
 \usage{
-stricter_TrueFalse()
+lock_TF()
 
 X \%<-c\% A
 }
@@ -16,7 +16,7 @@ X \%<-c\% A
 \item{A}{any kind of object to be assigned to \code{X}.}
 }
 \value{
-For \code{stricter_TrueFalse()}: \cr
+For \code{lock_TF()}: \cr
 Two \code{CONSTANTS}, namely \code{T} and \code{F},
 set to \code{TRUE} and \code{FALSE} respectively,
 and locked.
@@ -27,7 +27,7 @@ The object \code{X} containing \code{A} is created in the current environment,
 and this object cannot be changed. It can only be accessed or removed.
 }
 \description{
-The \code{stricter_TrueFalse()} function
+The \code{lock_TF()} function
 locks the \code{T} and \code{F} values,
 to prevent the user from re-assigning them. \cr
 Removing the created \code{T} and \code{F} objects
@@ -43,7 +43,7 @@ Thus to change a \code{CONSTANT}, simply remove it and re-create it. \cr
 }
 \examples{
 
-stricter_TrueFalse()
+lock_TF()
 X \%<-c\% data.frame(x=3, y=2) # this data.frame cannot be changed. Only accessed or removed.
 X[1, ,drop=FALSE]
 

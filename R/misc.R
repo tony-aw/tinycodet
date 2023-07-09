@@ -1,7 +1,7 @@
 #' Miscellaneous functions to help your coding etiquette
 #'
 #' @description
-#' The \code{stricter_TrueFalse()} function
+#' The \code{lock_TF()} function
 #' locks the \code{T} and \code{F} values,
 #' to prevent the user from re-assigning them. \cr
 #' Removing the created \code{T} and \code{F} objects
@@ -17,7 +17,7 @@
 #'
 #'
 #' @returns
-#' For \code{stricter_TrueFalse()}: \cr
+#' For \code{lock_TF()}: \cr
 #' Two \code{CONSTANTS}, namely \code{T} and \code{F},
 #' set to \code{TRUE} and \code{FALSE} respectively,
 #' and locked.
@@ -33,7 +33,7 @@
 #'
 #' @examples
 #'
-#' stricter_TrueFalse()
+#' lock_TF()
 #' X %<-c% data.frame(x=3, y=2) # this data.frame cannot be changed. Only accessed or removed.
 #' X[1, ,drop=FALSE]
 #'
@@ -44,7 +44,7 @@ NULL
 
 #' @rdname misc
 #' @export
-stricter_TrueFalse <- function() {
+lock_TF <- function() {
   assign("T", TRUE, envir = parent.frame(n = 1))
   lockBinding("T", env = parent.frame(n = 1))
 
