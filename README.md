@@ -1,38 +1,40 @@
 
-- [1 tinyoperators](#1-tinyoperators)
+- [1 tinyoperations](#1-tinyoperations)
   - [1.1 Description](#11-description)
   - [1.2 Changelog and status](#12-changelog-and-status)
   - [1.3 Installation](#13-installation)
   - [1.4 Overview](#14-overview)
-- [2 Additional logic operators](#2-additional-logic-operators)
-- [3 Safer float truth testing
-  operators](#3-safer-float-truth-testing-operators)
-- [4 Matrix re-ordering operators](#4-matrix-re-ordering-operators)
-- [5 String functions](#5-string-functions)
-  - [5.1 Matrix joining](#51-matrix-joining)
-  - [5.2 stri_locate_ith](#52-stri_locate_ith)
-  - [5.3 Substr - functions](#53-substr---functions)
-- [6 String infix operators](#6-string-infix-operators)
-  - [6.1 String subsetting operators](#61-string-subsetting-operators)
-  - [6.2 String arithmetic](#62-string-arithmetic)
-  - [6.3 Specifying Pattern search attributes in string infix
-    operators](#63-specifying-pattern-search-attributes-in-string-infix-operators)
-- [7 “DRY” - operators](#7-dry---operators)
-  - [7.1 The transform_if function, and related
-    operators](#71-the-transform_if-function-and-related-operators)
-  - [7.2 Generalized in-place (mathematical)
-    modifier](#72-generalized-in-place-mathematical-modifier)
-  - [7.3 In-place modifying string arithmetic and
-    sub-setting](#73-in-place-modifying-string-arithmetic-and-sub-setting)
-- [8 Import management](#8-import-management)
-  - [8.1 Introduction](#81-introduction)
-  - [8.2 import_as](#82-import_as)
-  - [8.3 import_inops](#83-import_inops)
-  - [8.4 import_data](#84-import_data)
-  - [8.5 Miscellaneous comments on package
-    imports](#85-miscellaneous-comments-on-package-imports)
-  - [8.6 Sourcing modules](#86-sourcing-modules)
-  - [8.7 An example](#87-an-example)
+- [2 Safer decimal number truth testing
+  operators](#2-safer-decimal-number-truth-testing-operators)
+- [3 Matrix re-ordering operators](#3-matrix-re-ordering-operators)
+- [4 String functions](#4-string-functions)
+  - [4.1 Matrix joining](#41-matrix-joining)
+  - [4.2 stri_locate_ith](#42-stri_locate_ith)
+  - [4.3 Substr - functions](#43-substr---functions)
+- [5 String infix operators](#5-string-infix-operators)
+  - [5.1 String subsetting operators](#51-string-subsetting-operators)
+  - [5.2 String arithmetic](#52-string-arithmetic)
+  - [5.3 Specifying Pattern search attributes in string infix
+    operators](#53-specifying-pattern-search-attributes-in-string-infix-operators)
+- [6 “DRY” - operations](#6-dry---operations)
+  - [6.1 The transform_if function, and related
+    operators](#61-the-transform_if-function-and-related-operators)
+  - [6.2 Generalized in-place (mathematical)
+    modifier](#62-generalized-in-place-mathematical-modifier)
+  - [6.3 In-place modifying string arithmetic and
+    sub-setting](#63-in-place-modifying-string-arithmetic-and-sub-setting)
+- [7 Import management](#7-import-management)
+  - [7.1 Introduction](#71-introduction)
+  - [7.2 import_as](#72-import_as)
+  - [7.3 import_inops and pkg_lsf](#73-import_inops-and-pkg_lsf)
+  - [7.4 import_data](#74-import_data)
+  - [7.5 Miscellaneous comments on package
+    imports](#75-miscellaneous-comments-on-package-imports)
+  - [7.6 Sourcing modules](#76-sourcing-modules)
+  - [7.7 An example](#77-an-example)
+- [8 Miscellaneous functionality](#8-miscellaneous-functionality)
+  - [8.1 Additional logic operators](#81-additional-logic-operators)
+  - [8.2 Other](#82-other)
 - [9 Multi-threading](#9-multi-threading)
   - [9.1 Substr-functions](#91-substr-functions)
 - [10 Tinyverse solutions without external R
@@ -44,12 +46,12 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# 1 tinyoperators
+# 1 tinyoperations
 
 <!-- badges: start -->
 
 [![R build
-status](https://github.com/tony-aw/tinyoperators/workflows/R-CMD-check/badge.svg)](https://github.com/tony-aw/tinyoperators/actions)
+status](https://github.com/tony-aw/tinyoperations/workflows/R-CMD-check/badge.svg)](https://github.com/tony-aw/tinyoperations/actions)
 [![Project Status: WIP - Initial development is in progress, but there
 has not yet been a stable, usable release suitable for the
 public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
@@ -57,25 +59,25 @@ public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostat
 [![](https://img.shields.io/badge/ORCID-0000--0001--9498--8379-green.svg)](https://orcid.org/0000-0001-9498-8379)
 <!-- badges: end -->
 
-![](man/figures/tinyoperators.svg)  
+![](man/figures/tinyoperations.svg)  
 
 ## 1.1 Description
 
-The `tinyoperators` R-package adds some infix operators, and a few
+The `tinyoperations` R-package adds some infix operators, and a few
 functions. It primarily focuses on 4 things:
 
-1)  Float truth testing.
+1)  Decimal number (“double”) truth testing.
 2)  Reducing repetitive code.
 3)  Extending the string manipulation capabilities of the `stringi` R
     package.
 4)  A new package and module import system, that combines the benefits
     of aliasing a package with the benefits of attaching a package.
 
-The `tinyoperators` R-package has only one dependency, namely `stringi`,
-though it does allows multi-threading of some of the string-related
-functions (when appropriate) via the suggested `stringfish` R-package.
-Most functions in this R-package are fully vectorized and have been
-optimized for optimal speed and performance.
+The `tinyoperations` R-package has only one dependency, namely
+`stringi`, though it does allows multi-threading of some of the
+string-related functions (when appropriate) via the suggested
+`stringfish` R-package. Most functions in this R-package are fully
+vectorized and have been optimized for optimal speed and performance.
 
  
 
@@ -163,7 +165,7 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
 - 15 June 2023: Rewritten this Read-Me a bit. Added a module import
   system (`alias %source module <-% list(file=...)` operator and
   `source_inops()` function).
-- 16 June 2023: RENAMED THIS R-PACKAGE TO `tinyoperators`, to prevent
+- 16 June 2023: RENAMED THIS R-PACKAGE TO `tinyoperations`, to prevent
   confusion as it holds to the `tinyverse` philosophy, rather then the
   “tidy philosophy”. Fixed some minor errors in the documentation.
   Removed `force_libPaths()`, as it may encourage bad coding practices.
@@ -204,10 +206,30 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   documentation and Read-Me accordingly.
 - 3 July 2023: a tiny update; just fixed some minor documentation
   issues.
+- … July 2023: PRE-RELEASE UPDATE + RENAMED PACKAGE TO `tinyoperations`.
+  Details:… Replaced the `%::?%` operator with the `help.import()`
+  function. The `import_as()` function now also adds attributes to the
+  alias. Renamed the `import_lsf()` function to `pkg_lsf()`. Renamed the
+  `pkgs_get_deps` function to `pkg_get_deps`, as this functions only
+  accepts a single package anyway, and also partially re-wrote the
+  function to give more consistently ordered character vectors. Added
+  the `overwrite` and `inherits` arguments to `import_inops()`. The
+  `import_as` argument `dependencies` now only accepts an explicit
+  character vector as input, as using `TRUE` may result in the ambiguous
+  load-order of the dependencies. Each of the `import_` functions now
+  have their own separate help page, and also added the
+  `tinyoperations_import` page, to keep it more organized. Moreover,
+  Added more tests for the `import_` and `source_module` functions.
+  Added the `misc` - functions. Replaced all mentions of “float” with
+  “decimal”, and replaced all float truth testing (`%f`) to be decimal
+  number truth testing as (`%d`). Removed the Natural number option from
+  the logical operators. Adjusted the documentation in accordance with
+  the aforementioned changes, improved the lay-out of the documentation,
+  and clarified the documentation even more.
 
 FUTURE PLANS:
 
-I believe `tinyoperators` is slowly getting closer to becoming stable.
+I believe `tinyoperations` is slowly getting closer to becoming stable.
 There does not appear a need to add/remove many more
 functions/operators, although some functions, operators or arguments may
 need to be tweaked and/or optimized. Once I am fully satisfied with the
@@ -218,45 +240,45 @@ may attempt to publish this R package to CRAN.
 
 ## 1.3 Installation
 
-You can install `tinyoperators` from github like so:
+You can install `tinyoperations` from github like so:
 
 ``` r
-remotes::install_github("https://github.com/tony-aw/tinyoperators")
+remotes::install_github("https://github.com/tony-aw/tinyoperations")
 ```
 
 You can attach the package - thus exposing its functions to your
 namespace - using:
 
 ``` r
-library(tinyoperators)
+library(tinyoperations)
 ```
 
-and one can open the introduction page to the `tinyoperators` package
+and one can open the introduction page to the `tinyoperations` package
 using:
 
 ``` r
-tinyoperators::tinyoperators_help()
+tinyoperations::tinyoperations_help()
 ```
 
  
 
 ## 1.4 Overview
 
-The `tinyoperators` R-package adds some infix operators, and a few
+The `tinyoperations` R-package adds some infix operators, and a few
 functions. It primarily focuses on 4 things:
 
-1)  Float truth testing.
+1)  Decimal number (“double”) truth testing.
 2)  Reducing repetitive code.
 3)  Extending the string manipulation capabilities of the `stringi` R
     package.
 4)  A new package and module import system, that combines the benefits
     of aliasing a package with the benefits of attaching a package.
 
-The `tinyoperators` R-package has only one dependency, namely `stringi`,
-though it does allows multi-threading of some of the string-related
-functions (when appropriate) via the suggested `stringfish` R-package.
-Most functions in this R-package are fully vectorized and have been
-optimized for optimal speed and performance.
+The `tinyoperations` R-package has only one dependency, namely
+`stringi`, though it does allows multi-threading of some of the
+string-related functions (when appropriate) via the suggested
+`stringfish` R-package. Most functions in this R-package are fully
+vectorized and have been optimized for optimal speed and performance.
 
  
 
@@ -269,7 +291,7 @@ knowing if the R package is even worthy of your time. Therefore, allow
 me to give you a quick glimpse of what is possible in this R package
 before jumping into the details.
 
-Safer float truth testing:
+Safer decimal number truth testing:
 
 ``` r
 x <- c(0.3, 0.6, 0.7)
@@ -281,7 +303,7 @@ print(x); print(y)
 x == y # gives FALSE, but should be TRUE
 #> [1] FALSE FALSE FALSE
 
-x %f==% y # here it's done correctly
+x %d==% y # here it's done correctly
 #> [1] TRUE TRUE TRUE
 ```
 
@@ -294,7 +316,7 @@ very_long_name_1 <- ifelse(# repetitive, and gives unnecessary warning
 )
 mtcars$mpg[mtcars$cyl>6] <- (mtcars$mpg[mtcars$cyl>6])^2
 
-# with tinyoperators:
+# with tinyoperations:
 very_long_name_1 %<>% transform_if(\(x)x>0, log, \(x)x^2) # compact & no warning
 mtcars$mpg[mtcars$cyl>6] %:=% \(x)x^2
 ```
@@ -331,7 +353,7 @@ stri_c_mat(sorted, margin=1, sep=" ") # row-wise concatenate strings
 #> [1] "      , everyone Hello here I'm" "       everyone Goodbye"
 ```
 
-Using `tinyoperator's` new import system; note that the following code
+Using `tinyoperations's` new import system; note that the following code
 is run **without attaching a single R package**:
 
 ``` r
@@ -350,6 +372,7 @@ import_as( # loading "dplyr" + its foreign exports + "powerjoin" under alias "dr
 import_inops("magrittr") # exposing operators from `magrrittr` to current env
 #> Getting infix operators from package: magrittr...
 #> 
+#> Checking for conflicting infix operators in the current environment...
 #> Placing infix operators in current environment...
 #> Done
 
@@ -380,137 +403,20 @@ Read-Me, and perhaps try out the package yourself.
 
  
 
-# 2 Additional logic operators
+# 2 Safer decimal number truth testing operators
 
-The tinyoperators package adds a few basic logic operators:
-
-- `%xor%`: Exclusive OR
-- `%n&%`: NOT AND (i.e. `(!x) & (!y)`). Note that if either `x` or `y`
-  is `NA`, `%n&%` will also give `NA` (unlike `(!x) & (!y)`, which would
-  give `FALSE`.)
-- `%?=%`: checks if both `x` and `y` are unknown or unreal (NA, NaN,
-  Inf, -Inf)
-- `%out%`: the opposite of `%in%` (i.e. `!x %in% y`)
-- `s %sgrep% p` checks if pattern `p` (defined as either `regex`, or as
-  a call from `s_pattern()`) appears in character vector `s` (info on
-  the `s_pattern()` function can be found in the string section of this
-  read-me)
-
-Here are some examples:
-
-``` r
-x <- c(TRUE, FALSE, TRUE, FALSE, NA, NaN, Inf, -Inf, TRUE, FALSE)
-y <- c(FALSE, TRUE, TRUE, FALSE, rep(NA, 6))
-outcome <- data.frame(
-  x=x, y=y,
-  "x %xor% y"=x %xor% y, "x %n&% y" = x %n&% y, "x %?=% y" = x %?=% y,
-  check.names = FALSE
-)
-kable(outcome)
-```
-
-|    x | y     | x %xor% y | x %n&% y | x %?=% y |
-|-----:|:------|:----------|:---------|:---------|
-|    1 | FALSE | TRUE      | FALSE    | FALSE    |
-|    0 | TRUE  | TRUE      | FALSE    | FALSE    |
-|    1 | TRUE  | FALSE     | FALSE    | FALSE    |
-|    0 | FALSE | FALSE     | TRUE     | FALSE    |
-|   NA | NA    | NA        | NA       | TRUE     |
-|  NaN | NA    | NA        | NA       | TRUE     |
-|  Inf | NA    | NA        | NA       | TRUE     |
-| -Inf | NA    | NA        | NA       | TRUE     |
-|    1 | NA    | NA        | NA       | FALSE    |
-|    0 | NA    | NA        | NA       | FALSE    |
-
-``` r
-
-1:3 %out% 1:10
-#> [1] FALSE FALSE FALSE
-1:10 %out% 1:3
-#>  [1] FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
-```
-
-Numbers can have many different sub-types whilst still being `numeric`.
-The `n %=numtype% numtype` operator will check for every value of
-numeric vector `n` if it can be considered a number belonging to type
-`numtype`. The following values for `numtype` are allowed:
-
-- “~0”: zero, or else a number whose absolute value is smaller than the
-  Machine tolerance (`sqrt(.Machine$double.eps)`);
-- “B”: binary numbers (0 or 1);
-- “prop”: proportions;
-- “N”: Natural numbers (non-negative integers including zero);
-- “I”: Integers;
-- “odd”: odd integers;
-- “even”: even integers
-- “R”: Real numbers;
-- “unreal”: infinity, NA, or NaN;
-
-The string counterpart for `%=numtype%` is `s %=strtype% strtype`, which
-checks for every value of character vector `s` if it can seen as a
-certain `strtype`. The following values for `strtype` are allowed:
-
-- “empty”: checks if the string only consists of empty spaces.
-- “unreal”: checks if the string is NA, or if it has literal string
-  “NA”, “NaN” or “Inf”, regardless if it has leading or trailing spaces.
-- “numeric”: checks if the string can be converted to a number,
-  disregarding leading and trailing spaces. I.e. the string “5.0” can be
-  converted to the the actual number 5.0.
-- “special”: checks if the string consists of only special characters.
-
-Here are some examples:
-
-``` r
-
-1e-20 %=numtype% "~0"
-#> [1] TRUE
-n <- c(0:5, 0:-5, 0.1, -0.1, 0, 1, Inf, -Inf, NA, NaN)
-n[n %=numtype% "B"]
-#> [1] 0 1 0 0 1
-n[n %=numtype% "prop"]
-#> [1] 0.0 1.0 0.0 0.1 0.0 1.0
-n[n %=numtype% "B"]
-#> [1] 0 1 0 0 1
-n[n %=numtype% "N"]
-#> [1] 0 1 2 3 4 5 0 0 1
-n[n %=numtype% "I"]
-#>  [1]  0  1  2  3  4  5  0 -1 -2 -3 -4 -5  0  1
-n[n %=numtype% "odd"]
-#> [1]  1  3  5 -1 -3 -5  1
-n[n %=numtype% "even"]
-#> [1]  0  2  4  0 -2 -4  0
-n[n %=numtype% "R"]
-#>  [1]  0.0  1.0  2.0  3.0  4.0  5.0  0.0 -1.0 -2.0 -3.0 -4.0 -5.0  0.1 -0.1  0.0
-#> [16]  1.0
-n[n %=numtype% "unreal"]
-#> [1]  Inf -Inf   NA  NaN
-
-s <- c(" AbcZ123 ", " abc ", " 1.3 ", " !#$%^&*() ", "  ", "  NA  ", "  NaN  ", " Inf ")
-s[s %=strtype% "empty"]
-#> [1] "  "
-s[s %=strtype% "unreal"]
-#> [1] "  NA  "  "  NaN  " " Inf "
-s[s %=strtype% "numeric"]
-#> [1] " 1.3 " " Inf "
-s[s %=strtype% "special"]
-#> [1] " !#$%^&*() "
-```
-
- 
-
-# 3 Safer float truth testing operators
-
-This package adds the `%f==%, %f!=% %f<%, %f>%, %f<=%, %f>=%`
-(in)equality operators, which perform safer float truth testing. They
-are virtually equivalent to the regular (in)equality operators,
-`==, !=, <, >, <=, >=`, except for one aspect. The float truth testing
-operators assume that if the absolute difference between `x` and `y` is
-smaller than the Machine tolerance, `sqrt(.Machine$double.eps)`, then
-`x` and `y` ought to be consider to be equal. Thus these provide safer
-float (in)equality operators. For example: `(0.1*7) == 0.7` returns
-`FALSE`, even though they are equal, due to the way floating numbers are
-stored in programming languages like `R`, `Python`, etc. But
-`(0.1*7) %f==% 0.7` returns `TRUE`.
+This package adds the `%d==%, %d!=% %d<%, %d>%, %d<=%, %d>=%`
+(in)equality operators, which perform safer decimal number truth
+testing. They are virtually equivalent to the regular (in)equality
+operators, `==, !=, <, >, <=, >=`, except for one aspect. The decimal
+number truth testing operators assume that if the absolute difference
+between `x` and `y` is smaller than the Machine tolerance,
+`sqrt(.Machine$double.eps)`, then `x` and `y` ought to be consider to be
+equal. Thus these provide safer decimal number (in)equality operators.
+For example: `(0.1*7) == 0.7` returns `FALSE`, even though they are
+equal, due to the way decimal numbering numbers are stored in
+programming languages like `R`, `Python`, etc. But `(0.1*7) %d==% 0.7`
+returns `TRUE`.
 
 Some examples:
 
@@ -528,36 +434,37 @@ x > y # not wrong
 #> [1] FALSE FALSE FALSE
 x < y # gives TRUE, should be FALSE
 #> [1] TRUE TRUE TRUE
-x %f==% y # here it's done correctly
+x %d==% y # here it's done correctly
 #> [1] TRUE TRUE TRUE
-x %f!=% y
+x %d!=% y
 #> [1] FALSE FALSE FALSE
-x %f<% y # correct
+x %d<% y # correct
 #> [1] FALSE FALSE FALSE
-x %f>% y # correct
+x %d>% y # correct
 #> [1] FALSE FALSE FALSE
-x %f<=% y # correct
+x %d<=% y # correct
 #> [1] TRUE TRUE TRUE
-x %f>=% y # correct
+x %d>=% y # correct
 #> [1] TRUE TRUE TRUE
 
 x <- c(0.3, 0.6, 0.7)
 bnd <- matrix(c(x-0.1, x+0.1), ncol=2)
-x %f{}% bnd
+x %d{}% bnd
 #> [1] TRUE TRUE TRUE
-x %f!{}% bnd
+x %d!{}% bnd
 #> [1] FALSE FALSE FALSE
 ```
 
 Although designed for objects (vectors, matrices, arrays) of class
-`double` (floating numbers), these operators also work correctly for
-integers. These operators do not work for non-numeric objects.
+`double` (decimal numbering numbers), these operators also work
+correctly for integers. These operators do not work for non-numeric
+objects.
 
  
 
-# 4 Matrix re-ordering operators
+# 3 Matrix re-ordering operators
 
-The `tinyoperators` R package adds 2 additional matrix operators:
+The `tinyoperations` R package adds 2 additional matrix operators:
 
 - The `x %row~% mat` operator re-orders the elements within every row of
   matrix `x` by the ordering ranks given in matrix `mat`.
@@ -720,11 +627,11 @@ loops or apply-like functions.
 
  
 
-# 5 String functions
+# 4 String functions
 
-## 5.1 Matrix joining
+## 4.1 Matrix joining
 
-The `tinyoperators` package adds a tiny additional function to
+The `tinyoperations` package adds a tiny additional function to
 `stringi`:
 
 `stri_join_mat` (and their aliases `stri_c_mat` and `stri_paste_mat`).
@@ -779,7 +686,7 @@ stri_paste_mat(shuffled, margin=1, sep=" ") # <- another alias for stri_join_mat
 
  
 
-## 5.2 stri_locate_ith
+## 4.2 stri_locate_ith
 
 Suppose one wants to transform the **first** vowels in the strings of a
 character vector `str`, such that all upper case vowels become lower
@@ -799,7 +706,7 @@ stringi::stri_sub_replace(x, loc, replacement=repl)
 But now suppose one wants to transform the **second-last** vowel. How
 are you going to do that? It’s not impossible, but also not super
 straight-forward. For clear code, `stringi` really needs some kind of
-“stri_locate_ith” function. And, of course, the `tinyoperators` package
+“stri_locate_ith” function. And, of course, the `tinyoperations` package
 provides just that.
 
 The `stri_locate_ith(str, i, ...)` function locates for every
@@ -850,14 +757,14 @@ $i^\textrm{th}$ occurrence of some pattern. Thus `stri_locate_ith()` (at
 least in its current implementation) cannot be faster than the combined
 run-time of the `stri_locate_all()` and `stri_count()` functions. As
 `stri_locate_ith()` is written only in fully vectorized statements in R
-(no loops), the function hardly takes more than twice the time of
-`stri_locate_all()` and `stri_count()` combined.
+(no loops), the function is very fast, and takes about as much time as
+the time of `stri_locate_all()` and `stri_count()` combined.
 
  
 
-## 5.3 Substr - functions
+## 4.3 Substr - functions
 
-The `tinyoperators` R-package includes the following “substr-”
+The `tinyoperations` R-package includes the following “substr-”
 functions:
 
 - The `substr_repl(x, rp, ...)` function replaces a position (range)
@@ -904,9 +811,9 @@ loc <- stri_locate_ith(
 
  
 
-# 6 String infix operators
+# 5 String infix operators
 
-The `tinyoperators` R package implements infix operators for string
+The `tinyoperations` R package implements infix operators for string
 arithmetic and sub-setting, as well some of their in-place modifier
 equivalents. For consistency, and to avoid masking other common
 operators, all string-related operators start with `%s`, where the “s”
@@ -914,7 +821,7 @@ stands for “string”.
 
  
 
-## 6.1 String subsetting operators
+## 5.1 String subsetting operators
 
 As a first sub-setting operator, we have `x %sget% ss`, which returns a
 subset of each string in character vector `x`. Here `ss` is a vector of
@@ -970,9 +877,9 @@ x %strim% ss
 
  
 
-## 6.2 String arithmetic
+## 5.2 String arithmetic
 
-The `tinyoperators` package adds 4 string arithmetic operators:
+The `tinyoperations` package adds 4 string arithmetic operators:
 
 - `x %s+% y` concatenates `x` and `y`;
 - `x %s-% p` removes pattern `p` from each string in character vector
@@ -999,7 +906,7 @@ vector of the same length as `x`.
 
  
 
-## 6.3 Specifying Pattern search attributes in string infix operators
+## 5.3 Specifying Pattern search attributes in string infix operators
 
 The `x %s-% p` and `x %s/% p` operators (and their in-place equivalents,
 given later), and the `%sgrep%` operator perform pattern matching for
@@ -1010,7 +917,7 @@ But, of course, sometimes one wants to change this. For example, one may
 want it to be case insensitive. Or perhaps one wants to use fixed
 expressions, or something else.
 
-The `tinyoperators` package provides options for these cases. To use
+The `tinyoperations` package provides options for these cases. To use
 more refined pattern definition, simply replace the
 argument/right-hand-side expression `p` in the relevant operators with a
 call from the `s_pattern()` function.
@@ -1059,9 +966,9 @@ And so on. I’m sure you get the idea.
 
  
 
-# 7 “DRY” - operators
+# 6 “DRY” - operations
 
-## 7.1 The transform_if function, and related operators
+## 6.1 The transform_if function, and related operators
 
 “Don’t Repeat Yourself”, sometimes abbreviated as “DRY”, is the coding
 principle that you should try to reduce repeating patterns in your code
@@ -1085,7 +992,7 @@ very_long_name_1 <- ifelse(
 
 becomes cumbersome quickly.
 
-The `tinyoperators` package therefore adds the
+The `tinyoperations` package therefore adds the
 `transform_if(x, cond, trans_T, trans_F)` function which will “dry” this
 up. The above code can now be re-written as:
 
@@ -1098,7 +1005,7 @@ transformations in `transform_if()` are evaluated as
 `trans_T(x[cond(x)])` and `trans_F(x[!cond(x)])`, ensuring no
 unnecessary warnings or errors occur.
 
-Besides `transform_if`, the `tinyoperators` package also adds 2
+Besides `transform_if`, the `tinyoperations` package also adds 2
 “subset_if” operators:
 
 - The `x %[if]% cond` operator selects elements from vector/matrix/array
@@ -1130,7 +1037,7 @@ object_with_very_long_name %[!if]% \(x)x %in% 1:10
 #>  [1] -10  -9  -8  -7  -6  -5  -4  -3  -2  -1   0
 ```
 
-Another operator added by `tinyoperators` is `x %unreal =% y`, which
+Another operator added by `tinyoperations` is `x %unreal =% y`, which
 replaces all NA, NaN, Inf and -Inf in `x` with the value given in `y`.
 
 So `x %unreal =% y` is the same as
@@ -1138,7 +1045,7 @@ So `x %unreal =% y` is the same as
 
  
 
-## 7.2 Generalized in-place (mathematical) modifier
+## 6.2 Generalized in-place (mathematical) modifier
 
 This R package includes infix operators for in-place modifying
 mathematical arithmetic.
@@ -1178,31 +1085,24 @@ Lets look at the original problem:
 mtcars$mpg[mtcars$cyl>6] <- mtcars$mpg[mtcars$cyl>6]^2
 ```
 
-With `tinyoperators` one can now make this more compact (more “tiny”, if
-you will) as follows:
+With `tinyoperations` one can now make this more compact (more “tiny”,
+if you will) as follows:
 
 ``` r
 mtcars$mpg[mtcars$cyl>6] %:=% \(x)x^2
 ```
 
-This function-based method is used instead of the more traditional
+This function based method is used instead of the more traditional
 in-place mathematical modification like `+=` to prevent precedence
 issues (functions come before mathematical arithmetic in `R`).
 Precedence issues are a common occurrence in R packages that attempt to
-implement in-place modifying arithmetic; the `%:=%` does not have this
-problem, as the math is specified inside a function.
-
-In case you’re wondering: the primary differences between
-`tinyoperator`’s `%:=%` and `magrittr`’s `%<>%`, are as follows:
-
-- `%:=%` allows (and is even designed for) anonymous (mathematical)
-  functions, whereas `%<>%` does not allow anonymous functions.
-- `%:=%` is not intended to be chained with more piped functions, unlike
-  `%<>%`.
+implement in-place modifying arithmetic; `tinyoperations`’s `%:=%`
+operator does not have this problem, as the math is specified inside a
+function.
 
  
 
-## 7.3 In-place modifying string arithmetic and sub-setting
+## 6.3 In-place modifying string arithmetic and sub-setting
 
 With the exception of `%ss%`, all infix operators for string arithmetic
 and string sub-setting have their in-place modifying equivalent:
@@ -1218,9 +1118,9 @@ Notice the extra space before the `=` sign.
 
  
 
-# 8 Import management
+# 7 Import management
 
-## 8.1 Introduction
+## 7.1 Introduction
 
 One can load a package without attaching the package (i.e. using `::` or
 using a package alias), or one can attach a package (i.e. using
@@ -1241,17 +1141,16 @@ The advantages of attaching a package instead of loading without
 attaching are as follows:
 
 1)  Less typing: You have to type less to use functions. This is
-    particularly relevant for **infix operators** - which
-    `tinyoperators` obviously focuses on - as operators use special
-    characters, which require them to be surrounded by back-ticks when
-    using `::` or `alias$`.
+    particularly relevant for **infix operators** as operators use
+    special characters, which require them to be surrounded by
+    back-ticks when using `::` or `alias$`.
 2)  More collective usage: If multiple packages are meant to work
     together, constantly switching between the different package
     name/alias -prefixes may eventually become annoying and even
     syntactically chaotic.
 
-What `tinyoperators` attempts to do with its import system, is to
-somewhat find the best of both worlds. Basically, `tinyoperators` has
+What `tinyoperations` attempts to do with its import system, is to
+somewhat find the best of both worlds. Basically, `tinyoperations` has
 functions that allow the following import functionality lacking in base
 R:
 
@@ -1264,17 +1163,18 @@ R:
   simultaneously avoiding the disadvantage of attaching functions from a
   package globally.
 
-Moreover, `tinyoperators` extends this functionality to also work on
+Moreover, `tinyoperations` extends this functionality to also work on
 **sourced modules**.
 
 Just to clarify: I am not claiming this import system provided in the
-`tinyoperators` package is always the best system or whatever. This is
+`tinyoperations` package is always the best system or whatever. This is
 just another option provided, just like the `import` and `box` packages
 provide their own alternative import systems. Please feel free to
-completely ignore this section if you prefer using `library()` :-)
+completely ignore this section if you’re really adamant on attaching
+packages using `library()`/`require()` :-)
 
 This section of the Read-Me is rather lengthy, so I will start with a
-super quick example code using `tinyoperator`’s import system:
+super quick example code using `tinyoperations`’s import system:
 
 ``` r
 import_as( # loading "dplyr" + its foreign exports + "powerjoin" under alias "dr." 
@@ -1292,6 +1192,7 @@ import_as( # loading "dplyr" + its foreign exports + "powerjoin" under alias "dr
 import_inops("magrittr") # exposing operators from `magrrittr` to current env
 #> Getting infix operators from package: magrittr...
 #> 
+#> Checking for conflicting infix operators in the current environment...
 #> Placing infix operators in current environment...
 #> Done
 
@@ -1319,9 +1220,9 @@ myalias.$helloworld() # run a function that was just sourced.
 rm(list=ls()) # clearing everything
 ```
 
-The above code is run *without* attaching `dplyr`, `powerjoin`, or its
-dependencies. So none of the problems with attaching a package is
-present.
+The above code is run *without* attaching `dplyr`, `powerjoin`,
+`magrtittr`, or its dependencies. So none of the problems with attaching
+a package is present.
 
 What follows are descriptions of the functions that together form this
 new, infix-operator friendly **&** multi-package assignment friendly,
@@ -1329,7 +1230,7 @@ import management system.
 
  
 
-## 8.2 import_as
+## 7.2 import_as
 
 One can load a package without attaching it, and assign it to an alias,
 in base R, using, for example:
@@ -1370,7 +1271,7 @@ multiple packages into a single alias may be actually preferable:
 So there are several cases where it is perhaps desirable to load
 multiple packages under the same alias.
 
-And that is where `tinyoperator`’s `import_as()` function comes in. It
+And that is where `tinyoperations`’s `import_as()` function comes in. It
 loads an R package under an alias, and also loads any specified
 **dependencies**, **enhances** and/or **extensions** of the package
 under the very same alias. It also informs the user which objects from a
@@ -1393,13 +1294,11 @@ The main arguments of the `import_as()` function are:
 - `main_package`: the name (string) of the main package to load.
 - `foreign_exports`: Some R packages export functions that are not
   defined in their own package, but in their direct dependencies -
-  “foreign exports”. If `TRUE` (default), these foreign exports are
-  added to the alias, analogous to the behaviour of base R’s `::`
-  operator. If `FALSE`, foreign exports are not added.
+  “foreign exports”. If `TRUE` (default), the foreign exports of the
+  `main_package` are added to the alias, analogous to the behaviour of
+  base R’s `::` operator. If `FALSE`, foreign exports are not added.
 - `dependencies`: a character vector giving the dependencies of the main
-  package to load under the alias also. One can also set this to `TRUE`,
-  in which case all dependencies of the `main_package` are loaded,
-  except base and recommended packages. Default is `FALSE`.
+  package to load under the alias also.
 - `enhances`: an optional character vector giving the packages enhanced
   by the `main_package` to be loaded under the alias also.
 - `extensions`: an optional character vector giving the
@@ -1423,22 +1322,6 @@ import_as(tdt., "tidytable", dependencies="data.table") # this creates the tdt. 
 #> (S3)methods will work like normally.
 ```
 
-Notice that the above is the same as:
-
-``` r
-import_as(tdt., "data.table", extensions = "tidytable") # this creates the tdt. object
-#> listing foreign exports from package: data.table...
-#> Importing package: data.table...
-#> 
-#> Importing package: tidytable... The following conflicting objects detected:
-#> last, fread, first, between
-#> tidytable will overwrite conflicting objects from previous imported packages...
-#> 
-#> Done
-#> You can now access the functions using tdt.$...
-#> (S3)methods will work like normally.
-```
-
 Now you can of course use those loaded packages as one would normally do
 when using a package alias.
 
@@ -1448,26 +1331,26 @@ details.
 
  
 
-## 8.3 import_inops
+## 7.3 import_inops and pkg_lsf
 
 When aliasing an R package, infix operators are also loaded in the
 alias. However, it may be cumbersome to use them from the alias. For
 example this:
 
 ``` r
-import_as(to., "tinyoperators")
+import_as(to., "tinyoperations")
 to.$`%row~%`(x, mat)
 ```
 
 or this:
 
 ``` r
-tinyoperators::`%row~%`(x, mat)
+tinyoperations::`%row~%`(x, mat)
 ```
 
 is very cumbersome.
 
-Therefore, `tinyoperators` also adds the `import_inops(pkgs)` function,
+Therefore, `tinyoperations` also adds the `import_inops(pkgs)` function,
 which exposes the infix operators from the packages specified in
 character vector `pkgs` to the current environment (like the global
 environment, or the environment within a function), but does not attach
@@ -1484,6 +1367,7 @@ import_inops(pkgs)
 #> 
 #> Getting infix operators from package: tidytable... no conflicts
 #> 
+#> Checking for conflicting infix operators in the current environment...
 #> Placing infix operators in current environment...
 #> Done
 ```
@@ -1493,25 +1377,41 @@ there’s a conflict.
 
 The `import_inops()` functions has the `exclude` and `include.only`
 arguments to specify exactly which infix operators to expose to the
-current environment. This can be handy to prevent overwriting any (user
-defined) infix operators already present in the current environment.
+current environment, as well as the `overwrite` and `inherits` arguments
+to specify what to do when the infix operators you are about to expose
+already exist in the current environment (and loaded namespaces). This
+can be handy to prevent overwriting any (user defined) infix operators
+already present in the current environment or loaded namespaces.
 
 To ensure the user can still verify which operator function came from
 which package, a “package” attribute is added to each exposed operator.
-Naturally, the namespaces of the operators remain intact.
+Naturally, the namespace attribute of the each of the operators remains
+intact.
 
  
 
-## 8.4 import_data
+If the user would rather attach the infix operators to the (global)
+namespace, `tinyoperations` provides the `pk_lsf()` function, which
+returns a character vector listing all functions or infix operators from
+a package. This vector can then be used in the `include.only` argument
+of the `library()` function. Like so:
 
-The `import_as()` function imports everything from the package
-namespace. But packages often also have data sets, which are often not
-part of the namespace.
+``` r
+library(magrittr, include.only = pkg_lsf("magrittr", type = "inops"))
+```
+
+ 
+
+## 7.4 import_data
+
+The `import_as()` and `import_inops()` functions get all functions from
+the package namespace. But packages often also have data sets, which are
+often not part of the namespace.
 
 The `data()` function in core R can already load data from packages, but
 this function loads the data into the global environment, instead of
 returning the data directly, making assigning the data to a specific
-variable a bit annoying. Therefore, the `tinyoperators` package
+variable a bit annoying. Therefore, the `tinyoperations` package
 introduces the `import_data()` function, which directly returns a data
 set from a package.
 
@@ -1533,11 +1433,12 @@ head(d)
 
  
 
-## 8.5 Miscellaneous comments on package imports
+## 7.5 Miscellaneous comments on package imports
 
-All “import\_” functions in the `tinyoperators` package have a `lib.loc`
-argument to explicitly specify from where to get your packages (just
-like base R’s `loadNamespace()` and `install.packages()` functions).
+All “import\_” functions in the `tinyoperations` package have a
+`lib.loc` argument to explicitly specify from where to get your packages
+(just like base R’s `loadNamespace()` and `install.packages()`
+functions).
 
  
 
@@ -1548,26 +1449,43 @@ or not. And you don’t need to use something like `rlang::.data` or
 
  
 
+The `tinyoperations::help.import(i, ...)` function gets the help file
+for a function `i` (or topic string `i`), even if the function is inside
+an alias object, or if the function is an unattached function (like
+exposed infix operators).
+
+Example:
+
+``` r
+import_as(m., "magrittr")
+import_inops("magrittr")
+
+help.import(i=m.$add)
+help.import(i=`%>%`)
+help.import(i="add", alias=m.)
+```
+
+ 
+
 There are some additional miscellaneous functions related to the package
 import system that should perhaps be mentioned also:
 
-- the `pkgs_get_deps()` function gets the dependencies (or the enhances)
-  of a package, regardless if the package is CRAN or non-CRAN.
+- the `pkg_get_deps()` function gets the dependencies (or the enhances)
+  of a package, regardless if the package is CRAN or non-CRAN. See the
+  help file for details.
 - the `pkgs %installed in% lib.loc` operator checks if the packages
   specified in character vector `pkgs` are installed in library paths
   `lib.loc`, and does this **without** attaching or even loading the
   packages.
-- `alias %::?% fun_name` gets the help file for a function `fun_name`
-  from the `alias` object.
 
  
 
-## 8.6 Sourcing modules
+## 7.6 Sourcing modules
 
 Scripts with functions that you source (sometimes referred to as
-“modules”) can be kind of seen as mini-packages. So `tinyoperators` adds
-the functionality similar to the `import_` functions, to sourcing
-modules. To this end, the `tinyoperators` R package adds the
+“modules”) can be kind of seen as mini-packages. So `tinyoperations`
+adds the functionality similar to the `import_` functions, to sourcing
+modules. To this end, the `tinyoperations` R package adds the
 `alias %@source% list(file=...)` operator and the `source_inops()`
 function. The `alias %@source% list(file=...)` operator sources a script
 and returns all the objects in the script under an `alias`, similar to
@@ -1619,10 +1537,10 @@ temp.fun()
 
  
 
-## 8.7 An example
+## 7.7 An example
 
 One R package that could benefit from the import system introduced by
-`tinyoperators`, is the `dplyr` R package. The `dplyr` R package
+`tinyoperations`, is the `dplyr` R package. The `dplyr` R package
 overwrites **core R** functions (including base R) and it overwrites
 functions from pre-installed recommended R packages (such as `MASS`).
 I.e.:
@@ -1650,19 +1568,19 @@ detach("package:dplyr")
 Moreover, `dplyr`’s function names are sometimes generic enough that
 there is no obvious way to tell if a function came from `dplyr` or some
 other package (for comparison: one can generally recognize `stringi`
-functions as they all start with `stri_`). Moreover, `dplyr` was
-designed to interact with other R packages such as `tidyselect`, and
-constantly switching between package prefixes or aliases is perhaps
-undesirable. If you look at the CRAN page for `dplyr`, you’ll notice it
-has a lot of reverse dependencies, and perhaps you’d like to use one of
-those extensions also.
+functions as they all start with `stri_`). If you look at the CRAN page
+for `dplyr`, you’ll notice it has some interesting extensions you might
+one to use, such as `powerjoin`. But constantly switching between
+package prefixes or aliases is perhaps undesirable.
 
-So here `tinyoperator`’s `import_as()` function might help. Below is an
-example where `dplyr` is loaded, and `powerjoin` (which is an
-extension), all under one alias which I’ll call “`dr.`”.
+So here `tinyoperations`’s `import_as()` function might help. Below is
+an example where `dplyr` is loaded (including its foreign exports),
+along with `powerjoin` (which is an extension), all under one alias
+which I’ll call “`dr.`”. Moreover, the infix operators from `magrittr`
+are exposed to the current environment.
 
 ``` r
-tinyoperators::pkgs_get_deps("dplyr") # a lot of dependencies
+tinyoperations::pkg_get_deps("dplyr") # a lot of dependencies
 #>  [1] "cli"        "generics"   "glue"       "lifecycle"  "magrittr"  
 #>  [6] "pillar"     "R6"         "rlang"      "tibble"     "tidyselect"
 #> [11] "vctrs"
@@ -1682,6 +1600,7 @@ import_as(
 import_inops("magrittr") # getting the operators from `magrrittr`
 #> Getting infix operators from package: magrittr...
 #> 
+#> Checking for conflicting infix operators in the current environment...
 #> Placing infix operators in current environment...
 #> Done
 ```
@@ -1783,6 +1702,163 @@ all(sort(names(dr.)) == sort(foo)) # all is TRUE
 #> [1] TRUE
 ```
 
+If, for some reason, it is unknown to the user which packages were
+loaded under an alias, and/or their load order, one can check the `pkgs`
+attribute of the alias:
+
+``` r
+import_as(
+  dr., "dplyr", dependencies = "tibble", extensions = "powerjoin", lib.loc=.libPaths()
+)
+#> Importing package: tibble...
+#> 
+#> listing foreign exports from package: dplyr...
+#> Importing package: dplyr... The following conflicting objects detected:
+#> as_tibble, tibble, lst, as_data_frame, data_frame, add_row, tribble
+#> dplyr will overwrite conflicting objects from previous imported packages...
+#> 
+#> Importing package: powerjoin... no conflicts
+#> 
+#> Done
+#> You can now access the functions using dr.$...
+#> (S3)methods will work like normally.
+attr(dr., "pkgs")$pkgs
+#> NULL
+```
+
+ 
+
+# 8 Miscellaneous functionality
+
+## 8.1 Additional logic operators
+
+The tinyoperations package adds a few basic logic operators:
+
+- `%xor%`: Exclusive OR
+- `%n&%`: NOT AND (i.e. `(!x) & (!y)`). Note that if either `x` or `y`
+  is `NA`, `%n&%` will also give `NA` (unlike `(!x) & (!y)`, which would
+  give `FALSE`.)
+- `%?=%`: checks if both `x` and `y` are unknown or unreal (NA, NaN,
+  Inf, -Inf)
+- `%out%`: the opposite of `%in%` (i.e. `!x %in% y`)
+- `s %sgrep% p` checks if pattern `p` (defined as either `regex`, or as
+  a call from `s_pattern()`) appears in character vector `s` (info on
+  the `s_pattern()` function can be found in the string section of this
+  read-me)
+
+Here are some examples:
+
+``` r
+x <- c(TRUE, FALSE, TRUE, FALSE, NA, NaN, Inf, -Inf, TRUE, FALSE)
+y <- c(FALSE, TRUE, TRUE, FALSE, rep(NA, 6))
+outcome <- data.frame(
+  x=x, y=y,
+  "x %xor% y"=x %xor% y, "x %n&% y" = x %n&% y, "x %?=% y" = x %?=% y,
+  check.names = FALSE
+)
+kable(outcome)
+```
+
+|    x | y     | x %xor% y | x %n&% y | x %?=% y |
+|-----:|:------|:----------|:---------|:---------|
+|    1 | FALSE | TRUE      | FALSE    | FALSE    |
+|    0 | TRUE  | TRUE      | FALSE    | FALSE    |
+|    1 | TRUE  | FALSE     | FALSE    | FALSE    |
+|    0 | FALSE | FALSE     | TRUE     | FALSE    |
+|   NA | NA    | NA        | NA       | TRUE     |
+|  NaN | NA    | NA        | NA       | TRUE     |
+|  Inf | NA    | NA        | NA       | TRUE     |
+| -Inf | NA    | NA        | NA       | TRUE     |
+|    1 | NA    | NA        | NA       | FALSE    |
+|    0 | NA    | NA        | NA       | FALSE    |
+
+``` r
+
+1:3 %out% 1:10
+#> [1] FALSE FALSE FALSE
+1:10 %out% 1:3
+#>  [1] FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE
+```
+
+Numbers can have many different sub-types whilst still being `numeric`.
+The `n %=numtype% numtype` operator will check for every value of
+numeric vector `n` if it can be considered a number belonging to type
+`numtype`. The following values for `numtype` are allowed:
+
+- “~0”: zero, or else a number whose absolute value is smaller than the
+  Machine tolerance (`sqrt(.Machine$double.eps)`);
+- “B”: binary numbers (0 or 1);
+- “prop”: proportions;
+- “I”: Integers;
+- “odd”: odd integers;
+- “even”: even integers
+- “R”: Real numbers;
+- “unreal”: infinity, NA, or NaN;
+
+The string counterpart for `%=numtype%` is `s %=strtype% strtype`, which
+checks for every value of character vector `s` if it can seen as a
+certain `strtype`. The following values for `strtype` are allowed:
+
+- “empty”: checks if the string only consists of empty spaces.
+- “unreal”: checks if the string is NA, or if it has literal string
+  “NA”, “NaN” or “Inf”, regardless if it has leading or trailing spaces.
+- “numeric”: checks if the string can be converted to a number,
+  disregarding leading and trailing spaces. I.e. the string “5.0” can be
+  converted to the the actual number 5.0.
+- “special”: checks if the string consists of only special characters.
+
+Here are some examples:
+
+``` r
+
+1e-20 %=numtype% "~0"
+#> [1] TRUE
+n <- c(0:5, 0:-5, 0.1, -0.1, 0, 1, Inf, -Inf, NA, NaN)
+n[n %=numtype% "B"]
+#> [1] 0 1 0 0 1
+n[n %=numtype% "prop"]
+#> [1] 0.0 1.0 0.0 0.1 0.0 1.0
+n[n %=numtype% "B"]
+#> [1] 0 1 0 0 1
+n[n %=numtype% "N"]
+#> numeric(0)
+n[n %=numtype% "I"]
+#>  [1]  0  1  2  3  4  5  0 -1 -2 -3 -4 -5  0  1
+n[n %=numtype% "odd"]
+#> [1]  1  3  5 -1 -3 -5  1
+n[n %=numtype% "even"]
+#> [1]  0  2  4  0 -2 -4  0
+n[n %=numtype% "R"]
+#>  [1]  0.0  1.0  2.0  3.0  4.0  5.0  0.0 -1.0 -2.0 -3.0 -4.0 -5.0  0.1 -0.1  0.0
+#> [16]  1.0
+n[n %=numtype% "unreal"]
+#> [1]  Inf -Inf   NA  NaN
+
+s <- c(" AbcZ123 ", " abc ", " 1.3 ", " !#$%^&*() ", "  ", "  NA  ", "  NaN  ", " Inf ")
+s[s %=strtype% "empty"]
+#> [1] "  "
+s[s %=strtype% "unreal"]
+#> [1] "  NA  "  "  NaN  " " Inf "
+s[s %=strtype% "numeric"]
+#> [1] " 1.3 " " Inf "
+s[s %=strtype% "special"]
+#> [1] " !#$%^&*() "
+```
+
+ 
+
+## 8.2 Other
+
+The `tinyoperations` R package also adds a few other things:
+
+- The `stricter_TrueFalse()` function locks `T` and `F` to be unusable,
+  forcing the user to use `TRUE` and `FALSE` instead. Removing the `T`
+  and `F` objects restores their functionality.
+- The `x %<-c% a` operator creates a `CONSTANT` `x` with assignment `a`.
+  Constants cannot be changed, only accessed or removed. So if you have
+  a piece of code that absolutely requires some constant, use this
+  operator to create said constant.
+
  
 
 # 9 Multi-threading
@@ -1883,22 +1959,22 @@ without the use of external R packages:
 # 11 Compatibility with other R packages
 
 The `stringi` R package has the `%s+%` and `%s*%` operators. They do
-exactly the same things as in `tinyoperators`, and so the masking of
+exactly the same things as in `tinyoperations`, and so the masking of
 these functions can safely be ignored. I also made sure not to name any
-of the operators in `tinyoperators` the same as the operators in
+of the operators in `tinyoperations` the same as the operators in
 `magrittr` and `zeallot`, so that should be safe also.
 
  
 
 The `import` R package provides somewhat similar capabilities to the
-`tinyoperators` import management system, but it’s still different. The
-`tinyoperators` import system focuses more on exposing infix operators
-to the current environment, and allowing multiple related packages to be
-loaded under the same alias and exposing infix operators, both of which
-the `import` package does not really provide (as far as I know).
-Strictly speaking there is no incompatibility between `tinyoperators`
-and `import`. You can safely use both implementations of the import
-system, if you wish.
+`tinyoperations` import management system, but it’s still different. The
+`tinyoperations` import system focuses more on exposing infix operators
+to the current environment, loading a package + its foreign exports in
+an alias, and allowing multiple related packages to be loaded under the
+same alias; the `import` package does not really provide these
+functionality directly (as far as I know). Strictly speaking there is no
+incompatibility between `tinyoperations` and `import`. You can safely
+use both implementations of the import system, if you wish.
 
  
 
@@ -1915,7 +1991,7 @@ renv::settings$snapshot.type("all")
 This will make sure that all packages installed in your project library,
 regardless of how they are loaded, will all be registered by `renv`.
 This makes `renv` compatible with calls like `import_as` from
-`tinyoperators`, and things like `for(... in ...)library(...)` or
+`tinyoperations`, and things like `for(... in ...)library(...)` or
 `if(...)library(...)`.
 
  

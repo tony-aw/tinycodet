@@ -1,16 +1,16 @@
-Package: tinyoperators
+Package: tinyoperations
 Title: Infix operators and some functions to help in your coding etiquette
 Version: 0.0.0.9
 Authors@R: 
     person("Tony", "Wilkes", , "tony_a_wilkes@outlook.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-9498-8379"))
-Description: The 'tinyoperators' R-package adds some infix operators, and a few functions.
+Description: The 'tinyoperations' R-package adds some infix operators, and a few functions.
     It primarily focuses on 4 things.
-    (1) Float truth testing.
+    (1) Decimal numbers ("double") truth testing.
     (2) Reducing repetitive code.
     (3) Extending the string manipulation capabilities of the 'stringi' R package.
     (4) A new package and module import system, that combines the benefits of aliasing a package with the benefits of attaching a package. 
-    The 'tinyoperators' R-package has only one dependency, namely 'stringi'.
+    The 'tinyoperations' R-package has only one dependency, namely 'stringi'.
     However, it does allows multi-threading of some of the string-related functions (when appropriate) via the suggested 'stringfish' R-package.
     Most functions in this R-package are fully vectorized and have been optimized for optimal speed and performance.
 License: MIT + file LICENSE
@@ -22,11 +22,12 @@ Suggests:
     knitr,
     rmarkdown,
     stringfish (>= 0.15.7),
-    tinytest
+    tinytest,
+    fastverse
 VignetteBuilder: knitr
 Depends: 
     R (>= 4.1.0)
 Imports:
     stringi (>= 1.7.12)
-URL: https://github.com/tony-aw/tinyoperators
-BugReports: https://github.com/tony-aw/tinyoperators/issues
+URL: https://github.com/tony-aw/tinyoperations
+BugReports: https://github.com/tony-aw/tinyoperations/issues
