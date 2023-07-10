@@ -165,7 +165,7 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
 - 15 June 2023: Rewritten this Read-Me a bit. Added a module import
   system (`alias %source module <-% list(file=...)` operator and
   `source_inops()` function).
-- 16 June 2023: RENAMED THIS R-PACKAGE TO `tinyoperations`, to prevent
+- 16 June 2023: RENAMED THIS R-PACKAGE TO `tinyoperators`, to prevent
   confusion as it holds to the `tinyverse` philosophy, rather then the
   “tidy philosophy”. Fixed some minor errors in the documentation.
   Removed `force_libPaths()`, as it may encourage bad coding practices.
@@ -1128,19 +1128,21 @@ using a package alias), or one can attach a package (i.e. using
 The benefits of loading a package using `::` or an alias, instead of
 attaching the package, are as follows:
 
-1)  prevent overlapping namespaces / masking functions
-2)  prevent overriding core R functions
-3)  clarify which function came from which package
-4)  prevent attaching functions from a package globally
+1)  prevent overlapping namespaces / masking functions.
+2)  prevent overriding core R functions.
+3)  clarify which function came from which package.
+4)  exposing functions from a package only in the current environment
+    (like only within a function environment), instead of attaching the
+    functions globally to the namespace.
 5)  prevent polluting the namespace (the more packages that are
     attached, the higher chance of masking functions, and the more
-    difficult to de-bug your code)
+    difficult to de-bug your code).
 
 The advantages of attaching a package instead of loading without
 attaching are as follows:
 
 1)  Less typing: You have to type less to use functions. This is
-    particularly relevant for **infix operators** as operators use
+    particularly relevant for **infix operators**, as operators use
     special characters, which require them to be surrounded by
     back-ticks when using `::` or `alias$`.
 2)  More collective usage: If multiple packages are meant to work
@@ -1242,8 +1244,8 @@ Doing the above, instead of attaching a package using `library()` or
 `require()`, can (often) be quite beneficial for several reasons.
 i.e. prevent overlapping namespaces, prevent overriding core R
 functions, prevent polluting the namespace, clarify which function came
-from which package, allowing a package to be loaded locally (like only
-within a function environment), etc.
+from which package, exposing functions from a package only in the
+current environment e to be loaded locally , etc.
 
 Loading a package alias does have some drawbacks. One is that you cannot
 easily import multiple packages under the same alias. While one probably
@@ -1702,7 +1704,7 @@ check <- all(sort(names(dr.)) == sort(foo))
 print(check) # must be TRUE
 #> [1] TRUE
 if(!isTRUE(check)) {
-  stop("I'm really stupid")
+  stop("Tony is really stupid")
 }
 ```
 
@@ -1872,9 +1874,9 @@ s[s %=strtype% "special"]
 
 The `tinyoperations` R package also adds a few other things:
 
-- The `lock_TF()` function locks `T` and `F` to prevent the user from
-  re-assigning them. Removing the `T` and `F` objects allows
-  re-assignment again.
+- The `lock_TF()` function locks `T` and `F` to `TRUE` and `FALSE`, to
+  prevent the user from re-assigning them. Removing the created `T` and
+  `F` constants allows re-assignment again.
 - The `X %<-c% A` operator creates a `CONSTANT` `X` with assignment `A`.
   Constants cannot be changed, only accessed or removed. So if you have
   a piece of code that requires some unchangeable constant, use this
@@ -1948,10 +1950,10 @@ substr_arrange(x, "rand", loc=loc, fish = TRUE)
 
 The `tinyverse` attempts to minimize dependencies, and thus avoid using
 external R packages unless necessary. “External R packages” here meaning
-not base packages, not pre-installed recommended R packages, and not R
-packages that are bundled with Rstudio.
+not base/core R, not pre-installed recommended R packages, and not
+`rstudioapi`.
 
-There are some forms of proper coding etiquette that are traditionally
+There are some forms of programming features that are traditionally
 achieved through external R packages - even though they can be solved
 quite well without external R packages (especially since R version 4+).
 Since this R package adheres to the `tinyverse` philosophy and focuses
@@ -1963,8 +1965,8 @@ without the use of external R packages:
 - Force an error when using a function that appears in multiple attached
   packages: one can use the `options(conflicts.policy = ...)` to specify
   when such an error should be enforced.
-- Get path of current script or project: without Rstudio one can use
-  `commandArgs()` function; with RStudio one can use
+- Get path of current script or project root folder: without R-Studio
+  one can use `commandArgs()` function; with R-Studio one can use
   `rstudioapi::getSourceEditorContext()$path`. Using `setwd("..")` will
   set the working directory one folder up - which would often be your
   project root folder.
