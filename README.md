@@ -793,20 +793,110 @@ loc <- stri_locate_ith(
 )
 ```
 
-|                                           |                       |                       |
-|:------------------------------------------|:----------------------|:----------------------|
-| x                                         | Good - good - GOOD    | Good - GOOD - good    |
-| substr_extract(x, loc=loc)                | good                  | GOOD                  |
-| substr_extract(x, “before”, loc=loc)      | Good -                | Good -                |
-| substr_extract(x, “after”, loc=loc)       | \- GOOD               | \- good               |
-| substr_repl(x, “??”, loc=loc)             | Good - ?? - GOOD      | Good - ?? - good      |
-| substr_chartr(x, loc=loc)                 | Good - GOOD - GOOD    | Good - good - good    |
-| substr_addin(x, “\~~”, “after”, loc=loc)  | Good - good\~~ - GOOD | Good - GOOD\~~ - good |
-| substr_addin(x, “\~~”, “before”, loc=loc) | Good - \~~good - GOOD | Good - \~~GOOD - good |
-| substr_arrange(x, loc=loc)                | Good - dgoo - GOOD    | Good - DGOO - good    |
-| substr_arrange(x, “decr”, loc=loc)        | Good - oogd - GOOD    | Good - OOGD - good    |
-| substr_arrange(x, “rev”, loc=loc)         | Good - doog - GOOD    | Good - DOOG - good    |
-| substr_arrange(x, “rand”, loc=loc)        | Good - ogod - GOOD    | Good - ODGO - good    |
+<table>
+<tbody>
+<tr>
+<td style="text-align:left;">
+
+x
+
+</td>
+<td style="text-align:left;">
+
+Good - good - GOOD
+
+</td>
+<td style="text-align:left;">
+
+Good - GOOD - good
+
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+
+substr_extract(x, loc=loc)
+
+</td>
+<td style="text-align:left;">
+
+good
+
+</td>
+<td style="text-align:left;">
+
+GOOD
+
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+
+substr_extract(x, "before", loc=loc)
+
+</td>
+<td style="text-align:left;">
+
+Good -
+
+</td>
+<td style="text-align:left;">
+
+Good -
+
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+
+substr_extract(x, "after", loc=loc)
+
+</td>
+<td style="text-align:left;">
+
+- GOOD `{=html}     </td>` `{=html}     <td style="text-align:left;">`
+  - good `{=html}     </td>` `{=html}     </tr>` `{=html}     <tr>`
+    `{=html}     <td style="text-align:left;">` substr_repl(x, "??",
+    loc=loc) `{=html}     </td>`
+    `{=html}     <td style="text-align:left;">` Good - ?? - GOOD
+    `{=html}     </td>` `{=html}     <td style="text-align:left;">`
+    Good - ?? - good `{=html}     </td>` `{=html}     </tr>`
+    `{=html}     <tr>` `{=html}     <td style="text-align:left;">`
+    substr_chartr(x, loc=loc) `{=html}     </td>`
+    `{=html}     <td style="text-align:left;">` Good - GOOD - GOOD
+    `{=html}     </td>` `{=html}     <td style="text-align:left;">`
+    Good - good - good `{=html}     </td>` `{=html}     </tr>`
+    `{=html}     <tr>` `{=html}     <td style="text-align:left;">`
+    substr_addin(x, "\~~", "after", loc=loc) `{=html}     </td>`
+    `{=html}     <td style="text-align:left;">` Good - good\~~ - GOOD
+    `{=html}     </td>` `{=html}     <td style="text-align:left;">`
+    Good - GOOD\~~ - good `{=html}     </td>` `{=html}     </tr>`
+    `{=html}     <tr>` `{=html}     <td style="text-align:left;">`
+    substr_addin(x, "\~~", "before", loc=loc) `{=html}     </td>`
+    `{=html}     <td style="text-align:left;">` Good - \~~good - GOOD
+    `{=html}     </td>` `{=html}     <td style="text-align:left;">`
+    Good - \~~GOOD - good `{=html}     </td>` `{=html}     </tr>`
+    `{=html}     <tr>` `{=html}     <td style="text-align:left;">`
+    substr_arrange(x, loc=loc) `{=html}     </td>`
+    `{=html}     <td style="text-align:left;">` Good - dgoo - GOOD
+    `{=html}     </td>` `{=html}     <td style="text-align:left;">`
+    Good - DGOO - good `{=html}     </td>` `{=html}     </tr>`
+    `{=html}     <tr>` `{=html}     <td style="text-align:left;">`
+    substr_arrange(x, "decr", loc=loc) `{=html}     </td>`
+    `{=html}     <td style="text-align:left;">` Good - oogd - GOOD
+    `{=html}     </td>` `{=html}     <td style="text-align:left;">`
+    Good - OOGD - good `{=html}     </td>` `{=html}     </tr>`
+    `{=html}     <tr>` `{=html}     <td style="text-align:left;">`
+    substr_arrange(x, "rev", loc=loc) `{=html}     </td>`
+    `{=html}     <td style="text-align:left;">` Good - doog - GOOD
+    `{=html}     </td>` `{=html}     <td style="text-align:left;">`
+    Good - DOOG - good `{=html}     </td>` `{=html}     </tr>`
+    `{=html}     <tr>` `{=html}     <td style="text-align:left;">`
+    substr_arrange(x, "rand", loc=loc) `{=html}     </td>`
+    `{=html}     <td style="text-align:left;">` Good - ogod - GOOD
+    `{=html}     </td>` `{=html}     <td style="text-align:left;">`
+    Good - ODGO - good `{=html}     </td>` `{=html}     </tr>`
+    `{=html}     </tbody>` `{=html}     </table>`
 
  
 
@@ -1149,6 +1239,22 @@ attaching are as follows:
     together, constantly switching between the different package
     name/alias -prefixes may eventually become annoying and even
     syntactically chaotic.
+
+Summarized in a table, the advantages and disadvantages of each approach
+are as follows:
+
+    #> 
+    #> 
+    #> |aspect                                        |alias / :: |attaching |
+    #> |:---------------------------------------------|:----------|:---------|
+    #> |prevent masking                               |Yes (+)    |No (-)    |
+    #> |prevent override core R functions             |Yes (+)    |No (-)    |
+    #> |clarify package origin of functions           |Yes (+)    |No (-)    |
+    #> |expose functions only in current environment  |Yes (+)    |No (-)    |
+    #> |prevent namespace pollution                   |Yes (+)    |No (-)    |
+    #> |minimize typing (especially for operators)    |No (-)     |Yes (+)   |
+    #> |use package collection syntactically coherent |No (-)     |Yes (+)   |
+    #> |NOTE: + = advantage, - = disavantage          |           |          |
 
 What `tinyoperations` attempts to do with its import system, is to
 somewhat find the best of both worlds. Basically, `tinyoperations` has
@@ -1556,6 +1662,9 @@ library(dplyr) # <- notice dplyr overwrites base R and recommended R packages
 #> The following object is masked from 'package:MASS':
 #> 
 #>     select
+#> The following object is masked from 'package:kableExtra':
+#> 
+#>     group_rows
 #> The following objects are masked from 'package:stats':
 #> 
 #>     filter, lag
@@ -1784,18 +1893,309 @@ outcome <- data.frame(
 kable(outcome)
 ```
 
-|    x | y     | x %xor% y | x %n&% y | x %?=% y |
-|-----:|:------|:----------|:---------|:---------|
-|    1 | FALSE | TRUE      | FALSE    | FALSE    |
-|    0 | TRUE  | TRUE      | FALSE    | FALSE    |
-|    1 | TRUE  | FALSE     | FALSE    | FALSE    |
-|    0 | FALSE | FALSE     | TRUE     | FALSE    |
-|   NA | NA    | NA        | NA       | TRUE     |
-|  NaN | NA    | NA        | NA       | TRUE     |
-|  Inf | NA    | NA        | NA       | TRUE     |
-| -Inf | NA    | NA        | NA       | TRUE     |
-|    1 | NA    | NA        | NA       | FALSE    |
-|    0 | NA    | NA        | NA       | FALSE    |
+<table>
+<thead>
+<tr>
+<th style="text-align:right;">
+
+x
+
+</th>
+<th style="text-align:left;">
+
+y
+
+</th>
+<th style="text-align:left;">
+
+x %xor% y
+
+</th>
+<th style="text-align:left;">
+
+x %n&% y
+
+</th>
+<th style="text-align:left;">
+
+x %?=% y
+
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;">
+
+1
+
+</td>
+<td style="text-align:left;">
+
+FALSE
+
+</td>
+<td style="text-align:left;">
+
+TRUE
+
+</td>
+<td style="text-align:left;">
+
+FALSE
+
+</td>
+<td style="text-align:left;">
+
+FALSE
+
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+
+0
+
+</td>
+<td style="text-align:left;">
+
+TRUE
+
+</td>
+<td style="text-align:left;">
+
+TRUE
+
+</td>
+<td style="text-align:left;">
+
+FALSE
+
+</td>
+<td style="text-align:left;">
+
+FALSE
+
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+
+1
+
+</td>
+<td style="text-align:left;">
+
+TRUE
+
+</td>
+<td style="text-align:left;">
+
+FALSE
+
+</td>
+<td style="text-align:left;">
+
+FALSE
+
+</td>
+<td style="text-align:left;">
+
+FALSE
+
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+
+0
+
+</td>
+<td style="text-align:left;">
+
+FALSE
+
+</td>
+<td style="text-align:left;">
+
+FALSE
+
+</td>
+<td style="text-align:left;">
+
+TRUE
+
+</td>
+<td style="text-align:left;">
+
+FALSE
+
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+
+NA
+
+</td>
+<td style="text-align:left;">
+
+NA
+
+</td>
+<td style="text-align:left;">
+
+NA
+
+</td>
+<td style="text-align:left;">
+
+NA
+
+</td>
+<td style="text-align:left;">
+
+TRUE
+
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+
+NaN
+
+</td>
+<td style="text-align:left;">
+
+NA
+
+</td>
+<td style="text-align:left;">
+
+NA
+
+</td>
+<td style="text-align:left;">
+
+NA
+
+</td>
+<td style="text-align:left;">
+
+TRUE
+
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+
+Inf
+
+</td>
+<td style="text-align:left;">
+
+NA
+
+</td>
+<td style="text-align:left;">
+
+NA
+
+</td>
+<td style="text-align:left;">
+
+NA
+
+</td>
+<td style="text-align:left;">
+
+TRUE
+
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+
+-Inf
+
+</td>
+<td style="text-align:left;">
+
+NA
+
+</td>
+<td style="text-align:left;">
+
+NA
+
+</td>
+<td style="text-align:left;">
+
+NA
+
+</td>
+<td style="text-align:left;">
+
+TRUE
+
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+
+1
+
+</td>
+<td style="text-align:left;">
+
+NA
+
+</td>
+<td style="text-align:left;">
+
+NA
+
+</td>
+<td style="text-align:left;">
+
+NA
+
+</td>
+<td style="text-align:left;">
+
+FALSE
+
+</td>
+</tr>
+<tr>
+<td style="text-align:right;">
+
+0
+
+</td>
+<td style="text-align:left;">
+
+NA
+
+</td>
+<td style="text-align:left;">
+
+NA
+
+</td>
+<td style="text-align:left;">
+
+NA
+
+</td>
+<td style="text-align:left;">
+
+FALSE
+
+</td>
+</tr>
+</tbody>
+</table>
 
 ``` r
 
