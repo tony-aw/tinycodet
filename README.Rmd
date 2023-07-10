@@ -16,7 +16,6 @@ knitr::opts_chunk$set(
 )
 library(badger)
 library(knitr)
-library(kableExtra)
 set.seed(1)
 ```
 
