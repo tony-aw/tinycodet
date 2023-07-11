@@ -33,11 +33,13 @@
 #' (if it did not already exist) in the current environment
 #' (like the Global environment, or the environment within a function),
 #' and will contain all objects from the sourced script. \cr
+#' To use, for example, function "some_function()" from alias "alias.", use: \cr
+#' \code{alias.$some_function()} \cr
 #' \cr
 #' For \code{source_inops()}: \cr
 #' The infix operators from the specified module will be placed
 #' in the current environment
-#' (like the Global environment, or the environment within a function).\cr
+#' (like the Global environment, or the environment within a function). \cr
 #' \cr
 #'
 #' @seealso \link{tinyoperations_import}, [base::source()]
@@ -99,8 +101,7 @@ NULL
   do.call(source, c(lst, local=tempenv))
   message(paste0(
     "Done", "\n",
-    "You can now access the sourced objects using ",
-    substitute(alias), "$...", "\n"
+    "You can now access the sourced objects using `", alias_chr, "$`.", "\n"
   ))
   assign(alias_chr, tempenv, envir = parent.frame(n = 1))
 }
@@ -129,8 +130,10 @@ source_inops <- function(...) {
   if(length(operators)>0) {
     message("placing operators in current environment...")
     for(op in operators) {
+      attr(tempenv[[op]], "env") <- tempenv
       assign(op, tempenv[[op]], envir = parent.frame(n = 1))
     }
   }
 
 }
+

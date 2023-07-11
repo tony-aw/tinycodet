@@ -31,11 +31,13 @@ The variable named as the \code{alias} will be created
 (if it did not already exist) in the current environment
 (like the Global environment, or the environment within a function),
 and will contain all objects from the sourced script. \cr
+To use, for example, function "some_function()" from alias "alias.", use: \cr
+\code{alias.$some_function()} \cr
 \cr
 For \code{source_inops()}: \cr
 The infix operators from the specified module will be placed
 in the current environment
-(like the Global environment, or the environment within a function).\cr
+(like the Global environment, or the environment within a function). \cr
 \cr
 }
 \description{

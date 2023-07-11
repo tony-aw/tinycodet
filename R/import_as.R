@@ -43,6 +43,13 @@
 #' giving the names of the extensions of the
 #' \code{main_package} to be loaded also under the alias. \cr
 #' Defaults to \code{NULL}, which means no extensions are loaded.
+#' @param verbose logical,
+#' indicating whether messages regarding conflicts and foreign exports
+#' should be printed while importing packages (\code{TRUE}),
+#' or if these should not be printed (\code{FALSE}). \cr
+#' Defaults to \code{FALSE},
+#' because all information conveyed by the messages can be more compactly be viewed
+#' by viewing the attributes of the alias object (see \link[base]{attributes}).
 #' @param loadorder the character vector \cr
 #' \code{c("dependencies", "main_package", "enhances", "extensions")}, \cr
 #' or some re-ordering of this character vector,
@@ -102,8 +109,12 @@
 #' \itemize{
 #'  \item The (merged) package environment,
 #'  containing the exported functions from the packages.
-#'  \item The attributes of the alias object will contain the package names.
+#'  \item The attributes of the alias object will contain
+#'  the package order, input arguments, and a conflicts report.
 #' }
+#'
+#' To use, for example, function "some_function()" from alias "alias.", use: \cr
+#' \code{alias.$some_function()} \cr
 #'
 #' @seealso \link{tinyoperations_import}, \link[=source_inops]{source_module}, \link[=pkg_get_deps]{pkgs}
 #'
@@ -123,7 +134,7 @@
 import_as <- function(
     alias, main_package, foreign_exports=TRUE,
     dependencies=NULL, enhances=NULL, extensions=NULL,
-    lib.loc=.libPaths(),
+    lib.loc=.libPaths(), verbose=FALSE,
     loadorder = c("dependencies", "main_package", "enhances", "extensions")
 ) {
 
@@ -141,8 +152,8 @@ import_as <- function(
   }
 
   # check library:
-  if(length(lib.loc)<1) {
-    stop("At least one library path must be given")
+  if(length(lib.loc)<1 | !is.character(lib.loc)) {
+    stop("`lib.loc` must be a character vector with at least one library path")
   }
 
   # check main_package:
@@ -150,6 +161,16 @@ import_as <- function(
     stop("Only a single package can be given in the `main_package` argument")
   }
   .internal_check_pkgs(pkgs=main_package, lib.loc=lib.loc, abortcall=sys.call())
+
+  # check foreign exports:
+  if(!isTRUE(foreign_exports) & !isFALSE(foreign_exports)) {
+    stop("`foreign_exports` must be either `TRUE` or `FALSE`")
+  }
+
+  # check verbose:
+  if(!isTRUE(foreign_exports) & !isFALSE(foreign_exports)) {
+    stop("`verbose` must be either `TRUE` or `FALSE`")
+  }
 
   # check load order:
   loadorder <- tolower(loadorder)
@@ -184,16 +205,26 @@ import_as <- function(
   # load packages:
   export_names_all <- character()
   export_names_allconflicts <- character()
+  conflicts_df <- data.frame(
+    package = character(length(pkgs)),
+    overwriting_functions = character(length(pkgs))
+  )
   namespaces <- list()
+
+  message("Importing packages...")
+
   for (i in 1:length(pkgs)) {
+    conflicts_df$package[i] <- pkgs[i]
+
     namespace_current <- .internal_prep_Namespace(pkgs[i], lib.loc)
 
     if(pkgs[i]==main_package & isTRUE(foreign_exports)) {
-      message("listing foreign exports from package: ", pkgs[i], "...")
+      if(verbose){ message("listing foreign exports from package: ", pkgs[i], "...") }
       namespace_current <- utils::modifyList(
         namespace_current,
         .internal_get_foreignexports_ns(main_package, lib.loc, abortcall=sys.call())
       )
+      conflicts_df$package[i] <- paste0(pkgs[i], " + foreign exports")
 
     }
 
@@ -201,29 +232,31 @@ import_as <- function(
 
     export_names_intersection <- intersect(export_names_current, export_names_all)
     if(i==1){
-      message("Importing package: ", pkgs[i], "...")
+      if(verbose){ message("Importing package: ", pkgs[i], "...") }
     }
     if(length(export_names_intersection)==0 & i>1) {
-      message("Importing package: ", pkgs[i], "... no conflicts")
+      if(verbose){ message("Importing package: ", pkgs[i], "... no conflicts") }
     }
     if(length(export_names_intersection)>0) {
-      message(
+      conflicts_df$overwriting_functions[i] <- paste0(export_names_intersection, collapse = ", ")
+      if(verbose){ message(
         "Importing package: ", pkgs[i], "... The following conflicting objects detected:",
         "\n",
         paste0(export_names_intersection, collapse = ", "),
         "\n",
         pkgs[i], " will overwrite conflicting objects from previous imported packages..."
-      )
+      ) }
     }
-    export_names_allconflicts <- c(export_names_intersection, export_names_allconflicts)
-    export_names_all <- c(export_names_current, export_names_all)
+    export_names_allconflicts <- c(export_names_allconflicts, export_names_intersection)
+    export_names_all <- c(export_names_all, export_names_current)
     namespaces <- utils::modifyList(namespaces, namespace_current)
     message("")
   }
 
   out <- as.environment(namespaces)
-  attr(out, "pkgs") <- list(
-    packages_order=pkgs,
+  attr(out, "packages_order") <- pkgs
+  attr(out, "conflicts") <- conflicts_df
+  attr(out, "args") <- list(
     main_package = main_package, foreign_exports = foreign_exports,
     dependencies = dependencies, enhances = enhances, extensions = extensions,
     loadorder = loadorder
@@ -231,8 +264,9 @@ import_as <- function(
 
   message(paste0(
   "Done", "\n",
-  "You can now access the functions using ", alias_chr, "$...", "\n",
-  "(S3)methods will work like normally. \n"
+  "You can now access the functions using `", alias_chr, "$`.", "\n",
+  "(S3)methods will work like normally. \n",
+  "For conflicts report and package order, see `attributes(", alias_chr, ")`. \n"
 ))
   assign(alias_chr, out, envir = parent.frame(n = 1))
 }

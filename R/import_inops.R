@@ -170,8 +170,8 @@ import_inops <- function(
           pkgs[i], " will overwrite conflicting infix operators from previous imported packages..."
         )
       }
-      export_names_allconflicts <- c(export_names_intersection, export_names_allconflicts)
-      export_names_all <- c(export_names_current, export_names_all)
+      export_names_allconflicts <- c(export_names_allconflicts, export_names_intersection)
+      export_names_all <- c(export_names_all, export_names_current)
       namespaces <- utils::modifyList(namespaces, namespace_current)
       message("")
     }

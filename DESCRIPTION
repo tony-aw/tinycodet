@@ -1,12 +1,12 @@
 Package: tinyoperations
-Title: Infix operators and some functions to help in your coding etiquette
+Title: Infix operators and sections to help in your programming etiquette
 Version: 0.0.0.9
 Authors@R: 
     person("Tony", "Wilkes", , "tony_a_wilkes@outlook.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-9498-8379"))
 Description: The 'tinyoperations' R-package adds some infix operators, and a few functions.
     It primarily focuses on 4 things.
-    (1) Decimal numbers ("double") truth testing.
+    (1) Safer decimal numbers ("double") truth testing.
     (2) Reducing repetitive code.
     (3) Extending the string manipulation capabilities of the 'stringi' R package.
     (4) A new package and module import system, that combines the benefits of aliasing a package with the benefits of attaching a package. 
@@ -18,11 +18,12 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Suggests:
+    stringfish (>= 0.15.7),
     rlang,
     knitr,
     rmarkdown,
-    stringfish (>= 0.15.7),
     tinytest,
+    devtools,
     fastverse
 VignetteBuilder: knitr
 Depends: 

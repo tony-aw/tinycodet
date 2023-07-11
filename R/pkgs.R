@@ -123,6 +123,19 @@
 #' @name pkgs
 NULL
 
+
+#' @rdname pkgs
+#' @export
+`%installed in%` <- function(pkgs, lib.loc) {
+  temp.fun <- function(x){
+    isTRUE(nzchar(system.file(package=x, lib.loc=lib.loc))) &
+      isTRUE(x %in% rownames(utils::installed.packages(lib.loc=lib.loc)))
+  }
+  out <- sapply(pkgs, temp.fun)
+  return(out)
+}
+
+
 #' @rdname pkgs
 #' @export
 pkg_get_deps <- function(
@@ -144,13 +157,6 @@ pkg_get_deps <- function(
   return(depends)
 }
 
-#' @rdname pkgs
-#' @export
-`%installed in%` <- function(pkgs, lib.loc) {
-  temp.fun <- function(x)nzchar(system.file(package=x, lib.loc=lib.loc))
-  out <- sapply(pkgs, temp.fun)
-  return(out)
-}
 
 #' @rdname pkgs
 #' @export
@@ -231,7 +237,7 @@ pkg_lsf <- function(package, type, lib.loc=.libPaths()) {
     stop("only a single package can be given")
   }
 
-  check <- .internal_require_ns(package, lib.loc)
+  check <- package %installed in% lib.loc
   if(!isTRUE(check)) {
     stop("package not installed")
   }

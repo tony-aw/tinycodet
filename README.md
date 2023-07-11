@@ -31,7 +31,8 @@
   - [7.5 Miscellaneous comments on package
     imports](#75-miscellaneous-comments-on-package-imports)
   - [7.6 Sourcing modules](#76-sourcing-modules)
-  - [7.7 An example](#77-an-example)
+  - [7.7 Regarding S3 methods](#77-regarding-s3-methods)
+  - [7.8 An example](#78-an-example)
 - [8 Miscellaneous functionality](#8-miscellaneous-functionality)
   - [8.1 Additional logic operators](#81-additional-logic-operators)
   - [8.2 Other](#82-other)
@@ -226,6 +227,15 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   the logical operators. Adjusted the documentation in accordance with
   the aforementioned changes, improved the lay-out of the documentation,
   and clarified the documentation even more.
+- 11 July: last update unintentionally created a bug; bug now fixed.
+  Added some minor features (see Details). Details: Last update
+  unintentionally created a bug; bug now fixed. Also added the `verbose`
+  argument to `import_as`, as the function now gives info on conflicts
+  and so on in its attributes. Created some fake packages JUST for the
+  sake of thorough testing. The tests are not part of R CMD CHECK
+  (because it doesn’t like packages defined inside package folder), and
+  not uploaded here on GitHub; but I do perform the test with fake
+  packages everytime I update this R package
 
 FUTURE PLANS:
 
@@ -360,14 +370,12 @@ is run **without attaching a single R package**:
 import_as( # loading "dplyr" + its foreign exports + "powerjoin" under alias "dr." 
   dr., "dplyr", extensions = "powerjoin"
 )
-#> listing foreign exports from package: dplyr...
-#> Importing package: dplyr...
-#> 
-#> Importing package: powerjoin... no conflicts
+#> Importing packages...
 #> 
 #> Done
-#> You can now access the functions using dr.$...
-#> (S3)methods will work like normally.
+#> You can now access the functions using `dr.$`.
+#> (S3)methods will work like normally. 
+#> For conflicts report and package order, see `attributes(dr.)`.
 
 import_inops("magrittr") # exposing operators from `magrrittr` to current env
 #> Getting infix operators from package: magrittr...
@@ -393,7 +401,7 @@ d %>% dr.$filter(species == "Droid") %>%
 myalias. %@source% list(file="sourcetest.R") # source a script under an alias
 #> Importing module ...
 #> Done
-#> You can now access the sourced objects using myalias.$...
+#> You can now access the sourced objects using `myalias.$`.
 myalias.$helloworld() # run a function that was just sourced.
 #> [1] "hello world"
 ```
@@ -408,11 +416,14 @@ Read-Me, and perhaps try out the package yourself.
 This package adds the `%d==%, %d!=% %d<%, %d>%, %d<=%, %d>=%`
 (in)equality operators, which perform safer decimal number truth
 testing. They are virtually equivalent to the regular (in)equality
-operators, `==, !=, <, >, <=, >=`, except for one aspect. The decimal
+operators, `==, !=, <, >, <=, >=`, except for one aspect: The decimal
 number truth testing operators assume that if the absolute difference
 between `x` and `y` is smaller than the Machine tolerance,
 `sqrt(.Machine$double.eps)`, then `x` and `y` ought to be consider to be
-equal. Thus these provide safer decimal number (in)equality operators.
+equal.
+
+Thus these provide safer decimal number (in)equality operators.
+
 For example: `(0.1*7) == 0.7` returns `FALSE`, even though they are
 equal, due to the way decimal numbers are stored in programming
 languages like `R`, `Python`, etc. But `(0.1*7) %d==% 0.7` returns
@@ -1197,14 +1208,12 @@ super quick example code using `tinyoperations`’s import system:
 import_as( # loading "dplyr" + its foreign exports + "powerjoin" under alias "dr." 
   dr., "dplyr", extensions = "powerjoin"
 )
-#> listing foreign exports from package: dplyr...
-#> Importing package: dplyr...
-#> 
-#> Importing package: powerjoin... no conflicts
+#> Importing packages...
 #> 
 #> Done
-#> You can now access the functions using dr.$...
-#> (S3)methods will work like normally.
+#> You can now access the functions using `dr.$`.
+#> (S3)methods will work like normally. 
+#> For conflicts report and package order, see `attributes(dr.)`.
 
 import_inops("magrittr") # exposing operators from `magrrittr` to current env
 #> Getting infix operators from package: magrittr...
@@ -1230,7 +1239,7 @@ d %>% dr.$filter(species == "Droid") %>%
 myalias. %@source% list(file="sourcetest.R") # source a script under an alias
 #> Importing module ...
 #> Done
-#> You can now access the sourced objects using myalias.$...
+#> You can now access the sourced objects using `myalias.$`.
 myalias.$helloworld() # run a function that was just sourced.
 #> [1] "hello world"
 
@@ -1328,24 +1337,54 @@ data.table”):
 
 ``` r
 import_as(tdt., "tidytable", dependencies="data.table") # this creates the tdt. object
-#> Importing package: data.table...
-#> 
-#> listing foreign exports from package: tidytable...
-#> Importing package: tidytable... The following conflicting objects detected:
-#> last, fread, first, between, %chin%, %like%, setDTthreads, data.table, getDTthreads, fwrite, %between%
-#> tidytable will overwrite conflicting objects from previous imported packages...
+#> Importing packages...
 #> 
 #> Done
-#> You can now access the functions using tdt.$...
-#> (S3)methods will work like normally.
+#> You can now access the functions using `tdt.$`.
+#> (S3)methods will work like normally. 
+#> For conflicts report and package order, see `attributes(tdt.)`.
 ```
 
 Now you can of course use those loaded packages as one would normally do
 when using a package alias: `tdt.$some_function()`.
 
-The order in which `import_as()` loads the packages under the given
-alias can be adjusted in the `loadorder` argument. See the help file for
-details.
+The created alias object had attributes showing which loaded package
+overwrites which loaded functions, in what order the packages are loaded
+and so on:
+
+``` r
+attributes(tdt.)$packages_order
+#> [1] "data.table" "tidytable"
+attributes(tdt.)$conflicts |> knitr::kable()
+```
+
+| package                     | overwriting_functions                                                                                  |
+|:----------------------------|:-------------------------------------------------------------------------------------------------------|
+| data.table                  |                                                                                                        |
+| tidytable + foreign exports | last, fread, first, between, %chin%, %like%, setDTthreads, data.table, getDTthreads, fwrite, %between% |
+
+``` r
+attributes(tdt.)$args
+#> $main_package
+#> [1] "tidytable"
+#> 
+#> $foreign_exports
+#> [1] TRUE
+#> 
+#> $dependencies
+#> [1] "data.table"
+#> 
+#> $enhances
+#> NULL
+#> 
+#> $extensions
+#> NULL
+#> 
+#> $loadorder
+#> [1] "dependencies" "main_package" "enhances"     "extensions"
+```
+
+See the help file for more details.
 
  
 
@@ -1475,12 +1514,12 @@ exposed infix operators).
 Example:
 
 ``` r
-import_as(m., "magrittr")
+import_as(mr., "magrittr")
 import_inops("magrittr")
 
-help.import(i=m.$add)
+help.import(i=mr.$add)
 help.import(i=`%>%`)
-help.import(i="add", alias=m.)
+help.import(i="add", alias=mr.)
 ```
 
  
@@ -1518,7 +1557,7 @@ Example:
 myalias. %@source% list(file="sourcetest.R")
 #> Importing module ...
 #> Done
-#> You can now access the sourced objects using myalias.$...
+#> You can now access the sourced objects using `myalias.$`.
 source_inops(file="sourcetest.R")
 #> placing operators in current environment...
 
@@ -1539,7 +1578,7 @@ exprs <- expression({
 myalias. %@source% list(exprs=exprs)
 #> Importing module ...
 #> Done
-#> You can now access the sourced objects using myalias.$...
+#> You can now access the sourced objects using `myalias.$`.
 
 myalias.$helloworld()
 #> [1] "helloworld"
@@ -1553,9 +1592,152 @@ temp.fun()
 #> [1] "%s*test%" "%s+test%"
 ```
 
+Note that, as long as `@source` and `source_inops()` **source the same
+file/expression**, they will both have access to the same functions.
+
+To demonstrate this, consider the following:
+
+``` r
+exprs <- expression({
+  mypaste <- function(x,y) stringi::`%s+%`(x,y)
+  `%s+test%` <- function(x,y){
+    mypaste(x,y) # notice this operator needs to "see" mypaste() in order to work.
+  }
+})
+myalias. %@source% list(exprs=exprs)
+#> Importing module ...
+#> Done
+#> You can now access the sourced objects using `myalias.$`.
+source_inops(exprs=exprs)
+#> placing operators in current environment...
+"a" %s+test% "b"
+#> [1] "ab"
+
+# both the aliased functions and the exposed infix operator
+# have access to the same functions:
+ls(environment(`%s+test%`))
+#> [1] "%s+test%" "mypaste"
+ls(environment(myalias.$mypaste))
+#> [1] "%s+test%" "mypaste"
+```
+
+So no need to worry about their scope (unless you start tinkering with
+the environments of the functions.)
+
  
 
-## 7.7 An example
+## 7.7 Regarding S3 methods
+
+When importing packages with `tinyoperations`’ import system, S3 methods
+defined in the package will automatically be registered, and thus
+automatically work. For example, the following code just works:
+
+``` r
+dr. <- import_as(dr., "dplyr")
+#> Importing packages...
+#> 
+#> Done
+#> You can now access the functions using `dr.$`.
+#> (S3)methods will work like normally. 
+#> For conflicts report and package order, see `attributes(dr.)`.
+import_inops("magrittr")
+#> Getting infix operators from package: magrittr...
+#> 
+#> Checking for conflicting infix operators in the current environment...
+#> Placing infix operators in current environment...
+#> Done
+d <- import_data("starwars", "dplyr")
+d <- d %>% dr.$group_by(species)
+
+isS3method(f="arrange", class="data.frame", envir = dr.) # this is an S3 method
+#> [1] TRUE
+isS3method(f="relocate", class="data.frame", envir = dr.) # this is an S3 method
+#> [1] TRUE
+# this works:
+d %>%
+  dr.$arrange(dr.$desc(mass)) %>%
+  dr.$relocate(species, mass)
+#> # A tibble: 87 × 14
+#> # Groups:   species [38]
+#>    species    mass name  height hair_color skin_color eye_color birth_year sex  
+#>    <chr>     <dbl> <chr>  <int> <chr>      <chr>      <chr>          <dbl> <chr>
+#>  1 Hutt       1358 Jabb…    175 <NA>       green-tan… orange         600   herm…
+#>  2 Kaleesh     159 Grie…    216 none       brown, wh… green, y…       NA   male 
+#>  3 Droid       140 IG-88    200 none       metal      red             15   none 
+#>  4 Human       136 Dart…    202 none       white      yellow          41.9 male 
+#>  5 Wookiee     136 Tarf…    234 brown      brown      blue            NA   male 
+#>  6 Human       120 Owen…    178 brown, gr… light      blue            52   male 
+#>  7 Trandosh…   113 Bossk    190 none       green      red             53   male 
+#>  8 Wookiee     112 Chew…    228 brown      unknown    blue           200   male 
+#>  9 Human       110 Jek …    180 brown      fair       blue            NA   male 
+#> 10 Besalisk    102 Dext…    198 none       brown      yellow          NA   male 
+#> # ℹ 77 more rows
+#> # ℹ 5 more variables: gender <chr>, homeworld <chr>, films <list>,
+#> #   vehicles <list>, starships <list>
+```
+
+So when importing packages, everything works as expected, including S3
+methods.
+
+This is unfortunately not the case for most simple scripts that users
+create themselves, as simple scripts usually do not register S3 methods
+outside of the script’s own environment.
+
+The following code, for example, gives an error:
+
+``` r
+exprs <- expression({
+  mymeth <- function(x){
+  UseMethod("mymeth", x)
+  }
+
+  mymeth.numeric <- function(x)x *2
+  
+  mymeth.character <- function(x){chartr(x, old = "a-zA-Z", new = "A-Za-z")}
+})
+
+tinytest::expect_error(myalias.$mymeth(0))
+#> ----- PASSED      : <-->
+#>  call| tinytest::expect_error(myalias.$mymeth(0))
+tinytest::expect_error(myalias.$mymeth("a"))
+#> ----- PASSED      : <-->
+#>  call| tinytest::expect_error(myalias.$mymeth("a"))
+```
+
+The `tinyoperations` R package does not provide support for registering
+S3 methods from sourced scripts, at least not out of the box.
+
+The solution is quite simple though: If you have your own script
+containing S3/S4 methods, put all methods, and all functions that
+interact with said methods, in their own script, and source them using
+the regular `source()` function:
+
+``` r
+exprs <- expression({
+  mymeth <- function(x){
+  UseMethod("mymeth", x)
+  }
+
+  mymeth.numeric <- function(x)x *2
+  
+  mymeth.character <- function(x){chartr(x, old = "a-zA-Z", new = "A-Za-z")}
+})
+source(exprs = exprs)
+mymeth(0)
+#> [1] 0
+mymeth("a")
+#> [1] "A"
+```
+
+If that approach does not do what you want, you can also use the
+`import` package to source a script, as that package provides an
+(experimental) S3 registering system for sourced scripts. Note, however,
+that the `import` R package does not provide some of the other features
+of `tinyoperations`.
+
+ 
+
+## 7.8 An example
 
 One R package that could benefit from the import system introduced by
 `tinyoperations`, is the `dplyr` R package. The `dplyr` R package
@@ -1569,6 +1751,9 @@ library(dplyr) # <- notice dplyr overwrites base R and recommended R packages
 #> Warning: package 'dplyr' was built under R version 4.2.3
 #> 
 #> Attaching package: 'dplyr'
+#> The following object is masked _by_ '.GlobalEnv':
+#> 
+#>     %>%
 #> The following object is masked from 'package:MASS':
 #> 
 #>     select
@@ -1606,19 +1791,21 @@ tinyoperations::pkg_get_deps("dplyr") # a lot of dependencies
 import_as(
   dr., "dplyr", extensions = "powerjoin", lib.loc=.libPaths()
 )
-#> listing foreign exports from package: dplyr...
-#> Importing package: dplyr...
-#> 
-#> Importing package: powerjoin... no conflicts
+#> Importing packages...
 #> 
 #> Done
-#> You can now access the functions using dr.$...
-#> (S3)methods will work like normally.
+#> You can now access the functions using `dr.$`.
+#> (S3)methods will work like normally. 
+#> For conflicts report and package order, see `attributes(dr.)`.
 
 import_inops("magrittr") # getting the operators from `magrrittr`
 #> Getting infix operators from package: magrittr...
 #> 
 #> Checking for conflicting infix operators in the current environment...
+#> ALL prepared infix operators already exist in the current environment
+#> Overwriting existing infix operators...
+#> Warning in import_inops("magrittr"): ALL prepared infix operators already exist in the current environment
+#> Existing infix operators have been overwritten...
 #> Placing infix operators in current environment...
 #> Done
 ```
@@ -1709,12 +1896,12 @@ including foreign exports, consider the following proof:
 
 ``` r
 import_as(dr., "dplyr", foreign_exports = TRUE)
-#> listing foreign exports from package: dplyr...
-#> Importing package: dplyr...
+#> Importing packages...
 #> 
 #> Done
-#> You can now access the functions using dr.$...
-#> (S3)methods will work like normally.
+#> You can now access the functions using `dr.$`.
+#> (S3)methods will work like normally. 
+#> For conflicts report and package order, see `attributes(dr.)`.
 foo <- loadNamespace("dplyr") |> getNamespaceExports()
 check <- all(sort(names(dr.)) == sort(foo))
 print(check) # must be TRUE
@@ -1722,49 +1909,6 @@ print(check) # must be TRUE
 if(!isTRUE(check)) {
   stop("Tony is really stupid")
 }
-```
-
-If, for some reason, it is unknown to the user which packages were
-loaded under an alias, and/or their load order, one can check the `pkgs`
-attribute of the alias:
-
-``` r
-import_as(
-  dr., "dplyr", dependencies = "tibble", extensions = "powerjoin", lib.loc=.libPaths()
-)
-#> Importing package: tibble...
-#> 
-#> listing foreign exports from package: dplyr...
-#> Importing package: dplyr... The following conflicting objects detected:
-#> as_tibble, tibble, lst, as_data_frame, data_frame, add_row, tribble
-#> dplyr will overwrite conflicting objects from previous imported packages...
-#> 
-#> Importing package: powerjoin... no conflicts
-#> 
-#> Done
-#> You can now access the functions using dr.$...
-#> (S3)methods will work like normally.
-attr(dr., "pkgs")
-#> $packages_order
-#> [1] "tibble"    "dplyr"     "powerjoin"
-#> 
-#> $main_package
-#> [1] "dplyr"
-#> 
-#> $foreign_exports
-#> [1] TRUE
-#> 
-#> $dependencies
-#> [1] "tibble"
-#> 
-#> $enhances
-#> NULL
-#> 
-#> $extensions
-#> [1] "powerjoin"
-#> 
-#> $loadorder
-#> [1] "dependencies" "main_package" "enhances"     "extensions"
 ```
 
  

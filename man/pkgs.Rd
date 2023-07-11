@@ -2,12 +2,14 @@
 % Please edit documentation in R/pkgs.R
 \name{pkgs}
 \alias{pkgs}
-\alias{pkg_get_deps}
 \alias{\%installed in\%}
+\alias{pkg_get_deps}
 \alias{help.import}
 \alias{pkg_lsf}
 \title{Miscellaneous package functions}
 \usage{
+pkgs \%installed in\% lib.loc
+
 pkg_get_deps(
   package,
   lib.loc = .libPaths(),
@@ -17,19 +19,19 @@ pkg_get_deps(
   rstudioapi = FALSE
 )
 
-pkgs \%installed in\% lib.loc
-
 help.import(..., i, alias)
 
 pkg_lsf(package, type, lib.loc = .libPaths())
 }
 \arguments{
-\item{package}{a single string giving the package name.}
+\item{pkgs}{a single string, or character vector, with the package name(s).}
 
 \item{lib.loc}{character vector specifying library search path
 (the location of R library trees to search through). \cr
 This is usually \code{.libPaths()}. \cr
 See also \link[base]{loadNamespace}.}
+
+\item{package}{a single string giving the package name.}
 
 \item{deps_type}{a character vector, giving the dependency types to be used. \cr
 Defaults to \code{c("LinkingTo", "Depends", "Imports")}. \cr
@@ -48,8 +50,6 @@ Note that only the recommended R packages actually installed in your system are 
 \item{rstudioapi}{logical,
 indicating whether the \code{rstudioapi} R package should be included (\code{TRUE}),
 or not included (\code{FALSE}; the default).}
-
-\item{pkgs}{a single string, or character vector, with the package name(s).}
 
 \item{...}{further arguments to be passed to \link[utils]{help}.}
 

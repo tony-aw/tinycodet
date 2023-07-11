@@ -1,19 +1,24 @@
-#' Safer decimal number (in)equality operators
+#' Safer decimal number (in)equality testing operators
 #'
 #'@description
 #' The \code{%d==%, %d!=% %d<%, %d>%, %d<=%, %d>=%} (in)equality operator
-#' perform decimal number truth testing.
+#' perform decimal (class "double") number truth testing. \cr
 #' They are virtually equivalent to the regular (in)equality operators, \cr
 #' \code{==, !=, <, >, <=, >=}, \cr
-#' except for one aspect.
-#' The decimal number truth testing operators assume that if the absolute difference between
-#' \code{x} and \code{y} is smaller than the Machine tolerance,
-#' \code{sqrt(.Machine$double.eps)}, then \code{x} and \code{y}
-#' ought to be consider to be equal. \cr
-#' Thus these provide safer decimal number truth testing. \cr
+#' except for one aspect: \cr
+#' The decimal number (in)equality operators assume that
+#' if the absolute difference between any two numbers
+#' \code{x} and \code{y}
+#' is smaller than the Machine tolerance,
+#' \code{sqrt(.Machine$double.eps)},
+#' then \code{x} and \code{y}
+#' should be consider to be equal. \cr
+#' \cr
+#' Thus these operators provide safer decimal number (in)equality tests. \cr
+#' \cr
 #' For example: \code{0.1*7 == 0.7} returns \code{FALSE}, even though they are equal,
-#' due to the way decimal numbers are stored in programming languages like R.
-#' But \code{0.1*7 %d==% 0.7} returns \code{TRUE}.  \cr
+#' due to the way decimal numbers are stored in programming languages (like R).
+#' But \code{0.1*7 %d==% 0.7} returns \code{TRUE}. \cr
 #' \cr
 #' There are also the \code{x %d{}% bnd} and \code{x %d!{}% bnd} operators,
 #' where \code{bnd} is a vector of length 2,
@@ -81,50 +86,50 @@
 #' x %d<=% y
 #' x %d>=% y
 
-#' @name decimal
+#' @name decimal_truth
 NULL
 
-#' @rdname decimal
+#' @rdname decimal_truth
 #' @export
 `%d==%` <- function(x, y) {
   return(abs(x - y) < sqrt(.Machine$double.eps))
 }
 
-#' @rdname decimal
+#' @rdname decimal_truth
 #' @export
 `%d!=%` <- function(x, y) {
   return(abs(x - y) >= sqrt(.Machine$double.eps))
 }
 
-#' @rdname decimal
+#' @rdname decimal_truth
 #' @export
 `%d<%` <- function(x, y) {
   check <- (x %d!=% y)
   return((x < y) & check)
 }
 
-#' @rdname decimal
+#' @rdname decimal_truth
 #' @export
 `%d>%` <- function(x, y) {
   check <- (x %d!=% y)
   return((x > y) & check)
 }
 
-#' @rdname decimal
+#' @rdname decimal_truth
 #' @export
 `%d<=%` <- function(x, y) {
   check <- (x %d==% y)
   return((x <= y) | check)
 }
 
-#' @rdname decimal
+#' @rdname decimal_truth
 #' @export
 `%d>=%` <- function(x, y) {
   check <- (x %d==% y)
   return((x >= y) | check)
 }
 
-#' @rdname decimal
+#' @rdname decimal_truth
 #' @export
 `%d{}%` <- function(x, bnd) {
   bnd <- matrix(bnd, ncol=2)
@@ -133,7 +138,7 @@ NULL
   return(x %d>=% bnd[,1] & x %d<=% bnd[,2])
 }
 
-#' @rdname decimal
+#' @rdname decimal_truth
 #' @export
 `%d!{}%` <- function(x, bnd) {
   bnd <- matrix(bnd, ncol=2)
@@ -142,7 +147,7 @@ NULL
   return(x %d<% bnd[,1] | x %d>% bnd[,2])
 }
 
-#' @rdname decimal
+#' @rdname decimal_truth
 #' @export
 tinyoperations_decimal_truth <- function() {
   utils::`?`(tinyoperations_decimal_truth)

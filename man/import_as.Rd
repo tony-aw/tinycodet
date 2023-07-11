@@ -12,6 +12,7 @@ import_as(
   enhances = NULL,
   extensions = NULL,
   lib.loc = .libPaths(),
+  verbose = FALSE,
   loadorder = c("dependencies", "main_package", "enhances", "extensions")
 )
 }
@@ -63,6 +64,14 @@ Defaults to \code{NULL}, which means no extensions are loaded.}
 This is usually \code{.libPaths()}. \cr
 See also \link[base]{loadNamespace}.}
 
+\item{verbose}{logical,
+indicating whether messages regarding conflicts and foreign exports
+should be printed while importing packages (\code{TRUE}),
+or if these should not be printed (\code{FALSE}). \cr
+Defaults to \code{FALSE},
+because all information conveyed by the messages can be more compactly be viewed
+by viewing the attributes of the alias object (see \link[base]{attributes}).}
+
 \item{loadorder}{the character vector \cr
 \code{c("dependencies", "main_package", "enhances", "extensions")}, \cr
 or some re-ordering of this character vector,
@@ -87,8 +96,12 @@ The alias object will contain the following:
 \itemize{
 \item The (merged) package environment,
 containing the exported functions from the packages.
-\item The attributes of the alias object will contain the package names.
+\item The attributes of the alias object will contain
+the package order, input arguments, and a conflicts report.
 }
+
+To use, for example, function "some_function()" from alias "alias.", use: \cr
+\code{alias.$some_function()} \cr
 }
 \description{
 The \code{import_as()} function

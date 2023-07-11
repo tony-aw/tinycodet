@@ -7,7 +7,7 @@
 #' and a few functions. \cr
 #' It primarily focuses on 4 things: \cr
 #' \cr
-#' (1) Decimal numbers ("double") truth testing; see \link{tinyoperations_decimal_truth}. \cr
+#' (1) Safer decimal numbers ("double") truth testing; see \link{tinyoperations_decimal_truth}. \cr
 #' (2) Reducing repetitive code; see \link{tinyoperations_dry}. \cr
 #' (3) Extending the string manipulation capabilities of the \code{stringi} R package,
 #' see \link{tinyoperations_stringi}. \cr

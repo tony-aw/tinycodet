@@ -17,13 +17,6 @@ s_get_pattern_attr_internal <- function(p) {
 
 #' @keywords internal
 #' @noRd
-.internal_require_ns <- function(pkgs, lib.loc) {
-  temp.fun <- function(x)isTRUE(requireNamespace(package=x, lib.loc=lib.loc, quietly = TRUE))
-  out <- sapply(pkgs, temp.fun)
-}
-
-#' @keywords internal
-#' @noRd
 .internal_prep_Namespace <- function(package, lib.loc) {
   ns <- loadNamespace(package, lib.loc = lib.loc) |> as.list(all.names=TRUE, sorted=TRUE)
   names_exported <- names(ns[[".__NAMESPACE__."]][["exports"]])
@@ -69,7 +62,7 @@ s_get_pattern_attr_internal <- function(p) {
   lst_imports <- lst_imports[!names(lst_imports) %in% pkgs_core]
   pkgs <- names(lst_imports) |> unique()
 
-  uninstalled_pkgs <- pkgs[!.internal_require_ns(pkgs, lib.loc)]
+  uninstalled_pkgs <- pkgs[!pkgs %installed in% lib.loc]
   if(length(uninstalled_pkgs)>0) {
     error.txt <- simpleError(paste0(
       "The following dependent packages (for the forein exports) are not installed:",
@@ -129,7 +122,7 @@ s_get_pattern_attr_internal <- function(p) {
     stop(error.txt)
   }
 
-  uninstalled_pkgs <- pkgs[!.internal_require_ns(pkgs, lib.loc)]
+  uninstalled_pkgs <- pkgs[!pkgs %installed in% lib.loc]
   if(isTRUE(length(uninstalled_pkgs)>0)) {
     error.txt <- simpleError(paste0(
       "The following ", pkgs_txt, " are not installed:",

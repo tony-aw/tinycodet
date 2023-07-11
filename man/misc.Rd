@@ -17,8 +17,9 @@ X \%<-c\% A
 }
 \value{
 For \code{lock_TF()}: \cr
-Two \code{CONSTANTS}, namely \code{T} and \code{F},
+Two \code{constants}, namely \code{T} and \code{F},
 set to \code{TRUE} and \code{FALSE} respectively,
+are created in the current environment,
 and locked.
 Removing the created \code{T} and \code{F} objects allows re-assignment again. \cr
 \cr
@@ -33,13 +34,13 @@ to prevent the user from re-assigning them. \cr
 Removing the created \code{T} and \code{F} objects
 allows re-assignment again. \cr
 \cr
-The \code{X \%<-c\% A} operator creates a \code{CONSTANT} \code{X}
+The \code{X \%<-c\% A} operator creates a \code{constant} \code{X}
 and assigns \code{A} to it. \cr
 Constants cannot be changed, only accessed or removed.
-So if you have a piece of code that absolutely requires some \code{CONSTANT},
-use this operator to create said \code{CONSTANT}. \cr
-Removing object \code{X} also removes its binding lock.
-Thus to change a \code{CONSTANT}, simply remove it and re-create it. \cr
+So if you have a piece of code that requires some unchangeable \code{constant},
+use this operator to create said \code{constant}. \cr
+Removing constant \code{X} also removes its binding lock.
+Thus to change a \code{constant}, simply remove it and re-create it. \cr
 }
 \examples{
 

@@ -4,7 +4,7 @@
 #'
 #' Some additional functions provided by the \code{tinyoperations} R package:
 #'
-#'  * \link[=%xor%]{Infix logical operators} for exclusive-or, not-and, not-in, number-type, and string-type. \cr
+#'  * \link[=%xor%]{Infix logical operators} for exclusive-or, not-and, not-in, number-type, and string-type.
 #'  * \link[=lock_TF]{restrict re-assignment of "T" and "F"}.
 #'  * \link[=%<-c%]{create unchangeable CONSTANT}.
 #'  * \link[=%row~%]{Infix operators for row- and column-wise re-ordering of matrices}.

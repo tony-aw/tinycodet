@@ -3,8 +3,8 @@
 #'@description
 #' The \code{tinyoperations} R package introduces a new package import system.
 #' This system attempts to combine the benefits of aliasing a package,
-#' with the benefits of attaching a package.
-#'
+#' with the benefits of attaching a package. \cr
+#' \cr
 #' The main part of the import system is implemented in the 3 \code{import_} - functions:
 #' \itemize{
 #'  \item \link{import_as}:

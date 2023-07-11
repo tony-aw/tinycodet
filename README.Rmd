@@ -83,6 +83,7 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
  - 2 July 2023: Removed the `overwrite` argument from `import_as()` (that was a short-lived argument...), as I've found it to be more annoying than it's worth. Added more internal checks to the `import_` and `source_module` functions. Error messages now display the used exported function instead of internal functions. Adjusted the documentation and Read-Me accordingly.
  - 3 July 2023: a tiny update; just fixed some minor documentation issues.
  - 9 July 2023: MAJOR UPDATE + RENAMED PACKAGE TO `tinyoperations`. Details:... Replaced the `%::?%` operator with the `help.import()` function. The `import_as()` function now also adds attributes to the alias. Renamed the `import_lsf()` function to `pkg_lsf()`. Renamed the `pkgs_get_deps` function to `pkg_get_deps`, as this functions only accepts a single package anyway, and also partially re-wrote the function to give more consistently ordered character vectors. Added the `overwrite` and `inherits` arguments to `import_inops()`. The argument  `dependencies` in `import_as()` now only accepts an explicit character vector as input, as using `TRUE` may result in the ambiguous load-order of the dependencies. Each of the `import_` functions now have their own separate help page, and also added the `tinyoperations_import` page, to keep it more organized. Moreover, Added more tests for the `import_` and `source_module` functions. Added the `misc` - functions. Replaced all mentions of "float" with "decimal", and replaced all float truth testing (`%f`) to be decimal number truth testing as (`%d`). Removed the Natural number option from the logical operators. Adjusted the documentation in accordance with the aforementioned changes, improved the lay-out of the documentation, and clarified the documentation even more.
+ - 11 July: last update unintentionally created a bug; bug now fixed. Added some minor features (see Details). Details: Last update unintentionally created a bug; bug now fixed. Also added the `verbose` argument to `import_as`, as the function now gives info on conflicts and so on in its attributes. Created some fake packages JUST for the sake of thorough testing. The tests are not part of R CMD CHECK (because it doesn't like packages defined inside package folder), and not uploaded here on GitHub; but I do perform the test with fake packages everytime I update this R package
 
 
 FUTURE PLANS:
@@ -229,8 +230,10 @@ rm(list=ls())
 
 This package adds the `%d==%, %d!=% %d<%, %d>%, %d<=%, %d>=%` (in)equality operators, which perform safer decimal number truth testing. They are virtually equivalent to the regular (in)equality operators,
 `==, !=, <, >, <=, >=`,
-except for one aspect. The decimal number truth testing operators assume that if the absolute difference between `x` and `y` is smaller than the Machine tolerance, `sqrt(.Machine$double.eps)`, then `x` and `y` ought to be consider to be equal.
+except for one aspect: The decimal number truth testing operators assume that if the absolute difference between `x` and `y` is smaller than the Machine tolerance, `sqrt(.Machine$double.eps)`, then `x` and `y` ought to be consider to be equal.
+
 Thus these provide safer decimal number (in)equality operators.
+
 For example: `(0.1*7) == 0.7` returns `FALSE`, even though they are equal, due to the way decimal numbers are stored in programming languages like `R`, `Python`, etc. But `(0.1*7) %d==% 0.7` returns `TRUE`.
 
 Some examples:
@@ -797,7 +800,15 @@ import_as(tdt., "tidytable", dependencies="data.table") # this creates the tdt. 
 
 Now you can of course use those loaded packages as one would normally do when using a package alias: `tdt.$some_function()`.
 
-The order in which `import_as()` loads the packages under the given alias can be adjusted in the `loadorder` argument. See the help file for details.
+The created alias object had attributes showing which loaded package overwrites which loaded functions, in what order the packages are loaded and so on:
+
+```{r}
+attributes(tdt.)$packages_order
+attributes(tdt.)$conflicts |> knitr::kable()
+attributes(tdt.)$args
+```
+
+See the help file for more details.
 
 &nbsp;
 
@@ -878,12 +889,12 @@ The `tinyoperations::help.import(i, ...)` function gets the help file for a func
 Example:
 
 ```{r eval=FALSE}
-import_as(m., "magrittr")
+import_as(mr., "magrittr")
 import_inops("magrittr")
 
-help.import(i=m.$add)
+help.import(i=mr.$add)
 help.import(i=`%>%`)
-help.import(i="add", alias=m.)
+help.import(i="add", alias=mr.)
 ```
 
 &nbsp;
@@ -930,6 +941,91 @@ temp.fun <- function(){
 temp.fun()
 ```
 
+Note that, as long as `@source` and `source_inops()` **source the same file/expression**, they will both have access to the same functions.
+
+To demonstrate this, consider the following:
+
+```{r}
+exprs <- expression({
+  mypaste <- function(x,y) stringi::`%s+%`(x,y)
+  `%s+test%` <- function(x,y){
+    mypaste(x,y) # notice this operator needs to "see" mypaste() in order to work.
+  }
+})
+myalias. %@source% list(exprs=exprs)
+source_inops(exprs=exprs)
+"a" %s+test% "b"
+
+# both the aliased functions and the exposed infix operator
+# have access to the same functions:
+ls(environment(`%s+test%`))
+ls(environment(myalias.$mypaste))
+```
+
+So no need to worry about their scope (unless you start tinkering with the environments of the functions.)
+
+
+&nbsp;
+
+## Regarding S3 methods
+
+When importing packages with `tinyoperations`' import system, S3 methods defined in the package will automatically be registered, and thus automatically work. For example, the following code just works:
+
+```{r}
+dr. <- import_as(dr., "dplyr")
+import_inops("magrittr")
+d <- import_data("starwars", "dplyr")
+d <- d %>% dr.$group_by(species)
+
+isS3method(f="arrange", class="data.frame", envir = dr.) # this is an S3 method
+isS3method(f="relocate", class="data.frame", envir = dr.) # this is an S3 method
+# this works:
+d %>%
+  dr.$arrange(dr.$desc(mass)) %>%
+  dr.$relocate(species, mass)
+```
+
+So when importing packages, everything works as expected, including S3 methods.
+
+This is unfortunately not the case for most simple scripts that users create themselves, as simple scripts usually do not register S3 methods outside of the script's own environment.
+
+The following code, for example, gives an error:
+
+```{r}
+exprs <- expression({
+  mymeth <- function(x){
+  UseMethod("mymeth", x)
+  }
+
+  mymeth.numeric <- function(x)x *2
+  
+  mymeth.character <- function(x){chartr(x, old = "a-zA-Z", new = "A-Za-z")}
+})
+
+tinytest::expect_error(myalias.$mymeth(0))
+tinytest::expect_error(myalias.$mymeth("a"))
+```
+
+The `tinyoperations` R package does not provide support for registering S3 methods from sourced scripts, at least not out of the box.
+
+The solution is quite simple though: If you have your own script containing S3/S4 methods, put all methods, and all functions that interact with said methods, in their own script, and source them using the regular `source()` function:
+
+```{r}
+exprs <- expression({
+  mymeth <- function(x){
+  UseMethod("mymeth", x)
+  }
+
+  mymeth.numeric <- function(x)x *2
+  
+  mymeth.character <- function(x){chartr(x, old = "a-zA-Z", new = "A-Za-z")}
+})
+source(exprs = exprs)
+mymeth(0)
+mymeth("a")
+```
+
+If that approach does not do what you want, you can also use the `import` package to source a script, as that package provides an (experimental) S3 registering system for sourced scripts. Note, however, that the `import` R package does not provide some of the other features of `tinyoperations`.
 
 
 &nbsp;
@@ -1015,16 +1111,6 @@ if(!isTRUE(check)) {
 }
 
 ```
-
-If, for some reason, it is unknown to the user which packages were loaded under an alias, and/or their load order, one can check the `pkgs` attribute of the alias:
-
-```{r}
-import_as(
-  dr., "dplyr", dependencies = "tibble", extensions = "powerjoin", lib.loc=.libPaths()
-)
-attr(dr., "pkgs")
-```
-
 
 &nbsp;
 
