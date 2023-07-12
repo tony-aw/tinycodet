@@ -42,57 +42,10 @@ The `tinyoperations` R-package adds some infix operators, and a few functions. I
 
 The `tinyoperations` R-package has only one dependency, namely `stringi`, though it does allows multi-threading of some of the string-related functions (when appropriate) via the suggested `stringfish` R-package. Most functions in this R-package are fully vectorized and have been optimized for optimal speed and performance.
 
-&nbsp;
-
-## Changelog and status
 
 WARNING: This package is still very much experimental. Function names, argument names, and so on may change dramatically. Use it for testing only, until it's stable.
 
-CHANGELOG (EXPERIMENTAL VERSIONS):
-
- - 8 March 2023: `stringi` is now a dependency. Completely re-written the ReadMe file, Description, and documentation.
- - 9 March 2023: added the "which"-operators.
- - 10 March 2023: `s_strapply()` now uses `stringi`, and uses `apply()` instead of `sapply()`. Renamed the which operators `%[sp]%` and `%[!sp]%` to `%[grep]%` and `%[!grep]%` to make their meaning more obvious. Added this Change log to the ReadMe file.
- - 11 March 2023: replaced the "which"-operators with the `transform_if()` function and the subset_if operators.
- - 13 March 2023: changed the name and argument convention of many of the string related functions to be more consistent. Changed the return of non-matches in the substr_-functions.
- - 14 March 2023: changed the utility function to the `%m import <-%` operator. Fixed some linguistic mistakes in the documentation. Added a full documentation pdf. Fixed bugs in all `substr_`-functions. Added `codefactor` badge. Fixed some errors in the Description file. Created and added the pdf manual. Fixed some minor errors in this Read-Me markdown file.
- - 17 March 2023: added infix operators for custom row- and column-wise sorting of matrices. Slightly optimized the `substr_arrange()` function, and added the `opts_collator` argument to it. Re-ordered the sections of this Read-Me file. Adjusted the documentation the reflect the new changes.
- - 19 March 2023: removed the `s_strapply()` function in favor of the now newly added `stri_join_mat()` function and its aliases. Renamed the matrix re-order operators to `%row~%` and `%col~%`. Added a random order option to the `substr_arrange()` function. Adjusted the description, documentation, and this Read-Me file to reflect the new changes, and also fixed some spelling errors. Hopefully this will be one of the last major changes I have to make to this R package.
- - 25 March 2023: Now tests using `testthat` added for the `R CMD checks`. The `x %n&% y` operator now returns `NA` if either `x` or `y` or `NA`. The `%s+%` and `%s*%` operators now use `stringi`'s equivalent operators, for more consistency; their in-place modifiers are affected as well. Corrected some small spelling- and grammatical errors in the documentation and the Read-Me.
- - 28 March 2023: Small textual changes to the Read-Me file.
- - 4 April 2023: Added the `x % f{}% bnd` and `x % f!{}% bnd` operators. Adjusted the `%?=%` operator: now `NA %?=% Inf` and similar equality checks will also return `TRUE`. Added more tests with `testthat`. Adjusted the Read-Me file and documentations in accordance with these changes.
- - 8 April 2023: Added the `import_data()` function. Adjusted the documentation and this Read-Me file accordingly.
- - 11 April 2023: Added the `force_libPaths()` function. Shortened the Description text. Adjusted the documentation and this Read-Me file accordingly. Fixed some grammatical errors in the documentation.
- - 17 & 20 April 2023: Small textual changes to the documentation and Read-Me. file.
- - 22 April 2023: Added more tests for `stri_locate_ith()`.
- - 22 May 2023: Re-arranged the sections of the Read-Me file. Removed the CodeFactor badge as it was bugging out for some reason.
- - 25 May 2023: The `stri_locate_ith()` function slightly re-written to be even faster, and improved its documentation. Edited the description. Changed the documentation regarding matrix operators, as I suspect the usage of the word "rank" might be confusing. Also edited this Read-Me file a bit.
- - 27 May 2023: Changed the naming convention of in-place modifiers to end with `   =%`. Added the `import_lsf()` function. Fixed a mistake in the documentation of the `transform_if()`.
- - 29 May 2023: The `stri_locate_ith()` now returns a matrix like `stri_locate_first/last`. Moreover, I replaced the `mapply` call with only vectorized functions; `stri_locate_ith()` is now almost as fast as the `stringi` functions it calls.
- - 30 May 2023: Fixed some lingering mistakes in the documentations, that were left over since the changes from 29 May 2023.
- - 4 June 2023: Major changes this time. The `tranform_if()` function now allows the user to specify 2 transformation functions, one for if the condition is `TRUE`, and the other for `FALSE`. Added the `import_inops()` function. Changed the `alias %m import <-% pkgs` operator into the `import_as()` function. Added the `pkgs %installed in% lib.loc%` operator. Re-arranged this Read-Me file a bit.
- - 15 June 2023: Rewritten this Read-Me a bit. Added a module import system (`alias %source module <-% list(file=...)` operator and `source_inops()` function).
- - 16 June 2023: RENAMED THIS R-PACKAGE TO  `tinyoperators`, to prevent confusion as it holds to the `tinyverse` philosophy, rather then the "tidy philosophy". Fixed some minor errors in the documentation. Removed `force_libPaths()`, as it may encourage bad coding practices.
- - 19 June 2023: Replaced the in-place mathematical modifiers with a generalized, function-based in place (mathematical) modification operator, `%:=%`, to solve precedence issues. Renamed `alias %source module <-% list(file=...)` to `alias %source from% list(file=...)`. Edited the documentation a bit.
- - 20 June 2023: Extended the import section of this Read-Me more.
- - 21 June 2023: Migrated the tests from `testthat` to `tinytest`. Added tests for the new `%:=%` operator. Adjusted the documentation, and this Read-Me file. Renamed the `%source from%` operator to `%@source%`. Removed the `%installed in%` operator.
- - 26 June 2023: Another major change. Made `import_as()` much, much stricter. Brought back the `pkgs %installed in% lib.loc%` operator. Adjusted the documentation accordingly. Asked some people to start testing the R package, as it is nearing it's final form before getting out of the experimental life cycle.
- - 27 June 2023: Fixed a bug in the `lib.loc` argument of the `import_` functions. Made the output of the `import_` functions a little bit more compact. Fixed a small bug in an internal function. Added the `base` and `recom` arguments to the `pkgs_get_deps()` function. Clarified the documentation a bit. Fixed some spelling errors. Extended the example in the "import" section of the Read-Me. The Read-Me now has section numbers.
- - 28 June 2023: renamed the `depends` and `extends` arguments of `import_as()` to `dependencies` and `extenions`, to avoid confusion, and added the `foreign_exports` argument as well.
- - 1 July 2023: Added the `overwrite` argument to `import_as()`, and made its alias checks more rigorous. Adjusted the documentation a bit. Added some more tests. Fixed some minor bugs in the `source_module` functions.
- - 2 July 2023: Removed the `overwrite` argument from `import_as()` (that was a short-lived argument...), as I've found it to be more annoying than it's worth. Added more internal checks to the `import_` and `source_module` functions. Error messages now display the used exported function instead of internal functions. Adjusted the documentation and Read-Me accordingly.
- - 3 July 2023: a tiny update; just fixed some minor documentation issues.
- - 9 July 2023: MAJOR UPDATE + RENAMED PACKAGE TO `tinyoperations`. Details:... Replaced the `%::?%` operator with the `help.import()` function. The `import_as()` function now also adds attributes to the alias. Renamed the `import_lsf()` function to `pkg_lsf()`. Renamed the `pkgs_get_deps` function to `pkg_get_deps`, as this functions only accepts a single package anyway, and also partially re-wrote the function to give more consistently ordered character vectors. Added the `overwrite` and `inherits` arguments to `import_inops()`. The argument  `dependencies` in `import_as()` now only accepts an explicit character vector as input, as using `TRUE` may result in the ambiguous load-order of the dependencies. Each of the `import_` functions now have their own separate help page, and also added the `tinyoperations_import` page, to keep it more organized. Moreover, Added more tests for the `import_` and `source_module` functions. Added the `misc` - functions. Replaced all mentions of "float" with "decimal", and replaced all float truth testing (`%f`) to be decimal number truth testing as (`%d`). Removed the Natural number option from the logical operators. Adjusted the documentation in accordance with the aforementioned changes, improved the lay-out of the documentation, and clarified the documentation even more.
- - 11 July: last update unintentionally created a bug; bug now fixed. Added some minor features (see Details). Details: Last update unintentionally created a bug; bug now fixed. Also added the `verbose` argument to `import_as`, as the function now gives info on conflicts and so on in its attributes. Created some fake packages JUST for the sake of thorough testing. The tests are not part of R CMD CHECK (because it doesn't like packages defined inside package folder), and not uploaded here on GitHub; but I do perform the test with fake packages everytime I update this R package
-
-
-FUTURE PLANS:
-
-I believe `tinyoperations` is slowly getting closer to becoming stable. There does not appear a need to add/remove many more functions/operators, although some functions, operators or arguments may need to be tweaked and/or optimized. Once I am fully satisfied with the R package (which may take a while, as I am a bit of a perfectionist), I may attempt to publish this R package to CRAN.
-
-
 &nbsp;
-
 
 ## Installation
 
@@ -1279,8 +1232,50 @@ For quick 'n easy back-tracing of errors, I recommend the `rlang` R package.
 
 &nbsp;
 
-# Conclusion
+# Changelog and status
 
-I hope this R package will make your life a little bit easier, and your R environment a little bit tinier.
 
+CHANGELOG (EXPERIMENTAL VERSIONS):
+
+ - 8 March 2023: `stringi` is now a dependency. Completely re-written the ReadMe file, Description, and documentation.
+ - 9 March 2023: added the "which"-operators.
+ - 10 March 2023: `s_strapply()` now uses `stringi`, and uses `apply()` instead of `sapply()`. Renamed the which operators `%[sp]%` and `%[!sp]%` to `%[grep]%` and `%[!grep]%` to make their meaning more obvious. Added this Change log to the ReadMe file.
+ - 11 March 2023: replaced the "which"-operators with the `transform_if()` function and the subset_if operators.
+ - 13 March 2023: changed the name and argument convention of many of the string related functions to be more consistent. Changed the return of non-matches in the substr_-functions.
+ - 14 March 2023: changed the utility function to the `%m import <-%` operator. Fixed some linguistic mistakes in the documentation. Added a full documentation pdf. Fixed bugs in all `substr_`-functions. Added `codefactor` badge. Fixed some errors in the Description file. Created and added the pdf manual. Fixed some minor errors in this Read-Me markdown file.
+ - 17 March 2023: added infix operators for custom row- and column-wise sorting of matrices. Slightly optimized the `substr_arrange()` function, and added the `opts_collator` argument to it. Re-ordered the sections of this Read-Me file. Adjusted the documentation the reflect the new changes.
+ - 19 March 2023: removed the `s_strapply()` function in favor of the now newly added `stri_join_mat()` function and its aliases. Renamed the matrix re-order operators to `%row~%` and `%col~%`. Added a random order option to the `substr_arrange()` function. Adjusted the description, documentation, and this Read-Me file to reflect the new changes, and also fixed some spelling errors. Hopefully this will be one of the last major changes I have to make to this R package.
+ - 25 March 2023: Now tests using `testthat` added for the `R CMD checks`. The `x %n&% y` operator now returns `NA` if either `x` or `y` or `NA`. The `%s+%` and `%s*%` operators now use `stringi`'s equivalent operators, for more consistency; their in-place modifiers are affected as well. Corrected some small spelling- and grammatical errors in the documentation and the Read-Me.
+ - 28 March 2023: Small textual changes to the Read-Me file.
+ - 4 April 2023: Added the `x % f{}% bnd` and `x % f!{}% bnd` operators. Adjusted the `%?=%` operator: now `NA %?=% Inf` and similar equality checks will also return `TRUE`. Added more tests with `testthat`. Adjusted the Read-Me file and documentations in accordance with these changes.
+ - 8 April 2023: Added the `import_data()` function. Adjusted the documentation and this Read-Me file accordingly.
+ - 11 April 2023: Added the `force_libPaths()` function. Shortened the Description text. Adjusted the documentation and this Read-Me file accordingly. Fixed some grammatical errors in the documentation.
+ - 17 & 20 April 2023: Small textual changes to the documentation and Read-Me. file.
+ - 22 April 2023: Added more tests for `stri_locate_ith()`.
+ - 22 May 2023: Re-arranged the sections of the Read-Me file. Removed the CodeFactor badge as it was bugging out for some reason.
+ - 25 May 2023: The `stri_locate_ith()` function slightly re-written to be even faster, and improved its documentation. Edited the description. Changed the documentation regarding matrix operators, as I suspect the usage of the word "rank" might be confusing. Also edited this Read-Me file a bit.
+ - 27 May 2023: Changed the naming convention of in-place modifiers to end with `   =%`. Added the `import_lsf()` function. Fixed a mistake in the documentation of the `transform_if()`.
+ - 29 May 2023: The `stri_locate_ith()` now returns a matrix like `stri_locate_first/last`. Moreover, I replaced the `mapply` call with only vectorized functions; `stri_locate_ith()` is now almost as fast as the `stringi` functions it calls.
+ - 30 May 2023: Fixed some lingering mistakes in the documentations, that were left over since the changes from 29 May 2023.
+ - 4 June 2023: Major changes this time. The `tranform_if()` function now allows the user to specify 2 transformation functions, one for if the condition is `TRUE`, and the other for `FALSE`. Added the `import_inops()` function. Changed the `alias %m import <-% pkgs` operator into the `import_as()` function. Added the `pkgs %installed in% lib.loc%` operator. Re-arranged this Read-Me file a bit.
+ - 15 June 2023: Rewritten this Read-Me a bit. Added a module import system (`alias %source module <-% list(file=...)` operator and `source_inops()` function).
+ - 16 June 2023: RENAMED THIS R-PACKAGE TO  `tinyoperators`, to prevent confusion as it holds to the `tinyverse` philosophy, rather then the "tidy philosophy". Fixed some minor errors in the documentation. Removed `force_libPaths()`, as it may encourage bad coding practices.
+ - 19 June 2023: Replaced the in-place mathematical modifiers with a generalized, function-based in place (mathematical) modification operator, `%:=%`, to solve precedence issues. Renamed `alias %source module <-% list(file=...)` to `alias %source from% list(file=...)`. Edited the documentation a bit.
+ - 20 June 2023: Extended the import section of this Read-Me more.
+ - 21 June 2023: Migrated the tests from `testthat` to `tinytest`. Added tests for the new `%:=%` operator. Adjusted the documentation, and this Read-Me file. Renamed the `%source from%` operator to `%@source%`. Removed the `%installed in%` operator.
+ - 26 June 2023: Another major change. Made `import_as()` much, much stricter. Brought back the `pkgs %installed in% lib.loc%` operator. Adjusted the documentation accordingly. Asked some people to start testing the R package, as it is nearing it's final form before getting out of the experimental life cycle.
+ - 27 June 2023: Fixed a bug in the `lib.loc` argument of the `import_` functions. Made the output of the `import_` functions a little bit more compact. Fixed a small bug in an internal function. Added the `base` and `recom` arguments to the `pkgs_get_deps()` function. Clarified the documentation a bit. Fixed some spelling errors. Extended the example in the "import" section of the Read-Me. The Read-Me now has section numbers.
+ - 28 June 2023: renamed the `depends` and `extends` arguments of `import_as()` to `dependencies` and `extenions`, to avoid confusion, and added the `foreign_exports` argument as well.
+ - 1 July 2023: Added the `overwrite` argument to `import_as()`, and made its alias checks more rigorous. Adjusted the documentation a bit. Added some more tests. Fixed some minor bugs in the `source_module` functions.
+ - 2 July 2023: Removed the `overwrite` argument from `import_as()` (that was a short-lived argument...), as I've found it to be more annoying than it's worth. Added more internal checks to the `import_` and `source_module` functions. Error messages now display the used exported function instead of internal functions. Adjusted the documentation and Read-Me accordingly.
+ - 3 July 2023: a tiny update; just fixed some minor documentation issues.
+ - 9 July 2023: MAJOR UPDATE + RENAMED PACKAGE TO `tinyoperations`. Details:... Replaced the `%::?%` operator with the `help.import()` function. The `import_as()` function now also adds attributes to the alias. Renamed the `import_lsf()` function to `pkg_lsf()`. Renamed the `pkgs_get_deps` function to `pkg_get_deps`, as this functions only accepts a single package anyway, and also partially re-wrote the function to give more consistently ordered character vectors. Added the `overwrite` and `inherits` arguments to `import_inops()`. The argument  `dependencies` in `import_as()` now only accepts an explicit character vector as input, as using `TRUE` may result in the ambiguous load-order of the dependencies. Each of the `import_` functions now have their own separate help page, and also added the `tinyoperations_import` page, to keep it more organized. Moreover, Added more tests for the `import_` and `source_module` functions. Added the `misc` - functions. Replaced all mentions of "float" with "decimal", and replaced all float truth testing (`%f`) to be decimal number truth testing as (`%d`). Removed the Natural number option from the logical operators. Adjusted the documentation in accordance with the aforementioned changes, improved the lay-out of the documentation, and clarified the documentation even more.
+ - 11 July: last update unintentionally created a bug; bug now fixed. Added some minor features (see Details). Details: Last update unintentionally created a bug; bug now fixed. Also added the `verbose` argument to `import_as`, as the function now gives info on conflicts and so on in its attributes. Created some fake packages JUST for the sake of thorough testing. The tests are not part of R CMD CHECK (because it doesn't like packages defined inside package folder), and not uploaded here on GitHub; but I do perform the test with fake packages everytime I update this R package
+
+
+FUTURE PLANS:
+
+I believe `tinyoperations` is slowly getting closer to becoming stable. There does not appear a need to add/remove many more functions/operators, although some functions, operators or arguments may need to be tweaked and/or optimized. Once I am fully satisfied with the R package (which may take a while, as I am a bit of a perfectionist), I may attempt to publish this R package to CRAN.
+
+&nbsp;
 
