@@ -1,5 +1,5 @@
 Package: tinyoperations
-Title: Infix operators and sections to help in your programming etiquette
+Title: Functions and infix operators to help in your programming etiquette
 Version: 0.0.0.9
 Authors@R: 
     person("Tony", "Wilkes", , "tony_a_wilkes@outlook.com", role = c("aut", "cre"),
@@ -7,22 +7,21 @@ Authors@R:
 Description: The 'tinyoperations' R-package adds some infix operators, and a few functions.
     It primarily focuses on 4 things.
     (1) Safer decimal numbers ("double") truth testing.
-    (2) Reducing repetitive code.
-    (3) Extending the string manipulation capabilities of the 'stringi' R package.
+    (2) Extending the string manipulation capabilities of the 'stringi' R package.
+    (3) Reducing repetitive code.
     (4) A new package and module import system, that combines the benefits of aliasing a package with the benefits of attaching a package. 
     The 'tinyoperations' R-package has only one dependency, namely 'stringi'.
-    However, it does allows multi-threading of some of the string-related functions (when appropriate) via the suggested 'stringfish' R-package.
     Most functions in this R-package are fully vectorized and have been optimized for optimal speed and performance.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Suggests:
-    stringfish (>= 0.15.7),
     rlang,
     knitr,
     rmarkdown,
     tinytest,
+    pkgdown,
     devtools,
     fastverse
 VignetteBuilder: knitr
