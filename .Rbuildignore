@@ -1,2 +1,6 @@
 ^tinyoperations\.Rproj$
 ^\.Rproj\.user$
+^special tests
+^vignettes
+^docs
+^_pkgdown
