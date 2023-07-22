@@ -24,6 +24,7 @@ set.seed(1)
 `r badge_repostatus("WIP")`
 `r badge_lifecycle("experimental")`
 `r badge_custom("ORCID", "0000-0001-9498-8379", "green",   "https://orcid.org/0000-0001-9498-8379")`
+`r badge_custom("Site Pages", "tony-aw.github.io/tinyoperations", "purple",   "https://tony-aw.github.io/tinyoperations")`
 <!-- badges: end -->
 
 ![](man/figures/tinyoperations.svg)
