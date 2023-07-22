@@ -170,7 +170,8 @@ myalias.$helloworld() # run a function that was just sourced.
  
 
 If you’re still interested, I invite you to read the articles on the
-website (…), and perhaps try out the package yourself.
+website (<https://tony-aw.github.io/tinyoperations/>), and perhaps try
+out the package yourself.
 
  
 
