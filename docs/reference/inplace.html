@@ -6,7 +6,7 @@ in-place modification of some object x
 with a function f. 
 
 For example this: 
-mtcars$mpg\[mtcars$cyl&amp;gt;6\] &amp;lt;- mtcars$mpg\[mtcars$cyl&amp;gt;6\]^2 
+mtcars$mpg[mtcars$cyl&amp;gt;6] &amp;lt;- mtcars$mpg[mtcars$cyl&amp;gt;6]^2 
 Can now be re-written as: 
 mtcars$mpg[mtcars$cyl&amp;gt;6] %:=% \(x)x^2 
 
@@ -20,7 +20,7 @@ in-place modification of some object x
 with a function f. 
 
 For example this: 
-mtcars$mpg\[mtcars$cyl&amp;gt;6\] &amp;lt;- mtcars$mpg\[mtcars$cyl&amp;gt;6\]^2 
+mtcars$mpg[mtcars$cyl&amp;gt;6] &amp;lt;- mtcars$mpg[mtcars$cyl&amp;gt;6]^2 
 Can now be re-written as: 
 mtcars$mpg[mtcars$cyl&amp;gt;6] %:=% \(x)x^2 
 
@@ -56,8 +56,9 @@ in-place mathematical modification like
     <a class="dropdown-item" href="../articles/web_only/b_strings_functions.html">String related functions</a>
     <a class="dropdown-item" href="../articles/web_only/c_strings_inops.html">String related infix operators</a>
     <a class="dropdown-item" href="../articles/web_only/d_DRY.html">Don't Repeat Yourself</a>
-    <a class="dropdown-item" href="../articles/web_only/e_import_system.html">The import system</a>
-    <a class="dropdown-item" href="../articles/web_only/f_misc.html">Miscellaneous functionality</a>
+    <a class="dropdown-item" href="../articles/web_only/e_import_pkgs.html">Package import system</a>
+    <a class="dropdown-item" href="../articles/web_only/f_source_modules.html">Source modules</a>
+    <a class="dropdown-item" href="../articles/web_only/g_misc.html">Miscellaneous functionality</a>
   </div>
 </li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
@@ -86,7 +87,7 @@ in-place mathematical modification like
 The <code>x %:=% f</code> operator allows performing
 in-place modification of some object <code>x</code>
 with a function <code>f</code>. <br><br>
-For example this: <br><code>mtcars$mpg\[mtcars$cyl&gt;6\] &lt;- mtcars$mpg\[mtcars$cyl&gt;6\]^2</code> <br>
+For example this: <br><code>mtcars$mpg[mtcars$cyl&gt;6] &lt;- mtcars$mpg[mtcars$cyl&gt;6]^2</code> <br>
 Can now be re-written as: <br><code>mtcars$mpg[mtcars$cyl&gt;6] %:=% \(x)x^2</code> <br><br>
 This function-based method is used, instead of the more traditional
 in-place mathematical modification like

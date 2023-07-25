@@ -46,8 +46,9 @@ For every value where cond(x)==NA, function other(x) is run.
     <a class="dropdown-item" href="../articles/web_only/b_strings_functions.html">String related functions</a>
     <a class="dropdown-item" href="../articles/web_only/c_strings_inops.html">String related infix operators</a>
     <a class="dropdown-item" href="../articles/web_only/d_DRY.html">Don't Repeat Yourself</a>
-    <a class="dropdown-item" href="../articles/web_only/e_import_system.html">The import system</a>
-    <a class="dropdown-item" href="../articles/web_only/f_misc.html">Miscellaneous functionality</a>
+    <a class="dropdown-item" href="../articles/web_only/e_import_pkgs.html">Package import system</a>
+    <a class="dropdown-item" href="../articles/web_only/f_source_modules.html">Source modules</a>
+    <a class="dropdown-item" href="../articles/web_only/g_misc.html">Miscellaneous functionality</a>
   </div>
 </li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
@@ -170,10 +171,8 @@ ensuring no unnecessary warnings or errors occur. <br></p>
 returns: <br><code>[1] NA NA</code> <br>
 due to the same character vector being given 2 incompatible classes. <br><br>
 Using <code>cond, yes, no, other</code> directly
-is faster than using the <code>text</code> argument
-(because the text must first be translated into functions).
-Thus if speed is of primary interest,
-don't use the text approach. <br></p>
+is a tiny bit faster than using the <code>text</code> argument
+(because the text must first be translated into functions). <br></p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

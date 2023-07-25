@@ -76,8 +76,9 @@ Moreover, the function is_wholenumber() is added, to safely test for whole numbe
     <a class="dropdown-item" href="../articles/web_only/b_strings_functions.html">String related functions</a>
     <a class="dropdown-item" href="../articles/web_only/c_strings_inops.html">String related infix operators</a>
     <a class="dropdown-item" href="../articles/web_only/d_DRY.html">Don't Repeat Yourself</a>
-    <a class="dropdown-item" href="../articles/web_only/e_import_system.html">The import system</a>
-    <a class="dropdown-item" href="../articles/web_only/f_misc.html">Miscellaneous functionality</a>
+    <a class="dropdown-item" href="../articles/web_only/e_import_pkgs.html">Package import system</a>
+    <a class="dropdown-item" href="../articles/web_only/f_source_modules.html">Source modules</a>
+    <a class="dropdown-item" href="../articles/web_only/g_misc.html">Miscellaneous functionality</a>
   </div>
 </li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
@@ -179,29 +180,29 @@ to be converted to some other <code>atomic class</code>.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "test"</span>
 <span class="r-in"><span><span class="fu">as_int</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      one two</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]   0   1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]   0   1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]   0  -2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]   0   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]  -2   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]  -1   0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,]   0   0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5,]   0   1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"test")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "test"</span>
 <span class="r-in"><span><span class="fu">as_dbl</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             one        two</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] -0.1073333  1.4573815</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] -0.5678968  1.0741967</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]  0.3305192 -2.7086017</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,]  0.4776272 -0.2239251</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] -0.1683323  1.1236616</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] -0.3307935 -0.4423976</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] -2.2179320  0.8362873</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] -1.4328634 -0.5977872</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,]  0.4088282 -0.7697302</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,]  0.7454482  1.1849142</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"test")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "test"</span>
 <span class="r-in"><span><span class="fu">as_chr</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      one                  two                 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] "-0.107333262311097" "1.45738147770701"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] "-0.567896768527943" "1.07419673415597"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] "0.330519158610338"  "-2.70860172554462" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] "0.477627247635255"  "-0.223925083568276"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] "-0.16833230072449"  "1.12366164276887"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      one                 two                 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] "-0.33079354393987" "-0.442397600750031"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] "-2.21793204846906" "0.836287274551072" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] "-1.43286338258681" "-0.597787198598672"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] "0.40882823694964"  "-0.769730231478387"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,] "0.745448168160147" "1.18491419642249"  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"test")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "test"</span>
 <span class="r-in"><span></span></span>
