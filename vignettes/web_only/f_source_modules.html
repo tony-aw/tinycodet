@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Source modules</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Source modules</h1>
+
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(tinyoperations)</span></code></pre></div>
+<p> </p>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>The article “Package import system” explained the new import system
+introduced by the <code>tinyoperations</code> R package. Some of its
+functionality is also extended to work on scripts that provide
+user-defined functions and datasets. These scripts, which should have no
+side-effects (i.e. plots, prints, messages), are referred to as
+“modules”.</p>
+<p> </p>
+</div>
+<div id="main" class="section level1">
+<h1>Main</h1>
+<p>The the <code>tinyoperations</code> R package adds the
+<code>alias %@source% list(file=...)</code> operator and the
+<code>source_inops()</code> function. The
+<code>alias %@source% list(file=...)</code> operator sources a script
+and returns all the objects in the script under an <code>alias</code>,
+similar to <code>import_as()</code>. The <code>source_inops()</code>
+function sources a script and places all infix operators in the script
+(if any) in the current environment (like the Global environment, or the
+environment within a function), similar to
+<code>import_inops()</code>.</p>
+<p>Example:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>myalias. <span class="sc">%@source%</span> <span class="fu">list</span>(<span class="at">file=</span><span class="st">&quot;sourcetest.R&quot;</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co">#&gt; Importing module ...</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#&gt; You can now access the sourced objects using `myalias.$`.</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="fu">source_inops</span>(<span class="at">file=</span><span class="st">&quot;sourcetest.R&quot;</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt; placing operators in current environment...</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>myalias.<span class="sc">$</span><span class="fu">helloworld</span>()</span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt; [1] &quot;hello world&quot;</span></span></code></pre></div>
+<p>Another example, this time using an expression:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>exprs <span class="ot">&lt;-</span> <span class="fu">expression</span>({</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  helloworld <span class="ot">=</span> <span class="cf">function</span>()<span class="fu">print</span>(<span class="st">&quot;helloworld&quot;</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  goodbyeworld <span class="ot">&lt;-</span> <span class="cf">function</span>() <span class="fu">print</span>(<span class="st">&quot;goodbye world&quot;</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="st">`</span><span class="at">%s+test%</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="cf">function</span>(x,y) stringi<span class="sc">::</span><span class="st">`</span><span class="at">%s+%</span><span class="st">`</span>(x,y)</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  <span class="st">`</span><span class="at">%s*test%</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="cf">function</span>(x,y) stringi<span class="sc">::</span><span class="st">`</span><span class="at">%s*%</span><span class="st">`</span>(x,y)</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>})</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>myalias. <span class="sc">%@source%</span> <span class="fu">list</span>(<span class="at">exprs=</span>exprs)</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt; Importing module ...</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co">#&gt; You can now access the sourced objects using `myalias.$`.</span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>myalias.<span class="sc">$</span><span class="fu">helloworld</span>()</span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co">#&gt; [1] &quot;helloworld&quot;</span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a>temp.fun <span class="ot">&lt;-</span> <span class="cf">function</span>(){</span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a>  <span class="fu">source_inops</span>(<span class="at">exprs=</span>exprs) <span class="co"># places the function inside the function environment</span></span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a>  <span class="fu">ls</span>() <span class="co"># list all objects residing within the function definition</span></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a>}</span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="fu">temp.fun</span>()</span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="co">#&gt; placing operators in current environment...</span></span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="co">#&gt; [1] &quot;%s*test%&quot; &quot;%s+test%&quot;</span></span></code></pre></div>
+<p> </p>
+<p>Note that, as long as <code>@source</code> and
+<code>source_inops()</code> <strong>source the same
+file/expression</strong>, they will both have access to the same
+functions.</p>
+<p>To demonstrate this, consider the following:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>exprs <span class="ot">&lt;-</span> <span class="fu">expression</span>({</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  mypaste <span class="ot">&lt;-</span> <span class="cf">function</span>(x,y) stringi<span class="sc">::</span><span class="st">`</span><span class="at">%s+%</span><span class="st">`</span>(x,y)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="st">`</span><span class="at">%s+test%</span><span class="st">`</span> <span class="ot">&lt;-</span> <span class="cf">function</span>(x,y){</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>    <span class="fu">mypaste</span>(x,y) <span class="co"># notice this operator needs to &quot;see&quot; mypaste() in order to work.</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  }</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>})</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>myalias. <span class="sc">%@source%</span> <span class="fu">list</span>(<span class="at">exprs=</span>exprs)</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; Importing module ...</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt; You can now access the sourced objects using `myalias.$`.</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="fu">source_inops</span>(<span class="at">exprs=</span>exprs)</span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt; placing operators in current environment...</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="st">&quot;a&quot;</span> <span class="sc">%s+test%</span> <span class="st">&quot;b&quot;</span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt; [1] &quot;ab&quot;</span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co"># both the aliased functions and the exposed infix operator</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co"># have access to the same functions:</span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="fu">ls</span>(<span class="fu">environment</span>(<span class="st">`</span><span class="at">%s+test%</span><span class="st">`</span>))</span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="co">#&gt; [1] &quot;%s+test%&quot; &quot;mypaste&quot;</span></span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="fu">ls</span>(<span class="fu">environment</span>(myalias.<span class="sc">$</span>mypaste))</span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="co">#&gt; [1] &quot;%s+test%&quot; &quot;mypaste&quot;</span></span></code></pre></div>
+<p>So no need to worry about their scope (unless you start tinkering
+with the environments of the functions.)</p>
+<p> </p>
+</div>
+<div id="the-report_inops-function" class="section level1">
+<h1>The report_inops() function</h1>
+<p><code>tinyoperations</code> adds the <code>report_inops()</code>
+function. This is a convenience function that prints all infix operators
+in the current environment, as well as from which package it came (if
+the function can find that out), and whether the function is locked or
+not (infix operators placed in an environment by
+<code>import_inops()</code> are always locked).</p>
+<p> </p>
+</div>
+<div id="regarding-s3-methods" class="section level1">
+<h1>Regarding S3 methods</h1>
+<p>When importing packages with <code>tinyoperations</code>’ import
+system, S3 methods will work just fine. For example, the S3 method ”
+<code>plot()</code> ” works on <code>mgcv</code> even when loaded in an
+alias:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">import_as</span>(mgcv., <span class="st">&quot;mgcv&quot;</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt; Importing packages...</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt; You can now access the functions using `mgcv.$`.</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; (S3)methods will work like normally. </span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt; For conflicts report and package order, see `attributes(mgcv.)`.</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">import_data</span>(<span class="st">&quot;chicago&quot;</span>, <span class="st">&quot;gamair&quot;</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>model <span class="ot">&lt;-</span> mgcv.<span class="sc">$</span><span class="fu">gam</span>(death <span class="sc">~</span> <span class="fu">s</span>(o3median), <span class="at">data=</span>d) <span class="co"># just a random model for the sake of demonstration</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="fu">isS3method</span>(<span class="at">f=</span><span class="st">&quot;plot&quot;</span>, <span class="at">class=</span><span class="st">&quot;gam&quot;</span>) <span class="co"># this is an S3 method</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="fu">plot</span>(model)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>Also, S3 methods defined in the package will automatically be
+registered, and thus automatically work. For example, the following code
+just works:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">import_as</span>(dr., <span class="st">&quot;dplyr&quot;</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co">#&gt; Importing packages...</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt; You can now access the functions using `dr.$`.</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#&gt; (S3)methods will work like normally. </span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co">#&gt; For conflicts report and package order, see `attributes(dr.)`.</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="st">&quot;magrittr&quot;</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co">#&gt; Getting infix operators from package: magrittr...</span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co">#&gt; Checking for conflicting infix operators in the current environment...</span></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co">#&gt; Placing infix operators in current environment...</span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">import_data</span>(<span class="st">&quot;starwars&quot;</span>, <span class="st">&quot;dplyr&quot;</span>)</span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>d <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span> dr.<span class="sc">$</span><span class="fu">group_by</span>(species)</span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="fu">isS3method</span>(<span class="at">f=</span><span class="st">&quot;arrange&quot;</span>, <span class="at">class=</span><span class="st">&quot;data.frame&quot;</span>, <span class="at">envir =</span> dr.) <span class="co"># this is an S3 method</span></span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="fu">isS3method</span>(<span class="at">f=</span><span class="st">&quot;relocate&quot;</span>, <span class="at">class=</span><span class="st">&quot;data.frame&quot;</span>, <span class="at">envir =</span> dr.) <span class="co"># this is an S3 method</span></span>
+<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
+<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a><span class="co"># this works:</span></span>
+<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a>d <span class="sc">%&gt;%</span></span>
+<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a>  dr.<span class="sc">$</span><span class="fu">arrange</span>(dr.<span class="sc">$</span><span class="fu">desc</span>(mass)) <span class="sc">%&gt;%</span></span>
+<span id="cb6-23"><a href="#cb6-23" tabindex="-1"></a>  dr.<span class="sc">$</span><span class="fu">relocate</span>(species, mass)</span>
+<span id="cb6-24"><a href="#cb6-24" tabindex="-1"></a><span class="co">#&gt; # A tibble: 87 × 14</span></span>
+<span id="cb6-25"><a href="#cb6-25" tabindex="-1"></a><span class="co">#&gt; # Groups:   species [38]</span></span>
+<span id="cb6-26"><a href="#cb6-26" tabindex="-1"></a><span class="co">#&gt;    species    mass name  height hair_color skin_color eye_color birth_year sex  </span></span>
+<span id="cb6-27"><a href="#cb6-27" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;</span></span>
+<span id="cb6-28"><a href="#cb6-28" tabindex="-1"></a><span class="co">#&gt;  1 Hutt       1358 Jabb…    175 &lt;NA&gt;       green-tan… orange         600   herm…</span></span>
+<span id="cb6-29"><a href="#cb6-29" tabindex="-1"></a><span class="co">#&gt;  2 Kaleesh     159 Grie…    216 none       brown, wh… green, y…       NA   male </span></span>
+<span id="cb6-30"><a href="#cb6-30" tabindex="-1"></a><span class="co">#&gt;  3 Droid       140 IG-88    200 none       metal      red             15   none </span></span>
+<span id="cb6-31"><a href="#cb6-31" tabindex="-1"></a><span class="co">#&gt;  4 Human       136 Dart…    202 none       white      yellow          41.9 male </span></span>
+<span id="cb6-32"><a href="#cb6-32" tabindex="-1"></a><span class="co">#&gt;  5 Wookiee     136 Tarf…    234 brown      brown      blue            NA   male </span></span>
+<span id="cb6-33"><a href="#cb6-33" tabindex="-1"></a><span class="co">#&gt;  6 Human       120 Owen…    178 brown, gr… light      blue            52   male </span></span>
+<span id="cb6-34"><a href="#cb6-34" tabindex="-1"></a><span class="co">#&gt;  7 Trandosh…   113 Bossk    190 none       green      red             53   male </span></span>
+<span id="cb6-35"><a href="#cb6-35" tabindex="-1"></a><span class="co">#&gt;  8 Wookiee     112 Chew…    228 brown      unknown    blue           200   male </span></span>
+<span id="cb6-36"><a href="#cb6-36" tabindex="-1"></a><span class="co">#&gt;  9 Human       110 Jek …    180 brown      fair       blue            NA   male </span></span>
+<span id="cb6-37"><a href="#cb6-37" tabindex="-1"></a><span class="co">#&gt; 10 Besalisk    102 Dext…    198 none       brown      yellow          NA   male </span></span>
+<span id="cb6-38"><a href="#cb6-38" tabindex="-1"></a><span class="co">#&gt; # ℹ 77 more rows</span></span>
+<span id="cb6-39"><a href="#cb6-39" tabindex="-1"></a><span class="co">#&gt; # ℹ 5 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;, films &lt;list&gt;,</span></span>
+<span id="cb6-40"><a href="#cb6-40" tabindex="-1"></a><span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span></span></code></pre></div>
+<p>So when importing packages, everything works as expected, including
+S3 methods.</p>
+<p> </p>
+<p>So for packages, there’s no need to worry about S3 methods. This is
+unfortunately not the case for most simple scripts that users create
+themselves, as simple scripts usually do not register S3 methods outside
+of the script’s own environment.</p>
+<p>The following code, for example, gives an error:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>exprs <span class="ot">&lt;-</span> <span class="fu">expression</span>({</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  mymeth <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="fu">UseMethod</span>(<span class="st">&quot;mymeth&quot;</span>, x)</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  }</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>  mymeth.numeric <span class="ot">&lt;-</span> <span class="cf">function</span>(x)x <span class="sc">*</span><span class="dv">2</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>  </span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>  mymeth.character <span class="ot">&lt;-</span> <span class="cf">function</span>(x){<span class="fu">chartr</span>(x, <span class="at">old =</span> <span class="st">&quot;a-zA-Z&quot;</span>, <span class="at">new =</span> <span class="st">&quot;A-Za-z&quot;</span>)}</span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>})</span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>myalias. <span class="sc">%@source%</span> <span class="fu">list</span>(<span class="at">exprs=</span>exprs)</span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co">#&gt; Importing module ...</span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co">#&gt; You can now access the sourced objects using `myalias.$`.</span></span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a>tinytest<span class="sc">::</span><span class="fu">expect_error</span>(myalias.<span class="sc">$</span><span class="fu">mymeth</span>(<span class="dv">0</span>))</span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="co">#&gt; ----- PASSED      : &lt;--&gt;</span></span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="co">#&gt;  call| tinytest::expect_error(myalias.$mymeth(0))</span></span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a>tinytest<span class="sc">::</span><span class="fu">expect_error</span>(myalias.<span class="sc">$</span><span class="fu">mymeth</span>(<span class="st">&quot;a&quot;</span>))</span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a><span class="co">#&gt; ----- PASSED      : &lt;--&gt;</span></span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a><span class="co">#&gt;  call| tinytest::expect_error(myalias.$mymeth(&quot;a&quot;))</span></span></code></pre></div>
+<p>The <code>tinyoperations</code> R package does not provide support
+for registering S3 methods from sourced scripts, at least not out of the
+box.</p>
+<p>The solution is quite simple though: If you have your own script
+containing S3/S4 methods, put all methods, and all functions that
+interact with said methods, in their own script, and source them using
+the regular <code>source()</code> function:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>exprs <span class="ot">&lt;-</span> <span class="fu">expression</span>({</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  mymeth <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="fu">UseMethod</span>(<span class="st">&quot;mymeth&quot;</span>, x)</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  }</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>  mymeth.numeric <span class="ot">&lt;-</span> <span class="cf">function</span>(x)x <span class="sc">*</span><span class="dv">2</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>  </span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>  mymeth.character <span class="ot">&lt;-</span> <span class="cf">function</span>(x){<span class="fu">chartr</span>(x, <span class="at">old =</span> <span class="st">&quot;a-zA-Z&quot;</span>, <span class="at">new =</span> <span class="st">&quot;A-Za-z&quot;</span>)}</span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>})</span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="fu">source</span>(<span class="at">exprs =</span> exprs)</span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="fu">mymeth</span>(<span class="dv">0</span>)</span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="co">#&gt; [1] 0</span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="fu">mymeth</span>(<span class="st">&quot;a&quot;</span>)</span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="co">#&gt; [1] &quot;A&quot;</span></span></code></pre></div>
+<p>If you dislike this approach, you can also use the
+<code>import</code> package to source a script, as that package provides
+an (experimental) S3 registering system for sourced scripts. Note,
+however, that the <code>import</code> R package does not provide some of
+the other features of <code>tinyoperations</code>, such as importing
+multiple related packages under the same alias, and convenient infix
+operator handling.</p>
+<p> </p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
