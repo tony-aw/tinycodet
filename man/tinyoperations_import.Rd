@@ -26,7 +26,7 @@ The above functionality is also extended to work on sourced modules,
 see \link[=source_inops]{source_module}. \cr
 \cr
 There are also some additional helper functions for the package import system,
-see \link[=pkg_get_deps]{pkgs}. \cr
+see \link[=pkg_get_deps]{pkgs}, and \link{report_inops}. \cr
 \cr
 Please refer to the Read-Me file on the GitHub main page of this page for more information. \cr
 See: \url{https://github.com/tony-aw/tinyoperations}. \cr

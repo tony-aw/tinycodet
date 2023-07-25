@@ -252,7 +252,7 @@ import_as <- function(
   if(verbose){message("setting up attributes...")}
   out <- as.environment(namespaces)
   attr(out, "packages_order") <- pkgs
-  attr(out, "conflicts") <- .internal_format_conflicts_df(conflicts_df)
+  attr(out, "conflicts") <- .format_conflicts_df(conflicts_df)
   attr(out, "args") <- list(
     main_package = main_package, foreign_exports = foreign_exports,
     dependencies = dependencies, enhances = enhances, extensions = extensions,
@@ -287,4 +287,30 @@ import_as <- function(
   check3 <- isTRUE(bindingIsLocked(as.character(alias_chr), env = env))
   check4 <- isTRUE(attr(obj, "tinyimport") == "tinyimport")
   return(check1 & check2 & check3 & check4)
+}
+
+#' @keywords internal
+#' @noRd
+.format_conflicts_df <- function(conflicts_df) {
+  if(nrow(conflicts_df)<=2) {
+    return(conflicts_df)
+  }
+  if(nrow(conflicts_df)>2) {
+    n <- nrow(conflicts_df)-1
+    ind <- 2:n
+    for(i in ind) {
+      current_overwrites <- stringi::stri_split(
+        conflicts_df$winning_conflicts[i], fixed = ", ", simplify=TRUE
+      ) |> as.vector()
+      next_overwrites <- stringi::stri_split(
+        conflicts_df$winning_conflicts[i:nrow(conflicts_df)], fixed = ", ", simplify = TRUE
+      ) |> as.vector()
+      if(isTRUE(any(current_overwrites %in% next_overwrites))) {
+        conflicts_df$winning_conflicts[i] <- paste0(
+          setdiff(current_overwrites, next_overwrites), collapse = ", "
+        )
+      }
+    }
+    return(conflicts_df)
+  }
 }

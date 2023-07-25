@@ -8,7 +8,7 @@
 #' with a function \code{f}. \cr
 #' \cr
 #' For example this: \cr
-#' \code{mtcars$mpg\[mtcars$cyl>6\] <- mtcars$mpg\[mtcars$cyl>6\]^2} \cr
+#' \code{mtcars$mpg[mtcars$cyl>6] <- mtcars$mpg[mtcars$cyl>6]^2} \cr
 #' Can now be re-written as: \cr
 #' \code{mtcars$mpg\[mtcars$cyl>6\] %:=% \(x)x^2} \cr
 #' \cr

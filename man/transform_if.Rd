@@ -91,10 +91,8 @@ returns: \cr
 due to the same character vector being given 2 incompatible classes. \cr
 \cr
 Using \code{cond, yes, no, other} directly
-is faster than using the \code{text} argument
-(because the text must first be translated into functions).
-Thus if speed is of primary interest,
-don't use the text approach. \cr
+is a tiny bit faster than using the \code{text} argument
+(because the text must first be translated into functions). \cr
 }
 \examples{
 x <- c(-10:9, NA, NA)

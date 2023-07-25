@@ -250,33 +250,6 @@
   return(extends)
 }
 
-
-#' @keywords internal
-#' @noRd
-.internal_format_conflicts_df <- function(conflicts_df) {
-  if(nrow(conflicts_df)<=2) {
-    return(conflicts_df)
-  }
-  if(nrow(conflicts_df)>2) {
-    n <- nrow(conflicts_df)-1
-    ind <- 2:n
-    for(i in ind) {
-      current_overwrites <- stringi::stri_split(
-        conflicts_df$winning_conflicts[i], fixed = ", ", simplify=TRUE
-      ) |> as.vector()
-      next_overwrites <- stringi::stri_split(
-        conflicts_df$winning_conflicts[i:nrow(conflicts_df)], fixed = ", ", simplify = TRUE
-      ) |> as.vector()
-      if(isTRUE(any(current_overwrites %in% next_overwrites))) {
-        conflicts_df$winning_conflicts[i] <- paste0(
-          setdiff(current_overwrites, next_overwrites), collapse = ", "
-        )
-      }
-    }
-    return(conflicts_df)
-  }
-}
-
 #' @keywords internal
 #' @noRd
 .internal_get_packagename <- function(f) {
@@ -286,3 +259,27 @@
   return(package)
 }
 
+#' @keywords internal
+#' @noRd
+.is.tinyinops <- function(nms, pkgs, env) {
+  if(missing(nms)|missing(pkgs)|missing(env)) {
+    stop("not all arguments given in `.is.tinyinops()`")
+  }
+  checks <- rep(FALSE, length(nms))
+  for (i in 1:length(nms)) {
+    if(exists(as.character(nms[i]), envir = env, inherits = FALSE)) {
+      obj <- get(as.character(nms[i]), envir = env)
+      check1 <- isTRUE(is.function(obj))
+      check2 <- isTRUE(grepl("%|:=", nms[i]))
+      check3 <- length(names(attributes(obj))) == 3
+      check4 <- ifelse(
+        check3,
+        isTRUE(all(names(attributes(obj)) == c("package", "function_name", "tinyimport"))),
+        FALSE
+      )
+      check5 <- isTRUE(bindingIsLocked(as.character(nms[i]), env = env))
+      checks[i] <- check1 & check2 & check3 & check4 & check5
+    }
+  }
+  return(checks)
+}

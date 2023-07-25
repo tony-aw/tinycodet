@@ -73,8 +73,9 @@ Only needs to be specified if argument \code{i} is a string, otherwise it is ign
 }
 \value{
 For  \code{pkgs \%installed in\% lib.loc}: \cr
-Returns a logical vector, where \code{TRUE} indicates a package is installed,
-and \code{FALSE} indicates a package is not installed. \cr
+Returns a named logical vector, with the names giving the package names,
+and where the value \code{TRUE} indicates a package is installed,
+and the value \code{FALSE} indicates a package is not installed. \cr
 \cr
 For \code{pkg_get_deps()}: \cr
 A character vector of unique dependencies. \cr
@@ -88,11 +89,10 @@ Opens the appropriate help page.
 \description{
 The \code{pkgs \%installed in\% lib.loc} operator
 checks if one or more package(s) \code{pkgs} exist(s)
-in library location \code{lib.loc},
-and does so WITHOUT attaching or even loading the package(s). \cr
-Moreover, this operator forces the user to make it
+in library location \code{lib.loc}, without loading the package(s). \cr
+The syntax of this operator forces the user to make it
 syntactically explicit
-where one is looking for installed R package(s). \cr
+where to look for installed R package(s). \cr
 \cr
 The \code{pkg_get_deps()} function gets the dependencies of a package
 from the Description file. It works on non-CRAN packages also. \cr

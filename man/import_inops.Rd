@@ -15,8 +15,9 @@ import_inops(
 )
 }
 \arguments{
-\item{pkgs}{a character vector of package name(s)
-from which to load and expose infix operators. \cr
+\item{pkgs}{a character vector of package name(s),
+specifying the packages from which to load infix operators,
+and place them in the current environment. \cr
 NOTE: The order of the character vector matters!
 If multiple packages share infix operators with the same name,
 the conflicting operators of the package named last
@@ -56,15 +57,10 @@ also be taken into account? \cr
 Defaults to \code{FALSE}. \cr
 See also \link[base]{exists}.}
 
-\item{delete}{a character vector of package name(s)
-from which to remove infix operators. \cr
-Normally, the \code{import_inops()} function
-exposes infix operators from packages \code{pkgs} to the current environment. \cr
-But if the user specifies package names in the \code{delete} argument,
-the \code{import_inops()} function will
-ignore all other arguments, and simply delete all infix operators from the named packages
-exposed by the \code{import_inops()} function. \cr
-Infix operators manually defined by the user themselves will not be touched.}
+\item{delete}{a character vector of package name(s),
+specifying the infix operators from which package namespaces to delete from the current environment. \cr
+The \code{import_inops()} function will attempt not to deleted
+infix operators that were manually defined by the user themselves.}
 }
 \value{
 If \code{pkgs} is specified: \cr
@@ -80,17 +76,35 @@ exposed by \code{import_inops()}, will be deleted. \cr
 If such infix operators could not be found, this function returns \code{NULL}. \cr
 }
 \description{
-The \code{import_inops()} function
-exposes the infix operators of the specified packages to the current environment
+The \code{import_inops()} function can do one of two things,
+depending on whether the \code{pkgs} argument is specified,
+or the \code{delete} argument is specified. \cr
+\cr
+When using the \code{import_inops()} function
+with the \code{pkgs} argument specified,
+it will place the infix operators of the specified packages in the current environment
 (like the global environment, or the environment within a function). \cr
-To ensure the user can still verify which operator function came from which package,
-a "package" attribute is added to each exposed operator. \cr
-If you wish to globally attach infix operators,
+(If you wish to globally attach infix operators,
 instead of just placing them in the current environment,
-see \link{pkg_lsf}. \cr
+see \link{pkg_lsf}.) \cr
+\cr
+When using the \code{import_inops()} function
+with the \code{delete} argument specified,
+it will delete the locked infix operators with namespaces
+corresponding to the specified packages. \cr
+As this function specifically deletes locked infix operators,
+it will attempt to only remove infix operators actually exposed by \code{import_inops()} itself,
+thus keeping any user specified locked infix operators untouched;
+for more information on this, see \link{import_lock}. \cr
+Only infix operators in the current environment
+(like the global environment, or the environment within a function)
+will be deleted. \cr
 }
 \details{
-\bold{On the \code{exclude} and \code{include.only} arguments}:\cr
+\bold{On the \code{exclude, include.only, overwrite, inherits} arguments}: \cr
+The \code{exclude, include.only, overwrite, inherits} arguments are not used
+when the user specifies the \code{delete} argument;
+they are only used when the user specifies the \code{pkgs} argument. \cr
 You cannot specify both the \code{exclude} and \code{include.only} arguments.
 Only one or the other, or neither. \cr
 \cr

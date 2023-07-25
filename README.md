@@ -407,8 +407,8 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   the logical operators. Adjusted the documentation in accordance with
   the aforementioned changes, improved the lay-out of the documentation,
   and clarified the documentation even more.
-- 11 July: last update unintentionally created a bug; bug now fixed.
-  Added some minor features (see Details). Details: Last update
+- 11 July 2023: last update unintentionally created a bug; bug now
+  fixed. Added some minor features (see Details). Details: Last update
   unintentionally created a bug; bug now fixed. Also added the `verbose`
   argument to `import_as`, as the function now gives info on conflicts
   and so on in its attributes. Created some fake packages JUST for the
@@ -416,7 +416,7 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   (because it doesn’t like packages defined inside package folder), and
   not uploaded here on GitHub; but I do perform the test with fake
   packages everytime I update this R package
-- 22 July: UPDATED TO R4.3.0. Simplified the internal code of the
+- 22 July 2023: UPDATED TO R4.3.0. Simplified the internal code of the
   `%installed in%` operator. Removed the `substr_` - functions, and
   subsequently also the `stringfish` functionality: They were originally
   created for historical reasons that are no longer relevant
@@ -436,6 +436,9 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   accordance with all these changes. Fixed some minor spelling and
   grammar errors in the documentation. Created a GitHub site using
   `pkgdown`, but it’s not published yet.
+- 25 July 2023: Small update: Added the `repor_inops()` function,
+  clarified the documentation at `import_inops()`, and split the import
+  article into 2.
 
 FUTURE PLANS:
 

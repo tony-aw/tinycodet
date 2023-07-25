@@ -1,18 +1,34 @@
 #' Expose infix operators to the current environment
 #'
 #' @description
-#' The \code{import_inops()} function
-#' exposes the infix operators of the specified packages to the current environment
+#' The \code{import_inops()} function can do one of two things,
+#' depending on whether the \code{pkgs} argument is specified,
+#' or the \code{delete} argument is specified. \cr
+#' \cr
+#' When using the \code{import_inops()} function
+#' with the \code{pkgs} argument specified,
+#' it will place the infix operators of the specified packages in the current environment
 #' (like the global environment, or the environment within a function). \cr
-#' To ensure the user can still verify which operator function came from which package,
-#' a "package" attribute is added to each exposed operator. \cr
-#' If you wish to globally attach infix operators,
+#' (If you wish to globally attach infix operators,
 #' instead of just placing them in the current environment,
-#' see \link{pkg_lsf}. \cr
+#' see \link{pkg_lsf}.) \cr
+#' \cr
+#' When using the \code{import_inops()} function
+#' with the \code{delete} argument specified,
+#' it will delete the locked infix operators with namespaces
+#' corresponding to the specified packages. \cr
+#' As this function specifically deletes locked infix operators,
+#' it will attempt to only remove infix operators actually exposed by \code{import_inops()} itself,
+#' thus keeping any user specified locked infix operators untouched;
+#' for more information on this, see \link{import_lock}. \cr
+#' Only infix operators in the current environment
+#' (like the global environment, or the environment within a function)
+#' will be deleted. \cr
 #'
 #'
-#' @param pkgs a character vector of package name(s)
-#' from which to load and expose infix operators. \cr
+#' @param pkgs a character vector of package name(s),
+#' specifying the packages from which to load infix operators,
+#' and place them in the current environment. \cr
 #' NOTE: The order of the character vector matters!
 #' If multiple packages share infix operators with the same name,
 #' the conflicting operators of the package named last
@@ -44,19 +60,17 @@
 #' (the location of R library trees to search through). \cr
 #' This is usually \code{.libPaths()}. \cr
 #' See also \link[base]{loadNamespace}.
-#' @param delete a character vector of package name(s)
-#' from which to remove infix operators. \cr
-#' Normally, the \code{import_inops()} function
-#' exposes infix operators from packages \code{pkgs} to the current environment. \cr
-#' But if the user specifies package names in the \code{delete} argument,
-#' the \code{import_inops()} function will
-#' ignore all other arguments, and simply delete all infix operators from the named packages
-#' exposed by the \code{import_inops()} function. \cr
-#' Infix operators manually defined by the user themselves will not be touched.
+#' @param delete a character vector of package name(s),
+#' specifying the infix operators from which package namespaces to delete from the current environment. \cr
+#' The \code{import_inops()} function will attempt not to deleted
+#' infix operators that were manually defined by the user themselves.
 #'
 #'
 #' @details
-#' \bold{On the \code{exclude} and \code{include.only} arguments}:\cr
+#' \bold{On the \code{exclude, include.only, overwrite, inherits} arguments}: \cr
+#' The \code{exclude, include.only, overwrite, inherits} arguments are not used
+#' when the user specifies the \code{delete} argument;
+#' they are only used when the user specifies the \code{pkgs} argument. \cr
 #' You cannot specify both the \code{exclude} and \code{include.only} arguments.
 #' Only one or the other, or neither. \cr
 #' \cr
@@ -102,6 +116,13 @@ import_inops <- function(
     pkgs, lib.loc=.libPaths(), exclude, include.only, overwrite=TRUE, inherits=FALSE,
     delete
 ) {
+
+  # check library:
+  if(length(lib.loc)<1 | !is.character(lib.loc)) {
+    stop(
+      "`lib.loc` must be a character vector with at least one library path"
+    )
+  }
 
   # check args:
   if(!missing(pkgs) & !missing(delete)) {
@@ -261,10 +282,21 @@ import_inops <- function(
       call = abortcall
     ))
   }
+
+  # check library:
+  if(length(lib.loc)<1 | !is.character(lib.loc)) {
+    stop(simpleError(
+      "`lib.loc` must be a character vector with at least one library path",
+      call = abortcall
+    ))
+  }
+
   .internal_check_pkgs(pkgs=delete, lib.loc=lib.loc, pkgs_txt = "packages", abortcall=abortcall)
   message(
     "checking for infix operators exposed to the current environment by `import_inops()` ..."
   )
+
+
 
   # functions -> inops
   all.funs <- mget(utils::lsf.str(envir = env), envir = env)
@@ -306,30 +338,6 @@ import_inops <- function(
   for(i in tinyops) rm(list=i, envir = env)
   message("Done")
 
-}
-
-#' @keywords internal
-#' @noRd
-.is.tinyinops <- function(nms, pkgs, env) {
-  if(missing(nms)|missing(pkgs)|missing(env)) {
-    stop("not all arguments given in `.is.tinyinops()`")
-  }
-  checks <- rep(FALSE, length(nms))
-  for (i in 1:length(nms)) {
-    if(exists(as.character(nms[i]), envir = env, inherits = FALSE)) {
-      obj <- get(as.character(nms[i]), envir = env)
-      check1 <- length(names(attributes(obj))) == 3
-      check2 <- ifelse(
-        check1,
-        isTRUE(all(names(attributes(obj)) == c("package", "function_name", "tinyimport"))),
-        FALSE
-      )
-      check3 <- isTRUE(is.function(obj))
-      check4 <- isTRUE(bindingIsLocked(as.character(nms[i]), env = env))
-      checks[i] <- check1 & check2 & check3 & check4
-    }
-  }
-  return(checks)
 }
 
 #' @keywords internal
