@@ -128,8 +128,8 @@ import_as( # loading "tidytable" + its foreign exports + "data.table" under alia
 #> Done
 #> You can now access the functions using `tdt.$`.
 #> (S3)methods will work like normally. 
-#> For conflicts report and package order, see `attributes(tdt.)`.
-attributes(tdt.)$conflicts |> knitr::kable()
+#> For conflicts report and package order, run `tdt.$.__attributes__.`.
+tdt.$.__attributes__.$conflicts |> knitr::kable()
 ```
 
 | package                     | winning_conflicts                                                                                      |
@@ -436,9 +436,12 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   accordance with all these changes. Fixed some minor spelling and
   grammar errors in the documentation. Created a GitHub site using
   `pkgdown`, but it’s not published yet.
-- 25 July 2023: Small update: Added the `repor_inops()` function,
+- 25 July 2023: Small update. Added the `report_inops()` function,
   clarified the documentation at `import_inops()`, and split the import
   article into 2.
+- 28 July 2023: Another small update. Simplified the import lock system.
+  Moved part of the arguments of `import_inops()` to
+  `import_inops.control()`.
 
 FUTURE PLANS:
 

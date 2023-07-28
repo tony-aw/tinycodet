@@ -731,8 +731,8 @@ course):</p>
 <span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
 <span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt; You can now access the functions using `tdt.$`.</span></span>
 <span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; (S3)methods will work like normally. </span></span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt; For conflicts report and package order, see `attributes(tdt.)`.</span></span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="fu">attributes</span>(tdt.)<span class="sc">$</span>conflicts <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt; For conflicts report and package order, run `tdt.$.__attributes__.`.</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>tdt.<span class="sc">$</span>.__attributes__.<span class="sc">$</span>conflicts <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1047,9 +1047,12 @@ for some of the functions.Adjusted the documentation in accordance with
 all these changes. Fixed some minor spelling and grammar errors in the
 documentation. Created a GitHub site using <code>pkgdown</code>, but
 it’s not published yet.</li>
-<li>25 July 2023: Small update: Added the <code>repor_inops()</code>
+<li>25 July 2023: Small update. Added the <code>report_inops()</code>
 function, clarified the documentation at <code>import_inops()</code>,
 and split the import article into 2.</li>
+<li>28 July 2023: Another small update. Simplified the import lock
+system. Moved part of the arguments of <code>import_inops()</code> to
+<code>import_inops.control()</code>.</li>
 </ul>
 <p>FUTURE PLANS:</p>
 <p>I believe <code>tinyoperations</code> is slowly getting closer to
