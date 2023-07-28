@@ -37,14 +37,15 @@ X <- rbind(
   c("clarify which function came from which package", "Yes (+)", "No (-)"),
   c("expose functions only in current environment instead of globally", "Yes (+)", "No (-)"),
   c("prevent namespace pollution", "Yes (+)", "No (-)"),
-  c("minimize typing - especially for infix operators (i.e. avoiding ``package::`%op%`()``)", "No (-)", "Yes (+)"),
-  c("use multiple related packages without constantly switching between package prefixes", "No (-)", "Yes (+)"),
+  c(
+  "minimize typing - especially for infix operators <br> (i.e. typing ``package::`%op%`(x, y)`` instead of `x %op% y` is cumbersome)", "No (-)", "Yes (+)"),
+  c("use multiple related packages, <br> without constantly switching between package prefixes", "No (-)", "Yes (+)"),
   c("NOTE: + = advantage, - = disavantage", "", "")
 )
 colnames(X) <- c("aspect", "alias / ::", "attaching")
 X <- as.data.frame(X)
 rownames(X) <- c(1:7, "")
-knitr::kable(X, row.names = TRUE)
+knitr::kable(X, "html", row.names = TRUE, escape = FALSE)
 ```
 
 
@@ -63,7 +64,7 @@ This article is rather lengthy, so I will start with a quick example code using 
 import_as( # loading "tidytable" + its foreign exports + "data.table" under alias "tdt." 
   tdt., "tidytable", dependencies = "data.table"
 )
-attributes(tdt.)$conflicts |> knitr::kable()
+tdt.$.__attributes__.$conflicts |> knitr::kable()
 
 import_inops("magrittr") # exposing operators from `magrrittr` to current env
 
@@ -126,9 +127,9 @@ Now you can of course use those loaded packages as one would normally do when us
 The created alias object has attributes showing which loaded package overwrites which loaded functions, in what order the packages are loaded and so on:
 
 ```{r}
-attributes(tdt.)$packages_order
-attributes(tdt.)$conflicts |> knitr::kable()
-attributes(tdt.)$args
+tdt.$.__attributes__.$packages_order
+tdt.$.__attributes__.$conflicts |> knitr::kable()
+tdt.$.__attributes__.$args
 ```
 
 See the help file for more details.
@@ -166,12 +167,12 @@ Just like in `import_as()`, the order of the packages matters whenever there's a
 
 The `import_inops()` functions has the `exclude` and `include.only` arguments to specify exactly which infix operators to expose to the current environment, as well as the `overwrite` and `inherits` arguments to specify what to do when the infix operators you are about to expose already exist in the current environment (and loaded namespaces). This can be handy to prevent overwriting any (user defined) infix operators already present in the current environment or loaded namespaces.
 
-The user can also specify package names in the `delete` argument, instead of the main `pkgs` argument, which will delete the infix operators from those packages exposed in the current environment by `import_inops()`. Infix operators defined by the user will not be touched.
+The user can set `action="remove"`, which will delete the infix operators from those packages exposed in the current environment by `import_inops()`. Infix operators defined by the user will not be touched.
 
 Example:
 
 ```{r}
-import_inops(delete = pkgs)
+import_inops(pkgs, action = "remove")
 ```
 
 
@@ -308,8 +309,9 @@ To show that `import_as()` actually does load all exported functions, including 
 
 ```{r}
 import_as(dr., "dplyr", foreign_exports = TRUE)
+out <- setdiff(names(dr.), ".__attributes__.") |> sort()
 foo <- loadNamespace("dplyr") |> getNamespaceExports()
-check <- all(sort(names(dr.)) == sort(foo))
+check <- all(out == sort(foo))
 print(check) # must be TRUE
 if(!isTRUE(check)) {
   stop("Tony is really stupid")

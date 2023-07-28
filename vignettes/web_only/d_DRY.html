@@ -339,10 +339,22 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h1 class="title toc-ignore">Don’t Repeat Yourself</h1>
 
 
+<div id="TOC">
+<ul>
+<li><a href="#the-transform_if-function-and-related-operators" id="toc-the-transform_if-function-and-related-operators"><span class="toc-section-number">1</span> The transform_if function, and
+related operators</a></li>
+<li><a href="#generalized-in-place-mathematical-modifier" id="toc-generalized-in-place-mathematical-modifier"><span class="toc-section-number">2</span> Generalized in-place (mathematical)
+modifier</a></li>
+<li><a href="#atomic-type-casting" id="toc-atomic-type-casting"><span class="toc-section-number">3</span> Atomic type casting</a></li>
+<li><a href="#in-place-modifying-string-arithmetic-and-sub-setting" id="toc-in-place-modifying-string-arithmetic-and-sub-setting"><span class="toc-section-number">4</span> In-place modifying string arithmetic
+and sub-setting</a></li>
+</ul>
+</div>
 
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(tinyoperations)</span></code></pre></div>
-<div id="the-transform_if-function-and-related-operators" class="section level1">
-<h1>The transform_if function, and related operators</h1>
+<div id="the-transform_if-function-and-related-operators" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> The transform_if
+function, and related operators</h1>
 <p>“Don’t Repeat Yourself”, sometimes abbreviated as “DRY”, is the
 coding principle that you should try to reduce repeating patterns in
 your code (within reason).</p>
@@ -382,7 +394,7 @@ be given that returns a logical vector. For every value where
 every value where <code>cond(x)==FALSE</code>, function
 <code>no(x)</code> is run, and for every value where
 <code>cond(x)==NA</code>, function <code>other</code> is run.</p>
-<p>The above code can now be compactly re-written as either</p>
+<p>The above code can now be compactly re-written as:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>object <span class="sc">|&gt;</span> <span class="fu">transform_if</span>(\(x)x<span class="sc">&gt;</span>y, log, \(x)x<span class="sc">^</span><span class="dv">2</span>, \(x) <span class="sc">-</span>z)</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">#&gt;       [,1]          [,2]</span></span>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt;  [1,]   81     0.0000000</span></span>
@@ -452,8 +464,9 @@ vector/matrix/array <code>x</code>, for which the result of
 <code>x[is.na(x)|is.nan(x)|is.infinite(x)] &lt;- y</code>.</p>
 <p> </p>
 </div>
-<div id="generalized-in-place-mathematical-modifier" class="section level1">
-<h1>Generalized in-place (mathematical) modifier</h1>
+<div id="generalized-in-place-mathematical-modifier" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Generalized in-place
+(mathematical) modifier</h1>
 <p>This R package includes infix operators for in-place modifying
 mathematical arithmetic.</p>
 <p>Consider the following line of code:</p>
@@ -476,8 +489,9 @@ that attempt to implement in-place modifying arithmetic;
 this problem, as the math is specified inside a function.</p>
 <p> </p>
 </div>
-<div id="atomic-type-casting" class="section level1">
-<h1>Atomic type casting</h1>
+<div id="atomic-type-casting" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Atomic type
+casting</h1>
 <p>Atomic type casting in R is generally performed using the functions
 <code>as.logical()</code>, <code>as.integer()</code>,
 <code>as.double()</code>, <code>as.character()</code>.</p>
@@ -491,11 +505,11 @@ convert the object, and then re-assign the attributes. Like so:</p>
 <span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="fu">attr</span>(x, <span class="st">&quot;test&quot;</span>) <span class="ot">&lt;-</span> <span class="st">&quot;test&quot;</span></span>
 <span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="fu">print</span>(x)</span>
 <span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co">#&gt;             one         two</span></span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co">#&gt; [1,] -0.2561986  0.03891905</span></span>
-<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co">#&gt; [2,] -1.4446069  2.13661593</span></span>
-<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co">#&gt; [3,]  0.6010787  1.00022748</span></span>
-<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co">#&gt; [4,] -0.4345597 -1.23879600</span></span>
-<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co">#&gt; [5,] -0.4039359  1.65100393</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co">#&gt; [1,]  1.1237527 -0.50826487</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co">#&gt; [2,] -0.1073331  1.64121478</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co">#&gt; [3,] -0.1238836 -0.09611233</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co">#&gt; [4,]  1.4115714 -2.46632531</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co">#&gt; [5,] -0.3362337 -1.70558412</span></span>
 <span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;test&quot;)</span></span>
 <span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="co">#&gt; [1] &quot;test&quot;</span></span>
 <span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a></span>
@@ -504,16 +518,16 @@ convert the object, and then re-assign the attributes. Like so:</p>
 <span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a><span class="co"># Second, convert the object:</span></span>
 <span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(x)</span>
 <span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a><span class="fu">print</span>(x) <span class="co"># no longer a matrix, nor any other attributes</span></span>
-<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a><span class="co">#&gt;  [1]  0 -1  0  0  0  0  2  1 -1  1</span></span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a><span class="co">#&gt;  [1]  1  0  0  1  0  0  1  0 -2 -1</span></span>
 <span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a><span class="co"># Third, re-assign attributes:</span></span>
 <span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a><span class="fu">attributes</span>(x) <span class="ot">&lt;-</span> myattr</span>
 <span id="cb8-22"><a href="#cb8-22" tabindex="-1"></a><span class="fu">print</span>(x)</span>
 <span id="cb8-23"><a href="#cb8-23" tabindex="-1"></a><span class="co">#&gt;      one two</span></span>
-<span id="cb8-24"><a href="#cb8-24" tabindex="-1"></a><span class="co">#&gt; [1,]   0   0</span></span>
-<span id="cb8-25"><a href="#cb8-25" tabindex="-1"></a><span class="co">#&gt; [2,]  -1   2</span></span>
-<span id="cb8-26"><a href="#cb8-26" tabindex="-1"></a><span class="co">#&gt; [3,]   0   1</span></span>
-<span id="cb8-27"><a href="#cb8-27" tabindex="-1"></a><span class="co">#&gt; [4,]   0  -1</span></span>
-<span id="cb8-28"><a href="#cb8-28" tabindex="-1"></a><span class="co">#&gt; [5,]   0   1</span></span>
+<span id="cb8-24"><a href="#cb8-24" tabindex="-1"></a><span class="co">#&gt; [1,]   1   0</span></span>
+<span id="cb8-25"><a href="#cb8-25" tabindex="-1"></a><span class="co">#&gt; [2,]   0   1</span></span>
+<span id="cb8-26"><a href="#cb8-26" tabindex="-1"></a><span class="co">#&gt; [3,]   0   0</span></span>
+<span id="cb8-27"><a href="#cb8-27" tabindex="-1"></a><span class="co">#&gt; [4,]   1  -2</span></span>
+<span id="cb8-28"><a href="#cb8-28" tabindex="-1"></a><span class="co">#&gt; [5,]   0  -1</span></span>
 <span id="cb8-29"><a href="#cb8-29" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;test&quot;)</span></span>
 <span id="cb8-30"><a href="#cb8-30" tabindex="-1"></a><span class="co">#&gt; [1] &quot;test&quot;</span></span></code></pre></div>
 <p>The above code … is just sad. So I’ve taken the liberty of creating
@@ -545,35 +559,36 @@ attributes preserved.</li>
 <span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="co">#&gt; [1] &quot;test&quot;</span></span>
 <span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a><span class="fu">as_int</span>(x)</span>
 <span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a><span class="co">#&gt;      one two</span></span>
-<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a><span class="co">#&gt; [1,]   0   0</span></span>
-<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a><span class="co">#&gt; [2,]  -1   0</span></span>
-<span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a><span class="co">#&gt; [3,]   0  -1</span></span>
+<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a><span class="co">#&gt; [1,]   0   1</span></span>
+<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a><span class="co">#&gt; [2,]   0   0</span></span>
+<span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a><span class="co">#&gt; [3,]  -1  -1</span></span>
 <span id="cb9-19"><a href="#cb9-19" tabindex="-1"></a><span class="co">#&gt; [4,]   0   0</span></span>
-<span id="cb9-20"><a href="#cb9-20" tabindex="-1"></a><span class="co">#&gt; [5,]   0   1</span></span>
+<span id="cb9-20"><a href="#cb9-20" tabindex="-1"></a><span class="co">#&gt; [5,]   0   0</span></span>
 <span id="cb9-21"><a href="#cb9-21" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;test&quot;)</span></span>
 <span id="cb9-22"><a href="#cb9-22" tabindex="-1"></a><span class="co">#&gt; [1] &quot;test&quot;</span></span>
 <span id="cb9-23"><a href="#cb9-23" tabindex="-1"></a><span class="fu">as_dbl</span>(x)</span>
 <span id="cb9-24"><a href="#cb9-24" tabindex="-1"></a><span class="co">#&gt;             one        two</span></span>
-<span id="cb9-25"><a href="#cb9-25" tabindex="-1"></a><span class="co">#&gt; [1,]  0.4334145 -0.1982203</span></span>
-<span id="cb9-26"><a href="#cb9-26" tabindex="-1"></a><span class="co">#&gt; [2,] -1.1824901  0.1046526</span></span>
-<span id="cb9-27"><a href="#cb9-27" tabindex="-1"></a><span class="co">#&gt; [3,]  0.6067068 -1.7173380</span></span>
-<span id="cb9-28"><a href="#cb9-28" tabindex="-1"></a><span class="co">#&gt; [4,] -0.4569983  0.6427668</span></span>
-<span id="cb9-29"><a href="#cb9-29" tabindex="-1"></a><span class="co">#&gt; [5,]  0.0277797  1.2114895</span></span>
+<span id="cb9-25"><a href="#cb9-25" tabindex="-1"></a><span class="co">#&gt; [1,]  0.2433552  1.8408485</span></span>
+<span id="cb9-26"><a href="#cb9-26" tabindex="-1"></a><span class="co">#&gt; [2,]  0.5320125 -0.8262139</span></span>
+<span id="cb9-27"><a href="#cb9-27" tabindex="-1"></a><span class="co">#&gt; [3,] -1.0976753 -1.9011144</span></span>
+<span id="cb9-28"><a href="#cb9-28" tabindex="-1"></a><span class="co">#&gt; [4,] -0.3172241 -0.4879812</span></span>
+<span id="cb9-29"><a href="#cb9-29" tabindex="-1"></a><span class="co">#&gt; [5,] -0.6678647 -0.2949240</span></span>
 <span id="cb9-30"><a href="#cb9-30" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;test&quot;)</span></span>
 <span id="cb9-31"><a href="#cb9-31" tabindex="-1"></a><span class="co">#&gt; [1] &quot;test&quot;</span></span>
 <span id="cb9-32"><a href="#cb9-32" tabindex="-1"></a><span class="fu">as_chr</span>(x)</span>
 <span id="cb9-33"><a href="#cb9-33" tabindex="-1"></a><span class="co">#&gt;      one                  two                 </span></span>
-<span id="cb9-34"><a href="#cb9-34" tabindex="-1"></a><span class="co">#&gt; [1,] &quot;0.433414517522398&quot;  &quot;-0.198220268670266&quot;</span></span>
-<span id="cb9-35"><a href="#cb9-35" tabindex="-1"></a><span class="co">#&gt; [2,] &quot;-1.18249013943623&quot;  &quot;0.104652640789517&quot; </span></span>
-<span id="cb9-36"><a href="#cb9-36" tabindex="-1"></a><span class="co">#&gt; [3,] &quot;0.606706833779187&quot;  &quot;-1.71733799730597&quot; </span></span>
-<span id="cb9-37"><a href="#cb9-37" tabindex="-1"></a><span class="co">#&gt; [4,] &quot;-0.456998257860639&quot; &quot;0.642766794856003&quot; </span></span>
-<span id="cb9-38"><a href="#cb9-38" tabindex="-1"></a><span class="co">#&gt; [5,] &quot;0.0277797030163387&quot; &quot;1.21148951683757&quot;  </span></span>
+<span id="cb9-34"><a href="#cb9-34" tabindex="-1"></a><span class="co">#&gt; [1,] &quot;0.243355208399063&quot;  &quot;1.84084854804308&quot;  </span></span>
+<span id="cb9-35"><a href="#cb9-35" tabindex="-1"></a><span class="co">#&gt; [2,] &quot;0.532012548969436&quot;  &quot;-0.826213947345364&quot;</span></span>
+<span id="cb9-36"><a href="#cb9-36" tabindex="-1"></a><span class="co">#&gt; [3,] &quot;-1.09767532558973&quot;  &quot;-1.90111438036363&quot; </span></span>
+<span id="cb9-37"><a href="#cb9-37" tabindex="-1"></a><span class="co">#&gt; [4,] &quot;-0.317224091951413&quot; &quot;-0.487981238424385&quot;</span></span>
+<span id="cb9-38"><a href="#cb9-38" tabindex="-1"></a><span class="co">#&gt; [5,] &quot;-0.667864700365997&quot; &quot;-0.294923984172338&quot;</span></span>
 <span id="cb9-39"><a href="#cb9-39" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;test&quot;)</span></span>
 <span id="cb9-40"><a href="#cb9-40" tabindex="-1"></a><span class="co">#&gt; [1] &quot;test&quot;</span></span></code></pre></div>
 <p> </p>
 </div>
-<div id="in-place-modifying-string-arithmetic-and-sub-setting" class="section level1">
-<h1>In-place modifying string arithmetic and sub-setting</h1>
+<div id="in-place-modifying-string-arithmetic-and-sub-setting" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> In-place modifying
+string arithmetic and sub-setting</h1>
 <p>With the exception of <code>%ss%</code>, all infix operators for
 string arithmetic and string sub-setting have their in-place modifying
 equivalent:</p>

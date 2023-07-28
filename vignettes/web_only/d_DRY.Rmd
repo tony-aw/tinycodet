@@ -48,7 +48,7 @@ Here a conditional subset of the object `object` is transformed where the condit
 The `tinyoperations` package therefore adds the `transform_if(x, cond, yes, no, other, text)` function which will "dry" this up.
 Here, in argument `cond` a function must be given that returns a logical vector. For every value where `cond(x)==TRUE`, function `yes(x)` is run, for every value where `cond(x)==FALSE`, function `no(x)` is run, and for every value where `cond(x)==NA`, function `other` is run.
 
-The above code can now be compactly re-written as either
+The above code can now be compactly re-written as:
 
 ```{r echo=TRUE}
 object |> transform_if(\(x)x>y, log, \(x)x^2, \(x) -z)

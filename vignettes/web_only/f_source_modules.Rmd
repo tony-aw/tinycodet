@@ -93,7 +93,22 @@ So no need to worry about their scope (unless you start tinkering with the envir
 
 # The report_inops() function
 
-`tinyoperations` adds the `report_inops()` function. This is a convenience function that prints all infix operators in the current environment, as well as from which package it came (if the function can find that out), and whether the function is locked or not (infix operators placed in an environment by `import_inops()` are always locked).
+`tinyoperations` adds the `report_inops()` function. This is a convenience function that prints all infix operators in the current environment, as well as from which package it came (if the function can find that out), and whether the function is locked or not.
+
+Example:
+
+```{r}
+import_inops("magrittr")
+exprs <- expression({
+  helloworld = function()print("helloworld")
+  goodbyeworld <- function() print("goodbye world")
+  `%s+test%` <- function(x,y) stringi::`%s+%`(x,y)
+  `%s*test%` <- function(x,y) stringi::`%s*%`(x,y)
+})
+source_inops(exprs=exprs)
+report_inops()
+```
+
 
 &nbsp;
 

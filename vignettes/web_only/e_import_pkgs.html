@@ -351,72 +351,134 @@ options have their pros and cons, as you may well know.</p>
 <p>The advantages and disadvantages of loading without attaching a
 package VS attaching a package - at least those relevant for this
 article - can be compactly presented in the following table:</p>
-<table style="width:100%;">
-<colgroup>
-<col width="2%" />
-<col width="78%" />
-<col width="9%" />
-<col width="9%" />
-</colgroup>
+<table>
 <thead>
-<tr class="header">
-<th align="left"></th>
-<th align="left">aspect</th>
-<th align="left">alias / ::</th>
-<th align="left">attaching</th>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:left;">
+aspect
+</th>
+<th style="text-align:left;">
+alias / ::
+</th>
+<th style="text-align:left;">
+attaching
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="left">1</td>
-<td align="left">prevent masking functions from other packages</td>
-<td align="left">Yes (+)</td>
-<td align="left">No (-)</td>
+<tr>
+<td style="text-align:left;">
+1
+</td>
+<td style="text-align:left;">
+prevent masking functions from other packages
+</td>
+<td style="text-align:left;">
+Yes (+)
+</td>
+<td style="text-align:left;">
+No (-)
+</td>
 </tr>
-<tr class="even">
-<td align="left">2</td>
-<td align="left">prevent masking core R functions</td>
-<td align="left">Yes (+)</td>
-<td align="left">No (-)</td>
+<tr>
+<td style="text-align:left;">
+2
+</td>
+<td style="text-align:left;">
+prevent masking core R functions
+</td>
+<td style="text-align:left;">
+Yes (+)
+</td>
+<td style="text-align:left;">
+No (-)
+</td>
 </tr>
-<tr class="odd">
-<td align="left">3</td>
-<td align="left">clarify which function came from which package</td>
-<td align="left">Yes (+)</td>
-<td align="left">No (-)</td>
+<tr>
+<td style="text-align:left;">
+3
+</td>
+<td style="text-align:left;">
+clarify which function came from which package
+</td>
+<td style="text-align:left;">
+Yes (+)
+</td>
+<td style="text-align:left;">
+No (-)
+</td>
 </tr>
-<tr class="even">
-<td align="left">4</td>
-<td align="left">expose functions only in current environment instead of
-globally</td>
-<td align="left">Yes (+)</td>
-<td align="left">No (-)</td>
+<tr>
+<td style="text-align:left;">
+4
+</td>
+<td style="text-align:left;">
+expose functions only in current environment instead of globally
+</td>
+<td style="text-align:left;">
+Yes (+)
+</td>
+<td style="text-align:left;">
+No (-)
+</td>
 </tr>
-<tr class="odd">
-<td align="left">5</td>
-<td align="left">prevent namespace pollution</td>
-<td align="left">Yes (+)</td>
-<td align="left">No (-)</td>
+<tr>
+<td style="text-align:left;">
+5
+</td>
+<td style="text-align:left;">
+prevent namespace pollution
+</td>
+<td style="text-align:left;">
+Yes (+)
+</td>
+<td style="text-align:left;">
+No (-)
+</td>
 </tr>
-<tr class="even">
-<td align="left">6</td>
-<td align="left">minimize typing - especially for infix operators
-(i.e. avoiding <code>package::`%op%`()</code>)</td>
-<td align="left">No (-)</td>
-<td align="left">Yes (+)</td>
+<tr>
+<td style="text-align:left;">
+6
+</td>
+<td style="text-align:left;">
+minimize typing - especially for infix operators <br> (i.e. typing
+<code>package::`%op%`(x, y)</code> instead of <code>x %op% y</code> is
+cumbersome)
+</td>
+<td style="text-align:left;">
+No (-)
+</td>
+<td style="text-align:left;">
+Yes (+)
+</td>
 </tr>
-<tr class="odd">
-<td align="left">7</td>
-<td align="left">use multiple related packages without constantly
-switching between package prefixes</td>
-<td align="left">No (-)</td>
-<td align="left">Yes (+)</td>
+<tr>
+<td style="text-align:left;">
+7
+</td>
+<td style="text-align:left;">
+use multiple related packages, <br> without constantly switching between
+package prefixes
+</td>
+<td style="text-align:left;">
+No (-)
+</td>
+<td style="text-align:left;">
+Yes (+)
+</td>
 </tr>
-<tr class="even">
-<td align="left"></td>
-<td align="left">NOTE: + = advantage, - = disavantage</td>
-<td align="left"></td>
-<td align="left"></td>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+NOTE: + = advantage, - = disavantage
+</td>
+<td style="text-align:left;">
+</td>
+<td style="text-align:left;">
+</td>
 </tr>
 </tbody>
 </table>
@@ -455,8 +517,8 @@ code using <code>tinyoperations</code>’ import system:</p>
 <span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
 <span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt; You can now access the functions using `tdt.$`.</span></span>
 <span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt; (S3)methods will work like normally. </span></span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt; For conflicts report and package order, see `attributes(tdt.)`.</span></span>
-<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="fu">attributes</span>(tdt.)<span class="sc">$</span>conflicts <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt; For conflicts report and package order, run `tdt.$.__attributes__.`.</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>tdt.<span class="sc">$</span>.__attributes__.<span class="sc">$</span>conflicts <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <colgroup>
 <col width="21%" />
@@ -598,15 +660,15 @@ call “tdt.” (for “tidy data.table”):</p>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt; You can now access the functions using `tdt.$`.</span></span>
 <span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; (S3)methods will work like normally. </span></span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt; For conflicts report and package order, see `attributes(tdt.)`.</span></span></code></pre></div>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt; For conflicts report and package order, run `tdt.$.__attributes__.`.</span></span></code></pre></div>
 <p>Now you can of course use those loaded packages as one would normally
 do when using a package alias: <code>tdt.$some_function()</code>.</p>
 <p>The created alias object has attributes showing which loaded package
 overwrites which loaded functions, in what order the packages are loaded
 and so on:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">attributes</span>(tdt.)<span class="sc">$</span>packages_order</span>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>tdt.<span class="sc">$</span>.__attributes__.<span class="sc">$</span>packages_order</span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co">#&gt; [1] &quot;data.table&quot; &quot;tidytable&quot;</span></span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="fu">attributes</span>(tdt.)<span class="sc">$</span>conflicts <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>tdt.<span class="sc">$</span>.__attributes__.<span class="sc">$</span>conflicts <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -625,7 +687,7 @@ and so on:</p>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">attributes</span>(tdt.)<span class="sc">$</span>args</span>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>tdt.<span class="sc">$</span>.__attributes__.<span class="sc">$</span>args</span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co">#&gt; $main_package</span></span>
 <span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;data.table&quot;</span></span>
 <span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
@@ -684,13 +746,12 @@ to specify what to do when the infix operators you are about to expose
 already exist in the current environment (and loaded namespaces). This
 can be handy to prevent overwriting any (user defined) infix operators
 already present in the current environment or loaded namespaces.</p>
-<p>The user can also specify package names in the <code>delete</code>
-argument, instead of the main <code>pkgs</code> argument, which will
-delete the infix operators from those packages exposed in the current
-environment by <code>import_inops()</code>. Infix operators defined by
-the user will not be touched.</p>
+<p>The user can set <code>action=&quot;remove&quot;</code>, which will delete the
+infix operators from those packages exposed in the current environment
+by <code>import_inops()</code>. Infix operators defined by the user will
+not be touched.</p>
 <p>Example:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="at">delete =</span> pkgs)</span>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">import_inops</span>(pkgs, <span class="at">action =</span> <span class="st">&quot;remove&quot;</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="co">#&gt; checking for infix operators exposed to the current environment by `import_inops()` ...</span></span>
 <span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="co">#&gt; Removing the following infix operators:</span></span>
 <span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="co">#&gt; %between%, %chin%, %flike%, %ilike%, %in%, %inrange%, %like%, %notin%, :=</span></span>
@@ -819,7 +880,7 @@ which I’ll call “<code>dr.</code>”. Moreover, the infix operators from
 <span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
 <span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a><span class="co">#&gt; You can now access the functions using `dr.$`.</span></span>
 <span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a><span class="co">#&gt; (S3)methods will work like normally. </span></span>
-<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a><span class="co">#&gt; For conflicts report and package order, see `attributes(dr.)`.</span></span>
+<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a><span class="co">#&gt; For conflicts report and package order, run `dr.$.__attributes__.`.</span></span>
 <span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a></span>
 <span id="cb16-10"><a href="#cb16-10" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="st">&quot;magrittr&quot;</span>) <span class="co"># getting the operators from `magrrittr`</span></span>
 <span id="cb16-11"><a href="#cb16-11" tabindex="-1"></a><span class="co">#&gt; Getting infix operators from package: magrittr...</span></span>
@@ -906,14 +967,15 @@ functions, including foreign exports, consider the following proof:</p>
 <span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
 <span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a><span class="co">#&gt; You can now access the functions using `dr.$`.</span></span>
 <span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a><span class="co">#&gt; (S3)methods will work like normally. </span></span>
-<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a><span class="co">#&gt; For conflicts report and package order, see `attributes(dr.)`.</span></span>
-<span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a>foo <span class="ot">&lt;-</span> <span class="fu">loadNamespace</span>(<span class="st">&quot;dplyr&quot;</span>) <span class="sc">|&gt;</span> <span class="fu">getNamespaceExports</span>()</span>
-<span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a>check <span class="ot">&lt;-</span> <span class="fu">all</span>(<span class="fu">sort</span>(<span class="fu">names</span>(dr.)) <span class="sc">==</span> <span class="fu">sort</span>(foo))</span>
-<span id="cb19-9"><a href="#cb19-9" tabindex="-1"></a><span class="fu">print</span>(check) <span class="co"># must be TRUE</span></span>
-<span id="cb19-10"><a href="#cb19-10" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
-<span id="cb19-11"><a href="#cb19-11" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">isTRUE</span>(check)) {</span>
-<span id="cb19-12"><a href="#cb19-12" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">&quot;Tony is really stupid&quot;</span>)</span>
-<span id="cb19-13"><a href="#cb19-13" tabindex="-1"></a>}</span></code></pre></div>
+<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a><span class="co">#&gt; For conflicts report and package order, run `dr.$.__attributes__.`.</span></span>
+<span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">names</span>(dr.), <span class="st">&quot;.__attributes__.&quot;</span>) <span class="sc">|&gt;</span> <span class="fu">sort</span>()</span>
+<span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a>foo <span class="ot">&lt;-</span> <span class="fu">loadNamespace</span>(<span class="st">&quot;dplyr&quot;</span>) <span class="sc">|&gt;</span> <span class="fu">getNamespaceExports</span>()</span>
+<span id="cb19-9"><a href="#cb19-9" tabindex="-1"></a>check <span class="ot">&lt;-</span> <span class="fu">all</span>(out <span class="sc">==</span> <span class="fu">sort</span>(foo))</span>
+<span id="cb19-10"><a href="#cb19-10" tabindex="-1"></a><span class="fu">print</span>(check) <span class="co"># must be TRUE</span></span>
+<span id="cb19-11"><a href="#cb19-11" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
+<span id="cb19-12"><a href="#cb19-12" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">isTRUE</span>(check)) {</span>
+<span id="cb19-13"><a href="#cb19-13" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">&quot;Tony is really stupid&quot;</span>)</span>
+<span id="cb19-14"><a href="#cb19-14" tabindex="-1"></a>}</span></code></pre></div>
 <p> </p>
 <p> </p>
 </div>

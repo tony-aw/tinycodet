@@ -47,8 +47,25 @@ x %d>% y # correct
 x %d<=% y # correct
 x %d>=% y # correct
 
+```
+
+&nbsp;
+
+There are also the `x %d{}% bnd` and `x %d!{}% bnd` operators, where `bnd` is a vector of length 2, or a 2-column matrix `(nrow(bnd)==length(x) or nrow(bnd)==1)`.
+The `x %d{}% bnd` operator checks if `x` is within the **closed** interval with bounds defined by `bnd`.
+The `x %d!{}% bnd` operator checks if `x` is outside the **closed** interval with bounds defined by `bnd`.
+
+
+Examples:
+
+```{r}
+
 x <- c(0.3, 0.6, 0.7)
 bnd <- matrix(c(x-0.1, x+0.1), ncol=2)
 x %d{}% bnd
 x %d!{}% bnd
+
 ```
+
+&nbsp;
+
