@@ -5,7 +5,8 @@
 stri <- loadNamespace("stringi") |> getNamespaceExports()
 temp.fun <- function() {
   import_as(stri., "stringi")
-  return(names(stri.)|>sort())
+  out <- setdiff(names(stri.), ".__attributes__.") |> sort()
+  return(out)
 }
 expect_equal(temp.fun(), sort(stri))
 

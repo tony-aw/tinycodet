@@ -26,7 +26,7 @@ expect_equal(temp.fun()|>sort(), sort(stri))
 # test import_inops - deleting:
 temp.fun <- function(){
   import_inops("stringi")
-  import_inops(delete="stringi")
+  import_inops("stringi", action = "remove")
   ls()
 }
 expect_equal(temp.fun(), character(0))
@@ -44,9 +44,10 @@ expect_equal(temp.fun(), "ab")
 # test import_inops() - deleting inops:
 temp.fun <- function(){
   suppressWarnings(import_inops("stringi"))
-  import_inops(delete = "stringi")
+  import_inops("stringi", action =  "remove")
   ls()
 }
+
 
 # test import_inops() - error checks:
 temp.fun <- function(){
@@ -57,6 +58,15 @@ temp.fun <- function(){
 expect_error(
   temp.fun(),
   pattern = "ALL prepared infix operators already exist in the current environment"
+)
+
+temp.fun <- function(){
+  import_inops("stringi", include.only="%stri+%", exclude = "%stri*%")
+  ls()
+}
+expect_error(
+  temp.fun(),
+  pattern = "canntot specify both `exclude` and `include.only`"
 )
 
 

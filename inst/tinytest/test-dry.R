@@ -4,7 +4,6 @@ out <- obj
 out[is.na(out)] <- -1000
 out[12:20] <- log(out[12:20])
 out[1:11] <- out[1:11]^2
-obj |> transform_if(\(x)x>0, log, \(x)x^2, \(x)-1000)
 
 # "transform_if works", {
 expect_equal(
@@ -47,7 +46,7 @@ expect_error(
   pattern = "`cond` does not return a logical vector!"
 )
 
-# transform_if form2fun error checks:
+# transform_if text2funs error checks:
 expect_error(
   transform_if(obj, text = "x*10 ; log(x) ; x^2 ; \"hello\""),
   pattern = "Improper string"
