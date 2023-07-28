@@ -15,6 +15,7 @@ errorfun <- function(tt) {
   if(isFALSE(tt)) stop(print(tt))
 }
 
+
 # test import_inops - basics
 temp.fun <- function() {
   import_inops(
@@ -28,14 +29,39 @@ expect_equal(
 ) |> errorfun()
 
 temp.fun <- function() {
+  import_inops(
+    c("tinyoperationsfakepkg1", "tinyoperationsfakepkg2"),
+    exclude = c("%op12%", "%op21%"),
+    lib.loc = lib.loc
+  )
+  ls()
+}
+expect_equal(
+  temp.fun(), c("%op11%", "%op22%", "%opover%")
+) |> errorfun()
+
+temp.fun <- function() {
+  import_inops(
+    c("tinyoperationsfakepkg1", "tinyoperationsfakepkg2"),
+    include.only = c("%op12%", "%op21%"),
+    lib.loc = lib.loc
+  )
+  ls()
+}
+expect_equal(
+  temp.fun(), c("%op12%", "%op21%")
+) |> errorfun()
+
+temp.fun <- function() {
   pkgs_in <- c("tinyoperationsfakepkg1", "tinyoperationsfakepkg2", "tinyoperationsfakepkg3")
   pkgs_out <- c("tinyoperationsfakepkg2", "tinyoperationsfakepkg3")
   import_inops(pkgs_in, lib.loc = lib.loc)
-  import_inops(delete = pkgs_out, lib.loc = lib.loc)
+  import_inops(pkgs_out, action = "remove", lib.loc = lib.loc)
   rm(list = c("pkgs_in", "pkgs_out"))
   ls()
 }
 expect_equal(temp.fun(), c("%op11%", '%op12%')) |> errorfun()
+
 
 # test import_as - error handling:
 expect_error(

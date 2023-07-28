@@ -18,7 +18,8 @@ errorfun <- function(tt) {
 # test import_as - single package:
 stri <- loadNamespace("stringi") |> getNamespaceExports()
 import_as(stri., "stringi")
-expect_equal(names(stri.)|>sort(), sort(stri)) |> errorfun()
+out <- setdiff(names(stri.), ".__attributes__.") |> sort()
+expect_equal(out, sort(stri)) |> errorfun()
 
 
 # test import_as - error handling:
@@ -51,8 +52,9 @@ p3 <- c(
   "fun11",
   "fun31", "fun32", "%op31%", "%op32%"
 )
-expect_equal(names(p3.)|>sort(),  sort(p3)) |> errorfun()
-expect_true(attributes(p3.)$args$foreign_exports) |> errorfun()
+out <- setdiff(names(p3.), ".__attributes__.") |> sort()
+expect_equal(out,  sort(p3)) |> errorfun()
+expect_true(p3.$.__attributes__.$args$foreign_exports) |> errorfun()
 
 
 # test import_as - Dependencies:
@@ -68,13 +70,14 @@ p3 <- c(
   "fun21", "fun22", "%op21%", "%op22%",
   "fun31", "fun32", "%op31%", "%op32%"
 )
-expect_equal(names(p3.)|>sort(),  sort(p3)) |> errorfun()
+out <- setdiff(names(p3.), ".__attributes__.") |> sort()
+expect_equal(out,  sort(p3)) |> errorfun()
 expect_equal(
-  attributes(p3.)$conflicts$package,
+  p3.$.__attributes__.$conflicts$package,
   c("tinyoperationsfakepkg1", "tinyoperationsfakepkg2", "tinyoperationsfakepkg3 + foreign exports")
 ) |> errorfun()
 expect_equal(
-  attributes(p3.)$packages_order,
+  p3.$.__attributes__.$packages_order,
   c("tinyoperationsfakepkg1", "tinyoperationsfakepkg2", "tinyoperationsfakepkg3")
 ) |> errorfun()
 
@@ -90,13 +93,14 @@ p3 <- c(
   "fun11", "fun12", "%op11%", "%op12%",
   "fun31", "fun32", "%op31%", "%op32%"
 )
-expect_equal(names(p3.)|>sort(),  sort(p3)) |> errorfun()
+out <- setdiff(names(p3.), ".__attributes__.") |> sort()
+expect_equal(out,  sort(p3)) |> errorfun()
 expect_equal(
-  attributes(p3.)$conflicts$package,
+  p3.$.__attributes__.$conflicts$package,
   c("tinyoperationsfakepkg1 + foreign exports", "tinyoperationsfakepkg3")
 ) |> errorfun()
 expect_equal(
-  attributes(p3.)$packages_order,
+  p3.$.__attributes__.$packages_order,
   c("tinyoperationsfakepkg1", "tinyoperationsfakepkg3")
 ) |> errorfun()
 
@@ -112,13 +116,14 @@ p3 <- c(
   "fun11", "fun12", "%op11%", "%op12%",
   "fun31", "fun32", "%op31%", "%op32%"
 )
-expect_equal(names(p3.)|>sort(),  sort(p3)) |> errorfun()
+out <- setdiff(names(p3.), ".__attributes__.") |> sort()
+expect_equal(out,  sort(p3)) |> errorfun()
 expect_equal(
-  attributes(p3.)$conflicts$package,
+  p3.$.__attributes__.$conflicts$package,
   c("tinyoperationsfakepkg1 + foreign exports", "tinyoperationsfakepkg3")
 ) |> errorfun()
 expect_equal(
-  attributes(p3.)$packages_order,
+  p3.$.__attributes__.$packages_order,
   c("tinyoperationsfakepkg1", "tinyoperationsfakepkg3")
 ) |> errorfun()
 
@@ -135,7 +140,7 @@ p3 <- data.frame(
   winning_conflicts = c("", "", paste0(c("fun_overwritten", "%opover%", "fun11"), collapse = ", "))
 )
 expect_equal(
-  attributes(p3.)$conflicts, p3
+  p3.$.__attributes__.$conflicts, p3
 ) |> errorfun()
 
 # test import_as - overwriting locked environment:
@@ -152,4 +157,4 @@ import_as(
   foreign_exports = TRUE,
   lib.loc=lib.loc
 )
-expect_true("tinyimport" %in% names(attributes(new.))) |> errorfun()
+expect_true("tinyimport" %in% names(new.$.__attributes__.)) |> errorfun()
