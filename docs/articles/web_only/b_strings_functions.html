@@ -287,8 +287,8 @@ sentences :</p>
 <span><span class="va">mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>ncol<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">shuffled</span> <span class="op">&lt;-</span> <span class="va">x</span> <span class="op"><a href="../../reference/matrix_ops.html">%row~%</a></span> <span class="va">mat</span></span>
 <span><span class="fu"><a href="../../reference/stri_join_mat.html">stri_paste_mat</a></span><span class="op">(</span><span class="va">shuffled</span>, margin<span class="op">=</span><span class="fl">1</span>, sep<span class="op">=</span><span class="st">" "</span><span class="op">)</span> <span class="co"># &lt;- another alias for stri_join_mat</span></span>
-<span><span class="co">#&gt; [1] "Oh, really?!  Hello, who are you?  Cool!"</span></span>
-<span><span class="co">#&gt; [2] "But I really don't. I don't care.  "</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "Cool! Hello, who are you?  Oh, really?! "</span></span>
+<span><span class="co">#&gt; [2] "But I really don't.  I don't care. "</span></span></code></pre></div>
 <p> </p>
 </div>
 <div class="section level2">
