@@ -11,7 +11,7 @@ Some additional functions provided by the \code{tinyoperations} R package:
 \itemize{
 \item \link[=\%xor\%]{Infix logical operators} for exclusive-or, not-and, not-in, number-type, and string-type.
 \item \link[=lock_TF]{restrict re-assignment of "T" and "F"}.
-\item \link[=\%<-c\%]{create unchangeable CONSTANT}.
+\item \link[=\%<-c\%]{create unchangeable constant}.
 \item \link[=\%row~\%]{Infix operators for row- and column-wise re-ordering of matrices}.
 }
 

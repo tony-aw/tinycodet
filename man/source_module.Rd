@@ -27,10 +27,11 @@ The \code{local} argument should not be included.}
 }
 \value{
 For the \code{alias \%@source\% list(file=...)} operator: \cr
-The variable named as the \code{alias} will be created
-(if it did not already exist) in the current environment
-(like the Global environment, or the environment within a function),
-and will contain all objects from the sourced script. \cr
+A locked environment object, similar to the output of \link[base]{loadNamespace},
+with the name as specified in the \code{alias} argument,
+will be created in the current environment
+(like the global environment, or the environment within a function).
+The alias object will contain all objects from the sourced script. \cr
 To use, for example, function "some_function()" from alias "alias.", use: \cr
 \code{alias.$some_function()} \cr
 \cr

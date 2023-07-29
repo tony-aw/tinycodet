@@ -6,8 +6,7 @@
 #' in the current environment
 #' (like the global environment, or the environment within a function),
 #' or a user specified environment.
-#' It also reports from which packages the infix operators came from,
-#' and whether they are locked or not.
+#' It also reports from which packages the infix operators came from.
 #'
 #' @param env an optional environment to give,
 #' where the function should look for infix operators. \cr
@@ -48,7 +47,6 @@ report_inops <- function(env) {
   df <- data.frame(
     infix_operator = character(n),
     package = character(n),
-    locked = logical(n),
     check.names = FALSE, stringsAsFactors = FALSE
   )
 
@@ -57,7 +55,6 @@ report_inops <- function(env) {
     package <- .internal_get_packagename(f)
     if(is.null(package)) { package <- NA }
     df$package[i] <- package
-    df$locked[i] <- isTRUE(bindingIsLocked(as.character(lst.inops[i]), env = env))
     df$infix_operator[i] <- lst.inops[i]
   }
   return(df)

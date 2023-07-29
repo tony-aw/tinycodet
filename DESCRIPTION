@@ -11,7 +11,7 @@ Description: The 'tinyoperations' R-package adds some infix operators, and a few
     (3) Reducing repetitive code.
     (4) A new package and module import system, that combines the benefits of aliasing a package with the benefits of attaching a package. 
     The 'tinyoperations' R-package has only one dependency, namely 'stringi'.
-    Most functions in this R-package are fully vectorized and have been optimized for optimal speed and performance.
+    Most functions in this R-package are fully vectorized and optimized.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

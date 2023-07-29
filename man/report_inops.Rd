@@ -22,8 +22,7 @@ returns a data.frame listing the infix operators defined
 in the current environment
 (like the global environment, or the environment within a function),
 or a user specified environment.
-It also reports from which packages the infix operators came from,
-and whether they are locked or not.
+It also reports from which packages the infix operators came from.
 }
 \examples{
 

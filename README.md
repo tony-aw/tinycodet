@@ -12,7 +12,7 @@ has not yet been a stable, usable release suitable for the
 public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 [![](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![](https://img.shields.io/badge/ORCID-0000--0001--9498--8379-green.svg)](https://orcid.org/0000-0001-9498-8379)
-[![](https://img.shields.io/badge/Site%20Pages-tony--aw.github.io/tinyoperations-purple.svg)](https://tony-aw.github.io/tinyoperations)
+[![](https://img.shields.io/badge/github--pages-tony--aw.github.io/tinyoperations-purple.svg)](https://tony-aw.github.io/tinyoperations)
 <!-- badges: end -->
 
 ![](man/figures/tinyoperations.svg)  
@@ -31,7 +31,7 @@ functions. It primarily focuses on 4 things:
 
 The `tinyoperations` R-package has only one dependency, namely
 `stringi`. Most functions in this R-package are fully vectorized and
-have been optimized for optimal speed and performance.
+optimized.
 
  
 
@@ -73,14 +73,17 @@ Operators and functions to reduce repetitive code:
 
 ``` r
 # in base R:
-very_long_name_1 <- ifelse(# repetitive, and gives unnecessary warning
-  very_long_name_1 > 0, log(very_long_name_1), very_long_name_1^2
+ifelse( # repetitive, and gives unnecessary warning
+  is.na(object>0), -Inf,
+  ifelse(
+    object>0,  log(object), object^2
+  )
 )
-mtcars$mpg[mtcars$cyl>6] <- (mtcars$mpg[mtcars$cyl>6])^2
+mtcars$mpg[mtcars$cyl>6] <- (mtcars$mpg[mtcars$cyl>6])^2 # long
 
 # with tinyoperations:
-very_long_name_1 %<>% transform_if(\(x)x>0, log, \(x)x^2) # compact & no warning
-mtcars$mpg[mtcars$cyl>6] %:=% \(x)x^2
+object |> transform_if(\(x)x>0, log, \(x)x^2, \(x) -Inf) # compact & no warning
+mtcars$mpg[mtcars$cyl>6] %:=% \(x)x^2 # short
 ```
 
  
@@ -95,7 +98,8 @@ print(x)
 #> [2] "abcdefghijklm"
 loc <- stri_locate_ith(
   # locate second-last occurrence of "good" (ignore case) of each string in x:
-  x, -2, regex="good", case_insensitive=TRUE)
+  x, -2, regex="good", case_insensitive=TRUE
+)
 substr(x, loc[,1], loc[,2])
 #> [1] "GooD" NA
 ```
@@ -121,7 +125,8 @@ is run **without attaching a single R package** (besides
 `tinyoperations` itself of course):
 
 ``` r
-import_as( # loading "tidytable" + its foreign exports + "data.table" under alias "tdt." 
+# loading "tidytable" + "data.table" under alias "tdt.":
+import_as( 
   tdt., "tidytable", dependencies = "data.table"
 )
 #> Importing packages...
@@ -129,25 +134,19 @@ import_as( # loading "tidytable" + its foreign exports + "data.table" under alia
 #> You can now access the functions using `tdt.$`.
 #> (S3)methods will work like normally. 
 #> For conflicts report and package order, run `tdt.$.__attributes__.`.
-tdt.$.__attributes__.$conflicts |> knitr::kable()
-```
 
-| package                     | winning_conflicts                                                                                      |
-|:----------------------------|:-------------------------------------------------------------------------------------------------------|
-| data.table                  |                                                                                                        |
-| tidytable + foreign exports | first, last, between, fread, %chin%, getDTthreads, data.table, %between%, setDTthreads, fwrite, %like% |
-
-``` r
-
-import_inops("magrittr") # exposing operators from `magrrittr` to current env
+# exposing operators from `magrrittr` to current environment:
+import_inops("magrittr")
 #> Getting infix operators from package: magrittr...
 #> 
 #> Checking for conflicting infix operators in the current environment...
 #> Placing infix operators in current environment...
 #> Done
 
-d <- import_data("starwars", "dplyr") # directly assigning the "starwars" dataset to object "d"
+# directly assigning the "starwars" dataset to object "d":
+d <- import_data("starwars", "dplyr") 
 
+# see it in action:
 d %>% tdt.$filter(species == "Droid") %>%
   tdt.$select(name, tdt.$ends_with("color"))
 #> # A tidytable: 6 × 4
@@ -159,6 +158,7 @@ d %>% tdt.$filter(species == "Droid") %>%
 #> 4 IG-88  none       metal       red      
 #> 5 R4-P17 none       silver, red red, blue
 #> 6 BB8    none       none        black
+
 
 myalias. %@source% list(file="sourcetest.R") # source a script under an alias
 #> Importing module ...
@@ -203,16 +203,13 @@ tinyoperations::tinyoperations_help()
 # Recommended R packages
 
 `stringi` is of course required for this packages. Besides that, I
-highly recommend using this R package alongside the 2 major
-operator-related R-packages, namely `magrittr` and `zeallot`.
+highly recommend the [fastverse](https://github.com/fastverse/fastverse)
+set of R packages (<https://github.com/fastverse/fastverse>), which are
+a set of R packages for (mostly) data wrangling, focused on high speed,
+better memory management, and minimal dependencies.
 
-I also highly recommend the `fastverse` set of R packages
-(<https://github.com/fastverse/fastverse>), which are a set of R
-packages for (mostly) data wrangling, focused on high speed, better
-memory management, and minimal dependencies.
-
-For quick ’n easy back-tracing of errors, I recommend the `rlang` R
-package.
+For quick ’n easy back-tracing of errors, I recommend the
+[rlang](https://github.com/r-lib/rlang/tree/main/R) R package.
 
  
 
@@ -222,38 +219,44 @@ The `stringi` R package has the `%s+%` and `%s*%` operators. They do
 exactly the same things as in `tinyoperations`, and so the masking of
 these functions can safely be ignored. I also made sure not to name any
 of the operators in `tinyoperations` the same as the operators in
-`magrittr` and `zeallot`, so that should be safe also.
+[magrittr](https://github.com/tidyverse/magrittr) and
+[zeallot](https://github.com/r-lib/zeallot), so that should be safe
+also.
 
  
 
-The `import` R package provides somewhat similar capabilities to the
-`tinyoperations` import management system, but they are still quite
-different. The `tinyoperations`’ import system focuses more on exposing
-infix operators to the current environment, loading a package + its
-foreign exports in an alias, and allowing multiple related packages to
-be loaded under the same alias. The `import` package does not really
-provide these functionality directly (as far as I know). Strictly
+The [import](https://github.com/rticulate/import) R package provides
+somewhat similar capabilities to the `tinyoperations` import management
+system, but they are still quite different. The `tinyoperations`’ import
+system focuses more on exposing infix operators to the current
+environment, loading a package + its foreign exports in an alias, and
+allowing multiple related packages to be loaded under the same alias.
+The [import](https://github.com/rticulate/import) package does not
+really provide these functionality directly (as far as I know). Strictly
 speaking there is no incompatibility between `tinyoperations` and
-`import`. You can safely use both implementations of the import system,
-if you wish.
+[import](https://github.com/rticulate/import). You can safely use both
+implementations of the import system, if you wish.
 
  
 
-When using `renv` R package, note that it only registers packages loads
-using plain `library()` or `require()` calls. Anything different from
-that, even things like `for(... in ...)library(...)` or
-`if(...)library(...)`, will not be understood by `renv`. Therefore, if
-using `renv`, please make sure to set the following:
+When using the [renv](https://github.com/rstudio/renv) R package, note
+that it only registers packages loads using plain `library()` or
+`require()` calls. Anything different from that, even things like
+`for(... in ...)library(...)` or `if(...)library(...)`, will not be
+understood by [renv](https://github.com/rstudio/renv). Therefore, if
+using [renv](https://github.com/rstudio/renv), please make sure to set
+the following:
 
 ``` r
 renv::settings$snapshot.type("all")
 ```
 
 This will make sure that all packages installed in your project library,
-regardless of how they are loaded, will all be registered by `renv`.
-This makes `renv` compatible with calls like `import_as` from
-`tinyoperations`, and things like `for(... in ...)library(...)` or
-`if(...)library(...)`.
+regardless of how they are loaded, will all be registered by
+[renv](https://github.com/rstudio/renv). This makes
+[renv](https://github.com/rstudio/renv) compatible with calls like
+`import_as` from `tinyoperations`, and things like
+`for(... in ...)library(...)` or `if(...)library(...)`.
 
  
 
@@ -442,6 +445,11 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
 - 28 July 2023: Another small update. Simplified the import lock system.
   Moved part of the arguments of `import_inops()` to
   `import_inops.control()`.
+- 29 July 2023: The `report_inops()` function no longer checks if infix
+  operators are locked, considering yesterday’s change of the import
+  lock system. The `@source` operator now creates a locked environment
+  just like `import_as()`. Adjusted the documentation here and there.
+  Added hyperlinks to external package references in the website.
 
 FUTURE PLANS:
 

@@ -98,7 +98,7 @@
 #'
 #'
 #' @returns
-#' A locked environment object, similar to the output of \link[base]{loadNamespace}, \cr
+#' A locked environment object, similar to the output of \link[base]{loadNamespace},
 #' with the name as specified in the \code{alias} argument,
 #' will be created in the current environment
 #' (like the global environment, or the environment within a function). \cr

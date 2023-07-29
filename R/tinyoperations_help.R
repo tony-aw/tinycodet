@@ -21,7 +21,7 @@
 #' The \code{tinyoperations} R-package has only one dependency,
 #' namely \code{stringi}.
 #' Most functions in this R-package are fully vectorized
-#' and have been optimized for optimal speed and performance.
+#' and optimized.
 #' \cr
 #'
 #'

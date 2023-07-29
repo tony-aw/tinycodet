@@ -71,9 +71,8 @@ ensuring no unnecessary warnings or errors occur. \cr
 \cr
 }
 \description{
-The \code{transform_if()} function is alternative form of \link[base]{ifelse}.
 The \code{transform_if()} function transforms an object \code{x},
-based on logical (\code{TRUE, FALSE, NA}) condition \code{cond(x)},
+based on the logical result (\code{TRUE, FALSE, NA}) of condition function \code{cond(x)},
 such that: \cr
 
 \itemize{
