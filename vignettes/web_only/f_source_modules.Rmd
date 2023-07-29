@@ -93,7 +93,7 @@ So no need to worry about their scope (unless you start tinkering with the envir
 
 # The report_inops() function
 
-`tinyoperations` adds the `report_inops()` function. This is a convenience function that prints all infix operators in the current environment, as well as from which package it came (if the function can find that out), and whether the function is locked or not.
+`tinyoperations` adds the `report_inops()` function. This is a convenience function that prints all infix operators in the current environment, as well as from which package it came (if the function can find that out).
 
 Example:
 

@@ -339,11 +339,19 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h1 class="title toc-ignore">Source modules</h1>
 
 
+<div id="TOC">
+<ul>
+<li><a href="#introduction" id="toc-introduction"><span class="toc-section-number">1</span> Introduction</a></li>
+<li><a href="#main" id="toc-main"><span class="toc-section-number">2</span> Main</a></li>
+<li><a href="#the-report_inops-function" id="toc-the-report_inops-function"><span class="toc-section-number">3</span> The report_inops() function</a></li>
+<li><a href="#regarding-s3-methods" id="toc-regarding-s3-methods"><span class="toc-section-number">4</span> Regarding S3 methods</a></li>
+</ul>
+</div>
 
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(tinyoperations)</span></code></pre></div>
 <p> </p>
-<div id="introduction" class="section level1">
-<h1>Introduction</h1>
+<div id="introduction" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Introduction</h1>
 <p>The article “Package import system” explained the new import system
 introduced by the <code>tinyoperations</code> R package. Some of its
 functionality is also extended to work on scripts that provide
@@ -352,8 +360,8 @@ side-effects (i.e. plots, prints, messages), are referred to as
 “modules”.</p>
 <p> </p>
 </div>
-<div id="main" class="section level1">
-<h1>Main</h1>
+<div id="main" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Main</h1>
 <p>The the <code>tinyoperations</code> R package adds the
 <code>alias %@source% list(file=...)</code> operator and the
 <code>source_inops()</code> function. The
@@ -428,13 +436,13 @@ functions.</p>
 with the environments of the functions.)</p>
 <p> </p>
 </div>
-<div id="the-report_inops-function" class="section level1">
-<h1>The report_inops() function</h1>
+<div id="the-report_inops-function" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> The report_inops()
+function</h1>
 <p><code>tinyoperations</code> adds the <code>report_inops()</code>
 function. This is a convenience function that prints all infix operators
 in the current environment, as well as from which package it came (if
-the function can find that out), and whether the function is locked or
-not.</p>
+the function can find that out).</p>
 <p>Example:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="st">&quot;magrittr&quot;</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#&gt; Getting infix operators from package: magrittr...</span></span>
@@ -461,8 +469,9 @@ not.</p>
 <span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a><span class="co">#&gt; 7           %T&gt;% magrittr</span></span></code></pre></div>
 <p> </p>
 </div>
-<div id="regarding-s3-methods" class="section level1">
-<h1>Regarding S3 methods</h1>
+<div id="regarding-s3-methods" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Regarding S3
+methods</h1>
 <p>When importing packages with <code>tinyoperations</code>’ import
 system, S3 methods will work just fine. For example, the S3 method ”
 <code>plot()</code> ” works on the pre-installed recommended R package
