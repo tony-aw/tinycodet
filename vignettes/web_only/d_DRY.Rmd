@@ -34,7 +34,7 @@ object <- matrix(c(-9:8, NA, NA) , ncol=2)
 y <- 0
 z <- 1000
 ifelse(
-  is.na(object), -z,
+  is.na(object>y), -z,
   ifelse(
     object>y,  log(object), object^2
   )

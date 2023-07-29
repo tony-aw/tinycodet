@@ -114,7 +114,7 @@ report_inops()
 
 # Regarding S3 methods
 
-When importing packages with `tinyoperations`' import system, S3 methods will work just fine. For example, the S3 method " `plot()` " works on `mgcv` even when loaded in an alias:
+When importing packages with `tinyoperations`' import system, S3 methods will work just fine. For example, the S3 method " `plot()` " works on the pre-installed recommended R package `mgcv`, even when loaded in an alias:
 
 ```{r}
 import_as(mgcv., "mgcv")
@@ -184,7 +184,7 @@ mymeth(0)
 mymeth("a")
 ```
 
-If you dislike this approach, you can also use the `import` package to source a script, as that package provides an (experimental) S3 registering system for sourced scripts. Note, however, that the `import` R package does not provide some of the other features of `tinyoperations`, such as importing multiple related packages under the same alias, and convenient infix operator handling.
+If you dislike this approach, you can also use the [import](https://github.com/rticulate/import) package to source a script, as that package provides an (experimental) S3 registering system for sourced scripts. Note, however, that the [import](https://github.com/rticulate/import) R package does not provide some of the other features of `tinyoperations`, such as importing multiple related packages under the same alias, and convenient infix operator handling.
 
 
 &nbsp;

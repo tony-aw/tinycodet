@@ -339,19 +339,11 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h1 class="title toc-ignore">Source modules</h1>
 
 
-<div id="TOC">
-<ul>
-<li><a href="#introduction" id="toc-introduction"><span class="toc-section-number">1</span> Introduction</a></li>
-<li><a href="#main" id="toc-main"><span class="toc-section-number">2</span> Main</a></li>
-<li><a href="#the-report_inops-function" id="toc-the-report_inops-function"><span class="toc-section-number">3</span> The report_inops() function</a></li>
-<li><a href="#regarding-s3-methods" id="toc-regarding-s3-methods"><span class="toc-section-number">4</span> Regarding S3 methods</a></li>
-</ul>
-</div>
 
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(tinyoperations)</span></code></pre></div>
 <p> </p>
-<div id="introduction" class="section level1" number="1">
-<h1><span class="header-section-number">1</span> Introduction</h1>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
 <p>The article “Package import system” explained the new import system
 introduced by the <code>tinyoperations</code> R package. Some of its
 functionality is also extended to work on scripts that provide
@@ -360,8 +352,8 @@ side-effects (i.e. plots, prints, messages), are referred to as
 “modules”.</p>
 <p> </p>
 </div>
-<div id="main" class="section level1" number="2">
-<h1><span class="header-section-number">2</span> Main</h1>
+<div id="main" class="section level1">
+<h1>Main</h1>
 <p>The the <code>tinyoperations</code> R package adds the
 <code>alias %@source% list(file=...)</code> operator and the
 <code>source_inops()</code> function. The
@@ -436,9 +428,8 @@ functions.</p>
 with the environments of the functions.)</p>
 <p> </p>
 </div>
-<div id="the-report_inops-function" class="section level1" number="3">
-<h1><span class="header-section-number">3</span> The report_inops()
-function</h1>
+<div id="the-report_inops-function" class="section level1">
+<h1>The report_inops() function</h1>
 <p><code>tinyoperations</code> adds the <code>report_inops()</code>
 function. This is a convenience function that prints all infix operators
 in the current environment, as well as from which package it came (if
@@ -460,23 +451,22 @@ not.</p>
 <span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="fu">source_inops</span>(<span class="at">exprs=</span>exprs)</span>
 <span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt; placing operators in current environment...</span></span>
 <span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="fu">report_inops</span>()</span>
-<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#&gt;   infix_operator  package locked</span></span>
-<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co">#&gt; 1           %!&gt;% magrittr  FALSE</span></span>
-<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="co">#&gt; 2            %$% magrittr  FALSE</span></span>
-<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a><span class="co">#&gt; 3           %&lt;&gt;% magrittr  FALSE</span></span>
-<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="co">#&gt; 4            %&gt;% magrittr  FALSE</span></span>
-<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a><span class="co">#&gt; 5       %s*test%     &lt;NA&gt;  FALSE</span></span>
-<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a><span class="co">#&gt; 6       %s+test%     &lt;NA&gt;  FALSE</span></span>
-<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a><span class="co">#&gt; 7           %T&gt;% magrittr  FALSE</span></span></code></pre></div>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#&gt;   infix_operator  package</span></span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co">#&gt; 1           %!&gt;% magrittr</span></span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="co">#&gt; 2            %$% magrittr</span></span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a><span class="co">#&gt; 3           %&lt;&gt;% magrittr</span></span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="co">#&gt; 4            %&gt;% magrittr</span></span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a><span class="co">#&gt; 5       %s*test%     &lt;NA&gt;</span></span>
+<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a><span class="co">#&gt; 6       %s+test%     &lt;NA&gt;</span></span>
+<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a><span class="co">#&gt; 7           %T&gt;% magrittr</span></span></code></pre></div>
 <p> </p>
 </div>
-<div id="regarding-s3-methods" class="section level1" number="4">
-<h1><span class="header-section-number">4</span> Regarding S3
-methods</h1>
+<div id="regarding-s3-methods" class="section level1">
+<h1>Regarding S3 methods</h1>
 <p>When importing packages with <code>tinyoperations</code>’ import
 system, S3 methods will work just fine. For example, the S3 method ”
-<code>plot()</code> ” works on <code>mgcv</code> even when loaded in an
-alias:</p>
+<code>plot()</code> ” works on the pre-installed recommended R package
+<code>mgcv</code>, even when loaded in an alias:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">import_as</span>(mgcv., <span class="st">&quot;mgcv&quot;</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co">#&gt; Importing packages...</span></span>
 <span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
@@ -586,13 +576,12 @@ the regular <code>source()</code> function:</p>
 <span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="co">#&gt; [1] 0</span></span>
 <span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="fu">mymeth</span>(<span class="st">&quot;a&quot;</span>)</span>
 <span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a><span class="co">#&gt; [1] &quot;A&quot;</span></span></code></pre></div>
-<p>If you dislike this approach, you can also use the
-<code>import</code> package to source a script, as that package provides
-an (experimental) S3 registering system for sourced scripts. Note,
-however, that the <code>import</code> R package does not provide some of
-the other features of <code>tinyoperations</code>, such as importing
-multiple related packages under the same alias, and convenient infix
-operator handling.</p>
+<p>If you dislike this approach, you can also use the <a href="https://github.com/rticulate/import">import</a> package to source
+a script, as that package provides an (experimental) S3 registering
+system for sourced scripts. Note, however, that the <a href="https://github.com/rticulate/import">import</a> R package does not
+provide some of the other features of <code>tinyoperations</code>, such
+as importing multiple related packages under the same alias, and
+convenient infix operator handling.</p>
 <p> </p>
 </div>
 
