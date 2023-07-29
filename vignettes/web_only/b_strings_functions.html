@@ -339,11 +339,25 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h1 class="title toc-ignore">String related functions</h1>
 
 
+<div id="TOC">
+<ul>
+<li><a href="#stri_locate_ith" id="toc-stri_locate_ith"><span class="toc-section-number">1</span> stri_locate_ith</a></li>
+<li><a href="#strcut_---functions" id="toc-strcut_---functions"><span class="toc-section-number">2</span> strcut_ - functions</a></li>
+<li><a href="#matrix-re-ordering-operators" id="toc-matrix-re-ordering-operators"><span class="toc-section-number">3</span> Matrix re-ordering
+operators</a></li>
+<li><a href="#matrix-joining" id="toc-matrix-joining"><span class="toc-section-number">4</span> Matrix joining</a></li>
+<li><a href="#performance" id="toc-performance"><span class="toc-section-number">5</span> Performance</a>
+<ul>
+<li><a href="#stri_locate_ith-1" id="toc-stri_locate_ith-1"><span class="toc-section-number">5.1</span> stri_locate_ith</a></li>
+<li><a href="#strcut" id="toc-strcut"><span class="toc-section-number">5.2</span> strcut</a></li>
+</ul></li>
+</ul>
+</div>
 
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(tinyoperations)</span></code></pre></div>
 <p> </p>
-<div id="stri_locate_ith" class="section level1">
-<h1>stri_locate_ith</h1>
+<div id="stri_locate_ith" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> stri_locate_ith</h1>
 <p>Suppose one wants to transform the <strong>first</strong> vowels in
 the strings of a character vector <code>str</code>, such that all upper
 case vowels become lower case, and vice-versa. One can do that
@@ -397,8 +411,9 @@ with <code>stri_locate_first/last</code>:</p>
 to change the locate function.</p>
 <p> </p>
 </div>
-<div id="strcut_---functions" class="section level1">
-<h1>strcut_ - functions</h1>
+<div id="strcut_---functions" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> strcut_ -
+functions</h1>
 <p>The <code>tinyoperations</code> R package adds 2 <code>strcut</code>
 functions: <code>strcut_loc()</code> and <code>strcut_brk()</code>.</p>
 <p>The <code>strcut_loc()</code>function cuts every string in a
@@ -485,8 +500,9 @@ with some more conveniently named arguments.</p>
 <span id="cb4-68"><a href="#cb4-68" tabindex="-1"></a><span class="co">#&gt; [2,] &quot; &quot;   &quot;4&quot;   &quot;5&quot;   &quot;6&quot;   &quot; &quot;   &quot;7&quot;   &quot;8&quot;   &quot;9&quot;   &quot;&quot;    &quot;&quot;    &quot;&quot;</span></span></code></pre></div>
 <p> </p>
 </div>
-<div id="matrix-re-ordering-operators" class="section level1">
-<h1>Matrix re-ordering operators</h1>
+<div id="matrix-re-ordering-operators" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Matrix re-ordering
+operators</h1>
 <p>The matrix re-ordering operators are quite handy for re-ordering
 strings, since the <code>strcut_</code> - functions return matrices, and
 the <code>stri_join_mat()</code> and their aliases concatenate
@@ -496,8 +512,8 @@ matrices.</p>
 <p>See also the “Miscellaneous functionality” article.</p>
 <p> </p>
 </div>
-<div id="matrix-joining" class="section level1">
-<h1>Matrix joining</h1>
+<div id="matrix-joining" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Matrix joining</h1>
 <p>The <code>tinyoperations</code> package adds a tiny additional
 function to <code>stringi</code>:</p>
 <p><code>stri_join_mat</code> (and their aliases <code>stri_c_mat</code>
@@ -535,24 +551,24 @@ sentences :</p>
 <span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a>mat <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(x)) <span class="sc">|&gt;</span> <span class="fu">matrix</span>(<span class="at">ncol=</span><span class="fu">ncol</span>(x))</span>
 <span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a>shuffled <span class="ot">&lt;-</span> x <span class="sc">%row~%</span> mat</span>
 <span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a><span class="fu">stri_paste_mat</span>(shuffled, <span class="at">margin=</span><span class="dv">1</span>, <span class="at">sep=</span><span class="st">&quot; &quot;</span>) <span class="co"># &lt;- another alias for stri_join_mat</span></span>
-<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Cool! Oh, really?!  Hello, who are you? &quot;</span></span>
-<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a><span class="co">#&gt; [2] &quot;But I really don&#39;t. I don&#39;t care.  &quot;</span></span></code></pre></div>
+<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Oh, really?!  Cool! Hello, who are you? &quot;</span></span>
+<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a><span class="co">#&gt; [2] &quot;I don&#39;t care.  But I really don&#39;t. &quot;</span></span></code></pre></div>
 <p> </p>
 </div>
-<div id="performance" class="section level1">
-<h1>Performance</h1>
+<div id="performance" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Performance</h1>
 <p>Although the functions in this R package were written in R, the
 functions - especially the string related ones - have been somewhat
 aggressively optimized. The string related functions, for example, are
 about in the same order of magnitude in terms of speed as the
 <code>stringi</code> functions they call.</p>
-<p>Here some speed comparisons are given, using the
-<code>rbenchmark</code> R package.</p>
+<p>Here some speed comparisons are given, using the <a href="https://cran.r-project.org/web/packages/rbenchmark/index.html">rbenchmark</a>
+R package.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">library</span>(rbenchmark)</span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;speedtest.RData&quot;</span>)</span></code></pre></div>
 <p> </p>
-<div id="stri_locate_ith-1" class="section level2">
-<h2>stri_locate_ith</h2>
+<div id="stri_locate_ith-1" class="section level2" number="5.1">
+<h2><span class="header-section-number">5.1</span> stri_locate_ith</h2>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fl">1e5</span></span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">paste0</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>, <span class="at">collapse=</span><span class="st">&quot;&quot;</span>), n)</span>
 <span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="st">&quot;</span><span class="sc">\\</span><span class="st">d&quot;</span></span>
@@ -601,8 +617,8 @@ about in the same order of magnitude in terms of speed as the
 </table>
 <p> </p>
 </div>
-<div id="strcut" class="section level2">
-<h2>strcut</h2>
+<div id="strcut" class="section level2" number="5.2">
+<h2><span class="header-section-number">5.2</span> strcut</h2>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fl">1e5</span></span>
 <span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="st">&quot;hello&quot;</span>, n)</span>
 <span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, n, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>

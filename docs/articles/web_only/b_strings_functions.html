@@ -288,7 +288,7 @@ sentences :</p>
 <span><span class="va">shuffled</span> <span class="op">&lt;-</span> <span class="va">x</span> <span class="op"><a href="../../reference/matrix_ops.html">%row~%</a></span> <span class="va">mat</span></span>
 <span><span class="fu"><a href="../../reference/stri_join_mat.html">stri_paste_mat</a></span><span class="op">(</span><span class="va">shuffled</span>, margin<span class="op">=</span><span class="fl">1</span>, sep<span class="op">=</span><span class="st">" "</span><span class="op">)</span> <span class="co"># &lt;- another alias for stri_join_mat</span></span>
 <span><span class="co">#&gt; [1] "Oh, really?!  Hello, who are you?  Cool!"</span></span>
-<span><span class="co">#&gt; [2] " I don't care.  But I really don't."</span></span></code></pre></div>
+<span><span class="co">#&gt; [2] "But I really don't. I don't care.  "</span></span></code></pre></div>
 <p> </p>
 </div>
 <div class="section level2">
@@ -299,8 +299,8 @@ functions - especially the string related ones - have been somewhat
 aggressively optimized. The string related functions, for example, are
 about in the same order of magnitude in terms of speed as the
 <code>stringi</code> functions they call.</p>
-<p>Here some speed comparisons are given, using the
-<code>rbenchmark</code> R package.</p>
+<p>Here some speed comparisons are given, using the <a href="https://cran.r-project.org/web/packages/rbenchmark/index.html" class="external-link">rbenchmark</a>
+R package.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://rbenchmark.googlecode.com" class="external-link">rbenchmark</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/load.html" class="external-link">load</a></span><span class="op">(</span><span class="st">"speedtest.RData"</span><span class="op">)</span></span></code></pre></div>

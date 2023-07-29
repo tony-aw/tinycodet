@@ -244,12 +244,12 @@ convert the object, and then re-assign the attributes. Like so:</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"one"</span>, <span class="st">"two"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"test"</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"test"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span><span class="co">#&gt;             one         two</span></span>
-<span><span class="co">#&gt; [1,]  0.1048872 -1.04771329</span></span>
-<span><span class="co">#&gt; [2,] -0.6503847  0.04364831</span></span>
-<span><span class="co">#&gt; [3,] -0.6230794 -0.72618971</span></span>
-<span><span class="co">#&gt; [4,] -1.3124886 -1.01121061</span></span>
-<span><span class="co">#&gt; [5,] -1.8962245  1.17051591</span></span>
+<span><span class="co">#&gt;             one        two</span></span>
+<span><span class="co">#&gt; [1,] -0.9514401  0.2233034</span></span>
+<span><span class="co">#&gt; [2,]  0.8071698 -0.3209220</span></span>
+<span><span class="co">#&gt; [3,]  0.3521051 -1.0356184</span></span>
+<span><span class="co">#&gt; [4,] -1.7200907  0.8188227</span></span>
+<span><span class="co">#&gt; [5,] -0.2741846 -2.0581858</span></span>
 <span><span class="co">#&gt; attr(,"test")</span></span>
 <span><span class="co">#&gt; [1] "test"</span></span>
 <span></span>
@@ -258,16 +258,16 @@ convert the object, and then re-assign the attributes. Like so:</p>
 <span><span class="co"># Second, convert the object:</span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="co"># no longer a matrix, nor any other attributes</span></span>
-<span><span class="co">#&gt;  [1]  0  0  0 -1 -1 -1  0  0 -1  1</span></span>
+<span><span class="co">#&gt;  [1]  0  0  0 -1  0  0  0 -1  0 -2</span></span>
 <span><span class="co"># Third, re-assign attributes:</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">myattr</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      one two</span></span>
-<span><span class="co">#&gt; [1,]   0  -1</span></span>
+<span><span class="co">#&gt; [1,]   0   0</span></span>
 <span><span class="co">#&gt; [2,]   0   0</span></span>
-<span><span class="co">#&gt; [3,]   0   0</span></span>
-<span><span class="co">#&gt; [4,]  -1  -1</span></span>
-<span><span class="co">#&gt; [5,]  -1   1</span></span>
+<span><span class="co">#&gt; [3,]   0  -1</span></span>
+<span><span class="co">#&gt; [4,]  -1   0</span></span>
+<span><span class="co">#&gt; [5,]   0  -2</span></span>
 <span><span class="co">#&gt; attr(,"test")</span></span>
 <span><span class="co">#&gt; [1] "test"</span></span></code></pre></div>
 <p>The above code … is just sad. So I’ve taken the liberty of creating
@@ -304,29 +304,29 @@ attributes preserved.</li>
 <span><span class="co">#&gt; [1] "test"</span></span>
 <span><span class="fu"><a href="../../reference/atomic_conversions.html">as_int</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      one two</span></span>
-<span><span class="co">#&gt; [1,]   0   0</span></span>
-<span><span class="co">#&gt; [2,]   0  -1</span></span>
-<span><span class="co">#&gt; [3,]   0   0</span></span>
-<span><span class="co">#&gt; [4,]   0   1</span></span>
-<span><span class="co">#&gt; [5,]   0  -1</span></span>
+<span><span class="co">#&gt; [1,]   0  -1</span></span>
+<span><span class="co">#&gt; [2,]   0   0</span></span>
+<span><span class="co">#&gt; [3,]   1   0</span></span>
+<span><span class="co">#&gt; [4,]   0   0</span></span>
+<span><span class="co">#&gt; [5,]   0   0</span></span>
 <span><span class="co">#&gt; attr(,"test")</span></span>
 <span><span class="co">#&gt; [1] "test"</span></span>
 <span><span class="fu"><a href="../../reference/atomic_conversions.html">as_dbl</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span><span class="co">#&gt;             one        two</span></span>
-<span><span class="co">#&gt; [1,] -0.2740523 -0.2926599</span></span>
-<span><span class="co">#&gt; [2,]  0.1911616 -1.2042527</span></span>
-<span><span class="co">#&gt; [3,] -0.8566865  0.6658972</span></span>
-<span><span class="co">#&gt; [4,] -0.7168820  1.0878198</span></span>
-<span><span class="co">#&gt; [5,]  0.7603242 -1.5317495</span></span>
+<span><span class="co">#&gt;              one         two</span></span>
+<span><span class="co">#&gt; [1,]  0.03672989 -1.15252370</span></span>
+<span><span class="co">#&gt; [2,]  0.18735194 -0.80049259</span></span>
+<span><span class="co">#&gt; [3,]  1.71641980 -0.45328331</span></span>
+<span><span class="co">#&gt; [4,] -0.21973110 -0.90048573</span></span>
+<span><span class="co">#&gt; [5,]  0.23686096 -0.06551747</span></span>
 <span><span class="co">#&gt; attr(,"test")</span></span>
 <span><span class="co">#&gt; [1] "test"</span></span>
 <span><span class="fu"><a href="../../reference/atomic_conversions.html">as_chr</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span><span class="co">#&gt;      one                  two                 </span></span>
-<span><span class="co">#&gt; [1,] "-0.274052306068759" "-0.292659889494823"</span></span>
-<span><span class="co">#&gt; [2,] "0.191161634365336"  "-1.20425267578657" </span></span>
-<span><span class="co">#&gt; [3,] "-0.856686534168335" "0.665897150472835" </span></span>
-<span><span class="co">#&gt; [4,] "-0.716882016525619" "1.08781981510345"  </span></span>
-<span><span class="co">#&gt; [5,] "0.760324207073154"  "-1.53174948925867" </span></span>
+<span><span class="co">#&gt;      one                  two                  </span></span>
+<span><span class="co">#&gt; [1,] "0.036729894557441"  "-1.15252370035626"  </span></span>
+<span><span class="co">#&gt; [2,] "0.187351944398042"  "-0.800492591639132" </span></span>
+<span><span class="co">#&gt; [3,] "1.71641980047103"   "-0.453283306357821" </span></span>
+<span><span class="co">#&gt; [4,] "-0.219731101167648" "-0.90048572862501"  </span></span>
+<span><span class="co">#&gt; [5,] "0.236860959584201"  "-0.0655174727281004"</span></span>
 <span><span class="co">#&gt; attr(,"test")</span></span>
 <span><span class="co">#&gt; [1] "test"</span></span></code></pre></div>
 <p> </p>

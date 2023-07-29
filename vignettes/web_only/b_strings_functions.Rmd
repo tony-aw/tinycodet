@@ -160,7 +160,7 @@ stri_paste_mat(shuffled, margin=1, sep=" ") # <- another alias for stri_join_mat
 Although the functions in this R package were written in R, the functions - especially the string related ones - have been somewhat aggressively optimized. The string related functions, for example, are about in the same order of magnitude in terms of speed as the `stringi` functions they call.
 
 
-Here some speed comparisons are given, using the `rbenchmark` R package.
+Here some speed comparisons are given, using the [rbenchmark](https://cran.r-project.org/web/packages/rbenchmark/index.html) R package.
 
 ```{r}
 library(rbenchmark)
