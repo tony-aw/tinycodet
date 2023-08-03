@@ -6,7 +6,7 @@ Authors@R:
            comment = c(ORCID = "0000-0001-9498-8379"))
 Description: The 'tinyoperations' R-package adds some functions and infix operators to help in your programming etiquette.
     It primarily focuses on 4 things.
-    (1) Safer decimal numbers ("double") truth testing.
+    (1) Safer decimal numbers ('double') truth testing.
     (2) Extending the string manipulation capabilities of the 'stringi' R package.
     (3) Reducing repetitive code.
     (4) A new package and module import system, that combines the benefits of aliasing a package with the benefits of attaching a package. 

@@ -3,8 +3,8 @@
 #'@description
 #' Welcome to the \code{tinyoperations} introduction help page! \cr
 #' \cr
-#' The \code{tinyoperations} R-package adds some infix operators,
-#' and a few functions. \cr
+#' The \code{tinyoperations} R-package
+#' adds adds some functions and infix operators to help in your programming etiquette. \cr
 #' It primarily focuses on 4 things: \cr
 #' \cr
 #' (1) Safer decimal numbers ("double") truth testing (see \link{%d==%}). \cr
