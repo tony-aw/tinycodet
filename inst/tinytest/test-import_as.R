@@ -21,6 +21,34 @@ expect_equal(temp.fun(), "ab")
 
 # test import_as - error handling:
 expect_error(
+  import_as("!@#$%^&*()", "stringi"),
+  pattern = "Syntactically invalid name for object `alias`"
+)
+expect_error(
+  import_as(stri., c("stringi", "tinyoperations")),
+  pattern = "Only a single package can be given in the `main_package` argument"
+)
+expect_error(
+  import_as(stri., "stringi", foreign_exports = NA),
+  pattern = "`foreign_exports` must be either `TRUE` or `FALSE`"
+)
+expect_error(
+  import_as(stri., "stringi", foreign_exports = c(TRUE, FALSE)),
+  pattern = "`foreign_exports` must be either `TRUE` or `FALSE`"
+)
+expect_error(
+  import_as(stri., "stringi", verbose = NA),
+  pattern = "`verbose` must be either `TRUE` or `FALSE`"
+)
+expect_error(
+  import_as(stri., "stringi", verbose = c(TRUE, FALSE)),
+  pattern = "`verbose` must be either `TRUE` or `FALSE`"
+)
+expect_error(
+  import_as(stri., "stringi", loadorder = letters[1:4]),
+  pattern = "Improper load order given"
+)
+expect_error(
   import_as(stri., "stringi", lib.loc=""),
   pattern = "The following packages are not installed"
 ) |> print()
