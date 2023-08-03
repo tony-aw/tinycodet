@@ -4,7 +4,7 @@ Version: 0.0.0.9
 Authors@R: 
     person("Tony", "Wilkes", , "tony_a_wilkes@outlook.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-9498-8379"))
-Description: The 'tinyoperations' R-package adds some infix operators, and a few functions.
+Description: The 'tinyoperations' R-package adds some functions and infix operators to help in your programming etiquette.
     It primarily focuses on 4 things.
     (1) Safer decimal numbers ("double") truth testing.
     (2) Extending the string manipulation capabilities of the 'stringi' R package.

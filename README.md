@@ -19,8 +19,8 @@ public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostat
 
 ## Description & Overview
 
-The `tinyoperations` R-package adds some infix operators, and a few
-functions. It primarily focuses on 4 things:
+The `tinyoperations` R-package adds some functions and infix operators
+to help in your programming etiquette. It primarily focuses on 4 things:
 
 1)  Safer decimal number (“double”) truth testing.
 2)  Extending the string manipulation capabilities of the `stringi` R
@@ -132,7 +132,7 @@ import_as(
 #> Importing packages...
 #> Done
 #> You can now access the functions using `tdt.$`.
-#> (S3)methods will work like normally. 
+#> Methods will work like normally. 
 #> For conflicts report and package order, run `tdt.$.__attributes__.`.
 
 # exposing operators from `magrrittr` to current environment:
@@ -159,12 +159,12 @@ d %>% tdt.$filter(species == "Droid") %>%
 #> 5 R4-P17 none       silver, red red, blue
 #> 6 BB8    none       none        black
 
-
-myalias. %@source% list(file="sourcetest.R") # source a script under an alias
-#> Importing module ...
+# source only specific functions from a script:
+source_selection(list(file="sourcetest.R"), select = "helloworld")
+#> Importing module ... 
+#> 
 #> Done
-#> You can now access the sourced objects using `myalias.$`.
-myalias.$helloworld() # run a function that was just sourced.
+helloworld()
 #> [1] "hello world"
 ```
 
@@ -228,11 +228,11 @@ also.
 The [import](https://github.com/rticulate/import) R package provides
 somewhat similar capabilities to the `tinyoperations` import management
 system, but they are still quite different. The `tinyoperations`’ import
-system focuses more on exposing infix operators to the current
-environment, loading a package + its foreign exports in an alias, and
-allowing multiple related packages to be loaded under the same alias.
-The [import](https://github.com/rticulate/import) package does not
-really provide these functionality directly (as far as I know). Strictly
+system focuses more on loading a main package + its foreign exports +
+(reverse) dependencies under a alias, and exposing infix operators from
+a package to the current environment. The
+[import](https://github.com/rticulate/import) package does not really
+provide this functionality directly (as far as I know). Strictly
 speaking there is no incompatibility between `tinyoperations` and
 [import](https://github.com/rticulate/import). You can safely use both
 implementations of the import system, if you wish.
@@ -263,9 +263,10 @@ regardless of how they are loaded, will all be registered by
 One may have noticed that some of the functionality in this R packages
 has been inspired by other programming languages, in particular by
 Python (please, refrain from taking out your torches pitchforks!). This
-is not the first R package to take inspiration from Python. Therefore,
-one may find some overlapping function and operator names in other
-packages that do something similar; so be mindful of that.
+is not the first R package to take inspiration from other programming
+languages like Python. Therefore, one might find some overlapping
+function and operator names in other packages that do something similar;
+so be mindful of that.
 
  
 
@@ -450,6 +451,12 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   lock system. The `@source` operator now creates a locked environment
   just like `import_as()`. Adjusted the documentation here and there.
   Added hyperlinks to external package references in the website.
+- 3 August 2023: Overhauled the source module import system; it now has
+  a single function, namely `source_selection()`. Removed the `text`
+  argument from `transform_if()`, and it now also accepts logical vector
+  for argument `cond`, and also accepts atomic scalars for arguments
+  `yes, no, other`. Adjusted the documentation accordingly. Fixed a few
+  typos and grammatical mistakes in the documentation.
 
 FUTURE PLANS:
 

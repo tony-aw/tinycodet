@@ -32,7 +32,7 @@ set.seed(1)
 
 ## Description & Overview
 
-The `tinyoperations` R-package adds some infix operators, and a few functions. It primarily focuses on 4 things:
+The `tinyoperations` R-package adds some functions and infix operators to help in your programming etiquette. It primarily focuses on 4 things:
 
  1) Safer decimal number ("double") truth testing.
  2) Extending the string manipulation capabilities of the `stringi` R package. 
@@ -132,9 +132,9 @@ d <- import_data("starwars", "dplyr")
 d %>% tdt.$filter(species == "Droid") %>%
   tdt.$select(name, tdt.$ends_with("color"))
 
-
-myalias. %@source% list(file="sourcetest.R") # source a script under an alias
-myalias.$helloworld() # run a function that was just sourced.
+# source only specific functions from a script:
+source_selection(list(file="sourcetest.R"), select = "helloworld")
+helloworld()
 ```
 
 &nbsp;
@@ -184,7 +184,7 @@ The `stringi` R package has the `%s+%` and `%s*%` operators. They do exactly the
 
 &nbsp;
 
-The [import](https://github.com/rticulate/import) R package provides somewhat similar capabilities to the `tinyoperations` import management system, but they are still quite different. The `tinyoperations`' import system focuses more on exposing infix operators to the current environment, loading a package + its foreign exports in an alias, and allowing multiple related packages to be loaded under the same alias. The [import](https://github.com/rticulate/import) package does not really provide these functionality directly (as far as I know). Strictly speaking there is no incompatibility between `tinyoperations` and [import](https://github.com/rticulate/import). You can safely use both implementations of the import system, if you wish.
+The [import](https://github.com/rticulate/import) R package provides somewhat similar capabilities to the `tinyoperations` import management system, but they are still quite different. The `tinyoperations`' import system focuses more on loading a main package + its foreign exports + (reverse) dependencies under a alias, and exposing infix operators from a package to the current environment. The [import](https://github.com/rticulate/import) package does not really provide this functionality directly (as far as I know). Strictly speaking there is no incompatibility between `tinyoperations` and [import](https://github.com/rticulate/import). You can safely use both implementations of the import system, if you wish.
 
 &nbsp;
 
@@ -198,7 +198,7 @@ This will make sure that all packages installed in your project library, regardl
 
 &nbsp;
 
-One may have noticed that some of the functionality in this R packages has been inspired by other programming languages, in particular by Python (please, refrain from taking out your torches pitchforks!). This is not the first R package to take inspiration from Python. Therefore, one may find some overlapping function and operator names in other packages that do something similar; so be mindful of that.
+One may have noticed that some of the functionality in this R packages has been inspired by other programming languages, in particular by Python (please, refrain from taking out your torches pitchforks!). This is not the first R package to take inspiration from other programming languages like Python. Therefore, one might find some overlapping function and operator names in other packages that do something similar; so be mindful of that.
 
 &nbsp;
 
@@ -244,7 +244,8 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
  - 22 July 2023: UPDATED TO R4.3.0. Simplified the internal code of the `%installed in%` operator. Removed the `substr_` - functions, and subsequently also the `stringfish` functionality: They were originally created for historical reasons that are no longer relevant (`stri_locate_ith` used to output a list; now it outputs a matrix), and the stringfish functions had some unwanted behaviour, and working around these unwanted behaviours turned out to be more trouble than was worth. Added the `strcut_` - functions. The `import_as()` and `import_inops()` functions now create LOCKED objects, for additional safety (more information can be found on this by running `import_lock()`). Added the `delete` argument to the `import_inops()` function. The `import_inops()` function now allows almost complete freedom in choosing which packages to expose infix operators from. Added the safer atomic type casting functions (`as_bool()`, `as_int()`, `as_dbl()`, `as_chr()`). The `transform_if()` function now also has the `other` and `text` arguments. Some minor optimization improvements for some of the functions.Adjusted the documentation in accordance with all these changes. Fixed some minor spelling and grammar errors in the documentation. Created a GitHub site using `pkgdown`, but it's not published yet.
  - 25 July 2023: Small update. Added the `report_inops()` function, clarified the documentation at `import_inops()`, and split the import article into 2.
  - 28 July 2023: Another small update. Simplified the import lock system. Moved part of the arguments of `import_inops()` to `import_inops.control()`.
- - 29 July 2023: The `report_inops()` function no longer checks if infix operators are locked, considering yesterday's change of the import lock system. The `@source` operator now creates a locked environment just like `import_as()`. Adjusted the documentation here and there. Added hyperlinks to external package references in the website. 
+ - 29 July 2023: The `report_inops()` function no longer checks if infix operators are locked, considering yesterday's change of the import lock system. The `@source` operator now creates a locked environment just like `import_as()`. Adjusted the documentation here and there. Added hyperlinks to external package references in the website.
+ - 3 August 2023: Overhauled the source module import system; it now has a single function, namely `source_selection()`. Removed the `text` argument from `transform_if()`, and it now also accepts logical vector for argument `cond`, and also accepts atomic scalars for arguments `yes, no, other`. Adjusted the documentation accordingly. Fixed a few typos and grammatical mistakes in the documentation.
 
 
 FUTURE PLANS:
