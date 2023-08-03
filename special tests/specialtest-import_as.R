@@ -151,6 +151,17 @@ import_as(
   lib.loc=lib.loc
 )
 
+# test loadorder:
+import_as(
+  new., "tinyoperationsfakepkg3", dependencies = c("tinyoperationsfakepkg2", "tinyoperationsfakepkg1"),
+  loadorder = c("main_package", "dependencies", "enhances", "extensions"),
+  lib.loc = lib.loc
+)
+expect_equal(
+  new.$.__attributes__.$packages_order,
+  c("tinyoperationsfakepkg3", "tinyoperationsfakepkg2",  "tinyoperationsfakepkg1")
+) |> errorfun()
+
 # test misc attributes:
 import_as(
   new., "tinyoperationsfakepkg3",
