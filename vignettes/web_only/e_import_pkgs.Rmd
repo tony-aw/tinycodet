@@ -1,0 +1,414 @@
+---
+title: "Import system"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    number_sections: true
+vignette: >
+  %\VignetteIndexEntry{Import system}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(tinyoperations)
+```
+
+&nbsp;
+
+# Introduction
+
+One can load a package without attaching the package (i.e. using `::` or using a package alias), or one can attach a package (i.e. using `library()` or `require()`). Both options have their pros and cons, as you probably already know.
+
+The advantages and disadvantages of loading without attaching a package VS attaching a package - at least those relevant for this article - can be compactly presented in the following table:
+
+```{r echo=FALSE, results='markup'}
+X <- rbind(
+  # c(aspect, alias, attach)
+  c("prevent masking functions from other packages", "Yes (+)", "No (-)"),
+  c("prevent masking core R functions", "Yes (+)", "No (-)"),
+  c("clarify which function came from which package", "Yes (+)", "No (-)"),
+  c("expose functions only in current environment instead of globally", "Yes (+)", "No (-)"),
+  c("prevent namespace pollution", "Yes (+)", "No (-)"),
+  c(
+  "minimize typing - especially for infix operators <br> (i.e. typing ``package::`%op%`(x, y)`` instead of `x %op% y` is cumbersome)", "No (-)", "Yes (+)"),
+  c("use multiple related packages, <br> without constantly switching between package prefixes", "No (-)", "Yes (+)"),
+  c("NOTE: + = advantage, - = disavantage", "", "")
+)
+colnames(X) <- c("aspect", "alias / ::", "attaching")
+X <- as.data.frame(X)
+rownames(X) <- c(1:7, "")
+knitr::kable(X, "html", row.names = TRUE, escape = FALSE)
+```
+
+
+What `tinyoperations` attempts to do with its import system, is to somewhat find the best of both worlds. Basically, `tinyoperations` has functions that allow the following import functionality lacking in base R:
+
+ - Allow package + its foreign exports + its dependencies + its enhances + its extensions to be loaded under **one alias**. This essentially combines the attaching advantage of using multiple related packages (row 7 in table above), whilst keeping most advantages of aliasing a package.
+ - Allow **exposing infix operators** to the **current environment**. This gains the attaching advantage of less typing (row 6 in table above), whilst simultaneously avoiding the disadvantage of attaching functions from a package globally (row 4).
+
+The import package system presented here is just another option provided, just like the [import](https://github.com/rticulate/import) and [box](https://github.com/klmr/box) packages provide their own alternative import systems. Please feel free to completely ignore this article if you're really adamant on attaching packages using `library()`/`require()` :-).
+
+This article is rather lengthy, so I will start with a quick example code using `tinyoperations`' import system:
+
+```{r}
+# loading "tidytable" + its foreign exports + "data.table" under alias "tdt.":
+import_as( 
+  tdt., "tidytable", dependencies = "data.table"
+)
+
+# exposing operators from `magrrittr` to current environment:
+import_inops("magrittr")
+
+# directly assigning the "starwars" dataset to object "d":
+d <- import_data("starwars", "dplyr") 
+
+# see it in action:
+d %>% tdt.$filter(species == "Droid") %>%
+  tdt.$select(name, tdt.$ends_with("color"))
+
+rm(list=ls()) # clearing everything
+```
+
+The above code is run *without attaching* any of the packages or its dependencies. So none of the problems with attaching a package is present.
+
+Despite the length of this article, which is mostly due to me being overly detailed, the import system is made to be **very simple for the user**.
+
+What follows are descriptions of the main functions that together form this new, infix-operator friendly **&** multi-package assignment friendly, import management system.
+
+&nbsp;
+
+# import_as
+
+One can load a package without attaching it, and assign it to an alias, in base R, using, for example:
+
+```{r eval=FALSE}
+alias <- loadNamespace("packagename", lib.loc = lib.loc)
+```
+
+Doing the above, instead of attaching a package using `library()` or `require()`, can (often) be quite beneficial (i.e. prevent overlapping namespaces, prevent overriding core R functions, prevent polluting the namespace, clarify which function came from which package, exposing functions from a package only in the current environment e to be loaded locally , etc.)
+
+Loading a package alias does have some drawbacks. One is that you cannot easily import multiple related packages under the same alias. While one probably wouldn't want to import **multiple** related packages under a **single alias** all the time, there may be situations where importing multiple packages into a single alias may actually be preferable:
+
+ - If multiple packages are meant to work together, constantly switching between the different package name/alias prefixes may eventually become annoying and even syntactically chaotic-looking.
+ - A package may have one or several dependencies that are supposed to be loaded together. For example: the `tidytable` package essentially needs the `data.table` package to be loaded also.
+ - A package may have many extensions you may want to load together. For example: `ggplot2` has many extensions (see https://exts.ggplot2.tidyverse.org/gallery/). If one wishes to alias `ggplot2` including some of its many extensions, it would be nice to load multiple R packages under the same alias.
+ - Suppose package `B` is supposed to overwrite a couple of functions from package `A` (for example if package `B` extends or improves the functionality from a function in package `A`). In that case you may want to import package `A`, and then overwrite it with package `B`.
+
+So there are several cases where it is perhaps desirable to load multiple packages under the same alias.
+
+And that is where `tinyoperations`'s `import_as()` function comes in. It loads an R package + its foreign exports under an alias, and also loads any specified **dependencies**, **enhances** and/or **extensions** of the package under the very same alias. It also informs the user which objects from a package will overwrite which objects from other packages, so you will never be surprised.
+
+`import_as(alias, ...)` is thus essentially the more user-friendly and multi-package equivalent of `alias <- loadNamespace(...)`.
+
+The main arguments of the `import_as()` function are:
+
+ - `alias`: the name (unquoted) of the alias object under which to load the package(s). To keep aliases easily distinguishable from other objects that can also be subset with the `$` operator, I recommend ending (not starting!) the names of all alias names with a dot (.).
+ - `main_package`: the name (string) of the main package to load.
+ - `foreign_exports`: Some R packages export functions that are not defined in their own package, but in their direct dependencies - "foreign exports". If `TRUE` (default), the foreign exports of the `main_package` are added to the alias, analogous to the behaviour of base R's `::` operator. If `FALSE`, foreign exports are not added.
+ - `dependencies`: a character vector giving the dependencies of the `main_package` to load under the alias also.
+ - `enhances`: an optional character vector giving the packages enhanced by the `main_package` to be loaded under the alias also.
+ - `extensions`: an optional character vector giving the extensions/reverse-dependencies of the `main_package` to load under the same alias also.
+
+Here is one example. Lets load  [data.table](https://github.com/Rdatatable/data.table) and its extensions [tidytable](https://github.com/markfairbanks/tidytable), under the same alias, which I will call "tdt." (for "tidy data.table"):
+
+```{r}
+import_as(tdt., "data.table", extensions = "tidytable") # this creates the tdt. object
+```
+
+
+Now you can of course use those loaded packages as one would normally do when using a package alias: `tdt.$some_function()`.
+
+The created alias object has attributes showing which loaded package overwrites which loaded functions, in what order the packages are loaded and so on:
+
+```{r}
+tdt.$.__attributes__.$packages_order
+tdt.$.__attributes__.$conflicts |> knitr::kable()
+tdt.$.__attributes__.$args
+```
+
+See the help file for more details.
+
+&nbsp;
+
+# import_inops
+
+When aliasing an R package, infix operators are also loaded in the alias. However, it may be cumbersome to use them from the alias. For example this:
+
+```{r eval=FALSE}
+import_as(to., "tinyoperations")
+to.$`%row~%`(x, mat)
+```
+
+or this:
+
+```{r eval=FALSE}
+tinyoperations::`%row~%`(x, mat)
+```
+
+
+is very cumbersome.
+
+Therefore, `tinyoperations` also adds the `import_inops(pkgs)` function, which exposes the infix operators from the packages specified in character vector `pkgs` to the current environment (like the global environment, or the environment within a function), but does not attach the functions to the namespace.
+
+For example, the following code exposes the infix operators from the [data.table](https://github.com/Rdatatable/data.table) and [tidytable](https://github.com/markfairbanks/tidytable) R packages to the current environment, in this case the global environment:
+
+```{r}
+pkgs <- c("data.table", "tidytable")
+import_inops(pkgs)
+```
+
+Just like in `import_as()`, the order of the packages matters whenever there's a conflict.
+
+The `import_inops()` function has the `exclude` and `include.only` arguments to specify exactly which infix operators to expose to the current environment, as well as the `overwrite` and `inherits` arguments to specify what to do when the infix operators you are about to expose already exist in the current environment (and loaded namespaces). This can be handy to prevent overwriting any (user defined) infix operators already present in the current environment or loaded namespaces.
+
+&nbsp;
+
+The user can set `action="remove"`, which will delete the infix operators from those packages exposed in the current environment by `import_inops()`. Infix operators defined by the user will not be touched. For example:
+
+```{r}
+import_inops(pkgs, action = "remove")
+```
+
+
+&nbsp;
+
+If the user would rather attach the infix operators to the (global) namespace, `tinyoperations` provides the `pk_lsf()` function, which returns a character vector listing all functions or infix operators from a package. This vector can then be used in the `include.only` argument of the `library()` function. Like so:
+
+```{r eval=FALSE}
+library(magrittr, include.only = pkg_lsf("magrittr", type = "inops"))
+```
+
+
+&nbsp;
+
+# import_data
+
+The `import_as()` and `import_inops()` functions get all functions from the package namespace. But packages often also have data sets, which are often not part of the namespace.
+
+The `data()` function in core R can already load data from packages, but this function loads the data into the global environment, instead of returning the data directly, making assigning the data to a specific variable a bit annoying.
+Therefore, the `tinyoperations` package introduces the `import_data()` function, which directly returns a data set from a package.
+
+For example, to import the `chicago` data set from the [gamair](https://github.com/cran/gamair) R package, and assign it directly to a variable (without having to do re-assignment and so on), one simply runs the following:
+
+```{r}
+d <- import_data("chicago", "gamair")
+head(d)
+```
+
+&nbsp;
+
+# Regarding S3 methods
+
+When importing packages with `tinyoperations`' import system, S3 methods will work just fine. For example, the S3 method " `plot()` " works on the pre-installed recommended R package `mgcv`, even when loaded in an alias:
+
+```{r}
+import_as(mgcv., "mgcv")
+d <- import_data("chicago", "gamair")
+model <- mgcv.$gam(death ~ s(o3median), data=d) # just a random model for the sake of demonstration
+isS3method(f="plot", class="gam") # this is an S3 method
+plot(model)
+```
+
+Also, S3 methods defined in the package will automatically be registered, and thus automatically work. For example, the following code just works:
+
+```{r}
+import_as(dr., "dplyr")
+import_inops("magrittr")
+d <- import_data("starwars", "dplyr")
+d <- d %>% dr.$group_by(species)
+
+isS3method(f="arrange", class="data.frame", envir = dr.) # this is an S3 method
+isS3method(f="relocate", class="data.frame", envir = dr.) # this is an S3 method
+# this works:
+d %>%
+  dr.$arrange(dr.$desc(mass)) %>%
+  dr.$relocate(species, mass)
+```
+
+So when importing packages, everything works as expected, including S3 methods.
+
+
+&nbsp;
+
+# Miscellaneous comments on package imports
+
+All "import_" functions in the `tinyoperations` package have a `lib.loc` argument to explicitly specify from where to get your packages (just like base R's `loadNamespace()`, `library()`, and `install.packages()` functions).
+
+&nbsp;
+
+The [magrittr](https://github.com/tidyverse/magrittr) and [rlang](https://github.com/r-lib/rlang) packages add "pronouns" to R: `.`, `. data`, `.env`. Fret not, for pronouns work regardless if you attached a package or not. And you don't need to use something like `rlang::.data` or `rlang.$.data` for a pronoun to work. They just work.
+
+&nbsp;
+
+The `help.import()` function gets the help file for a function `i` (or topic string `i`), even if the function is inside an alias object, or if the function is an unattached function (like exposed infix operators).
+
+Example:
+
+```{r eval=FALSE}
+import_as(mr., "magrittr")
+import_inops("magrittr")
+
+help.import(i=mr.$add)
+help.import(i=`%>%`)
+help.import(i="add", alias=mr.)
+```
+
+&nbsp;
+
+There are some additional miscellaneous functions related to the package import system that should perhaps be mentioned also:
+
+ - the `pkg_get_deps()` function gets the dependencies (or the enhances) of a package, regardless if the package is CRAN or non-CRAN. See the help file for details.
+ - the `pkgs %installed in% lib.loc` operator checks if the packages specified in character vector `pkgs` are installed in library paths `lib.loc`, and does this **without** attaching or even loading the packages.
+
+
+&nbsp;
+
+# An example
+
+One R package that could benefit from the import system introduced by `tinyoperations`, is the [dplyr](https://github.com/tidyverse/dplyr) R package. The [dplyr](https://github.com/tidyverse/dplyr) R package overwrites **core R** functions (including base R) and it overwrites functions from pre-installed recommended R packages (such as `MASS`). I.e.:
+
+```{r}
+rm(list=ls()) # clearing environment again
+library(MASS)
+library(dplyr) # <- notice dplyr overwrites base R and recommended R packages
+
+# detaching dplyr again:
+detach("package:dplyr")
+```
+
+Moreover, [dplyr](https://github.com/tidyverse/dplyr)'s function names are sometimes generic enough that there is no obvious way to tell if a function came from [dplyr](https://github.com/tidyverse/dplyr) or some other package (for comparison: one can generally recognize `stringi` functions as they all start with `stri_`). If you look at the CRAN page for [dplyr](https://github.com/tidyverse/dplyr), you'll notice it has some interesting extensions you might want to use, such as [powerjoin](https://github.com/moodymudskipper/powerjoin). But constantly switching between package prefixes or aliases is perhaps undesirable. 
+
+So here `tinyoperations`' `import_as()` function might help. Below is an example where [dplyr](https://github.com/tidyverse/dplyr) is loaded (including its foreign exports), along with [powerjoin](https://github.com/moodymudskipper/powerjoin) (which is an extension), all under one alias which I'll call "`dr.`". Moreover, the infix operators from `magrittr` are exposed to the current environment.
+
+```{r}
+import_as(
+  dr., "dplyr", extensions = "powerjoin", lib.loc=.libPaths()
+)
+
+import_inops("magrittr") # getting the operators from `magrrittr`
+```
+
+The functions from [dplyr](https://github.com/tidyverse/dplyr) can now be used with the `dr.$` prefix. This way, base R functions are no longer overwritten, and it will be clear for someone who reads your code whether functions like the `filter()` function is the base R filter function, or the [dplyr](https://github.com/tidyverse/dplyr) filter function, as the latter would be called as `dr.$filter()`.
+
+Let's first run a simple example code with the loaded functions:
+
+```{r}
+d <- import_data("starwars", "dplyr")
+d %>%
+  dr.$filter(.data$species == "Droid") %>% # notice the pronoun can be used without problems
+  dr.$select(name, dr.$ends_with("color"))
+```
+
+Just add `dr.$` in front of the functions you'd normally use, and everything works just as expected.
+
+Now lets run an example from the [powerjoin](https://github.com/moodymudskipper/powerjoin) GitHub page (https://github.com/moodymudskipper/powerjoin), using the above alias:
+
+```{r}
+male_penguins <- dr.$tribble(
+     ~name,    ~species,     ~island, ~flipper_length_mm, ~body_mass_g,
+ "Giordan",    "Gentoo",    "Biscoe",               222L,        5250L,
+  "Lynden",    "Adelie", "Torgersen",               190L,        3900L,
+  "Reiner",    "Adelie",     "Dream",               185L,        3650L
+)
+
+female_penguins <- dr.$tribble(
+     ~name,    ~species,  ~island, ~flipper_length_mm, ~body_mass_g,
+  "Alonda",    "Gentoo", "Biscoe",               211,        4500L,
+     "Ola",    "Adelie",  "Dream",               190,        3600L,
+"Mishayla",    "Gentoo", "Biscoe",               215,        4750L,
+)
+dr.$check_specs()
+
+dr.$power_inner_join(
+  male_penguins[c("species", "island")],
+  female_penguins[c("species", "island")]
+)
+
+```
+
+
+Notice that the only change made, is that all functions start with `dr.$`, the rest is the same. No need for constantly switching between `dplyr::...`, `powerjoin::...` and so on - yet it is still clear from the code that the functions came from the [dplyr](https://github.com/tidyverse/dplyr) + [powerjoin](https://github.com/moodymudskipper/powerjoin) family, and there is no fear of overwriting functions from other R packages - let alone core R functions.
+
+&nbsp;
+
+To show that `import_as()` actually does load all exported functions, including foreign exports, consider the following proof:
+
+```{r}
+import_as(dr., "dplyr", foreign_exports = TRUE)
+out <- setdiff(names(dr.), ".__attributes__.") |> sort()
+foo <- loadNamespace("dplyr") |> getNamespaceExports()
+check <- all(out == sort(foo))
+print(check) # must be TRUE
+if(!isTRUE(check)) {
+  stop("Tony is really stupid")
+}
+
+```
+
+&nbsp;
+
+
+&nbsp;
+
+# Tinyverse solutions to library handling without external R packages
+
+The `tinyverse` (https://cran.r-project.org/web/packages/pacs/vignettes/tinyverse.html) - not to be confused with the tidyverse - attempts to minimize dependencies, and thus avoid using external R packages unless necessary. "External R packages" here meaning not base/core R, not pre-installed recommended R packages, and not `rstudioapi`.
+
+There are some library handling issues that are traditionally solved through external R packages - even though they can be solved quite well without external R packages (especially since R version 4+). Since this R package adheres to the `tinyverse` philosophy and focuses on coding etiquette, some of these solutions will briefly be given without the use of external R packages:
+
+
+  - Force an error when using a function that appears in multiple attached packages: one can use the `options(conflicts.policy = ...)` to specify when such an error should be enforced.
+  - Give warnings when partial argument matching occurs: one can use `options( warnPartialMatchArgs = TRUE, warnPartialMatchAttr = TRUE, warnPartialMatchDollar = TRUE)`.
+ - Get path of current script or project root folder: without R-Studio one can use `commandArgs()` function; with R-Studio one can use `rstudioapi::getSourceEditorContext()$path`. Using `setwd("..")` will set the working directory one folder up - which would often be your project root folder.
+ - Project isolation: set your library to a folder specific to your project (i.e. using `.libPaths()`).
+ - Date-based version control: As MRAN is no longer available, one may use the R-Studio package manager website as your repository (see https://packagemanager.posit.com/client/#/repos/2/overview or https://packagemanager.posit.co/client/#/repos/2/overview).
+
+&nbsp;
+
+
+# Source selection
+
+The `source_selection()` function is the same as base R's `source()` function, except that it allows only placing the selected objects and functions into the current environment, instead of all objects.
+
+The objects to be selected can be specified using any combination of the following:
+
+ - by supplying a character vector of exact object names to the `select` argument.
+ - by supplying a character vector of `regex` patterns to the `regex` argument.
+ - by supplying a character vector of `fixed` patterns to the `fixed` argument.
+
+Example:
+
+```{r}
+exprs <- expression({
+  helloworld = function()print("helloworld")
+  goodbyeworld <- function() print("goodbye world")
+  `%s+test%` <- function(x,y) stringi::`%s+%`(x,y)
+  `%s*test%` <- function(x,y) stringi::`%s*%`(x,y)
+  mymethod <- function(x) UseMethod("mymethod", x)
+  mymethod.numeric <- function(x)x * 2
+  mymethod.character <- function(x)chartr(x, old = "a-zA-Z", new = "A-Za-z")
+})
+
+temp.fun <- function(){
+  source_selection(list(exprs=exprs), regex= "^mymethod", fixed = c("%", ":="))
+  ls() # list all objects residing within the function definition
+}
+temp.fun()
+
+temp.fun <- function(){
+  source_selection(list(exprs=exprs), select = c("helloworld", "goodbyeworld"))
+  ls() # list all objects residing within the function definition
+}
+temp.fun()
+
+```
+
+&nbsp;
