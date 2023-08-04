@@ -55,7 +55,7 @@
   uninstalled_pkgs <- pkgs[!pkgs %installed in% lib.loc]
   if(length(uninstalled_pkgs)>0) {
     error.txt <- simpleError(paste0(
-      "The following dependent packages (for the forein exports) are not installed:",
+      "The following dependent packages (for the re-exports) are not installed:",
       "\n",
       paste0(uninstalled_pkgs, collapse = ", ")
     ), call = abortcall)
