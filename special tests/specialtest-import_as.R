@@ -41,10 +41,10 @@ expect_error(
 ) |> errorfun()
 
 
-# test import_as - foreign exports:
+# test import_as - re-exports:
 import_as(
   p3., "tinyoperationsfakepkg3",
-  foreign_exports=TRUE,
+  re_exports=TRUE,
   lib.loc=lib.loc
 )
 p3 <- c(
@@ -54,13 +54,13 @@ p3 <- c(
 )
 out <- setdiff(names(p3.), ".__attributes__.") |> sort()
 expect_equal(out,  sort(p3)) |> errorfun()
-expect_true(p3.$.__attributes__.$args$foreign_exports) |> errorfun()
+expect_true(p3.$.__attributes__.$args$re_exports) |> errorfun()
 
 
 # test import_as - Dependencies:
 import_as(
   p3., "tinyoperationsfakepkg3",
-  foreign_exports = TRUE,
+  re_exports = TRUE,
   dependencies=c("tinyoperationsfakepkg1", "tinyoperationsfakepkg2"),
   lib.loc=lib.loc
 )
@@ -74,7 +74,7 @@ out <- setdiff(names(p3.), ".__attributes__.") |> sort()
 expect_equal(out,  sort(p3)) |> errorfun()
 expect_equal(
   p3.$.__attributes__.$conflicts$package,
-  c("tinyoperationsfakepkg1", "tinyoperationsfakepkg2", "tinyoperationsfakepkg3 + foreign exports")
+  c("tinyoperationsfakepkg1", "tinyoperationsfakepkg2", "tinyoperationsfakepkg3 + re-exports")
 ) |> errorfun()
 expect_equal(
   p3.$.__attributes__.$packages_order,
@@ -97,7 +97,7 @@ out <- setdiff(names(p3.), ".__attributes__.") |> sort()
 expect_equal(out,  sort(p3)) |> errorfun()
 expect_equal(
   p3.$.__attributes__.$conflicts$package,
-  c("tinyoperationsfakepkg1 + foreign exports", "tinyoperationsfakepkg3")
+  c("tinyoperationsfakepkg1 + re-exports", "tinyoperationsfakepkg3")
 ) |> errorfun()
 expect_equal(
   p3.$.__attributes__.$packages_order,
@@ -120,7 +120,7 @@ out <- setdiff(names(p3.), ".__attributes__.") |> sort()
 expect_equal(out,  sort(p3)) |> errorfun()
 expect_equal(
   p3.$.__attributes__.$conflicts$package,
-  c("tinyoperationsfakepkg1 + foreign exports", "tinyoperationsfakepkg3")
+  c("tinyoperationsfakepkg1 + re-exports", "tinyoperationsfakepkg3")
 ) |> errorfun()
 expect_equal(
   p3.$.__attributes__.$packages_order,
@@ -131,12 +131,12 @@ expect_equal(
 # test import_as - conflicts:
 import_as(
   p3., "tinyoperationsfakepkg3",
-  foreign_exports = TRUE,
+  re_exports = TRUE,
   dependencies=c("tinyoperationsfakepkg1", "tinyoperationsfakepkg2"),
   lib.loc=lib.loc
 )
 p3 <- data.frame(
-  package=c("tinyoperationsfakepkg1", "tinyoperationsfakepkg2", "tinyoperationsfakepkg3 + foreign exports"),
+  package=c("tinyoperationsfakepkg1", "tinyoperationsfakepkg2", "tinyoperationsfakepkg3 + re-exports"),
   winning_conflicts = c("", "", paste0(c("fun_overwritten", "%opover%", "fun11"), collapse = ", "))
 )
 expect_equal(
@@ -147,7 +147,7 @@ expect_equal(
 # the following should simply run without issues:
 import_as(
   new., "tinyoperationsfakepkg3",
-  foreign_exports = TRUE,
+  re_exports = TRUE,
   lib.loc=lib.loc
 )
 
@@ -162,10 +162,21 @@ expect_equal(
   c("tinyoperationsfakepkg3", "tinyoperationsfakepkg2",  "tinyoperationsfakepkg1")
 ) |> errorfun()
 
+import_as(
+  new., "tinyoperationsfakepkg3", dependencies = c("tinyoperationsfakepkg1", "tinyoperationsfakepkg2"),
+  loadorder = c("main_package", "dependencies", "enhances", "extensions"),
+  lib.loc = lib.loc
+)
+expect_equal(
+  new.$.__attributes__.$packages_order,
+  c("tinyoperationsfakepkg3", "tinyoperationsfakepkg1",  "tinyoperationsfakepkg2")
+) |> errorfun()
+
+
 # test misc attributes:
 import_as(
   new., "tinyoperationsfakepkg3",
-  foreign_exports = TRUE,
+  re_exports = TRUE,
   lib.loc=lib.loc
 )
 expect_true("tinyimport" %in% names(new.$.__attributes__.)) |> errorfun()

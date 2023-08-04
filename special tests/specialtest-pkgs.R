@@ -36,3 +36,5 @@ expect_equal(
   pkg_get_deps("tinyoperationsfakepkg3", lib.loc, deps_type = "Imports"),
   "tinyoperationsfakepkg2"
 ) |> errorfun()
+
+
