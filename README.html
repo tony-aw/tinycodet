@@ -795,20 +795,17 @@ package.</p>
 <p> </p>
 <h1 id="compatibility-with-other-r-packages">Compatibility with other R
 packages</h1>
-<p>The <code>stringi</code> R package has the <code>%s+%</code> and
-<code>%s*%</code> operators. They do exactly the same things as in
-<code>tinyoperations</code>, and so the masking of these functions can
-safely be ignored. I also made sure not to name any of the operators in
-<code>tinyoperations</code> the same as the operators in <a href="https://github.com/tidyverse/magrittr">magrittr</a> and <a href="https://github.com/r-lib/zeallot">zeallot</a>, so that should be
-safe also.</p>
+<p>I made sure not to name any of the operators in
+<code>tinyoperations</code> the same as the operators in the popular
+operator-related packages: <a href="https://github.com/tidyverse/magrittr">magrittr</a> and <a href="https://github.com/r-lib/zeallot">zeallot</a>.</p>
 <p> </p>
 <p>The <a href="https://github.com/rticulate/import">import</a> R
 package provides somewhat similar capabilities to the
 <code>tinyoperations</code> import management system, but they are still
 quite different. The <code>tinyoperations</code>’ import system focuses
-more on loading a main package + its foreign exports + (reverse)
-dependencies under a alias, and exposing infix operators from a package
-to the current environment. The <a href="https://github.com/rticulate/import">import</a> package does not
+more on loading a main package + its re-exports + (reverse) dependencies
+under a alias, and exposing infix operators from a package to the
+current environment. The <a href="https://github.com/rticulate/import">import</a> package does not
 really provide this functionality directly (as far as I know). Strictly
 speaking there is no incompatibility between <code>tinyoperations</code>
 and <a href="https://github.com/rticulate/import">import</a>. You can
@@ -1051,6 +1048,8 @@ now also accepts logical vector for argument <code>cond</code>, and also
 accepts atomic scalars for arguments <code>yes, no, other</code>.
 Adjusted the documentation accordingly. Fixed a few typos and
 grammatical mistakes in the documentation.</li>
+<li>4 August 2023: Really tiny update. Also added more tests (there are
+now about 300 tests).</li>
 </ul>
 <p>FUTURE PLANS:</p>
 <p>I believe <code>tinyoperations</code> is slowly getting closer to

@@ -215,20 +215,17 @@ For quick ’n easy back-tracing of errors, I recommend the
 
 # Compatibility with other R packages
 
-The `stringi` R package has the `%s+%` and `%s*%` operators. They do
-exactly the same things as in `tinyoperations`, and so the masking of
-these functions can safely be ignored. I also made sure not to name any
-of the operators in `tinyoperations` the same as the operators in
+I made sure not to name any of the operators in `tinyoperations` the
+same as the operators in the popular operator-related packages:
 [magrittr](https://github.com/tidyverse/magrittr) and
-[zeallot](https://github.com/r-lib/zeallot), so that should be safe
-also.
+[zeallot](https://github.com/r-lib/zeallot).
 
  
 
 The [import](https://github.com/rticulate/import) R package provides
 somewhat similar capabilities to the `tinyoperations` import management
 system, but they are still quite different. The `tinyoperations`’ import
-system focuses more on loading a main package + its foreign exports +
+system focuses more on loading a main package + its re-exports +
 (reverse) dependencies under a alias, and exposing infix operators from
 a package to the current environment. The
 [import](https://github.com/rticulate/import) package does not really
@@ -457,6 +454,8 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   for argument `cond`, and also accepts atomic scalars for arguments
   `yes, no, other`. Adjusted the documentation accordingly. Fixed a few
   typos and grammatical mistakes in the documentation.
+- 4 August 2023: Really tiny update. Also added more tests (there are
+  now about 300 tests).
 
 FUTURE PLANS:
 

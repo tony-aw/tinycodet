@@ -180,11 +180,11 @@ For quick 'n easy back-tracing of errors, I recommend the [rlang](https://github
 
 # Compatibility with other R packages
 
-The `stringi` R package has the `%s+%` and `%s*%` operators. They do exactly the same things as in `tinyoperations`, and so the masking of these functions can safely be ignored. I also made sure not to name any of the operators in `tinyoperations` the same as the operators in [magrittr](https://github.com/tidyverse/magrittr) and [zeallot](https://github.com/r-lib/zeallot), so that should be safe also.
+I made sure not to name any of the operators in `tinyoperations` the same as the operators in the popular operator-related packages: [magrittr](https://github.com/tidyverse/magrittr) and [zeallot](https://github.com/r-lib/zeallot). 
 
 &nbsp;
 
-The [import](https://github.com/rticulate/import) R package provides somewhat similar capabilities to the `tinyoperations` import management system, but they are still quite different. The `tinyoperations`' import system focuses more on loading a main package + its foreign exports + (reverse) dependencies under a alias, and exposing infix operators from a package to the current environment. The [import](https://github.com/rticulate/import) package does not really provide this functionality directly (as far as I know). Strictly speaking there is no incompatibility between `tinyoperations` and [import](https://github.com/rticulate/import). You can safely use both implementations of the import system, if you wish.
+The [import](https://github.com/rticulate/import) R package provides somewhat similar capabilities to the `tinyoperations` import management system, but they are still quite different. The `tinyoperations`' import system focuses more on loading a main package + its re-exports + (reverse) dependencies under a alias, and exposing infix operators from a package to the current environment. The [import](https://github.com/rticulate/import) package does not really provide this functionality directly (as far as I know). Strictly speaking there is no incompatibility between `tinyoperations` and [import](https://github.com/rticulate/import). You can safely use both implementations of the import system, if you wish.
 
 &nbsp;
 
@@ -246,6 +246,7 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
  - 28 July 2023: Another small update. Simplified the import lock system. Moved part of the arguments of `import_inops()` to `import_inops.control()`.
  - 29 July 2023: The `report_inops()` function no longer checks if infix operators are locked, considering yesterday's change of the import lock system. The `@source` operator now creates a locked environment just like `import_as()`. Adjusted the documentation here and there. Added hyperlinks to external package references in the website.
  - 3 August 2023: Overhauled the source module import system; it now has a single function, namely `source_selection()`. Removed the `text` argument from `transform_if()`, and it now also accepts logical vector for argument `cond`, and also accepts atomic scalars for arguments `yes, no, other`. Adjusted the documentation accordingly. Fixed a few typos and grammatical mistakes in the documentation.
+ - 4 August 2023: Really tiny update. Also added more tests (there are now about 300 tests).
 
 
 FUTURE PLANS:
