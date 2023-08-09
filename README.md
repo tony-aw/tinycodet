@@ -456,6 +456,13 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   typos and grammatical mistakes in the documentation.
 - 4 August 2023: Really tiny update. Also added more tests (there are
   now about 300 tests).
+- 9 August 2023: Now the `import_inops()` function can directly accept
+  an alias object to expose infix operators from; argument convention
+  slightly changed. Added convenience pattern functions; `s_pattern()`
+  is now simply a reference to the help page, and not a function on its
+  own. Replaced the `%sgrep%` operator with the `%s{}%` and `%s!{}%`
+  operators. Adjusted the documentation accordingly. Also added more
+  tests; there are now about 400 tests.
 
 FUTURE PLANS:
 
