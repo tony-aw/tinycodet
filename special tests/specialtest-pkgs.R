@@ -1,5 +1,5 @@
 
-# THIS SCRIPT IS TO BE SOURCED FROM ELSEWHERE
+# THIS SCRIPT IS TO BE SOURCED
 
 library(tinyoperations)
 library(tinytest)
