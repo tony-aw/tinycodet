@@ -92,46 +92,75 @@ The right-side arguments `p`, `y`, and `n` can be a single value, or a vector of
 
 &nbsp;
 
+# String detection operators
+
+The `x %s{}% p` operator checks for every string in character vector `x` if the pattern defined in `p` is present.
+The `x %s!{}% p operator` checks for every string in character vector `x` if the pattern defined in `p` is NOT present.
+
+Examples:
+
+```{r}
+x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+print(x)
+x %s{}% "a"
+x %s!{}% "a"
+which(x %s{}% "a")
+which(x %s!{}% "a")
+x[x %s{}% "a"]
+x[x %s!{}% "a"]
+```
+
+
+&nbsp;
+
 # Specifying Pattern search attributes in string infix operators
 
-The `x %s-% p` and `x %s/% p` operators (and their in-place equivalents, given later), and the `%sgrep%` operator perform pattern matching for various purposes. By default the pattern matching is interpreted as case-sensitive `regex` patterns from `stringi`.
+The `x %s-% p` and `x %s/% p` operators (and their in-place equivalents, given later), and the string detection operators (`%s{}%`, `%s!{}%`) perform pattern matching for various purposes. When a character vector or string is given on the right hand side, this is interpreted as case-sensitive `regex` patterns from `stringi`.
 
 But, of course, sometimes one wants to change this. For example, one may want it to be case insensitive. Or perhaps one wants to use fixed expressions, or something else.
 
-The `tinyoperations` package provides options for these cases. To use more refined pattern definition, simply replace the argument/right-hand-side expression `p` in the relevant operators with a call from the `s_pattern()` function.
+Instead of giving a string or character vector of regex patterns, one can also supply a list to specify exactly how the pattern should be interpreted. The list should use the exact same naming convention as `stringi`. For example:
 
-The `s_pattern()` function uses the exact same argument convention as `stringi`. For example:
-
- - `s_pattern(regex=p, case_insensitive=FALSE, ...)`
- - `s_pattern(fixed=p, ...)`
- - `s_pattern(coll=p, ...)`
- - `s_pattern(charclass=p, ...)`
-
-Note that the `s_pattern()` function only works for the infix operators (functions surrounded by `%` signs) related to strings in this R package.
+ - `list(regex=p, case_insensitive=FALSE, ...)`
+ - `list(fixed=p, ...)`
+ - `list(coll=p, ...)`
+ - `list(charclass=p, ...)`
 
 
 Examples with Regular expressions:
 
 ```{r}
 x <- c("Hello world", "Goodbye world")
-p <- s_pattern(regex=" world")
+p <- list(regex=" world")
 x %s-% p
 
 x <- c("Ha", "Ho", "Hi", "Hu", "He", "Ha") %s*% 10
-p <- s_pattern(regex="Ha")
+p <- list(regex="Ha")
 x %s/% p
+
+x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+print(x)
+p <- list(regex = c("A", "A"), case_insensitive=TRUE)
+x %s{}% p
+x %s!{}% p
 ```
 
 Examples with Fixed expressions:
 
 ```{r}
 x <- c("Hello world", "Goodbye world")
-p <- s_pattern(fixed=" world")
+p <- list(fixed=" world")
 x %s-% p
 
 x <- c("Ha", "Ho", "Hi", "Hu", "He", "Ha") %s*% 10
-p <- s_pattern(fixed="Ha")
+p <- list(fixed="Ha")
 x %s/% p
+
+x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+print(x)
+p <- list(fixed = c("A", "A"), case_insensitive=TRUE)
+x %s{}% p
+x %s!{}% p
 ```
 
 And so on. I'm sure you get the idea.

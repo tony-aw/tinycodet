@@ -89,7 +89,6 @@ The tinyoperations package adds a few basic logic operators:
  - `%n&%`: NOT AND (i.e. `(!x) & (!y)`). Note that if either `x` or `y` is `NA`, `%n&%` will also give `NA` (unlike `(!x) & (!y)`, which would give `FALSE`.)
  - `%?=%`: checks if both `x` and `y` are unknown or unreal (NA, NaN, Inf, -Inf)
  - `%out%`: the opposite of `%in%` (i.e. `!x %in% y`)
- - `s %sgrep% p` checks if pattern `p` (defined as either `regex`, or as a call from `s_pattern()`) appears in character vector `s` (info on the `s_pattern()` function can be found in the article "String related infix operators").
 
 Here are some examples:
 

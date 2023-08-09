@@ -423,51 +423,90 @@ in string or vector <code>x</code></li>
 <code>x</code>.</p>
 <p> </p>
 </div>
+<div id="string-detection-operators" class="section level1">
+<h1>String detection operators</h1>
+<p>The <code>x %s{}% p</code> operator checks for every string in
+character vector <code>x</code> if the pattern defined in <code>p</code>
+is present. The <code>x %s!{}% p operator</code> checks for every string
+in character vector <code>x</code> if the pattern defined in
+<code>p</code> is NOT present.</p>
+<p>Examples:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">paste0</span>(letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">13</span>], <span class="at">collapse=</span><span class="st">&quot;&quot;</span>), <span class="fu">paste0</span>(letters[<span class="dv">14</span><span class="sc">:</span><span class="dv">26</span>], <span class="at">collapse=</span><span class="st">&quot;&quot;</span>))</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">print</span>(x)</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;abcdefghijklm&quot; &quot;nopqrstuvwxyz&quot;</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>x <span class="sc">%s{}%</span> <span class="st">&quot;a&quot;</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; [1]  TRUE FALSE</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>x <span class="sc">%s!{}%</span> <span class="st">&quot;a&quot;</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; [1] FALSE  TRUE</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="fu">which</span>(x <span class="sc">%s{}%</span> <span class="st">&quot;a&quot;</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt; [1] 1</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="fu">which</span>(x <span class="sc">%s!{}%</span> <span class="st">&quot;a&quot;</span>)</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt; [1] 2</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>x[x <span class="sc">%s{}%</span> <span class="st">&quot;a&quot;</span>]</span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt; [1] &quot;abcdefghijklm&quot;</span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>x[x <span class="sc">%s!{}%</span> <span class="st">&quot;a&quot;</span>]</span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt; [1] &quot;nopqrstuvwxyz&quot;</span></span></code></pre></div>
+<p> </p>
+</div>
 <div id="specifying-pattern-search-attributes-in-string-infix-operators" class="section level1">
 <h1>Specifying Pattern search attributes in string infix operators</h1>
 <p>The <code>x %s-% p</code> and <code>x %s/% p</code> operators (and
-their in-place equivalents, given later), and the <code>%sgrep%</code>
-operator perform pattern matching for various purposes. By default the
-pattern matching is interpreted as case-sensitive <code>regex</code>
-patterns from <code>stringi</code>.</p>
+their in-place equivalents, given later), and the string detection
+operators (<code>%s{}%</code>, <code>%s!{}%</code>) perform pattern
+matching for various purposes. When a character vector or string is
+given on the right hand side, this is interpreted as case-sensitive
+<code>regex</code> patterns from <code>stringi</code>.</p>
 <p>But, of course, sometimes one wants to change this. For example, one
 may want it to be case insensitive. Or perhaps one wants to use fixed
 expressions, or something else.</p>
-<p>The <code>tinyoperations</code> package provides options for these
-cases. To use more refined pattern definition, simply replace the
-argument/right-hand-side expression <code>p</code> in the relevant
-operators with a call from the <code>s_pattern()</code> function.</p>
-<p>The <code>s_pattern()</code> function uses the exact same argument
-convention as <code>stringi</code>. For example:</p>
+<p>Instead of giving a string or character vector of regex patterns, one
+can also supply a list to specify exactly how the pattern should be
+interpreted. The list should use the exact same naming convention as
+<code>stringi</code>. For example:</p>
 <ul>
-<li><code>s_pattern(regex=p, case_insensitive=FALSE, ...)</code></li>
-<li><code>s_pattern(fixed=p, ...)</code></li>
-<li><code>s_pattern(coll=p, ...)</code></li>
-<li><code>s_pattern(charclass=p, ...)</code></li>
+<li><code>list(regex=p, case_insensitive=FALSE, ...)</code></li>
+<li><code>list(fixed=p, ...)</code></li>
+<li><code>list(coll=p, ...)</code></li>
+<li><code>list(charclass=p, ...)</code></li>
 </ul>
-<p>Note that the <code>s_pattern()</code> function only works for the
-infix operators (functions surrounded by <code>%</code> signs) related
-to strings in this R package.</p>
 <p>Examples with Regular expressions:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Hello world&quot;</span>, <span class="st">&quot;Goodbye world&quot;</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">s_pattern</span>(<span class="at">regex=</span><span class="st">&quot; world&quot;</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>x <span class="sc">%s-%</span> p</span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Hello&quot;   &quot;Goodbye&quot;</span></span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Ha&quot;</span>, <span class="st">&quot;Ho&quot;</span>, <span class="st">&quot;Hi&quot;</span>, <span class="st">&quot;Hu&quot;</span>, <span class="st">&quot;He&quot;</span>, <span class="st">&quot;Ha&quot;</span>) <span class="sc">%s*%</span> <span class="dv">10</span></span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">s_pattern</span>(<span class="at">regex=</span><span class="st">&quot;Ha&quot;</span>)</span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>x <span class="sc">%s/%</span> p</span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt; [1] 10  0  0  0  0 10</span></span></code></pre></div>
-<p>Examples with Fixed expressions:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Hello world&quot;</span>, <span class="st">&quot;Goodbye world&quot;</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">s_pattern</span>(<span class="at">fixed=</span><span class="st">&quot; world&quot;</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">regex=</span><span class="st">&quot; world&quot;</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>x <span class="sc">%s-%</span> p</span>
 <span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Hello&quot;   &quot;Goodbye&quot;</span></span>
 <span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a></span>
 <span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Ha&quot;</span>, <span class="st">&quot;Ho&quot;</span>, <span class="st">&quot;Hi&quot;</span>, <span class="st">&quot;Hu&quot;</span>, <span class="st">&quot;He&quot;</span>, <span class="st">&quot;Ha&quot;</span>) <span class="sc">%s*%</span> <span class="dv">10</span></span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">s_pattern</span>(<span class="at">fixed=</span><span class="st">&quot;Ha&quot;</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">regex=</span><span class="st">&quot;Ha&quot;</span>)</span>
 <span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>x <span class="sc">%s/%</span> p</span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#&gt; [1] 10  0  0  0  0 10</span></span></code></pre></div>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#&gt; [1] 10  0  0  0  0 10</span></span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">paste0</span>(letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">13</span>], <span class="at">collapse=</span><span class="st">&quot;&quot;</span>), <span class="fu">paste0</span>(letters[<span class="dv">14</span><span class="sc">:</span><span class="dv">26</span>], <span class="at">collapse=</span><span class="st">&quot;&quot;</span>))</span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="fu">print</span>(x)</span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="co">#&gt; [1] &quot;abcdefghijklm&quot; &quot;nopqrstuvwxyz&quot;</span></span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">regex =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;A&quot;</span>), <span class="at">case_insensitive=</span><span class="cn">TRUE</span>)</span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>x <span class="sc">%s{}%</span> p</span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="co">#&gt; [1]  TRUE FALSE</span></span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a>x <span class="sc">%s!{}%</span> p</span>
+<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="co">#&gt; [1] FALSE  TRUE</span></span></code></pre></div>
+<p>Examples with Fixed expressions:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Hello world&quot;</span>, <span class="st">&quot;Goodbye world&quot;</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">fixed=</span><span class="st">&quot; world&quot;</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>x <span class="sc">%s-%</span> p</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Hello&quot;   &quot;Goodbye&quot;</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Ha&quot;</span>, <span class="st">&quot;Ho&quot;</span>, <span class="st">&quot;Hi&quot;</span>, <span class="st">&quot;Hu&quot;</span>, <span class="st">&quot;He&quot;</span>, <span class="st">&quot;Ha&quot;</span>) <span class="sc">%s*%</span> <span class="dv">10</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">fixed=</span><span class="st">&quot;Ha&quot;</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>x <span class="sc">%s/%</span> p</span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt; [1] 10  0  0  0  0 10</span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">paste0</span>(letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">13</span>], <span class="at">collapse=</span><span class="st">&quot;&quot;</span>), <span class="fu">paste0</span>(letters[<span class="dv">14</span><span class="sc">:</span><span class="dv">26</span>], <span class="at">collapse=</span><span class="st">&quot;&quot;</span>))</span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="fu">print</span>(x)</span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co">#&gt; [1] &quot;abcdefghijklm&quot; &quot;nopqrstuvwxyz&quot;</span></span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">fixed =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;A&quot;</span>), <span class="at">case_insensitive=</span><span class="cn">TRUE</span>)</span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a>x <span class="sc">%s{}%</span> p</span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="co">#&gt; [1]  TRUE FALSE</span></span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a>x <span class="sc">%s!{}%</span> p</span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="co">#&gt; [1] FALSE  TRUE</span></span></code></pre></div>
 <p>And so on. I’m sure you get the idea.</p>
 <p> </p>
 </div>

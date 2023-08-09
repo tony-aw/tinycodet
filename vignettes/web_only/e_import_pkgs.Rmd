@@ -156,25 +156,47 @@ tinyoperations::`%row~%`(x, mat)
 
 is very cumbersome.
 
-Therefore, `tinyoperations` also adds the `import_inops()` function, which exposes the infix operators from the packages specified in character vector `pkgs` to the current environment (like the global environment, or the environment within a function), but does not attach the functions to the namespace.
+Therefore, `tinyoperations` also adds the `import_inops()` function, which exposes the infix operators as specified in either an alias object, or from a character vector of package names. The infix operators are exposed to the current environment (like the global environment, or the environment within a function), but does not attach the functions to the namespace.
 
-For example, the following code exposes the infix operators from the [data.table](https://github.com/Rdatatable/data.table) and [tidytable](https://github.com/markfairbanks/tidytable) R packages to the current environment, in this case the global environment:
+For example, to expose the infix operators in the alias object from before to the current environment, one can do the following:
 
 ```{r}
-pkgs <- c("data.table", "tidytable")
-import_inops(pkgs)
+import_inops(expose = tdt.)
 ```
 
-Just like in `import_as()`, the order of the packages matters whenever there's a conflict.
+One can give the `unexpose` argument instead of the `expose` argument, which will delete the infix operators from those packages/package alias exposed in the current environment by `import_inops()`. Infix operators defined by the user will not be touched. For example:
 
-The `import_inops()` function has the `exclude` and `include.only` arguments to specify exactly which infix operators to expose to the current environment, as well as the `overwrite` and `inherits` arguments to specify what to do when the infix operators you are about to expose already exist in the current environment (and loaded namespaces). This can be handy to prevent overwriting any (user defined) infix operators already present in the current environment or loaded namespaces.
+```{r}
+import_inops(unexpose = tdt.)
+```
+
+Exposing and unexposing can, as stated earlier, also done using a character vector of package names. (Note that the order of the packages matters whenever there's a conflict: operators from later named packages overwrite those from earlier named packages).
+
+The following code exposes the infix operators from the [data.table](https://github.com/Rdatatable/data.table) and [tidytable](https://github.com/markfairbanks/tidytable) R packages:
+
+```{r}
+import_inops(expose = c("data.table", "tidytable"))
+```
+
+And similarly one can remove the exposed infix operators again from the current environment:
+
+```{r}
+import_inops(unexpose = c("data.table", "tidytable"))
+```
+
+When unexposing, the order of the package names do not matter.
 
 &nbsp;
 
-The user can set `action="remove"`, which will delete the infix operators from those packages exposed in the current environment by `import_inops()`. Infix operators defined by the user will not be touched. For example:
+The `import_inops()` function has the `exclude` and `include.only` arguments to specify exactly which infix operators to expose to the current environment, as well as the `overwrite` and `inherits` arguments to specify what to do when the infix operators you are about to expose already exist in the current environment (and loaded namespaces). This can be handy to prevent overwriting any (user defined) infix operators already present in the current environment or loaded namespaces.
+
+Examples:
 
 ```{r}
-import_inops(pkgs, action = "remove")
+import_inops(expose = tdt., include.only = ":=")
+import_inops(unexpose = tdt.)
+import_inops(expose = c("data.table", "tidytable"), , include.only = ":=")
+import_inops(unexpose = c("data.table", "tidytable"))
 ```
 
 
@@ -207,7 +229,7 @@ head(d)
 
 # Regarding S3 methods
 
-When importing packages with `tinyoperations`' import system, S3 methods will work just fine. For example, the S3 method " `plot()` " works on the pre-installed recommended R package `mgcv`, even when loaded in an alias:
+When importing packages with `tinyoperations`' import system, S3 methods will work just fine. For example, the S3 method " `plot()` " works with objects from the `mgcv` R package, even when loaded in an alias:
 
 ```{r}
 import_as(mgcv., "mgcv")
@@ -286,14 +308,14 @@ detach("package:dplyr")
 
 Moreover, [dplyr](https://github.com/tidyverse/dplyr)'s function names are sometimes generic enough that there is no obvious way to tell if a function came from [dplyr](https://github.com/tidyverse/dplyr) or some other package (for comparison: one can generally recognize `stringi` functions as they all start with `stri_`). If you look at the CRAN page for [dplyr](https://github.com/tidyverse/dplyr), you'll notice it has some interesting extensions you might want to use, such as [powerjoin](https://github.com/moodymudskipper/powerjoin). But constantly switching between package prefixes or aliases is perhaps undesirable. 
 
-So here `tinyoperations`' `import_as()` function might help. Below is an example where [dplyr](https://github.com/tidyverse/dplyr) is loaded (including its re-exports), along with [powerjoin](https://github.com/moodymudskipper/powerjoin) (which is an extension), all under one alias which I'll call "`dr.`". Moreover, the infix operators from `magrittr` are exposed to the current environment.
+So here `tinyoperations`' `import_as()` function might help. Below is an example where [dplyr](https://github.com/tidyverse/dplyr) is loaded (including its re-exports), along with [powerjoin](https://github.com/moodymudskipper/powerjoin) (which is an extension), all under one alias which I'll call "`dr.`". Moreover, all infix operators from `magrittr` are exposed to the current environment.
 
 ```{r}
 import_as(
   dr., "dplyr", extensions = "powerjoin", lib.loc=.libPaths()
 )
 
-import_inops("magrittr") # getting the operators from `magrrittr`
+import_inops("magrittr") # getting the operators from `magrittr`
 ```
 
 The functions from [dplyr](https://github.com/tidyverse/dplyr) can now be used with the `dr.$` prefix. This way, base R functions are no longer overwritten, and it will be clear for someone who reads your code whether functions like the `filter()` function is the base R filter function, or the [dplyr](https://github.com/tidyverse/dplyr) filter function, as the latter would be called as `dr.$filter()`.
