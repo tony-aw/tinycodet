@@ -493,7 +493,8 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   neatly retrieved using the `attr.import()` function. The `args`
   special attribute from alias objects now also reports the `lib.loc`
   argument. Slightly re-organized the special attributes contained in
-  alias objects.
+  alias objects. Removed the `verbose` argument from `import_as()`, as I
+  deemed it unnecessary.
 
 FUTURE PLANS:
 

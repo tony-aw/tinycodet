@@ -152,6 +152,47 @@ s[s %=strtype% "special"]
 
 &nbsp;
 
+
+# Source selection
+
+The `source_selection()` function is the same as base R's `source()` function, except that it allows only placing the selected objects and functions into the current environment, instead of all objects.
+
+The objects to be selected can be specified using any combination of the following:
+
+ - by supplying a character vector of exact object names to the `select` argument.
+ - by supplying a character vector of `regex` patterns to the `regex` argument.
+ - by supplying a character vector of `fixed` patterns to the `fixed` argument.
+
+Example:
+
+```{r}
+exprs <- expression({
+  helloworld = function()print("helloworld")
+  goodbyeworld <- function() print("goodbye world")
+  `%s+test%` <- function(x,y) stringi::`%s+%`(x,y)
+  `%s*test%` <- function(x,y) stringi::`%s*%`(x,y)
+  mymethod <- function(x) UseMethod("mymethod", x)
+  mymethod.numeric <- function(x)x * 2
+  mymethod.character <- function(x)chartr(x, old = "a-zA-Z", new = "A-Za-z")
+})
+
+temp.fun <- function(){
+  source_selection(list(exprs=exprs), regex= "^mymethod", fixed = c("%", ":="))
+  ls() # list all objects residing within the function definition
+}
+temp.fun()
+
+temp.fun <- function(){
+  source_selection(list(exprs=exprs), select = c("helloworld", "goodbyeworld"))
+  ls() # list all objects residing within the function definition
+}
+temp.fun()
+
+```
+
+
+&nbsp;
+
 # Locked constants
 
 The `tinyoperations` R package also adds a few other things.

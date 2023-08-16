@@ -269,7 +269,7 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
  - 3 August 2023: Overhauled the source module import system; it now has a single function, namely `source_selection()`. Removed the `text` argument from `transform_if()`, and it now also accepts logical vector for argument `cond`, and also accepts atomic scalars for arguments `yes, no, other`. Adjusted the documentation accordingly. Fixed a few typos and grammatical mistakes in the documentation.
  - 4 August 2023: Really tiny update. Also added more tests (there are now about 300 tests).
  - 9 August 2023: Now the `import_inops()` function can directly accept an alias object to expose infix operators from; argument convention slightly changed. Added convenience pattern functions; `s_pattern()` is now simply a reference to the help page, and not a function on its own. Replaced the `%sgrep%` operator with the `%s{}%` and `%s!{}%` operators. Adjusted the documentation accordingly. Also added more tests; there are now about 400 tests.
- - 16 August 2023: special attributes from alias objects can now be more neatly retrieved using the `attr.import()` function. The `args` special attribute from alias objects now also reports the `lib.loc` argument. Slightly re-organized the special attributes contained in alias objects.
+ - 16 August 2023: special attributes from alias objects can now be more neatly retrieved using the `attr.import()` function. The `args` special attribute from alias objects now also reports the `lib.loc` argument. Slightly re-organized the special attributes contained in alias objects. Removed the `verbose` argument from `import_as()`, as I deemed it unnecessary.
  
 
 
