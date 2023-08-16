@@ -1,0 +1,167 @@
+---
+title: "Miscellaneous functionality"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    number_sections: true
+vignette: >
+  %\VignetteIndexEntry{Miscellaneous functionality}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(tinyoperations)
+```
+
+
+&nbsp;
+
+# Matrix re-ordering operators
+
+The `tinyoperations` R package adds 2 additional matrix operators:
+
+ - The `x %row~% mat` operator  re-orders the elements of every row, each row ordered independently from the other rows, of matrix `x`, by the ordering ranks given in matrix `mat`.
+ - The `x %col~% mat` operator re-orders the elements of every column, each column ordered independently from the other columns, of matrix `x`, by the ordering ranks given in matrix `mat`.
+ 
+If matrix `x` is a numeric matrix, and one wants to numerically sort the elements of every row or column, `x %row~% x` or `x %col~% x` would suffice, respectively.
+
+If matrix `x` is not numeric, sorting using `x %row~% x` and `x %col~% x `are still possible, but probably not the best option. In the non-numeric case, providing a matrix of ordering ranks would probably be faster and give more accurate ordering.
+
+If `mat` is a matrix of non-repeating random integers (i.e. `sample(1:length(x), replace=FALSE)`), `x %row~% mat` will randomly shuffle the elements of every row, where the shuffling order in each row is independent from the shuffling order in the other rows. Similarly, `x %col~% mat` will randomly shuffle the elements of every column, where the shuffling order in each column is independent from the shuffling order in the other columns.
+
+Re-ordering/sorting every row/column of a matrix with these operators is generally faster than doing so through loops or apply-like functions.
+
+&nbsp;
+
+Examples with a numeric matrix:
+
+```{r}
+x <- matrix(sample(1:25), nrow=5)
+print(x)
+x %row~% x # sort elements of every row
+x %row~% -x # reverse-sort elements of every row
+x %col~% x # sort elements of every column
+x %col~% -x # reverse-sort elements of every column
+
+x <- matrix(sample(1:25), nrow=5)
+print(x)
+rand <- sample(1:length(x)) |> matrix(ncol=ncol(x)) # matrix of random integers
+x %row~% rand # random shuffle every row independent of other rows
+x %col~% rand # random shuffle every column independent of other columns
+```
+
+
+Examples with a character matrix:
+
+```{r}
+x <- matrix(sample(letters, 25), nrow=5)
+print(x)
+mat <- stringi::stri_rank(as.vector(x)) |>
+  matrix(ncol=ncol(x)) # matrix of ordering ranks
+x %row~% mat # sort elements of every row
+x %row~% -mat # reverse-sort elements of every row
+x %col~% mat # sort elements of every column
+x %col~% -mat # reverse-sort elements of every column
+
+x <- matrix(sample(letters, 25), nrow=5)
+print(x)
+rand <- sample(1:length(x)) |> matrix(ncol=ncol(x)) # matrix of random integers
+x %row~% rand # random shuffle every row independent of other rows
+x %col~% rand # random shuffle every column independent of other columns
+```
+
+
+
+&nbsp;
+
+# Additional logic operators
+
+The tinyoperations package adds a few basic logic operators:
+
+ - `%xor%`: Exclusive OR
+ - `%n&%`: NOT AND (i.e. `(!x) & (!y)`). Note that if either `x` or `y` is `NA`, `%n&%` will also give `NA` (unlike `(!x) & (!y)`, which would give `FALSE`.)
+ - `%?=%`: checks if both `x` and `y` are unknown or unreal (NA, NaN, Inf, -Inf)
+ - `%out%`: the opposite of `%in%` (i.e. `!x %in% y`)
+
+Here are some examples:
+
+```{r}
+x <- c(TRUE, FALSE, TRUE, FALSE, NA, NaN, Inf, -Inf, TRUE, FALSE)
+y <- c(FALSE, TRUE, TRUE, FALSE, rep(NA, 6))
+outcome <- data.frame(
+  x=x, y=y,
+  "x %xor% y"=x %xor% y, "x %n&% y" = x %n&% y, "x %?=% y" = x %?=% y,
+  check.names = FALSE
+)
+knitr::kable(outcome)
+
+1:3 %out% 1:10
+1:10 %out% 1:3
+```
+
+
+
+Numbers can have many different sub-types whilst still being `numeric`. The `n %=numtype% numtype` operator will check for every value of numeric vector `n` if it can be considered a number belonging to type `numtype`. The following values for `numtype` are allowed:
+
+ - "~0": zero, or else a number whose absolute value is smaller than the Machine tolerance (`sqrt(.Machine$double.eps)`);
+ - "B": binary numbers (0 or 1);
+ - "prop": proportions;
+ - "I": Integers;
+ - "odd": odd integers;
+ - "even": even integers
+ - "R": Real numbers;
+ - "unreal": infinity, NA, or NaN;
+
+The string counterpart for `%=numtype%` is `s %=strtype% strtype`, which checks for every value of character vector `s` if it can seen as a certain `strtype`. The following values for `strtype` are allowed:
+
+ - "empty": checks if the string only consists of empty spaces.
+ - "unreal": checks if the string is NA, or if it has literal string "NA", "NaN" or "Inf", regardless if it has leading or trailing spaces.
+ - "numeric": checks if the string can be converted to a number, disregarding leading and trailing spaces. I.e. the string "5.0" can be converted to the the actual number 5.0.
+ - "special": checks if the string consists of only special characters.
+
+Here are some examples:
+
+```{r}
+
+1e-20 %=numtype% "~0"
+n <- c(0:5, 0:-5, 0.1, -0.1, 0, 1, Inf, -Inf, NA, NaN)
+n[n %=numtype% "B"]
+n[n %=numtype% "prop"]
+n[n %=numtype% "B"]
+n[n %=numtype% "I"]
+n[n %=numtype% "odd"]
+n[n %=numtype% "even"]
+n[n %=numtype% "R"]
+n[n %=numtype% "unreal"]
+
+s <- c(" AbcZ123 ", " abc ", " 1.3 ", " !#$%^&*() ", "  ", "  NA  ", "  NaN  ", " Inf ")
+s[s %=strtype% "empty"]
+s[s %=strtype% "unreal"]
+s[s %=strtype% "numeric"]
+s[s %=strtype% "special"]
+```
+
+
+&nbsp;
+
+# Locked constants
+
+The `tinyoperations` R package also adds a few other things.
+
+&nbsp;
+
+The `lock_TF()` function locks `T` and `F` to `TRUE` and `FALSE`, to prevent the user from re-assigning them. Removing the created `T` and `F` constants allows re-assignment again.
+
+&nbsp;
+
+The `X %<-c% A` operator creates a `CONSTANT` `X` with assignment `A`. Constants cannot be changed, only accessed or removed. So if you have a piece of code that requires some unchangeable constant, use this operator to create said constant.
+
+&nbsp;
