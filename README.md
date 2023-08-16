@@ -88,6 +88,21 @@ mtcars$mpg[mtcars$cyl>6] %:=% \(x)x^2 # short
 
  
 
+Some nice string operators:
+
+``` r
+x <- c("hello", "goodbye", "good afternoon")
+# in stringi:
+x[stringi::stri_detect(x, regex = "r")]
+#> [1] "good afternoon"
+
+# in tinyoperatons:
+x[x %s{}% "r"]
+#> [1] "good afternoon"
+```
+
+ 
+
 Locate $i^\textrm{th}$ occurrence of some pattern in a string:
 
 ``` r
@@ -121,8 +136,8 @@ stri_c_mat(sorted, margin=1, sep=" ")
  
 
 Using `tinyoperations's` new import system; note that the following code
-is run **without attaching a single R package** (besides
-`tinyoperations` itself of course):
+is run without attaching a single R package (besides `tinyoperations`
+itself of course):
 
 ``` r
 # loading "tidytable" + "data.table" under alias "tdt.":
@@ -131,14 +146,12 @@ import_as(
 )
 #> Importing packages...
 #> Done
-#> You can now access the functions using `tdt.$`.
-#> Methods will work like normally. 
-#> For conflicts report and package order, run `tdt.$.__attributes__.`.
+#> You can now access the functions using `tdt.$`
+#> Methods will work like normally 
+#> For conflicts report, packages order, and other attributes, run `attr.import(tdt.)`
 
 # exposing operators from `magrrittr` to current environment:
 import_inops("magrittr")
-#> Getting infix operators from package: magrittr...
-#> 
 #> Checking for conflicting infix operators in the current environment...
 #> Placing infix operators in current environment...
 #> Done
@@ -264,6 +277,19 @@ is not the first R package to take inspiration from other programming
 languages like Python. Therefore, one might find some overlapping
 function and operator names in other packages that do something similar;
 so be mindful of that.
+
+ 
+
+# History of this R package
+
+This R package started out as just a semi-random collection of infix
+operators, most of them related to string manipulation. This then turned
+into more specifically extending the capacities of the `stringi` R
+package. Along the way I realized that infix operators are not very
+user-friendly when used via `::` or via a package alias, which resulted
+in the creation of the `import_inops()` function. This in turn resulted
+in the entire import system. And thus we get to the current state of the
+R package.
 
  
 
@@ -463,6 +489,11 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   own. Replaced the `%sgrep%` operator with the `%s{}%` and `%s!{}%`
   operators. Adjusted the documentation accordingly. Also added more
   tests; there are now about 400 tests.
+- 16 August 2023: special attributes from alias objects can now be more
+  neatly retrieved using the `attr.import()` function. The `args`
+  special attribute from alias objects now also reports the `lib.loc`
+  argument. Slightly re-organized the special attributes contained in
+  alias objects.
 
 FUTURE PLANS:
 

@@ -86,6 +86,20 @@ mtcars$mpg[mtcars$cyl>6] %:=% \(x)x^2 # short
 
 &nbsp;
 
+Some nice string operators:
+
+```{r}
+x <- c("hello", "goodbye", "good afternoon")
+# in stringi:
+x[stringi::stri_detect(x, regex = "r")]
+
+# in tinyoperatons:
+x[x %s{}% "r"]
+```
+
+
+&nbsp;
+
 Locate $i^\textrm{th}$ occurrence of some pattern in a string:
 
 ```{r}
@@ -114,7 +128,7 @@ stri_c_mat(sorted, margin=1, sep=" ")
 
 &nbsp;
 
-Using `tinyoperations's` new import system; note that the following code is run **without attaching a single R package** (besides `tinyoperations` itself of course):
+Using `tinyoperations's` new import system; note that the following code is run without attaching a single R package (besides `tinyoperations` itself of course):
 
 ```{r}
 # loading "tidytable" + "data.table" under alias "tdt.":
@@ -202,6 +216,13 @@ One may have noticed that some of the functionality in this R packages has been 
 
 &nbsp;
 
+# History of this R package
+
+This R package started out as just a semi-random collection of infix operators,
+most of them related to string manipulation. This then turned into more specifically extending the capacities of the `stringi` R package. Along the way I realized that infix operators are not very user-friendly when used via `::` or via a package alias, which resulted in the creation of the `import_inops()` function. This in turn resulted in the entire import system. And thus we get to the current state of the R package.
+
+&nbsp;
+
 # Changelog and status
 
 
@@ -248,6 +269,8 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
  - 3 August 2023: Overhauled the source module import system; it now has a single function, namely `source_selection()`. Removed the `text` argument from `transform_if()`, and it now also accepts logical vector for argument `cond`, and also accepts atomic scalars for arguments `yes, no, other`. Adjusted the documentation accordingly. Fixed a few typos and grammatical mistakes in the documentation.
  - 4 August 2023: Really tiny update. Also added more tests (there are now about 300 tests).
  - 9 August 2023: Now the `import_inops()` function can directly accept an alias object to expose infix operators from; argument convention slightly changed. Added convenience pattern functions; `s_pattern()` is now simply a reference to the help page, and not a function on its own. Replaced the `%sgrep%` operator with the `%s{}%` and `%s!{}%` operators. Adjusted the documentation accordingly. Also added more tests; there are now about 400 tests.
+ - 16 August 2023: special attributes from alias objects can now be more neatly retrieved using the `attr.import()` function. The `args` special attribute from alias objects now also reports the `lib.loc` argument. Slightly re-organized the special attributes contained in alias objects.
+ 
 
 
 FUTURE PLANS:
