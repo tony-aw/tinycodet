@@ -1,0 +1,84 @@
+---
+title: "Relations to other packages"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    number_sections: true
+vignette: >
+  %\VignetteIndexEntry{Relations to other packages}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(tinyoperations)
+```
+
+&nbsp;
+
+# Introduction
+
+This article lays out how the `tinyoperations` R package relates to other R packages, and compatibility with other R packages, etc.
+
+&nbsp;
+
+
+&nbsp;
+
+# Compatibility with other R packages
+
+I made sure not to name any of the operators in `tinyoperations` the same as the operators in the popular operator-related packages: [magrittr](https://github.com/tidyverse/magrittr) and [zeallot](https://github.com/r-lib/zeallot). 
+
+&nbsp;
+
+The [import](https://github.com/rticulate/import) R package provides somewhat similar capabilities to the `tinyoperations` import management system, but they are still quite different. The `tinyoperations`' import system focuses more on loading a main package + its re-exports + (reverse) dependencies under a alias, and exposing infix operators from a package to the current environment. The [import](https://github.com/rticulate/import) package does not really provide this functionality directly (as far as I know). Strictly speaking there is no incompatibility between `tinyoperations` and [import](https://github.com/rticulate/import). You can safely use both implementations of the import system, if you wish.
+
+&nbsp;
+
+When using the [renv](https://github.com/rstudio/renv) R package, note that it only registers packages loads using plain `library()` or `require()` calls. Anything different from that, even things like `for(... in ...)library(...)` or `if(...)library(...)`, will not be understood by [renv](https://github.com/rstudio/renv). Therefore, if using [renv](https://github.com/rstudio/renv), please make sure to set the following:
+
+```{r eval=FALSE}
+renv::settings$snapshot.type("all")
+```
+
+This will make sure that all packages installed in your project library, regardless of how they are loaded,  will all be registered by [renv](https://github.com/rstudio/renv). This makes [renv](https://github.com/rstudio/renv) compatible with calls like  `import_as` from `tinyoperations`, and things like `for(... in ...)library(...)` or `if(...)library(...)`.
+
+&nbsp;
+
+One may have noticed that some of the functionality in this R packages has been inspired by other programming languages, in particular by Python (please, refrain from taking out your torches pitchforks!). This is not the first R package to take inspiration from other programming languages like Python. Therefore, one might find some overlapping function and operator names in other packages that do something similar; so be mindful of that.
+
+
+
+&nbsp;
+
+# Recommended R packages
+
+`stringi` is of course required for this packages.
+
+Besides that, I highly recommend the [fastverse](https://github.com/fastverse/fastverse) set of R packages (https://github.com/fastverse/fastverse), which are a set of R packages for (mostly) data wrangling, focused on high speed, better memory management, and minimal dependencies.
+
+For quick 'n easy back-tracing of errors, I recommend the [rlang](https://github.com/r-lib/rlang/tree/main/R) R package.
+
+&nbsp;
+
+# Tinyverse solutions to library handling without external R packages
+
+The `tinyverse` (https://cran.r-project.org/web/packages/pacs/vignettes/tinyverse.html) - not to be confused with the tidyverse - attempts to minimize dependencies, and thus avoid using external R packages unless necessary. "External R packages" here meaning not base/core R, not pre-installed recommended R packages, and not `rstudioapi`.
+
+There are some library handling issues that are traditionally solved through external R packages - even though they can be solved quite well without external R packages (especially since R version 4+). Since this R package adheres to the `tinyverse` philosophy and focuses on coding etiquette, some of these solutions will briefly be given without the use of external R packages:
+
+
+  - Force an error when using a function that appears in multiple attached packages: one can use the `options(conflicts.policy = ...)` to specify when such an error should be enforced.
+  - Give warnings when partial argument matching occurs: one can use `options( warnPartialMatchArgs = TRUE, warnPartialMatchAttr = TRUE, warnPartialMatchDollar = TRUE)`.
+ - Get path of current script or project root folder: without R-Studio one can use `commandArgs()` function; with R-Studio one can use `rstudioapi::getSourceEditorContext()$path`. Using `setwd("..")` will set the working directory one folder up - which would often be your project root folder.
+ - Project isolation: set your library to a folder specific to your project (i.e. using `.libPaths()`).
+ - Date-based version control: As MRAN is no longer available, one may use the R-Studio package manager website as your repository (see https://packagemanager.posit.com/client/#/repos/2/overview or https://packagemanager.posit.co/client/#/repos/2/overview).
+
+&nbsp;
