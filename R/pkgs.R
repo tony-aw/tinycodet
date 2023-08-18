@@ -89,7 +89,7 @@
 #' @examples
 #'
 #' \dontrun{
-#' pkgs <- c(unlist(tools::package_dependencies("devtools")), "devtools")
+#' pkgs <- pkg_get_deps("devtools")
 #' pkgs %installed in% .libPaths()
 #' pkg_lsf("devtools", "all")
 #' }

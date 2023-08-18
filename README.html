@@ -781,6 +781,20 @@ following code is run without attaching a single R package (besides
 website (<a href="https://tony-aw.github.io/tinyoperations/">https://tony-aw.github.io/tinyoperations/</a>),
 and perhaps try out the package yourself.</p>
 <p> </p>
+<h1 id="reporting-issues-and-giving-suggestions">Reporting issues and
+giving suggestions</h1>
+<p>When you coming across an issue with the <code>tinyoperations</code>
+R package, you may want to report it in the “Issues” tab on the GitHub
+page (<a href="https://github.com/tony-aw/tinyoperations/issues">https://github.com/tony-aw/tinyoperations/issues</a>).
+If relevant, please provide reproducible R code, as that will make it
+easier to diagnose the issue. Please keep issue reports polite,
+professional, and to the point.</p>
+<p> </p>
+<p>If you have suggestions, know that suggestions are always welcome.
+Please submit your suggestions in the “Discussion” tab on the GitHub
+page (<a href="https://github.com/tony-aw/tinyoperations/discussions">https://github.com/tony-aw/tinyoperations/discussions</a>).
+Questions that are not issues can also be provided there.</p>
+<p> </p>
 <h2 id="installation">Installation</h2>
 <p>You can install <code>tinyoperations</code> from github like so:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;https://github.com/tony-aw/tinyoperations&quot;</span>)</span></code></pre></div>
@@ -790,55 +804,6 @@ namespace - using:</p>
 <p>and one can open the introduction page to the
 <code>tinyoperations</code> package using:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>tinyoperations<span class="sc">::</span><span class="fu">tinyoperations_help</span>()</span></code></pre></div>
-<p> </p>
-<h1 id="recommended-r-packages">Recommended R packages</h1>
-<p><code>stringi</code> is of course required for this packages. Besides
-that, I highly recommend the <a href="https://github.com/fastverse/fastverse">fastverse</a> set of R
-packages (<a href="https://github.com/fastverse/fastverse">https://github.com/fastverse/fastverse</a>),
-which are a set of R packages for (mostly) data wrangling, focused on
-high speed, better memory management, and minimal dependencies.</p>
-<p>For quick ’n easy back-tracing of errors, I recommend the <a href="https://github.com/r-lib/rlang/tree/main/R">rlang</a> R
-package.</p>
-<p> </p>
-<h1 id="compatibility-with-other-r-packages">Compatibility with other R
-packages</h1>
-<p>I made sure not to name any of the operators in
-<code>tinyoperations</code> the same as the operators in the popular
-operator-related packages: <a href="https://github.com/tidyverse/magrittr">magrittr</a> and <a href="https://github.com/r-lib/zeallot">zeallot</a>.</p>
-<p> </p>
-<p>The <a href="https://github.com/rticulate/import">import</a> R
-package provides somewhat similar capabilities to the
-<code>tinyoperations</code> import management system, but they are still
-quite different. The <code>tinyoperations</code>’ import system focuses
-more on loading a main package + its re-exports + (reverse) dependencies
-under a alias, and exposing infix operators from a package to the
-current environment. The <a href="https://github.com/rticulate/import">import</a> package does not
-really provide this functionality directly (as far as I know). Strictly
-speaking there is no incompatibility between <code>tinyoperations</code>
-and <a href="https://github.com/rticulate/import">import</a>. You can
-safely use both implementations of the import system, if you wish.</p>
-<p> </p>
-<p>When using the <a href="https://github.com/rstudio/renv">renv</a> R
-package, note that it only registers packages loads using plain
-<code>library()</code> or <code>require()</code> calls. Anything
-different from that, even things like
-<code>for(... in ...)library(...)</code> or
-<code>if(...)library(...)</code>, will not be understood by <a href="https://github.com/rstudio/renv">renv</a>. Therefore, if using <a href="https://github.com/rstudio/renv">renv</a>, please make sure to set
-the following:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>renv<span class="sc">::</span>settings<span class="sc">$</span><span class="fu">snapshot.type</span>(<span class="st">&quot;all&quot;</span>)</span></code></pre></div>
-<p>This will make sure that all packages installed in your project
-library, regardless of how they are loaded, will all be registered by <a href="https://github.com/rstudio/renv">renv</a>. This makes <a href="https://github.com/rstudio/renv">renv</a> compatible with calls
-like <code>import_as</code> from <code>tinyoperations</code>, and things
-like <code>for(... in ...)library(...)</code> or
-<code>if(...)library(...)</code>.</p>
-<p> </p>
-<p>One may have noticed that some of the functionality in this R
-packages has been inspired by other programming languages, in particular
-by Python (please, refrain from taking out your torches pitchforks!).
-This is not the first R package to take inspiration from other
-programming languages like Python. Therefore, one might find some
-overlapping function and operator names in other packages that do
-something similar; so be mindful of that.</p>
 <p> </p>
 <h1 id="history-of-this-r-package">History of this R package</h1>
 <p>This R package started out as just a semi-random collection of infix
@@ -1082,6 +1047,12 @@ more neatly retrieved using the <code>attr.import()</code> function. The
 the <code>lib.loc</code> argument. Slightly re-organized the special
 attributes contained in alias objects. Removed the <code>verbose</code>
 argument from <code>import_as()</code>, as I deemed it unnecessary.</li>
+<li>18 August 2023: added more safe guards for the import system, and
+added more tests. Converted the website to Bootstrap 3, for more
+stability, and I like the style more. The <code>import_as()</code>
+function now also adds the <code>ordered_object_names</code> attribute
+to aliases. This is only needed for testing purposes, but I now allow
+the user to see this attribute also.</li>
 </ul>
 <p>FUTURE PLANS:</p>
 <p>I believe <code>tinyoperations</code> is slowly getting closer to

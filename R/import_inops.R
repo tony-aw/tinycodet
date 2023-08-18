@@ -69,6 +69,18 @@
 #' import_inops(unexpose = dt.) # unexposed infix operators from current environment
 #' import_inops(expose = "data.table") # expose infix operators from package
 #' import_inops(unexpose = "data.table") # remove the exposed infix operators from environment
+#'
+#' # additional arguments (only used when exposing, not unexposing):
+#' import_as(dt., "data.table")
+#' import_inops(expose = dt., include.only = ":=")
+#' import_inops(unexpose = dt.)
+#' import_inops(expose = "data.table", exclude = ":=")
+#' import_inops(unexpose = "data.table")
+#'
+#' import_inops(expose = dt., overwrite = FALSE)
+#' import_inops(unexpose = dt.)
+#' import_inops(expose = "data.table", overwrite = FALSE)
+#' import_inops(unexpose = "data.table")
 #' }
 #'
 #'

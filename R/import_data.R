@@ -25,10 +25,9 @@
 #'
 #'
 #' @examples
-#' \dontrun{
+#'
 #' d <- import_data("chicago", "gamair")
 #' head(d)
-#' }
 #'
 #'
 #' @rdname import_data

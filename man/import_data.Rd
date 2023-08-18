@@ -27,10 +27,9 @@ and allows assigning the data set like so: \cr
 \code{mydata <- import_data(...)}.
 }
 \examples{
-\dontrun{
+
 d <- import_data("chicago", "gamair")
 head(d)
-}
 
 
 }

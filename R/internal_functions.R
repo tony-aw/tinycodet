@@ -8,6 +8,21 @@
 #' @noRd
 .internal_prep_Namespace <- function(package, lib.loc) {
 
+  pkgs_required <- pkg_get_deps(package, lib.loc = lib.loc, deps_type=c("LinkingTo", "Depends", "Imports"),
+               base=FALSE, recom=TRUE, rstudioapi=TRUE)
+  pkgs_total <- c(package, pkgs_required)
+  pkgs_missing <- pkgs_total[!pkgs_total %installed in% lib.loc]
+  if(length(pkgs_missing)>0) {
+    error.txt <- paste0(
+      "to load the namespace of package `",
+      package,
+      "`, the following packages are required but not installed:",
+      "\n",
+      paste0(pkgs_missing, collapse = ", ")
+    )
+    stop(error.txt)
+  }
+
   ns <- loadNamespace(package, lib.loc = lib.loc) |> as.list(all.names=TRUE, sorted=TRUE)
   names_exported <- names(ns[[".__NAMESPACE__."]][["exports"]])
   ns <- ns[names_exported]
@@ -87,10 +102,6 @@
   pkgs_core <- c(
     utils::installed.packages(priority = "base") |> rownames(),
     utils::installed.packages(lib.loc=lib.loc, priority = "base") |> rownames()
-  ) |> unique()
-  pkgs_preinst <- c(
-    utils::installed.packages(priority = "recommended") |> rownames(),
-    utils::installed.packages(lib.loc=lib.loc, priority = "recommended") |> rownames()
   ) |> unique()
 
   misspelled_pkgs <- pkgs[pkgs != make.names(pkgs)]

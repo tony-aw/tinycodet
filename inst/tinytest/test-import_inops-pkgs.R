@@ -52,74 +52,64 @@ temp.fun <- function(){
 }
 
 
-# test import_inops() - error checks ====
-temp.fun <- function(){
-  import_inops("")
-}
-expect_error(temp.fun(),
-             pattern = "You have misspelled the following")
-
-temp.fun <- function() {
-  import_inops("stringi", lib.loc = mean)
- }
+# package error handling ====
 expect_error(
-  temp.fun(),
-  pattern = "`lib.loc` must be a character vector with at least one library path"
-)
-
-temp.fun <- function() {
-  import_inops("stringi", lib.loc = "foo")
-}
-expect_error(
-  temp.fun(),
+  import_inops("stringi", lib.loc = "foo"),
   pattern = "The following packages are not installed"
 )
 
-
-temp.fun <- function() {
-  import_inops(expose = "stringi", unexpose = "stringi")
-}
 expect_error(
-  temp.fun(),
+  import_inops("base"),
+  pattern = 'The following "packages" are base/core R, which is not allowed:'
+)
+
+expect_error(
+  import_inops("!@#$%^&*()"),
+  pattern = "You have misspelled the following"
+)
+
+expect_error(
+  import_inops(""),
+  pattern = "You have misspelled the following"
+)
+
+
+# other error handling ===
+expect_error(
+  import_inops("stringi", lib.loc = mean),
+  pattern = "`lib.loc` must be a character vector with at least one library path"
+)
+
+expect_error(
+  import_inops(expose = "stringi", unexpose = "stringi"),
   pattern = "Can only specify either `expose` or `unexpose`, not both",
   fixed = TRUE
 )
 
-temp.fun <- function() {
-  import_inops(expose = NA)
-}
 expect_error(
-  temp.fun(),
+  import_inops(expose = NA),
   pattern = "`expose` must be a package name (string) or an alias from `import_as()`",
   fixed = TRUE
 )
 
-temp.fun <- function() {
-  import_inops(unexpose = NA)
-}
 expect_error(
-  temp.fun(),
+  import_inops(unexpose = NA),
   pattern = "`unexpose` must be a package name (string) or an alias from `import_as()`",
   fixed = TRUE
 )
 
-temp.fun <- function() {
-  import_inops(expose = c("stringi", "stringi2"))
-}
 expect_error(
-  temp.fun(),
+  import_inops(expose = c("stringi", "stringi2")),
   pattern = "`expose` must be a package name (string) or an alias from `import_as()`",
   fixed = TRUE
 )
 
-temp.fun <- function() {
-  import_inops(unexpose = c("stringi", "stringi2"))
-}
 expect_error(
-  temp.fun(),
+  import_inops(unexpose = c("stringi", "stringi2")),
   pattern = "`unexpose` must be a package name (string) or an alias from `import_as()`",
   fixed = TRUE
 )
+
 
 # test import_inops - warning checks ====
 temp.fun <- function(){

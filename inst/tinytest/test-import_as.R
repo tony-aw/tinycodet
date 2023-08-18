@@ -19,15 +19,52 @@ temp.fun <- function() {
 expect_equal(temp.fun(), "ab")
 
 
-# test import_as - error handling:
-expect_error(
-  import_as("!@#$%^&*()", "stringi"),
-  pattern = "Syntactically invalid name for object `alias`"
-)
-
+# package error handling ====
 expect_error(
   import_as(stri., c("stringi", "tinyoperations")),
   pattern = "Only a single package can be given in the `main_package` argument"
+)
+
+expect_error(
+  import_as(stri., "stringi", lib.loc="foo"),
+  pattern = "The following packages are not installed"
+)
+
+expect_error(
+  import_as(stri., ""),
+  pattern = "You have misspelled the following"
+)
+
+expect_error(
+  import_as(stri., "!@#$%^&*()"),
+  pattern = "You have misspelled the following"
+)
+
+expect_error(
+  import_as(stri., "base"),
+  pattern = 'The following "packages" are base/core R, which is not allowed:'
+)
+
+expect_error(
+  import_as(p1., "stringi", dependencies = "data.table"),
+  pattern = "The following given dependencies were not found to be actual dependencies"
+)
+
+expect_error(
+  import_as(p1., "stringi", enhances = "data.table"),
+  pattern = "The following given enhances were not found to be actual enhances"
+)
+
+expect_error(
+  import_as(p1., "stringi", extensions = "data.table"),
+  pattern = "The following given extensions were not found to be actual reverse dependencies"
+)
+
+
+# other error handling ====
+expect_error(
+  import_as("!@#$%^&*()", "stringi"),
+  pattern = "Syntactically invalid name for object `alias`"
 )
 
 expect_error(
@@ -46,28 +83,13 @@ expect_error(
 )
 
 expect_error(
+  import_as(stri., "stringi", loadorder = c("main_package", "dependencies")),
+  pattern = "Improper load order given"
+)
+
+expect_error(
   import_as(stri., "stringi", lib.loc=mean),
   pattern = "`lib.loc` must be a character vector with at least one library path"
-)
-
-expect_error(
-  import_as(stri., "stringi", lib.loc="foo"),
-  pattern = "The following packages are not installed"
-)
-
-expect_error(
-  import_as(p1., "stringi", dependencies = "data.table"),
-  pattern = "The following given dependencies were not found to be actual dependencies"
-)
-
-expect_error(
-  import_as(p1., "stringi", enhances = "data.table"),
-  pattern = "The following given enhances were not found to be actual enhances"
-)
-
-expect_error(
-  import_as(p1., "stringi", extensions = "data.table"),
-  pattern = "The following given extensions were not found to be actual reverse dependencies"
 )
 
 temp.fun <- function(){

@@ -85,14 +85,14 @@ will be created in the current environment
 \cr
 To use, for example, function "some_function()" from alias "alias.", use: \cr
 \code{alias.$some_function()} \cr
-To see attributes of this alias object, use \link{attr.import}. \cr
+To see the special attributes of this alias object, use \link{attr.import}. \cr
 \cr
 }
 \description{
 The \code{import_as()} function
 imports the namespace of an R package,
-and optionally also its dependencies, enhances, and extensions,
-under the same alias.
+and optionally also its re-exports, dependencies, enhances, and extensions,
+all under the same alias.
 The specified alias will be placed in the current environment
 (like the global environment, or the environment within a function). \cr
 }

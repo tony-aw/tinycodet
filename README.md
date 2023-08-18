@@ -189,6 +189,24 @@ out the package yourself.
 
  
 
+# Reporting issues and giving suggestions
+
+When you coming across an issue with the `tinyoperations` R package, you
+may want to report it in the “Issues” tab on the GitHub page
+(<https://github.com/tony-aw/tinyoperations/issues>). If relevant,
+please provide reproducible R code, as that will make it easier to
+diagnose the issue. Please keep issue reports polite, professional, and
+to the point.
+
+ 
+
+If you have suggestions, know that suggestions are always welcome.
+Please submit your suggestions in the “Discussion” tab on the GitHub
+page (<https://github.com/tony-aw/tinyoperations/discussions>).
+Questions that are not issues can also be provided there.
+
+ 
+
 ## Installation
 
 You can install `tinyoperations` from github like so:
@@ -210,73 +228,6 @@ using:
 ``` r
 tinyoperations::tinyoperations_help()
 ```
-
- 
-
-# Recommended R packages
-
-`stringi` is of course required for this packages. Besides that, I
-highly recommend the [fastverse](https://github.com/fastverse/fastverse)
-set of R packages (<https://github.com/fastverse/fastverse>), which are
-a set of R packages for (mostly) data wrangling, focused on high speed,
-better memory management, and minimal dependencies.
-
-For quick ’n easy back-tracing of errors, I recommend the
-[rlang](https://github.com/r-lib/rlang/tree/main/R) R package.
-
- 
-
-# Compatibility with other R packages
-
-I made sure not to name any of the operators in `tinyoperations` the
-same as the operators in the popular operator-related packages:
-[magrittr](https://github.com/tidyverse/magrittr) and
-[zeallot](https://github.com/r-lib/zeallot).
-
- 
-
-The [import](https://github.com/rticulate/import) R package provides
-somewhat similar capabilities to the `tinyoperations` import management
-system, but they are still quite different. The `tinyoperations`’ import
-system focuses more on loading a main package + its re-exports +
-(reverse) dependencies under a alias, and exposing infix operators from
-a package to the current environment. The
-[import](https://github.com/rticulate/import) package does not really
-provide this functionality directly (as far as I know). Strictly
-speaking there is no incompatibility between `tinyoperations` and
-[import](https://github.com/rticulate/import). You can safely use both
-implementations of the import system, if you wish.
-
- 
-
-When using the [renv](https://github.com/rstudio/renv) R package, note
-that it only registers packages loads using plain `library()` or
-`require()` calls. Anything different from that, even things like
-`for(... in ...)library(...)` or `if(...)library(...)`, will not be
-understood by [renv](https://github.com/rstudio/renv). Therefore, if
-using [renv](https://github.com/rstudio/renv), please make sure to set
-the following:
-
-``` r
-renv::settings$snapshot.type("all")
-```
-
-This will make sure that all packages installed in your project library,
-regardless of how they are loaded, will all be registered by
-[renv](https://github.com/rstudio/renv). This makes
-[renv](https://github.com/rstudio/renv) compatible with calls like
-`import_as` from `tinyoperations`, and things like
-`for(... in ...)library(...)` or `if(...)library(...)`.
-
- 
-
-One may have noticed that some of the functionality in this R packages
-has been inspired by other programming languages, in particular by
-Python (please, refrain from taking out your torches pitchforks!). This
-is not the first R package to take inspiration from other programming
-languages like Python. Therefore, one might find some overlapping
-function and operator names in other packages that do something similar;
-so be mindful of that.
 
  
 
@@ -495,6 +446,12 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   argument. Slightly re-organized the special attributes contained in
   alias objects. Removed the `verbose` argument from `import_as()`, as I
   deemed it unnecessary.
+- 18 August 2023: added more safe guards for the import system, and
+  added more tests. Converted the website to Bootstrap 3, for more
+  stability, and I like the style more. The `import_as()` function now
+  also adds the `ordered_object_names` attribute to aliases. This is
+  only needed for testing purposes, but I now allow the user to see this
+  attribute also.
 
 FUTURE PLANS:
 

@@ -4,8 +4,8 @@
 #'
 #' The \code{import_as()} function
 #' imports the namespace of an R package,
-#' and optionally also its dependencies, enhances, and extensions,
-#' under the same alias.
+#' and optionally also its re-exports, dependencies, enhances, and extensions,
+#' all under the same alias.
 #' The specified alias will be placed in the current environment
 #' (like the global environment, or the environment within a function). \cr
 #'
@@ -96,7 +96,7 @@
 #' \cr
 #' To use, for example, function "some_function()" from alias "alias.", use: \cr
 #' \code{alias.$some_function()} \cr
-#' To see attributes of this alias object, use \link{attr.import}. \cr
+#' To see the special attributes of this alias object, use \link{attr.import}. \cr
 #' \cr
 #'
 #' @seealso [tinyoperations_import()]
@@ -199,7 +199,7 @@ import_as <- function(
     namespace_current <- .internal_prep_Namespace(pkgs[i], lib.loc)
 
     if(pkgs[i]==main_package & isTRUE(re_exports)) {
-      foreignexports <-  .internal_get_foreignexports_ns(main_package, lib.loc, abortcall=sys.call())
+      foreignexports <- .internal_get_foreignexports_ns(main_package, lib.loc, abortcall=sys.call())
 
       namespace_current <- utils::modifyList(
         namespace_current,
@@ -221,6 +221,7 @@ import_as <- function(
   }
 
   # make attributes:
+  ordered_object_names <- names(namespaces)
   out <- as.environment(namespaces)
   class(out) <- c(class(out), "tinyimport")
   args <- list(
@@ -242,6 +243,7 @@ import_as <- function(
     pkgs = pkgs,
     conflicts = .format_conflicts_df(conflicts_df),
     args = args,
+    ordered_object_names = ordered_object_names,
     tinyimport = "tinyimport"
   )
 

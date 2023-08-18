@@ -35,18 +35,11 @@ The converted object.
 Atomic type casting in R is generally performed using the functions
 \link[base]{as.logical}, \link[base]{as.integer}, \link[base]{as.double},
 \link[base]{as.character}. \cr
-There are a few annoying aspect of R with respect to atomic type casting in R
-using these functions:
-\itemize{
-\item converting an object between atomic types strips the object of its attributes,
-including attributes such as names and dimensions.
-\item the conversions are somewhat inconsistent. For example,
-to prevent stripping attributes, one can do something like this: \cr
-\code{x[] <- as.numeric()} \cr
-but this is not always the same as
-first converting the object and then re-assigning the attributes.
-}
-
+\cr
+Converting an object between atomic types using these functions
+strips the object of its attributes,
+including attributes such as names and dimensions. \cr
+\cr
 The functions provided here by the \code{tinyoperations} package
 do not strip strip away attributes. \cr
 \cr

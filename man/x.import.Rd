@@ -25,14 +25,14 @@ If a string, argument \code{alias} must be specified also.
 \item{alias}{the alias object as created by the \link{import_as} function. \cr}
 
 \item{which}{The attributes to list. If \code{NULL}, all attributes will be returned. \cr
-Possibilities: "pkgs", "conflicts", "args".}
+Possibilities: "pkgs", "conflicts", "args", and "ordered_object_names".}
 }
 \value{
 For \code{help.import()}: \cr
 Opens the appropriate help page. \cr
 \cr
 For \code{attr.import(alias, which = NULL)}: \cr
-Returns ALL special attributes of the given alias object are returned as a list. \cr
+ALL special attributes of the given alias object are returned as a list. \cr
 \cr
 For \code{attr.import(alias, which = "pkgs")}: \cr
 Returns a list with 3 elements:
@@ -57,7 +57,13 @@ functions from earlier named packages, and as such "win" the conflicts. \cr
 For \code{attr.import(alias, which = "args")}: \cr
 Returns a list of input arguments.
 These were the arguments supplied to \link{import_as} when
-the alias object in question was created.
+the alias object in question was created. \cr
+\cr
+For \code{attr.import(alias, which = "ordered_object_names")}: \cr
+Gives the names of the objects in the alias, in the order as they were loaded. \cr
+Only unique names are given, thus conflicting objects only appear once. \cr
+(Note that if argument \code{re_exports} is \code{TRUE},
+re-exported functions are loaded when the main package is loaded, thus changing this order slightly.) \cr
 }
 \description{
 The \code{help.import()} function
