@@ -1,6 +1,6 @@
 
 # THIS SCRIPT IS TO BE SOURCED
-
+rm(list=ls())
 library(tinyoperations)
 library(tinytest)
 
