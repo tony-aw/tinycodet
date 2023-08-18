@@ -1,2 +1,4 @@
 template:
-  bootstrap: 3
+  bootstrap: 5
+  bslib:
+    font_scale: 1.6
