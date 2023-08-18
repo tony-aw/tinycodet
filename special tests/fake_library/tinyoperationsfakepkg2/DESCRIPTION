@@ -12,7 +12,7 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Enhances: tinyoperationsfakepkg3
 NeedsCompilation: no
-Packaged: 2023-07-11 18:45:09 UTC; Tony
+Packaged: 2023-08-18 14:24:28 UTC; Tony
 Author: First Last [aut, cre] (YOUR-ORCID-ID)
 Maintainer: First Last <first.last@example.com>
-Built: R 4.2.0; ; 2023-07-11 18:45:10 UTC; windows
+Built: R 4.3.0; ; 2023-08-18 14:24:28 UTC; windows
