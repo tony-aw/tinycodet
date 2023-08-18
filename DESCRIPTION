@@ -30,5 +30,5 @@ Depends:
     R (>= 4.1.0)
 Imports:
     stringi (>= 1.7.12)
-URL: https://github.com/tony-aw/tinyoperations
+URL: https://github.com/tony-aw/tinyoperations, https://tony-aw.github.io/tinyoperations
 BugReports: https://github.com/tony-aw/tinyoperations/issues
