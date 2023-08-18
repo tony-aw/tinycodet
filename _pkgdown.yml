@@ -1,6 +1,8 @@
 template:
   bootstrap: 5
   bslib:
+    bg: "#FCF5E5"
+    fg: "#000000"
     font_scale: 1.25
 navbar:
   structure:
