@@ -1,135 +1,135 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>/404.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/404.html</loc>
   </url>
   <url>
-    <loc>/articles/a_decimal_truth.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/articles/a_decimal_truth.html</loc>
   </url>
   <url>
-    <loc>/articles/b_strings_functions.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/articles/b_strings_functions.html</loc>
   </url>
   <url>
-    <loc>/articles/c_strings_inops.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/articles/c_strings_inops.html</loc>
   </url>
   <url>
-    <loc>/articles/d_DRY.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/articles/d_DRY.html</loc>
   </url>
   <url>
-    <loc>/articles/e_import_pkgs.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/articles/e_import_pkgs.html</loc>
   </url>
   <url>
-    <loc>/articles/f_misc.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/articles/f_misc.html</loc>
   </url>
   <url>
-    <loc>/articles/g_otherpkgs.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/articles/g_otherpkgs.html</loc>
   </url>
   <url>
-    <loc>/articles/index.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/articles/index.html</loc>
   </url>
   <url>
-    <loc>/authors.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/authors.html</loc>
   </url>
   <url>
-    <loc>/index.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/index.html</loc>
   </url>
   <url>
-    <loc>/LICENSE-text.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>/reference/atomic_conversions.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/reference/atomic_conversions.html</loc>
   </url>
   <url>
-    <loc>/reference/decimal_truth.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/reference/decimal_truth.html</loc>
   </url>
   <url>
-    <loc>/reference/import_as.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/reference/import_as.html</loc>
   </url>
   <url>
-    <loc>/reference/import_data.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/reference/import_data.html</loc>
   </url>
   <url>
-    <loc>/reference/import_inops.control.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/reference/import_inops.control.html</loc>
   </url>
   <url>
-    <loc>/reference/import_inops.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/reference/import_inops.html</loc>
   </url>
   <url>
-    <loc>/reference/index.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/reference/index.html</loc>
   </url>
   <url>
-    <loc>/reference/inplace.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/reference/inplace.html</loc>
   </url>
   <url>
-    <loc>/reference/inplace_str_arithmetic.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/reference/inplace_str_arithmetic.html</loc>
   </url>
   <url>
-    <loc>/reference/inplace_str_subset.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/reference/inplace_str_subset.html</loc>
   </url>
   <url>
-    <loc>/reference/logic_ops.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/reference/logic_ops.html</loc>
   </url>
   <url>
-    <loc>/reference/matrix_ops.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/reference/matrix_ops.html</loc>
   </url>
   <url>
-    <loc>/reference/misc.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/reference/misc.html</loc>
   </url>
   <url>
-    <loc>/reference/pkgs.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/reference/pkgs.html</loc>
   </url>
   <url>
-    <loc>/reference/reexports.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/reference/reexports.html</loc>
   </url>
   <url>
-    <loc>/reference/report_inops.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/reference/report_inops.html</loc>
   </url>
   <url>
-    <loc>/reference/source_module.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/reference/source_module.html</loc>
   </url>
   <url>
-    <loc>/reference/strcut.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/reference/strcut.html</loc>
   </url>
   <url>
-    <loc>/reference/stri_join_mat.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/reference/stri_join_mat.html</loc>
   </url>
   <url>
-    <loc>/reference/stri_locate_ith.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/reference/stri_locate_ith.html</loc>
   </url>
   <url>
-    <loc>/reference/str_arithmetic.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/reference/str_arithmetic.html</loc>
   </url>
   <url>
-    <loc>/reference/str_subset_ops.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/reference/str_subset_ops.html</loc>
   </url>
   <url>
-    <loc>/reference/str_truth.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/reference/str_truth.html</loc>
   </url>
   <url>
-    <loc>/reference/subset_if.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/reference/subset_if.html</loc>
   </url>
   <url>
-    <loc>/reference/s_pattern.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/reference/s_pattern.html</loc>
   </url>
   <url>
-    <loc>/reference/tinyoperations_dry.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/reference/tinyoperations_dry.html</loc>
   </url>
   <url>
-    <loc>/reference/tinyoperations_help.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/reference/tinyoperations_help.html</loc>
   </url>
   <url>
-    <loc>/reference/tinyoperations_import.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/reference/tinyoperations_import.html</loc>
   </url>
   <url>
-    <loc>/reference/tinyoperations_misc.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/reference/tinyoperations_misc.html</loc>
   </url>
   <url>
-    <loc>/reference/tinyoperations_strings.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/reference/tinyoperations_strings.html</loc>
   </url>
   <url>
-    <loc>/reference/transform_if.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/reference/transform_if.html</loc>
   </url>
   <url>
-    <loc>/reference/x.import.html</loc>
+    <loc>https://tony-aw.github.io/tinyoperations/reference/x.import.html</loc>
   </url>
 </urlset>
