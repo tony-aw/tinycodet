@@ -1,4 +1,13 @@
 template:
-  bootstrap: 3
+  bootstrap: 5
   bslib:
-    font_scale: 1.6
+    font_scale: 1.25
+navbar:
+  structure:
+    left:  [intro, reference, articles, tutorials, news]
+    right: [github]
+home:
+  sidebar:
+    structure: [links, license, community, citation, authors, dev, toc]
+search:
+  exclude: ['vignettes/*']

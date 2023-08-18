@@ -447,11 +447,10 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   alias objects. Removed the `verbose` argument from `import_as()`, as I
   deemed it unnecessary.
 - 18 August 2023: added more safe guards for the import system, and
-  added more tests. Converted the website to Bootstrap 3, for more
-  stability, and I like the style more. The `import_as()` function now
-  also adds the `ordered_object_names` attribute to aliases. This is
-  only needed for testing purposes, but I now allow the user to see this
-  attribute also.
+  added more tests. The `import_as()` function now also adds the
+  `ordered_object_names` attribute to aliases. This is only needed for
+  testing purposes, but I now allow the user to see this attribute also.
+  Also experimenting with `pkgdown` options.
 
 FUTURE PLANS:
 
