@@ -11,10 +11,6 @@
 #'
 #' The location range \code{loc} would usually be matrix with 2 columns,
 #' giving the start and end points of some pattern match. \cr
-#' When for some row \code{i},
-#' \code{loc[i, ]} is \code{c(NA, NA)},
-#' \code{loc[i, ]} is translated to \code{c(1, nc[i])},
-#' where \code{nc[i]} is the number of characters of \code{str[i]}\cr
 #' \cr
 #' The \code{strcut_brk()} function
 #' (a wrapper around \link[stringi]{stri_split_boundaries})
@@ -35,6 +31,14 @@
 #'  * a matrix of 2 integer columns, with \code{nrow(loc)==length(str)},
 #'  giving the location range of the middle part.
 #'  * a vector of length 2, giving the location range of the middle part.
+#' @param fill_loc logical, indicating what should be done if
+#' for some row \code{i},
+#' \code{loc[i, ]} is \code{c(NA, NA)}. \cr
+#'  * If \code{TRUE}, \code{c(NA, NA)} in \code{loc[i, ]}
+#'  is translated to \code{c(1, nc[i])},
+#' where \code{nc[i]} is the number of characters of \code{str[i]}
+#'  * If \code{FALSE}, \code{strcut_loc()} will return \code{c(NA, NA, NA)}
+#'  for when \code{loc[i,]} is \code{c(NA, NA)}.
 #' @param brk a single string, giving one of the following:
 #'
 #'  * \code{"chr"}: attempts to split string into individual characters.
@@ -88,10 +92,13 @@
 
 #' @rdname strcut
 #' @export
-strcut_loc <- function(str, loc) {
+strcut_loc <- function(str, loc, fill_loc = TRUE) {
   # Error handling:
+  if(!isFALSE(fill_loc) & !isTRUE(fill_loc)) {
+    stop("`fill_loc` must be either `TRUE` or `FALSE`")
+  }
   loc <- matrix(loc, ncol=2)
-  ind <- !is.na(str)
+  cc_str <- !is.na(str)
   nstr <- length(str)
   nloc <- nrow(loc)
   if(nrow(loc)==1) {
@@ -101,7 +108,7 @@ strcut_loc <- function(str, loc) {
   if(nloc!= nstr) {
     stop("`nrow(loc)` must equal to `length(str)` or 1")
   }
-  if(all(!ind)) {
+  if(all(!cc_str)) {
     repNA <- rep(NA, nstr)
     out <- cbind(prepart = repNA, mainpart=repNA, postpart=repNA)
     return(out)
@@ -110,22 +117,28 @@ strcut_loc <- function(str, loc) {
     stop("`str` must be a character vector")
   }
 
+
   # FUNCTION:
-  x <- str[ind]
+  x <- str[cc_str]
+  cc_loc <- stats::complete.cases(loc)
+  loc <- loc[cc_str, , drop=FALSE] # new
   cc <- stats::complete.cases(loc)
 
   nx <- length(x)
   nc <- stringi::stri_length(x)
-  loc <- .substr_loc(loc, ind, cc, nx, nc, abortcall = sys.call())
+  loc <- .substr_loc(loc, cc_str, cc, nx, nc, abortcall = sys.call())
 
   prepart <- mainpart <- postpart <- character(nstr) # not nx
-  prepart[ind] <- .substr_prepart(x, loc, nx)
-  postpart[ind] <- .substr_postpart(x, loc, nx, nc)
-  mainpart[ind] <- stringi::stri_sub(
+  prepart[cc_str] <- .substr_prepart(x, loc, nx)
+  postpart[cc_str] <- .substr_postpart(x, loc, nx, nc)
+  mainpart[cc_str] <- stringi::stri_sub(
     x, from = loc[, 1], to = pmin(loc[, 2], nc)
   )
   out <- cbind(prepart, mainpart, postpart)
-  out[!ind, ] <- NA
+  out[!cc_str, ] <- c(NA, NA, NA)
+  if(!fill_loc & any(!cc_loc)) {
+    out[!cc_loc, ] <- c(NA, NA, NA)
+  }
 
   return(out)
 }
@@ -159,10 +172,10 @@ strcut_brk <- function(str, brk="chr", ...) {
 
 #' @keywords internal
 #' @noRd
-.substr_loc <- function(loc, ind, cc, nx, nc, abortcall) {
+.substr_loc <- function(loc, cc_str, cc, nx, nc, abortcall) {
   loc[!cc, 1] <- 1
-  loc[!cc, 2] <- nc
-  loc <- loc[ind, , drop=FALSE]
+  loc[!cc, 2] <- nc[!cc] # added [!cc]
+  # loc <- loc[cc_str, , drop=FALSE]
   if(any(loc[cc]<=0)) {
     stop(simpleError("`loc` can only have strictly positive numbers", call = abortcall))
   }

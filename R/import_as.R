@@ -189,14 +189,19 @@ import_as <- function(
     package = character(length(pkgs)),
     winning_conflicts = character(length(pkgs))
   )
+  versions_df <- data.frame(
+    package = character(length(pkgs)),
+    version = character(length(pkgs))
+  )
   namespaces <- list()
 
   message("Importing packages...")
 
   for (i in 1:length(pkgs)) {
-    conflicts_df$package[i] <- pkgs[i]
 
     namespace_current <- .internal_prep_Namespace(pkgs[i], lib.loc)
+    conflicts_df$package[i] <- versions_df$package[i] <- pkgs[i]
+    versions_df$version[i] <- getNamespaceVersion(loadNamespace(pkgs[i], lib.loc = lib.loc))
 
     if(pkgs[i]==main_package & isTRUE(re_exports)) {
       foreignexports <- .internal_get_foreignexports_ns(main_package, lib.loc, abortcall=sys.call())
@@ -242,6 +247,7 @@ import_as <- function(
   out$.__attributes__. <- list(
     pkgs = pkgs,
     conflicts = .format_conflicts_df(conflicts_df),
+    versions = versions_df,
     args = args,
     ordered_object_names = ordered_object_names,
     tinyimport = "tinyimport"

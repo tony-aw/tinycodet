@@ -1,4 +1,4 @@
-# test strcut_loc:
+# test strcut_loc (complete_na = TRUE) ====
 x <- rep(paste0(1:9, collapse=""),9)
 x.split <- 1:9 |> as.character()
 print(x)
@@ -58,13 +58,86 @@ out <- cbind(
 )
 expect_equal(strcut_loc(x, loc), out)
 
-# strcut_loc - error checks:
+# test strcut_loc (complete_na = FALSE) ====
+x <- rep(paste0(1:9, collapse=""),9)
+x.split <- 1:9 |> as.character()
+print(x)
+loc <- stri_locate_ith(x, 1:9, fixed = as.character(1:9))
+out <- cbind(
+  prepart = c("", lapply(1:8, \(x)paste0(x.split[(1:x)], collapse = ""))|> unlist()),
+  mainpart = 1:9 |> as.character(),
+  postpart = c(lapply(1:9, \(x)paste0(x.split[-(1:x)], collapse = "")) |> unlist())
+)
+expect_equal(strcut_loc(x, loc, fill_loc = FALSE), out)
+
+x <- rep(paste0(1:10, collapse=""), 10)
+print(x)
+loc <- stri_locate_ith(x, 1:10, fixed = as.character(1:10))
+out <- cbind(
+  prepart = rep("1234", 10),
+  mainpart = rep("5", 10),
+  postpart = rep("678910", 10)
+
+)
+expect_equal(strcut_loc(x, c(5,5), fill_loc = FALSE), out)
+
+
+x <- rep(paste0(1:9, collapse=""),9)
+loc <- cbind(rep(NA, 9), rep(NA, 9))
+out <- matrix(as.character(rep(NA, 3*9)), ncol=3)
+colnames(out) <- c("prepart", "mainpart", "postpart")
+expect_equal(strcut_loc(x, loc, fill_loc = FALSE), out)
+
+x <- rep(NA, 9)
+loc <- stri_locate_ith(x, 1:9, fixed = as.character(1:9))
+out <- cbind(
+  prepart = rep(NA, 9),
+  mainpart = rep(NA, 9),
+  postpart = rep(NA, 9)
+)
+expect_equal(strcut_loc(x, loc, fill_loc = FALSE), out)
+
+x <- c("hello", NA)
+loc <- matrix(c(2, 2, NA, NA), ncol=2, byrow=TRUE)
+out <- cbind(
+  prepart = c("h", NA),
+  mainpart = c("e", NA),
+  postpart = c("llo", NA)
+)
+expect_equal(strcut_loc(x, loc, fill_loc = FALSE), out)
+
+x <- c("hello", NA, "hello")
+loc <- matrix(c(NA, NA, 5, 5, 1, 5), ncol=2, byrow=TRUE)
+out <- cbind(
+  prepart = c(NA, NA, ""),
+  mainpart = c(NA, NA, "hello"),
+  postpart = c(NA, NA, "")
+)
+expect_equal(strcut_loc(x, loc, fill_loc = FALSE), out)
+
+
+# strcut_loc - error checks ====
+x <- c("hello", "goodbye")
+loc <- cbind(c(2, 2), c(1, 1))
+expect_error(
+  strcut_loc(x, loc, fill_loc = NA),
+  pattern = "`fill_loc` must be either `TRUE` or `FALSE`"
+)
+
+x <- c("hello", "goodbye")
+loc <- cbind(c(2, 2), c(1, 1))
+expect_error(
+  strcut_loc(x, loc, fill_loc = "foo"),
+  pattern = "`fill_loc` must be either `TRUE` or `FALSE`"
+)
+
 x <- c("hello", "goodbye")
 loc <- matrix(rep(-1, 4), ncol=2)
 expect_error(
   strcut_loc(x, loc),
   pattern = "`loc` can only have strictly positive numbers"
 )
+
 x <- c("hello", "goodbye")
 loc <- cbind(c(2, 2), c(1, 1))
 expect_error(
@@ -73,7 +146,7 @@ expect_error(
 )
 
 
-# test strcut_brk:
+# test strcut_brk ====
 test <- paste0("The\u00a0above-mentioned    features are very useful. ",
   "Spam, spam, eggs, bacon, and spam. 123 456 789")
 expect_equal(
@@ -132,3 +205,4 @@ expect_error(
   strcut_brk(test, c("chr", "word")),
   pattern = "`brk` must be a single string"
 )
+

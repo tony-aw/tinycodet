@@ -46,150 +46,14 @@ Currently this R package is only available on GitHub.
 Even though this is a relatively small R package, I do understand you
 may not want to go through all the articles and help files of
 `tinyoperations` without knowing if the R package is even worthy of your
-time. Therefore, allow me to give you a quick glimpse of what is
-possible in this R package before jumping into the details.
+time. I therefore invite you to take a look at the [Get
+Started](https://tony-aw.github.io/tinyoperations/articles/tinyoperations.html)
+page on the website
+(<https://tony-aw.github.io/tinyoperations/articles/tinyoperations.html>).
 
  
 
-Safer decimal number truth testing:
-
-``` r
-x <- c(0.3, 0.6, 0.7)
-y <- c(0.1*3, 0.1*6, 0.1*7)
-print(x); print(y)
-#> [1] 0.3 0.6 0.7
-#> [1] 0.3 0.6 0.7
-
-x == y # gives FALSE, but should be TRUE
-#> [1] FALSE FALSE FALSE
-
-x %d==% y # here it's done correctly
-#> [1] TRUE TRUE TRUE
-```
-
- 
-
-Operators and functions to reduce repetitive code:
-
-``` r
-# in base R:
-ifelse( # repetitive, and gives unnecessary warning
-  is.na(object>0), -Inf,
-  ifelse(
-    object>0,  log(object), object^2
-  )
-)
-mtcars$mpg[mtcars$cyl>6] <- (mtcars$mpg[mtcars$cyl>6])^2 # long
-
-# with tinyoperations:
-object |> transform_if(\(x)x>0, log, \(x)x^2, \(x) -Inf) # compact & no warning
-mtcars$mpg[mtcars$cyl>6] %:=% \(x)x^2 # short
-```
-
- 
-
-Some nice string operators:
-
-``` r
-x <- c("hello", "goodbye", "good afternoon")
-# in stringi:
-x[stringi::stri_detect(x, regex = "r")]
-#> [1] "good afternoon"
-
-# in tinyoperatons:
-x[x %s{}% "r"]
-#> [1] "good afternoon"
-```
-
- 
-
-Locate $i^\textrm{th}$ occurrence of some pattern in a string:
-
-``` r
-x <- c("Goodmorning -- GOODafternoon -- GooDevening, and goodnight!",
-       paste0(letters[1:13], collapse=""))
-print(x)
-#> [1] "Goodmorning -- GOODafternoon -- GooDevening, and goodnight!"
-#> [2] "abcdefghijklm"
-loc <- stri_locate_ith(
-  # locate second-last occurrence of "good" (ignore case) of each string in x:
-  x, -2, regex="good", case_insensitive=TRUE
-)
-substr(x, loc[,1], loc[,2])
-#> [1] "GooD" NA
-```
-
- 
-
-String re-ordering via matrix re-ordering:
-
-``` r
-# sorting words:
-x <- c("Hello everyone, I'm here", "Goodbye everyone")
-x <- strcut_brk(x, "word")
-mat <- stringi::stri_rank(as.vector(x)) |> matrix(ncol=ncol(x))
-sorted <- x %row~% mat
-stri_c_mat(sorted, margin=1, sep=" ")
-#> [1] "      , everyone Hello here I'm" "       everyone Goodbye"
-```
-
- 
-
-Using `tinyoperations's` new import system; note that the following code
-is run without attaching a single R package (besides `tinyoperations`
-itself of course):
-
-``` r
-# loading "tidytable" + "data.table" under alias "tdt.":
-import_as( 
-  tdt., "tidytable", dependencies = "data.table"
-)
-#> Importing packages...
-#> Done
-#> You can now access the functions using `tdt.$`
-#> Methods will work like normally 
-#> For conflicts report, packages order, and other attributes, run `attr.import(tdt.)`
-
-# exposing operators from `magrrittr` to current environment:
-import_inops("magrittr")
-#> Checking for conflicting infix operators in the current environment...
-#> Placing infix operators in current environment...
-#> Done
-
-# directly assigning the "starwars" dataset to object "d":
-d <- import_data("starwars", "dplyr") 
-
-# see it in action:
-d %>% tdt.$filter(species == "Droid") %>%
-  tdt.$select(name, tdt.$ends_with("color"))
-#> # A tidytable: 6 × 4
-#>   name   hair_color skin_color  eye_color
-#>   <chr>  <chr>      <chr>       <chr>    
-#> 1 C-3PO  <NA>       gold        yellow   
-#> 2 R2-D2  <NA>       white, blue red      
-#> 3 R5-D4  <NA>       white, red  red      
-#> 4 IG-88  none       metal       red      
-#> 5 R4-P17 none       silver, red red, blue
-#> 6 BB8    none       none        black
-
-# source only specific functions from a script:
-source_selection(list(file="sourcetest.R"), select = "helloworld")
-#> Importing module ... 
-#> 
-#> Done
-helloworld()
-#> [1] "hello world"
-```
-
- 
-
-If you’re still interested, I invite you to read the articles on the
-website (<https://tony-aw.github.io/tinyoperations/>), and perhaps try
-out the package yourself.
-
- 
-
-# Reporting issues and giving suggestions
+## Reporting issues and giving suggestions
 
 When you coming across an issue with the `tinyoperations` R package, you
 may want to report it in the “Issues” tab on the GitHub page
@@ -207,31 +71,7 @@ Questions that are not issues can also be provided there.
 
  
 
-## Installation
-
-You can install `tinyoperations` from github like so:
-
-``` r
-remotes::install_github("https://github.com/tony-aw/tinyoperations")
-```
-
-You can attach the package - thus exposing its functions to your
-namespace - using:
-
-``` r
-library(tinyoperations)
-```
-
-and one can open the introduction page to the `tinyoperations` package
-using:
-
-``` r
-tinyoperations::tinyoperations_help()
-```
-
- 
-
-# History of this R package
+## History of this R package
 
 This R package started out as just a semi-random collection of infix
 operators, most of them related to string manipulation. This then turned
@@ -244,7 +84,7 @@ R package.
 
  
 
-# Changelog and status
+## Changelog and status
 
 CHANGELOG (EXPERIMENTAL VERSIONS):
 
@@ -451,6 +291,7 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   `ordered_object_names` attribute to aliases. This is only needed for
   testing purposes, but I now allow the user to see this attribute also.
   Also experimenting with `pkgdown` options.
+- 19 August 2023: Textual changes here and there.
 
 FUTURE PLANS:
 

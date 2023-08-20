@@ -2,7 +2,7 @@
 % Please edit documentation in R/import_data.R
 \name{import_data}
 \alias{import_data}
-\title{Assign data-set from a package directly to a variable}
+\title{Directly return a data-set from a package}
 \usage{
 import_data(dataname, package, lib.loc = .libPaths())
 }

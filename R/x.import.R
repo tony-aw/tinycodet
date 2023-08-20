@@ -18,7 +18,7 @@
 #' @param alias the alias object as created by the \link{import_as} function. \cr
 #' @param ... further arguments to be passed to \link[utils]{help}.
 #' @param which The attributes to list. If \code{NULL}, all attributes will be returned. \cr
-#' Possibilities: "pkgs", "conflicts", "args", and "ordered_object_names".
+#' Possibilities: "pkgs", "conflicts", "versions", "args", and "ordered_object_names".
 #'
 #' @details
 #' For \code{help.import(...)}: \cr
@@ -52,6 +52,10 @@
 #' in case of conflicts. \cr
 #' The "conflicts" attribute returns a data.frame showing exactly which functions overwrite
 #' functions from earlier named packages, and as such "win" the conflicts. \cr
+#' \cr
+#' For \code{attr.import(alias, which = "versions")}: \cr
+#' A data.frame, giving the version of every package loaded in the alias,
+#' ignoring re-exports. \cr
 #' \cr
 #' For \code{attr.import(alias, which = "args")}: \cr
 #' Returns a list of input arguments.
@@ -170,11 +174,13 @@ attr.import <- function(alias, which = NULL) {
   if(is.null(which)) {
     return(alias$.__attributes__.)
   }
-  if(!isTRUE(which %in% c("pkgs", "conflicts", "args", "ordered_object_names"))) {
+
+  allowed_which <- c("pkgs", "conflicts", "versions", "args", "ordered_object_names")
+  if(!isTRUE(which %in% allowed_which)) {
     stop("unknown which given")
   }
 
-  if(isTRUE(which %in% c("pkgs", "conflicts", "args", "ordered_object_names"))){
+  if(isTRUE(which %in% allowed_which)){
     return(alias$.__attributes__.[[which]])
   }
 

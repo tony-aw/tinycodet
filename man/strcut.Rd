@@ -5,7 +5,7 @@
 \alias{strcut_brk}
 \title{Cut strings}
 \usage{
-strcut_loc(str, loc)
+strcut_loc(str, loc, fill_loc = TRUE)
 
 strcut_brk(str, brk = "chr", ...)
 }
@@ -18,6 +18,17 @@ strcut_brk(str, brk = "chr", ...)
 \item a matrix of 2 integer columns, with \code{nrow(loc)==length(str)},
 giving the location range of the middle part.
 \item a vector of length 2, giving the location range of the middle part.
+}}
+
+\item{fill_loc}{logical, indicating what should be done if
+for some row \code{i},
+\code{loc[i, ]} is \code{c(NA, NA)}. \cr
+\itemize{
+\item If \code{TRUE}, \code{c(NA, NA)} in \code{loc[i, ]}
+is translated to \code{c(1, nc[i])},
+where \code{nc[i]} is the number of characters of \code{str[i]}
+\item If \code{FALSE}, \code{strcut_loc()} will return \code{c(NA, NA, NA)}
+for when \code{loc[i,]} is \code{c(NA, NA)}.
 }}
 
 \item{brk}{a single string, giving one of the following:
@@ -63,10 +74,6 @@ such that every string is cut into the following parts:
 
 The location range \code{loc} would usually be matrix with 2 columns,
 giving the start and end points of some pattern match. \cr
-When for some row \code{i},
-\code{loc[i, ]} is \code{c(NA, NA)},
-\code{loc[i, ]} is translated to \code{c(1, nc[i])},
-where \code{nc[i]} is the number of characters of \code{str[i]}\cr
 \cr
 The \code{strcut_brk()} function
 (a wrapper around \link[stringi]{stri_split_boundaries})

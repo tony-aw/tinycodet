@@ -27,7 +27,7 @@ expect_equal(
 )
 
 
-# transform_if works - all possible combinations:
+# transform_if works - all possible combinations of functions/vectors/scalars:
 cond <- list(\(x)x>0, obj>0)
 yes <- list(\(x)2, 2)
 no <- list(\(x)3, 3)
