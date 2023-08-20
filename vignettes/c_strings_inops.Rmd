@@ -25,12 +25,6 @@ library(tinyoperations)
 &nbsp;
 
 
-# sgrep
-
-The `s %sgrep% p` operator checks if pattern `p` appears in character vector `s`.
-
-&nbsp;
-
 # String subsetting operators
 
 The `x %sget% ss` operator returns a subset of each string in character vector `x`. Here `ss` is a vector of length 2, or a matrix with `nrow(ss)=length(x)` and 2 columns. The object `ss` should consist entirely of non-negative integers (thus 0, 1, 2, etc. are valid, but -1, -2, -3 etc are not valid). The first element/column of ss gives the number of characters counting from the left side to be extracted from x. The second element/column of ss gives the number of characters counting from the right side to be extracted from x.

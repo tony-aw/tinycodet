@@ -93,9 +93,9 @@ One can load a package without attaching it, and assign it to an alias, in base 
 alias <- loadNamespace("packagename", lib.loc = lib.loc)
 ```
 
-Doing the above, instead of attaching a package using `library()` or `require()`, can (often) be quite beneficial (i.e. prevent overlapping namespaces, prevent overriding core R functions, prevent polluting the namespace, clarify which function came from which package, exposing functions from a package only in the current environment e to be loaded locally , etc.)
+Doing the above, instead of attaching a package using `library()` or `require()`, can (often) be quite beneficial (see Introduction section in this article).
 
-Loading a package alias does have some drawbacks. One is that you cannot easily import multiple related packages under the same alias. While one probably wouldn't want to import **multiple** related packages under a **single alias** all the time, there may be situations where importing multiple packages into a single alias may actually be preferable:
+Loading a package alias does have some drawbacks. One is that you cannot easily import multiple related packages under the same alias. Althoygh one may not always want to import **multiple** related packages under a **single alias**, there are several situations where importing multiple packages into a single alias may be preferable:
 
  - If multiple packages are meant to work together, constantly switching between the different package name/alias prefixes may eventually become annoying and even syntactically chaotic-looking.
  - A package may have one or several dependencies that are supposed to be loaded together. For example: the `tidytable` package essentially needs the `data.table` package to be loaded also.
@@ -126,16 +126,6 @@ import_as(tdt., "data.table", extensions = "tidytable") # this creates the tdt. 
 
 
 Now you can of course use those loaded packages as one would normally do when using a package alias: `tdt.$some_function()`.
-
-The created alias object has special attributes showing which loaded package overwrites which loaded functions, in what order the packages are loaded and so on. These special attributes can be obtained with the `attr.import()` function:
-
-```{r}
-attr.import(tdt., "pkgs")
-attr.import(tdt., "conflicts")|> knitr::kable()
-attr.import(tdt., "args")
-```
-
-See the help file for more details.
 
 &nbsp;
 
@@ -245,17 +235,17 @@ plot(model)
 Also, S3 methods defined in the package will automatically be registered, and thus automatically work. For example, the following code just works:
 
 ```{r}
-import_as(dr., "dplyr") |> suppressMessages()
+import_as(dpr., "dplyr") |> suppressMessages()
 import_inops("magrittr") |> suppressMessages()
 d <- import_data("starwars", "dplyr")
-d <- d %>% dr.$group_by(species)
+d <- d %>% dpr.$group_by(species)
 
-isS3method(f="arrange", class="data.frame", envir = dr.) # this is an S3 method
-isS3method(f="relocate", class="data.frame", envir = dr.) # this is an S3 method
+isS3method(f="arrange", class="data.frame", envir = dpr.) # this is an S3 method
+isS3method(f="relocate", class="data.frame", envir = dpr.) # this is an S3 method
 # this works:
 d %>%
-  dr.$arrange(dr.$desc(mass)) %>%
-  dr.$relocate(species, mass)
+  dpr.$arrange(dpr.$desc(mass)) %>%
+  dpr.$relocate(species, mass)
 ```
 
 So when importing packages, everything works as expected, including S3 methods.
@@ -273,13 +263,40 @@ The [magrittr](https://github.com/tidyverse/magrittr) and [rlang](https://github
 
 &nbsp;
 
+
+The created alias object has special attributes showing which loaded package overwrites which loaded functions, in what order the packages are loaded and so on. These special attributes can be obtained with the `attr.import()` function. For example:
+
+```{r}
+import_as(tdt., "tidytable", re_exports = TRUE, dependencies = "data.table")
+```
+
+```{r}
+attr.import(tdt., "pkgs")
+```
+
+```{r}
+attr.import(tdt., "conflicts")|> knitr::kable()
+```
+
+```{r}
+attr.import(tdt., "versions")|> knitr::kable()
+```
+
+```{r}
+attr.import(tdt., "args")
+```
+
+See the help file for more details.
+
+&nbsp;
+
 The `help.import()` function gets the help file for a function `i` (or topic string `i`), even if the function is inside an alias object, or if the function is an unattached function (like exposed infix operators).
 
 Example:
 
 ```{r eval=FALSE}
 import_as(mr., "magrittr")
-import_inops("magrittr")
+import_inops(mr.)
 
 help.import(i=mr.$add)
 help.import(i=`%>%`)
@@ -315,50 +332,50 @@ detach("package:dplyr")
 
 Moreover, [dplyr](https://github.com/tidyverse/dplyr)'s function names are sometimes generic enough that there is no obvious way to tell if a function came from [dplyr](https://github.com/tidyverse/dplyr) or some other package (for comparison: one can generally recognize `stringi` functions as they all start with `stri_`). If you look at the CRAN page for [dplyr](https://github.com/tidyverse/dplyr), you'll notice it has some interesting extensions you might want to use, such as [powerjoin](https://github.com/moodymudskipper/powerjoin).
 
-To prevent masking base R functions, and to prevent unclarity regarding which functions come from [dplyr](https://github.com/tidyverse/dplyr) and [powerjoin](https://github.com/moodymudskipper/powerjoin), and which functions come from core R, one could constantly use `dplyr::` and `powerjoin::`. But constantly switching between package prefixes or aliases is perhaps undesirable. 
+To prevent masking base R functions, and to prevent obscurity regarding which functions come from [dplyr](https://github.com/tidyverse/dplyr) and [powerjoin](https://github.com/moodymudskipper/powerjoin), and which functions come from core R, one could constantly use `dplyr::` and `powerjoin::`. But constantly switching between package prefixes or aliases is perhaps undesirable. 
 
-So here `tinyoperations`' `import_as()` function might help. Below is an example where [dplyr](https://github.com/tidyverse/dplyr) is loaded (including its re-exports), along with [powerjoin](https://github.com/moodymudskipper/powerjoin) (which is an extension), all under one alias which I'll call "`dr.`". Moreover, all infix operators from `magrittr` are exposed to the current environment.
+So here `tinyoperations`' `import_as()` function might help. Below is an example where [dplyr](https://github.com/tidyverse/dplyr) is loaded (including its re-exports), along with [powerjoin](https://github.com/moodymudskipper/powerjoin) (which is an extension), all under one alias which I'll call "`dpr.`". Moreover, all infix operators from `magrittr` are exposed to the current environment.
 
 ```{r}
 import_as(
-  dr., "dplyr", extensions = "powerjoin", lib.loc=.libPaths()
+  dpr., "dplyr", extensions = "powerjoin", lib.loc=.libPaths()
 )
 
 import_inops("magrittr") # getting the operators from `magrittr`
 ```
 
-The functions from [dplyr](https://github.com/tidyverse/dplyr) can now be used with the `dr.$` prefix. This way, base R functions are no longer overwritten, and it will be clear for someone who reads your code whether functions like the `filter()` function is the base R filter function, or the [dplyr](https://github.com/tidyverse/dplyr) filter function, as the latter would be called as `dr.$filter()`.
+The functions from [dplyr](https://github.com/tidyverse/dplyr) can now be used with the `dpr.$` prefix. This way, base R functions are no longer overwritten, and it will be clear for someone who reads your code whether functions like the `filter()` function is the base R filter function, or the [dplyr](https://github.com/tidyverse/dplyr) filter function, as the latter would be called as `dpr.$filter()`.
 
 Let's first run a simple example code with the loaded functions:
 
 ```{r}
 d <- import_data("starwars", "dplyr")
 d %>%
-  dr.$filter(.data$species == "Droid") %>% # notice the pronoun can be used without problems
-  dr.$select(name, dr.$ends_with("color"))
+  dpr.$filter(.data$species == "Droid") %>% # notice the pronoun can be used without problems
+  dpr.$select(name, dpr.$ends_with("color"))
 ```
 
-Just add `dr.$` in front of the functions you'd normally use, and everything works just as expected.
+Just add `dpr.$` in front of the functions you'd normally use, and everything works just as expected.
 
 Now lets run an example from the [powerjoin](https://github.com/moodymudskipper/powerjoin) GitHub page (https://github.com/moodymudskipper/powerjoin), using the above alias:
 
 ```{r}
-male_penguins <- dr.$tribble(
+male_penguins <- dpr.$tribble(
      ~name,    ~species,     ~island, ~flipper_length_mm, ~body_mass_g,
  "Giordan",    "Gentoo",    "Biscoe",               222L,        5250L,
   "Lynden",    "Adelie", "Torgersen",               190L,        3900L,
   "Reiner",    "Adelie",     "Dream",               185L,        3650L
 )
 
-female_penguins <- dr.$tribble(
+female_penguins <- dpr.$tribble(
      ~name,    ~species,  ~island, ~flipper_length_mm, ~body_mass_g,
   "Alonda",    "Gentoo", "Biscoe",               211,        4500L,
      "Ola",    "Adelie",  "Dream",               190,        3600L,
 "Mishayla",    "Gentoo", "Biscoe",               215,        4750L,
 )
-dr.$check_specs()
+dpr.$check_specs()
 
-dr.$power_inner_join(
+dpr.$power_inner_join(
   male_penguins[c("species", "island")],
   female_penguins[c("species", "island")]
 )
@@ -366,15 +383,15 @@ dr.$power_inner_join(
 ```
 
 
-Notice that the only change made, is that all functions start with `dr.$`, the rest is the same. No need for constantly switching between `dplyr::...`, `powerjoin::...` and so on - yet it is still clear from the code that the functions came from the [dplyr](https://github.com/tidyverse/dplyr) + [powerjoin](https://github.com/moodymudskipper/powerjoin) family, and there is no fear of overwriting functions from other R packages - let alone core R functions.
+Notice that the only change made, is that all functions start with `dpr.$`, the rest is the same. No need for constantly switching between `dplyr::...`, `powerjoin::...` and so on - yet it is still clear from the code that the functions came from the [dplyr](https://github.com/tidyverse/dplyr) + [powerjoin](https://github.com/moodymudskipper/powerjoin) family, and there is no fear of overwriting functions from other R packages - let alone core R functions.
 
 &nbsp;
 
 To show that `import_as()` actually does load all exported functions, including re-exports, consider the following proof:
 
 ```{r}
-import_as(dr., "dplyr", re_exports = TRUE)
-out <- setdiff(names(dr.), ".__attributes__.") |> sort()
+import_as(dpr., "dplyr", re_exports = TRUE)
+out <- setdiff(names(dpr.), ".__attributes__.") |> sort()
 foo <- loadNamespace("dplyr") |> getNamespaceExports()
 check <- all(out == sort(foo))
 print(check) # must be TRUE
