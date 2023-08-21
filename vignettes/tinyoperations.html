@@ -422,26 +422,28 @@ example the <code>%d==%</code> operator:</p>
 <p> </p>
 <p>Locate <span class="math inline">\(i^\textrm{th}\)</span> occurrence
 of some pattern in a string:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Goodmorning -- GOODafternoon -- GooDevening, and goodnight!&quot;</span>,</span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>       <span class="fu">paste0</span>(letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">13</span>], <span class="at">collapse=</span><span class="st">&quot;&quot;</span>))</span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="fu">print</span>(x)</span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Goodmorning -- GOODafternoon -- GooDevening, and goodnight!&quot;</span></span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#&gt; [2] &quot;abcdefghijklm&quot;</span></span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>loc <span class="ot">&lt;-</span> <span class="fu">stri_locate_ith</span>(</span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>  <span class="co"># locate second-last occurrence of &quot;good&quot; (ignore case) of each string in x:</span></span>
-<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>  x, <span class="sc">-</span><span class="dv">2</span>, <span class="at">regex=</span><span class="st">&quot;good&quot;</span>, <span class="at">case_insensitive=</span><span class="cn">TRUE</span></span>
-<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>)</span>
-<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="fu">substr</span>(x, loc[,<span class="dv">1</span>], loc[,<span class="dv">2</span>])</span>
-<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co">#&gt; [1] &quot;GooD&quot; NA</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">paste0</span>(letters, <span class="at">collapse =</span> <span class="st">&quot;&quot;</span>), <span class="st">&quot;first second third last&quot;</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="fu">print</span>(x)</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;abcdefghijklmnopqrstuvwxyz&quot; &quot;first second third last&quot;</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>loc <span class="ot">&lt;-</span> <span class="fu">stri_locate_ith</span>(</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>  <span class="co"># locate second-last occurrence of vowel (ignore case) of each string in x:</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>  x, <span class="sc">-</span><span class="dv">2</span>, <span class="at">regex=</span><span class="st">&quot;A|E|I|O|U&quot;</span>, <span class="at">case_insensitive=</span><span class="cn">TRUE</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>)</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="fu">substr</span>(x, loc[,<span class="dv">1</span>], loc[,<span class="dv">2</span>])</span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt; [1] &quot;o&quot; &quot;i&quot;</span></span></code></pre></div>
 <p> </p>
-<p>String re-ordering via matrix re-ordering:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># sorting words:</span></span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Hello everyone, I&#39;m here&quot;</span>, <span class="st">&quot;Goodbye everyone&quot;</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">strcut_brk</span>(x, <span class="st">&quot;word&quot;</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>mat <span class="ot">&lt;-</span> stringi<span class="sc">::</span><span class="fu">stri_rank</span>(<span class="fu">as.vector</span>(x)) <span class="sc">|&gt;</span> <span class="fu">matrix</span>(<span class="at">ncol=</span><span class="fu">ncol</span>(x))</span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>sorted <span class="ot">&lt;-</span> x <span class="sc">%row~%</span> mat</span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="fu">stri_c_mat</span>(sorted, <span class="at">margin=</span><span class="dv">1</span>, <span class="at">sep=</span><span class="st">&quot; &quot;</span>)</span>
-<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co">#&gt; [1] &quot;      , everyone Hello here I&#39;m&quot; &quot;       everyone Goodbye&quot;</span></span></code></pre></div>
+<p>Sort character vector (in this case, sorting words):</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Hello everyone, I&#39;m here&quot;</span>, <span class="st">&quot;Goodbye everyone&quot;</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="fu">print</span>(x)</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Hello everyone, I&#39;m here&quot; &quot;Goodbye everyone&quot;</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="co"># cut x into matrix of individual words:</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">strcut_brk</span>(x, <span class="st">&quot;word&quot;</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co"># re-order matrix using the fast %row~% operator:</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>mat <span class="ot">&lt;-</span> stringi<span class="sc">::</span><span class="fu">stri_rank</span>(<span class="fu">as.vector</span>(x)) <span class="sc">|&gt;</span> <span class="fu">matrix</span>(<span class="at">ncol=</span><span class="fu">ncol</span>(x))</span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>sorted <span class="ot">&lt;-</span> x <span class="sc">%row~%</span> mat</span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co"># join elements of every row into a single character vector:</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="fu">stri_c_mat</span>(sorted, <span class="at">margin=</span><span class="dv">1</span>, <span class="at">sep=</span><span class="st">&quot; &quot;</span>)</span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co">#&gt; [1] &quot;      , everyone Hello here I&#39;m&quot; &quot;       everyone Goodbye&quot;</span></span></code></pre></div>
 <p> </p>
 </div>
 <div id="new-import-system" class="section level1">

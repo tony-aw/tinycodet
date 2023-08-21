@@ -181,25 +181,27 @@ example the <code>%d==%</code> operator:</p>
 <p>Locate <span class="math inline">\(i^\textrm{th}\)</span> occurrence
 of some pattern in a string:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Goodmorning -- GOODafternoon -- GooDevening, and goodnight!"</span>,</span>
-<span>       <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">13</span><span class="op">]</span>, collapse<span class="op">=</span><span class="st">""</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span>, collapse <span class="op">=</span> <span class="st">""</span><span class="op">)</span>, <span class="st">"first second third last"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "Goodmorning -- GOODafternoon -- GooDevening, and goodnight!"</span></span>
-<span><span class="co">#&gt; [2] "abcdefghijklm"</span></span>
+<span><span class="co">#&gt; [1] "abcdefghijklmnopqrstuvwxyz" "first second third last"</span></span>
 <span><span class="va">loc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stri_locate_ith.html">stri_locate_ith</a></span><span class="op">(</span></span>
-<span>  <span class="co"># locate second-last occurrence of "good" (ignore case) of each string in x:</span></span>
-<span>  <span class="va">x</span>, <span class="op">-</span><span class="fl">2</span>, regex<span class="op">=</span><span class="st">"good"</span>, case_insensitive<span class="op">=</span><span class="cn">TRUE</span></span>
+<span>  <span class="co"># locate second-last occurrence of vowel (ignore case) of each string in x:</span></span>
+<span>  <span class="va">x</span>, <span class="op">-</span><span class="fl">2</span>, regex<span class="op">=</span><span class="st">"A|E|I|O|U"</span>, case_insensitive<span class="op">=</span><span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/substr.html" class="external-link">substr</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">loc</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span>, <span class="va">loc</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "GooD" NA</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "o" "i"</span></span></code></pre></div>
 <p> </p>
-<p>String re-ordering via matrix re-ordering:</p>
+<p>Sort character vector (in this case, sorting words):</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># sorting words:</span></span>
-<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Hello everyone, I'm here"</span>, <span class="st">"Goodbye everyone"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Hello everyone, I'm here"</span>, <span class="st">"Goodbye everyone"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "Hello everyone, I'm here" "Goodbye everyone"</span></span>
+<span><span class="co"># cut x into matrix of individual words:</span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/strcut.html">strcut_brk</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"word"</span><span class="op">)</span></span>
+<span><span class="co"># re-order matrix using the fast %row~% operator:</span></span>
 <span><span class="va">mat</span> <span class="op">&lt;-</span> <span class="fu">stringi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stringi/man/stri_rank.html" class="external-link">stri_rank</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">as.vector</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>ncol<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">sorted</span> <span class="op">&lt;-</span> <span class="va">x</span> <span class="op"><a href="../reference/matrix_ops.html">%row~%</a></span> <span class="va">mat</span></span>
+<span><span class="co"># join elements of every row into a single character vector:</span></span>
 <span><span class="fu"><a href="../reference/stri_join_mat.html">stri_c_mat</a></span><span class="op">(</span><span class="va">sorted</span>, margin<span class="op">=</span><span class="fl">1</span>, sep<span class="op">=</span><span class="st">" "</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "      , everyone Hello here I'm" "       everyone Goodbye"</span></span></code></pre></div>
 <p> </p>

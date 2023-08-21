@@ -95,7 +95,7 @@ alias <- loadNamespace("packagename", lib.loc = lib.loc)
 
 Doing the above, instead of attaching a package using `library()` or `require()`, can (often) be quite beneficial (see Introduction section in this article).
 
-Loading a package alias does have some drawbacks. One is that you cannot easily import multiple related packages under the same alias. Althoygh one may not always want to import **multiple** related packages under a **single alias**, there are several situations where importing multiple packages into a single alias may be preferable:
+Loading a package alias does have some drawbacks. One is that you cannot easily import multiple related packages under the same alias. Although one may not always want to import **multiple** related packages under a **single alias**, there are several situations where importing multiple packages into a single alias may be preferable:
 
  - If multiple packages are meant to work together, constantly switching between the different package name/alias prefixes may eventually become annoying and even syntactically chaotic-looking.
  - A package may have one or several dependencies that are supposed to be loaded together. For example: the `tidytable` package essentially needs the `data.table` package to be loaded also.

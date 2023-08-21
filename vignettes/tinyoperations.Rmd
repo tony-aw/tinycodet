@@ -112,26 +112,28 @@ x[x %s{}% "r"]
 Locate $i^\textrm{th}$ occurrence of some pattern in a string:
 
 ```{r}
-x <- c("Goodmorning -- GOODafternoon -- GooDevening, and goodnight!",
-       paste0(letters[1:13], collapse=""))
+x <- c(paste0(letters, collapse = ""), "first second third last")
 print(x)
 loc <- stri_locate_ith(
-  # locate second-last occurrence of "good" (ignore case) of each string in x:
-  x, -2, regex="good", case_insensitive=TRUE
+  # locate second-last occurrence of vowel (ignore case) of each string in x:
+  x, -2, regex="A|E|I|O|U", case_insensitive=TRUE
 )
 substr(x, loc[,1], loc[,2])
 ```
 
 &nbsp;
 
-String re-ordering via matrix re-ordering:
+Sort character vector (in this case, sorting words):
 
 ```{r}
-# sorting words:
 x <- c("Hello everyone, I'm here", "Goodbye everyone")
+print(x)
+# cut x into matrix of individual words:
 x <- strcut_brk(x, "word")
+# re-order matrix using the fast %row~% operator:
 mat <- stringi::stri_rank(as.vector(x)) |> matrix(ncol=ncol(x))
 sorted <- x %row~% mat
+# join elements of every row into a single character vector:
 stri_c_mat(sorted, margin=1, sep=" ")
 ```
 
