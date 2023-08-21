@@ -7,21 +7,42 @@
 tinyoperations_import()
 }
 \description{
-The \code{tinyoperations} R package introduces a new package import system.
-This system attempts to combine the benefits of aliasing a package,
-with the benefits of attaching a package. \cr
+The tinyoperations R package introduces a new package import system. \cr
 \cr
-The main part of the import system is implemented in the following 4 functions:
+One can use a package without attaching the package
+(i.e. using \code{::} or using a package alias),
+or one can attach a package
+(i.e. using \code{library()} or \code{require()}).
+The advantages and disadvantages of loading without attaching a package versus attaching a package - at least those relevant here - can be compactly presented in the following table: \cr\tabular{lllll}{
+   aspect \tab | \tab alias / :: \tab | \tab attaching \cr
+   prevent masking functions from other packages \tab | \tab Yes (+) \tab | \tab No (-) \cr
+   . \tab  \tab  \tab  \tab  \cr
+   prevent masking core R functions \tab | \tab Yes (+) \tab | \tab No (-) \cr
+   . \tab  \tab  \tab  \tab  \cr
+   clarify which function came from which package \tab | \tab Yes (+) \tab | \tab No (-) \cr
+   . \tab  \tab  \tab  \tab  \cr
+   place/expose functions only in current environment instead of globally \tab | \tab Yes (+) \tab | \tab No (-) \cr
+   . \tab  \tab  \tab  \tab  \cr
+   prevent namespace pollution \tab | \tab Yes (+) \tab | \tab No (-) \cr
+   . \tab  \tab  \tab  \tab  \cr
+   minimize typing - especially for infix operators \tab  \tab  \tab  \tab  \cr
+   (i.e. typing \verb{package::}\%op\%\verb{(x, y)} instead of \code{x \%op\% y} is cumbersome) \tab | \tab No (-) \tab | \tab Yes (+) \cr
+   . \tab  \tab  \tab  \tab  \cr
+   use multiple related packages, \tab  \tab  \tab  \tab  \cr
+   without constantly switching between package prefixes \tab | \tab No (-) \tab | \tab Yes (+) \cr
+   . \tab  \tab  \tab  \tab  \cr
+   NOTE: + = advantage, - = disavantage \tab  \tab  \tab  \tab  \cr
+}
+
+
+What \code{tinyoperations} attempts to do with its import system,
+is to somewhat find the best of both worlds.
+It does this by introducing the following functions: \cr
 \itemize{
-\item \link{import_as}:
-Allow a main package + its re-exports + its dependencies + its enhances + its extensions
-to be loaded under a single alias.
-\item \link{import_inops}:
-Expose infix operators from a package or an alias object to the current environment.
-\item \link{import_data}:
-Directly return a data set from a package, to allow straight-forward assignment.
-\item \link{source_selection}:
-Source a script, but only place the specified objects in the current environment.
+\item \link{import_as}: Allow a main package + its re-exports + its dependencies + its enhances + its extensions to be loaded under a single alias. This essentially combines the attaching advantage of using multiple related packages, whilst keeping most advantages of aliasing a package.
+\item \link{import_inops}: Expose infix operators from a package or an alias object to the current environment. This gains the attaching advantage of less typing, whilst simultaneously avoiding the disadvantage of attaching functions from a package globally.
+\item \link{import_data}: Directly return a data set from a package, to allow straight-forward assignment.
+\item \link{source_selection}: Source a script, but only place the specified objects in the current environment.
 }
 
 There are also some additional helper functions for the package import system,
@@ -29,6 +50,29 @@ see \link[=help.import]{x.import} and \link[=pkg_get_deps]{pkgs}. \cr
 \cr
 Please refer to the Read-Me file on the GitHub main page of this page for more information. \cr
 See: \url{https://github.com/tony-aw/tinyoperations}. \cr
+}
+\examples{
+\dontrun{
+# loading "tidytable" + "data.table" under alias "tdt.":
+import_as(
+  tdt., "tidytable", dependencies = "data.table"
+)
+
+# exposing operators from "magrrittr" to current environment:
+import_inops("magrittr")
+
+# directly assigning the "starwars" dataset to object "d":
+d <- import_data("starwars", "dplyr")
+
+# see it in action:
+d \%>\% tdt.$filter(species == "Droid") \%>\%
+  tdt.$select(name, tdt.$ends_with("color"))
+
+# source only specific functions from a script:
+source_selection(list(file="sourcetest.R"), select = "helloworld")
+helloworld()
+}
+
 }
 \seealso{
 \link{tinyoperations_help}

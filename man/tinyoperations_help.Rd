@@ -13,12 +13,12 @@ The \code{tinyoperations} R-package
 adds adds some functions and infix operators to help in your programming etiquette. \cr
 It primarily focuses on 4 things: \cr
 \cr
-(1) Safer decimal numbers ("double") truth testing (see \link{\%d==\%}). \cr
-(2) Extending the string manipulation capabilities of the \code{stringi} R package,
+(1) Safer decimal numbers ("double") truth testing; see \link{\%d==\%}. \cr
+(2) Extending the string manipulation capabilities of the \code{stringi} R package;
 see \link{tinyoperations_strings}. \cr
 (3) Reducing repetitive code; see \link{tinyoperations_dry}. \cr
 (4) A new package and module import system,
-that combines the benefits of aliasing a package with the benefits of attaching a package,
+that combines the benefits of aliasing a package with the benefits of attaching a package;
 see \link{tinyoperations_import} \cr
 \cr
 

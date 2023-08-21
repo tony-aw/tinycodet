@@ -1,4 +1,5 @@
-# test %<-c%:
+
+# test %<-c% ====
 temp.fun <- function() {
   x %<-c% 3
   x <- 4
@@ -24,7 +25,7 @@ temp.fun <- function() {
 expect_error(temp.fun())
 
 
-# test lock_TF:
+# test lock_TF ====
 temp.fun <- function() {
   T <- 3
   lock_TF()
