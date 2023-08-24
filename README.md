@@ -22,7 +22,8 @@ public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostat
 The `tinyoperations` R-package adds some functions and infix operators
 to help in your programming etiquette. It primarily focuses on 4 things:
 
-1)  Safer decimal number (“double”) truth testing.
+1)  Safer decimal (in)equality testing, safer atomic conversions, and
+    other functions for safer coding.
 2)  Extending the string manipulation capabilities of the `stringi` R
     package.
 3)  Reducing repetitive code.
@@ -31,7 +32,7 @@ to help in your programming etiquette. It primarily focuses on 4 things:
 
 The `tinyoperations` R-package has only one dependency, namely
 `stringi`. Most functions in this R-package are fully vectorized and
-optimized.
+optimized, and have been well documented.
 
  
 
@@ -43,8 +44,8 @@ Currently this R package is only available on GitHub.
 
  
 
-Even though this is a relatively small R package, I do understand you
-may not want to go through all the articles and help files of
+Although this is a relatively small R package, I do understand you may
+not want to go through all the articles and help files of
 `tinyoperations` without knowing if the R package is even worthy of your
 time. I therefore invite you to take a look at the [Get
 Started](https://tony-aw.github.io/tinyoperations/articles/tinyoperations.html)
@@ -292,6 +293,11 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   testing purposes, but I now allow the user to see this attribute also.
   Also experimenting with `pkgdown` options.
 - 19 August 2023: Textual changes here and there.
+- 24 August 2023: Changed the organization of the categories: decimal
+  truth testing, `lock_TF()`, safer atomic type casting, and `%<-c%` now
+  belong to the category “safer functionality”. The atomic conversion
+  functions now remove the class attribute, just to be safe, but still
+  preserve all other attributes.
 
 FUTURE PLANS:
 

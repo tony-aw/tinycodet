@@ -34,12 +34,12 @@ set.seed(1)
 
 The `tinyoperations` R-package adds some functions and infix operators to help in your programming etiquette. It primarily focuses on 4 things:
 
- 1) Safer decimal number ("double") truth testing.
+ 1) Safer decimal (in)equality testing, safer atomic conversions, and other functions for safer coding.
  2) Extending the string manipulation capabilities of the `stringi` R package. 
  3) Reducing repetitive code.
- 4) A new package and module import system,  that combines the benefits of aliasing a package with the benefits of attaching a package.
+ 4) A new package and module import system, that combines the benefits of aliasing a package with the benefits of attaching a package.
 
-The `tinyoperations` R-package has only one dependency, namely `stringi`. Most functions in this R-package are fully vectorized and optimized.
+The `tinyoperations` R-package has only one dependency, namely `stringi`. Most functions in this R-package are fully vectorized and optimized, and have been well documented.
 
 &nbsp;
 
@@ -49,7 +49,7 @@ Currently this R package is only available on GitHub.
 
 &nbsp;
 
-Even though this is a relatively small R package, I do understand you may not want to go through all the articles and help files of `tinyoperations` without knowing if the R package is even worthy of your time. I therefore invite you to take a look at the [Get Started](https://tony-aw.github.io/tinyoperations/articles/tinyoperations.html) page on the website (https://tony-aw.github.io/tinyoperations/articles/tinyoperations.html).
+Although this is a relatively small R package, I do understand you may not want to go through all the articles and help files of `tinyoperations` without knowing if the R package is even worthy of your time. I therefore invite you to take a look at the [Get Started](https://tony-aw.github.io/tinyoperations/articles/tinyoperations.html) page on the website (https://tony-aw.github.io/tinyoperations/articles/tinyoperations.html).
 
 
 ```{r echo=FALSE}
@@ -127,7 +127,7 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
  - 16 August 2023: special attributes from alias objects can now be more neatly retrieved using the `attr.import()` function. The `args` special attribute from alias objects now also reports the `lib.loc` argument. Slightly re-organized the special attributes contained in alias objects. Removed the `verbose` argument from `import_as()`, as I deemed it unnecessary.
  - 18 August 2023: added more safe guards for the import system, and added more tests. The `import_as()` function now also adds the `ordered_object_names` attribute to aliases. This is only needed for testing purposes, but I now allow the user to see this attribute also. Also experimenting with `pkgdown` options.
  - 19 August 2023: Textual changes here and there.
-
+ - 24 August 2023: Changed the organization of the categories: decimal truth testing, `lock_TF()`, safer atomic type casting, and `%<-c%` now belong to the category "safer functionality". The atomic conversion functions now remove the class attribute, just to be safe, but still preserve all other attributes.
 
 
 FUTURE PLANS:

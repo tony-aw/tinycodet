@@ -618,7 +618,8 @@ padding-top: 0px;
 infix operators to help in your programming etiquette. It primarily
 focuses on 4 things:</p>
 <ol style="list-style-type: decimal">
-<li>Safer decimal number (“double”) truth testing.</li>
+<li>Safer decimal (in)equality testing, safer atomic conversions, and
+other functions for safer coding.</li>
 <li>Extending the string manipulation capabilities of the
 <code>stringi</code> R package.</li>
 <li>Reducing repetitive code.</li>
@@ -627,14 +628,14 @@ of aliasing a package with the benefits of attaching a package.</li>
 </ol>
 <p>The <code>tinyoperations</code> R-package has only one dependency,
 namely <code>stringi</code>. Most functions in this R-package are fully
-vectorized and optimized.</p>
+vectorized and optimized, and have been well documented.</p>
 <p> </p>
 <p>WARNING: This package is still very much experimental. Function
 names, argument names, and so on may change dramatically. Use it for
 testing only, until it’s stable.</p>
 <p>Currently this R package is only available on GitHub.</p>
 <p> </p>
-<p>Even though this is a relatively small R package, I do understand you
+<p>Although this is a relatively small R package, I do understand you
 may not want to go through all the articles and help files of
 <code>tinyoperations</code> without knowing if the R package is even
 worthy of your time. I therefore invite you to take a look at the <a href="https://tony-aw.github.io/tinyoperations/articles/tinyoperations.html">Get
@@ -903,6 +904,11 @@ needed for testing purposes, but I now allow the user to see this
 attribute also. Also experimenting with <code>pkgdown</code>
 options.</li>
 <li>19 August 2023: Textual changes here and there.</li>
+<li>24 August 2023: Changed the organization of the categories: decimal
+truth testing, <code>lock_TF()</code>, safer atomic type casting, and
+<code>%&lt;-c%</code> now belong to the category “safer functionality”.
+The atomic conversion functions now remove the class attribute, just to
+be safe, but still preserve all other attributes.</li>
 </ul>
 <p>FUTURE PLANS:</p>
 <p>I believe <code>tinyoperations</code> is slowly getting closer to
