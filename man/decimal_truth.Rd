@@ -29,8 +29,7 @@ x \%d{}\% bnd
 x \%d!{}\% bnd
 }
 \arguments{
-\item{x, y}{numeric vectors, matrices, or arrays,
-though these operators were specifically designed for decimal numbers (class "double").}
+\item{x, y}{numeric vectors, matrices, or arrays.}
 
 \item{bnd}{either a vector of length 2, or a matrix with 2 columns and 1 row,
 or else a matrix with 2 columns where \code{nrow(bnd)==length(x)}. \cr
@@ -38,22 +37,29 @@ The first element/column of \code{bnd} gives the lower bound of the closed inter
 The second element/column of \code{bnd} gives the upper bound of the closed interval; \cr}
 }
 \value{
-Same as \link[=base]{==}.
+A logical vector with the same dimensions as \code{x},
+indicating the result of the element by element comparison.
 }
 \description{
 The \code{\%d==\%, \%d!=\% \%d<\%, \%d>\%, \%d<=\%, \%d>=\%} (in)equality operator
 perform decimal (class "double") number truth testing. \cr
 They are virtually equivalent to the regular (in)equality operators, \cr
 \code{==, !=, <, >, <=, >=}, \cr
-except for one aspect: \cr
-The decimal number (in)equality operators assume that
+except for two aspects. \cr
+First: The decimal number (in)equality operators assume that
 if the absolute difference between any two numbers
 \code{x} and \code{y}
 is smaller than the Machine tolerance,
 \code{sqrt(.Machine$double.eps)},
 then \code{x} and \code{y}
 should be consider to be equal. \cr
+Second: The decimal number (in)equality operators do NOT allow vector recycling.
+When comparing any two numbers \code{x} and \code{y},
+they must be of equal length,
+or one of them must be a scalar (i.e. length of 1).
+Otherwise, an error is returned. \cr
 \cr
+
 Thus these operators provide safer decimal number (in)equality tests. \cr
 \cr
 For example: \code{0.1*7 == 0.7} returns \code{FALSE}, even though they are equal,

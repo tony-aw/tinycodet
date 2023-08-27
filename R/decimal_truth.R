@@ -5,15 +5,21 @@
 #' perform decimal (class "double") number truth testing. \cr
 #' They are virtually equivalent to the regular (in)equality operators, \cr
 #' \code{==, !=, <, >, <=, >=}, \cr
-#' except for one aspect: \cr
-#' The decimal number (in)equality operators assume that
+#' except for two aspects. \cr
+#' First: The decimal number (in)equality operators assume that
 #' if the absolute difference between any two numbers
 #' \code{x} and \code{y}
 #' is smaller than the Machine tolerance,
 #' \code{sqrt(.Machine$double.eps)},
 #' then \code{x} and \code{y}
 #' should be consider to be equal. \cr
+#' Second: The decimal number (in)equality operators do NOT allow vector recycling.
+#' When comparing any two numbers \code{x} and \code{y},
+#' they must be of equal length,
+#' or one of them must be a scalar (i.e. length of 1).
+#' Otherwise, an error is returned. \cr
 #' \cr
+#'
 #' Thus these operators provide safer decimal number (in)equality tests. \cr
 #' \cr
 #' For example: \code{0.1*7 == 0.7} returns \code{FALSE}, even though they are equal,
@@ -28,8 +34,7 @@
 #' The \code{x %d!{}% bnd} operator checks if \code{x}
 #' is outside the closed interval with bounds defined by \code{bnd}. \cr
 #'
-#' @param x,y numeric vectors, matrices, or arrays,
-#' though these operators were specifically designed for decimal numbers (class "double").
+#' @param x,y numeric vectors, matrices, or arrays.
 #' @param bnd either a vector of length 2, or a matrix with 2 columns and 1 row,
 #' or else a matrix with 2 columns where \code{nrow(bnd)==length(x)}. \cr
 #' The first element/column of \code{bnd} gives the lower bound of the closed interval; \cr
@@ -37,7 +42,8 @@
 #'
 #'
 #' @returns
-#' Same as \link[=base]{==}.
+#' A logical vector with the same dimensions as \code{x},
+#' indicating the result of the element by element comparison.
 #'
 #' @seealso [tinyoperations_safer()]
 #'
@@ -92,21 +98,36 @@
 #' @name decimal_truth
 NULL
 
+#' @keywords internal
+#' @noRd
+.decimal_check <- function(x, y) {
+  n1 <- length(x)
+  n2 <- length(y)
+  if((n1 != 1) & (n2 != 1)) {
+    if(n1 != n2) {
+      stop("vector recycling not allowed, except for scalars")
+    }
+  }
+}
+
 #' @rdname decimal_truth
 #' @export
 `%d==%` <- function(x, y) {
+  .decimal_check(x, y)
   return(abs(x - y) < sqrt(.Machine$double.eps))
 }
 
 #' @rdname decimal_truth
 #' @export
 `%d!=%` <- function(x, y) {
+  .decimal_check(x, y)
   return(abs(x - y) >= sqrt(.Machine$double.eps))
 }
 
 #' @rdname decimal_truth
 #' @export
 `%d<%` <- function(x, y) {
+  .decimal_check(x, y)
   check <- (x %d!=% y)
   return((x < y) & check)
 }
@@ -114,6 +135,7 @@ NULL
 #' @rdname decimal_truth
 #' @export
 `%d>%` <- function(x, y) {
+  .decimal_check(x, y)
   check <- (x %d!=% y)
   return((x > y) & check)
 }
@@ -121,6 +143,7 @@ NULL
 #' @rdname decimal_truth
 #' @export
 `%d<=%` <- function(x, y) {
+  .decimal_check(x, y)
   check <- (x %d==% y)
   return((x <= y) | check)
 }
@@ -128,6 +151,7 @@ NULL
 #' @rdname decimal_truth
 #' @export
 `%d>=%` <- function(x, y) {
+  .decimal_check(x, y)
   check <- (x %d==% y)
   return((x >= y) | check)
 }

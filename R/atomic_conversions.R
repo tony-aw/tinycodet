@@ -14,7 +14,7 @@
 #' \cr
 #' The functions are as follows: \cr
 #'
-#'  * \code{as_bool()}: converts object to class \code{logical} (\code{TRUE, FALSE}).
+#'  * \code{as_bool()}: converts object to class \code{logical} (\code{TRUE, FALSE, NA}).
 #'  * \code{as_int()}: converts object to class \code{integer}.
 #'  * \code{as_dbl()}: converts object to class \code{double} (AKA decimal numbers).
 #'  * \code{as_chr()}: converts object to class \code{character}.

@@ -45,7 +45,7 @@ do not strip away attributes - except the "class" attribute. \cr
 \cr
 The functions are as follows: \cr
 \itemize{
-\item \code{as_bool()}: converts object to class \code{logical} (\code{TRUE, FALSE}).
+\item \code{as_bool()}: converts object to class \code{logical} (\code{TRUE, FALSE, NA}).
 \item \code{as_int()}: converts object to class \code{integer}.
 \item \code{as_dbl()}: converts object to class \code{double} (AKA decimal numbers).
 \item \code{as_chr()}: converts object to class \code{character}.
