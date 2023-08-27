@@ -298,6 +298,9 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   belong to the category “safer functionality”. The atomic conversion
   functions now remove the class attribute, just to be safe, but still
   preserve all other attributes.
+- 25 August 2023: Added safety against recycling in the decimal
+  (in)equality testing operators. Moved the the regular tests library.
+  This does create a note on `R CMD CHECK`, but it is neater this way.
 
 FUTURE PLANS:
 

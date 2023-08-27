@@ -128,7 +128,7 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
  - 18 August 2023: added more safe guards for the import system, and added more tests. The `import_as()` function now also adds the `ordered_object_names` attribute to aliases. This is only needed for testing purposes, but I now allow the user to see this attribute also. Also experimenting with `pkgdown` options.
  - 19 August 2023: Textual changes here and there.
  - 24 August 2023: Changed the organization of the categories: decimal truth testing, `lock_TF()`, safer atomic type casting, and `%<-c%` now belong to the category "safer functionality". The atomic conversion functions now remove the class attribute, just to be safe, but still preserve all other attributes.
-
+ - 25 August 2023: Added safety against recycling in the decimal (in)equality testing operators. Moved the the regular tests library. This does create a note on `R CMD CHECK`, but it is neater this way.
 
 FUTURE PLANS:
 

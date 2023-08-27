@@ -909,6 +909,10 @@ truth testing, <code>lock_TF()</code>, safer atomic type casting, and
 <code>%&lt;-c%</code> now belong to the category “safer functionality”.
 The atomic conversion functions now remove the class attribute, just to
 be safe, but still preserve all other attributes.</li>
+<li>25 August 2023: Added safety against recycling in the decimal
+(in)equality testing operators. Moved the the regular tests library.
+This does create a note on <code>R CMD CHECK</code>, but it is neater
+this way.</li>
 </ul>
 <p>FUTURE PLANS:</p>
 <p>I believe <code>tinyoperations</code> is slowly getting closer to
