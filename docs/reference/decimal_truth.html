@@ -3,14 +3,19 @@
 perform decimal (class "double") number truth testing. 
 They are virtually equivalent to the regular (in)equality operators, 
 ==, !=, &amp;lt;, &amp;gt;, &amp;lt;=, &amp;gt;=, 
-except for one aspect: 
-The decimal number (in)equality operators assume that
+except for two aspects. 
+First: The decimal number (in)equality operators assume that
 if the absolute difference between any two numbers
 x and y
 is smaller than the Machine tolerance,
 sqrt(.Machine$double.eps),
 then x and y
 should be consider to be equal. 
+Second: The decimal number (in)equality operators do NOT allow vector recycling.
+When comparing any two numbers x and y,
+they must be of equal length,
+or one of them must be a scalar (i.e. length of 1).
+Otherwise, an error is returned. 
 
 Thus these operators provide safer decimal number (in)equality tests. 
 
@@ -28,14 +33,19 @@ is outside the closed interval with bounds defined by bnd. '><title>Safer decima
 perform decimal (class "double") number truth testing. 
 They are virtually equivalent to the regular (in)equality operators, 
 ==, !=, &amp;lt;, &amp;gt;, &amp;lt;=, &amp;gt;=, 
-except for one aspect: 
-The decimal number (in)equality operators assume that
+except for two aspects. 
+First: The decimal number (in)equality operators assume that
 if the absolute difference between any two numbers
 x and y
 is smaller than the Machine tolerance,
 sqrt(.Machine$double.eps),
 then x and y
 should be consider to be equal. 
+Second: The decimal number (in)equality operators do NOT allow vector recycling.
+When comparing any two numbers x and y,
+they must be of equal length,
+or one of them must be a scalar (i.e. length of 1).
+Otherwise, an error is returned. 
 
 Thus these operators provide safer decimal number (in)equality tests. 
 
@@ -111,15 +121,20 @@ is outside the closed interval with bounds defined by bnd. '><!-- mathjax --><sc
     <p>The <code>%d==%, %d!=% %d&lt;%, %d&gt;%, %d&lt;=%, %d&gt;=%</code> (in)equality operator
 perform decimal (class "double") number truth testing. <br>
 They are virtually equivalent to the regular (in)equality operators, <br><code>==, !=, &lt;, &gt;, &lt;=, &gt;=</code>, <br>
-except for one aspect: <br>
-The decimal number (in)equality operators assume that
+except for two aspects. <br>
+First: The decimal number (in)equality operators assume that
 if the absolute difference between any two numbers
 <code>x</code> and <code>y</code>
 is smaller than the Machine tolerance,
 <code>sqrt(.Machine$double.eps)</code>,
 then <code>x</code> and <code>y</code>
-should be consider to be equal. <br><br>
-Thus these operators provide safer decimal number (in)equality tests. <br><br>
+should be consider to be equal. <br>
+Second: The decimal number (in)equality operators do NOT allow vector recycling.
+When comparing any two numbers <code>x</code> and <code>y</code>,
+they must be of equal length,
+or one of them must be a scalar (i.e. length of 1).
+Otherwise, an error is returned. <br><br></p>
+<p>Thus these operators provide safer decimal number (in)equality tests. <br><br>
 For example: <code>0.1*7 == 0.7</code> returns <code>FALSE</code>, even though they are equal,
 due to the way decimal numbers are stored in programming languages (like R).
 But <code>0.1*7 %d==% 0.7</code> returns <code>TRUE</code>. <br><br>
@@ -154,8 +169,7 @@ is outside the closed interval with bounds defined by <code>bnd</code>. <br></p>
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>x, y</dt>
-<dd><p>numeric vectors, matrices, or arrays,
-though these operators were specifically designed for decimal numbers (class "double").</p></dd>
+<dd><p>numeric vectors, matrices, or arrays.</p></dd>
 
 
 <dt>bnd</dt>
@@ -169,7 +183,8 @@ The second element/column of <code>bnd</code> gives the upper bound of the close
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>Same as <a href="https://rdrr.io/r/base/base-package.html" class="external-link">==</a>.</p>
+<p>A logical vector with the same dimensions as <code>x</code>,
+indicating the result of the element by element comparison.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

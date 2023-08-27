@@ -26,7 +26,11 @@ library(tinyoperations)
 
 This package adds the `%d==%, %d!=% %d<%, %d>%, %d<=%, %d>=%` (in)equality operators, which perform safer decimal number truth testing. They are virtually equivalent to the regular (in)equality operators,
 `==, !=, <, >, <=, >=`,
-except for one aspect: The decimal number truth testing operators assume that if the absolute difference between `x` and `y` is smaller than the Machine tolerance, `sqrt(.Machine$double.eps)`, then `x` and `y` ought to be consider to be equal.
+except for two aspects.
+
+First: The decimal number truth testing operators assume that if the absolute difference between `x` and `y` is smaller than the Machine tolerance, `sqrt(.Machine$double.eps)`, then `x` and `y` ought to be consider to be equal.
+
+Second: The decimal number (in)equality operators do NOT allow vector recycling. When comparing any two numbers `x` and `y`, they must be of equal length, or one of them must be a scalar (i.e. length of 1). Otherwise, an error is returned.
 
 Thus these provide safer decimal number (in)equality operators.
 
@@ -48,6 +52,10 @@ x %d<% y # correct
 x %d>% y # correct
 x %d<=% y # correct
 x %d>=% y # correct
+
+tinytest::expect_error(
+  1:2 %d==% 1:3 # recycling not allowed for your own safety, thus gives error
+)
 
 ```
 
