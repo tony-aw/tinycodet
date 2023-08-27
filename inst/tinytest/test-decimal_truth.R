@@ -14,11 +14,19 @@ expect_equal(x %d<=% y, rep(TRUE, 3))
 expect_equal((x+1) %d<=% y, rep(FALSE, 3))
 expect_equal(x %d>=% y, rep(TRUE, 3))
 expect_equal((x-1) %d>=% y, rep(FALSE, 3))
+expect_error(x %d==% 1:5, pattern = "vector recycling not allowed, except for scalars")
+expect_error(x %d!=% 1:5, pattern = "vector recycling not allowed, except for scalars")
+expect_error(x %d>% 1:5, pattern = "vector recycling not allowed, except for scalars")
+expect_error(x %d<% 1:5, pattern = "vector recycling not allowed, except for scalars")
+expect_error(x %d>=% 1:5, pattern = "vector recycling not allowed, except for scalars")
+expect_error(x %d<=% 1:5, pattern = "vector recycling not allowed, except for scalars")
+
 
 
 # decimal numbers multi-dimensional ====
 x <- seq(0.1, 0.8, by = 0.1) |> matrix(ncol = 2)
 y <- 0.1 * (1:8) |> matrix(ncol = 2)
+ybad <- 1:6 |> matrix(ncol=3)
 expect_equal(x %d==% y, rep(TRUE, 8) |> matrix(ncol = 2))
 expect_equal((x+1) %d==% y, rep(FALSE, 8) |> matrix(ncol = 2))
 expect_equal(x %d!=% y, rep(FALSE, 8) |> matrix(ncol = 2))
@@ -31,6 +39,12 @@ expect_equal(x %d<=% y, rep(TRUE, 8) |> matrix(ncol = 2))
 expect_equal((x+1) %d<=% y, rep(FALSE, 8) |> matrix(ncol = 2))
 expect_equal(x %d>=% y, rep(TRUE, 8) |> matrix(ncol = 2))
 expect_equal((x-1) %d>=% y, rep(FALSE, 8) |> matrix(ncol = 2))
+expect_error(x %d==% ybad, pattern = "vector recycling not allowed, except for scalars")
+expect_error(x %d!=% ybad, pattern = "vector recycling not allowed, except for scalars")
+expect_error(x %d>% ybad, pattern = "vector recycling not allowed, except for scalars")
+expect_error(x %d<% ybad, pattern = "vector recycling not allowed, except for scalars")
+expect_error(x %d>=% ybad, pattern = "vector recycling not allowed, except for scalars")
+expect_error(x %d<=% ybad, pattern = "vector recycling not allowed, except for scalars")
 
 
 # decimal number boundaries (matrix) ====
