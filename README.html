@@ -620,11 +620,11 @@ focuses on 4 things:</p>
 <ol style="list-style-type: decimal">
 <li>Safer decimal (in)equality testing, safer atomic conversions, and
 other functions for safer coding.</li>
+<li>A new package and module import system, that combines the benefits
+of aliasing a package with the benefits of attaching a package.</li>
 <li>Extending the string manipulation capabilities of the
 <code>stringi</code> R package.</li>
 <li>Reducing repetitive code.</li>
-<li>A new package and module import system, that combines the benefits
-of aliasing a package with the benefits of attaching a package.</li>
 </ol>
 <p>The <code>tinyoperations</code> R-package has only one dependency,
 namely <code>stringi</code>. Most functions in this R-package are fully
@@ -638,8 +638,19 @@ testing only, until it’s stable.</p>
 <p>Although this is a relatively small R package, I do understand you
 may not want to go through all the articles and help files of
 <code>tinyoperations</code> without knowing if the R package is even
-worthy of your time. I therefore invite you to take a look at the <a href="https://tony-aw.github.io/tinyoperations/articles/tinyoperations.html">Get
+worthy of your time. Therefore, to get a quick glimpse of what is
+possible in this R package, I invite you to take a look at the <a href="https://tony-aw.github.io/tinyoperations/articles/tinyoperations.html">Get
 Started</a> page on the website (<a href="https://tony-aw.github.io/tinyoperations/articles/tinyoperations.html">https://tony-aw.github.io/tinyoperations/articles/tinyoperations.html</a>).</p>
+<p> </p>
+<h2 id="installation">Installation</h2>
+<p>One can install <code>tinyoperations</code> from github like so:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;https://github.com/tony-aw/tinyoperations&quot;</span>)</span></code></pre></div>
+<p>And attach the package - thus exposing its functions to the namespace
+- using:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(tinyoperations)</span></code></pre></div>
+<p>and one can open the introduction help page of the
+<code>tinyoperations</code> package using:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>tinyoperations<span class="sc">::</span><span class="fu">tinyoperations_help</span>()</span></code></pre></div>
 <p> </p>
 <h2 id="reporting-issues-and-giving-suggestions">Reporting issues and
 giving suggestions</h2>
@@ -913,6 +924,10 @@ be safe, but still preserve all other attributes.</li>
 (in)equality testing operators. Moved the the regular tests library.
 This does create a note on <code>R CMD CHECK</code>, but it is neater
 this way.</li>
+<li>30 August 2023: Removed the in-place modifying string operators.
+Removed the renaming option in <code>source_selection()</code>, as I
+think it might cause problems. Slight speed improvements in some
+functions. Added the <code>is.tinyimport()</code> utility function.</li>
 </ul>
 <p>FUTURE PLANS:</p>
 <p>I believe <code>tinyoperations</code> is slowly getting closer to

@@ -24,11 +24,11 @@ to help in your programming etiquette. It primarily focuses on 4 things:
 
 1)  Safer decimal (in)equality testing, safer atomic conversions, and
     other functions for safer coding.
-2)  Extending the string manipulation capabilities of the `stringi` R
-    package.
-3)  Reducing repetitive code.
-4)  A new package and module import system, that combines the benefits
+2)  A new package and module import system, that combines the benefits
     of aliasing a package with the benefits of attaching a package.
+3)  Extending the string manipulation capabilities of the `stringi` R
+    package.
+4)  Reducing repetitive code.
 
 The `tinyoperations` R-package has only one dependency, namely
 `stringi`. Most functions in this R-package are fully vectorized and
@@ -47,10 +47,35 @@ Currently this R package is only available on GitHub.
 Although this is a relatively small R package, I do understand you may
 not want to go through all the articles and help files of
 `tinyoperations` without knowing if the R package is even worthy of your
-time. I therefore invite you to take a look at the [Get
+time. Therefore, to get a quick glimpse of what is possible in this R
+package, I invite you to take a look at the [Get
 Started](https://tony-aw.github.io/tinyoperations/articles/tinyoperations.html)
 page on the website
 (<https://tony-aw.github.io/tinyoperations/articles/tinyoperations.html>).
+
+ 
+
+## Installation
+
+One can install `tinyoperations` from github like so:
+
+``` r
+remotes::install_github("https://github.com/tony-aw/tinyoperations")
+```
+
+And attach the package - thus exposing its functions to the namespace -
+using:
+
+``` r
+library(tinyoperations)
+```
+
+and one can open the introduction help page of the `tinyoperations`
+package using:
+
+``` r
+tinyoperations::tinyoperations_help()
+```
 
  
 
@@ -301,6 +326,10 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
 - 25 August 2023: Added safety against recycling in the decimal
   (in)equality testing operators. Moved the the regular tests library.
   This does create a note on `R CMD CHECK`, but it is neater this way.
+- 30 August 2023: Removed the in-place modifying string operators.
+  Removed the renaming option in `source_selection()`, as I think it
+  might cause problems. Slight speed improvements in some functions.
+  Added the `is.tinyimport()` utility function.
 
 FUTURE PLANS:
 
