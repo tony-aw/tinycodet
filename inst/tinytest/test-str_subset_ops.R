@@ -21,7 +21,7 @@ for(i in 1:7) {
 }
 expect_equal(expected.list, out.list)
 
-#strim:
+# strim:
 expect_equal(x %strim% ss, c("cdefghij", "opqrstuvwxyz", "abcdefghijkl", x[4], rep("", 3)))
 expected.list <- list("cdefghij", "opqrstuvwxyz", "abcdefghijkl", x[4], "", "", "")
 for(i in 1:7) {

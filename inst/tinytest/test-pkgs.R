@@ -1,5 +1,3 @@
-# NOTE: most of the tests I do in a separate script outside of the package folder,
-# as R CMD CHECK gets angry when I put fake packages inside the package folder.
 
 ns <- loadNamespace("stringi") |> as.list(all.names=TRUE, sorted=TRUE)
 names_exported <- names(ns[[".__NAMESPACE__."]][["exports"]])

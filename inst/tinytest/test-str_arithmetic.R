@@ -142,6 +142,7 @@ p1 <- rep("a|e|i|o|u", 2)
 p2 <- list(regex=rep("A|E|I|O|U", 2), case_insensitive=TRUE)
 n <- c(3, 2)
 
+
 # arithmetic (both with and without list)
 expect_equal(x %s+% y, paste0(x, y))
 expect_equal(x %s-% p1, c("bcdfghjklm", "npqrstvwxyz"))
@@ -149,6 +150,7 @@ expect_equal(x %s-% p2, c("bcdfghjklm", "npqrstvwxyz"))
 expect_equal(x %s*% n, strrep(x, n))
 expect_equal(x %s/% p1, c(3,2))
 expect_equal(x %s/% p2, c(3,2))
+
 
 # error checks ===
 expect_error(

@@ -1,6 +1,3 @@
-# NOTE: most of the tests I do in a separate script outside of the package folder,
-# as R CMD CHECK gets angry when I put fake packages inside the package folder.
-
 
 # test import_inops - importing ====
 stri <- grep(":=|%", loadNamespace("stringi") |> getNamespaceExports(), value = TRUE)

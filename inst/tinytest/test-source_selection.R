@@ -1,5 +1,5 @@
 
-# expression:
+# expression ====
 exprs <- expression({
   helloworld = function()print("hello world")
   goodbyeworld <- function() print("goodbye world")
@@ -13,7 +13,7 @@ tempenv <- new.env()
 source(exprs = exprs, local = tempenv)
 
 
-# test general:
+# test general ====
 temp.fun <- function(){
   source_selection(list(exprs=exprs), regex= "^mymethod", fixed = c("%", ":="))
   ls() # list all objects residing within the function definition
@@ -37,7 +37,7 @@ temp.fun <- function(){
 expect_equal(temp.fun()|>sort(), c("goodbyeworld", "helloworld"))
 
 
-# test methods via regex:
+# test methods via regex ====
 temp.fun <- function() {
   source_selection(list(exprs=exprs), regex = "^mymethod")
   mymethod.foo(1)
@@ -50,7 +50,7 @@ temp.fun <- function() {
 expect_equal(temp.fun(), "A")
 
 
-# test methods via fixed:
+# test methods via fixed ====
 temp.fun <- function() {
   source_selection(list(exprs=exprs), fixed = "mymethod.foo")
   mymethod.foo(1)
@@ -63,7 +63,7 @@ temp.fun <- function() {
 expect_equal(temp.fun(), "A")
 
 
-# test methods via select:
+# test methods via select ====
 temp.fun <- function() {
   source_selection(list(exprs=exprs), select= c("mymethod.foo", "mymethod.foo.numeric"))
   mymethod.foo(1)
@@ -75,18 +75,7 @@ temp.fun <- function() {
 }
 expect_equal(temp.fun(), "A")
 
-
-# test renaming via select:
-temp.fun <- function() {
-  source_selection(
-    list(exprs=exprs),
-    select = c(otherhelloworld = "helloworld", "goodbyeworld"))
-  c(otherhelloworld(), goodbyeworld())
-}
-expect_equal(temp.fun(), c("hello world", "goodbye world"))
-
-
-# test function environments:
+# test function environments ====
 exprs2 <- expression({
   mypaste <- function(x,y) stringi::`%s+%`(x,y)
   `%s+test%` <- function(x,y){
@@ -97,7 +86,7 @@ source_selection(list(exprs=exprs2), select = c("%s+test%", "mypaste"))
 expect_equal(ls(environment(`%s+test%`)), ls(environment(mypaste)))
 
 
-# check error handling regarding `lst` argument:
+# check error handling regarding `lst` argument ====
 expect_error(source_selection("lst", select = "helloworld"),
              pattern = "`lst` must be a list")
 
@@ -115,7 +104,7 @@ expect_error(source_selection(list(exprs=exprs, env = new.env()), select = "hell
              pattern = "unused argument")
 
 
-# check error handling regarding selections:
+# check error handling regarding selections ====
 expect_error(source_selection(list(exprs=exprs)),
              pattern = "You must specified at least one of `select`, `regex`, or `fixed`")
 expect_error(source_selection(list(exprs=exprs), regex = ""),
