@@ -1,0 +1,226 @@
+---
+title: "String related functions"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    number_sections: true
+vignette: >
+  %\VignetteIndexEntry{String related functions}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(tinyoperations)
+```
+
+&nbsp;
+
+# stri_locate_ith
+
+Suppose one wants to transform the **first** vowels in the strings of a character vector `str`, such that all upper case vowels become lower case, and vice-versa.
+One can do that completely in `stringi` + base R as follows:
+
+```{r}
+
+x <- c("HELLO WORLD", "goodbye world")
+loc <- stringi::stri_locate_first(x, regex="a|e|i|o|u", case_insensitive=TRUE)
+extr <- stringi::stri_sub(x, from=loc)
+repl <- chartr(extr, old = "a-zA-Z", new = "A-Za-z")
+stringi::stri_sub_replace(x, loc, replacement=repl)
+```
+
+But now suppose one wants to transform the **second-last** vowel. How are you going to do that? It's not impossible, but also not super straight-forward. For clear code, `stringi` really needs some kind of "stri_locate_ith" function. And, of course, the `tinyoperations` package provides just that.
+
+The `stri_locate_ith(str, i, ...)` function locates for every element/string in character vector `str`, the $i^\textrm{th}$ occurrence of some (regex/fixed/etc) pattern. When `i` is positive, the occurrence is counted from left to right. Negative values for `i` are also allowed, in which case the occurrence is counted from the right to left. But `i=0` is not allowed though. Thus, to get the **second** occurrence of some pattern, use `i=2`, and to get the **second-last** occurrence, use `i=-2`.
+
+The `stri_locate_ith(str, i, ...)` function uses the exact same argument and naming convention as `stringi`, to keep your code consistent. And just like `stringi::stri_locate_first/last`, the `stri_locate_ith(str, i, ...)` function is a vectorized function: `str` and  `i` as well as the pattern (`regex, fixed, coll, charclass`) can all be different-valued vectors. It is also vectorized in the sense that no loops (in R) are used, only vectorized functions.
+
+
+&nbsp;
+
+To transform the **second-last** occurrence, one can now use `stri_locate_ith()` in a very similar way as was done with `stri_locate_first/last`:
+
+```{r}
+x <- c("HELLO WORLD", "goodbye world")
+
+loc <- stri_locate_ith( # this part is the key-difference
+  x, -2, regex="a|e|i|o|u", case_insensitive=TRUE
+)
+
+extr <- stringi::stri_sub(x, from=loc)
+repl <- chartr(extr, old = "a-zA-Z", new = "A-Za-z")
+stringi::stri_sub_replace(x, loc, replacement=repl)
+```
+
+Notice that the code is virtually equivalent. We *only* need to change the locate function.
+
+&nbsp;
+
+# strcut_ - functions
+
+The `tinyoperations` R package adds 2 `strcut` functions: `strcut_loc()` and `strcut_brk()`.
+
+The `strcut_loc()`function
+cuts every string in a character vector around a location range `loc`,
+such that every string is cut into the following parts:
+
+ - the sub-string **before** `loc`;
+ - the sub-string at `loc` itself;
+ - the sub-string **after** `loc`.
+ 
+The location range `loc` would usually be matrix with 2 columns, giving the start and end points of some pattern match.
+
+
+The `strcut_brk()` function is basically a wrapper around `stringi::stri_split_boundaries(..., simplify=TRUE)`, and with some more conveniently named arguments.
+
+Examples:
+
+```{r}
+
+x <- rep(paste0(1:10, collapse=""), 10)
+print(x)
+loc <- stri_locate_ith(x, 1:10, fixed = as.character(1:10))
+strcut_loc(x, loc)
+strcut_loc(x, c(5,5))
+
+
+test <- c("The above-mentioned    features are very useful. ",
+"Spam, spam, eggs, bacon, and spam. 123 456 789")
+strcut_brk(test, "line")
+strcut_brk(test, "word")
+strcut_brk(test, "sentence")
+strcut_brk(test, "chr")
+
+```
+
+
+&nbsp;
+
+# Matrix re-ordering operators
+
+The matrix re-ordering operators are quite handy for re-ordering strings,
+since the `strcut_` - functions return matrices, and the `stri_join_mat()` and their aliases concatenate matrices.
+
+See the documentation on matrix operators:
+`` ?`%row~%` `` and `` ?`%col~%` ``
+
+See also the "Miscellaneous functionality" article.
+
+&nbsp;
+
+# Matrix joining
+
+The `tinyoperations` package adds a tiny additional function to `stringi`:
+
+`stri_join_mat` (and their aliases `stri_c_mat` and `stri_paste_mat`).
+
+As the name suggests, these functions perform row-wise (`margin=1`; the default) or column-wise (`margin=2`) joining of a matrix of strings, thereby transforming it to a vector of strings. You can do this already in base R, but it requires converting the matrix to a data.frame or list, and then calling `stri_join` inside `do.call()`, which to me just seems too much trouble for something *soooo* abysmally simple.
+
+Here is an example of their usage when re-ordering strings, words, or sentences :
+
+```{r}
+
+# sorting characters in strings:
+x <- c("Hello world", "Goodbye world")
+x <- strcut_brk(x, "chr")
+mat <- stringi::stri_rank(as.vector(x)) |>  matrix(ncol=ncol(x))
+sorted <- x %row~% mat
+stri_join_mat(sorted, margin=1, sep="") # <- using new function here
+
+# sorting words:
+x <- c("Hello everyone", "Goodbye everyone")
+x <- strcut_brk(x, "word")
+mat <- stringi::stri_rank(as.vector(x)) |>  matrix(ncol=ncol(x))
+sorted <- x %row~% mat
+stri_c_mat(sorted, margin=1, sep=" ") # <- alias for stri_join_mat
+
+# randomly shuffle sentences:
+x <- c("Hello, who are you? Oh, really?! Cool!", "I don't care. But I really don't.")
+x <- strcut_brk(x, "sentence")
+mat <- sample(1:length(x)) |> matrix(ncol=ncol(x))
+shuffled <- x %row~% mat
+stri_paste_mat(shuffled, margin=1, sep=" ") # <- another alias for stri_join_mat
+
+```
+
+
+&nbsp;
+
+
+# Performance
+
+Although the functions in this R package were written in R, the functions - especially the string related ones - have been somewhat aggressively optimized. The string related functions, for example, are about in the same order of magnitude in terms of speed as the `stringi` functions they call.
+
+
+Here some speed comparisons are given, using the [rbenchmark](https://cran.r-project.org/web/packages/rbenchmark/index.html) R package.
+
+```{r}
+library(rbenchmark)
+load("speedtest.RData")
+```
+
+
+&nbsp;
+
+## stri_locate_ith
+
+```{r eval = FALSE}
+n <- 1e5
+x <- rep(paste0(1:100, collapse=""), n)
+p <- "\\d"
+i <- sample(c(-50:-1, 1:50), replace=TRUE, size = n)
+locate_stringi <- function(...) {
+  stringi::stri_locate_all(...)
+  stringi::stri_count(...)
+}
+benchmark(
+  "stri_locate_ith" = { stri_locate_ith(x, i, regex=p) },
+  "locate_stringi" = { locate_stringi(str=x, regex=p) },
+  replications = 500,
+  order = NULL,
+  columns = c("test", "replications", "elapsed",
+                      "relative", "user.self", "sys.self")
+) |> knitr::kable()
+```
+
+```{r echo = FALSE}
+benchmark.stri_locate_ith |> knitr::kable()
+```
+
+
+&nbsp;
+
+## strcut
+
+```{r eval = FALSE}
+n <- 1e5
+x <- rep("hello", n)
+i <- sample(1:3, n, replace = TRUE)
+loc <- stri_locate_ith(x, i=i, regex="a|e|i|o|u")
+benchmark(
+  "strcut_loc" = { strcut_loc(x, loc) },
+  "strcut_brk" = { strcut_brk(x, brk="chr") },
+  "stringi::stri_split_boundaries" = {
+    stringi::stri_split_boundaries(x, type="character")
+    },
+  replications = 500,
+  order = NULL,
+  columns = c("test", "replications", "elapsed",
+              "relative", "user.self", "sys.self")
+) |> knitr::kable()
+
+```
+
+```{r echo = FALSE}
+benchmark.strcut |> knitr::kable()
+```
+
+&nbsp;

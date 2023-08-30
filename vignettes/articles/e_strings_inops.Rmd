@@ -1,0 +1,164 @@
+---
+title: "String related infix operators"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    number_sections: true
+vignette: >
+  %\VignetteIndexEntry{String related infix operators}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(tinyoperations)
+```
+
+
+&nbsp;
+
+
+# String subsetting operators
+
+The `x %sget% ss` operator returns a subset of each string in character vector `x`. Here `ss` is a vector of length 2, or a matrix with `nrow(ss)=length(x)` and 2 columns. The object `ss` should consist entirely of non-negative integers (thus 0, 1, 2, etc. are valid, but -1, -2, -3 etc are not valid). The first element/column of ss gives the number of characters counting from the left side to be extracted from x. The second element/column of ss gives the number of characters counting from the right side to be extracted from x.
+
+Here are 2 examples:
+
+```{r}
+x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+print(x)
+ss <- c(2,3)
+x %sget% ss
+
+x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+print(x)
+ss <- c(1,0)
+x %sget% ss
+```
+
+Thus `x %sget% ss` "gets" or extracts the given number of characters from the left and the right, and removes the rest.
+There is also `x %strim% ss`, which is the opposite: it trims away the number of characters from the left and right as defined in the matrix `ss`, leaving you with whatever is left.
+
+Here are again 2 examples:
+
+```{r}
+x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+print(x)
+ss <- c(2,3)
+x %strim% ss
+
+x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+print(x)
+ss <- c(1,0)
+x %strim% ss
+```
+
+
+&nbsp; 
+
+
+# String arithmetic
+
+The `tinyoperations` package adds 4 string arithmetic operators:
+
+ - `x %s+% y` concatenates `x` and `y`;
+ - `x %s-% p` removes pattern `p` from each string in character vector `x`;
+ - `x %s*% n` repeats each string in character vector `x` for `n` times;
+ - `x %s/% p` counts how often pattern `p` occurs in string or vector `x`
+ 
+I.e.:
+
+```{r}
+"Hello "%s+% " world"
+c("Hello world", "Goodbye world") %s-% " world"
+c("Ha", "Ho", "Hi", "Hu", "He", "Ha") %s*% 2:7
+c("hello world & goodbye world", "world domination!") %s/% "world"
+```
+
+The right-side arguments `p`, `y`, and `n` can be a single value, or a vector of the same length as `x`.
+
+&nbsp;
+
+# String detection operators
+
+The `x %s{}% p` operator checks for every string in character vector `x` if the pattern defined in `p` is present.
+The `x %s!{}% p operator` checks for every string in character vector `x` if the pattern defined in `p` is NOT present.
+
+Examples:
+
+```{r}
+x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+print(x)
+x %s{}% "a"
+x %s!{}% "a"
+which(x %s{}% "a")
+which(x %s!{}% "a")
+x[x %s{}% "a"]
+x[x %s!{}% "a"]
+```
+
+
+&nbsp;
+
+# Specifying Pattern search attributes in string infix operators
+
+The `x %s-% p` and `x %s/% p` operators, and the string detection operators (`%s{}%`, `%s!{}%`) perform pattern matching for various purposes. When a character vector or string is given on the right hand side, this is interpreted as case-sensitive `regex` patterns from `stringi`.
+
+But, of course, sometimes one wants to change this. For example, one may want it to be case insensitive. Or perhaps one wants to use fixed expressions, or something else.
+
+Instead of giving a string or character vector of regex patterns, one can also supply a list to specify exactly how the pattern should be interpreted. The list should use the exact same naming convention as `stringi`. For example:
+
+ - `list(regex=p, case_insensitive=FALSE, ...)`
+ - `list(fixed=p, ...)`
+ - `list(coll=p, ...)`
+ - `list(charclass=p, ...)`
+
+
+Examples with Regular expressions:
+
+```{r}
+x <- c("Hello world", "Goodbye world")
+p <- list(regex=" world")
+x %s-% p
+
+x <- c("Ha", "Ho", "Hi", "Hu", "He", "Ha") %s*% 10
+p <- list(regex="Ha")
+x %s/% p
+
+x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+print(x)
+p <- list(regex = c("A", "A"), case_insensitive=TRUE)
+x %s{}% p
+x %s!{}% p
+```
+
+Examples with Fixed expressions:
+
+```{r}
+x <- c("Hello world", "Goodbye world")
+p <- list(fixed=" world")
+x %s-% p
+
+x <- c("Ha", "Ho", "Hi", "Hu", "He", "Ha") %s*% 10
+p <- list(fixed="Ha")
+x %s/% p
+
+x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+print(x)
+p <- list(fixed = c("A", "A"), case_insensitive=TRUE)
+x %s{}% p
+x %s!{}% p
+```
+
+And so on. I'm sure you get the idea.
+
+
+&nbsp;
+
