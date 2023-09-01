@@ -105,4 +105,30 @@ import_inops.control <- function(
 
 }
 
-
+#' @keywords internal
+#' @noRd
+.import_exclude_include <- function(operators, exclude, include.only, abortcall) {
+  if(!is.null(exclude)){
+    wrong_excludes <- exclude[!exclude %in% operators]
+    if(length(wrong_excludes) > 0) {
+      warn.txt <- paste0(
+        "The following exclusions are not present, and are ignored: \n",
+        paste0(wrong_excludes, collapse = ", "), "\n"
+      )
+      warning(simpleWarning(warn.txt, call = abortcall))
+    }
+    operators <- setdiff(operators, exclude)
+  }
+  if(!is.null(include.only)){
+    wrong_includes <- include.only[!include.only %in% operators]
+    if(length(wrong_includes) > 0) {
+      warn.txt <- paste0(
+        "The following inclusions are not present, and are ignored: \n",
+        paste0(wrong_includes, collapse = ", "), "\n"
+      )
+      warning(simpleWarning(warn.txt, call = abortcall))
+    }
+    operators <- intersect(operators, include.only)
+  }
+  return(operators)
+}

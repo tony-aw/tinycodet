@@ -54,7 +54,7 @@
 #' (like the Global environment, or the environment within a function). \cr
 #' \cr
 #'
-#' @seealso \link{tinyoperations_import}, [base::source()]
+#' @seealso \link{tinyoperations_misc}, [base::source()]
 #'
 #' @examples
 #'
@@ -132,7 +132,7 @@ source_selection <- function(
   temp.fun(fixed, sys.call())
 
   # get source:
-  message("Importing module ... \n")
+  message("Sourving script ... \n")
   tempenv <- new.env(parent=parent.frame())
   do.call(source, c(lst, local=tempenv))
   tempenv <- as.list(tempenv, all.names = TRUE, sorted = TRUE)

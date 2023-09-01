@@ -97,7 +97,7 @@
 #' To use, for example, function "some_function()" from alias "alias.", use: \cr
 #' \code{alias.$some_function()} \cr
 #' To see the special attributes of this alias object, use \link{attr.import}. \cr
-#' \cr
+#' To "unload" the package alias object, simply remove it (i.e. \code{rm(list="alias.")}). \cr
 #'
 #' @seealso [tinyoperations_import()]
 #'

@@ -9,7 +9,7 @@
 #' \cr
 #' (1) Safer decimal (in)equality testing, safer atomic conversions, and other functions for safer coding;
 #' see \link{tinyoperations_safer}. \cr
-#' (2) A new package and module import system,
+#' (2) A new package import system,
 #' that combines the benefits of aliasing a package with the benefits of attaching a package;
 #' see \link{tinyoperations_import} \cr
 #' (3) Extending the string manipulation capabilities of the \code{stringi} R package;

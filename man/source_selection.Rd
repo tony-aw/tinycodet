@@ -94,5 +94,5 @@ temp.fun()
 
 }
 \seealso{
-\link{tinyoperations_import}, \code{\link[base:source]{base::source()}}
+\link{tinyoperations_misc}, \code{\link[base:source]{base::source()}}
 }

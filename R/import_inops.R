@@ -139,8 +139,7 @@ import_inops <- function(
         message("no infix operators in this alias")
         return(NULL)
       }
-      if(!is.null(exclude)){inops <- setdiff(inops, exclude)}
-      if(!is.null(include.only)){inops <- intersect(inops, include.only)}
+      inops <- .import_exclude_include(inops, exclude, include.only, abortcall = sys.call())
       if(length(inops)==0) {
         message("no infix operators to expose")
         return(NULL)
@@ -243,8 +242,7 @@ import_inops <- function(
   }
 
   operators <- grep("%|:=", names(ns), value=TRUE)
-  if(!is.null(exclude)){operators <- setdiff(operators, exclude)}
-  if(!is.null(include.only)){operators <- intersect(operators, include.only)}
+  operators <- .import_exclude_include(operators, exclude, include.only, abortcall = sys.call())
 
   if(isTRUE(length(operators)==0)){
     message("No infix operators to expose...")

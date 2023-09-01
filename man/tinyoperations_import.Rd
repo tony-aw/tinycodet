@@ -42,7 +42,6 @@ It does this by introducing the following functions: \cr
 \item \link{import_as}: Allow a main package + its re-exports + its dependencies + its enhances + its extensions to be loaded under a single alias. This essentially combines the attaching advantage of using multiple related packages, whilst keeping most advantages of aliasing a package.
 \item \link{import_inops}: Expose infix operators from a package or an alias object to the current environment. This gains the attaching advantage of less typing, whilst simultaneously avoiding the disadvantage of attaching functions from a package globally.
 \item \link{import_data}: Directly return a data set from a package, to allow straight-forward assignment.
-\item \link{source_selection}: Source a script, but only place the specified objects in the current environment.
 }
 
 There are also some additional helper functions for the package import system,
@@ -66,9 +65,6 @@ d <- import_data("starwars", "dplyr")
 d \%>\% tdt.$filter(species == "Droid") \%>\%
   tdt.$select(name, tdt.$ends_with("color"))
 
-# source only specific functions from a script:
-source_selection(list(file="sourcetest.R"), select = "helloworld")
-helloworld()
 }
 
 }

@@ -330,6 +330,10 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   Removed the renaming option in `source_selection()`, as I think it
   might cause problems. Slight speed improvements in some functions.
   Added the `is.tinyimport()` utility function.
+- 1 September 2023: Moved `source_selection()` to the “misc” category.
+  Specifying non-existing infix operators in the `exclude` or
+  `include.only` arguments of `import_inops()` will now produce a
+  warning message.
 
 FUTURE PLANS:
 
