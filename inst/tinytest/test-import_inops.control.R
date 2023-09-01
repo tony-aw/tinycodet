@@ -84,6 +84,24 @@ expect_error(
   pattern = "ALL prepared infix operators already exist in the current environment"
 )
 
+temp.fun <- function() {
+  import_as(stri., "stringi") |> suppressMessages()
+  import_inops(expose = stri., exclude = "%foo%")
+}
+expect_warning(
+  temp.fun(),
+  pattern = "The following exclusions are not present, and are ignored:"
+)
+
+temp.fun <- function() {
+  import_as(stri., "stringi") |> suppressMessages()
+  import_inops(expose = stri., include.only = "%foo%")
+}
+expect_warning(
+  temp.fun(),
+  pattern = "The following inclusions are not present, and are ignored:"
+)
+
 # pkgs import.inops ====
 
 temp.fun <- function(){
@@ -169,4 +187,19 @@ expect_error(
   pattern = "ALL prepared infix operators already exist in the current environment"
 )
 
+temp.fun <- function() {
+  import_inops("stringi", exclude = "%foo%")
+}
+expect_warning(
+  temp.fun(),
+  pattern = "The following exclusions are not present, and are ignored:"
+)
+
+temp.fun <- function() {
+  import_inops("stringi", include.only = "%foo%")
+}
+expect_warning(
+  temp.fun(),
+  pattern = "The following inclusions are not present, and are ignored:"
+)
 
