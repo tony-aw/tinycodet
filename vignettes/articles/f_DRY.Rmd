@@ -1,0 +1,119 @@
+---
+title: "Don't Repeat Yourself"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    number_sections: true
+vignette: >
+  %\VignetteIndexEntry{Don't Repeat Yourself}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(tinyoperations)
+```
+
+
+# The transform_if function
+
+"Don't Repeat Yourself", sometimes abbreviated as "DRY", is the coding principle that you should try to reduce repeating patterns in your code (within reason).
+
+Consider the following code:
+
+
+```{r echo=TRUE}
+object <- matrix(c(-9:8, NA, NA) , ncol=2)
+y <- 0
+z <- 1000
+ifelse(
+  is.na(object>y), -z,
+  ifelse(
+    object>y,  log(object), object^2
+  )
+)
+```
+
+
+Here a conditional subset of the object `object` is transformed where the condition is using a function referring to `object` itself. Consequently, reference to `object` is written 4 times! This can become cumbersome quickly. Notice also that the above code gives an unnecessary warning, due to `ifelse()` requiring the entirity of `log(object)`.
+
+
+The `tinyoperations` package therefore adds the `transform_if(x, cond, yes, no, other)` function, which will "dry" this up.
+Here, in argument `cond` a function must be given that returns a logical vector. For every value where `cond(x)==TRUE`, function `yes(x)` is run, for every value where `cond(x)==FALSE`, function `no(x)` is run, and for every value where `cond(x)==NA`, function `other` is run. Because a function-based approach is used instead of directly supplying vectors, unnecessary warnings and annoying errors are avoided (unlike the above code).
+
+The above code can now be re-written in a less warning/error prone and more compact manner as:
+
+```{r echo=TRUE}
+object |> transform_if(\(x)x>y, log, \(x)x^2, \(x) -z)
+```
+
+
+Instead of supplying a function for `cond`, one can also directly supply a logical vector to argument `cond`. Moreover, when the transformed value is an atomic scalar, you don't really need a function; you can just fill in the scalar (vectors are not allowed though, as that will lead the same unnecessary warnings or even annoying errors as occur with `ifelse()`).
+
+So one can thus also re-write the original code (without warnings/errors and more compact) as:
+
+```{r echo=TRUE}
+object |> transform_if(object > y, log, \(x)x^2, -z)
+```
+
+&nbsp;
+
+# Subset if and unreal replacement
+
+The `tinyoperations` package adds 2 "subset_if" operators:
+
+ - The `x %[if]% cond` operator selects elements from vector/matrix/array `x`, for which the result of `cond(x)` returns `TRUE`.
+
+ - The `x %[!if]% cond` operator selects elements from vector/matrix/array `x`, for which the result of `cond(x)` returns `FALSE`.
+
+For example:
+
+```{r}
+object_with_very_long_name <- matrix(-10:9, ncol=2)
+print(object_with_very_long_name)
+object_with_very_long_name %[if]% \(x)x %in% 1:10
+object_with_very_long_name %[!if]% \(x)x %in% 1:10
+```
+
+&nbsp;
+
+Another operator added by `tinyoperations` is `x %unreal =% y`, which replaces all NA, NaN, Inf and -Inf in `x` with the value given in `y`.
+
+So `x %unreal =% y` is the same as `x[is.na(x)|is.nan(x)|is.infinite(x)] <- y`.
+
+
+&nbsp;
+
+
+# Generalized in-place modifier
+
+
+This R package includes a general in-place modifying infix operator.
+
+Consider the following line of code:
+
+```{r eval=FALSE}
+mtcars$mpg[mtcars$cyl>6] <- mtcars$mpg[mtcars$cyl>6]^2
+```
+
+The same expression, `mtcars$mpg[mtcars$cyl>6]`, is written twice, making this code rather long and cumbersome, even though we're just squaring the expression. 
+
+This R package solves the above laid-out problem by implementing a generalized in-place (mathematical) modifier, through the `x %:=% f` operator.
+
+With `tinyoperations` one can now make this more compact (more "tiny", if you will) as follows:
+
+```{r eval=FALSE}
+mtcars$mpg[mtcars$cyl>6] %:=% \(x)x^2
+```
+
+
+
+&nbsp;
+
