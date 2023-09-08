@@ -1,0 +1,18 @@
+pandoc: 3.1.1
+pkgdown: 2.0.7
+pkgdown_sha: ~
+articles:
+  a_safer: a_safer.html
+  b_import_main: b_import_main.html
+  c_import_additional: c_import_additional.html
+  d_strings_functions: d_strings_functions.html
+  e_strings_inops: e_strings_inops.html
+  f_DRY: f_DRY.html
+  g_misc: g_misc.html
+  h_otherpkgs: h_otherpkgs.html
+  tinyoperations: tinyoperations.html
+last_built: 2023-09-08T17:32Z
+urls:
+  reference: https://tony-aw.github.io/tinyoperations/reference
+  article: https://tony-aw.github.io/tinyoperations/articles
+
