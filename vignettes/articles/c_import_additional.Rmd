@@ -1,0 +1,191 @@
+---
+title: "Import system - additional details"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    number_sections: true
+vignette: >
+  %\VignetteIndexEntry{Import system - additional details}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(tinyoperations)
+```
+
+&nbsp;
+
+# Introduction
+
+The previous article, "Import system - main functions", discussed the main functions of the import system. Please read that article first before reading this article.
+
+&nbsp;
+
+# Miscellaneous import_ - functions
+
+Beside the main `import_` functions (`import_as()`, `import_inops()`, and `import_data()`), there are 2 miscellaneous `import_` functions: `import_LL()` and `import_int()`.
+
+&nbsp;
+
+The `import_LL()` function places specific functions from a package in the current environment, and also locks the specified functions to prevent modification.
+The primary use-case for this function is for loading functions inside a local environment, like the environment within a function. ("LL" stands for "Local & Locked".)
+
+Example:
+
+```{r}
+rm(list = ls())
+import_LL("tidytable", "across")
+ls() # notice `accross` is now exposed in this environment
+```
+
+&nbsp;
+
+The `import_int()` function directly returns an internal function from a package. It is similar to the `:::` operator, but with 2 key differences:
+
+ 1) It it allows the user to explicitly set a library location through the `lib.loc` argument.
+ 2) It only searches internal functions, not exported ones. This makes it clearer in your code that you're using an internal function, instead of making it ambiguous.
+
+The main argument is the `form` argument, which is a 2-sided formula with one term on each side, the left term giving the package name and the right term giving the name of the internal function.
+
+Example:
+
+```{r}
+# Using through re-assignment:
+fun <- import_int(tinyoperations ~ .internal_paste, .libPaths())
+fun("hello", "world")
+
+# Or using directly:
+import_int(
+  tinyoperations ~ .internal_paste, .libPaths()
+)("hello", "world")
+
+```
+
+
+&nbsp;
+
+# S3 methods: they just work
+
+When importing packages with `tinyoperations`' import system, S3 methods will work just fine. For example, the S3 method " `plot()` " works with objects from the `mgcv` R package, even when loaded in an alias:
+
+```{r}
+import_as(~ mgcv., "mgcv") |> suppressMessages()
+d <- import_data("gamair", "chicago")
+
+# just a random model for the sake of demonstration:
+model <- mgcv.$gam(death ~ s(o3median), data=d)
+isS3method(f="plot", class="gam") # this is an S3 method
+plot(model)
+```
+
+Also, S3 methods defined in the package will automatically be registered, and thus automatically work. For example, the following code just works:
+
+```{r}
+import_as(~ dpr., "dplyr") |> suppressMessages()
+import_inops("magrittr") |> suppressMessages()
+d <- import_data("dplyr", "starwars")
+d <- d %>% dpr.$group_by(species)
+
+isS3method(f="arrange", class="data.frame", envir = dpr.) # this is an S3 method
+isS3method(f="relocate", class="data.frame", envir = dpr.) # this is an S3 method
+# this works:
+d %>%
+  dpr.$arrange(dpr.$desc(mass)) %>%
+  dpr.$relocate(species, mass)
+```
+
+So when importing packages, everything works as expected, including S3 methods.
+
+&nbsp;
+
+# lib.loc and project isolation
+
+All `import_` - functions have the `lib.loc` argument, that allows the user to specify exactly from which folder to take packages from. Thus, the import system from `tinyoperations` allows for simple and straight-forward project isolation (and thus also version control), just like base R's `loadNamespace()` function.
+
+&nbsp;
+
+# Alias attributes
+
+One may have noticed in the "Import system - main functions" article, that aliasing a package like so:
+
+```{r}
+import_as(~ tdt., "tidytable", re_exports = TRUE, dependencies = "data.table")
+```
+
+... produces several messages, including the message "For conflicts report, packages order, and other attributes, run `attr.import(tdt.)`".
+
+The `attr.import()` function allows the user to access the special attributes stored and locked inside the alias object. These attributes show which loaded package overwrites which loaded functions, in what order the packages are loaded and so on.
+
+Here are some examples.
+
+Show the packages loaded under the alias, and in which order the packages are loaded, and from which packages the re-exported functions came from:
+
+```{r}
+attr.import(tdt., "pkgs")
+```
+
+Show which functions from which packages "win" conflicts:
+
+```{r}
+attr.import(tdt., "conflicts")|> knitr::kable()
+```
+
+Show the versions of the R packages loaded:
+
+```{r}
+attr.import(tdt., "versions")|> knitr::kable()
+```
+
+Show the arguments used in the `import_as()` call that produced the alias object in question:
+
+```{r}
+attr.import(tdt., "args")
+```
+
+
+The help file on `attr.import()` provides more details on each of these options.
+
+&nbsp;
+
+
+# help.import
+
+The `help.import()` function gets the help file for a function `i` (or topic string `i`), even if the function is inside an alias object, or if the function is an unattached function (like exposed infix operators).
+
+Example:
+
+```{r eval=FALSE}
+import_as(~ mr., "magrittr")
+import_inops(mr.)
+
+help.import(i=mr.$add)
+help.import(i=`%>%`)
+help.import(i="add", alias=mr.)
+```
+
+
+&nbsp;
+
+# Miscellaneous comments on package imports
+
+
+The [magrittr](https://github.com/tidyverse/magrittr) and [rlang](https://github.com/r-lib/rlang) packages add "pronouns" to R: `.`, `. data`, `.env`. Fret not, for pronouns work regardless if you attached a package or not. And you don't need to use something like `rlang::.data` or `rlang.$.data` for a pronoun to work. They just work.
+
+&nbsp;
+
+
+There are some additional miscellaneous functions related to the package import system that should perhaps be mentioned also:
+
+ - the `pkg_get_deps()` function gets the dependencies (or the enhances) of a package, regardless if the package is CRAN or non-CRAN. See the help file for details.
+ - the `pkgs %installed in% lib.loc` operator checks if the packages specified in character vector `pkgs` are installed in library paths `lib.loc`, and does this without attaching or even loading the packages.
+
+&nbsp;
+
