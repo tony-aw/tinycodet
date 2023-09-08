@@ -932,14 +932,28 @@ functions. Added the <code>is.tinyimport()</code> utility function.</li>
 “misc” category. Specifying non-existing infix operators in the
 <code>exclude</code> or <code>include.only</code> arguments of
 <code>import_inops()</code> will now produce a warning message.</li>
+<li>8 September 2023: Removed Non-Standard Evaluation in
+<code>alias</code> argument of <code>import_as()</code>;
+<code>alias</code> can now instead by specified as either a string or a
+one-sided formula with a single term. Added two miscellaneous
+<code>import_</code> functions: <code>import_LL()</code> and
+<code>import_int()</code>; <code>import_inops()</code> therefore now
+also takes exposed functions from <code>import_LL()</code> into
+consideration. Changed the argument order in <code>import_data()</code>
+to be more consistent with the other <code>import_</code> - functions.
+Made sure all <code>import_</code> - functions have proper library
+location checks. Changed the documentation and website in accordance
+with the aforementioned changes. Fixed some spelling errors in the
+documentation. Added more tests (almost 700 tests now; so approximately
+10 tests per function on average). Added more examples to the
+documentation.</li>
 </ul>
 <p>FUTURE PLANS:</p>
 <p>I believe <code>tinyoperations</code> is slowly getting closer to
 becoming stable. There does not appear a need to add/remove many more
 functions/operators, although some functions, operators or arguments may
 need to be tweaked and/or optimized. Once I am fully satisfied with the
-R package (which may take a while, as I am a bit of a perfectionist), I
-may attempt to publish this R package to CRAN.</p>
+R package, I may attempt to publish this R package to CRAN.</p>
 <p> </p>
 
 </body>

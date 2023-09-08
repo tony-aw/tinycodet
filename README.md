@@ -334,6 +334,19 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   Specifying non-existing infix operators in the `exclude` or
   `include.only` arguments of `import_inops()` will now produce a
   warning message.
+- 8 September 2023: Removed Non-Standard Evaluation in `alias` argument
+  of `import_as()`; `alias` can now instead by specified as either a
+  string or a one-sided formula with a single term. Added two
+  miscellaneous `import_` functions: `import_LL()` and `import_int()`;
+  `import_inops()` therefore now also takes exposed functions from
+  `import_LL()` into consideration. Changed the argument order in
+  `import_data()` to be more consistent with the other `import_` -
+  functions. Made sure all `import_` - functions have proper library
+  location checks. Changed the documentation and website in accordance
+  with the aforementioned changes. Fixed some spelling errors in the
+  documentation. Added more tests (almost 700 tests now; so
+  approximately 10 tests per function on average). Added more examples
+  to the documentation.
 
 FUTURE PLANS:
 
@@ -341,7 +354,6 @@ I believe `tinyoperations` is slowly getting closer to becoming stable.
 There does not appear a need to add/remove many more
 functions/operators, although some functions, operators or arguments may
 need to be tweaked and/or optimized. Once I am fully satisfied with the
-R package (which may take a while, as I am a bit of a perfectionist), I
-may attempt to publish this R package to CRAN.
+R package, I may attempt to publish this R package to CRAN.
 
  
