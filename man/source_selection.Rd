@@ -54,7 +54,7 @@ The objects to be selected can be specified using any combination of the followi
 
 Note that the \code{source_selection()} function does NOT suppress output
 (i.e. plots, prints, messages)
-from the sourced module file. \cr
+from the sourced script file. \cr
 }
 \details{
 One can specify which objects to expose using arguments

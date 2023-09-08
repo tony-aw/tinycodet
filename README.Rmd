@@ -35,7 +35,7 @@ set.seed(1)
 The `tinyoperations` R-package adds some functions and infix operators to help in your programming etiquette. It primarily focuses on 4 things:
 
  1) Safer decimal (in)equality testing, safer atomic conversions, and other functions for safer coding.
- 2) A new package and module import system, that combines the benefits of aliasing a package with the benefits of attaching a package.
+ 2) A new package import system, that combines the benefits of aliasing a package with the benefits of attaching a package.
  3) Extending the string manipulation capabilities of the `stringi` R package. 
  4) Reducing repetitive code.
 

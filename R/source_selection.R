@@ -15,7 +15,7 @@
 #'
 #' Note that the \code{source_selection()} function does NOT suppress output
 #' (i.e. plots, prints, messages)
-#' from the sourced module file. \cr
+#' from the sourced script file. \cr
 #'
 #' @param lst a named list, giving the arguments to be passed to the
 #' \link[base]{source} function. \cr
@@ -159,7 +159,7 @@ source_selection <- function(
     methodnames <- .source_getmethodnames(fun_names, regex, fixed)
 
     if(length(methodnames) == 0) {
-      warning("no appropriate matches found in sourced module")
+      warning("no appropriate matches found in sourced script")
     }
     if(length(methodnames) > 0) {
       methods_used <- TRUE
