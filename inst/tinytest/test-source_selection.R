@@ -127,4 +127,13 @@ expect_error(source_selection(list(exprs=exprs), select = c("foo", "bar")),
                            ))
 
 
+# check warnings regarding pattern matches ====
+expect_warning(
+  source_selection(list(exprs = exprs), regex = "bla"),
+  pattern = "no appropriate matches found in sourced script"
+)
+expect_warning(
+  source_selection(list(exprs = exprs), fixed = "bla"),
+  pattern = "no appropriate matches found in sourced script"
+)
 
