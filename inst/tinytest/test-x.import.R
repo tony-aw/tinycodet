@@ -1,5 +1,5 @@
 
-import_as(stri., "stringi")
+import_as(~stri., "stringi")
 
 # attr.import ====
 myattr <- attr.import(stri.)
@@ -57,6 +57,13 @@ tempfun <- function() {
   return(is.tinyimport(`%stri===%`))
 }
 expect_true(tempfun())
+
+tempfun <- function() {
+  import_LL("stringi", "stri_detect")
+  return(is.tinyimport(stri_detect))
+}
+expect_true(tempfun())
+
 tempfun <- function() {
   `%stri===%` <- stringi:::`%stri===%`
   return(is.tinyimport(`%stri===%`))

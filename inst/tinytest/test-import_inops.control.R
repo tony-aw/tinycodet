@@ -2,7 +2,7 @@
 
 # alias import.inops ====
 temp.fun <- function() {
-  import_as(stri., "stringi")
+  import_as(~stri., "stringi")
   import_inops(expose = stri., overwrite = NA, inherits = FALSE)
 }
 expect_error(
@@ -11,7 +11,7 @@ expect_error(
 )
 
 temp.fun <- function() {
-  import_as(stri., "stringi")
+  import_as(~stri., "stringi")
   import_inops(expose = stri., overwrite=c(TRUE, FALSE), inherits = FALSE)
 }
 expect_error(
@@ -20,7 +20,7 @@ expect_error(
 )
 
 temp.fun <- function() {
-  import_as(stri., "stringi")
+  import_as(~stri., "stringi")
   import_inops(expose = stri., overwrite = TRUE, inherits = NA)
 }
 expect_error(
@@ -29,7 +29,7 @@ expect_error(
 )
 
 temp.fun <- function() {
-  import_as(stri., "stringi")
+  import_as(~stri., "stringi")
   import_inops(expose = stri., overwrite = TRUE, inherits = c(TRUE, FALSE))
 }
 expect_error(
@@ -38,7 +38,7 @@ expect_error(
 )
 
 temp.fun <- function() {
-  import_as(stri., "stringi")
+  import_as(~stri., "stringi")
   import_inops(expose = stri., include.only="%stri+%", exclude = "%stri*%")
 }
 expect_error(
@@ -47,25 +47,61 @@ expect_error(
 )
 
 temp.fun <- function() {
-  import_as(stri., "stringi")
+  import_as(~stri., "stringi")
   import_inops(expose = stri., exclude = "")
 }
 expect_error(
   temp.fun(),
-  pattern = "`exclude` must be a character vector with function names"
+  pattern = "`exclude` must be a character vector of unique function names"
 )
 
 temp.fun <- function() {
-  import_as(stri., "stringi")
+  import_as(~stri., "stringi")
   import_inops(expose = stri., include.only="")
 }
 expect_error(
   temp.fun(),
-  pattern = "`include.only` must be a character vector with function names"
+  pattern = "`include.only` must be a character vector of unique function names"
 )
 
 temp.fun <- function() {
-  import_as(stri., "stringi")
+  import_as(~stri., "stringi")
+  import_inops(expose = stri., exclude = c("%stri+%", "%stri+%"))
+}
+expect_error(
+  temp.fun(),
+  pattern = "`exclude` must be a character vector of unique function names"
+)
+
+temp.fun <- function() {
+  import_as(~stri., "stringi")
+  import_inops(expose = stri., include.only = c("%stri+%", "%stri+%"))
+}
+expect_error(
+  temp.fun(),
+  pattern = "`include.only` must be a character vector of unique function names"
+)
+
+temp.fun <- function() {
+  import_as(~stri., "stringi")
+  import_inops(expose = stri., exclude = 1)
+}
+expect_error(
+  temp.fun(),
+  pattern = "`exclude` must be a character vector of unique function names"
+)
+
+temp.fun <- function() {
+  import_as(~stri., "stringi")
+  import_inops(expose = stri., include.only = 2)
+}
+expect_error(
+  temp.fun(),
+  pattern = "`include.only` must be a character vector of unique function names"
+)
+
+temp.fun <- function() {
+  import_as(~stri., "stringi")
   import_inops(expose = stri.)
   import_inops(expose = stri., overwrite = FALSE, inherits=FALSE)
 }
@@ -75,7 +111,7 @@ expect_error(
 )
 
 temp.fun <- function() {
-  import_as(stri., "stringi")
+  import_as(~stri., "stringi")
   import_inops(expose = stri.)
   import_inops(expose = stri., overwrite = FALSE, inherits=TRUE)
 }
@@ -85,7 +121,7 @@ expect_error(
 )
 
 temp.fun <- function() {
-  import_as(stri., "stringi") |> suppressMessages()
+  import_as(~stri., "stringi") |> suppressMessages()
   import_inops(expose = stri., exclude = "%foo%")
 }
 expect_warning(
@@ -94,7 +130,7 @@ expect_warning(
 )
 
 temp.fun <- function() {
-  import_as(stri., "stringi") |> suppressMessages()
+  import_as(~stri., "stringi") |> suppressMessages()
   import_inops(expose = stri., include.only = "%foo%")
 }
 expect_warning(
@@ -155,7 +191,7 @@ temp.fun <- function(){
 }
 expect_error(
   temp.fun(),
-  pattern = "`exclude` must be a character vector with function names"
+  pattern = "`exclude` must be a character vector of unique function names"
 )
 
 temp.fun <- function(){
@@ -164,8 +200,45 @@ temp.fun <- function(){
 }
 expect_error(
   temp.fun(),
-  pattern = "`include.only` must be a character vector with function names"
+  pattern = "`include.only` must be a character vector of unique function names"
 )
+
+temp.fun <- function(){
+  import_inops("stringi", exclude = c("%stri+%", "%stri+%"))
+  ls()
+}
+expect_error(
+  temp.fun(),
+  pattern = "`exclude` must be a character vector of unique function names"
+)
+
+temp.fun <- function(){
+  import_inops("stringi", include.only = c("%stri+%", "%stri+%"))
+  ls()
+}
+expect_error(
+  temp.fun(),
+  pattern = "`include.only` must be a character vector of unique function names"
+)
+
+temp.fun <- function(){
+  import_inops("stringi", exclude = 1)
+  ls()
+}
+expect_error(
+  temp.fun(),
+  pattern = "`exclude` must be a character vector of unique function names"
+)
+
+temp.fun <- function(){
+  import_inops("stringi", include.only = 1)
+  ls()
+}
+expect_error(
+  temp.fun(),
+  pattern = "`include.only` must be a character vector of unique function names"
+)
+
 
 temp.fun <- function(){
   suppressWarnings(import_inops("stringi"))

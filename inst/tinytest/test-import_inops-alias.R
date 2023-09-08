@@ -2,7 +2,7 @@
 # test import_inops - importing ====
 stri <- grep(":=|%", loadNamespace("stringi") |> getNamespaceExports(), value = TRUE)
 temp.fun <- function() {
-  import_as(stri., "stringi")
+  import_as(~stri., "stringi")
   import_inops(expose=stri.)
   ls() |> sort()
 }
@@ -10,7 +10,7 @@ expect_equal(temp.fun()|>sort(), sort(c(stri, "stri.")))
 
 stri <- grep(":=|%", loadNamespace("stringi") |> getNamespaceExports(), value = TRUE)
 temp.fun <- function() {
-  import_as(stri., "stringi")
+  import_as(~stri., "stringi")
   import_inops( expose=stri., include.only = "%stri+%")
   ls() |> sort()
 }
@@ -19,7 +19,7 @@ expect_equal(temp.fun()|>sort(), sort(c("%stri+%", "stri.")))
 stri <- grep(":=|%", loadNamespace("stringi") |> getNamespaceExports(), value = TRUE)
 stri <- setdiff(stri, "%stri+%")
 temp.fun <- function() {
-  import_as(stri., "stringi")
+  import_as(~stri., "stringi")
   import_inops( expose=stri., exclude = "%stri+%")
   ls() |> sort()
 }
@@ -28,7 +28,7 @@ expect_equal(temp.fun()|>sort(), sort(c(stri, "stri.")))
 
 # test import_inops - deleting ====
 temp.fun <- function() {
-  import_as(stri., "stringi")
+  import_as(~stri., "stringi")
   import_inops(expose = stri.)
   import_inops(unexpose = stri.)
   ls() |> sort()
@@ -38,7 +38,7 @@ expect_equal(temp.fun(), "stri.")
 
 # test import_inops() - functional functions ====
 temp.fun <- function(){
-  import_as(stri., "stringi")
+  import_as(~stri., "stringi")
   import_inops(expose = stri.)
   return("a" %stri+% "b")
 }
@@ -47,7 +47,7 @@ expect_equal(temp.fun(), "ab")
 
 # test import_inops - error checks ====
 temp.fun <- function() {
-  import_as(stri., "stringi")
+  import_as(~stri., "stringi")
   import_inops(expose = stri., unexpose = stri.)
 }
 expect_error(
@@ -57,7 +57,7 @@ expect_error(
 )
 
 temp.fun <- function() {
-  import_as(stri., "stringi")
+  import_as(~stri., "stringi")
   import_inops(expose = NA)
 }
 expect_error(
@@ -67,7 +67,7 @@ expect_error(
 )
 
 temp.fun <- function() {
-  import_as(stri., "stringi")
+  import_as(~stri., "stringi")
   import_inops(unexpose = NA)
 }
 expect_error(
@@ -97,7 +97,7 @@ expect_error(
 
 # test import_inops - warning checks ====
 temp.fun <- function() {
-  import_as(stri., "stringi")
+  import_as(~stri., "stringi")
   import_inops(expose = stri.)  |> suppressWarnings()
   import_inops(expose = stri., overwrite = TRUE, inherits=FALSE)
 }
@@ -105,4 +105,3 @@ expect_warning(
   temp.fun(),
   pattern = "ALL prepared infix operators already exist in the current environment"
 )
-
