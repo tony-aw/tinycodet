@@ -49,11 +49,6 @@ expect_error(
 )
 
 expect_error(
-  import_as(~p1., "stringi", enhances = "data.table"),
-  pattern = "The following given enhances were not found to be actual enhances"
-)
-
-expect_error(
   import_as(~p1., "stringi", extensions = "data.table"),
   pattern = "The following given extensions were not found to be actual reverse dependencies"
 )

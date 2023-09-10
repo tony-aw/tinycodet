@@ -21,10 +21,6 @@ expect_error(
   pattern = "The following given dependencies were not found to be actual dependencies"
 )
 
-expect_error(
-  import_as(~p1., "tinyoperationsfakepkg1", lib.loc=c(lib.loc, .libPaths()), enhances = "data.table"),
-  pattern = "The following given enhances were not found to be actual enhances"
-)
 
 expect_error(
   import_as(~p1., "tinyoperationsfakepkg1", lib.loc=c(lib.loc, .libPaths()), extensions = "data.table"),
@@ -41,12 +37,6 @@ expect_error(
                    dupli_pkg)
 )
 
-expect_error(
-  import_as(~p1., "tinyoperationsfakepkg1", lib.loc=c(lib.loc, .libPaths()),
-            enhances = rep(dupli_pkg, 2)),
-  pattern = paste0("The following duplicate enhances given:", "\n",
-                   dupli_pkg)
-)
 
 expect_error(
   import_as(~p1., "tinyoperationsfakepkg1", lib.loc=c(lib.loc, .libPaths()),
@@ -63,12 +53,6 @@ expect_error(
                    dupli_pkg)
 )
 
-expect_error(
-  import_as(~p1., "tinyoperationsfakepkg1", lib.loc=c(lib.loc, .libPaths()),
-            enhances = rep(dupli_pkg, 2)),
-  pattern = paste0("The following duplicate enhances given:", "\n",
-                   dupli_pkg)
-)
 
 expect_error(
   import_as(~p1., "tinyoperationsfakepkg1", lib.loc=c(lib.loc, .libPaths()),
@@ -123,18 +107,6 @@ expect_error(
   fixed = TRUE
 )
 
-expect_error(
-  import_as(~p1., "tinyoperationsfakepkg1", enhances = "tinyoperationsfakepkg3", lib.loc=lib.loc3),
-  pattern = "The following enhances are not installed",
-  fixed = TRUE
-)
-
-expect_error(
-  import_as(~p2., "tinyoperationsfakepkg2", enhances = "tinyoperationsfakepkg3", lib.loc=lib.loc3),
-  pattern = "The following enhances are not installed",
-  fixed = TRUE
-)
-
 
 # test import_as - re-exports ====
 import_as(
@@ -177,32 +149,6 @@ expect_equal(
 expect_equal(
   p3.$.__attributes__.$pkgs$packages_order,
   c("tinyoperationsfakepkg1", "tinyoperationsfakepkg2", "tinyoperationsfakepkg3")
-)
-
-
-# test import_as - enhances ====
-import_as(
-  ~ p3., "tinyoperationsfakepkg1",
-  enhances = "tinyoperationsfakepkg3",
-  lib.loc=lib.loc
-)
-p3 <- c(
-  "fun_overwritten", "%opover%",
-  "fun11", "fun12", "%op11%", "%op12%",
-  "fun31", "fun32", "%op31%", "%op32%"
-)
-out <- setdiff(names(p3.), ".__attributes__.") |> sort()
-
-expect_equal(out,  sort(p3))
-
-expect_equal(
-  p3.$.__attributes__.$conflicts$package,
-  c("tinyoperationsfakepkg1 + re-exports", "tinyoperationsfakepkg3")
-)
-
-expect_equal(
-  p3.$.__attributes__.$pkgs$packages_order,
-  c("tinyoperationsfakepkg1", "tinyoperationsfakepkg3")
 )
 
 
@@ -266,7 +212,7 @@ import_as(
   re_exports = TRUE,
   dependencies=c("tinyoperationsfakepkg1", "tinyoperationsfakepkg2"),
   lib.loc=lib.loc,
-  loadorder = c("main_package", "dependencies", "enhances", "extensions")
+  loadorder = c("main_package", "dependencies", "extensions")
 ) |> suppressMessages()
 p3 <- data.frame(
   package=c("tinyoperationsfakepkg3 + re-exports", "tinyoperationsfakepkg1", "tinyoperationsfakepkg2"),
@@ -291,7 +237,7 @@ import_as(
   ~ new., "tinyoperationsfakepkg3",
   re_exports = FALSE,
   dependencies = c("tinyoperationsfakepkg2", "tinyoperationsfakepkg1"),
-  loadorder = c("main_package", "dependencies", "enhances", "extensions"),
+  loadorder = c("main_package", "dependencies", "extensions"),
   lib.loc = lib.loc
 )  |> suppressMessages()
 expect_equal(
@@ -308,18 +254,18 @@ expect_equal(
 )
 
 import_as(
-  ~ new., "tinyoperationsfakepkg3",
+  ~ new., "tinyoperationsfakepkg1",
   re_exports = FALSE,
-  dependencies = c("tinyoperationsfakepkg1", "tinyoperationsfakepkg2"),
-  loadorder = c("main_package", "dependencies", "enhances", "extensions"),
+  extensions = c("tinyoperationsfakepkg3"),
+  loadorder = c("extensions", "main_package", "dependencies"),
   lib.loc = lib.loc
 ) |> suppressMessages()
 expect_equal(
   new.$.__attributes__.$pkgs$packages_order,
-  c("tinyoperationsfakepkg3", "tinyoperationsfakepkg1",  "tinyoperationsfakepkg2")
+  c("tinyoperationsfakepkg3", "tinyoperationsfakepkg1")
 )
 ordered_object_names <- sapply(
-  c("tinyoperationsfakepkg3", "tinyoperationsfakepkg1",  "tinyoperationsfakepkg2"),
+  c("tinyoperationsfakepkg3", "tinyoperationsfakepkg1"),
   \(x)pkg_lsf(x, type = "all", lib.loc = lib.loc)
 ) |> as.character() |> unique()
 expect_equal(
@@ -330,16 +276,15 @@ expect_equal(
 import_as(
   ~ new., "tinyoperationsfakepkg1",
   re_exports = FALSE,
-  enhances = c("tinyoperationsfakepkg3"),
-  loadorder = c("enhances", "main_package", "dependencies", "extensions"),
+  loadorder = c("main_package", "dependencies", "extensions"),
   lib.loc = lib.loc
 ) |> suppressMessages()
 expect_equal(
   new.$.__attributes__.$pkgs$packages_order,
-  c("tinyoperationsfakepkg3", "tinyoperationsfakepkg1")
+  c("tinyoperationsfakepkg1")
 )
 ordered_object_names <- sapply(
-  c("tinyoperationsfakepkg3", "tinyoperationsfakepkg1"),
+  c("tinyoperationsfakepkg1"),
   \(x)pkg_lsf(x, type = "all", lib.loc = lib.loc)
 ) |> as.character() |> unique()
 expect_equal(
