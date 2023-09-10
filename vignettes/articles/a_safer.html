@@ -347,26 +347,17 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <code>%d==%, %d!=% %d&lt;%, %d&gt;%, %d&lt;=%, %d&gt;=%</code>
 (in)equality operators, which perform safer decimal number truth
 testing. They are virtually equivalent to the regular (in)equality
-operators, <code>==, !=, &lt;, &gt;, &lt;=, &gt;=</code>, except for two
-aspects.</p>
-<p>First: The decimal number truth testing operators assume that if the
+operators, <code>==, !=, &lt;, &gt;, &lt;=, &gt;=</code>, except for one
+aspect.</p>
+<p>The decimal number truth testing operators assume that if the
 absolute difference between <code>x</code> and <code>y</code> is smaller
 than the Machine tolerance, <code>sqrt(.Machine$double.eps)</code>, then
 <code>x</code> and <code>y</code> ought to be consider to be equal.</p>
-<p>Second: The decimal number (in)equality operators do NOT allow vector
-recycling. When comparing any two numbers <code>x</code> and
-<code>y</code>, they must be of equal length, or one of them must be a
-scalar (i.e. length of 1). Otherwise, an error is returned.</p>
 <p>Thus these provide safer decimal number (in)equality operators.</p>
 <p>For example: <code>(0.1*7) == 0.7</code> returns <code>FALSE</code>,
 even though they are equal, due to the way decimal numbers are stored in
 programming languages like <code>R</code>, <code>Python</code>, etc. But
 <code>(0.1*7) %d==% 0.7</code> returns <code>TRUE</code>.</p>
-<p>Another example: <code>1:10 == c(4, 6)</code> is silently transformed
-to <code>1:10 == rep(c(4, 6), each = 5)</code>, and thus gives
-<code>c(rep(FALSE, 5), TRUE, rep(FALSE, 4))</code>; this may not be what
-the user wants. But <code>1:10 %d==% c(4, 6)</code> prevents this by
-returning an error instead.</p>
 <p>Some examples:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.3</span>, <span class="fl">0.6</span>, <span class="fl">0.7</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.1</span><span class="sc">*</span><span class="dv">3</span>, <span class="fl">0.1</span><span class="sc">*</span><span class="dv">6</span>, <span class="fl">0.1</span><span class="sc">*</span><span class="dv">7</span>)</span>
@@ -392,13 +383,7 @@ returning an error instead.</p>
 <span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a>x <span class="sc">%d&lt;=%</span> y <span class="co"># correct</span></span>
 <span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a><span class="co">#&gt; [1] TRUE TRUE TRUE</span></span>
 <span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a>x <span class="sc">%d&gt;=%</span> y <span class="co"># correct</span></span>
-<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a><span class="co">#&gt; [1] TRUE TRUE TRUE</span></span>
-<span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a></span>
-<span id="cb2-27"><a href="#cb2-27" tabindex="-1"></a>tinytest<span class="sc">::</span><span class="fu">expect_error</span>(</span>
-<span id="cb2-28"><a href="#cb2-28" tabindex="-1"></a>  <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span> <span class="sc">%d==%</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span> <span class="co"># recycling not allowed for your own safety, thus gives error</span></span>
-<span id="cb2-29"><a href="#cb2-29" tabindex="-1"></a>)</span>
-<span id="cb2-30"><a href="#cb2-30" tabindex="-1"></a><span class="co">#&gt; ----- PASSED      : &lt;--&gt;</span></span>
-<span id="cb2-31"><a href="#cb2-31" tabindex="-1"></a><span class="co">#&gt;  call| tinytest::expect_error(1:2 %d==% 1:3)</span></span></code></pre></div>
+<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a><span class="co">#&gt; [1] TRUE TRUE TRUE</span></span></code></pre></div>
 <p> </p>
 <p>There are also the <code>x %d{}% bnd</code> and
 <code>x %d!{}% bnd</code> operators, where <code>bnd</code> is a vector
