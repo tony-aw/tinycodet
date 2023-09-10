@@ -1,10 +1,10 @@
-#' Load main package + its re-exports + its dependencies + its enhances + its extensions under one alias
+#' Load main package + its re-exports + its dependencies + its extensions under one alias
 #'
 #' @description
 #'
 #' The \code{import_as()} function
 #' imports the namespace of an R package,
-#' and optionally also its re-exports, dependencies, enhances, and extensions,
+#' and optionally also its re-exports, dependencies, and extensions,
 #' all under the same alias.
 #' The specified alias will be placed in the current environment
 #' (like the global environment, or the environment within a function). \cr
@@ -35,26 +35,21 @@
 #' \code{main_package} to be loaded also under the alias. \cr
 #' Defaults to \code{NULL}, which means no dependencies are loaded. \cr
 #' See \link{pkg_get_deps} to quickly get dependencies from a package.
-#' @param enhances an optional character vector,
-#' giving the names of the packages enhanced by the
-#' \code{main_package} to be loaded also under the alias. \cr
-#' Defaults to \code{NULL}, which means no enhances are loaded.
 #' @param extensions an optional character vector,
 #' giving the names of the extensions of the
 #' \code{main_package} to be loaded also under the alias. \cr
 #' Defaults to \code{NULL}, which means no extensions are loaded.
 #' @param loadorder the character vector \cr
-#' \code{c("dependencies", "main_package", "enhances", "extensions")}, \cr
+#' \code{c("dependencies", "main_package", "extensions")}, \cr
 #' or some re-ordering of this character vector,
 #' giving the relative load order of the groups of packages. \cr
 #' The default setting (which is highly recommended) is the character vector \cr
-#' \code{c("dependencies", "main_package", "enhances", "extensions")}, \cr
+#' \code{c("dependencies", "main_package", "extensions")}, \cr
 #' which results in the following load order: \cr
 #'  1) The dependencies, \bold{in the order specified by the \code{depenencies} argument}. \cr
 #'  2) The main_package (see argument \code{main_package}),
 #' including re-exports (if \code{re_exports=TRUE}). \cr
-#'  3) The enhances, \bold{in the order specified by the \code{enhances} argument}. \cr
-#'  4) The extensions, \bold{in the order specified by the \code{extensions} argument}.
+#'  3) The extensions, \bold{in the order specified by the \code{extensions} argument}.
 #' @param lib.loc character vector specifying library search path
 #' (the location of R library trees to search through). \cr
 #' The \code{lib.loc} argument would usually be \code{.libPaths()}. \cr
@@ -62,13 +57,11 @@
 #'
 #'
 #' @details
-#' \bold{On the \code{dependencies}, \code{enhances} and \code{extensions} arguments} \cr
+#' \bold{On the \code{dependencies} and \code{extensions} arguments} \cr
 #'
 #'  * \code{dependencies}: "Dependencies" here are defined as any package appearing in the
 #' "Depends", "Imports", or "LinkingTo" fields of the Description file of the
 #' \code{main_package}. So no recursive dependencies.
-#'  * \code{enhances}: Enhances are defined as packages appearing in the "Enhances" field
-#' of the Description file of the \code{main_package}. \cr
 #'  * \code{extensions}: "Extensions" here are defined as reverse-depends or reverse-imports.
 #' It does not matter if these are CRAN or non-CRAN packages.
 #' However, the intended meaning of an extension is not merely being a reverse dependency,
@@ -76,7 +69,7 @@
 #'
 #' As implied in the description of the \code{loadorder} argument,
 #' the order of the character vectors given in the
-#' \code{dependencies}, \code{enhances}, and \code{extensions} arguments
+#' \code{dependencies}, and \code{extensions} arguments
 #' matter: \cr
 #' If multiple packages share objects with the same name,
 #' the objects of the package named last will overwrite those of the earlier named packages. \cr
@@ -121,9 +114,9 @@
 #' @export
 import_as <- function(
     alias, main_package, re_exports=TRUE,
-    dependencies=NULL, enhances=NULL, extensions=NULL,
+    dependencies=NULL, extensions=NULL,
     lib.loc=.libPaths(),
-    loadorder = c("dependencies", "main_package", "enhances", "extensions")
+    loadorder = c("dependencies", "main_package", "extensions")
 ) {
 
   # Check alias:
@@ -170,7 +163,7 @@ import_as <- function(
   # check load order:
   loadorder <- tolower(loadorder)
   check_loadorder <- all(
-    sort(loadorder) ==sort(c("dependencies", "main_package", "enhances", "extensions"))
+    sort(loadorder) ==sort(c("dependencies", "main_package", "extensions"))
   )
   if(!isTRUE(check_loadorder)) {
     stop("Improper load order given")
@@ -179,15 +172,12 @@ import_as <- function(
   # Check dependencies:
   dependencies <- .internal_check_dependencies(main_package, dependencies, lib.loc, abortcall=sys.call())
 
-  # Check enhances:
-  enhances <- .internal_check_enhances(main_package, enhances, lib.loc, abortcall=sys.call())
-
   # Check extensions:
   extensions <- .internal_check_extends(main_package, extensions, lib.loc, abortcall=sys.call())
 
   # make packages:
   pkgs <- list(
-    dependencies=dependencies, main_package=main_package, enhances=enhances, extensions=extensions
+    dependencies=dependencies, main_package=main_package, extensions=extensions
   )
   pkgs <- pkgs[loadorder]
   pkgs <- do.call(c, pkgs)
@@ -246,7 +236,7 @@ import_as <- function(
   class(out) <- c(class(out), "tinyimport")
   args <- list(
     main_package = main_package, re_exports = re_exports,
-    dependencies = dependencies, enhances = enhances, extensions = extensions,
+    dependencies = dependencies, extensions = extensions,
     lib.loc = lib.loc, loadorder = loadorder
   )
   if(isTRUE(re_exports)){
@@ -299,12 +289,12 @@ import_as <- function(
     return(FALSE)
   }
   args <- obj$.__attributes__.$args
-  check <- isTRUE(is.list(args) & length(args) == 7)
+  check <- isTRUE(is.list(args) & length(args) == 6)
   if(!check) {
     return(FALSE)
   }
   check_args <- isTRUE(all(names(args) %in% c("main_package", "re_exports",
-                                              "dependencies", "enhances", "extensions",
+                                              "dependencies", "extensions",
                                               "lib.loc", "loadorder")))
   if(!check_args){
     return(FALSE)
@@ -313,17 +303,16 @@ import_as <- function(
     isTRUE(is.character(args$main_package)) & isTRUE(length(args$main_package)==1),
     isTRUE(args$re_exports) | isFALSE(args$re_exports),
     isTRUE(is.character(args$dependencies) | is.null(args$dependencies)),
-    isTRUE(is.character(args$enhances) | is.null(args$enhances)),
     isTRUE(is.character(args$extensions) | is.null(args$extensions)),
     isTRUE(all(
-      sort(args$loadorder) == sort(c("dependencies", "main_package", "enhances", "extensions"))
+      sort(args$loadorder) == sort(c("dependencies", "main_package", "extensions"))
     ))
   )
   if(any(!check_args)) {
     return(FALSE)
   }
   pkgs <- list(
-    dependencies=args$dependencies, main_package=args$main_package, enhances=args$enhances, extensions=args$extensions
+    dependencies=args$dependencies, main_package=args$main_package, extensions=args$extensions
   )
   pkgs <- pkgs[args$loadorder]
   pkgs <- do.call(c, pkgs)

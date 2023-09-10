@@ -349,7 +349,8 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   to the documentation.
 - 9 September 2023: Removed the recycling restriction in the decimal
   truth testing operators, to be more consistent with the `stringi`
-  truth testing operators.
+  truth testing operators. Removed the `enhances` argument from
+  `import_as()`, for more security.
 
 FUTURE PLANS:
 

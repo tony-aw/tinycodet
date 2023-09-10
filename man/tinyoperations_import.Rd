@@ -40,7 +40,7 @@ is to somewhat find the best of both worlds.
 It does this by introducing the following functions: \cr
 \itemize{
 \item \link{import_as}:
-Allow a main package + its re-exports + its dependencies + its enhances + its extensions to be loaded under a single alias.
+Allow a main package + its re-exports + its dependencies + its extensions to be loaded under a single alias.
 This essentially combines the attaching advantage of using multiple related packages,
 whilst keeping most advantages of aliasing a package.
 \item \link{import_inops}:
