@@ -45,31 +45,20 @@ The \code{\%d==\%, \%d!=\% \%d<\%, \%d>\%, \%d<=\%, \%d>=\%} (in)equality operat
 perform decimal (class "double") number truth testing. \cr
 They are virtually equivalent to the regular (in)equality operators, \cr
 \code{==, !=, <, >, <=, >=}, \cr
-except for two aspects. \cr
-First: The decimal number (in)equality operators assume that
+except for one aspect. \cr
+The decimal number (in)equality operators assume that
 if the absolute difference between any two numbers
 \code{x} and \code{y}
 is smaller than the Machine tolerance,
 \code{sqrt(.Machine$double.eps)},
 then \code{x} and \code{y}
 should be consider to be equal. \cr
-Second: The decimal number (in)equality operators do NOT allow vector recycling.
-When comparing any two numbers \code{x} and \code{y},
-they must be of equal length,
-or one of them must be a scalar (i.e. length of 1).
-Otherwise, an error is returned. \cr
 \cr
-
 Thus these operators provide safer decimal number (in)equality tests. \cr
 \cr
 For example: \code{0.1*7 == 0.7} returns \code{FALSE}, even though they are equal,
 due to the way decimal numbers are stored in programming languages (like R). \cr
 But \code{0.1*7 \%d==\% 0.7} returns \code{TRUE}. \cr
-\cr
-Another example: The code \code{1:10 == c(4, 6)} is silently transformed to \code{1:10 == rep(c(4, 6), each = 5)},
-and thus gives \code{c(rep(FALSE, 5), TRUE, rep(FALSE, 4))}. \cr
-This may not be what the user wants.
-But \code{1:10 \%d==\% c(4, 6)} prevents this by returning an error instead. \cr
 \cr
 There are also the \code{x \%d{}\% bnd} and \code{x \%d!{}\% bnd} operators,
 where \code{bnd} is a vector of length 2,

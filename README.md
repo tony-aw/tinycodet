@@ -347,6 +347,9 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   documentation. Added more tests (almost 700 tests now; so
   approximately 10 tests per function on average). Added more examples
   to the documentation.
+- 9 September 2023: Removed the recycling restriction in the decimal
+  truth testing operators, to be more consistent with the `stringi`
+  truth testing operators.
 
 FUTURE PLANS:
 
