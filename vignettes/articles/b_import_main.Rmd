@@ -51,7 +51,7 @@ knitr::kable(X, "html", row.names = TRUE, escape = FALSE)
 
 What `tinyoperations` attempts to do with its import system, is to somewhat find the best of both worlds. Basically, `tinyoperations` has functions that allow the following import functionality lacking in base R:
 
- - Allow an R package + its re-exports + its dependencies + its enhances + its extensions to be loaded under **one alias**. This essentially combines the attaching advantage of using multiple related packages (row 7 in table above), whilst keeping most advantages of aliasing a package.
+ - Allow an R package + its re-exports + its dependencies + its extensions to be loaded under **one alias**. This essentially combines the attaching advantage of using multiple related packages (row 7 in table above), whilst keeping most advantages of aliasing a package.
  - Allow **exposing infix operators** to the **current environment**. This gains the attaching advantage of less typing (row 6 in table above), whilst simultaneously avoiding the disadvantage of attaching functions from a package globally (row 4).
 
 The import package system presented here is just another option provided, just like the [import](https://github.com/rticulate/import) and [box](https://github.com/klmr/box) packages provide their own alternative import systems. Please feel free to completely ignore this article if you're really adamant on attaching packages using `library()`/`require()` :-).
@@ -104,7 +104,7 @@ Loading a package in an alias, whether one does it through base R or through an 
 
 So there are several cases where it is perhaps desirable to load *multiple* related packages under one alias.
 
-And that is where `tinyoperations`'s `import_as()` function comes in. It loads an R package + its re-exports under an alias, and also loads any specified **dependencies**, **enhances** and/or **extensions** of the package under the very same alias. It also informs the user which objects from a package will overwrite which objects from other packages, so you will never be surprised.
+And that is where `tinyoperations`'s `import_as()` function comes in. It loads an R package + its re-exports under an alias, and also loads any specified **dependencies** and/or **extensions** of the package under the very same alias. It also informs the user which objects from a package will overwrite which objects from other packages, so you will never be surprised.
 
 `import_as(alias, ...)` is thus essentially the more user-friendly and multi-package equivalent of `alias <- loadNamespace(...)`.
 
@@ -114,7 +114,6 @@ The main arguments of the `import_as()` function are:
  - `main_package`: the name (string) of the main package to load.
  - `re_exports`: Some R packages export functions that are not defined in their own package, but in their direct dependencies - "re-exports". If `TRUE` (default), the re-exports of the `main_package` are added to the alias, analogous to the behaviour of base R's `::` operator. If `FALSE`, re-exports are not added.
  - `dependencies`: an optional character vector giving the dependencies of the `main_package` to load under the alias also.
- - `enhances`: an optional character vector giving the packages enhanced by the `main_package` to load under the alias also.
  - `extensions`: an optional character vector giving the extensions/reverse-dependencies of the `main_package` to load under the same alias also.
  - `lib.loc`: the library paths to look for the packages; defaults to `.libPaths()`. This argument is present in all `import_` - functions.
 

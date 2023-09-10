@@ -488,10 +488,10 @@ system, is to somewhat find the best of both worlds. Basically,
 import functionality lacking in base R:</p>
 <ul>
 <li>Allow an R package + its re-exports + its dependencies + its
-enhances + its extensions to be loaded under <strong>one alias</strong>.
-This essentially combines the attaching advantage of using multiple
-related packages (row 7 in table above), whilst keeping most advantages
-of aliasing a package.</li>
+extensions to be loaded under <strong>one alias</strong>. This
+essentially combines the attaching advantage of using multiple related
+packages (row 7 in table above), whilst keeping most advantages of
+aliasing a package.</li>
 <li>Allow <strong>exposing infix operators</strong> to the
 <strong>current environment</strong>. This gains the attaching advantage
 of less typing (row 6 in table above), whilst simultaneously avoiding
@@ -588,10 +588,10 @@ package <code>A</code>). In that case you may want to import package
 <p>And that is where <code>tinyoperations</code>’s
 <code>import_as()</code> function comes in. It loads an R package + its
 re-exports under an alias, and also loads any specified
-<strong>dependencies</strong>, <strong>enhances</strong> and/or
-<strong>extensions</strong> of the package under the very same alias. It
-also informs the user which objects from a package will overwrite which
-objects from other packages, so you will never be surprised.</p>
+<strong>dependencies</strong> and/or <strong>extensions</strong> of the
+package under the very same alias. It also informs the user which
+objects from a package will overwrite which objects from other packages,
+so you will never be surprised.</p>
 <p><code>import_as(alias, ...)</code> is thus essentially the more
 user-friendly and multi-package equivalent of
 <code>alias &lt;- loadNamespace(...)</code>.</p>
@@ -613,9 +613,6 @@ re-exports are not added.</li>
 <li><code>dependencies</code>: an optional character vector giving the
 dependencies of the <code>main_package</code> to load under the alias
 also.</li>
-<li><code>enhances</code>: an optional character vector giving the
-packages enhanced by the <code>main_package</code> to load under the
-alias also.</li>
 <li><code>extensions</code>: an optional character vector giving the
 extensions/reverse-dependencies of the <code>main_package</code> to load
 under the same alias also.</li>
