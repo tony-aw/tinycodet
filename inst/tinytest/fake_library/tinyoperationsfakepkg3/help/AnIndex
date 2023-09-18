@@ -1,9 +1,0 @@
-%op31%	tinyoperationsfakepkg3
-%op32%	tinyoperationsfakepkg3
-%opover%	tinyoperationsfakepkg3
-fun11	reexports
-fun31	tinyoperationsfakepkg3
-fun32	tinyoperationsfakepkg3
-fun_overwritten	tinyoperationsfakepkg3
-reexports	reexports
-tinyoperationsfakepkg3	tinyoperationsfakepkg3
