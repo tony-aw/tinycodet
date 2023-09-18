@@ -20,7 +20,7 @@ set.seed(1)
 
 # Introduction
 
-The `tinycodet` R-package is a tiny little R package adds some functions to help in your coding etiquette. It primarily focuses on 4 things:
+The `tinycodet` R-package is a tiny little R package that adds a few functions to help in your coding etiquette. It primarily focuses on 4 things:
 
  1) Safer decimal (in)equality testing, safer atomic conversions, and other functions for safer coding.
  2) A new package import system, that combines the benefits of aliasing a package with the benefits of attaching a package.

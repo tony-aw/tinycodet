@@ -19,8 +19,9 @@ public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostat
 
 ## Description & Overview
 
-The `tinycodet` R-package is a tiny little R package adds some functions
-to help in your coding etiquette. It primarily focuses on 4 things:
+The `tinycodet` R-package is a tiny little R package that adds a few
+functions to help in your coding etiquette. It primarily focuses on 4
+things:
 
 1)  Safer decimal (in)equality testing, safer atomic conversions, and
     other functions for safer coding.
@@ -34,13 +35,15 @@ The `tinycodet` R-package has only one dependency, namely `stringi`.
 Most functions in this R-package are fully vectorized and optimized, and
 have been well documented.
 
- 
+&nbps;
 
-WARNING: This package is still very much experimental. Function names,
-argument names, and so on may change dramatically. Use it for testing
-only, until it’s stable.
+I no longer consider this R package to be “experimental”. It is now
+fully functional. Besides some textual changes in the documentation and
+website articles, I do not expect (big) changes for this R package to
+come.
 
-Currently this R package is only available on GitHub.
+Currently this R package is only available on GitHub. I might publish it
+on CRAN later.
 
  
 

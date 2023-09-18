@@ -5,7 +5,7 @@ Authors@R:
     person("Tony", "Wilkes", , "tony_a_wilkes@outlook.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-9498-8379"))
 Maintainer: Tony Wilkes <tony_a_wilkes@outlook.com>
-Description: The 'tinycodet' R-package is a tiny little R package adds some functions to help in your coding etiquette.
+Description: The 'tinycodet' R-package is a tiny little R package that adds a few functions to help in your coding etiquette.
     It primarily focuses on 4 things.
     1) Safer decimal (in)equality testing, safer atomic conversions, and other functions for safer coding.
     2) A new package import system,
