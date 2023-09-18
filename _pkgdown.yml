@@ -13,4 +13,4 @@ home:
     structure: [links, license, community, citation, authors, dev, toc]
 search:
   exclude: ['vignettes/*']
-url: https://tony-aw.github.io/tinycode
+url: https://tony-aw.github.io/tinycodet
