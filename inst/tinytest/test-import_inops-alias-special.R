@@ -7,8 +7,8 @@ print(lib.loc)
 # test import_inops - basics ====
 temp.fun <- function() {
   import_as(
-    ~to3., "tinyoperationsfakepkg3",
-    dependencies = c("tinyoperationsfakepkg1", "tinyoperationsfakepkg2"),
+    ~to3., "tinycodetfakepkg3",
+    dependencies = c("tinycodetfakepkg1", "tinycodetfakepkg2"),
     lib.loc = lib.loc
   )
   import_inops(
@@ -25,8 +25,8 @@ expect_equal(
 # include.only ====
 temp.fun <- function() {
   import_as(
-    ~to3., "tinyoperationsfakepkg3",
-    dependencies = c("tinyoperationsfakepkg1", "tinyoperationsfakepkg2"),
+    ~to3., "tinycodetfakepkg3",
+    dependencies = c("tinycodetfakepkg1", "tinycodetfakepkg2"),
     lib.loc = lib.loc
   )
   import_inops(
@@ -43,8 +43,8 @@ expect_equal(
 # exclude ====
 temp.fun <- function() {
   import_as(
-    ~to3., "tinyoperationsfakepkg3",
-    dependencies = c("tinyoperationsfakepkg1", "tinyoperationsfakepkg2"),
+    ~to3., "tinycodetfakepkg3",
+    dependencies = c("tinycodetfakepkg1", "tinycodetfakepkg2"),
     lib.loc = lib.loc
   )
   import_inops(
@@ -62,8 +62,8 @@ expect_equal(
 # unexpose ====
 temp.fun <- function() {
   import_as(
-    ~to3., "tinyoperationsfakepkg3",
-    dependencies = c("tinyoperationsfakepkg1", "tinyoperationsfakepkg2"),
+    ~to3., "tinycodetfakepkg3",
+    dependencies = c("tinycodetfakepkg1", "tinycodetfakepkg2"),
     lib.loc = lib.loc
   )
   import_inops(
@@ -80,8 +80,8 @@ expect_equal(temp.fun(), c("to3."))
 # test misc attributes ====
 temp.fun <- function() {
   import_as(
-    ~to3., "tinyoperationsfakepkg3",
-    dependencies = c("tinyoperationsfakepkg1", "tinyoperationsfakepkg2"),
+    ~to3., "tinycodetfakepkg3",
+    dependencies = c("tinycodetfakepkg1", "tinycodetfakepkg2"),
     lib.loc = lib.loc
   )
   import_inops(

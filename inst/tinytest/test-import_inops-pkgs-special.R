@@ -7,7 +7,7 @@ print(lib.loc)
 # test import_inops - basics ====
 temp.fun <- function() {
   import_inops(
-    c("tinyoperationsfakepkg1"),
+    c("tinycodetfakepkg1"),
     lib.loc = lib.loc
   )
   ls()
@@ -20,7 +20,7 @@ expect_equal(
 # include.only ====
 temp.fun <- function() {
   import_inops(
-    c("tinyoperationsfakepkg1"),
+    c("tinycodetfakepkg1"),
     include.only = c("%op12%"),
     lib.loc = lib.loc
   )
@@ -34,7 +34,7 @@ expect_equal(
 # exclude ====
 temp.fun <- function() {
   import_inops(
-    c("tinyoperationsfakepkg1"),
+    c("tinycodetfakepkg1"),
     exclude = c("%op12%"),
     lib.loc = lib.loc
   )
@@ -46,8 +46,8 @@ expect_equal(
 
 
 temp.fun <- function() {
-  pkgs_in <- c("tinyoperationsfakepkg1", "tinyoperationsfakepkg2", "tinyoperationsfakepkg3")
-  pkgs_out <- c("tinyoperationsfakepkg2", "tinyoperationsfakepkg3")
+  pkgs_in <- c("tinycodetfakepkg1", "tinycodetfakepkg2", "tinycodetfakepkg3")
+  pkgs_out <- c("tinycodetfakepkg2", "tinycodetfakepkg3")
   import_inops(pkgs_in[1], lib.loc = lib.loc)
   import_inops(pkgs_in[2], lib.loc = lib.loc)
   import_inops(pkgs_in[3], lib.loc = lib.loc)
@@ -63,7 +63,7 @@ expect_equal(temp.fun(), c("%op11%", '%op12%'))
 # import_inops but no infix operators ====
 temp.fun <- function() {
   import_inops(
-    c("tinyoperationsfakepkg1"),
+    c("tinycodetfakepkg1"),
     include.only = c("fun11"),
     lib.loc = lib.loc
   )
@@ -76,7 +76,7 @@ expect_error(
 
 temp.fun <- function() {
   import_inops(
-    c("tinyoperationsfakepkg1"),
+    c("tinycodetfakepkg1"),
     include.only = c("%foo%"),
     lib.loc = lib.loc
   )
@@ -90,7 +90,7 @@ expect_message(
 
 temp.fun <- function() {
   import_inops(
-    unexpose = c("tinyoperationsfakepkg1"),
+    unexpose = c("tinycodetfakepkg1"),
     lib.loc = lib.loc
   )
   ls()
@@ -116,7 +116,7 @@ expect_error(
 # test misc attributes ====
 temp.fun <- function() {
   import_inops(
-    "tinyoperationsfakepkg3",
+    "tinycodetfakepkg3",
     lib.loc=lib.loc
   )
   return(attributes(`%op31%`)|> names())

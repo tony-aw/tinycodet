@@ -1,23 +1,23 @@
 
 # general checks ====
 expect_equal(
-  import_int(tinyoperations ~ .internal_prep_Namespace),
-  tinyoperations:::.internal_prep_Namespace
+  import_int(tinycodet ~ .internal_prep_Namespace),
+  tinycodet:::.internal_prep_Namespace
 )
 
 expect_error(
-  import_int(tinyoperations ~ .foo),
+  import_int(tinycodet ~ .foo),
   pattern = "is not an internal function of"
 )
 
 expect_error(
-  import_int(tinyoperationsfakepkg3 ~ .fo),
+  import_int(tinycodetfakepkg3 ~ .fo),
   pattern = "The following packages are not installed:"
 )
 
 lib.loc <- file.path(getwd(), "fake_library2")
 expect_error(
-  import_int(tinyoperationsfakepkg3 ~ .foo, lib.loc = lib.loc),
+  import_int(tinycodetfakepkg3 ~ .foo, lib.loc = lib.loc),
   pattern = "the following packages are required but not installed:"
 )
 
@@ -39,7 +39,7 @@ expect_error(
 )
 
 expect_error(
-  import_int(tinyoperations ~ .internal_prep_Namespace + .internal_check_conflicting_inops),
+  import_int(tinycodet ~ .internal_prep_Namespace + .internal_check_conflicting_inops),
   pattern = "must give a single internal function"
 )
 

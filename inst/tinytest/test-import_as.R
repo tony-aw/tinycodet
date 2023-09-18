@@ -19,7 +19,7 @@ expect_equal(temp.fun(), "ab")
 
 # package error handling ====
 expect_error(
-  import_as(~stri., c("stringi", "tinyoperations")),
+  import_as(~stri., c("stringi", "tinycodet")),
   pattern = "A single package must be given in the `main_package` argument"
 )
 
