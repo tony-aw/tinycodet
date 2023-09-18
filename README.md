@@ -1,26 +1,26 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# tinyoperations
+# tinycodet
 
 <!-- badges: start -->
 
 [![R build
-status](https://github.com/tony-aw/tinyoperations/workflows/R-CMD-check/badge.svg)](https://github.com/tony-aw/tinyoperations/actions)
+status](https://github.com/tony-aw/tinycodet/workflows/R-CMD-check/badge.svg)](https://github.com/tony-aw/tinycodet/actions)
 [![Project Status: WIP - Initial development is in progress, but there
 has not yet been a stable, usable release suitable for the
 public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
 [![](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![](https://img.shields.io/badge/ORCID-0000--0001--9498--8379-green.svg)](https://orcid.org/0000-0001-9498-8379)
-[![](https://img.shields.io/badge/github--pages-tony--aw.github.io/tinyoperations-purple.svg)](https://tony-aw.github.io/tinyoperations)
+[![](https://img.shields.io/badge/github--pages-tony--aw.github.io/tinycodet-purple.svg)](https://tony-aw.github.io/tinycodet)
 <!-- badges: end -->
 
-![](man/figures/tinyoperations.svg)  
+![](man/figures/tinycodet.svg)  
 
 ## Description & Overview
 
-The `tinyoperations` R-package adds some functions and infix operators
-to help in your programming etiquette. It primarily focuses on 4 things:
+The `tinycodet` R-package is a tiny little R package adds some functions
+to help in your coding etiquette. It primarily focuses on 4 things:
 
 1)  Safer decimal (in)equality testing, safer atomic conversions, and
     other functions for safer coding.
@@ -30,9 +30,9 @@ to help in your programming etiquette. It primarily focuses on 4 things:
     package.
 4)  Reducing repetitive code.
 
-The `tinyoperations` R-package has only one dependency, namely
-`stringi`. Most functions in this R-package are fully vectorized and
-optimized, and have been well documented.
+The `tinycodet` R-package has only one dependency, namely `stringi`.
+Most functions in this R-package are fully vectorized and optimized, and
+have been well documented.
 
  
 
@@ -45,55 +45,54 @@ Currently this R package is only available on GitHub.
  
 
 Although this is a relatively small R package, I do understand you may
-not want to go through all the articles and help files of
-`tinyoperations` without knowing if the R package is even worthy of your
-time. Therefore, to get a quick glimpse of what is possible in this R
-package, I invite you to take a look at the [Get
-Started](https://tony-aw.github.io/tinyoperations/articles/tinyoperations.html)
+not want to go through all the articles and help files of `tinycodet`
+without knowing if the R package is even worthy of your time. Therefore,
+to get a quick glimpse of what is possible in this R package, I invite
+you to take a look at the [Get
+Started](https://tony-aw.github.io/tinycodet/articles/tinycodet.html)
 page on the website
-(<https://tony-aw.github.io/tinyoperations/articles/tinyoperations.html>).
+(<https://tony-aw.github.io/tinycodet/articles/tinycodet.html>).
 
  
 
 ## Installation
 
-One can install `tinyoperations` from github like so:
+One can install `tinycodet` from github like so:
 
 ``` r
-remotes::install_github("https://github.com/tony-aw/tinyoperations")
+remotes::install_github("https://github.com/tony-aw/tinycodet")
 ```
 
 And attach the package - thus exposing its functions to the namespace -
 using:
 
 ``` r
-library(tinyoperations)
+library(tinycodet)
 ```
 
-and one can open the introduction help page of the `tinyoperations`
-package using:
+and one can open the introduction help page of the `tinycodet` package
+using:
 
 ``` r
-tinyoperations::tinyoperations_help()
+tinycodet::tinycodet_help()
 ```
 
  
 
 ## Reporting issues and giving suggestions
 
-When you coming across an issue with the `tinyoperations` R package, you
-may want to report it in the “Issues” tab on the GitHub page
-(<https://github.com/tony-aw/tinyoperations/issues>). If relevant,
-please provide reproducible R code, as that will make it easier to
-diagnose the issue. Please keep issue reports polite, professional, and
-to the point.
+When you coming across an issue with the `tinycodet` R package, you may
+want to report it in the “Issues” tab on the GitHub page
+(<https://github.com/tony-aw/tinycodet/issues>). If relevant, please
+provide reproducible R code, as that will make it easier to diagnose the
+issue. Please keep issue reports polite, professional, and to the point.
 
  
 
 If you have suggestions, know that suggestions are always welcome.
 Please submit your suggestions in the “Discussion” tab on the GitHub
-page (<https://github.com/tony-aw/tinyoperations/discussions>).
-Questions that are not issues can also be provided there.
+page (<https://github.com/tony-aw/tinycodet/discussions>). Questions
+that are not issues can also be provided there.
 
  
 
@@ -231,10 +230,10 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   documentation and Read-Me accordingly.
 - 3 July 2023: a tiny update; just fixed some minor documentation
   issues.
-- 9 July 2023: MAJOR UPDATE + RENAMED PACKAGE TO `tinyoperations`.
-  Details:… Replaced the `%::?%` operator with the `help.import()`
-  function. The `import_as()` function now also adds attributes to the
-  alias. Renamed the `import_lsf()` function to `pkg_lsf()`. Renamed the
+- 9 July 2023: MAJOR UPDATE + RENAMED PACKAGE TO `tinycodet`. Details:…
+  Replaced the `%::?%` operator with the `help.import()` function. The
+  `import_as()` function now also adds attributes to the alias. Renamed
+  the `import_lsf()` function to `pkg_lsf()`. Renamed the
   `pkgs_get_deps` function to `pkg_get_deps`, as this functions only
   accepts a single package anyway, and also partially re-wrote the
   function to give more consistently ordered character vectors. Added
@@ -243,14 +242,14 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   character vector as input, as using `TRUE` may result in the ambiguous
   load-order of the dependencies. Each of the `import_` functions now
   have their own separate help page, and also added the
-  `tinyoperations_import` page, to keep it more organized. Moreover,
-  Added more tests for the `import_` and `source_module` functions.
-  Added the `misc` - functions. Replaced all mentions of “float” with
-  “decimal”, and replaced all float truth testing (`%f`) to be decimal
-  number truth testing as (`%d`). Removed the Natural number option from
-  the logical operators. Adjusted the documentation in accordance with
-  the aforementioned changes, improved the lay-out of the documentation,
-  and clarified the documentation even more.
+  `tinycodet_import` page, to keep it more organized. Moreover, Added
+  more tests for the `import_` and `source_module` functions. Added the
+  `misc` - functions. Replaced all mentions of “float” with “decimal”,
+  and replaced all float truth testing (`%f`) to be decimal number truth
+  testing as (`%d`). Removed the Natural number option from the logical
+  operators. Adjusted the documentation in accordance with the
+  aforementioned changes, improved the lay-out of the documentation, and
+  clarified the documentation even more.
 - 11 July 2023: last update unintentionally created a bug; bug now
   fixed. Added some minor features (see Details). Details: Last update
   unintentionally created a bug; bug now fixed. Also added the `verbose`
@@ -351,13 +350,16 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   truth testing operators, to be more consistent with the `stringi`
   truth testing operators. Removed the `enhances` argument from
   `import_as()`, for more security.
+- 18 September 2023: LAST MAJOR UPDATE (I promise): changed the (yet
+  again) to `tinycodet`. R package is now basically finished, safer for
+  some teeny tiny textual edits in the documentation here and there.
 
 FUTURE PLANS:
 
-I believe `tinyoperations` is slowly getting closer to becoming stable.
-There does not appear a need to add/remove many more
-functions/operators, although some functions, operators or arguments may
-need to be tweaked and/or optimized. Once I am fully satisfied with the
-R package, I may attempt to publish this R package to CRAN.
+I believe `tinycodet` is slowly getting closer to becoming stable. There
+does not appear a need to add/remove many more functions/operators,
+although some functions, operators or arguments may need to be tweaked
+and/or optimized. Once I am fully satisfied with the R package, I may
+attempt to publish this R package to CRAN.
 
  

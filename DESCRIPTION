@@ -1,18 +1,18 @@
-Package: tinyoperations
-Title: Functions and infix operators to help in your programming etiquette
+Package: tinycodet
+Title: R package that adds a few tiny functions to help in your programming etiquette
 Version: 0.0.0.9
 Authors@R: 
     person("Tony", "Wilkes", , "tony_a_wilkes@outlook.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-9498-8379"))
 Maintainer: Tony Wilkes <tony_a_wilkes@outlook.com>
-Description: The 'tinyoperations' R-package adds some functions and infix operators to help in your programming etiquette.
+Description: The 'tinycodet' R-package is a tiny little R package adds some functions to help in your coding etiquette.
     It primarily focuses on 4 things.
     1) Safer decimal (in)equality testing, safer atomic conversions, and other functions for safer coding.
     2) A new package import system,
     that combines the benefits of aliasing a package with the benefits of attaching a package.
     3) Extending the string manipulation capabilities of the `stringi` R package.
     4) Reducing repetitive code.
-    The 'tinyoperations' R-package has only one dependency, namely 'stringi'.
+    The 'tinycodet' R-package has only one dependency, namely 'stringi'.
     Most functions in this R-package are fully vectorized and optimized,
     and have been well documented.
 License: MIT + file LICENSE
@@ -33,5 +33,5 @@ Depends:
     R (>= 4.1.0)
 Imports:
     stringi (>= 1.7.12)
-URL: https://github.com/tony-aw/tinyoperations, https://tony-aw.github.io/tinyoperations
-BugReports: https://github.com/tony-aw/tinyoperations/issues
+URL: https://github.com/tony-aw/tinycodet, https://tony-aw.github.io/tinycodet
+BugReports: https://github.com/tony-aw/tinycodet/issues

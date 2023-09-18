@@ -13,33 +13,33 @@ knitr::opts_chunk$set(
 )
 library(badger)
 library(knitr)
-library(tinyoperations)
+library(tinycodet)
 set.seed(1)
 ```
 
-# tinyoperations
+# tinycodet
 
 <!-- badges: start -->
-`r badge_github_actions("tony-aw/tinyoperations")`
+`r badge_github_actions("tony-aw/tinycodet")`
 `r badge_repostatus("WIP")`
 `r badge_lifecycle("experimental")`
 `r badge_custom("ORCID", "0000-0001-9498-8379", "green",   "https://orcid.org/0000-0001-9498-8379")`
-`r badge_custom("github-pages", "tony-aw.github.io/tinyoperations", "purple",   "https://tony-aw.github.io/tinyoperations")`
+`r badge_custom("github-pages", "tony-aw.github.io/tinycodet", "purple",   "https://tony-aw.github.io/tinycodet")`
 <!-- badges: end -->
 
-![](man/figures/tinyoperations.svg)
+![](man/figures/tinycodet.svg)
 &nbsp;
 
 ## Description & Overview
 
-The `tinyoperations` R-package adds some functions and infix operators to help in your programming etiquette. It primarily focuses on 4 things:
+The `tinycodet` R-package is a tiny little R package adds some functions to help in your coding etiquette. It primarily focuses on 4 things:
 
  1) Safer decimal (in)equality testing, safer atomic conversions, and other functions for safer coding.
  2) A new package import system, that combines the benefits of aliasing a package with the benefits of attaching a package.
  3) Extending the string manipulation capabilities of the `stringi` R package. 
  4) Reducing repetitive code.
 
-The `tinyoperations` R-package has only one dependency, namely `stringi`. Most functions in this R-package are fully vectorized and optimized, and have been well documented.
+The `tinycodet` R-package has only one dependency, namely `stringi`. Most functions in this R-package are fully vectorized and optimized, and have been well documented.
 
 &nbsp;
 
@@ -49,7 +49,7 @@ Currently this R package is only available on GitHub.
 
 &nbsp;
 
-Although this is a relatively small R package, I do understand you may not want to go through all the articles and help files of `tinyoperations` without knowing if the R package is even worthy of your time. Therefore, to get a quick glimpse of what is possible in this R package, I invite you to take a look at the [Get Started](https://tony-aw.github.io/tinyoperations/articles/tinyoperations.html) page on the website (https://tony-aw.github.io/tinyoperations/articles/tinyoperations.html).
+Although this is a relatively small R package, I do understand you may not want to go through all the articles and help files of `tinycodet` without knowing if the R package is even worthy of your time. Therefore, to get a quick glimpse of what is possible in this R package, I invite you to take a look at the [Get Started](https://tony-aw.github.io/tinycodet/articles/tinycodet.html) page on the website (https://tony-aw.github.io/tinycodet/articles/tinycodet.html).
 
 
 ```{r echo=FALSE}
@@ -61,22 +61,22 @@ rm(list=ls())
 ## Installation
 
 
-One can install `tinyoperations` from github like so:
+One can install `tinycodet` from github like so:
 
 ``` r
-remotes::install_github("https://github.com/tony-aw/tinyoperations")
+remotes::install_github("https://github.com/tony-aw/tinycodet")
 ```
 
 And attach the package - thus exposing its functions to the namespace - using:
 
 ```{r}
-library(tinyoperations)
+library(tinycodet)
 ```
 
-and one can open the introduction help page of the `tinyoperations` package using:
+and one can open the introduction help page of the `tinycodet` package using:
 
 ```{r eval=FALSE}
-tinyoperations::tinyoperations_help()
+tinycodet::tinycodet_help()
 ```
 
 
@@ -85,11 +85,11 @@ tinyoperations::tinyoperations_help()
 
 ## Reporting issues and giving suggestions
 
-When you coming across an issue with the `tinyoperations` R package, you may want to report it in the "Issues" tab on the GitHub page (https://github.com/tony-aw/tinyoperations/issues). If relevant, please provide reproducible R code, as that will make it easier to diagnose the issue. Please keep issue reports polite, professional, and to the point.
+When you coming across an issue with the `tinycodet` R package, you may want to report it in the "Issues" tab on the GitHub page (https://github.com/tony-aw/tinycodet/issues). If relevant, please provide reproducible R code, as that will make it easier to diagnose the issue. Please keep issue reports polite, professional, and to the point.
 
 &nbsp;
 
-If you have suggestions, know that suggestions are always welcome. Please submit your suggestions in the "Discussion" tab on the GitHub page (https://github.com/tony-aw/tinyoperations/discussions). Questions that are not issues can also be provided there.
+If you have suggestions, know that suggestions are always welcome. Please submit your suggestions in the "Discussion" tab on the GitHub page (https://github.com/tony-aw/tinycodet/discussions). Questions that are not issues can also be provided there.
 
 
 &nbsp;
@@ -138,7 +138,7 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
  - 1 July 2023: Added the `overwrite` argument to `import_as()`, and made its alias checks more rigorous. Adjusted the documentation a bit. Added some more tests. Fixed some minor bugs in the `source_module` functions.
  - 2 July 2023: Removed the `overwrite` argument from `import_as()` (that was a short-lived argument...), as I've found it to be more annoying than it's worth. Added more internal checks to the `import_` and `source_module` functions. Error messages now display the used exported function instead of internal functions. Adjusted the documentation and Read-Me accordingly.
  - 3 July 2023: a tiny update; just fixed some minor documentation issues.
- - 9 July 2023: MAJOR UPDATE + RENAMED PACKAGE TO `tinyoperations`. Details:... Replaced the `%::?%` operator with the `help.import()` function. The `import_as()` function now also adds attributes to the alias. Renamed the `import_lsf()` function to `pkg_lsf()`. Renamed the `pkgs_get_deps` function to `pkg_get_deps`, as this functions only accepts a single package anyway, and also partially re-wrote the function to give more consistently ordered character vectors. Added the `overwrite` and `inherits` arguments to `import_inops()`. The argument  `dependencies` in `import_as()` now only accepts an explicit character vector as input, as using `TRUE` may result in the ambiguous load-order of the dependencies. Each of the `import_` functions now have their own separate help page, and also added the `tinyoperations_import` page, to keep it more organized. Moreover, Added more tests for the `import_` and `source_module` functions. Added the `misc` - functions. Replaced all mentions of "float" with "decimal", and replaced all float truth testing (`%f`) to be decimal number truth testing as (`%d`). Removed the Natural number option from the logical operators. Adjusted the documentation in accordance with the aforementioned changes, improved the lay-out of the documentation, and clarified the documentation even more.
+ - 9 July 2023: MAJOR UPDATE + RENAMED PACKAGE TO `tinycodet`. Details:... Replaced the `%::?%` operator with the `help.import()` function. The `import_as()` function now also adds attributes to the alias. Renamed the `import_lsf()` function to `pkg_lsf()`. Renamed the `pkgs_get_deps` function to `pkg_get_deps`, as this functions only accepts a single package anyway, and also partially re-wrote the function to give more consistently ordered character vectors. Added the `overwrite` and `inherits` arguments to `import_inops()`. The argument  `dependencies` in `import_as()` now only accepts an explicit character vector as input, as using `TRUE` may result in the ambiguous load-order of the dependencies. Each of the `import_` functions now have their own separate help page, and also added the `tinycodet_import` page, to keep it more organized. Moreover, Added more tests for the `import_` and `source_module` functions. Added the `misc` - functions. Replaced all mentions of "float" with "decimal", and replaced all float truth testing (`%f`) to be decimal number truth testing as (`%d`). Removed the Natural number option from the logical operators. Adjusted the documentation in accordance with the aforementioned changes, improved the lay-out of the documentation, and clarified the documentation even more.
  - 11 July 2023: last update unintentionally created a bug; bug now fixed. Added some minor features (see Details). Details: Last update unintentionally created a bug; bug now fixed. Also added the `verbose` argument to `import_as`, as the function now gives info on conflicts and so on in its attributes. Created some fake packages JUST for the sake of thorough testing. The tests are not part of R CMD CHECK (because it doesn't like packages defined inside package folder), and not uploaded here on GitHub; but I do perform the test with fake packages everytime I update this R package
  - 22 July 2023: UPDATED TO R4.3.0. Simplified the internal code of the `%installed in%` operator. Removed the `substr_` - functions, and subsequently also the `stringfish` functionality: They were originally created for historical reasons that are no longer relevant (`stri_locate_ith` used to output a list; now it outputs a matrix), and the stringfish functions had some unwanted behaviour, and working around these unwanted behaviours turned out to be more trouble than was worth. Added the `strcut_` - functions. The `import_as()` and `import_inops()` functions now create LOCKED objects, for additional safety (more information can be found on this by running `import_lock()`). Added the `delete` argument to the `import_inops()` function. The `import_inops()` function now allows almost complete freedom in choosing which packages to expose infix operators from. Added the safer atomic type casting functions (`as_bool()`, `as_int()`, `as_dbl()`, `as_chr()`). The `transform_if()` function now also has the `other` and `text` arguments. Some minor optimization improvements for some of the functions.Adjusted the documentation in accordance with all these changes. Fixed some minor spelling and grammar errors in the documentation. Created a GitHub site using `pkgdown`, but it's not published yet.
  - 25 July 2023: Small update. Added the `report_inops()` function, clarified the documentation at `import_inops()`, and split the import article into 2.
@@ -156,10 +156,11 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
  - 1 September 2023: Moved `source_selection()` to the "misc" category. Specifying non-existing infix operators in the `exclude` or `include.only` arguments of `import_inops()` will now produce a warning message.
  - 8 September 2023: Removed Non-Standard Evaluation in `alias` argument of `import_as()`; `alias` can now instead by specified as either a string or a one-sided formula with a single term. Added two miscellaneous `import_` functions: `import_LL()` and `import_int()`; `import_inops()` therefore now also takes exposed functions from `import_LL()` into consideration. Changed the argument order in `import_data()` to be more consistent with the other `import_` - functions. Made sure all `import_` - functions have proper library location checks. Changed the documentation and website in accordance with the aforementioned changes. Fixed some spelling errors in the documentation. Added more tests (almost 700 tests now; so approximately 10 tests per function on average). Added more examples to the documentation.
  - 9 September 2023: Removed the recycling restriction in the decimal truth testing operators, to be more consistent with the `stringi` truth testing operators. Removed the `enhances` argument from `import_as()`, for more security.
+ - 18 September 2023: LAST MAJOR UPDATE (I promise): changed the (yet again) to `tinycodet`. R package is now basically finished, safer for some teeny tiny textual edits in the documentation here and there.
 
 FUTURE PLANS:
 
-I believe `tinyoperations` is slowly getting closer to becoming stable. There does not appear a need to add/remove many more functions/operators, although some functions, operators or arguments may need to be tweaked and/or optimized. Once I am fully satisfied with the R package, I may attempt to publish this R package to CRAN.
+I believe `tinycodet` is slowly getting closer to becoming stable. There does not appear a need to add/remove many more functions/operators, although some functions, operators or arguments may need to be tweaked and/or optimized. Once I am fully satisfied with the R package, I may attempt to publish this R package to CRAN.
 
 &nbsp;
 
