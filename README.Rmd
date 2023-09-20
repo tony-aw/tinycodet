@@ -27,7 +27,7 @@ set.seed(1)
 `r badge_custom("github-pages", "tony-aw.github.io/tinycodet", "purple",   "https://tony-aw.github.io/tinycodet")`
 <!-- badges: end -->
 
-[![](man/figures/tinycodet.svg)](https://tony-aw.github.io/tinycodet/index.html)
+[![](man/figures/tinycodet.svg)](https://github.com/tony-aw/tinycodet)
 
 &nbsp;
 
