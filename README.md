@@ -7,15 +7,17 @@
 
 [![R build
 status](https://github.com/tony-aw/tinycodet/workflows/R-CMD-check/badge.svg)](https://github.com/tony-aw/tinycodet/actions)
-[![Project Status: WIP - Initial development is in progress, but there
-has not yet been a stable, usable release suitable for the
-public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
-[![](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![Project Status: Active - The project has reached a stable, usable
+state and is being actively
+developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![](https://img.shields.io/badge/ORCID-0000--0001--9498--8379-green.svg)](https://orcid.org/0000-0001-9498-8379)
 [![](https://img.shields.io/badge/github--pages-tony--aw.github.io/tinycodet-purple.svg)](https://tony-aw.github.io/tinycodet)
 <!-- badges: end -->
 
-![](man/figures/tinycodet.svg)  
+[![](man/figures/tinycodet.svg)](https://github.com/tony-aw/tinycodet/)
+
+ 
 
 ## Description & Overview
 
@@ -35,7 +37,7 @@ The `tinycodet` R-package has only one dependency, namely `stringi`.
 Most functions in this R-package are fully vectorized and optimized, and
 have been well documented.
 
-&nbps;
+ 
 
 I no longer consider this R package to be “experimental”. It is now
 fully functional. Besides some textual changes in the documentation and
@@ -353,9 +355,9 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   truth testing operators, to be more consistent with the `stringi`
   truth testing operators. Removed the `enhances` argument from
   `import_as()`, for more security.
-- 18 September 2023: LAST MAJOR UPDATE (I promise): changed the (yet
-  again) to `tinycodet`. R package is now basically finished, safer for
-  some teeny tiny textual edits in the documentation here and there.
+- 18 September 2023: LAST MAJOR UPDATE (I promise): changed the name
+  (yet again) to `tinycodet`. R package is now basically finished, safer
+  for some teeny tiny textual edits in the documentation here and there.
 
 FUTURE PLANS:
 

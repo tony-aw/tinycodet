@@ -160,7 +160,7 @@ x <- c("hello", "goodbye", "good afternoon")
 # in stringi:
 x[stringi::stri_detect(x, regex = "r")]
 
-# in tinyoperatons:
+# in tinycodet:
 x[x %s{}% "r"]
 ```
 

@@ -21,13 +21,14 @@ set.seed(1)
 
 <!-- badges: start -->
 `r badge_github_actions("tony-aw/tinycodet")`
-`r badge_repostatus("WIP")`
-`r badge_lifecycle("experimental")`
+`r badge_repostatus("Active")`
+`r badge_lifecycle("stable")`
 `r badge_custom("ORCID", "0000-0001-9498-8379", "green",   "https://orcid.org/0000-0001-9498-8379")`
 `r badge_custom("github-pages", "tony-aw.github.io/tinycodet", "purple",   "https://tony-aw.github.io/tinycodet")`
 <!-- badges: end -->
 
-![](man/figures/tinycodet.svg)
+[![](man/figures/tinycodet.svg)](https://github.com/tony-aw/tinycodet/)
+
 &nbsp;
 
 ## Description & Overview
@@ -41,7 +42,7 @@ The `tinycodet` R-package is a tiny little R package that adds a few functions t
 
 The `tinycodet` R-package has only one dependency, namely `stringi`. Most functions in this R-package are fully vectorized and optimized, and have been well documented.
 
-&nbps;
+&nbsp;
 
 I no longer consider this R package to be "experimental". It is now fully functional. Besides some textual changes in the documentation and website articles, I do not expect (big) changes for this R package to come.
 
@@ -156,7 +157,7 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
  - 1 September 2023: Moved `source_selection()` to the "misc" category. Specifying non-existing infix operators in the `exclude` or `include.only` arguments of `import_inops()` will now produce a warning message.
  - 8 September 2023: Removed Non-Standard Evaluation in `alias` argument of `import_as()`; `alias` can now instead by specified as either a string or a one-sided formula with a single term. Added two miscellaneous `import_` functions: `import_LL()` and `import_int()`; `import_inops()` therefore now also takes exposed functions from `import_LL()` into consideration. Changed the argument order in `import_data()` to be more consistent with the other `import_` - functions. Made sure all `import_` - functions have proper library location checks. Changed the documentation and website in accordance with the aforementioned changes. Fixed some spelling errors in the documentation. Added more tests (almost 700 tests now; so approximately 10 tests per function on average). Added more examples to the documentation.
  - 9 September 2023: Removed the recycling restriction in the decimal truth testing operators, to be more consistent with the `stringi` truth testing operators. Removed the `enhances` argument from `import_as()`, for more security.
- - 18 September 2023: LAST MAJOR UPDATE (I promise): changed the (yet again) to `tinycodet`. R package is now basically finished, safer for some teeny tiny textual edits in the documentation here and there.
+ - 18 September 2023: LAST MAJOR UPDATE (I promise): changed the name (yet again) to `tinycodet`. R package is now basically finished, safer for some teeny tiny textual edits in the documentation here and there.
 
 FUTURE PLANS:
 
