@@ -15,7 +15,7 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 [![](https://img.shields.io/badge/github--pages-tony--aw.github.io/tinycodet-purple.svg)](https://tony-aw.github.io/tinycodet)
 <!-- badges: end -->
 
-[![](man/figures/tinycodet.svg)](https://tony-aw.github.io/tinycodet/index.html)
+[![](man/figures/tinycodet.svg)](https://github.com/tony-aw/tinycodet/)
 
  
 
