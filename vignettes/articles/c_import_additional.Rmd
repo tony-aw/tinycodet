@@ -120,7 +120,7 @@ One may have noticed in the "Import system - main functions" article, that alias
 import_as(~ tdt., "tidytable", re_exports = TRUE, dependencies = "data.table")
 ```
 
-... produces several messages, including the message "For conflicts report, packages order, and other attributes, run `attr.import(tdt.)`".
+... produces several messages, including the message "For conflicts report, packages order, and other attributes, run `attr.import()`".
 
 The `attr.import()` function allows the user to access the special attributes stored and locked inside the alias object. These attributes show which loaded package overwrites which loaded functions, in what order the packages are loaded and so on.
 

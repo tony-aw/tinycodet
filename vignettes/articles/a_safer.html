@@ -397,7 +397,7 @@ bounds defined by <code>bnd</code>.</p>
 <p>Examples:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a></span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.3</span>, <span class="fl">0.6</span>, <span class="fl">0.7</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>bnd <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(x<span class="fl">-0.1</span>, x<span class="fl">+0.1</span>), <span class="at">ncol=</span><span class="dv">2</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>bnd <span class="ot">&lt;-</span> <span class="fu">cbind</span>(x<span class="fl">-0.1</span>, x<span class="fl">+0.1</span>)</span>
 <span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>x <span class="sc">%d{}%</span> bnd</span>
 <span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt; [1] TRUE TRUE TRUE</span></span>
 <span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>x <span class="sc">%d!{}%</span> bnd</span>
@@ -454,8 +454,7 @@ attributes preserved.</li>
 <li><code>as_chr()</code>: same as <code>as.character()</code>, but with
 attributes preserved.</li>
 </ul>
-<p>Only the “class” attribute is removed from the object when converting
-with these functions, the other attributes are preserved</p>
+<p>All attributes except the “class” attribute are preserved.</p>
 <p>Examples:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">2</span>), <span class="fu">seq</span>(<span class="dv">0</span>, <span class="fl">2.5</span>, <span class="at">by=</span><span class="fl">0.5</span>)) <span class="sc">|&gt;</span> <span class="fu">matrix</span>(<span class="at">ncol=</span><span class="dv">2</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">colnames</span>(x) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;one&quot;</span>, <span class="st">&quot;two&quot;</span>)</span>
@@ -512,8 +511,8 @@ can even run something like <code>T &lt;- FALSE</code> and
 <code>TRUE</code> and <code>F</code> to stay <code>FALSE</code>.
 Essentially, the <code>lock_TF()</code> function creates the locked
 constant <code>T</code> and <code>F</code>, assigned to
-<code>TRUE</code> and <code>FALSE</code>, to prevent the user from
-re-assigning them. Removing the created <code>T</code> and
+<code>TRUE</code> and <code>FALSE</code> respectively, to prevent the
+user from re-assigning them. Removing the created <code>T</code> and
 <code>F</code> constants allows re-assignment again.</p>
 <p> </p>
 <p>The <code>X %&lt;-c% A</code> operator creates a

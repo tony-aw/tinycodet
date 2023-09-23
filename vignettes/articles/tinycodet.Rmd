@@ -59,7 +59,7 @@ tinycodet::tinycodet_help()
 
 # Safer functionality
 
-In base R, `(0.1*3) == 0.3` gives `FALSE`, due to the way decimal numbers are stored in computers.  `tinycodet` adds safer truth testing operators, that give correct results.
+In base R, `(0.1*3) == 0.3` gives `FALSE`, due to the way decimal numbers are stored in programming languages like R and Python.  `tinycodet` adds safer truth testing operators, that give correct results.
 
 The atomic type casting functions (i.e. `as.character()`, `as.logical()`, etc.) strip away attributes. `tinycodet` adds safer type casting functions that do not strip away attributes.
 

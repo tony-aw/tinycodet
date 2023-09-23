@@ -65,7 +65,7 @@ Examples:
 ```{r}
 
 x <- c(0.3, 0.6, 0.7)
-bnd <- matrix(c(x-0.1, x+0.1), ncol=2)
+bnd <- cbind(x-0.1, x+0.1)
 x %d{}% bnd
 x %d!{}% bnd
 
@@ -105,7 +105,7 @@ The above code is slightly convoluted. So I've taken the liberty of creating mor
  - `as_dbl()`: same as `as.double()` (i.e. convert to real numbers), but with attributes preserved.
  - `as_chr()`: same as `as.character()`, but with attributes preserved.
  
-Only the "class" attribute is removed from the object when converting with these functions, the other attributes are preserved
+All attributes except the "class" attribute are preserved.
 
 Examples:
 
@@ -128,7 +128,7 @@ as_chr(x)
 
 # Locked constants
 
-One can re-assign the values `T` and `F`. One can even run something like `T <- FALSE` and `F <- TRUE`! `tinycodet` adds the `lock_TF()` function that forces `T` to stay `TRUE` and `F` to stay `FALSE`. Essentially, the `lock_TF()` function creates the locked constant `T` and `F`, assigned to `TRUE` and `FALSE`, to prevent the user from re-assigning them. Removing the created `T` and `F` constants allows re-assignment again.
+One can re-assign the values `T` and `F`. One can even run something like `T <- FALSE` and `F <- TRUE`! `tinycodet` adds the `lock_TF()` function that forces `T` to stay `TRUE` and `F` to stay `FALSE`. Essentially, the `lock_TF()` function creates the locked constant `T` and `F`, assigned to `TRUE` and `FALSE` respectively, to prevent the user from re-assigning them. Removing the created `T` and `F` constants allows re-assignment again.
 
 &nbsp;
 

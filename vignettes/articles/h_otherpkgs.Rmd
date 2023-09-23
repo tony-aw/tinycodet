@@ -86,7 +86,7 @@ There are some library handling issues that are traditionally solved through ext
   - Force an error when using a function that appears in multiple attached packages: one can use the `options(conflicts.policy = ...)` to specify when such an error should be enforced.
   - Give warnings when partial argument matching occurs: one can use `options( warnPartialMatchArgs = TRUE, warnPartialMatchAttr = TRUE, warnPartialMatchDollar = TRUE)`.
  - Get path of current script or project root folder: without R-Studio one can use `commandArgs()` function; with R-Studio one can use `rstudioapi::getSourceEditorContext()$path`. Using `setwd("..")` will set the working directory one folder up - which would often be your project root folder.
- - Project isolation: set your library to a folder specific to your project (i.e. using `.libPaths()`).
- - Date-based version control: As MRAN is no longer available, one may use the R-Studio package manager website as your repository (see https://packagemanager.posit.com/client/#/repos/2/overview or https://packagemanager.posit.co/client/#/repos/2/overview).
+ - Project isolation: set your library to a folder specific to your project (i.e. using `.libPaths()`, and/or using the `lib.loc` argument in the relevant functions).
+ - Date-based version control: As MRAN is no longer available, one may use the R-Studio package manager website as your repository: https://packagemanager.posit.co/client/#/.
 
 &nbsp;
