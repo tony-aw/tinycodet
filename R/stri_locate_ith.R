@@ -127,7 +127,7 @@ stri_locate_ith <- function(
     str, i, ... , regex, fixed, coll, charclass
 ) {
   n <- length(str)
-  if(length(i) == 1) i <- rep(i, n)
+  if(length(i) == 1) i <- rep.int(i, n)
   if(length(i) != n) {
     stop("`i` must be the same length as `str`, or be a length of 1")
   }
