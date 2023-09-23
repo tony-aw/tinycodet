@@ -12,10 +12,10 @@ x,y,
 "x %?=% y" =c(F,F,F,F),
 check.names = FALSE
 )
+
+
 # "negating logic works (1)"
 expect_equal(outcome, expected)
-
-
 
 df <- expand.grid(x = c(NA, NaN, Inf, -Inf), y = c(NA, NaN, Inf, -Inf))
 x <- df$x
@@ -97,4 +97,28 @@ expect_equal(which(s %=strtype% "numeric"), c(3, 8))
 expect_equal(which(s %=strtype% "special"), 4)
 
 
-
+# error checks ====
+expect_error(
+  n %=numtype% c("unreal", "~0", "B", "prop", "I", "odd", "even", "R"),
+  pattern = "`numtype` must be a single string"
+)
+expect_error(
+  s %=strtype% c("empty", "unreal"),
+  pattern = "`strtype` must be a single string"
+)
+expect_error(
+  s %=numtype% "unreal",
+  pattern = "`n` must be numeric"
+)
+expect_error(
+  n %=strtype% "unreal",
+  pattern = "`s` must be character"
+)
+expect_error(
+  n %=numtype% "foo",
+  pattern = "numtype not recognised"
+)
+expect_error(
+  s %=strtype% "foo",
+  pattern = "strtype not recognised"
+)
