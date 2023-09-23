@@ -51,6 +51,23 @@ The \code{stri_locate_ith} function
 locates the \eqn{i^{th}} occurrence of a pattern in each string of
 some character vector. \cr
 }
+\details{
+\bold{Special note regarding charclass} \cr
+The \code{stri_locate_ith()} function is based on
+\link[stringi]{stri_locate_all} and \link[stringi]{stri_count}.
+This generally gives consistent results,
+but the exception is when \code{charclass} pattern is used. \cr
+Where the functions
+\link[stringi]{stri_locate_first} or \link[stringi]{stri_locate_last}
+give the location of the first or last single character matching the \code{charclass}
+(respectively),
+and \link[stringi]{stri_count}
+gives the number of single characters matching the \code{charclass},
+\link[stringi]{stri_locate_all} gives the start and end of \bold{consecutive} characters. \cr
+The \code{stri_locate_ith()} is in this aspect more in line with
+\link[stringi]{stri_locate_all},
+as it gives the \eqn{i^{th}} set of consecutive characters.
+}
 \examples{
 
 # simple pattern ====

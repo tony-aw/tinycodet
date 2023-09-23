@@ -116,15 +116,15 @@ transform_if <- function(
   }
 
   # make transformations:
-  if(isTRUE(any(cond))) {
+  if(any(cond)) {
     ind_T <- which(cond)
     y[ind_T] <- .internal_transform_if(yes, y, ind_T)
   }
-  if(isTRUE(any(!cond))) {
+  if(any(!cond)) {
     ind_F <- which(!cond)
     y[ind_F] <- .internal_transform_if(no, y, ind_F)
   }
-  if(isTRUE(any(is.na(cond)))) {
+  if(any(is.na(cond))) {
     ind_NA <- which(is.na(cond))
     y[ind_NA] <- .internal_transform_if(other, y, ind_NA)
   }

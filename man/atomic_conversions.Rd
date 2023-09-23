@@ -41,7 +41,7 @@ strips the object of its attributes,
 including attributes such as names and dimensions. \cr
 \cr
 The functions provided here by the \code{tinycodet} package
-do not strip away attributes - except the "class" attribute. \cr
+preserve all attributes - except the "class" attribute. \cr
 \cr
 The functions are as follows: \cr
 \itemize{

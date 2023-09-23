@@ -1,4 +1,4 @@
-#' (un)expose infix operators in the current environment
+#' (un)expose infix operators from package namespace in the current environment
 #'
 #' @description
 #' \code{import_inops(expose=...)}

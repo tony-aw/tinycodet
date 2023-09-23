@@ -116,11 +116,11 @@ NULL
 #' @rdname logic_ops
 #' @export
 `%=numtype%` <- function(n, numtype) {
-  if(length(numtype) > 1){stop("numtype must be a sinlge string")}
-  if(! numtype %in% c("unreal", "~0", "B", "prop", "N", "I", "odd", "even", "R")){
+  if(length(numtype) > 1){stop("`numtype` must be a single string")}
+  if(! numtype %in% c("unreal", "~0", "B", "prop", "I", "odd", "even", "R")){
     stop("numtype not recognised")
   }
-  if(!is.numeric(n)) { stop("n must be numeric") }
+  if(!is.numeric(n)) { stop("`n` must be numeric") }
   check.unreal <- is.infinite(n) | is.nan(n) | is.na(n)
   switch(
     numtype,
@@ -138,10 +138,11 @@ NULL
 #' @rdname logic_ops
 #' @export
 `%=strtype%` <- function(s, strtype) {
-  if(length(strtype)>1){stop("strtype must be a sinlge string")}
+  if(length(strtype)>1){stop("`strtype` must be a single string")}
   if(! strtype %in% c("unreal", "empty", "numeric", "special")){
     stop("strtype not recognised")
   }
+  if(!is.character(s)) { stop("`s` must be character") }
   check.unreal <- is.na(s)
   s.clean <- trimws(s, which="both")
   switch(

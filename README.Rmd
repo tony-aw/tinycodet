@@ -157,7 +157,8 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
  - 1 September 2023: Moved `source_selection()` to the "misc" category. Specifying non-existing infix operators in the `exclude` or `include.only` arguments of `import_inops()` will now produce a warning message.
  - 8 September 2023: Removed Non-Standard Evaluation in `alias` argument of `import_as()`; `alias` can now instead by specified as either a string or a one-sided formula with a single term. Added two miscellaneous `import_` functions: `import_LL()` and `import_int()`; `import_inops()` therefore now also takes exposed functions from `import_LL()` into consideration. Changed the argument order in `import_data()` to be more consistent with the other `import_` - functions. Made sure all `import_` - functions have proper library location checks. Changed the documentation and website in accordance with the aforementioned changes. Fixed some spelling errors in the documentation. Added more tests (almost 700 tests now; so approximately 10 tests per function on average). Added more examples to the documentation.
  - 9 September 2023: Removed the recycling restriction in the decimal truth testing operators, to be more consistent with the `stringi` truth testing operators. Removed the `enhances` argument from `import_as()`, for more security.
- - 18 September 2023: LAST MAJOR UPDATE (I promise): changed the name (yet again) to `tinycodet`. R package is now basically finished, safer for some teeny tiny textual edits in the documentation here and there.
+ - 18 September 2023: LAST MAJOR UPDATE (I promise): changed the name (yet again) to `tinycodet`. R package is now basically finished, safe for some tiny textual edits in the documentation here and there.
+ - 23 September 2023: fixed a mistake in `stri_locate_ith()` when used with `charclass` pattern. Added almost a 100 more tests. Still busy with checking the documentation before submitting to CRAN...
 
 FUTURE PLANS:
 

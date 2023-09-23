@@ -17,7 +17,7 @@
 #' Thus these operators provide safer decimal number (in)equality tests. \cr
 #' \cr
 #' For example: \code{0.1*7 == 0.7} returns \code{FALSE}, even though they are equal,
-#' due to the way decimal numbers are stored in programming languages (like R). \cr
+#' due to the way decimal numbers are stored in programming languages (like R, Python). \cr
 #' But \code{0.1*7 %d==% 0.7} returns \code{TRUE}. \cr
 #' \cr
 #' There are also the \code{x %d{}% bnd} and \code{x %d!{}% bnd} operators,
@@ -57,7 +57,7 @@
 #' x %d>=% y # correct
 #'
 #' x <- c(0.3, 0.6, 0.7)
-#' bnd <- matrix(c(0.29, 0.59, 0.69, 0.31, 0.61, 0.71), ncol=2)
+#' bnd <- cbind(x-0.1, x+0.1)
 #' x %d{}% bnd
 #' x %d!{}% bnd
 #'

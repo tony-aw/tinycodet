@@ -1,6 +1,6 @@
 #' Locate \eqn{i^{th}} Pattern Occurrence
 #'
-#'@description
+#' @description
 #' The \code{stri_locate_ith} function
 #' locates the \eqn{i^{th}} occurrence of a pattern in each string of
 #' some character vector. \cr
@@ -36,6 +36,22 @@
 #' Supplying these arguments anyway will result in an error.
 #'
 #'
+#' @details
+#' \bold{Special note regarding charclass} \cr
+#' The \code{stri_locate_ith()} function is based on
+#' \link[stringi]{stri_locate_all} and \link[stringi]{stri_count}.
+#' This generally gives consistent results,
+#' but the exception is when \code{charclass} pattern is used. \cr
+#' Where the functions
+#' \link[stringi]{stri_locate_first} or \link[stringi]{stri_locate_last}
+#' give the location of the first or last single character matching the \code{charclass}
+#' (respectively),
+#' and \link[stringi]{stri_count}
+#' gives the number of single characters matching the \code{charclass},
+#' \link[stringi]{stri_locate_all} gives the start and end of \bold{consecutive} characters. \cr
+#' The \code{stri_locate_ith()} is in this aspect more in line with
+#' \link[stringi]{stri_locate_all},
+#' as it gives the \eqn{i^{th}} set of consecutive characters.
 #'
 #'
 #' @returns
@@ -153,9 +169,7 @@ stri_locate_ith <- function(
     p1 <- stringi::stri_locate_all_charclass(
       str=str, pattern=charclass, omit_no_match = FALSE, get_length = FALSE, ...
     )
-    n.matches <- stringi::stri_count_charclass(
-      str=str, pattern=charclass, ...
-    )
+    n.matches <- vapply(p1, nrow, integer(1))
   }
 
   n.matches <- pmax(n.matches, 1) # if no matches found, n.matches must be 1 so that NA is returned.
@@ -164,7 +178,7 @@ stri_locate_ith <- function(
   i[neg] <- pmax(n.matches[neg] - abs(i[neg]+1), 1)
   i[pos] <- pmin(i[pos], n.matches[pos])
 
-  rowind <- i + c(0, cumsum(n.matches))[1:n]
+  rowind <- i + c(0, cumsum(n.matches))[seq_len(n)]
   mat <- do.call(rbind, p1)
   mat <- mat[rowind, , drop=FALSE]
   colnames(mat) <- c("start", "end")

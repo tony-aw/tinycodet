@@ -356,8 +356,11 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   truth testing operators. Removed the `enhances` argument from
   `import_as()`, for more security.
 - 18 September 2023: LAST MAJOR UPDATE (I promise): changed the name
-  (yet again) to `tinycodet`. R package is now basically finished, safer
-  for some teeny tiny textual edits in the documentation here and there.
+  (yet again) to `tinycodet`. R package is now basically finished, safe
+  for some tiny textual edits in the documentation here and there.
+- 23 September 2023: fixed a mistake in `stri_locate_ith()` when used
+  with `charclass` pattern. Added almost a 100 more tests. Still busy
+  with checking the documentation before submitting to CRAN…
 
 FUTURE PLANS:
 

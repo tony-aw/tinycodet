@@ -1,6 +1,6 @@
 #' The tinycodet expansion of the 'stringi' R package
 #'
-#'@description
+#' @description
 #' The \code{tinycodet} R package adds some functions and operators
 #' to extend the functionality of the \code{stringi} R package:
 #'
@@ -25,6 +25,7 @@
 #'
 #' @seealso [tinycodet_help()]
 #'
+#' @references Gagolewski M., stringi: Fast and portable character string processing in R, Journal of Statistical Software 103(2), 2022, 1–59, doi:10.18637/jss.v103.i02
 #'
 
 #' @rdname tinycodet_strings

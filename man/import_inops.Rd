@@ -2,7 +2,7 @@
 % Please edit documentation in R/import_inops.R
 \name{import_inops}
 \alias{import_inops}
-\title{(un)expose infix operators in the current environment}
+\title{(un)expose infix operators from package namespace in the current environment}
 \usage{
 import_inops(expose = NULL, unexpose = NULL, lib.loc = .libPaths(), ...)
 }

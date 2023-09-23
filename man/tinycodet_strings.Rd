@@ -27,6 +27,9 @@ they have been aggressively optimized to be in the same order of speed
 as the other \code{stringi} functions.
 }
 }
+\references{
+Gagolewski M., stringi: Fast and portable character string processing in R, Journal of Statistical Software 103(2), 2022, 1–59, doi:10.18637/jss.v103.i02
+}
 \seealso{
 \code{\link[=tinycodet_help]{tinycodet_help()}}
 }
