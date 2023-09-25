@@ -7,17 +7,9 @@
 import_inops(expose = NULL, unexpose = NULL, lib.loc = .libPaths(), ...)
 }
 \arguments{
-\item{expose}{either one of the following:
+\item{expose, unexpose}{either one of the following:
 \itemize{
-\item a package alias as produced by the \link{import_as} function.
-\item a string giving the package name
-from which to load infix operators,
-and place them in the current environment. \cr
-}}
-
-\item{unexpose}{either one of the following:
-\itemize{
-\item a package alias as produced by the \link{import_as} function.
+\item an alias object as produced by the \link{import_as} function.
 \item a string giving the package name.
 }}
 
@@ -43,8 +35,9 @@ in the current environment
 \cr
 If using argument \code{unexpose}: \cr
 The infix operators specified in the given package or alias,
-exposed by \code{import_inops()}, will be deleted. \cr
-If such infix operators could not be found, this function returns \code{NULL}. \cr
+exposed by \code{import_inops()}, will be removed from the current environment
+(like the Global environment, or the environment within a function). \cr
+If such infix operators could not be found, this function simply returns \code{NULL}. \cr
 }
 \description{
 \code{import_inops(expose=...)}
@@ -59,8 +52,8 @@ from the current environment
 (like the global environment or the environment within a function). \cr
 Note that in this case only infix operators exposed by
 the \code{tinycodet} import system
-will be removed from the current environment; \cr
-"regular" infix operators (i.e. user-specified) will not be touched. \cr
+will be removed from the current environment;
+"regular" (i.e. user-specified) infix operators will not be touched. \cr
 \cr
 }
 \details{
@@ -68,7 +61,8 @@ The \code{import_inops()} function does not support overloading base/core R oper
 \cr
 When using \code{import_inops()} to remove infix operators from the current environment,
 it will use the attributes of those operators to determine if the infix operator came from
-the \code{tinycodet} import system, or if they were user-defined.
+the \code{tinycodet} import system or not.
+Only infix operators exposed by the \code{tinycodet} import system will be removed.
 }
 \examples{
 \dontrun{

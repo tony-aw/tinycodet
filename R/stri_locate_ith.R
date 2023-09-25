@@ -29,7 +29,7 @@
 #' then if \code{i >= 3} the third instance will be located, \cr
 #' and if \code{i <= -3} the first instance will be located. \cr
 #' @param ... more arguments to be supplied to
-#' \link[stringi]{stri_locate} and \link[stringi]{stri_count}. \cr
+#' \link[stringi]{stri_locate}. \cr
 #' Do not supply the arguments
 #' \code{omit_no_match}, \code{get_length}, or \code{pattern},
 #' as they are already specified internally.
@@ -39,15 +39,14 @@
 #' @details
 #' \bold{Special note regarding charclass} \cr
 #' The \code{stri_locate_ith()} function is based on
-#' \link[stringi]{stri_locate_all} and \link[stringi]{stri_count}.
-#' This generally gives consistent results,
+#' \link[stringi]{stri_locate_all}.
+#' This generally gives results consistent with
+#' \link[stringi]{stri_locate_first} or \link[stringi]{stri_locate_last},
 #' but the exception is when \code{charclass} pattern is used. \cr
 #' Where the functions
 #' \link[stringi]{stri_locate_first} or \link[stringi]{stri_locate_last}
 #' give the location of the first or last single character matching the \code{charclass}
 #' (respectively),
-#' and \link[stringi]{stri_count}
-#' gives the number of single characters matching the \code{charclass},
 #' \link[stringi]{stri_locate_all} gives the start and end of \bold{consecutive} characters. \cr
 #' The \code{stri_locate_ith()} is in this aspect more in line with
 #' \link[stringi]{stri_locate_all},
@@ -148,28 +147,22 @@ stri_locate_ith <- function(
     p1 <- stringi::stri_locate_all_regex(
       str=str, pattern=regex, omit_no_match = FALSE, get_length = FALSE, ...
     )
-    n.matches <- stringi::stri_count_regex(
-      str=str, pattern=regex, ...
-    )
+    n.matches <- lengths(p1)/2
   } else if (providedarg["fixed"]) {
     p1 <- stringi::stri_locate_all_fixed(
       str=str, pattern=fixed, omit_no_match = FALSE, get_length = FALSE, ...
     )
-    n.matches <- stringi::stri_count_fixed(
-      str=str, pattern=fixed, ...
-    )
+    n.matches <- lengths(p1)/2
   } else if (providedarg["coll"]) {
     p1 <- stringi::stri_locate_all_coll(
       str=str, pattern=coll, omit_no_match = FALSE, get_length = FALSE, ...
     )
-    n.matches <- stringi::stri_count_coll(
-      str=str, pattern=coll, ...
-    )
+    n.matches <- lengths(p1)/2
   } else if (providedarg["charclass"]) {
     p1 <- stringi::stri_locate_all_charclass(
       str=str, pattern=charclass, omit_no_match = FALSE, get_length = FALSE, ...
     )
-    n.matches <- vapply(p1, nrow, integer(1))
+    n.matches <- lengths(p1)/2
   }
 
   n.matches <- pmax(n.matches, 1) # if no matches found, n.matches must be 1 so that NA is returned.

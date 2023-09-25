@@ -79,7 +79,7 @@ For consistency, infix operators exposed by \code{import_LL()} are also locked. 
 \cr
 \bold{Other details} \cr
 The \code{import_LL()} and \code{import_int()} functions
-do not support importing from base/core R. \cr
+do not support importing functions from base/core R. \cr
 \cr
 }
 \examples{

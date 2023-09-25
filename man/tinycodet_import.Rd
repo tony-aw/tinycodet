@@ -16,21 +16,21 @@ or one can attach a package
 The advantages and disadvantages of loading without attaching a package versus attaching a package - at least those relevant here - can be compactly presented in the following table: \cr\tabular{lllll}{
    aspect \tab | \tab alias / :: \tab | \tab attaching \cr
    prevent masking functions from other packages \tab | \tab Yes (+) \tab | \tab No (-) \cr
-   . \tab  \tab  \tab  \tab  \cr
+    \tab | \tab  \tab | \tab  \cr
    prevent masking core R functions \tab | \tab Yes (+) \tab | \tab No (-) \cr
-   . \tab  \tab  \tab  \tab  \cr
+    \tab | \tab  \tab | \tab  \cr
    clarify which function came from which package \tab | \tab Yes (+) \tab | \tab No (-) \cr
-   . \tab  \tab  \tab  \tab  \cr
+    \tab | \tab  \tab | \tab  \cr
    place/expose functions only in current environment instead of globally \tab | \tab Yes (+) \tab | \tab No (-) \cr
-   . \tab  \tab  \tab  \tab  \cr
+    \tab | \tab  \tab | \tab  \cr
    prevent namespace pollution \tab | \tab Yes (+) \tab | \tab No (-) \cr
-   . \tab  \tab  \tab  \tab  \cr
+    \tab | \tab  \tab | \tab  \cr
    minimize typing - especially for infix operators \tab  \tab  \tab  \tab  \cr
    (i.e. typing \code{package::`\%op\%`(x, y)} instead of \code{x \%op\% y} is cumbersome) \tab | \tab No (-) \tab | \tab Yes (+) \cr
-   . \tab  \tab  \tab  \tab  \cr
+    \tab | \tab  \tab | \tab  \cr
    use multiple related packages, \tab  \tab  \tab  \tab  \cr
    without constantly switching between package prefixes \tab | \tab No (-) \tab | \tab Yes (+) \cr
-   . \tab  \tab  \tab  \tab  \cr
+    \tab | \tab  \tab | \tab  \cr
    NOTE: + = advantage, - = disadvantage \tab  \tab  \tab  \tab  \cr
 }
 

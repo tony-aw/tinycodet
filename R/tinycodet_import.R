@@ -12,22 +12,22 @@
 #' ```{r echo=FALSE, results='markup'}
 #' X <- rbind(
 #'   c("prevent masking functions from other packages", "|", " Yes (+)", "|", " No (-)"),
-#'   c(".", " ", " ", " ", " "),
+#'   c("", "|", " ", "|", " "),
 #'   c("prevent masking core R functions", "|", " Yes (+)", "|", " No (-)"),
-#'   c(".", " ", " ", " ", " "),
+#'   c("", "|", " ", "|", " "),
 #'   c("clarify which function came from which package", "|", " Yes (+)", "|", " No (-)"),
-#'   c(".", " ", " ", " ", " "),
+#'   c("", "|", " ", "|", " "),
 #'   c("place/expose functions only in current environment instead of globally", "|", " Yes (+)", "|", " No (-)"),
-#'   c(".", " ", " ", " ", " "),
+#'   c("", "|", " ", "|", " "),
 #'   c("prevent namespace pollution", "|", " Yes (+)", "|", " No (-)"),
-#'   c(".", " ", " ", " ", " "),
+#'   c("", "|", " ", "|", " "),
 #'   c("minimize typing - especially for infix operators
 #'   (i.e. typing ``package::`%op%`(x, y)`` instead of `x %op% y` is cumbersome)",
 #'     "|", " No (-)", "|", " Yes (+)"),
-#'   c(".", " ", " ", " ", " "),
+#'   c("", "|", " ", "|", " "),
 #'   c("use multiple related packages,
 #'   without constantly switching between package prefixes" , "|", " No (-)", "|", " Yes (+)"),
-#'   c(".", " ", " ", " ", " "),
+#'   c("", "|", " ", "|", " "),
 #'   c("NOTE: + = advantage, - = disadvantage", "", "", "", "" )
 #' )
 #' colnames(X) <- c("aspect", "|",  "alias / ::", "|", "attaching")

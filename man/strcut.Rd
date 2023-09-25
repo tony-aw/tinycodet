@@ -95,6 +95,8 @@ print(x)
 loc <- stri_locate_ith(x, 1:10, fixed = as.character(1:10))
 strcut_loc(x, loc)
 strcut_loc(x, c(5,5))
+strcut_loc(x, c(NA, NA), fill_loc = TRUE)
+strcut_loc(x, c(NA, NA), fill_loc = FALSE)
 
 test <- "The\u00a0above-mentioned    features are very useful. " \%s+\%
 "Spam, spam, eggs, bacon, and spam. 123 456 789"

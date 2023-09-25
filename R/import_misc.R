@@ -52,7 +52,7 @@
 #' \cr
 #' \bold{Other details} \cr
 #' The \code{import_LL()} and \code{import_int()} functions
-#' do not support importing from base/core R. \cr
+#' do not support importing functions from base/core R. \cr
 #' \cr
 #'
 #'

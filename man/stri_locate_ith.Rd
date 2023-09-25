@@ -30,7 +30,7 @@ then if \code{i >= 3} the third instance will be located, \cr
 and if \code{i <= -3} the first instance will be located. \cr}
 
 \item{...}{more arguments to be supplied to
-\link[stringi]{stri_locate} and \link[stringi]{stri_count}. \cr
+\link[stringi]{stri_locate}. \cr
 Do not supply the arguments
 \code{omit_no_match}, \code{get_length}, or \code{pattern},
 as they are already specified internally.
@@ -54,15 +54,14 @@ some character vector. \cr
 \details{
 \bold{Special note regarding charclass} \cr
 The \code{stri_locate_ith()} function is based on
-\link[stringi]{stri_locate_all} and \link[stringi]{stri_count}.
-This generally gives consistent results,
+\link[stringi]{stri_locate_all}.
+This generally gives results consistent with
+\link[stringi]{stri_locate_first} or \link[stringi]{stri_locate_last},
 but the exception is when \code{charclass} pattern is used. \cr
 Where the functions
 \link[stringi]{stri_locate_first} or \link[stringi]{stri_locate_last}
 give the location of the first or last single character matching the \code{charclass}
 (respectively),
-and \link[stringi]{stri_count}
-gives the number of single characters matching the \code{charclass},
 \link[stringi]{stri_locate_all} gives the start and end of \bold{consecutive} characters. \cr
 The \code{stri_locate_ith()} is in this aspect more in line with
 \link[stringi]{stri_locate_all},

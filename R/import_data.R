@@ -10,7 +10,7 @@
 #' @param package a single string, giving the name of the R-package.
 #' @param lib.loc character vector specifying library search path
 #' (the location of R library trees to search through). \cr
-#' This is usually \code{.libPaths()}. \cr
+#' The \code{lib.loc} argument would usually be \code{.libPaths()}. \cr
 #' See also \link[base]{loadNamespace}.
 #' @param dataname a single string, giving the name of the data set.
 #'

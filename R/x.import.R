@@ -9,8 +9,9 @@
 #' from an alias object returned by \link{import_as}. \cr
 #' \cr
 #' The \code{is.tinyimport()} function
-#' checks if an alias object or an exposed function is of class \code{tinyimport}; \cr
-#' i.e. if it is an object produced by the \link{import_as} or \link{import_inops} function. \cr
+#' checks if an alias object or an exposed function is of class \code{tinyimport};
+#' i.e. if it is an object produced by the
+#' \link{import_as}, \link{import_inops}, or \link{import_LL} function. \cr
 #' \cr
 #'
 #'
@@ -29,7 +30,8 @@
 #' @details
 #' For \code{help.import(...)}: \cr
 #' Do not use the \code{topic} / \code{package} and
-#' \code{i} / \code{alias} arguments together. It's either one set or the other. \cr
+#' \code{i} / \code{alias} argument sets together.
+#' It's either one set or the other. \cr
 #' \cr
 #'
 #'
@@ -38,8 +40,8 @@
 #' Opens the appropriate help page. \cr
 #' \cr
 #' For \code{is.tinyimport()}: \cr
-#' Returns \code{TRUE} if \code{x} is produced by functions
-#' \link{import_as} or \link{import_inops},
+#' Returns \code{TRUE} if the function is produced by
+#' \link{import_as}, \link{import_inops}, or \link{import_LL},
 #' and returns \code{FALSE} if it is not. \cr
 #' \cr
 #' For \code{attr.import(alias, which = NULL)}: \cr
@@ -75,9 +77,9 @@
 #' \cr
 #' For \code{attr.import(alias, which = "ordered_object_names")}: \cr
 #' Gives the names of the objects in the alias, in the order as they were loaded. \cr
-#' Only unique names are given, thus conflicting objects only appear once. \cr
-#' (Note that if argument \code{re_exports} is \code{TRUE},
-#' re-exported functions are loaded when the main package is loaded, thus changing this order slightly.) \cr
+#' For conflicting objects, the last load is used for the ordering. \cr
+#' Note that if argument \code{re_exports} is \code{TRUE},
+#' re-exported functions are loaded when the main package is loaded, thus changing this order slightly.
 #'
 #'
 #' @seealso [tinycodet_import()]

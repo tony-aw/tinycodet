@@ -1,7 +1,7 @@
 #' Safer decimal number (in)equality testing operators
 #'
 #' @description
-#' The \code{%d==%, %d!=% %d<%, %d>%, %d<=%, %d>=%} (in)equality operator
+#' The \code{%d==%, %d!=% %d<%, %d>%, %d<=%, %d>=%} (in)equality operators
 #' perform decimal (class "double") number truth testing. \cr
 #' They are virtually equivalent to the regular (in)equality operators, \cr
 #' \code{==, !=, <, >, <=, >=}, \cr
@@ -17,7 +17,7 @@
 #' Thus these operators provide safer decimal number (in)equality tests. \cr
 #' \cr
 #' For example: \code{0.1*7 == 0.7} returns \code{FALSE}, even though they are equal,
-#' due to the way decimal numbers are stored in programming languages (like R, Python). \cr
+#' due to the way decimal numbers are stored in programming languages like R and  Python. \cr
 #' But \code{0.1*7 %d==% 0.7} returns \code{TRUE}. \cr
 #' \cr
 #' There are also the \code{x %d{}% bnd} and \code{x %d!{}% bnd} operators,

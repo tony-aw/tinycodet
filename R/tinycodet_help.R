@@ -1,6 +1,8 @@
 #' The tinycodet help page
 #'
-#'@description
+#'
+#' @description
+#'
 #' Welcome to the \code{tinycodet} introduction help page! \cr
 #' \cr
 #' The 'tinycodet' R-package is a tiny little R package adds some functions to help in your coding etiquette. \cr

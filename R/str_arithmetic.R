@@ -15,7 +15,7 @@
 #' occurs in each element of \code{x}. \cr
 #' \cr
 #' The \code{e1 %s$% e2} operator is exported from \code{stringi},
-#' and provides access to \link[=stringi]{stri_sprintf} in the form of an infix operator. \cr
+#' and provides access to \link[stringi]{stri_sprintf} in the form of an infix operator. \cr
 #'
 #' @param x a string or character vector.
 #' @param p either a list with \code{stringi} arguments (see \link{stri_rgx}),

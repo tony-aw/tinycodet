@@ -21,11 +21,11 @@ pkg_get_deps(
 pkg_lsf(package, type, lib.loc = .libPaths())
 }
 \arguments{
-\item{pkgs}{a single string, or character vector, with the package name(s).}
+\item{pkgs}{a character vector with the package name(s).}
 
 \item{lib.loc}{character vector specifying library search path
 (the location of R library trees to search through). \cr
-This is usually \code{.libPaths()}. \cr
+The \code{lib.loc} argument would usually be \code{.libPaths()}. \cr
 See also \link[base]{loadNamespace}.}
 
 \item{package}{a single string giving the package name.}
@@ -121,7 +121,7 @@ pkg_lsf("devtools", "all")
 
 }
 \references{
-https://stackoverflow.com/questions/30223957/elegantly-extract-r-package-dependencies-of-a-package-not-listed-on-cran
+elegantly extract R package dependencies of a package not listed on CRAN. Stack Overflow. (1 September 2023). https://stackoverflow.com/questions/30223957/elegantly-extract-r-package-dependencies-of-a-package-not-listed-on-cran
 }
 \seealso{
 \code{\link[=tinycodet_import]{tinycodet_import()}}

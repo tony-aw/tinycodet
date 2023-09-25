@@ -17,6 +17,25 @@ introduces a few functions:
 \item The \link[=\%:=\%]{generalized in-place (mathematical) modification operator}.
 }
 }
+\examples{
+
+object <- matrix(c(-9:8, NA, NA) , ncol=2)
+
+# in base R:
+ifelse( # repetitive, and gives unnecessary warning
+  is.na(object>0), -Inf,
+  ifelse(
+    object>0,  log(object), object^2
+  )
+)
+mtcars$mpg[mtcars$cyl>6] <- (mtcars$mpg[mtcars$cyl>6])^2 # long
+
+# with tinycodet:
+object |> transform_if(\(x)x>0, log, \(x)x^2, \(x) -Inf) # compact & no warning
+mtcars$mpg[mtcars$cyl>6] \%:=\% \(x)x^2 # short
+
+
+}
 \seealso{
 \code{\link[=tinycodet_help]{tinycodet_help()}}
 }

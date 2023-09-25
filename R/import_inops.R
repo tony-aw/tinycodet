@@ -13,17 +13,12 @@
 #' (like the global environment or the environment within a function). \cr
 #' Note that in this case only infix operators exposed by
 #' the \code{tinycodet} import system
-#' will be removed from the current environment; \cr
-#' "regular" infix operators (i.e. user-specified) will not be touched. \cr
+#' will be removed from the current environment;
+#' "regular" (i.e. user-specified) infix operators will not be touched. \cr
 #' \cr
 #'
-#' @param expose either one of the following:
-#'  * a package alias as produced by the \link{import_as} function.
-#'  * a string giving the package name
-#'  from which to load infix operators,
-#'  and place them in the current environment. \cr
-#' @param unexpose either one of the following:
-#'  * a package alias as produced by the \link{import_as} function.
+#' @param expose,unexpose either one of the following:
+#'  * an alias object as produced by the \link{import_as} function.
 #'  * a string giving the package name.
 #' @param lib.loc character vector specifying library search path
 #' (the location of R library trees to search through). \cr
@@ -44,7 +39,8 @@
 #' \cr
 #' When using \code{import_inops()} to remove infix operators from the current environment,
 #' it will use the attributes of those operators to determine if the infix operator came from
-#' the \code{tinycodet} import system, or if they were user-defined.
+#' the \code{tinycodet} import system or not.
+#' Only infix operators exposed by the \code{tinycodet} import system will be removed.
 #'
 #'
 #' @returns
@@ -55,8 +51,9 @@
 #' \cr
 #' If using argument \code{unexpose}: \cr
 #' The infix operators specified in the given package or alias,
-#' exposed by \code{import_inops()}, will be deleted. \cr
-#' If such infix operators could not be found, this function returns \code{NULL}. \cr
+#' exposed by \code{import_inops()}, will be removed from the current environment
+#' (like the Global environment, or the environment within a function). \cr
+#' If such infix operators could not be found, this function simply returns \code{NULL}. \cr
 #'
 #' @seealso [tinycodet_import()], [import_inops.control()]
 #'

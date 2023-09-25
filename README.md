@@ -39,16 +39,6 @@ have been well documented.
 
  
 
-I no longer consider this R package to be “experimental”. It is now
-fully functional. Besides some textual changes in the documentation and
-website articles, I do not expect (big) changes for this R package to
-come.
-
-Currently this R package is only available on GitHub. I might publish it
-on CRAN later.
-
- 
-
 Although this is a relatively small R package, I do understand you may
 not want to go through all the articles and help files of `tinycodet`
 without knowing if the R package is even worthy of your time. Therefore,
@@ -61,6 +51,16 @@ page on the website
  
 
 ## Installation
+
+I no longer consider this R package to be “experimental”. It is now
+fully functional. Besides some textual changes in the documentation and
+website articles, I do not expect (big) changes for this R package to
+come.
+
+Currently this R package is only available on GitHub. I might publish it
+on CRAN later.
+
+ 
 
 One can install `tinycodet` from github like so:
 
@@ -361,8 +361,8 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
 - 23 September 2023: fixed a mistake in `stri_locate_ith()` when used
   with `charclass` pattern. Added almost a 100 more tests. Still busy
   with checking the documentation before submitting to CRAN…
-
-FUTURE PLANS:
+- 25 Septemner 2023: Minor textual corrections in documentation and
+  website. FUTURE PLANS:
 
 I believe `tinycodet` is slowly getting closer to becoming stable. There
 does not appear a need to add/remove many more functions/operators,

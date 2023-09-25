@@ -23,13 +23,35 @@ are available for the string-pattern-related functions, when appropriate. \cr
 \item This R package has only one dependency: \code{stringi}.
 No other dependencies, as to avoid \code{"dependency hell"}. \cr
 \item Although the functions are written in R,
-they have been aggressively optimized to be in the same order of speed
+they have been optimized to be in somewhat the same order of speed
 as the other \code{stringi} functions.
 }
+
+()]
+}
+\examples{
+
+# character vector:
+x <- c("3rd 1st 2nd", "5th 4th 6th")
+print(x)
+
+# detect if there are digits:
+x \%s{}\% "[[:digits]]"
+
+# cut x into matrix of individual words:
+x <- strcut_brk(x, "word")
+
+# re-order matrix using the fast \%row~\% operator:
+mat <- stringi::stri_rank(as.vector(x)) |> matrix(ncol=ncol(x))
+sorted <- x \%row~\% mat
+
+# join elements of every row into a single character vector:
+stri_c_mat(sorted, margin=1, sep=" ")
+
 }
 \references{
-Gagolewski M., stringi: Fast and portable character string processing in R, Journal of Statistical Software 103(2), 2022, 1–59, doi:10.18637/jss.v103.i02
+Gagolewski M., \emph{stringi: Fast and portable character string processing in R}, Journal of Statistical Software 103(2), 2022, 1–59, doi:10.18637/jss.v103.i02
 }
 \seealso{
-\code{\link[=tinycodet_help]{tinycodet_help()}}
+\code{\link[=tinycodet_help]{tinycodet_help()}}, \code{\link[=stri_rgx]{stri_rgx()}}
 }

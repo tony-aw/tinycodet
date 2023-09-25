@@ -32,11 +32,11 @@
 #' \code{mat <- sample(1:length(x)) |> matrix(ncol=ncol(x))}) \cr
 #' then the code \cr
 #' \code{x %row~% mat} \cr
-#' will randomly shuffle the elements of every row,
+#' will randomly shuffle the elements of every row of \code{x},
 #' where the shuffling order in each row is independent from the shuffling order in the other rows. \cr
 #' Similarly, \cr
 #' \code{x %col~% mat} \cr
-#' will randomly shuffle the elements of every column,
+#' will randomly shuffle the elements of every column of \code{x},
 #' where the shuffling order in each column is independent from the shuffling order in the other columns. \cr
 #' \cr
 #' Re-ordering/sorting every row/column of a matrix with these operators

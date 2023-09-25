@@ -37,7 +37,7 @@ The \code{x \%s/\% p } operator counts how often regular expression or character
 occurs in each element of \code{x}. \cr
 \cr
 The \code{e1 \%s$\% e2} operator is exported from \code{stringi},
-and provides access to \link[=stringi]{stri_sprintf} in the form of an infix operator. \cr
+and provides access to \link[stringi]{stri_sprintf} in the form of an infix operator. \cr
 }
 \examples{
 x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))

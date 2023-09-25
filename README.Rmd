@@ -37,18 +37,13 @@ The `tinycodet` R-package is a tiny little R package that adds a few functions t
 
  1) Safer decimal (in)equality testing, safer atomic conversions, and other functions for safer coding.
  2) A new package import system, that combines the benefits of aliasing a package with the benefits of attaching a package.
- 3) Extending the string manipulation capabilities of the `stringi` R package. 
+ 3) Extending the string manipulation capabilities of the `stringi` R package.
  4) Reducing repetitive code.
 
 The `tinycodet` R-package has only one dependency, namely `stringi`. Most functions in this R-package are fully vectorized and optimized, and have been well documented.
 
 &nbsp;
 
-I no longer consider this R package to be "experimental". It is now fully functional. Besides some textual changes in the documentation and website articles, I do not expect (big) changes for this R package to come.
-
-Currently this R package is only available on GitHub. I might publish it on CRAN later.
-
-&nbsp;
 
 Although this is a relatively small R package, I do understand you may not want to go through all the articles and help files of `tinycodet` without knowing if the R package is even worthy of your time. Therefore, to get a quick glimpse of what is possible in this R package, I invite you to take a look at the [Get Started](https://tony-aw.github.io/tinycodet/articles/tinycodet.html) page on the website (https://tony-aw.github.io/tinycodet/articles/tinycodet.html).
 
@@ -61,6 +56,11 @@ rm(list=ls())
 
 ## Installation
 
+I no longer consider this R package to be "experimental". It is now fully functional. Besides some textual changes in the documentation and website articles, I do not expect (big) changes for this R package to come.
+
+Currently this R package is only available on GitHub. I might publish it on CRAN later.
+
+&nbsp;
 
 One can install `tinycodet` from github like so:
 
@@ -159,7 +159,7 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
  - 9 September 2023: Removed the recycling restriction in the decimal truth testing operators, to be more consistent with the `stringi` truth testing operators. Removed the `enhances` argument from `import_as()`, for more security.
  - 18 September 2023: LAST MAJOR UPDATE (I promise): changed the name (yet again) to `tinycodet`. R package is now basically finished, safe for some tiny textual edits in the documentation here and there.
  - 23 September 2023: fixed a mistake in `stri_locate_ith()` when used with `charclass` pattern. Added almost a 100 more tests. Still busy with checking the documentation before submitting to CRAN...
-
+ - 25 Septemner 2023: Minor textual corrections in documentation and website.
 FUTURE PLANS:
 
 I believe `tinycodet` is slowly getting closer to becoming stable. There does not appear a need to add/remove many more functions/operators, although some functions, operators or arguments may need to be tweaked and/or optimized. Once I am fully satisfied with the R package, I may attempt to publish this R package to CRAN.

@@ -19,11 +19,11 @@
 #' \code{library(packagename, include.only = pkg_lsf("packagename", type="inops"))} \cr
 #' \cr
 #'
-#' @param pkgs a single string, or character vector, with the package name(s).
+#' @param pkgs a character vector with the package name(s).
 #' @param package a single string giving the package name.
 #' @param lib.loc character vector specifying library search path
 #' (the location of R library trees to search through). \cr
-#' This is usually \code{.libPaths()}. \cr
+#' The \code{lib.loc} argument would usually be \code{.libPaths()}. \cr
 #' See also \link[base]{loadNamespace}.
 #' @param deps_type a character vector, giving the dependency types to be used. \cr
 #' Defaults to \code{c("LinkingTo", "Depends", "Imports")}. \cr
@@ -82,7 +82,7 @@
 #'
 #' @seealso [tinycodet_import()]
 #'
-#' @references https://stackoverflow.com/questions/30223957/elegantly-extract-r-package-dependencies-of-a-package-not-listed-on-cran
+#' @references elegantly extract R package dependencies of a package not listed on CRAN. Stack Overflow. (1 September 2023). https://stackoverflow.com/questions/30223957/elegantly-extract-r-package-dependencies-of-a-package-not-listed-on-cran
 #'
 #'
 #' @examples

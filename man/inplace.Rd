@@ -8,9 +8,7 @@
 x \%:=\% f
 }
 \arguments{
-\item{x}{an object, with properties such that function \code{f} can be used on it. \cr
-For example, when function \code{f} is mathematical,
-\code{x} should be a numeric (or 'number-like') vector, matrix, or array.}
+\item{x}{a variable.}
 
 \item{f}{a (possibly anonymous) function to be applied in-place on \code{x}.
 The function must take one argument only.}

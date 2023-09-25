@@ -17,15 +17,34 @@
 #' * This R package has only one dependency: \code{stringi}.
 #' No other dependencies, as to avoid \code{"dependency hell"}. \cr
 #' * Although the functions are written in R,
-#' they have been aggressively optimized to be in the same order of speed
+#' they have been optimized to be in somewhat the same order of speed
 #' as the other \code{stringi} functions.
 #'
+#'()]
+#'
+#' @seealso [tinycodet_help()], [stri_rgx()]
+#'
+#' @references Gagolewski M., \emph{stringi: Fast and portable character string processing in R}, Journal of Statistical Software 103(2), 2022, 1–59, doi:10.18637/jss.v103.i02
 #'
 #'
+#' @examples
 #'
-#' @seealso [tinycodet_help()]
+#' # character vector:
+#' x <- c("3rd 1st 2nd", "5th 4th 6th")
+#' print(x)
 #'
-#' @references Gagolewski M., stringi: Fast and portable character string processing in R, Journal of Statistical Software 103(2), 2022, 1–59, doi:10.18637/jss.v103.i02
+#' # detect if there are digits:
+#' x %s{}% "[[:digits]]"
+#'
+#' # cut x into matrix of individual words:
+#' x <- strcut_brk(x, "word")
+#'
+#' # re-order matrix using the fast %row~% operator:
+#' mat <- stringi::stri_rank(as.vector(x)) |> matrix(ncol=ncol(x))
+#' sorted <- x %row~% mat
+#'
+#' # join elements of every row into a single character vector:
+#' stri_c_mat(sorted, margin=1, sep=" ")
 #'
 
 #' @rdname tinycodet_strings
