@@ -535,8 +535,8 @@ sentences :</p>
 <span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a>mat <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(x)) <span class="sc">|&gt;</span> <span class="fu">matrix</span>(<span class="at">ncol=</span><span class="fu">ncol</span>(x))</span>
 <span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a>shuffled <span class="ot">&lt;-</span> x <span class="sc">%row~%</span> mat</span>
 <span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a><span class="fu">stri_paste_mat</span>(shuffled, <span class="at">margin=</span><span class="dv">1</span>, <span class="at">sep=</span><span class="st">&quot; &quot;</span>) <span class="co"># &lt;- another alias for stri_join_mat</span></span>
-<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Oh, really?!  Hello, who are you?  Cool!&quot;</span></span>
-<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a><span class="co">#&gt; [2] &quot; But I really don&#39;t. I don&#39;t care. &quot;</span></span></code></pre></div>
+<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Oh, really?!  Cool! Hello, who are you? &quot;</span></span>
+<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a><span class="co">#&gt; [2] &quot; I don&#39;t care.  But I really don&#39;t.&quot;</span></span></code></pre></div>
 <p> </p>
 </div>
 <div id="performance" class="section level1">
@@ -563,7 +563,7 @@ R package.</p>
 <span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>}</span>
 <span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="fu">benchmark</span>(</span>
 <span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>  <span class="st">&quot;stri_locate_ith&quot;</span> <span class="ot">=</span> { <span class="fu">stri_locate_ith</span>(x, i, <span class="at">regex=</span>p) },</span>
-<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>  <span class="st">&quot;stringi::stri_locate_all+count&quot;</span> <span class="ot">=</span> { <span class="fu">locate_stringi</span>(<span class="at">str=</span>x, <span class="at">regex=</span>p) },</span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>  <span class="st">&quot;locate_stringi&quot;</span> <span class="ot">=</span> { <span class="fu">locate_stringi</span>(<span class="at">str=</span>x, <span class="at">regex=</span>p) },</span>
 <span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>  <span class="at">replications =</span> <span class="dv">500</span>,</span>
 <span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>  <span class="at">order =</span> <span class="cn">NULL</span>,</span>
 <span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a>  <span class="at">columns =</span> <span class="fu">c</span>(<span class="st">&quot;test&quot;</span>, <span class="st">&quot;replications&quot;</span>, <span class="st">&quot;elapsed&quot;</span>,</span>

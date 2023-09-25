@@ -28,7 +28,7 @@ locate_stringi <- function(...) {
 benchmark.stri_locate_ith <- benchmark(
   "stri_locate_ith" = { stri_locate_ith(x, i, regex = p) },
   "stringi::stri_locate_all+count" = { locate_stringi(str=x, regex = p) },
-  replications = 500,
+  replications = 50,
   order = NULL,
   columns = c("test", "replications", "elapsed",
               "relative", "user.self", "sys.self")
