@@ -57,17 +57,31 @@ expect_equal(out, expected)
 
 # transform_if error checks ====
 expect_error(
-  transform_if(obj, \(x)x>0, log, \(x)x^2, ~ x),
-  pattern = "improper `other` given"
+  transform_if(obj, \(x)x>0, ~ 10, \(x)x^2, \(x)-1000),
+  pattern = "improper `yes` given"
+)
+expect_error(
+  transform_if(obj, \(x)x>0, c(1,1), \(x)x^2, \(x)-1000),
+  pattern = "improper `yes` given"
 )
 expect_error(
   transform_if(obj, \(x)x>0, log, ~"hello", \(x)-1000),
   pattern = "improper `no` given"
 )
 expect_error(
-  transform_if(obj, \(x)x>0, ~ 10, \(x)x^2, \(x)-1000),
-  pattern = "improper `yes` given"
+  transform_if(obj, \(x)x>0, log, c(1,1), \(x)-1000),
+  pattern = "improper `no` given"
 )
+expect_error(
+  transform_if(obj, \(x)x>0, log, \(x)x^2, ~ x),
+  pattern = "improper `other` given"
+)
+expect_error(
+  transform_if(obj, \(x)x>0, log, \(x)x^2, c(1,1)),
+  pattern = "improper `other` given"
+)
+
+
 expect_error(
   transform_if(obj, \(x)x*10, log, \(x)x^2, \(x)-1000),
   pattern = paste0(

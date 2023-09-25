@@ -1,13 +1,44 @@
-
 # positions ====
+# regex
 x <- rep(paste0(0:9, collapse=""), 10)
 print(x)
 out1 <- stri_locate_ith(x, 1:10, regex = "\\d")
 out2 <- stri_locate_ith(x, -1:-10, regex = "\\d")
 outcome <- cbind(0:9, out1, out2)
 expected <- cbind(0:9, 1:10, 1:10, 10:1, 10:1)
-colnames(expected) <- colnames(outcome)
+colnames(expected) <- c("", "start", "end", "start", "end")
 expect_equal(expected, outcome)
+
+# fixed
+x <- rep("aaaaaaaaaa", 10)
+print(x)
+out1 <- stri_locate_ith(x, 1:10, fixed = "a")
+out2 <- stri_locate_ith(x, -1:-10, fixed = "a")
+outcome <- cbind(0:9, out1, out2)
+expected <- cbind(0:9, 1:10, 1:10, 10:1, 10:1)
+colnames(expected) <- c("", "start", "end", "start", "end")
+expect_equal(expected, outcome)
+
+# coll
+x <- rep("\u00FD\u00FD\u00FD\u00FD\u00FD\u00FD\u00FD\u00FD\u00FD\u00FD", 10)
+print(x)
+out1 <- stri_locate_ith(x, 1:10, coll='Y', strength=1, locale='sk_SK')
+out2 <- stri_locate_ith(x, -1:-10, coll='Y', strength=1, locale='sk_SK')
+outcome <- cbind(0:9, out1, out2)
+expected <- cbind(0:9, 1:10, 1:10, 10:1, 10:1)
+colnames(expected) <- c("", "start", "end", "start", "end")
+expect_equal(expected, outcome)
+
+# charclass
+x <- rep("a a a a a a a a a a", 10)
+print(x)
+out1 <- stri_locate_ith(x, 1:10, charclass = "[a]")
+out2 <- stri_locate_ith(x, -1:-10, charclass = "[a]")
+outcome <- cbind(0:9, out1, out2)
+expected <- cbind(0:9, seq(1, 19, by = 2), seq(1, 19, by = 2), seq(19, 1, by = -2), seq(19, 1, by = -2))
+colnames(expected) <- c("", "start", "end", "start", "end")
+expect_equal(expected, outcome)
+
 
 
 # regex ====
@@ -122,22 +153,46 @@ tempfun <- function(x, i, pattern) {
   if(i == (-1)) out <- do.call(rbind, lapply(out, \(x)x[nrow(x),]))
   return(out)
 }
-codetools::checkUsage(tempfun)
 for(i in 1:length(pattern)) {
-  out1[[i]] <- stri_locate_ith(x.charclass, i = 1, charclass = pattern[[i]])
-  expect1[[i]] <- tempfun(x.charclass, i = 1, pattern[[i]])
-  out2[[i]] <- stri_locate_ith(x.charclass, i = -1, charclass = pattern[[i]])
-  expect2[[i]] <- tempfun(x.charclass, i = -1, pattern[[i]])
-  out3[[i]] <- stri_locate_ith(x.charclass, i = c(1, -1, 1), charclass = pattern[[i]])
+  out1[[i]] <- stri_locate_ith(x.charclass, i = 1, charclass = pattern[i])
+  expect1[[i]] <- tempfun(x.charclass, i = 1, pattern[i])
+  out2[[i]] <- stri_locate_ith(x.charclass, i = -1, charclass = pattern[i])
+  expect2[[i]] <- tempfun(x.charclass, i = -1, pattern[i])
+  out3[[i]] <- stri_locate_ith(x.charclass, i = c(1, -1, 1), charclass = pattern[i])
   expect3[[i]] <- rbind(
-    tempfun(x.charclass[1], i = 1, pattern[[i]]),
-    tempfun(x.charclass[2], i = -1, pattern[[i]]),
-    tempfun(x.charclass[3], i = 1, pattern[[i]])
+    tempfun(x.charclass[1], i = 1, pattern[i]),
+    tempfun(x.charclass[2], i = -1, pattern[i]),
+    tempfun(x.charclass[3], i = 1, pattern[i])
   )
 }
 expect_equal(expect1, out1)
 expect_equal(expect2, out2)
 expect_equal(expect3, out3)
+
+x.charclass <- c('stRRRingi','R STRINGI', '123')
+pattern <- c('\\p{Ll}', '\\p{Lu}', '\\p{Zs}')
+tempfun <- function(x, i, pattern) {
+  out <- stringi::stri_locate_all_charclass(x, pattern)
+  if(i == 1) out <- do.call(rbind, lapply(out, \(x)x[1,]))
+  if(i == (-1)) out <- do.call(rbind, lapply(out, \(x)x[nrow(x),]))
+  return(out)
+}
+expect_equal(
+  stri_locate_ith(x.charclass, i = 1, charclass = pattern),
+  tempfun(x.charclass, i = 1, pattern)
+)
+expect_equal(
+  stri_locate_ith(x.charclass, i = -1, charclass = pattern),
+  tempfun(x.charclass, i = -1, pattern)
+)
+expect_equal(
+  stri_locate_ith(x.charclass, i = c(1, -1, 1), charclass = pattern),
+  rbind(
+    tempfun(x.charclass[1], i = 1, pattern[1]),
+    tempfun(x.charclass[2], i = -1, pattern[2]),
+    tempfun(x.charclass[3], i = 1, pattern[3])
+  )
+)
 
 
 
