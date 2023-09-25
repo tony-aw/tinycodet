@@ -511,9 +511,9 @@ code using <code>tinycodet</code>’ import system:</p>
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>)</span>
 <span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">#&gt; Importing packages...</span></span>
 <span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
-<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt; You can now access the functions using `tdt.$`</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt; You can now access the functions using [4mtdt.$[24m</span></span>
 <span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt; Methods will work like normally </span></span>
-<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt; For conflicts report, packages order, and other attributes, run `attr.import(tdt.)`</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt; For conflicts report, packages order, and other attributes, run [4mattr.import(tdt.)[24m</span></span>
 <span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a></span>
 <span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co"># exposing operators from `magrrittr` to current environment:</span></span>
 <span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="st">&quot;magrittr&quot;</span>)</span>
@@ -625,9 +625,9 @@ the same alias, which I will call “tdt.” (for “tidy data.table”):</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">import_as</span>(<span class="sc">~</span> tdt., <span class="st">&quot;data.table&quot;</span>, <span class="at">extensions =</span> <span class="st">&quot;tidytable&quot;</span>) <span class="co"># this creates the tdt. object</span></span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="co">#&gt; Importing packages...</span></span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt; You can now access the functions using `tdt.$`</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt; You can now access the functions using [4mtdt.$[24m</span></span>
 <span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt; Methods will work like normally </span></span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; For conflicts report, packages order, and other attributes, run `attr.import(tdt.)`</span></span></code></pre></div>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; For conflicts report, packages order, and other attributes, run [4mattr.import(tdt.)[24m</span></span></code></pre></div>
 <p>Now you can of course use those loaded packages as one would normally
 do when using a package alias: <code>tdt.$some_function()</code>.</p>
 <p> </p>
@@ -787,9 +787,9 @@ is an extension), all under one alias which I’ll call
 <span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>)</span>
 <span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a><span class="co">#&gt; Importing packages...</span></span>
 <span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
-<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a><span class="co">#&gt; You can now access the functions using `dpr.$`</span></span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a><span class="co">#&gt; You can now access the functions using [4mdpr.$[24m</span></span>
 <span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a><span class="co">#&gt; Methods will work like normally </span></span>
-<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a><span class="co">#&gt; For conflicts report, packages order, and other attributes, run `attr.import(dpr.)`</span></span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a><span class="co">#&gt; For conflicts report, packages order, and other attributes, run [4mattr.import(dpr.)[24m</span></span>
 <span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a></span>
 <span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="st">&quot;magrittr&quot;</span>) <span class="co"># getting the infix operators from `magrittr`</span></span>
 <span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a><span class="co">#&gt; Checking for conflicting infix operators in the current environment...</span></span>
@@ -804,7 +804,7 @@ the latter would be called as <code>dpr.$filter()</code>.</p>
 <p>Let’s first run a simple example code with the loaded functions:</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">import_data</span>(<span class="st">&quot;dplyr&quot;</span>, <span class="st">&quot;starwars&quot;</span>)</span>
 <span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>d <span class="sc">%&gt;%</span></span>
-<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>  dpr.<span class="sc">$</span><span class="fu">filter</span>(.data<span class="sc">$</span>species <span class="sc">==</span> <span class="st">&quot;Droid&quot;</span>) <span class="sc">%&gt;%</span> <span class="co"># notice the pronoun can be used without problems</span></span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>  dpr.<span class="sc">$</span><span class="fu">filter</span>(.data<span class="sc">$</span>species <span class="sc">==</span> <span class="st">&quot;Droid&quot;</span>) <span class="sc">%&gt;%</span> <span class="co"># notice the &quot;.data&quot; pronoun can be used without problems</span></span>
 <span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>  dpr.<span class="sc">$</span><span class="fu">select</span>(name, dpr.<span class="sc">$</span><span class="fu">ends_with</span>(<span class="st">&quot;color&quot;</span>))</span>
 <span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 4</span></span>
 <span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a><span class="co">#&gt;   name   hair_color skin_color  eye_color</span></span>
@@ -872,9 +872,9 @@ functions, including re-exports, consider the following proof:</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">import_as</span>(<span class="sc">~</span> dpr., <span class="st">&quot;dplyr&quot;</span>, <span class="at">re_exports =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a><span class="co">#&gt; Importing packages...</span></span>
 <span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
-<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a><span class="co">#&gt; You can now access the functions using `dpr.$`</span></span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a><span class="co">#&gt; You can now access the functions using [4mdpr.$[24m</span></span>
 <span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a><span class="co">#&gt; Methods will work like normally </span></span>
-<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a><span class="co">#&gt; For conflicts report, packages order, and other attributes, run `attr.import(dpr.)`</span></span>
+<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a><span class="co">#&gt; For conflicts report, packages order, and other attributes, run [4mattr.import(dpr.)[24m</span></span>
 <span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">names</span>(dpr.), <span class="st">&quot;.__attributes__.&quot;</span>) <span class="sc">|&gt;</span> <span class="fu">sort</span>()</span>
 <span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a>foo <span class="ot">&lt;-</span> <span class="fu">loadNamespace</span>(<span class="st">&quot;dplyr&quot;</span>) <span class="sc">|&gt;</span> <span class="fu">getNamespaceExports</span>()</span>
 <span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a>check <span class="ot">&lt;-</span> <span class="fu">all</span>(out <span class="sc">==</span> <span class="fu">sort</span>(foo))</span>

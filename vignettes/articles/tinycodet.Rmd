@@ -24,35 +24,12 @@ The `tinycodet` R-package is a tiny little R package that adds a few functions t
 
  1) Safer decimal (in)equality testing, safer atomic conversions, and other functions for safer coding.
  2) A new package import system, that combines the benefits of aliasing a package with the benefits of attaching a package.
- 3) Extending the string manipulation capabilities of the `stringi` R package. 
+ 3) Extending the string manipulation capabilities of the `stringi` R package.
  4) Reducing repetitive code.
 
 The `tinycodet` R-package has only one dependency, namely `stringi`. Most functions in this R-package are fully vectorized and optimized, and have been well documented.
 
 Although this is a relatively small R package, I do understand you may not want to go through all the articles and help files of `tinycodet` without knowing if the R package is even worthy of your time. So here I'll give a quick glimpse of what is possible in this R package.
-
-&nbsp;
-
-## Installation
-
-One can install `tinycodet` from github like so:
-
-``` r
-remotes::install_github("https://github.com/tony-aw/tinycodet")
-```
-
-And attach the package - thus exposing its functions to the namespace - using:
-
-```{r}
-library(tinycodet)
-```
-
-and one can open the introduction help page of the `tinycodet` package using:
-
-```{r eval=FALSE}
-tinycodet::tinycodet_help()
-```
-
 
 &nbsp;
 
@@ -130,24 +107,6 @@ d %>% tdt.$filter(species == "Droid") %>%
 
 ```
 
-&nbsp;
-
-# Reduce repetitive code
-
-```{r eval=FALSE}
-# in base R:
-ifelse( # repetitive, and gives unnecessary warning
-  is.na(object>0), -Inf,
-  ifelse(
-    object>0,  log(object), object^2
-  )
-)
-mtcars$mpg[mtcars$cyl>6] <- (mtcars$mpg[mtcars$cyl>6])^2 # long
-
-# with tinycodet:
-object |> transform_if(\(x)x>0, log, \(x)x^2, \(x) -Inf) # compact & no warning
-mtcars$mpg[mtcars$cyl>6] %:=% \(x)x^2 # short
-```
 
 &nbsp;
 
@@ -194,6 +153,26 @@ mat <- stringi::stri_rank(as.vector(x)) |> matrix(ncol=ncol(x))
 sorted <- x %row~% mat
 # join elements of every row into a single character vector:
 stri_c_mat(sorted, margin=1, sep=" ")
+```
+
+
+&nbsp;
+
+# Reduce repetitive code
+
+```{r eval=FALSE}
+# in base R:
+ifelse( # repetitive, and gives unnecessary warning
+  is.na(object>0), -Inf,
+  ifelse(
+    object>0,  log(object), object^2
+  )
+)
+mtcars$mpg[mtcars$cyl>6] <- (mtcars$mpg[mtcars$cyl>6])^2 # long
+
+# with tinycodet:
+object |> transform_if(\(x)x>0, log, \(x)x^2, \(x) -Inf) # compact & no warning
+mtcars$mpg[mtcars$cyl>6] %:=% \(x)x^2 # short
 ```
 
 &nbsp;

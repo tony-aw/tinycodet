@@ -252,7 +252,7 @@ Let's first run a simple example code with the loaded functions:
 ```{r}
 d <- import_data("dplyr", "starwars")
 d %>%
-  dpr.$filter(.data$species == "Droid") %>% # notice the pronoun can be used without problems
+  dpr.$filter(.data$species == "Droid") %>% # notice the ".data" pronoun can be used without problems
   dpr.$select(name, dpr.$ends_with("color"))
 ```
 
@@ -304,4 +304,3 @@ if(!isTRUE(check)) {
 
 
 &nbsp;
-
