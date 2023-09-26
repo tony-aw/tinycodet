@@ -19,35 +19,35 @@ at least those relevant here,
 is compactly presented here: \cr
 \cr
 Prevent masking functions from other packages: \cr
-\ifelse{html}{\figure{aliasorcolons-Yes(advantage)-green.svg}{options: alt='[YES(ADVANTAGE)]'}}{\link[=tinycodet_import]{alias or colons}: Yes(advantage); }
+\ifelse{html}{\figure{aliasorcolons-Yes(advantage)-darkgreen.svg}{options: alt='[YES(ADVANTAGE)]'}}{\link[=tinycodet_import]{alias or colons}: Yes(advantage); }
 \ifelse{html}{\figure{attaching-No(disadvantage)-red.svg}{options: alt='[NO(DISADVANTAGE)]'}}{\link[=tinycodet_import]{attaching}: No(disadvantage); } \cr
 \cr
 Prevent masking core R functions: \cr
-\ifelse{html}{\figure{aliasorcolons-Yes(advantage)-green.svg}{options: alt='[YES(ADVANTAGE)]'}}{\link[=tinycodet_import]{alias or colons}: Yes(advantage); }
+\ifelse{html}{\figure{aliasorcolons-Yes(advantage)-darkgreen.svg}{options: alt='[YES(ADVANTAGE)]'}}{\link[=tinycodet_import]{alias or colons}: Yes(advantage); }
 \ifelse{html}{\figure{attaching-No(disadvantage)-red.svg}{options: alt='[NO(DISADVANTAGE)]'}}{\link[=tinycodet_import]{attaching}: No(disadvantage); } \cr
 \cr
 Clarify which function came from which package: \cr
-\ifelse{html}{\figure{aliasorcolons-Yes(advantage)-green.svg}{options: alt='[YES(ADVANTAGE)]'}}{\link[=tinycodet_import]{alias or colons}: Yes(advantage); }
+\ifelse{html}{\figure{aliasorcolons-Yes(advantage)-darkgreen.svg}{options: alt='[YES(ADVANTAGE)]'}}{\link[=tinycodet_import]{alias or colons}: Yes(advantage); }
 \ifelse{html}{\figure{attaching-No(disadvantage)-red.svg}{options: alt='[NO(DISADVANTAGE)]'}}{\link[=tinycodet_import]{attaching}: No(disadvantage); } \cr
 \cr
 Place/expose functions only in current environment instead of globally: \cr
-\ifelse{html}{\figure{aliasorcolons-Yes(advantage)-green.svg}{options: alt='[YES(ADVANTAGE)]'}}{\link[=tinycodet_import]{alias or colons}: Yes(advantage); }
+\ifelse{html}{\figure{aliasorcolons-Yes(advantage)-darkgreen.svg}{options: alt='[YES(ADVANTAGE)]'}}{\link[=tinycodet_import]{alias or colons}: Yes(advantage); }
 \ifelse{html}{\figure{attaching-No(disadvantage)-red.svg}{options: alt='[NO(DISADVANTAGE)]'}}{\link[=tinycodet_import]{attaching}: No(disadvantage); } \cr
 \cr
 Prevent namespace pollution: \cr
-\ifelse{html}{\figure{aliasorcolons-Yes(advantage)-green.svg}{options: alt='[YES(ADVANTAGE)]'}}{\link[=tinycodet_import]{alias or colons}: Yes(advantage); }
+\ifelse{html}{\figure{aliasorcolons-Yes(advantage)-darkgreen.svg}{options: alt='[YES(ADVANTAGE)]'}}{\link[=tinycodet_import]{alias or colons}: Yes(advantage); }
 \ifelse{html}{\figure{attaching-No(disadvantage)-red.svg}{options: alt='[NO(DISADVANTAGE)]'}}{\link[=tinycodet_import]{attaching}: No(disadvantage); } \cr
 \cr
 Minimize typing - especially for infix operators \cr
 (i.e. typing \code{package::`\%op\%`(x, y)} instead of \code{x \%op\% y} is cumbersome): \cr
 \ifelse{html}{\figure{aliasorcolons-No(disadvantage)-red.svg}{options: alt='[NO(DISADVANTAGE)]'}}{\link[=tinycodet_import]{alias or colons}: No(disadvantage); }
-\ifelse{html}{\figure{attaching-Yes(advantage)-green.svg}{options: alt='[YES(ADVANTAGE)]'}}{\link[=tinycodet_import]{attaching}: Yes(advantage); } \cr
+\ifelse{html}{\figure{attaching-Yes(advantage)-darkgreen.svg}{options: alt='[YES(ADVANTAGE)]'}}{\link[=tinycodet_import]{attaching}: Yes(advantage); } \cr
 \cr
 Use multiple related packages,
 without constantly switching between package prefixes \cr
 (i.e. \code{packagename1::some_function1}, \code{packagename2::some_function2}): \cr
 \ifelse{html}{\figure{aliasorcolons-No(disadvantage)-red.svg}{options: alt='[NO(DISADVANTAGE)]'}}{\link[=tinycodet_import]{alias or colons}: No(disadvantage); }
-\ifelse{html}{\figure{attaching-Yes(advantage)-green.svg}{options: alt='[YES(ADVANTAGE)]'}}{\link[=tinycodet_import]{attaching}: Yes(advantage); } \cr
+\ifelse{html}{\figure{attaching-Yes(advantage)-darkgreen.svg}{options: alt='[YES(ADVANTAGE)]'}}{\link[=tinycodet_import]{attaching}: Yes(advantage); } \cr
 \cr
 
 What \code{tinycodet} attempts to do with its import system,

@@ -13,35 +13,35 @@
 #' is compactly presented here: \cr
 #' \cr
 #' Prevent masking functions from other packages: \cr
-#' `r .mybadge("alias or colons", "Yes(advantage)", "green", "")`
+#' `r .mybadge("alias or colons", "Yes(advantage)", "darkgreen", "")`
 #' `r .mybadge("attaching", "No(disadvantage)", "red", "")` \cr
 #' \cr
 #' Prevent masking core R functions: \cr
-#' `r .mybadge("alias or colons", "Yes(advantage)", "green", "")`
+#' `r .mybadge("alias or colons", "Yes(advantage)", "darkgreen", "")`
 #' `r .mybadge("attaching", "No(disadvantage)", "red", "")` \cr
 #' \cr
 #' Clarify which function came from which package: \cr
-#' `r .mybadge("alias or colons", "Yes(advantage)", "green", "")`
+#' `r .mybadge("alias or colons", "Yes(advantage)", "darkgreen", "")`
 #' `r .mybadge("attaching", "No(disadvantage)", "red", "")` \cr
 #' \cr
 #' Place/expose functions only in current environment instead of globally: \cr
-#' `r .mybadge("alias or colons", "Yes(advantage)", "green", "")`
+#' `r .mybadge("alias or colons", "Yes(advantage)", "darkgreen", "")`
 #' `r .mybadge("attaching", "No(disadvantage)", "red", "")` \cr
 #' \cr
 #' Prevent namespace pollution: \cr
-#' `r .mybadge("alias or colons", "Yes(advantage)", "green", "")`
+#' `r .mybadge("alias or colons", "Yes(advantage)", "darkgreen", "")`
 #' `r .mybadge("attaching", "No(disadvantage)", "red", "")` \cr
 #' \cr
 #' Minimize typing - especially for infix operators \cr
 #' (i.e. typing ``package::`%op%`(x, y)`` instead of \code{x %op% y} is cumbersome): \cr
 #' `r .mybadge("alias or colons", "No(disadvantage)", "red", "")`
-#' `r .mybadge("attaching", "Yes(advantage)", "green", "")` \cr
+#' `r .mybadge("attaching", "Yes(advantage)", "darkgreen", "")` \cr
 #' \cr
 #' Use multiple related packages,
 #' without constantly switching between package prefixes \cr
 #' (i.e. \code{packagename1::some_function1}, \code{packagename2::some_function2}): \cr
 #' `r .mybadge("alias or colons", "No(disadvantage)", "red", "")`
-#' `r .mybadge("attaching", "Yes(advantage)", "green", "")` \cr
+#' `r .mybadge("attaching", "Yes(advantage)", "darkgreen", "")` \cr
 #' \cr
 #'
 #' What `tinycodet` attempts to do with its import system,
