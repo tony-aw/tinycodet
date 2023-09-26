@@ -41,7 +41,7 @@ But now suppose one wants to transform the **second-last** vowel. How are you go
 
 The `stri_locate_ith(str, i, ...)` function locates for every element/string in character vector `str`, the $i^\textrm{th}$ occurrence of some (regex/fixed/etc) pattern. When `i` is positive, the occurrence is counted from left to right. Negative values for `i` are also allowed, in which case the occurrence is counted from the right to left. But `i=0` is not allowed though. Thus, to get the **second** occurrence of some pattern, use `i=2`, and to get the **second-last** occurrence, use `i=-2`.
 
-The `stri_locate_ith(str, i, ...)` function uses the exact same argument and naming convention as `stringi`, to keep your code consistent. And just like `stringi::stri_locate_first/last`, the `stri_locate_ith(str, i, ...)` function is a vectorized function: `str` and  `i` as well as the pattern (`regex, fixed, coll, charclass`) can all be different-valued vectors. It is also vectorized in the sense that no loops (in R) are used, only vectorized functions.
+The `stri_locate_ith(str, i, ...)` function uses the exact same argument and naming convention as `stringi`, to keep your code consistent. And just like `stringi::stri_locate_first/last`, the `stri_locate_ith(str, i, ...)` function is a vectorized function: `str` and  `i` as well as the pattern (`regex, fixed, coll, charclass`) can all be different-valued vectors.
 
 
 &nbsp;
