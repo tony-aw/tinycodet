@@ -1,6 +1,8 @@
 #' String detection operators
 #'
-#'@description
+#' @description
+#'
+#'
 #' The \code{x %s{}% p} operator
 #' checks for every string in character vector \code{x} if
 #' the pattern defined in \code{p} is present. \cr
@@ -86,8 +88,7 @@
   }
   if(isTRUE(is.character(p))) {
     return(stringi::stri_detect(x, regex=p))
-  }
-  else {
+  } else {
     stop("right hand side must be a character vector or list")
   }
 }
@@ -100,8 +101,7 @@
   }
   if(isTRUE(is.character(p))) {
     return(!stringi::stri_detect(x, regex=p))
-  }
-  if(!isTRUE(is.list(p)) & !isTRUE(is.character(p))) {
+  } else {
     stop("right hand side must be a character vector or list")
   }
 }

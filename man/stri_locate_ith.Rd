@@ -9,8 +9,7 @@ stri_locate_ith(str, i, ..., regex, fixed, coll, charclass)
 \arguments{
 \item{str}{a string or character vector.}
 
-\item{i}{a number, or a numeric vector of the same length as \code{str}.
-This gives the \eqn{i^{th}} instance to be replaced. \cr
+\item{i}{a number, or a numeric vector of the same length as \code{str}. \cr
 Positive numbers are counting from the left. Negative numbers are counting from the right.
 I.e.: \cr
 \itemize{

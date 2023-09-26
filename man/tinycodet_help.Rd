@@ -33,3 +33,6 @@ and optimized, and have been well documented.
 Please also have a look at the GitHub page before using this package: \cr
 \url{https://github.com/tony-aw/tinycodet}
 }
+\references{
+The badges shown in the documentation of this R package were made using the services of: \url{https://shields.io/}
+}

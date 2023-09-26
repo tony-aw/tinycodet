@@ -1,6 +1,8 @@
 #' Concatenate Character Matrix Row-wise or Column-wise
 #'
-#'@description
+#' @description
+#'
+#'
 #' The \code{stri_join_mat()} function
 #' (and their aliases \code{stri_c_mat} and \code{stri_paste_mat})
 #' perform row-wise (`margin=1`; the default) or
@@ -84,6 +86,8 @@ stri_join_mat <- function(mat, margin=1, sep="", collapse=NULL) {
     return(
       do.call(stringi::stri_join, c(out, sep=sep, collapse=collapse))
     )
+  } else {
+    stop("`margin` must be either 1 or 2")
   }
 }
 

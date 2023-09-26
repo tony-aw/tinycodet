@@ -33,8 +33,8 @@ for when \code{loc[i,]} is \code{c(NA, NA)}.
 
 \item{brk}{a single string, giving one of the following:
 \itemize{
-\item \code{"chr"}: attempts to split string into individual characters.
-\item \code{"line"}: attempts to split string into individual lines
+\item \code{"chr"} or \code{"character"}: attempts to split string into individual characters.
+\item \code{"line"} or \code{"line_break"}: attempts to split string into individual lines
 (NOTE: this is somewhat locale dependent).
 \item \code{"word"}: attempts to split string into individual words
 (NOTE: this is highly locale dependent!).

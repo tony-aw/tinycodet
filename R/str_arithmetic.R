@@ -1,6 +1,8 @@
 #' String arithmetic
 #'
-#'@description
+#' @description
+#'
+#'
 #' String arithmetic operators. \cr
 #' \cr
 #' The \code{x %s+% y } operator is exported from \code{stringi},
@@ -89,8 +91,7 @@ stringi::`%s$%`
   }
   if(isTRUE(is.character(p))) {
     return(stringi::stri_replace_all(x, "", regex=p))
-  }
-  if(!isTRUE(is.list(p)) && !isTRUE(is.character(p))) {
+  } else {
     stop("right hand side must be a character vector or list")
   }
 }
@@ -103,8 +104,7 @@ stringi::`%s$%`
   }
   if(isTRUE(is.character(p))){
     return(stringi::stri_count(x, regex=p))
-  }
-  if(!isTRUE(is.list(p)) && !isTRUE(is.character(p))) {
+  } else {
     stop("right hand side must be a character vector or list")
   }
 }

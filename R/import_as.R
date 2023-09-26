@@ -1,4 +1,4 @@
-#' Load main package + its re-exports + its dependencies + its extensions under one alias
+#' Load R-package + its re-exports + its dependencies + its extensions under one alias
 #'
 #' @description
 #'

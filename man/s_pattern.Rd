@@ -40,14 +40,20 @@ stri_chrcls(p, ...)
 
 \item{case_insensitive}{see \link[stringi]{stri_opts_regex} and \link[stringi]{stri_opts_fixed}.}
 
-\item{comments, dotall, multiline, time_limit, stack_limit}{see \link[stringi]{stri_opts_regex}.}
+\item{comments, dotall, multiline}{see \link[stringi]{stri_opts_regex}.}
+
+\item{time_limit, stack_limit}{see \link[stringi]{stri_opts_regex}.}
 
 \item{...}{additional arguments not part of the \code{stri_opts} - functions to be passed here. \cr
 For example: \code{max_count}}
 
 \item{overlap}{see \link[stringi]{stri_opts_fixed}.}
 
-\item{locale, strength, alternate_shifted, french, uppercase_first, case_level, normalization, numeric}{see \link[stringi]{stri_opts_collator}.}
+\item{locale, strength, alternate_shifted}{see \link[stringi]{stri_opts_collator}.}
+
+\item{french, normalization, numeric}{see \link[stringi]{stri_opts_collator}.}
+
+\item{uppercase_first, case_level}{see \link[stringi]{stri_opts_collator}.}
 }
 \value{
 A list.

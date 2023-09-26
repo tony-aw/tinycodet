@@ -13,27 +13,42 @@ One can use a package without attaching the package
 (i.e. using \code{::} or using a package alias),
 or one can attach a package
 (i.e. using \code{library()} or \code{require()}).
-The advantages and disadvantages of loading without attaching a package versus attaching a package - at least those relevant here - can be compactly presented in the following table: \cr\tabular{lllll}{
-   aspect \tab | \tab alias / :: \tab | \tab attaching \cr
-   prevent masking functions from other packages \tab | \tab Yes (+) \tab | \tab No (-) \cr
-    \tab | \tab  \tab | \tab  \cr
-   prevent masking core R functions \tab | \tab Yes (+) \tab | \tab No (-) \cr
-    \tab | \tab  \tab | \tab  \cr
-   clarify which function came from which package \tab | \tab Yes (+) \tab | \tab No (-) \cr
-    \tab | \tab  \tab | \tab  \cr
-   place/expose functions only in current environment instead of globally \tab | \tab Yes (+) \tab | \tab No (-) \cr
-    \tab | \tab  \tab | \tab  \cr
-   prevent namespace pollution \tab | \tab Yes (+) \tab | \tab No (-) \cr
-    \tab | \tab  \tab | \tab  \cr
-   minimize typing - especially for infix operators \tab  \tab  \tab  \tab  \cr
-   (i.e. typing \code{package::`\%op\%`(x, y)} instead of \code{x \%op\% y} is cumbersome) \tab | \tab No (-) \tab | \tab Yes (+) \cr
-    \tab | \tab  \tab | \tab  \cr
-   use multiple related packages, \tab  \tab  \tab  \tab  \cr
-   without constantly switching between package prefixes \tab | \tab No (-) \tab | \tab Yes (+) \cr
-    \tab | \tab  \tab | \tab  \cr
-   NOTE: + = advantage, - = disadvantage \tab  \tab  \tab  \tab  \cr
-}
-
+The advantages and disadvantages
+of loading without attaching a package versus attaching a package,
+at least those relevant here,
+is compactly presented here: \cr
+\cr
+Prevent masking functions from other packages: \cr
+\ifelse{html}{\figure{aliasorcolons-Yes(advantage)-green.svg}{options: alt='[YES(ADVANTAGE)]'}}{\link[=tinycodet_import]{alias or colons}: Yes(advantage); }
+\ifelse{html}{\figure{attaching-No(disadvantage)-red.svg}{options: alt='[NO(DISADVANTAGE)]'}}{\link[=tinycodet_import]{attaching}: No(disadvantage); } \cr
+\cr
+Prevent masking core R functions: \cr
+\ifelse{html}{\figure{aliasorcolons-Yes(advantage)-green.svg}{options: alt='[YES(ADVANTAGE)]'}}{\link[=tinycodet_import]{alias or colons}: Yes(advantage); }
+\ifelse{html}{\figure{attaching-No(disadvantage)-red.svg}{options: alt='[NO(DISADVANTAGE)]'}}{\link[=tinycodet_import]{attaching}: No(disadvantage); } \cr
+\cr
+Clarify which function came from which package: \cr
+\ifelse{html}{\figure{aliasorcolons-Yes(advantage)-green.svg}{options: alt='[YES(ADVANTAGE)]'}}{\link[=tinycodet_import]{alias or colons}: Yes(advantage); }
+\ifelse{html}{\figure{attaching-No(disadvantage)-red.svg}{options: alt='[NO(DISADVANTAGE)]'}}{\link[=tinycodet_import]{attaching}: No(disadvantage); } \cr
+\cr
+Place/expose functions only in current environment instead of globally: \cr
+\ifelse{html}{\figure{aliasorcolons-Yes(advantage)-green.svg}{options: alt='[YES(ADVANTAGE)]'}}{\link[=tinycodet_import]{alias or colons}: Yes(advantage); }
+\ifelse{html}{\figure{attaching-No(disadvantage)-red.svg}{options: alt='[NO(DISADVANTAGE)]'}}{\link[=tinycodet_import]{attaching}: No(disadvantage); } \cr
+\cr
+Prevent namespace pollution: \cr
+\ifelse{html}{\figure{aliasorcolons-Yes(advantage)-green.svg}{options: alt='[YES(ADVANTAGE)]'}}{\link[=tinycodet_import]{alias or colons}: Yes(advantage); }
+\ifelse{html}{\figure{attaching-No(disadvantage)-red.svg}{options: alt='[NO(DISADVANTAGE)]'}}{\link[=tinycodet_import]{attaching}: No(disadvantage); } \cr
+\cr
+Minimize typing - especially for infix operators \cr
+(i.e. typing \code{package::`\%op\%`(x, y)} instead of \code{x \%op\% y} is cumbersome): \cr
+\ifelse{html}{\figure{aliasorcolons-No(disadvantage)-red.svg}{options: alt='[NO(DISADVANTAGE)]'}}{\link[=tinycodet_import]{alias or colons}: No(disadvantage); }
+\ifelse{html}{\figure{attaching-Yes(advantage)-green.svg}{options: alt='[YES(ADVANTAGE)]'}}{\link[=tinycodet_import]{attaching}: Yes(advantage); } \cr
+\cr
+Use multiple related packages,
+without constantly switching between package prefixes \cr
+(i.e. \code{packagename1::some_function1}, \code{packagename2::some_function2}): \cr
+\ifelse{html}{\figure{aliasorcolons-No(disadvantage)-red.svg}{options: alt='[NO(DISADVANTAGE)]'}}{\link[=tinycodet_import]{alias or colons}: No(disadvantage); }
+\ifelse{html}{\figure{attaching-Yes(advantage)-green.svg}{options: alt='[YES(ADVANTAGE)]'}}{\link[=tinycodet_import]{attaching}: Yes(advantage); } \cr
+\cr
 
 What \code{tinycodet} attempts to do with its import system,
 is to somewhat find the best of both worlds.

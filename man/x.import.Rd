@@ -3,15 +3,15 @@
 \name{x.import}
 \alias{x.import}
 \alias{help.import}
-\alias{attr.import}
 \alias{is.tinyimport}
+\alias{attr.import}
 \title{Helper functions for the tinycodet package import system}
 \usage{
 help.import(..., i, alias)
 
-attr.import(alias, which = NULL)
-
 is.tinyimport(x)
+
+attr.import(alias, which = NULL)
 }
 \arguments{
 \item{...}{further arguments to be passed to \link[utils]{help}.}
@@ -27,10 +27,10 @@ If a string, argument \code{alias} must be specified also.
 
 \item{alias}{the alias object as created by the \link{import_as} function. \cr}
 
+\item{x}{an object produced by \link{import_as} or \link{import_inops}.}
+
 \item{which}{The attributes to list. If \code{NULL}, all attributes will be returned. \cr
 Possibilities: "pkgs", "conflicts", "versions", "args", and "ordered_object_names".}
-
-\item{x}{an object produced by \link{import_as} or \link{import_inops}.}
 }
 \value{
 For \code{help.import()}: \cr
@@ -83,14 +83,14 @@ re-exported functions are loaded when the main package is loaded, thus changing 
 The \code{help.import()} function
 finds the help file for functions in an alias object or exposed infix operators. \cr
 \cr
-The \code{attr.import()} function
-gets one specific special attributes or all special attributes
-from an alias object returned by \link{import_as}. \cr
-\cr
 The \code{is.tinyimport()} function
 checks if an alias object or an exposed function is of class \code{tinyimport};
 i.e. if it is an object produced by the
 \link{import_as}, \link{import_inops}, or \link{import_LL} function. \cr
+\cr
+The \code{attr.import()} function
+gets one specific special attributes or all special attributes
+from an alias object returned by \link{import_as}. \cr
 \cr
 }
 \details{

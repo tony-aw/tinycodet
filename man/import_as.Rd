@@ -2,7 +2,7 @@
 % Please edit documentation in R/import_as.R
 \name{import_as}
 \alias{import_as}
-\title{Load main package + its re-exports + its dependencies + its extensions under one alias}
+\title{Load R-package + its re-exports + its dependencies + its extensions under one alias}
 \usage{
 import_as(
   alias,

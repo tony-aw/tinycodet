@@ -1,6 +1,6 @@
 #' Pattern specifications for string related infix operators.
 #'
-#'@description
+#' @description
 #'
 #'
 #' The \code{%s-%} and \code{%s/%} operators,
@@ -52,9 +52,12 @@
 #'
 #' @param p a character vector giving the pattern to search for.
 #' @param case_insensitive see \link[stringi]{stri_opts_regex} and \link[stringi]{stri_opts_fixed}.
-#' @param comments,dotall,multiline,time_limit,stack_limit see \link[stringi]{stri_opts_regex}.
+#' @param comments,dotall,multiline see \link[stringi]{stri_opts_regex}.
+#' @param time_limit,stack_limit see \link[stringi]{stri_opts_regex}.
 #' @param overlap see \link[stringi]{stri_opts_fixed}.
-#' @param locale,strength,alternate_shifted,french,uppercase_first,case_level,normalization,numeric see \link[stringi]{stri_opts_collator}.
+#' @param locale,strength,alternate_shifted see \link[stringi]{stri_opts_collator}.
+#' @param french,normalization,numeric see \link[stringi]{stri_opts_collator}.
+#' @param uppercase_first,case_level see \link[stringi]{stri_opts_collator}.
 #' @param ... additional arguments not part of the \code{stri_opts} - functions to be passed here. \cr
 #' For example: \code{max_count}
 #'

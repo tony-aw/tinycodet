@@ -4,14 +4,14 @@
 #' The \code{help.import()} function
 #' finds the help file for functions in an alias object or exposed infix operators. \cr
 #' \cr
-#' The \code{attr.import()} function
-#' gets one specific special attributes or all special attributes
-#' from an alias object returned by \link{import_as}. \cr
-#' \cr
 #' The \code{is.tinyimport()} function
 #' checks if an alias object or an exposed function is of class \code{tinyimport};
 #' i.e. if it is an object produced by the
 #' \link{import_as}, \link{import_inops}, or \link{import_LL} function. \cr
+#' \cr
+#' The \code{attr.import()} function
+#' gets one specific special attributes or all special attributes
+#' from an alias object returned by \link{import_as}. \cr
 #' \cr
 #'
 #'
@@ -187,28 +187,6 @@ help.import <- function(..., i, alias) {
 
 #' @rdname x.import
 #' @export
-attr.import <- function(alias, which = NULL) {
-  if(!.is.tinyalias(as.character(substitute(alias)), env = parent.frame(n = 1))) {
-    stop("`alias` must be a locked environment as returned by `import_as()`")
-  }
-
-  if(is.null(which)) {
-    return(alias$.__attributes__.)
-  }
-
-  allowed_which <- c("pkgs", "conflicts", "versions", "args", "ordered_object_names")
-  if(!isTRUE(which %in% allowed_which)) {
-    stop("unknown which given")
-  }
-
-  if(isTRUE(which %in% allowed_which)){
-    return(alias$.__attributes__.[[which]])
-  }
-
-}
-
-#' @rdname x.import
-#' @export
 is.tinyimport <- function(x) {
   x_chr <- as.character(substitute(x))
   myenv <- parent.frame(n = 1)
@@ -250,3 +228,27 @@ is.tinyimport <- function(x) {
   out <- .is.tinyalias(x_chr, myenv) | temp.fun(x_chr, myenv) | .is.tinyLL(x_chr, myenv)
   return(out)
 }
+
+
+#' @rdname x.import
+#' @export
+attr.import <- function(alias, which = NULL) {
+  if(!.is.tinyalias(as.character(substitute(alias)), env = parent.frame(n = 1))) {
+    stop("`alias` must be a locked environment as returned by `import_as()`")
+  }
+
+  if(is.null(which)) {
+    return(alias$.__attributes__.)
+  }
+
+  allowed_which <- c("pkgs", "conflicts", "versions", "args", "ordered_object_names")
+  if(!isTRUE(which %in% allowed_which)) {
+    stop("unknown which given")
+  }
+
+  if(isTRUE(which %in% allowed_which)){
+    return(alias$.__attributes__.[[which]])
+  }
+
+}
+

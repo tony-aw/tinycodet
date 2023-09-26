@@ -1,6 +1,8 @@
 #' Cut strings
 #'
-#'@description
+#' @description
+#'
+#'
 #' The \code{strcut_loc()} function
 #' cuts every string in a character vector around a location range \code{loc},
 #' such that every string is cut into the following parts:
@@ -41,8 +43,8 @@
 #'  for when \code{loc[i,]} is \code{c(NA, NA)}.
 #' @param brk a single string, giving one of the following:
 #'
-#'  * \code{"chr"}: attempts to split string into individual characters.
-#'  * \code{"line"}: attempts to split string into individual lines
+#'  * \code{"chr"} or \code{"character"}: attempts to split string into individual characters.
+#'  * \code{"line"} or \code{"line_break"}: attempts to split string into individual lines
 #'  (NOTE: this is somewhat locale dependent).
 #'  * \code{"word"}: attempts to split string into individual words
 #'  (NOTE: this is highly locale dependent!).
@@ -153,19 +155,15 @@ strcut_brk <- function(str, brk="chr", ...) {
   if(length(brk) > 1) {
     stop("`brk` must be a single string")
   }
-  brk_allowed <- c("chr", "line", "word", "sentence")
-  if(!brk %in% brk_allowed) {
-    stop("`brk` must be one of the following:",
-         "\n",
-         paste0(brk_allowed, collapse = ", "))
-  }
   lst <- list(...)
   if(any(names(lst) %in% c("n", "tokens_only", "simplify"))) {
     stop("arguments `n`, `tokens_only` and `simplify` not supported in this function;",
          "\n",
          "use `stringi::stri_split_boundaries()` instead")
   }
-  brk <- ifelse(brk=="chr", "character", brk)
+  if(brk == "chr") brk <- "character"
+  if(brk == "line") brk <- "line_break"
+
   out <- stringi::stri_split_boundaries(
     str=str, type=brk, n=-1L, tokens_only = FALSE, simplify = TRUE, ...
   )

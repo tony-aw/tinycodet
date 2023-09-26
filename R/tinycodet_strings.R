@@ -20,7 +20,7 @@
 #' they have been optimized to be in somewhat the same order of speed
 #' as the other \code{stringi} functions.
 #'
-#'()]
+#'
 #'
 #' @seealso [tinycodet_help()], [stri_rgx()]
 #'

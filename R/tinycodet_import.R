@@ -7,33 +7,42 @@
 #' (i.e. using `::` or using a package alias),
 #' or one can attach a package
 #' (i.e. using `library()` or `require()`).
-#' The advantages and disadvantages of loading without attaching a package versus attaching a package - at least those relevant here - can be compactly presented in the following table: \cr
-#'
-#' ```{r echo=FALSE, results='markup'}
-#' X <- rbind(
-#'   c("prevent masking functions from other packages", "|", " Yes (+)", "|", " No (-)"),
-#'   c("", "|", " ", "|", " "),
-#'   c("prevent masking core R functions", "|", " Yes (+)", "|", " No (-)"),
-#'   c("", "|", " ", "|", " "),
-#'   c("clarify which function came from which package", "|", " Yes (+)", "|", " No (-)"),
-#'   c("", "|", " ", "|", " "),
-#'   c("place/expose functions only in current environment instead of globally", "|", " Yes (+)", "|", " No (-)"),
-#'   c("", "|", " ", "|", " "),
-#'   c("prevent namespace pollution", "|", " Yes (+)", "|", " No (-)"),
-#'   c("", "|", " ", "|", " "),
-#'   c("minimize typing - especially for infix operators
-#'   (i.e. typing ``package::`%op%`(x, y)`` instead of `x %op% y` is cumbersome)",
-#'     "|", " No (-)", "|", " Yes (+)"),
-#'   c("", "|", " ", "|", " "),
-#'   c("use multiple related packages,
-#'   without constantly switching between package prefixes" , "|", " No (-)", "|", " Yes (+)"),
-#'   c("", "|", " ", "|", " "),
-#'   c("NOTE: + = advantage, - = disadvantage", "", "", "", "" )
-#' )
-#' colnames(X) <- c("aspect", "|",  "alias / ::", "|", "attaching")
-#' X <- as.data.frame(X)
-#' knitr::kable(X, row.names=FALSE)
-#' ```
+#' The advantages and disadvantages
+#' of loading without attaching a package versus attaching a package,
+#' at least those relevant here,
+#' is compactly presented here: \cr
+#' \cr
+#' Prevent masking functions from other packages: \cr
+#' `r .mybadge("alias or colons", "Yes(advantage)", "green", "")`
+#' `r .mybadge("attaching", "No(disadvantage)", "red", "")` \cr
+#' \cr
+#' Prevent masking core R functions: \cr
+#' `r .mybadge("alias or colons", "Yes(advantage)", "green", "")`
+#' `r .mybadge("attaching", "No(disadvantage)", "red", "")` \cr
+#' \cr
+#' Clarify which function came from which package: \cr
+#' `r .mybadge("alias or colons", "Yes(advantage)", "green", "")`
+#' `r .mybadge("attaching", "No(disadvantage)", "red", "")` \cr
+#' \cr
+#' Place/expose functions only in current environment instead of globally: \cr
+#' `r .mybadge("alias or colons", "Yes(advantage)", "green", "")`
+#' `r .mybadge("attaching", "No(disadvantage)", "red", "")` \cr
+#' \cr
+#' Prevent namespace pollution: \cr
+#' `r .mybadge("alias or colons", "Yes(advantage)", "green", "")`
+#' `r .mybadge("attaching", "No(disadvantage)", "red", "")` \cr
+#' \cr
+#' Minimize typing - especially for infix operators \cr
+#' (i.e. typing ``package::`%op%`(x, y)`` instead of \code{x %op% y} is cumbersome): \cr
+#' `r .mybadge("alias or colons", "No(disadvantage)", "red", "")`
+#' `r .mybadge("attaching", "Yes(advantage)", "green", "")` \cr
+#' \cr
+#' Use multiple related packages,
+#' without constantly switching between package prefixes \cr
+#' (i.e. \code{packagename1::some_function1}, \code{packagename2::some_function2}): \cr
+#' `r .mybadge("alias or colons", "No(disadvantage)", "red", "")`
+#' `r .mybadge("attaching", "Yes(advantage)", "green", "")` \cr
+#' \cr
 #'
 #' What `tinycodet` attempts to do with its import system,
 #' is to somewhat find the best of both worlds.
@@ -57,7 +66,6 @@
 #' see \link[=help.import]{x.import} and \link[=pkg_get_deps]{pkgs}. \cr
 #' \cr
 #'
-#' @md
 #'
 #'
 #' @seealso \link{tinycodet_help}

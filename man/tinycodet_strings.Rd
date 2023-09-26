@@ -26,8 +26,6 @@ No other dependencies, as to avoid \code{"dependency hell"}. \cr
 they have been optimized to be in somewhat the same order of speed
 as the other \code{stringi} functions.
 }
-
-()]
 }
 \examples{
 

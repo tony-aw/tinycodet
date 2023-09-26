@@ -1,16 +1,16 @@
 #' Locate \eqn{i^{th}} Pattern Occurrence
 #'
 #' @description
+#'
+#'
 #' The \code{stri_locate_ith} function
 #' locates the \eqn{i^{th}} occurrence of a pattern in each string of
 #' some character vector. \cr
 #'
-#'
 #' @param str a string or character vector.
 #' @param regex,fixed,coll,charclass a character vector of search patterns,
 #' as in \link[stringi]{stri_locate}. \cr
-#' @param i a number, or a numeric vector of the same length as \code{str}.
-#' This gives the \eqn{i^{th}} instance to be replaced. \cr
+#' @param i a number, or a numeric vector of the same length as \code{str}. \cr
 #' Positive numbers are counting from the left. Negative numbers are counting from the right.
 #' I.e.: \cr
 #' \itemize{

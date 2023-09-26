@@ -1,6 +1,8 @@
 #' String subsetting operators
 #'
-#'@description
+#' @description
+#'
+#'
 #' String subsetting operators. \cr
 #' \cr
 #' The \code{string %ss% ind } operator

@@ -22,10 +22,10 @@
 #'  when the to be exposed operators already exist in the current environment,
 #'  and the function is halted.
 #' }
-#' @param inherits logical; when \code{overwrite=FALSE},
-#' should enclosed environments,
+#' @param inherits logical; indicating whether
+#' enclosed environments,
 #' especially package namespaces,
-#' also be taken into account? \cr
+#' should also be taken into account (\code{TRUE}), or not (\code{FALSE}). \cr
 #' Defaults to \code{FALSE}. \cr
 #' See also \link[base]{exists}. \cr
 #'
