@@ -187,9 +187,8 @@ expect_equal(
 # strcut_brk - error checks ====
 expect_error(
   strcut_brk(test, "whoopsie"),
-  pattern = paste0("`brk` must be one of the following:",
-                   "\n",
-                   paste0(c("chr", "line", "word", "sentence"), collapse = ", "))
+  pattern = paste0("Syntax error in RBBI rule. (U_BRK_RULE_SYNTAX)"),
+  fixed = TRUE
 )
 expect_error(
   strcut_brk(test, "chr", n=1),

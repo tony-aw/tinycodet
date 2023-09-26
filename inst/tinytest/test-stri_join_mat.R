@@ -7,3 +7,8 @@ expect_equal(matrix(letters[1:25], ncol=5, byrow = T) |> stri_join_mat(margin=1)
 expect_equal(matrix(letters[1:25], ncol=5, byrow = F) |> stri_join_mat(margin=2),
              expected)
 
+expect_error(
+  matrix(letters[1:25], ncol=5, byrow = T) |> stri_join_mat(margin=3),
+  pattern = "`margin` must be either 1 or 2"
+)
+
