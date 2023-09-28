@@ -11,13 +11,16 @@
 #' The \code{pkg_get_deps()} function gets the dependencies of a package
 #' from the Description file. It works on non-CRAN packages also. \cr
 #' \cr
-#' The \code{pkg_lsf(package, ...)} function
+#' The \code{pkg_lsf()} function
 #' gets a list of exported functions/operators from a package. \cr
 #' One handy use for this function is to, for example,
 #' globally attach all infix operators from a function using \code{library},
-#' like so: \cr
-#' \code{library(packagename, include.only = pkg_lsf("packagename", type="inops"))} \cr
-#' \cr
+#' like so:
+#'
+#' ```{r echo = TRUE, eval = FALSE}
+#' library(packagename, include.only = pkg_lsf("packagename", type="inops"))
+#' ```
+#'
 #'
 #' @param pkgs a character vector with the package name(s).
 #' @param package a single string giving the package name.

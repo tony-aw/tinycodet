@@ -88,7 +88,7 @@ bnd <- cbind(x-0.1, x+0.1)
 x \%d{}\% bnd
 x \%d!{}\% bnd
 
-# These operators still work for non-decimal number numerics also:
+# These operators still work for non-decimal numerics also:
 x <- 1:5
 y <- 1:5
 x \%d==\% y

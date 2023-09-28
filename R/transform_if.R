@@ -40,11 +40,18 @@
 #'
 #'
 #' @details
-#' Be careful with coercion! For example the following code: \cr
-#' \code{x <- c("a", "b")} \cr
-#' \code{transform_if(x, \(x)x=="a", as.numeric, as.logical)} \cr
-#' returns: \cr
-#' \code{[1] NA NA} \cr
+#' Be careful with coercion! For example the following code:
+#'
+#' ```{r echo=TRUE, eval = FALSE}
+#' x <- c("a", "b")
+#' transform_if(x, \(x)x=="a", as.numeric, as.logical)
+#' ```
+#' returns:
+#'
+#' ```{r echo=TRUE, eval = FALSE}
+#' [1] NA NA
+#' ```
+#'
 #' due to the same character vector being given 2 incompatible classes. \cr
 #' \cr
 #'

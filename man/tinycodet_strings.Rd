@@ -2,7 +2,7 @@
 % Please edit documentation in R/tinycodet_strings.R
 \name{tinycodet_strings}
 \alias{tinycodet_strings}
-\title{The tinycodet expansion of the 'stringi' R package}
+\title{The tinycodet extension of 'stringi'}
 \usage{
 tinycodet_strings()
 }
@@ -12,7 +12,7 @@ to extend the functionality of the \code{stringi} R package:
 \itemize{
 \item Infix operators for \link[=\%s-\%]{string arithmetic}. \cr
 \item Infix operators for \link[=\%ss\%]{string sub-setting}. \cr
-\item \link[=\%row~\%]{Infix operators for row- and column-wise re-ordering of matrices}. \cr
+\item Infix operators for \link[=\%s\{\}\%]{detecting patterns}. \cr
 \item The \code{tinycodet} package adds additional
 \code{stringi} functions, namely \link{stri_locate_ith}, and
 \link{stri_join_mat} (and aliases). These functions use the same naming and argument convention as the rest of
@@ -20,10 +20,8 @@ the \code{stringi} functions, thus keeping your code consistent. \cr
 \item The \link[=strcut_loc]{strcut_-functions}.
 \item Most \code{stringi} pattern expressions options
 are available for the string-pattern-related functions, when appropriate. \cr
-\item This R package has only one dependency: \code{stringi}.
-No other dependencies, as to avoid \code{"dependency hell"}. \cr
 \item Although the functions are written in R,
-they have been optimized to be in somewhat the same order of speed
+they have been optimized to be in the same order of speed
 as the other \code{stringi} functions.
 }
 }

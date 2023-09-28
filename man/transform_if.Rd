@@ -51,11 +51,17 @@ function \code{other(x)} is run or scalar \code{other} is returned. \cr
 }
 }
 \details{
-Be careful with coercion! For example the following code: \cr
-\code{x <- c("a", "b")} \cr
-\code{transform_if(x, \(x)x=="a", as.numeric, as.logical)} \cr
-returns: \cr
-\code{[1] NA NA} \cr
+Be careful with coercion! For example the following code:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{x <- c("a", "b")
+transform_if(x, \\(x)x=="a", as.numeric, as.logical)
+}\if{html}{\out{</div>}}
+
+returns:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{[1] NA NA
+}\if{html}{\out{</div>}}
+
 due to the same character vector being given 2 incompatible classes. \cr
 \cr
 }

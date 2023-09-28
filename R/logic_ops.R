@@ -3,7 +3,7 @@
 #'@description
 #' Additional logic operators: \cr
 #' \cr
-#' The \code{x %xor% y} operator is the "exclusive-or" operator, the same as \code{xor(x, y)}. \cr
+#' The \code{x %xor% y} operator is the "exclusive-or" operator, the same as \link{xor}\code{(x, y)}. \cr
 #' \cr
 #' The \code{x %n&%} operator is the "not-and" operator, the same as \code{(!x) & (!y)}. \cr
 #' \cr

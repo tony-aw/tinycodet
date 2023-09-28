@@ -361,8 +361,8 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
 - 23 September 2023: fixed a mistake in `stri_locate_ith()` when used
   with `charclass` pattern. Added almost a 100 more tests. Still busy
   with checking the documentation before submitting to CRAN…
-- 25, 26 September 2023: Minor textual corrections in documentation and
-  website.
+- 25, 26, 28 September 2023: Minor textual corrections in documentation
+  and website.
 
 FUTURE PLANS:
 

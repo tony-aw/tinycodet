@@ -25,7 +25,7 @@
 #' @param ... further arguments to be passed to \link[utils]{help}.
 #' @param which The attributes to list. If \code{NULL}, all attributes will be returned. \cr
 #' Possibilities: "pkgs", "conflicts", "versions", "args", and "ordered_object_names".
-#' @param x an object produced by \link{import_as} or \link{import_inops}.
+#' @param x the object/function to be tested.
 #'
 #' @details
 #' For \code{help.import(...)}: \cr

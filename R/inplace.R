@@ -7,11 +7,17 @@
 #' in-place modification of some object \code{x}
 #' with a function \code{f}. \cr
 #' \cr
-#' For example this: \cr
-#' \code{mtcars$mpg[mtcars$cyl>6] <- mtcars$mpg[mtcars$cyl>6]^2} \cr
-#' Can now be re-written as: \cr
-#' \code{mtcars$mpg\[mtcars$cyl>6\] %:=% \(x)x^2} \cr
-#' \cr
+#' For example this:
+#'
+#' ```{r echo=TRUE, eval = FALSE}
+#' mtcars$mpg[mtcars$cyl>6] <- mtcars$mpg[mtcars$cyl>6]^2
+#' ```
+#'
+#' Can now be re-written as:
+#'
+#' ```{r echo=TRUE, eval = FALSE}
+#' \code{mtcars$mpg\[mtcars$cyl>6\] %:=% \(x)x^2}
+#' ```
 #'
 #' @param x a variable.
 #' @param f a (possibly anonymous) function to be applied in-place on \code{x}.

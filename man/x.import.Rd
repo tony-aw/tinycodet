@@ -27,7 +27,7 @@ If a string, argument \code{alias} must be specified also.
 
 \item{alias}{the alias object as created by the \link{import_as} function. \cr}
 
-\item{x}{an object produced by \link{import_as} or \link{import_inops}.}
+\item{x}{the object/function to be tested.}
 
 \item{which}{The attributes to list. If \code{NULL}, all attributes will be returned. \cr
 Possibilities: "pkgs", "conflicts", "versions", "args", and "ordered_object_names".}

@@ -3,8 +3,8 @@
 #' @description
 #'
 #'
-#' The \code{%s-%} and \code{%s/%} operators,
-#' as well as the string detection operators (\code{%s{}%}, \code{%s!{}%}),
+#' The \link{%s-%} and \link{%s/%} operators,
+#' as well as the string detection operators (\link{%s\{\}%}, \link{%s!\{\}%}),
 #' perform pattern matching for some purpose,
 #' where the pattern is given on the right hand side. \cr
 #' When a character vector or string is given on the right hand side,
@@ -24,18 +24,25 @@
 #'
 #' All arguments in the list are simply passed to the
 #' appropriate functions in \code{stringi}. \cr
-#' For example: \cr
-#' \code{x %s/% p } \cr
+#' For example:
+#'
+#' ```{r, echo = TRUE, eval = FALSE}
+#' x %s/% p
+#' ```
+#'
 #' counts how often regular expression specified in character vector
-#' \code{p} occurs in \code{x}, whereas the following, \cr
-#' \code{x %s/% list(fixed=p, case_insensitive=TRUE) } \cr
+#' \code{p} occurs in \code{x}, whereas the following,
+#'
+#' ```{r, echo= TRUE, eval = FALSE}
+#' x %s/% list(fixed=p, case_insensitive=TRUE)
+#' ```
+#'
 #' will do the same,
 #' except it uses fixed (i.e. literal) expression,
 #' and it does not distinguish between upper case and lower case characters. \cr
 #' \cr
-#' Related to the above, \code{tinycodet} adds some convenience functions based on
-#' the \code{stri_opts_} - functions in \code{stringi}
-#' (convenient in the sense they already have argument names, thus allowing for auto code completion): \cr
+#' \code{tinycodet} adds some convenience functions based on
+#' the \code{stri_opts_} - functions in \code{stringi}: \cr
 #'
 #' * \code{stri_rgx(p, ...)} is equivalent to \code{c(list(regex = p), ...)}
 #' * \code{stri_fxd(p, ...)} is equivalent to \code{c(list(fixed = p), ...)}
@@ -43,9 +50,9 @@
 #' * \code{stri_chrcls(p, ...)} is equivalent to \code{c(list(charclass = p), ... )}
 #'
 #' With the ellipsis (\code{...})
-#'  being passed to the appropriate
-#'  \code{stri_opts}-functions
-#'  when it matches their arguments.
+#' being passed to the appropriate
+#' \code{stringi}-functions
+#' when it matches their arguments.
 #'
 #'
 #'

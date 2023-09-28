@@ -286,12 +286,23 @@
 
 #' @keywords internal
 #' @noRd
-.mybadge <- function(x, y, color, url) {
+.mybadge_import <- function(x, y, color) {
   filepath <- paste0(gsub(" ", "", x), "-",
                      y, "-", color, ".svg")
   text <- sprintf("\\link[=tinycodet_import]{%s}: %s; ", x, y)
   html <- sprintf(
     "\\figure{%s}{options: alt='[%s]'}",
     filepath, toupper(y))
+  sprintf("\\ifelse{html}{%s}{%s}", html, text)
+}
+
+#' @keywords internal
+#' @noRd
+.mybadge_string <- function(x, color, url) {
+  filepath <- paste0("ICUUserGuide", "-", x, "-", color, ".svg")
+  text <- sprintf("\\href{%s}{%s}", url, x)
+  html <- sprintf(
+    "\\href{%s}{\\figure{%s}{options: alt='[%s]'}}",
+    url, filepath, toupper(x))
   sprintf("\\ifelse{html}{%s}{%s}", html, text)
 }

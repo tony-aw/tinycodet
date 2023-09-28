@@ -24,11 +24,15 @@ The \code{x \%:=\% f} operator allows performing
 in-place modification of some object \code{x}
 with a function \code{f}. \cr
 \cr
-For example this: \cr
-\code{mtcars$mpg[mtcars$cyl>6] <- mtcars$mpg[mtcars$cyl>6]^2} \cr
-Can now be re-written as: \cr
-\code{mtcars$mpg[mtcars$cyl>6] \%:=\% \(x)x^2} \cr
-\cr
+For example this:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{mtcars$mpg[mtcars$cyl>6] <- mtcars$mpg[mtcars$cyl>6]^2
+}\if{html}{\out{</div>}}
+
+Can now be re-written as:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{\code\{mtcars$mpg\[mtcars$cyl>6\] \%:=\% \\(x)x^2\}
+}\if{html}{\out{</div>}}
 }
 \examples{
 set.seed(1)

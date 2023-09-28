@@ -22,8 +22,7 @@
 #' Moreover, the function \code{is_wholenumber()} is added, to safely test for whole numbers.
 #'
 #' @param x vector, matrix, array
-#' (or similar object where all elements share the same \code{atomic class}),
-#' to be converted to some other \code{atomic class}.
+#' (or a similar object where all elements share the same class).
 #' @param tol the tolerance.
 #' @param ... further arguments passed to or from other methods.
 #'
@@ -91,6 +90,6 @@ as_chr <- function(x, ...) {
 
 #' @rdname atomic_conversions
 #' @export
-is_wholenumber <- function(x, tol = .Machine$double.eps^0.5) {
+is_wholenumber <- function(x, tol = sqrt(.Machine$double.eps)) {
   return(abs(x - round(x)) < tol)
 }

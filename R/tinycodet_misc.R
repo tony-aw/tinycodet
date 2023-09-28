@@ -1,6 +1,6 @@
 #' The tinycodet miscellaneous functionality
 #'
-#'@description
+#' @description
 #'
 #' Some additional functions provided by the \code{tinycodet} R package:
 #'

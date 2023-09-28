@@ -78,13 +78,14 @@ where to look for installed R package(s). \cr
 The \code{pkg_get_deps()} function gets the dependencies of a package
 from the Description file. It works on non-CRAN packages also. \cr
 \cr
-The \code{pkg_lsf(package, ...)} function
+The \code{pkg_lsf()} function
 gets a list of exported functions/operators from a package. \cr
 One handy use for this function is to, for example,
 globally attach all infix operators from a function using \code{library},
-like so: \cr
-\code{library(packagename, include.only = pkg_lsf("packagename", type="inops"))} \cr
-\cr
+like so:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{library(packagename, include.only = pkg_lsf("packagename", type="inops"))
+}\if{html}{\out{</div>}}
 }
 \details{
 For \code{pkg_get_deps()}: \cr

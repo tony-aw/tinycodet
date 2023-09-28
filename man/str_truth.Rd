@@ -3,7 +3,7 @@
 \name{\%s{}\%}
 \alias{\%s{}\%}
 \alias{\%s!{}\%}
-\title{String detection operators}
+\title{Stringi pattern detection operators}
 \usage{
 x \%s{}\% p
 
@@ -40,13 +40,20 @@ which(x \%s{}\% "a")
 which(x \%s!{}\% "a")
 x[x \%s{}\% "a"]
 x[x \%s!{}\% "a"]
+x[x \%s{}\% "a"] <- 1
+x[x \%s!{}\% "a"] <- 1
+print(x)
 
+x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 x \%s{}\% "1"
 x \%s!{}\% "1"
 which(x \%s{}\% "1")
 which(x \%s!{}\% "1")
 x[x \%s{}\% "1"]
 x[x \%s!{}\% "1"]
+x[x \%s{}\% "1"] <- "a"
+x[x \%s!{}\% "1"] <- "a"
+print(x)
 
 
 #############################################################################
@@ -63,6 +70,9 @@ which(x \%s{}\% p)
 which(x \%s!{}\% p)
 x[x \%s{}\% p]
 x[x \%s!{}\% p]
+x[x \%s{}\% p] <- "hello"
+x[x \%s!{}\% p] <- "hello"
+print(x)
 
 
 #############################################################################
@@ -78,6 +88,9 @@ which(x \%s{}\% p)
 which(x \%s!{}\% p)
 x[x \%s{}\% p]
 x[x \%s!{}\% p]
+x[x \%s{}\% p] <- "CD"
+x[x \%s!{}\% p] <- "CD"
+print(x)
 
 
 

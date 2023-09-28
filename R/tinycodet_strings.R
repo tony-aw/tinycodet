@@ -1,4 +1,4 @@
-#' The tinycodet expansion of the 'stringi' R package
+#' The tinycodet extension of 'stringi'
 #'
 #' @description
 #' The \code{tinycodet} R package adds some functions and operators
@@ -6,7 +6,7 @@
 #'
 #' * Infix operators for \link[=%s-%]{string arithmetic}. \cr
 #' * Infix operators for \link[=%ss%]{string sub-setting}. \cr
-#' * \link[=%row~%]{Infix operators for row- and column-wise re-ordering of matrices}. \cr
+#' * Infix operators for \link[=%s\{\}%]{detecting patterns}. \cr
 #' * The \code{tinycodet} package adds additional
 #' \code{stringi} functions, namely \link{stri_locate_ith}, and
 #' \link{stri_join_mat} (and aliases). These functions use the same naming and argument convention as the rest of
@@ -14,10 +14,8 @@
 #' * The \link[=strcut_loc]{strcut_-functions}.
 #' * Most \code{stringi} pattern expressions options
 #' are available for the string-pattern-related functions, when appropriate. \cr
-#' * This R package has only one dependency: \code{stringi}.
-#' No other dependencies, as to avoid \code{"dependency hell"}. \cr
 #' * Although the functions are written in R,
-#' they have been optimized to be in somewhat the same order of speed
+#' they have been optimized to be in the same order of speed
 #' as the other \code{stringi} functions.
 #'
 #'
