@@ -410,40 +410,8 @@ bounds defined by <code>bnd</code>.</p>
 <code>as.logical()</code>, <code>as.integer()</code>,
 <code>as.double()</code>, <code>as.character()</code>.</p>
 <p>These functions have the annoying property that they strip
-attributes. The safest and most consistent way (as far as I was able to
-test out) to convert atomic types without loosing attributes, and
-without getting inconsistent results, is to first store the attributes,
-convert the object, and then re-assign the attributes. Like so:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">2</span>), <span class="fu">seq</span>(<span class="dv">0</span>, <span class="fl">2.5</span>, <span class="at">by=</span><span class="fl">0.5</span>)) <span class="sc">|&gt;</span> <span class="fu">matrix</span>(<span class="at">ncol=</span><span class="dv">2</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">colnames</span>(x) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;one&quot;</span>, <span class="st">&quot;two&quot;</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="fu">attr</span>(x, <span class="st">&quot;test&quot;</span>) <span class="ot">&lt;-</span> <span class="st">&quot;test&quot;</span></span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="fu">print</span>(x)</span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt;      one two</span></span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; [1,] 0.0 1.0</span></span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; [2,] 0.0 1.5</span></span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; [3,] 0.0 2.0</span></span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt; [4,] 0.5 2.5</span></span>
-<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;test&quot;)</span></span>
-<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt; [1] &quot;test&quot;</span></span>
-<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a></span>
-<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co"># First, store the attributes:</span></span>
-<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>myattr <span class="ot">&lt;-</span> <span class="fu">attributes</span>(x)</span>
-<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co"># Second, convert the object:</span></span>
-<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(x)</span>
-<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="fu">print</span>(x) <span class="co"># no longer a matrix, nor any other attributes</span></span>
-<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="co">#&gt; [1] 0 0 0 0 1 1 2 2</span></span>
-<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="co"># Third, re-assign attributes:</span></span>
-<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="fu">attributes</span>(x) <span class="ot">&lt;-</span> myattr</span>
-<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="fu">print</span>(x)</span>
-<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a><span class="co">#&gt;      one two</span></span>
-<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a><span class="co">#&gt; [1,]   0   1</span></span>
-<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a><span class="co">#&gt; [2,]   0   1</span></span>
-<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a><span class="co">#&gt; [3,]   0   2</span></span>
-<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a><span class="co">#&gt; [4,]   0   2</span></span>
-<span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;test&quot;)</span></span>
-<span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a><span class="co">#&gt; [1] &quot;test&quot;</span></span></code></pre></div>
-<p>The above code is slightly convoluted. So I’ve taken the liberty of
-creating more convenient atomic type conversion functions:</p>
+attributes. I’ve taken the liberty of creating more convenient atomic
+conversion functions:</p>
 <ul>
 <li><code>as_bool()</code>: same as <code>as.logical()</code>, but with
 attributes preserved.</li>
@@ -456,50 +424,50 @@ attributes preserved.</li>
 </ul>
 <p>All attributes except the “class” attribute are preserved.</p>
 <p>Examples:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">2</span>), <span class="fu">seq</span>(<span class="dv">0</span>, <span class="fl">2.5</span>, <span class="at">by=</span><span class="fl">0.5</span>)) <span class="sc">|&gt;</span> <span class="fu">matrix</span>(<span class="at">ncol=</span><span class="dv">2</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">colnames</span>(x) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;one&quot;</span>, <span class="st">&quot;two&quot;</span>)</span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="fu">attr</span>(x, <span class="st">&quot;test&quot;</span>) <span class="ot">&lt;-</span> <span class="st">&quot;test&quot;</span></span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="fu">print</span>(x)</span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt;      one two</span></span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt; [1,] 0.0 1.0</span></span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; [2,] 0.0 1.5</span></span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt; [3,] 0.0 2.0</span></span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt; [4,] 0.5 2.5</span></span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;test&quot;)</span></span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt; [1] &quot;test&quot;</span></span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a></span>
-<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="fu">as_bool</span>(x)</span>
-<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt;        one  two</span></span>
-<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt; [1,] FALSE TRUE</span></span>
-<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#&gt; [2,] FALSE TRUE</span></span>
-<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co">#&gt; [3,] FALSE TRUE</span></span>
-<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="co">#&gt; [4,]  TRUE TRUE</span></span>
-<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;test&quot;)</span></span>
-<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="co">#&gt; [1] &quot;test&quot;</span></span>
-<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a><span class="fu">as_int</span>(x)</span>
-<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a><span class="co">#&gt;      one two</span></span>
-<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a><span class="co">#&gt; [1,]   0   1</span></span>
-<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a><span class="co">#&gt; [2,]   0   1</span></span>
-<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a><span class="co">#&gt; [3,]   0   2</span></span>
-<span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a><span class="co">#&gt; [4,]   0   2</span></span>
-<span id="cb5-27"><a href="#cb5-27" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;test&quot;)</span></span>
-<span id="cb5-28"><a href="#cb5-28" tabindex="-1"></a><span class="co">#&gt; [1] &quot;test&quot;</span></span>
-<span id="cb5-29"><a href="#cb5-29" tabindex="-1"></a><span class="fu">as_dbl</span>(x)</span>
-<span id="cb5-30"><a href="#cb5-30" tabindex="-1"></a><span class="co">#&gt;      one two</span></span>
-<span id="cb5-31"><a href="#cb5-31" tabindex="-1"></a><span class="co">#&gt; [1,] 0.0 1.0</span></span>
-<span id="cb5-32"><a href="#cb5-32" tabindex="-1"></a><span class="co">#&gt; [2,] 0.0 1.5</span></span>
-<span id="cb5-33"><a href="#cb5-33" tabindex="-1"></a><span class="co">#&gt; [3,] 0.0 2.0</span></span>
-<span id="cb5-34"><a href="#cb5-34" tabindex="-1"></a><span class="co">#&gt; [4,] 0.5 2.5</span></span>
-<span id="cb5-35"><a href="#cb5-35" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;test&quot;)</span></span>
-<span id="cb5-36"><a href="#cb5-36" tabindex="-1"></a><span class="co">#&gt; [1] &quot;test&quot;</span></span>
-<span id="cb5-37"><a href="#cb5-37" tabindex="-1"></a><span class="fu">as_chr</span>(x)</span>
-<span id="cb5-38"><a href="#cb5-38" tabindex="-1"></a><span class="co">#&gt;      one   two  </span></span>
-<span id="cb5-39"><a href="#cb5-39" tabindex="-1"></a><span class="co">#&gt; [1,] &quot;0&quot;   &quot;1&quot;  </span></span>
-<span id="cb5-40"><a href="#cb5-40" tabindex="-1"></a><span class="co">#&gt; [2,] &quot;0&quot;   &quot;1.5&quot;</span></span>
-<span id="cb5-41"><a href="#cb5-41" tabindex="-1"></a><span class="co">#&gt; [3,] &quot;0&quot;   &quot;2&quot;  </span></span>
-<span id="cb5-42"><a href="#cb5-42" tabindex="-1"></a><span class="co">#&gt; [4,] &quot;0.5&quot; &quot;2.5&quot;</span></span>
-<span id="cb5-43"><a href="#cb5-43" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;test&quot;)</span></span>
-<span id="cb5-44"><a href="#cb5-44" tabindex="-1"></a><span class="co">#&gt; [1] &quot;test&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">2</span>), <span class="fu">seq</span>(<span class="dv">0</span>, <span class="fl">2.5</span>, <span class="at">by=</span><span class="fl">0.5</span>)) <span class="sc">|&gt;</span> <span class="fu">matrix</span>(<span class="at">ncol=</span><span class="dv">2</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">colnames</span>(x) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;one&quot;</span>, <span class="st">&quot;two&quot;</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="fu">attr</span>(x, <span class="st">&quot;test&quot;</span>) <span class="ot">&lt;-</span> <span class="st">&quot;test&quot;</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="fu">print</span>(x)</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt;      one two</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; [1,] 0.0 1.0</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; [2,] 0.0 1.5</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; [3,] 0.0 2.0</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt; [4,] 0.5 2.5</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;test&quot;)</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt; [1] &quot;test&quot;</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="fu">as_bool</span>(x)</span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt;        one  two</span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt; [1,] FALSE TRUE</span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co">#&gt; [2,] FALSE TRUE</span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co">#&gt; [3,] FALSE TRUE</span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="co">#&gt; [4,]  TRUE TRUE</span></span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;test&quot;)</span></span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="co">#&gt; [1] &quot;test&quot;</span></span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="fu">as_int</span>(x)</span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a><span class="co">#&gt;      one two</span></span>
+<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a><span class="co">#&gt; [1,]   0   1</span></span>
+<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a><span class="co">#&gt; [2,]   0   1</span></span>
+<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a><span class="co">#&gt; [3,]   0   2</span></span>
+<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a><span class="co">#&gt; [4,]   0   2</span></span>
+<span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;test&quot;)</span></span>
+<span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a><span class="co">#&gt; [1] &quot;test&quot;</span></span>
+<span id="cb4-29"><a href="#cb4-29" tabindex="-1"></a><span class="fu">as_dbl</span>(x)</span>
+<span id="cb4-30"><a href="#cb4-30" tabindex="-1"></a><span class="co">#&gt;      one two</span></span>
+<span id="cb4-31"><a href="#cb4-31" tabindex="-1"></a><span class="co">#&gt; [1,] 0.0 1.0</span></span>
+<span id="cb4-32"><a href="#cb4-32" tabindex="-1"></a><span class="co">#&gt; [2,] 0.0 1.5</span></span>
+<span id="cb4-33"><a href="#cb4-33" tabindex="-1"></a><span class="co">#&gt; [3,] 0.0 2.0</span></span>
+<span id="cb4-34"><a href="#cb4-34" tabindex="-1"></a><span class="co">#&gt; [4,] 0.5 2.5</span></span>
+<span id="cb4-35"><a href="#cb4-35" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;test&quot;)</span></span>
+<span id="cb4-36"><a href="#cb4-36" tabindex="-1"></a><span class="co">#&gt; [1] &quot;test&quot;</span></span>
+<span id="cb4-37"><a href="#cb4-37" tabindex="-1"></a><span class="fu">as_chr</span>(x)</span>
+<span id="cb4-38"><a href="#cb4-38" tabindex="-1"></a><span class="co">#&gt;      one   two  </span></span>
+<span id="cb4-39"><a href="#cb4-39" tabindex="-1"></a><span class="co">#&gt; [1,] &quot;0&quot;   &quot;1&quot;  </span></span>
+<span id="cb4-40"><a href="#cb4-40" tabindex="-1"></a><span class="co">#&gt; [2,] &quot;0&quot;   &quot;1.5&quot;</span></span>
+<span id="cb4-41"><a href="#cb4-41" tabindex="-1"></a><span class="co">#&gt; [3,] &quot;0&quot;   &quot;2&quot;  </span></span>
+<span id="cb4-42"><a href="#cb4-42" tabindex="-1"></a><span class="co">#&gt; [4,] &quot;0.5&quot; &quot;2.5&quot;</span></span>
+<span id="cb4-43"><a href="#cb4-43" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;test&quot;)</span></span>
+<span id="cb4-44"><a href="#cb4-44" tabindex="-1"></a><span class="co">#&gt; [1] &quot;test&quot;</span></span></code></pre></div>
 <p> </p>
 </div>
 <div id="locked-constants" class="section level1">

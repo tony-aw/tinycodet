@@ -78,27 +78,7 @@ x %d!{}% bnd
 
 Atomic type casting in R is generally performed using the functions `as.logical()`, `as.integer()`, `as.double()`, `as.character()`.
 
-These functions have the annoying property that they strip attributes. The safest and most consistent way (as far as I was able to test out) to convert atomic types without loosing attributes, and without getting inconsistent results, is to first store the attributes, convert the object, and then re-assign the attributes. Like so:
-
-```{r}
-x <- c(rep(0, 2), seq(0, 2.5, by=0.5)) |> matrix(ncol=2)
-colnames(x) <- c("one", "two")
-attr(x, "test") <- "test"
-print(x)
-
-# First, store the attributes:
-myattr <- attributes(x)
-# Second, convert the object:
-x <- as.integer(x)
-print(x) # no longer a matrix, nor any other attributes
-# Third, re-assign attributes:
-attributes(x) <- myattr
-print(x)
-
-```
-
-
-The above code is slightly convoluted. So I've taken the liberty of creating more convenient atomic type conversion functions:
+These functions have the annoying property that they strip attributes. I've taken the liberty of creating more convenient atomic conversion functions:
 
  - `as_bool()`: same as `as.logical()`, but with attributes preserved.
  - `as_int()`: same as `as.integer()`, but with attributes preserved.
