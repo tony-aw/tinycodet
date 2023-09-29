@@ -29,10 +29,6 @@ for(i in 1:7) {
 }
 expect_equal(expected.list, out.list)
 
-# ss:
-expect_equal("hello" %ss% c(1,5), c("h", "o"))
-expect_equal("hello" %ss% 5:1, c("o", "l", "l", "e", "h"))
-
 
 # error checking:
 x <- c(
@@ -59,24 +55,4 @@ expect_error(
 expect_error(
   x %strim% ss,
   pattern = "right hand side cannot contain NA"
-)
-expect_error(
-  x %ss% 1:5,
-  pattern = "left hand side must be a single string"
-)
-expect_error(
-  "hello" %ss% 1:500,
-  pattern = "subscript out of bounds"
-)
-expect_error(
-  "hello" %ss% (-1:-500),
-  pattern = "subscript out of bounds"
-)
-expect_error(
-  "hello" %ss% 0:10,
-  pattern = "NA or 0 not allowed in index"
-)
-expect_error(
-  "hello" %ss% NA,
-  pattern = "NA or 0 not allowed in index"
 )
