@@ -391,7 +391,7 @@ number of characters from the left and right as defined in the matrix
 </div>
 <div id="string-arithmetic" class="section level1">
 <h1>String arithmetic</h1>
-<p>The <code>tinycodet</code> package adds 4 string arithmetic
+<p>The <code>tinycodet</code> package adds 5 string arithmetic
 operators:</p>
 <ul>
 <li><code>x %s+% y</code> concatenates <code>x</code> and
@@ -401,7 +401,10 @@ string in character vector <code>x</code>;</li>
 <li><code>x %s*% n</code> repeats each string in character vector
 <code>x</code> for <code>n</code> times;</li>
 <li><code>x %s/% p</code> counts how often pattern <code>p</code> occurs
-in string or vector <code>x</code></li>
+in each string of character vector <code>x</code>.</li>
+<li><code>x %s//% brk</code> counts how often the text boundary
+specified in list <code>brk</code> occurs in each string of character
+vector <code>x</code>.</li>
 </ul>
 <p>I.e.:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="st">&quot;Hello &quot;</span><span class="sc">%s+%</span> <span class="st">&quot; world&quot;</span></span>
@@ -412,7 +415,9 @@ in string or vector <code>x</code></li>
 <span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; [1] &quot;HaHa&quot;           &quot;HoHoHo&quot;         &quot;HiHiHiHi&quot;       &quot;HuHuHuHuHu&quot;    </span></span>
 <span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; [5] &quot;HeHeHeHeHeHe&quot;   &quot;HaHaHaHaHaHaHa&quot;</span></span>
 <span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="fu">c</span>(<span class="st">&quot;hello world &amp; goodbye world&quot;</span>, <span class="st">&quot;world domination!&quot;</span>) <span class="sc">%s/%</span> <span class="st">&quot;world&quot;</span></span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt; [1] 2 1</span></span></code></pre></div>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt; [1] 2 1</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="fu">c</span>(<span class="st">&quot;hello world &amp; goodbye world&quot;</span>, <span class="st">&quot;world domination!&quot;</span>) <span class="sc">%s//%</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">&quot;word&quot;</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt; [1] 9 4</span></span></code></pre></div>
 <p>The right-side arguments <code>p</code>, <code>y</code>, and
 <code>n</code> can be a single value, or a vector of the same length as
 <code>x</code>.</p>

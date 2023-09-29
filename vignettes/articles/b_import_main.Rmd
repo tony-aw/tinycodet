@@ -287,20 +287,3 @@ dpr.$power_inner_join(
 Notice that the only change made, is that all functions start with `dpr.$`, the rest is the same. No need for constantly switching between `dplyr::...`, `powerjoin::...` and so on - yet it is still clear from the code that the functions came from the [dplyr](https://github.com/tidyverse/dplyr) + [powerjoin](https://github.com/moodymudskipper/powerjoin) family, and there is no fear of overwriting functions from other R packages - let alone core R functions.
 
 &nbsp;
-
-To show that `import_as()` actually does load all exported functions, including re-exports, consider the following proof:
-
-```{r}
-import_as(~ dpr., "dplyr", re_exports = TRUE)
-out <- setdiff(names(dpr.), ".__attributes__.") |> sort()
-foo <- loadNamespace("dplyr") |> getNamespaceExports()
-check <- all(out == sort(foo))
-print(check) # must be TRUE
-if(!isTRUE(check)) {
-  stop("Tony is really stupid")
-}
-
-```
-
-
-&nbsp;

@@ -867,23 +867,6 @@ from the <a href="https://github.com/tidyverse/dplyr">dplyr</a> + <a href="https
 family, and there is no fear of overwriting functions from other R
 packages - let alone core R functions.</p>
 <p> </p>
-<p>To show that <code>import_as()</code> actually does load all exported
-functions, including re-exports, consider the following proof:</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">import_as</span>(<span class="sc">~</span> dpr., <span class="st">&quot;dplyr&quot;</span>, <span class="at">re_exports =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a><span class="co">#&gt; Importing packages...</span></span>
-<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
-<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a><span class="co">#&gt; You can now access the functions using [4mdpr.$[24m</span></span>
-<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a><span class="co">#&gt; Methods will work like normally </span></span>
-<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a><span class="co">#&gt; For conflicts report, packages order, and other attributes, run [4mattr.import(dpr.)[24m</span></span>
-<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">names</span>(dpr.), <span class="st">&quot;.__attributes__.&quot;</span>) <span class="sc">|&gt;</span> <span class="fu">sort</span>()</span>
-<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a>foo <span class="ot">&lt;-</span> <span class="fu">loadNamespace</span>(<span class="st">&quot;dplyr&quot;</span>) <span class="sc">|&gt;</span> <span class="fu">getNamespaceExports</span>()</span>
-<span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a>check <span class="ot">&lt;-</span> <span class="fu">all</span>(out <span class="sc">==</span> <span class="fu">sort</span>(foo))</span>
-<span id="cb18-10"><a href="#cb18-10" tabindex="-1"></a><span class="fu">print</span>(check) <span class="co"># must be TRUE</span></span>
-<span id="cb18-11"><a href="#cb18-11" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
-<span id="cb18-12"><a href="#cb18-12" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">isTRUE</span>(check)) {</span>
-<span id="cb18-13"><a href="#cb18-13" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">&quot;Tony is really stupid&quot;</span>)</span>
-<span id="cb18-14"><a href="#cb18-14" tabindex="-1"></a>}</span></code></pre></div>
-<p> </p>
 </div>
 
 

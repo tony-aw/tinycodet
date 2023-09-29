@@ -64,6 +64,10 @@ Notice that the code is virtually equivalent. We *only* need to change the locat
 
 &nbsp;
 
+There is also the `stri_locate_ith_boundaries()` function, which of course locates the $i^\textrm{th}$ text boundary.
+
+&nbsp;
+
 # strcut_ - functions
 
 The `tinycodet` R package adds 2 `strcut` functions: `strcut_loc()` and `strcut_brk()`.
