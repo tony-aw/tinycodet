@@ -58,7 +58,8 @@ A character matrix with \code{length(str)} rows and 3 columns:
 
 For the \code{strcut_brk()} function: \cr
 A character matrix with \code{length(str)} rows and
-a number of columns equal to the maximum number of pieces \code{str} was cut in.
+a number of columns equal to the maximum number of pieces \code{str} was cut in. \cr
+Empty places are filled with \code{NA}.
 }
 \description{
 The \code{strcut_loc()} function

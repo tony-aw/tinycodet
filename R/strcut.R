@@ -68,7 +68,9 @@
 #'
 #' For the \code{strcut_brk()} function: \cr
 #' A character matrix with \code{length(str)} rows and
-#' a number of columns equal to the maximum number of pieces \code{str} was cut in.
+#' a number of columns equal to the maximum number of pieces \code{str} was cut in. \cr
+#' Empty places are filled with \code{NA}.
+#'
 #'
 #'
 #' @seealso [tinycodet_strings()]
@@ -164,7 +166,7 @@ strcut_brk <- function(str, brk="chr", ...) {
   if(brk == "line") brk <- "line_break"
 
   out <- stringi::stri_split_boundaries(
-    str=str, type=brk, n=-1L, tokens_only = FALSE, simplify = TRUE, ...
+    str=str, type=brk, n=-1L, tokens_only = FALSE, simplify = NA, ...
   )
   return(out)
 }
