@@ -2,9 +2,12 @@
 % Please edit documentation in R/stri_locate_ith.R
 \name{stri_locate_ith}
 \alias{stri_locate_ith}
-\title{Locate \eqn{i^{th}} Pattern Occurrence}
+\alias{stri_locate_ith_boundaries}
+\title{Locate \eqn{i^{th}} Pattern Occurrence or Text Boundary}
 \usage{
 stri_locate_ith(str, i, ..., regex, fixed, coll, charclass)
+
+stri_locate_ith_boundaries(str, i, ..., type = "character")
 }
 \arguments{
 \item{str}{a string or character vector.}
@@ -41,6 +44,12 @@ as in \link[stringi]{stri_locate}. \cr
 \ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_fixed.html}{\figure{aboutsearch-fixed-darkgreen.svg}{options: alt='[FIXED]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_fixed.html}{about search: fixed}} \cr
 \ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_coll.html}{\figure{aboutsearch-coll-pink.svg}{options: alt='[COLL]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_coll.html}{about search: coll}} \cr
 \ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_charclass.html}{\figure{aboutsearch-charclass-lightyellow.svg}{options: alt='[CHARCLASS]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_charclass.html}{about search: charclass}} \cr}
+
+\item{type}{single string;
+either the break iterator type,
+one of \code{character}, \code{line_break}, \code{sentence}, \code{word},
+or a custom set of ICU break iteration rules. Defaults to \code{"character"}. \cr
+\ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_boundaries.html}{\figure{aboutsearch-boundaries-blue.svg}{options: alt='[BOUNDARIES]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_boundaries.html}{about search: boundaries}} \cr}
 }
 \value{
 The \code{stri_locate_ith()} function returns an integer matrix with two columns,
@@ -50,9 +59,13 @@ and also two \code{NA}s if \code{str} is \code{NA}.\cr
 \cr
 }
 \description{
-The \code{stri_locate_ith} function
+The \code{stri_locate_ith()} function
 locates the \eqn{i^{th}} occurrence of a pattern in each string of
 some character vector. \cr
+\cr
+The \code{stri_locate_ith_boundaries()} function
+locates the \eqn{i^{th}} text boundary
+(like character, word, line, or sentence boundaries). \cr
 }
 \details{
 \bold{Special note regarding charclass} \cr
@@ -124,6 +137,18 @@ extr <- stringi::stri_sub(x, from=loc)
 repl <- chartr(extr, old = "a-zA-Z", new = "A-Za-z")
 stringi::stri_sub_replace(x, loc, replacement=repl)
 
+
+#############################################################################
+
+# Boundaries ====
+
+test <- c(
+paste0("The\u00a0above-mentioned    features are very useful. ",
+      "Spam, spam, eggs, bacon, and spam. 123 456 789"),
+      "good morning, good evening, and good night"
+      )
+loc <- stri_locate_ith_boundaries(test, i = c(1, -1), type = "word")
+stringi::stri_sub(test, from=loc)
 
 }
 \seealso{

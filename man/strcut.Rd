@@ -7,7 +7,7 @@
 \usage{
 strcut_loc(str, loc, fill_loc = TRUE)
 
-strcut_brk(str, brk = "chr", ...)
+strcut_brk(str, brk = "character", ...)
 }
 \arguments{
 \item{str}{a string or character vector.}
@@ -31,18 +31,11 @@ where \code{nc[i]} is the number of characters of \code{str[i]}
 for when \code{loc[i,]} is \code{c(NA, NA)}.
 }}
 
-\item{brk}{a single string, giving one of the following:
-\itemize{
-\item \code{"chr"} or \code{"character"}: attempts to split string into individual characters.
-\item \code{"line"} or \code{"line_break"}: attempts to split string into individual lines
-(NOTE: this is somewhat locale dependent).
-\item \code{"word"}: attempts to split string into individual words
-(NOTE: this is highly locale dependent!).
-\item \code{"sentence"}: attempts to split string into individual sentences
-(NOTE: this is highly locale dependent!). \cr
-}
-
-\ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_boundaries.html}{\figure{aboutsearch-boundaries-blue.svg}{options: alt='[BOUNDARIES]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_boundaries.html}{about search: boundaries}}}
+\item{brk}{single string;
+either the break iterator type,
+one of \code{character}, \code{line_break}, \code{sentence}, \code{word},
+or a custom set of ICU break iteration rules. Defaults to \code{"character"}. \cr
+\ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_boundaries.html}{\figure{aboutsearch-boundaries-blue.svg}{options: alt='[BOUNDARIES]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_boundaries.html}{about search: boundaries}} \cr}
 
 \item{...}{additional settings for \link[stringi]{stri_opts_brkiter}}
 }
@@ -102,7 +95,7 @@ test <- "The\u00a0above-mentioned    features are very useful. " \%s+\%
 strcut_brk(test, "line")
 strcut_brk(test, "word")
 strcut_brk(test, "sentence")
-strcut_brk(test, "chr")
+strcut_brk(test)
 }
 \seealso{
 \code{\link[=tinycodet_strings]{tinycodet_strings()}}

@@ -41,17 +41,11 @@
 #' where \code{nc[i]} is the number of characters of \code{str[i]}
 #'  * If \code{FALSE}, \code{strcut_loc()} will return \code{c(NA, NA, NA)}
 #'  for when \code{loc[i,]} is \code{c(NA, NA)}.
-#' @param brk a single string, giving one of the following:
-#'
-#'  * \code{"chr"} or \code{"character"}: attempts to split string into individual characters.
-#'  * \code{"line"} or \code{"line_break"}: attempts to split string into individual lines
-#'  (NOTE: this is somewhat locale dependent).
-#'  * \code{"word"}: attempts to split string into individual words
-#'  (NOTE: this is highly locale dependent!).
-#'  * \code{"sentence"}: attempts to split string into individual sentences
-#'  (NOTE: this is highly locale dependent!). \cr
-#'
-#' `r .mybadge_string("boundaries", "blue")`
+#' @param brk single string;
+#' either the break iterator type,
+#' one of \code{character}, \code{line_break}, \code{sentence}, \code{word},
+#' or a custom set of ICU break iteration rules. Defaults to \code{"character"}. \cr
+#' `r .mybadge_string("boundaries", "blue")` \cr
 #'
 #' @param ... additional settings for \link[stringi]{stri_opts_brkiter}
 #'
@@ -92,7 +86,7 @@
 #' strcut_brk(test, "line")
 #' strcut_brk(test, "word")
 #' strcut_brk(test, "sentence")
-#' strcut_brk(test, "chr")
+#' strcut_brk(test)
 
 
 #' @rdname strcut
@@ -152,21 +146,12 @@ strcut_loc <- function(str, loc, fill_loc = TRUE) {
 
 #' @rdname strcut
 #' @export
-strcut_brk <- function(str, brk="chr", ...) {
+strcut_brk <- function(str, brk = "character", ...) {
   if(length(brk) > 1) {
     stop("`brk` must be a single string")
   }
-  lst <- list(...)
-  if(any(names(lst) %in% c("n", "tokens_only", "simplify"))) {
-    stop("arguments `n`, `tokens_only` and `simplify` not supported in this function;",
-         "\n",
-         "use `stringi::stri_split_boundaries()` instead")
-  }
-  if(brk == "chr") brk <- "character"
-  if(brk == "line") brk <- "line_break"
-
   out <- stringi::stri_split_boundaries(
-    str=str, type=brk, n=-1L, tokens_only = FALSE, simplify = NA, ...
+    str=str, type = brk, n=-1L, tokens_only = FALSE, simplify = NA, ...
   )
   return(out)
 }

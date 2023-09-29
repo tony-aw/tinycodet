@@ -160,7 +160,7 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
  - 18 September 2023: LAST MAJOR UPDATE (I promise): changed the name (yet again) to `tinycodet`. R package is now basically finished, safe for some tiny textual edits in the documentation here and there.
  - 23 September 2023: fixed a mistake in `stri_locate_ith()` when used with `charclass` pattern. Added almost a 100 more tests. Still busy with checking the documentation before submitting to CRAN...
  - 25, 26, 28 September 2023: Minor textual corrections in documentation and website.
- - 29 September: Minor textual corrections in documentation and website. Removed `%ss%`. Added badges to pattern arguments of the stringi-based functions. Added a package startup message.
+ - 29 September: Minor textual corrections in documentation and website. Added badges to pattern arguments of the stringi-based functions. Added a package startup message. Removed `%ss%`. Added missing boundaries functions, and made the existing boundaries functions more conform to `stringi`.
  
 FUTURE PLANS:
 

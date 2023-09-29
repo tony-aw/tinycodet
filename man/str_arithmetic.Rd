@@ -4,11 +4,14 @@
 \alias{str_arithmetic}
 \alias{\%s-\%}
 \alias{\%s/\%}
+\alias{\%s//\%}
 \title{String arithmetic}
 \usage{
 x \%s-\% p
 
 x \%s/\% p
+
+x \%s//\% brk
 }
 \arguments{
 \item{x}{a string or character vector.}
@@ -19,11 +22,15 @@ or else a character vector of the same length as \code{x} with regular expressio
 \ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_fixed.html}{\figure{aboutsearch-fixed-darkgreen.svg}{options: alt='[FIXED]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_fixed.html}{about search: fixed}} \cr
 \ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_coll.html}{\figure{aboutsearch-coll-pink.svg}{options: alt='[COLL]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_coll.html}{about search: coll}} \cr
 \ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_charclass.html}{\figure{aboutsearch-charclass-lightyellow.svg}{options: alt='[CHARCLASS]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_charclass.html}{about search: charclass}} \cr}
+
+\item{brk}{a list with arguments to be send to \link[stringi]{stri_count_boundaries}. \cr
+see also \link[stringi]{stri_opts_brkiter}. \cr
+\ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_boundaries.html}{\figure{aboutsearch-boundaries-blue.svg}{options: alt='[BOUNDARIES]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_boundaries.html}{about search: boundaries}} \cr}
 }
 \value{
 The \code{\%s+\%}, \code{\%s-\%}, and \code{\%s*\%} operators
 return a character vector of the same length as \code{x}. \cr
-The \code{\%s/\%} returns a integer vector of the same length as \code{x}. \cr
+The \code{\%s/\%} and \code{\%s//\%} both return an integer vector of the same length as \code{x}. \cr
 The \code{\%s$\%} operator returns a character vector.
 }
 \description{
@@ -32,12 +39,15 @@ String arithmetic operators. \cr
 The \code{x \%s+\% y } operator is exported from \code{stringi},
 and concatenates character vectors \code{x} and \code{y}. \cr
 \cr
-The \code{x \%s-\% p } operator removes character/pattern defined in \code{p} from \code{x}. \cr
+The \code{ x \%s-\% p } operator removes character/pattern defined in \code{p} from \code{x}. \cr
 \cr
-The \code{x \%s*\% n } operator is exported from \code{stringi},
+The \code{ x \%s*\% n } operator is exported from \code{stringi},
 and duplicates each string in \code{x} \code{n} times, and concatenates the results. \cr
 \cr
-The \code{x \%s/\% p } operator counts how often regular expression or character pattern \code{p}
+The \code{ x \%s/\% p } operator counts how often regular expression or character pattern \code{p}
+occurs in each element of \code{x}. \cr
+\cr
+The \code{ x \%s//\% brk } operator counts how often the text boundary specified in list \code{brk}
 occurs in each element of \code{x}. \cr
 \cr
 The \code{e1 \%s$\% e2} operator is exported from \code{stringi},
@@ -54,6 +64,13 @@ x \%s+\% y # =paste0(x,y)
 x \%s-\% p # remove all vowels from x
 x \%s*\% n
 x \%s/\% p # count how often vowels appear in each string of vector x.
+
+test <- c(
+paste0("The\u00a0above-mentioned    features are very useful. ",
+"Spam, spam, eggs, bacon, and spam. 123 456 789"),
+"good morning, good evening, and good night"
+)
+test \%s//\% list(type = "character")
 
 
 #############################################################################

@@ -56,7 +56,6 @@
 #'
 #'
 #'
-#'
 #' @param p a character vector giving the pattern to search for. \cr
 #' `r .mybadge_string("regex", "darkred")` \cr
 #' `r .mybadge_string("fixed", "darkgreen")` \cr

@@ -1,11 +1,15 @@
-#' Locate \eqn{i^{th}} Pattern Occurrence
+#' Locate \eqn{i^{th}} Pattern Occurrence or Text Boundary
 #'
 #' @description
 #'
 #'
-#' The \code{stri_locate_ith} function
+#' The \code{stri_locate_ith()} function
 #' locates the \eqn{i^{th}} occurrence of a pattern in each string of
 #' some character vector. \cr
+#' \cr
+#' The \code{stri_locate_ith_boundaries()} function
+#' locates the \eqn{i^{th}} text boundary
+#' (like character, word, line, or sentence boundaries). \cr
 #'
 #' @param str a string or character vector.
 #' @param regex,fixed,coll,charclass a character vector of search patterns,
@@ -14,6 +18,11 @@
 #' `r .mybadge_string("fixed", "darkgreen")` \cr
 #' `r .mybadge_string("coll", "pink")` \cr
 #' `r .mybadge_string("charclass", "lightyellow")` \cr
+#' @param type single string;
+#' either the break iterator type,
+#' one of \code{character}, \code{line_break}, \code{sentence}, \code{word},
+#' or a custom set of ICU break iteration rules. Defaults to \code{"character"}. \cr
+#' `r .mybadge_string("boundaries", "blue")` \cr
 #' @param i a number, or a numeric vector of the same length as \code{str}. \cr
 #' Positive numbers are counting from the left. Negative numbers are counting from the right.
 #' I.e.: \cr
@@ -122,6 +131,18 @@
 #' stringi::stri_sub_replace(x, loc, replacement=repl)
 #'
 #'
+#' #############################################################################
+#'
+#' # Boundaries ====
+#'
+#' test <- c(
+#' paste0("The\u00a0above-mentioned    features are very useful. ",
+#'       "Spam, spam, eggs, bacon, and spam. 123 456 789"),
+#'       "good morning, good evening, and good night"
+#'       )
+#' loc <- stri_locate_ith_boundaries(test, i = c(1, -1), type = "word")
+#' stringi::stri_sub(test, from=loc)
+#'
 
 
 #' @rdname stri_locate_ith
@@ -181,3 +202,35 @@ stri_locate_ith <- function(
   colnames(mat) <- c("start", "end")
   return(mat)
 }
+
+#' @rdname stri_locate_ith
+#' @export
+stri_locate_ith_boundaries <- function(
+    str, i, ... , type = "character"
+) {
+  n <- length(str)
+  if(length(i) == 1) i <- rep.int(i, n)
+  if(length(i) != n) {
+    stop("`i` must be the same length as `str`, or be a length of 1")
+  }
+  if(any(i==0) || any(is.na(i))){
+    stop("`i` is not allowed to be zero or NA")
+  }
+  p1 <- stringi::stri_locate_all_boundaries(
+    str = str, type = type, omit_no_match = FALSE, get_length = FALSE, ...
+  )
+  n.matches <- lengths(p1)/2
+
+  n.matches <- pmax(n.matches, 1) # if no matches found, n.matches must be 1 so that NA is returned.
+  neg <- which(i < 0)
+  pos <- which(i > 0)
+  i[neg] <- pmax(n.matches[neg] - abs(i[neg]+1), 1)
+  i[pos] <- pmin(i[pos], n.matches[pos])
+
+  rowind <- i + c(0, cumsum(n.matches))[seq_len(n)]
+  mat <- do.call(rbind, p1)
+  mat <- mat[rowind, , drop=FALSE]
+  colnames(mat) <- c("start", "end")
+  return(mat)
+}
+

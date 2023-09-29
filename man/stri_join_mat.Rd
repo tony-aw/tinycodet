@@ -46,7 +46,7 @@ The examples section show the uses of the \code{stri_join_mat()} function.
 
 x <- c("Hello world", "Goodbye world")
 print(x)
-mat <- strcut_brk(x, "chr")
+mat <- strcut_brk(x)
 rank <- stringi::stri_rank(as.vector(mat)) |>  matrix(ncol=ncol(mat))
 sorted <- mat \%row~\% rank
 print(sorted)

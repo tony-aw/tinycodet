@@ -364,8 +364,10 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
 - 25, 26, 28 September 2023: Minor textual corrections in documentation
   and website.
 - 29 September: Minor textual corrections in documentation and website.
-  Removed `%ss%`. Added badges to pattern arguments of the stringi-based
-  functions. Added a package startup message.
+  Added badges to pattern arguments of the stringi-based functions.
+  Added a package startup message. Removed `%ss%`. Added missing
+  boundaries functions, and made the existing boundaries functions more
+  conform to `stringi`.
 
 FUTURE PLANS:
 
