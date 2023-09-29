@@ -669,17 +669,6 @@ Please submit your suggestions in the “Discussion” tab on the GitHub
 page (<a href="https://github.com/tony-aw/tinycodet/discussions">https://github.com/tony-aw/tinycodet/discussions</a>).
 Questions that are not issues can also be provided there.</p>
 <p> </p>
-<h2 id="history-of-this-r-package">History of this R package</h2>
-<p>This R package started out as just a semi-random collection of infix
-operators, most of them related to string manipulation. This then turned
-into more specifically extending the capacities of the
-<code>stringi</code> R package. Along the way I realized that infix
-operators are not very user-friendly when used via <code>::</code> or
-via a package alias, which resulted in the creation of the
-<code>import_inops()</code> function. This in turn resulted in the
-entire import system. And thus we get to the current state of the R
-package.</p>
-<p> </p>
 <h2 id="changelog-and-status">Changelog and status</h2>
 <p>CHANGELOG (EXPERIMENTAL VERSIONS):</p>
 <ul>
@@ -968,7 +957,8 @@ documentation and website.</li>
 website. Added badges to pattern arguments of the stringi-based
 functions. Added a package startup message. Removed <code>%ss%</code>.
 Added missing boundaries functions, and made the existing boundaries
-functions more conform to <code>stringi</code>.</li>
+functions more conform to <code>stringi</code>. Fixed a few minor
+issues. Added about 50 tests.</li>
 </ul>
 <p>FUTURE PLANS:</p>
 <p>I believe <code>tinycodet</code> is stable. There does not appear a

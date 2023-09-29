@@ -101,19 +101,6 @@ that are not issues can also be provided there.
 
  
 
-## History of this R package
-
-This R package started out as just a semi-random collection of infix
-operators, most of them related to string manipulation. This then turned
-into more specifically extending the capacities of the `stringi` R
-package. Along the way I realized that infix operators are not very
-user-friendly when used via `::` or via a package alias, which resulted
-in the creation of the `import_inops()` function. This in turn resulted
-in the entire import system. And thus we get to the current state of the
-R package.
-
- 
-
 ## Changelog and status
 
 CHANGELOG (EXPERIMENTAL VERSIONS):
@@ -367,7 +354,7 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   Added badges to pattern arguments of the stringi-based functions.
   Added a package startup message. Removed `%ss%`. Added missing
   boundaries functions, and made the existing boundaries functions more
-  conform to `stringi`.
+  conform to `stringi`. Fixed a few minor issues. Added about 50 tests.
 
 FUTURE PLANS:
 

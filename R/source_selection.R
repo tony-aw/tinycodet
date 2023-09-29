@@ -132,7 +132,7 @@ source_selection <- function(
   temp.fun(fixed, sys.call())
 
   # get source:
-  message("Sourving script ... \n")
+  message("Sourcing script ... \n")
   tempenv <- new.env(parent=parent.frame())
   do.call(source, c(lst, local=tempenv))
   tempenv <- as.list(tempenv, all.names = TRUE, sorted = TRUE)

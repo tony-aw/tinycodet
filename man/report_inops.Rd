@@ -26,9 +26,12 @@ It also reports from which packages the infix operators came from.
 }
 \examples{
 
-\dontrun{
 report_inops()
-}
+
+import_inops("stringi")
+
+report_inops()
+
 
 
 

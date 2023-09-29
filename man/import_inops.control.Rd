@@ -55,7 +55,7 @@ Only one or the other, or neither. \cr
 \examples{
 \dontrun{
 # additional arguments (only used when exposing, not unexposing):
-import_as(dt., "data.table")
+import_as(~ dt., "data.table")
 import_inops(expose = dt., include.only = ":=")
 import_inops(unexpose = dt.)
 import_inops(expose = "data.table", exclude = ":=")

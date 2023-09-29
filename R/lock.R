@@ -21,12 +21,17 @@
 #'
 #' @param X a syntactically valid unquoted name of the object to be created.
 #' @param A any kind of object to be assigned to \code{X}.
+#' @param env an optional environment to give,
+#' determining in which environment \code{T} and \code{F} should be locked. \cr
+#' When not specified, the current environment
+#' (like the global environment, or the environment within a function)
+#' is used. \cr
 #'
 #' @returns
 #' For \code{lock_TF()}: \cr
 #' Two \code{constants}, namely \code{T} and \code{F},
 #' set to \code{TRUE} and \code{FALSE} respectively,
-#' are created in the current environment,
+#' are created in the specified or else current environment,
 #' and locked.
 #' Removing the created \code{T} and \code{F} objects allows re-assignment again. \cr
 #' \cr
@@ -50,12 +55,15 @@ NULL
 
 #' @rdname lock
 #' @export
-lock_TF <- function() {
-  assign("T", TRUE, envir = parent.frame(n = 1))
-  lockBinding("T", env = parent.frame(n = 1))
+lock_TF <- function(env) {
 
-  assign("F", FALSE, envir = parent.frame(n = 1))
-  lockBinding("F", env = parent.frame(n = 1))
+  if(missing(env)){env <- parent.frame(n = 1)}
+
+  assign("T", TRUE, envir = env)
+  lockBinding("T", env = env)
+
+  assign("F", FALSE, envir = env)
+  lockBinding("F", env = env)
 }
 
 
@@ -67,9 +75,11 @@ lock_TF <- function() {
     make.names(x_chr)==x_chr,
     length(x_chr)==1
   ) |> all()
+
   if(!check) {
     stop("syntactically invalid `x` given")
   }
+
   assign(x_chr, A, envir = parent.frame(n = 1))
   lockBinding(x_chr, env = parent.frame(n = 1))
 }

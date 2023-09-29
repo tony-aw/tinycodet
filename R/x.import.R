@@ -89,8 +89,8 @@
 #' @examples
 #'
 #' \dontrun{
-#' import_as(mr., "magrittr")
-#' import_inops("magrittr")
+#' import_as(~ mr., "magrittr")
+#' import_inops(mr.)
 #' `:=` <- data.table::`:=`
 #'
 #' is.tinyimport(mr.) # returns TRUE
@@ -100,9 +100,9 @@
 #' attr.import(mr.)
 #' attr.import(mr., which="conflicts")
 #'
-#' help.import(i=mr.$add)
-#' help.import(i=`%>%`)
-#' help.import(i="add", alias=mr.)
+#' # help.import(i=mr.$add)
+#' # help.import(i=`%>%`)
+#' # help.import(i="add", alias=mr.)
 #'
 #'
 #'

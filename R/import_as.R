@@ -104,8 +104,18 @@
 #' import_as(
 #'   ~ tdt., "tidytable", dependencies = "data.table"
 #' )
-#' # using a function from the alias:
-#' tdt.$mutate
+#'
+#'
+#' # exposing infix operators from "magrrittr" to current environment:
+#' import_inops("magrittr")
+#'
+#' # directly assigning dplyr's "starwars" dataset to object "d":
+#' d <- import_data("dplyr", "starwars")
+#'
+#' # see it in action:
+#' d %>% tdt.$filter(species == "Droid") %>%
+#'   tdt.$select(name, tdt.$ends_with("color"))
+#'
 #' }
 #'
 #'

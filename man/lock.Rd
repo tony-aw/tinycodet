@@ -6,11 +6,17 @@
 \alias{\%<-c\%}
 \title{Lock T, lock F, or create locked constants}
 \usage{
-lock_TF()
+lock_TF(env)
 
 X \%<-c\% A
 }
 \arguments{
+\item{env}{an optional environment to give,
+determining in which environment \code{T} and \code{F} should be locked. \cr
+When not specified, the current environment
+(like the global environment, or the environment within a function)
+is used. \cr}
+
 \item{X}{a syntactically valid unquoted name of the object to be created.}
 
 \item{A}{any kind of object to be assigned to \code{X}.}
@@ -19,7 +25,7 @@ X \%<-c\% A
 For \code{lock_TF()}: \cr
 Two \code{constants}, namely \code{T} and \code{F},
 set to \code{TRUE} and \code{FALSE} respectively,
-are created in the current environment,
+are created in the specified or else current environment,
 and locked.
 Removing the created \code{T} and \code{F} objects allows re-assignment again. \cr
 \cr

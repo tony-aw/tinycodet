@@ -23,9 +23,12 @@
 #'
 #' @examples
 #'
-#' \dontrun{
 #' report_inops()
-#' }
+#'
+#' import_inops("stringi")
+#'
+#' report_inops()
+#'
 #'
 #'
 #'

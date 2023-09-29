@@ -107,7 +107,26 @@ NULL
 #' @rdname pkgs
 #' @export
 `%installed in%` <- function(pkgs, lib.loc) {
-  return(pkgs %in% rownames(utils::installed.packages(lib.loc=lib.loc)))
+
+  if(!is.character(pkgs)) {
+    stop("`pkgs` must be a character vector of package names")
+  }
+  misspelled_pkgs <- pkgs[pkgs != make.names(pkgs)]
+  if(isTRUE(length(misspelled_pkgs)>0)) {
+    stop(
+      "You have misspelled the following packages:",
+      "\n",
+      paste0(misspelled_pkgs, collapse = ", ")
+    )
+  }
+
+  .internal_check_lib.loc(lib.loc, sys.call())
+
+  out <- stats::setNames(
+    pkgs %in% rownames(utils::installed.packages(lib.loc=lib.loc)),
+    pkgs
+  )
+  return(out)
 }
 
 
@@ -120,6 +139,8 @@ pkg_get_deps <- function(
   if(length(package)>1){
     stop("Only one package can be given")
   }
+  .internal_check_lib.loc(lib.loc, sys.call())
+  .internal_check_pkgs(package, lib.loc, abortcall = sys.call())
 
   temp.fun <- function(x) { .internal_get_pkg_deps(
       package, lib.loc, x, base=base, recom = recom, rstudioapi = rstudioapi
@@ -140,17 +161,15 @@ pkg_lsf <- function(package, type, lib.loc = .libPaths()) {
     stop("only a single package can be given")
   }
 
-  check <- package %installed in% lib.loc
-  if(!isTRUE(check)) {
-    stop("package not installed")
-  }
+  .internal_check_lib.loc(lib.loc, sys.call())
+  .internal_check_pkgs(package, lib.loc, abortcall = sys.call())
 
   if(!type %in% c("inops", "operators", "regfuns", "all")) {
     stop("`type` must be one of `inops`, `operators`, `regfuns`, or `all`")
   }
 
   ns <- .internal_prep_Namespace(package, lib.loc, abortcall = sys.call()) |> names()
-  if(type=="inops" | type=="operators") {
+  if(type=="inops" || type=="operators") {
     out <- grep("%|:=", ns, value = TRUE)
   }
   if(type=="regfuns") {
