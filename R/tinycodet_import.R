@@ -8,7 +8,7 @@
 #' Or, one can explicitly \bold{attach} a package -
 #' for example by using the \link[base]{library} function. \cr
 #' The advantages and disadvantages
-#' of loading without attaching a package versus attaching a package,
+#' of using \bold{without attaching} a package versus \bold{attaching} a package,
 #' at least those relevant here,
 #' are compactly presented in the following list: \cr
 #' \cr
@@ -51,7 +51,7 @@
 #' It does this by introducing the following functions: \cr
 #'
 #' - \link{import_as}:
-#' Allow a main package + its re-exports + its dependencies + its extensions to be loaded under a single alias.
+#' Load a main package + its re-exports + its dependencies + its extensions under a single alias.
 #' This essentially combines the attaching advantage of using multiple related packages (item 7 on the list),
 #' whilst keeping most advantages of using without attaching a package.
 #' - \link{import_inops}:
@@ -67,7 +67,12 @@
 #' And there are also some additional helper functions for the package import system,
 #' see \link[=help.import]{x.import} and \link[=pkg_get_deps]{pkgs}. \cr
 #' \cr
-#' See the examples below to get an idea how this works.
+#' All \code{import_}-functions have the \code{lib.loc} argument
+#' to specify the library path to load packages from,
+#' thus allowing straight-forward project isolation. \cr
+#' \cr
+#' See the examples section below
+#' to get an idea how the \code{tinycodet} import system works in practice.
 #'
 #'
 #'

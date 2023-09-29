@@ -298,9 +298,10 @@
 
 #' @keywords internal
 #' @noRd
-.mybadge_string <- function(x, color, url) {
-  filepath <- paste0("ICUUserGuide", "-", x, "-", color, ".svg")
-  text <- sprintf("\\href{%s}{%s}", url, x)
+.mybadge_string <- function(x, color) {
+  filepath <- paste0("aboutsearch", "-", x, "-", color, ".svg")
+  url <- paste0("https://stringi.gagolewski.com/rapi/about_search_", x, ".html")
+  text <- sprintf("\\href{%s}{about search: %s}", url, x)
   html <- sprintf(
     "\\href{%s}{\\figure{%s}{options: alt='[%s]'}}",
     url, filepath, toupper(x))

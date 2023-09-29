@@ -2,22 +2,15 @@
 % Please edit documentation in R/str_subset_ops.R
 \name{str_subset_ops}
 \alias{str_subset_ops}
-\alias{\%ss\%}
 \alias{\%sget\%}
 \alias{\%strim\%}
 \title{String subsetting operators}
 \usage{
-string \%ss\% ind
-
 x \%sget\% ss
 
 x \%strim\% ss
 }
 \arguments{
-\item{string}{a single string.}
-
-\item{ind}{a numeric vector giving the subset indices.}
-
 \item{x}{a character vector.}
 
 \item{ss}{a vector of length 2, or a matrix with 2 columns with \code{nrow(ss)==length(x)}.
@@ -40,22 +33,16 @@ The \code{x \%strim\% ss } operator
 removes a certain number of the first and last characters of
 character vector \code{x}. \cr
 \cr
-The \code{\%ss\%} operator always returns a character vector,
-where each element is a single character. \cr
-\cr
 }
 \description{
 String subsetting operators. \cr
 \cr
-The \code{string \%ss\% ind } operator
-allows indexing a single string as-if it is an iterable object. \cr
-\cr
 The \code{x \%sget\% ss } operator
-gives a certain number of the first and last characters of
+gets a certain number of the first and last characters of
 character vector \code{x}. \cr
 \cr
 The \code{x \%strim\% ss } operator
-removes a certain number of the first and last characters of
+trims a certain number of the first and last characters of
 character vector \code{x}. \cr
 \cr
 }
@@ -84,8 +71,6 @@ x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 print(x)
 ss <- c(1,0)
 x \%strim\% ss
-
-"hello" \%ss\% 5:1
 
 
 

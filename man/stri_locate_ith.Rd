@@ -36,7 +36,11 @@ as they are already specified internally.
 Supplying these arguments anyway will result in an error.}
 
 \item{regex, fixed, coll, charclass}{a character vector of search patterns,
-as in \link[stringi]{stri_locate}. \cr}
+as in \link[stringi]{stri_locate}. \cr
+\ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_regex.html}{\figure{aboutsearch-regex-darkred.svg}{options: alt='[REGEX]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_regex.html}{about search: regex}} \cr
+\ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_fixed.html}{\figure{aboutsearch-fixed-darkgreen.svg}{options: alt='[FIXED]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_fixed.html}{about search: fixed}} \cr
+\ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_coll.html}{\figure{aboutsearch-coll-pink.svg}{options: alt='[COLL]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_coll.html}{about search: coll}} \cr
+\ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_charclass.html}{\figure{aboutsearch-charclass-lightyellow.svg}{options: alt='[CHARCLASS]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_charclass.html}{about search: charclass}} \cr}
 }
 \value{
 The \code{stri_locate_ith()} function returns an integer matrix with two columns,

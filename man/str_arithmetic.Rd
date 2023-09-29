@@ -14,7 +14,11 @@ x \%s/\% p
 \item{x}{a string or character vector.}
 
 \item{p}{either a list with \code{stringi} arguments (see \link{stri_rgx}),
-or else a character vector of the same length as \code{x} with regular expressions.}
+or else a character vector of the same length as \code{x} with regular expressions. \cr
+\ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_regex.html}{\figure{aboutsearch-regex-darkred.svg}{options: alt='[REGEX]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_regex.html}{about search: regex}} \cr
+\ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_fixed.html}{\figure{aboutsearch-fixed-darkgreen.svg}{options: alt='[FIXED]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_fixed.html}{about search: fixed}} \cr
+\ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_coll.html}{\figure{aboutsearch-coll-pink.svg}{options: alt='[COLL]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_coll.html}{about search: coll}} \cr
+\ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_charclass.html}{\figure{aboutsearch-charclass-lightyellow.svg}{options: alt='[CHARCLASS]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_charclass.html}{about search: charclass}} \cr}
 }
 \value{
 The \code{\%s+\%}, \code{\%s-\%}, and \code{\%s*\%} operators

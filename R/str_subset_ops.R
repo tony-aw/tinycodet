@@ -5,20 +5,15 @@
 #'
 #' String subsetting operators. \cr
 #' \cr
-#' The \code{string %ss% ind } operator
-#' allows indexing a single string as-if it is an iterable object. \cr
-#' \cr
 #' The \code{x %sget% ss } operator
-#' gives a certain number of the first and last characters of
+#' gets a certain number of the first and last characters of
 #' character vector \code{x}. \cr
 #' \cr
 #' The \code{x %strim% ss } operator
-#' removes a certain number of the first and last characters of
+#' trims a certain number of the first and last characters of
 #' character vector \code{x}. \cr
 #' \cr
 #'
-#' @param ind a numeric vector giving the subset indices.
-#' @param string a single string.
 #' @param x a character vector.
 #' @param ss a vector of length 2, or a matrix with 2 columns with \code{nrow(ss)==length(x)}.
 #' The object \code{ss} should consist entirely of non-negative and non-missing integers,
@@ -47,9 +42,6 @@
 #' removes a certain number of the first and last characters of
 #' character vector \code{x}. \cr
 #' \cr
-#' The \code{%ss%} operator always returns a character vector,
-#' where each element is a single character. \cr
-#' \cr
 #'
 #'
 #' @seealso [tinycodet_strings()]
@@ -77,8 +69,6 @@
 #' ss <- c(1,0)
 #' x %strim% ss
 #'
-#' "hello" %ss% 5:1
-#'
 #'
 #'
 #'
@@ -90,20 +80,7 @@
 #' @name str_subset_ops
 NULL
 
-#' @rdname str_subset_ops
-#' @export
-`%ss%` <- function(string, ind){
-  if(length(string) > 1 || !is.character(string)) {
-    stop("left hand side must be a single string")
-  }
-  if(any(ind==0) || any(is.na(ind))) {
-    stop("NA or 0 not allowed in index")
-  }
-  if(max(abs(ind)) > stringi::stri_length(string)) {
-    stop("subscript out of bounds")
-  }
-  unlist(strsplit(string, split=""))[ind]
-}
+
 
 #' @rdname str_subset_ops
 #' @export

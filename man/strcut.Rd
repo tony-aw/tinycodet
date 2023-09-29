@@ -39,12 +39,10 @@ for when \code{loc[i,]} is \code{c(NA, NA)}.
 \item \code{"word"}: attempts to split string into individual words
 (NOTE: this is highly locale dependent!).
 \item \code{"sentence"}: attempts to split string into individual sentences
-(NOTE: this is highly locale dependent!).
+(NOTE: this is highly locale dependent!). \cr
 }
 
-For information on the boundary rules and definitions, please see: \cr
-The ICU User Guide on Boundary Analysis \cr
-(\url{https://unicode-org.github.io/icu/userguide/boundaryanalysis/})}
+\ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_boundaries.html}{\figure{aboutsearch-boundaries-blue.svg}{options: alt='[BOUNDARIES]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_boundaries.html}{about search: boundaries}}}
 
 \item{...}{additional settings for \link[stringi]{stri_opts_brkiter}}
 }

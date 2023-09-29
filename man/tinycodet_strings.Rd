@@ -11,7 +11,7 @@ The \code{tinycodet} R package adds some functions and operators
 to extend the functionality of the \code{stringi} R package:
 \itemize{
 \item Infix operators for \link[=\%s-\%]{string arithmetic}. \cr
-\item Infix operators for \link[=\%ss\%]{string sub-setting}. \cr
+\item Infix operators for \link[=\%sget\%]{string sub-setting}. \cr
 \item Infix operators for \link[=\%s\{\}\%]{detecting patterns}. \cr
 \item The \code{tinycodet} package adds additional
 \code{stringi} functions, namely \link{stri_locate_ith}, and

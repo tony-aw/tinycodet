@@ -57,7 +57,11 @@
 #'
 #'
 #'
-#' @param p a character vector giving the pattern to search for.
+#' @param p a character vector giving the pattern to search for. \cr
+#' `r .mybadge_string("regex", "darkred")` \cr
+#' `r .mybadge_string("fixed", "darkgreen")` \cr
+#' `r .mybadge_string("coll", "pink")` \cr
+#' `r .mybadge_string("charclass", "lightyellow")` \cr
 #' @param case_insensitive see \link[stringi]{stri_opts_regex} and \link[stringi]{stri_opts_fixed}.
 #' @param comments,dotall,multiline see \link[stringi]{stri_opts_regex}.
 #' @param time_limit,stack_limit see \link[stringi]{stri_opts_regex}.

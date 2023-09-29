@@ -5,7 +5,7 @@
 #' to extend the functionality of the \code{stringi} R package:
 #'
 #' * Infix operators for \link[=%s-%]{string arithmetic}. \cr
-#' * Infix operators for \link[=%ss%]{string sub-setting}. \cr
+#' * Infix operators for \link[=%sget%]{string sub-setting}. \cr
 #' * Infix operators for \link[=%s\{\}%]{detecting patterns}. \cr
 #' * The \code{tinycodet} package adds additional
 #' \code{stringi} functions, namely \link{stri_locate_ith}, and

@@ -49,11 +49,10 @@
 #'  * \code{"word"}: attempts to split string into individual words
 #'  (NOTE: this is highly locale dependent!).
 #'  * \code{"sentence"}: attempts to split string into individual sentences
-#'  (NOTE: this is highly locale dependent!).
+#'  (NOTE: this is highly locale dependent!). \cr
 #'
-#'  For information on the boundary rules and definitions, please see: \cr
-#'  The ICU User Guide on Boundary Analysis \cr
-#'  (\url{https://unicode-org.github.io/icu/userguide/boundaryanalysis/})
+#' `r .mybadge_string("boundaries", "blue")`
+#'
 #' @param ... additional settings for \link[stringi]{stri_opts_brkiter}
 #'
 #'

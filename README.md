@@ -363,13 +363,16 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   with checking the documentation before submitting to CRAN…
 - 25, 26, 28 September 2023: Minor textual corrections in documentation
   and website.
+- 29 September: Minor textual corrections in documentation and website.
+  Removed `%ss%`. Added badges to pattern arguments of the stringi-based
+  functions. Added a package startup message.
 
 FUTURE PLANS:
 
-I believe `tinycodet` is slowly getting closer to becoming stable. There
-does not appear a need to add/remove many more functions/operators,
-although some functions, operators or arguments may need to be tweaked
-and/or optimized. Once I am fully satisfied with the R package, I may
-attempt to publish this R package to CRAN.
+I believe `tinycodet` is stable. There does not appear a need to
+add/remove many more functions/operators, although some functions,
+operators or arguments may need to be tweaked and/or optimized. Once I
+am fully satisfied with the R package, I may attempt to publish this R
+package to CRAN.
 
  

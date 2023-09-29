@@ -36,7 +36,11 @@ stri_cll(
 stri_chrcls(p, ...)
 }
 \arguments{
-\item{p}{a character vector giving the pattern to search for.}
+\item{p}{a character vector giving the pattern to search for. \cr
+\ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_regex.html}{\figure{aboutsearch-regex-darkred.svg}{options: alt='[REGEX]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_regex.html}{about search: regex}} \cr
+\ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_fixed.html}{\figure{aboutsearch-fixed-darkgreen.svg}{options: alt='[FIXED]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_fixed.html}{about search: fixed}} \cr
+\ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_coll.html}{\figure{aboutsearch-coll-pink.svg}{options: alt='[COLL]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_coll.html}{about search: coll}} \cr
+\ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_charclass.html}{\figure{aboutsearch-charclass-lightyellow.svg}{options: alt='[CHARCLASS]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_charclass.html}{about search: charclass}} \cr}
 
 \item{case_insensitive}{see \link[stringi]{stri_opts_regex} and \link[stringi]{stri_opts_fixed}.}
 
