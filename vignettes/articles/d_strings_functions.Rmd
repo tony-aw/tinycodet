@@ -97,7 +97,7 @@ test <- c("The above-mentioned    features are very useful. ",
 strcut_brk(test, "line")
 strcut_brk(test, "word")
 strcut_brk(test, "sentence")
-strcut_brk(test, "chr")
+strcut_brk(test, "character")
 
 ```
 
@@ -130,7 +130,7 @@ Here is an example of their usage when re-ordering strings, words, or sentences 
 
 # sorting characters in strings:
 x <- c("Hello world", "Goodbye world")
-x <- strcut_brk(x, "chr")
+x <- strcut_brk(x, "character")
 mat <- stringi::stri_rank(as.vector(x)) |>  matrix(ncol=ncol(x))
 sorted <- x %row~% mat
 stri_join_mat(sorted, margin=1, sep="") # <- using new function here
@@ -207,7 +207,7 @@ i <- sample(1:3, n, replace = TRUE)
 loc <- stri_locate_ith(x, i=i, regex="a|e|i|o|u")
 benchmark(
   "strcut_loc" = { strcut_loc(x, loc) },
-  "strcut_brk" = { strcut_brk(x, brk="chr") },
+  "strcut_brk" = { strcut_brk(x) },
   "stringi::stri_split_boundaries" = {
     stringi::stri_split_boundaries(x, type="character")
     },

@@ -7,7 +7,7 @@ i <- sample(1:3, n, replace = TRUE)
 loc <- stri_locate_ith(x, i=i, regex="a|e|i|o|u")
 benchmark.strcut <- benchmark(
   "strcut_loc" = { strcut_loc(x, loc) },
-  "strcut_brk" = { strcut_brk(x, brk="chr") },
+  "strcut_brk" = { strcut_brk(x, brk = "character") },
   "stringi::stri_split_boundaries" = {
     stringi::stri_split_boundaries(x, type="character")
   },

@@ -454,23 +454,23 @@ with some more conveniently named arguments.</p>
 <span id="cb4-37"><a href="#cb4-37" tabindex="-1"></a><span class="co">#&gt; [1,] &quot;The &quot;   &quot;above-&quot; &quot;mentioned    &quot; &quot;features &quot; &quot;are &quot; &quot;very &quot;  &quot;useful. &quot;</span></span>
 <span id="cb4-38"><a href="#cb4-38" tabindex="-1"></a><span class="co">#&gt; [2,] &quot;Spam, &quot; &quot;spam, &quot; &quot;eggs, &quot;        &quot;bacon, &quot;   &quot;and &quot; &quot;spam. &quot; &quot;123 &quot;    </span></span>
 <span id="cb4-39"><a href="#cb4-39" tabindex="-1"></a><span class="co">#&gt;      [,8]   [,9] </span></span>
-<span id="cb4-40"><a href="#cb4-40" tabindex="-1"></a><span class="co">#&gt; [1,] &quot;&quot;     &quot;&quot;   </span></span>
+<span id="cb4-40"><a href="#cb4-40" tabindex="-1"></a><span class="co">#&gt; [1,] NA     NA   </span></span>
 <span id="cb4-41"><a href="#cb4-41" tabindex="-1"></a><span class="co">#&gt; [2,] &quot;456 &quot; &quot;789&quot;</span></span>
 <span id="cb4-42"><a href="#cb4-42" tabindex="-1"></a><span class="fu">strcut_brk</span>(test, <span class="st">&quot;word&quot;</span>)</span>
 <span id="cb4-43"><a href="#cb4-43" tabindex="-1"></a><span class="co">#&gt;      [,1]   [,2] [,3]    [,4]   [,5]        [,6]   [,7]       [,8] [,9] </span></span>
 <span id="cb4-44"><a href="#cb4-44" tabindex="-1"></a><span class="co">#&gt; [1,] &quot;The&quot;  &quot; &quot;  &quot;above&quot; &quot;-&quot;    &quot;mentioned&quot; &quot;    &quot; &quot;features&quot; &quot; &quot;  &quot;are&quot;</span></span>
 <span id="cb4-45"><a href="#cb4-45" tabindex="-1"></a><span class="co">#&gt; [2,] &quot;Spam&quot; &quot;,&quot;  &quot; &quot;     &quot;spam&quot; &quot;,&quot;         &quot; &quot;    &quot;eggs&quot;     &quot;,&quot;  &quot; &quot;  </span></span>
 <span id="cb4-46"><a href="#cb4-46" tabindex="-1"></a><span class="co">#&gt;      [,10]   [,11]  [,12] [,13]    [,14] [,15]  [,16] [,17] [,18] [,19] [,20]</span></span>
-<span id="cb4-47"><a href="#cb4-47" tabindex="-1"></a><span class="co">#&gt; [1,] &quot; &quot;     &quot;very&quot; &quot; &quot;   &quot;useful&quot; &quot;.&quot;   &quot; &quot;    &quot;&quot;    &quot;&quot;    &quot;&quot;    &quot;&quot;    &quot;&quot;   </span></span>
+<span id="cb4-47"><a href="#cb4-47" tabindex="-1"></a><span class="co">#&gt; [1,] &quot; &quot;     &quot;very&quot; &quot; &quot;   &quot;useful&quot; &quot;.&quot;   &quot; &quot;    NA    NA    NA    NA    NA   </span></span>
 <span id="cb4-48"><a href="#cb4-48" tabindex="-1"></a><span class="co">#&gt; [2,] &quot;bacon&quot; &quot;,&quot;    &quot; &quot;   &quot;and&quot;    &quot; &quot;   &quot;spam&quot; &quot;.&quot;   &quot; &quot;   &quot;123&quot; &quot; &quot;   &quot;456&quot;</span></span>
 <span id="cb4-49"><a href="#cb4-49" tabindex="-1"></a><span class="co">#&gt;      [,21] [,22]</span></span>
-<span id="cb4-50"><a href="#cb4-50" tabindex="-1"></a><span class="co">#&gt; [1,] &quot;&quot;    &quot;&quot;   </span></span>
+<span id="cb4-50"><a href="#cb4-50" tabindex="-1"></a><span class="co">#&gt; [1,] NA    NA   </span></span>
 <span id="cb4-51"><a href="#cb4-51" tabindex="-1"></a><span class="co">#&gt; [2,] &quot; &quot;   &quot;789&quot;</span></span>
 <span id="cb4-52"><a href="#cb4-52" tabindex="-1"></a><span class="fu">strcut_brk</span>(test, <span class="st">&quot;sentence&quot;</span>)</span>
 <span id="cb4-53"><a href="#cb4-53" tabindex="-1"></a><span class="co">#&gt;      [,1]                                                [,2]         </span></span>
-<span id="cb4-54"><a href="#cb4-54" tabindex="-1"></a><span class="co">#&gt; [1,] &quot;The above-mentioned    features are very useful. &quot; &quot;&quot;           </span></span>
+<span id="cb4-54"><a href="#cb4-54" tabindex="-1"></a><span class="co">#&gt; [1,] &quot;The above-mentioned    features are very useful. &quot; NA           </span></span>
 <span id="cb4-55"><a href="#cb4-55" tabindex="-1"></a><span class="co">#&gt; [2,] &quot;Spam, spam, eggs, bacon, and spam. &quot;               &quot;123 456 789&quot;</span></span>
-<span id="cb4-56"><a href="#cb4-56" tabindex="-1"></a><span class="fu">strcut_brk</span>(test, <span class="st">&quot;chr&quot;</span>)</span>
+<span id="cb4-56"><a href="#cb4-56" tabindex="-1"></a><span class="fu">strcut_brk</span>(test, <span class="st">&quot;character&quot;</span>)</span>
 <span id="cb4-57"><a href="#cb4-57" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12] [,13] [,14]</span></span>
 <span id="cb4-58"><a href="#cb4-58" tabindex="-1"></a><span class="co">#&gt; [1,] &quot;T&quot;  &quot;h&quot;  &quot;e&quot;  &quot; &quot;  &quot;a&quot;  &quot;b&quot;  &quot;o&quot;  &quot;v&quot;  &quot;e&quot;  &quot;-&quot;   &quot;m&quot;   &quot;e&quot;   &quot;n&quot;   &quot;t&quot;  </span></span>
 <span id="cb4-59"><a href="#cb4-59" tabindex="-1"></a><span class="co">#&gt; [2,] &quot;S&quot;  &quot;p&quot;  &quot;a&quot;  &quot;m&quot;  &quot;,&quot;  &quot; &quot;  &quot;s&quot;  &quot;p&quot;  &quot;a&quot;  &quot;m&quot;   &quot;,&quot;   &quot; &quot;   &quot;e&quot;   &quot;g&quot;  </span></span>
@@ -482,7 +482,7 @@ with some more conveniently named arguments.</p>
 <span id="cb4-65"><a href="#cb4-65" tabindex="-1"></a><span class="co">#&gt; [2,] &quot;n&quot;   &quot;d&quot;   &quot; &quot;   &quot;s&quot;   &quot;p&quot;   &quot;a&quot;   &quot;m&quot;   &quot;.&quot;   &quot; &quot;   &quot;1&quot;   &quot;2&quot;   &quot;3&quot;  </span></span>
 <span id="cb4-66"><a href="#cb4-66" tabindex="-1"></a><span class="co">#&gt;      [,39] [,40] [,41] [,42] [,43] [,44] [,45] [,46] [,47] [,48] [,49]</span></span>
 <span id="cb4-67"><a href="#cb4-67" tabindex="-1"></a><span class="co">#&gt; [1,] &quot;r&quot;   &quot;y&quot;   &quot; &quot;   &quot;u&quot;   &quot;s&quot;   &quot;e&quot;   &quot;f&quot;   &quot;u&quot;   &quot;l&quot;   &quot;.&quot;   &quot; &quot;  </span></span>
-<span id="cb4-68"><a href="#cb4-68" tabindex="-1"></a><span class="co">#&gt; [2,] &quot; &quot;   &quot;4&quot;   &quot;5&quot;   &quot;6&quot;   &quot; &quot;   &quot;7&quot;   &quot;8&quot;   &quot;9&quot;   &quot;&quot;    &quot;&quot;    &quot;&quot;</span></span></code></pre></div>
+<span id="cb4-68"><a href="#cb4-68" tabindex="-1"></a><span class="co">#&gt; [2,] &quot; &quot;   &quot;4&quot;   &quot;5&quot;   &quot;6&quot;   &quot; &quot;   &quot;7&quot;   &quot;8&quot;   &quot;9&quot;   NA    NA    NA</span></span></code></pre></div>
 <p> </p>
 </div>
 <div id="matrix-re-ordering-operators" class="section level1">
@@ -515,11 +515,11 @@ sentences :</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a></span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co"># sorting characters in strings:</span></span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Hello world&quot;</span>, <span class="st">&quot;Goodbye world&quot;</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">strcut_brk</span>(x, <span class="st">&quot;chr&quot;</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">strcut_brk</span>(x, <span class="st">&quot;character&quot;</span>)</span>
 <span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>mat <span class="ot">&lt;-</span> stringi<span class="sc">::</span><span class="fu">stri_rank</span>(<span class="fu">as.vector</span>(x)) <span class="sc">|&gt;</span>  <span class="fu">matrix</span>(<span class="at">ncol=</span><span class="fu">ncol</span>(x))</span>
 <span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>sorted <span class="ot">&lt;-</span> x <span class="sc">%row~%</span> mat</span>
 <span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="fu">stri_join_mat</span>(sorted, <span class="at">margin=</span><span class="dv">1</span>, <span class="at">sep=</span><span class="st">&quot;&quot;</span>) <span class="co"># &lt;- using new function here</span></span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt; [1] &quot; deHllloorw&quot;   &quot; bddeGlooorwy&quot;</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt; [1] NA              &quot; bddeGlooorwy&quot;</span></span>
 <span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a></span>
 <span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co"># sorting words:</span></span>
 <span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Hello everyone&quot;</span>, <span class="st">&quot;Goodbye everyone&quot;</span>)</span>
@@ -535,8 +535,8 @@ sentences :</p>
 <span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a>mat <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(x)) <span class="sc">|&gt;</span> <span class="fu">matrix</span>(<span class="at">ncol=</span><span class="fu">ncol</span>(x))</span>
 <span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a>shuffled <span class="ot">&lt;-</span> x <span class="sc">%row~%</span> mat</span>
 <span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a><span class="fu">stri_paste_mat</span>(shuffled, <span class="at">margin=</span><span class="dv">1</span>, <span class="at">sep=</span><span class="st">&quot; &quot;</span>) <span class="co"># &lt;- another alias for stri_join_mat</span></span>
-<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Hello, who are you?  Oh, really?!  Cool!&quot;</span></span>
-<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a><span class="co">#&gt; [2] &quot;I don&#39;t care.   But I really don&#39;t.&quot;</span></span></code></pre></div>
+<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Oh, really?!  Cool! Hello, who are you? &quot;</span></span>
+<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a><span class="co">#&gt; [2] NA</span></span></code></pre></div>
 <p> </p>
 </div>
 <div id="performance" class="section level1">
@@ -609,7 +609,7 @@ R package.</p>
 <span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>loc <span class="ot">&lt;-</span> <span class="fu">stri_locate_ith</span>(x, <span class="at">i=</span>i, <span class="at">regex=</span><span class="st">&quot;a|e|i|o|u&quot;</span>)</span>
 <span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="fu">benchmark</span>(</span>
 <span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>  <span class="st">&quot;strcut_loc&quot;</span> <span class="ot">=</span> { <span class="fu">strcut_loc</span>(x, loc) },</span>
-<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>  <span class="st">&quot;strcut_brk&quot;</span> <span class="ot">=</span> { <span class="fu">strcut_brk</span>(x, <span class="at">brk=</span><span class="st">&quot;chr&quot;</span>) },</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>  <span class="st">&quot;strcut_brk&quot;</span> <span class="ot">=</span> { <span class="fu">strcut_brk</span>(x) },</span>
 <span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>  <span class="st">&quot;stringi::stri_split_boundaries&quot;</span> <span class="ot">=</span> {</span>
 <span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>    stringi<span class="sc">::</span><span class="fu">stri_split_boundaries</span>(x, <span class="at">type=</span><span class="st">&quot;character&quot;</span>)</span>
 <span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>    },</span>
@@ -641,26 +641,26 @@ R package.</p>
 <tr class="odd">
 <td align="left">strcut_loc</td>
 <td align="right">500</td>
-<td align="right">15.56</td>
+<td align="right">17.58</td>
 <td align="right">1.000</td>
-<td align="right">2.61</td>
-<td align="right">0.24</td>
+<td align="right">6.12</td>
+<td align="right">1.03</td>
 </tr>
 <tr class="even">
 <td align="left">strcut_brk</td>
 <td align="right">500</td>
-<td align="right">28.39</td>
-<td align="right">1.825</td>
-<td align="right">7.33</td>
-<td align="right">0.09</td>
+<td align="right">20.87</td>
+<td align="right">1.187</td>
+<td align="right">9.90</td>
+<td align="right">0.28</td>
 </tr>
 <tr class="odd">
 <td align="left">stringi::stri_split_boundaries</td>
 <td align="right">500</td>
-<td align="right">18.14</td>
-<td align="right">1.166</td>
-<td align="right">2.66</td>
-<td align="right">0.03</td>
+<td align="right">17.79</td>
+<td align="right">1.012</td>
+<td align="right">7.63</td>
+<td align="right">0.14</td>
 </tr>
 </tbody>
 </table>
