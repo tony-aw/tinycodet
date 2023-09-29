@@ -152,6 +152,31 @@ expect_equal(x %s/% p1, c(3,2))
 expect_equal(x %s/% p2, c(3,2))
 
 
+# boundaries ====
+test <- c(
+  paste0("The\u00a0above-mentioned    features are very useful. ",
+         "Spam, spam, eggs, bacon, and spam. 123 456 789"),
+  "good morning, good evening, and good night"
+)
+expect_equal(
+  test %s//% list(type = "character"),
+  stringi::stri_count_boundaries(test, type = "character")
+)
+expect_equal(
+  test %s//% list(type = "word"),
+  stringi::stri_count_boundaries(test, type = "word")
+)
+expect_equal(
+  test %s//% list(type = "sentence"),
+  stringi::stri_count_boundaries(test, type = "sentence")
+)
+expect_equal(
+  test %s//% list(type = "line_break"),
+  stringi::stri_count_boundaries(test, type = "line_break")
+)
+expect_error(test %s//% list(type = "chr"))
+
+
 # error checks ===
 expect_error(
   x %s-% 1,

@@ -149,39 +149,42 @@ expect_error(
 
 
 # test strcut_brk ====
-test <- paste0("The\u00a0above-mentioned    features are very useful. ",
-  "Spam, spam, eggs, bacon, and spam. 123 456 789")
+test <- c(
+  paste0("The\u00a0above-mentioned    features are very useful. ",
+  "Spam, spam, eggs, bacon, and spam. 123 456 789"),
+  "good morning, good evening, and good night"
+)
 expect_equal(
   strcut_brk(test, "line"),
-  stringi::stri_split_boundaries(test, type="line", simplify=TRUE)
+  stringi::stri_split_boundaries(test, type="line", simplify = NA)
 )
 expect_equal(
   strcut_brk(test, "word"),
-  stringi::stri_split_boundaries(test, type="word", simplify=TRUE)
+  stringi::stri_split_boundaries(test, type="word", simplify = NA)
 )
 expect_equal(
   strcut_brk(test, "word", skip_word_none=TRUE),
-  stringi::stri_split_boundaries(test, type="word", simplify=TRUE, skip_word_none=TRUE)
+  stringi::stri_split_boundaries(test, type="word", simplify = NA, skip_word_none=TRUE)
 )
 expect_equal(
   strcut_brk(test, "word", skip_word_none=TRUE, skip_word_letter=TRUE),
-  stringi::stri_split_boundaries(test, type="word", simplify=TRUE, skip_word_none=TRUE, skip_word_letter=TRUE)
+  stringi::stri_split_boundaries(test, type="word", simplify = NA, skip_word_none=TRUE, skip_word_letter=TRUE)
 )
 expect_equal(
   strcut_brk(test, "word", skip_word_none=FALSE, skip_word_letter=TRUE),
-  stringi::stri_split_boundaries(test, type="word", simplify=TRUE, skip_word_none=FALSE, skip_word_letter=TRUE)
+  stringi::stri_split_boundaries(test, type="word", simplify = NA, skip_word_none=FALSE, skip_word_letter=TRUE)
 )
 expect_equal(
   strcut_brk(test, "sentence"),
-  stringi::stri_split_boundaries(test, type="sentence", simplify=TRUE)
+  stringi::stri_split_boundaries(test, type="sentence", simplify = NA)
 )
 expect_equal(
   strcut_brk(test, "sentence", skip_sentence_sep=TRUE),
-  stringi::stri_split_boundaries(test, type="sentence", simplify=TRUE, skip_sentence_sep=TRUE)
+  stringi::stri_split_boundaries(test, type="sentence", simplify = NA, skip_sentence_sep=TRUE)
 )
 expect_equal(
-  strcut_brk(test, "chr"),
-  stringi::stri_split_boundaries(test, type="character", simplify=TRUE)
+  strcut_brk(test),
+  stringi::stri_split_boundaries(test, type="character", simplify = NA)
 )
 
 # strcut_brk - error checks ====
@@ -191,16 +194,13 @@ expect_error(
   fixed = TRUE
 )
 expect_error(
-  strcut_brk(test, "chr", n=1),
-  pattern = paste0("arguments `n`, `tokens_only` and `simplify` not supported in this function")
+  strcut_brk(test, n=1)
 )
 expect_error(
-  strcut_brk(test, "chr", tokens_only=TRUE),
-  pattern = paste0("arguments `n`, `tokens_only` and `simplify` not supported in this function")
+  strcut_brk(test, tokens_only=TRUE)
 )
 expect_error(
-  strcut_brk(test, "chr", simplify=TRUE),
-  pattern = paste0("arguments `n`, `tokens_only` and `simplify` not supported in this function")
+  strcut_brk(test, "chr", simplify = NA)
 )
 expect_error(
   strcut_brk(test, c("chr", "word")),

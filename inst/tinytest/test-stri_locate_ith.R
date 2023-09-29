@@ -39,6 +39,17 @@ expected <- cbind(0:9, seq(1, 19, by = 2), seq(1, 19, by = 2), seq(19, 1, by = -
 colnames(expected) <- c("", "start", "end", "start", "end")
 expect_equal(expected, outcome)
 
+# boundaries
+x <- "1 2 3 4 5 6 7 8 9"
+n <- nchar(x)
+x <- rep(x, nchar(x))
+out1 <- stri_locate_ith_boundaries(x, 1:n)
+out2 <- stri_locate_ith_boundaries(x, -1:-n)
+outcome <- cbind(0:16, out1, out2)
+expected <- cbind(0:16, 1:n, 1:n, n:1, n:1)
+colnames(expected) <- c("", "start", "end", "start", "end")
+expect_equal(expected, outcome)
+
 
 
 # regex ====
@@ -194,6 +205,29 @@ expect_equal(
   )
 )
 
+
+# boundaries ====
+test <- c(
+  paste0("The\u00a0above-mentioned    features are very useful. ",
+         "Spam, spam, eggs, bacon, and spam. 123 456 789"),
+  "good morning, good evening, and good night"
+)
+pattern <- c("character", "word", "sentence")
+out1 <- expect1 <- out2 <- expect2 <- out3 <- expect3 <- list()
+for(i in 1:length(pattern)) {
+  out1[[i]] <- stri_locate_ith_boundaries(test, i = 1, type = pattern[i])
+  expect1[[i]] <- stringi::stri_locate_first_boundaries(test, type = pattern[i])
+  out2[[i]] <- stri_locate_ith_boundaries(test, i = -1, type = pattern[i])
+  expect2[[i]] <- stringi::stri_locate_last_boundaries(test, type = pattern[i])
+  out3[[i]] <- stri_locate_ith_boundaries(test, i = c(1, -1), type = pattern[i])
+  expect3[[i]] <- rbind(
+    stringi::stri_locate_first_boundaries(test[1], type = pattern[i]),
+    stringi::stri_locate_last_boundaries(test[2], type = pattern[i])
+  )
+}
+expect_equal(expect1, out1)
+expect_equal(expect2, out2)
+expect_equal(expect3, out3)
 
 
 # stri_locate_ith (NAs) ====
