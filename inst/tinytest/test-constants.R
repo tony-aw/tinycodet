@@ -114,3 +114,10 @@ temp.fun <- function() {
   F <- 4
 }
 expect_error(temp.fun())
+
+my_env <- new.env()
+lock_TF(my_env)
+expect_true(my_env[["T"]])
+expect_false(my_env[["F"]])
+expect_error(my_env[["T"]] <- FALSE)
+expect_error(my_env[["F"]] <- TRUE)

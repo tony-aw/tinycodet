@@ -54,3 +54,10 @@ temp.fun <- function() {
 expect_null(temp.fun())
 
 
+# other environment ===
+my_env <- new.env()
+expect_null(report_inops(my_env))
+my_env[["%s*%"]] <- stringi::`%s*%`
+expected <- data.frame()
+expect_equal(report_inops(my_env)$infix_operator, "%s*%")
+
