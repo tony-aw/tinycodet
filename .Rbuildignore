@@ -1,7 +1,10 @@
-^tinyoperations\.Rproj$
+^tinycodet\.Rproj$
 ^\.Rproj\.user$
 ^special tests
 ^vignettes
 ^docs
 ^_pkgdown
+^backups
 ^linguist
+^Readme
+^sourcetest
