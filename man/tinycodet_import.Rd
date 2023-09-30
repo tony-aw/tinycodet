@@ -30,7 +30,7 @@ are compactly presented in the following list: \cr
 \ifelse{html}{\figure{usewithoutattach-Yes(advantage)-darkgreen.svg}{options: alt='[YES(ADVANTAGE)]'}}{\link[=tinycodet_import]{use without attach}: Yes(advantage); } \verb{ }
 \ifelse{html}{\figure{attaching-No(disadvantage)-red.svg}{options: alt='[NO(DISADVANTAGE)]'}}{\link[=tinycodet_import]{attaching}: No(disadvantage); } \cr
 \cr
-(4) Place/expose functions only in current environment instead of globally: \cr
+(4) Enable functions only in current/local environment instead of globally: \cr
 \ifelse{html}{\figure{usewithoutattach-Yes(advantage)-darkgreen.svg}{options: alt='[YES(ADVANTAGE)]'}}{\link[=tinycodet_import]{use without attach}: Yes(advantage); } \verb{ }
 \ifelse{html}{\figure{attaching-No(disadvantage)-red.svg}{options: alt='[NO(DISADVANTAGE)]'}}{\link[=tinycodet_import]{attaching}: No(disadvantage); } \cr
 \cr

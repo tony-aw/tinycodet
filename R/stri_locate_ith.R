@@ -78,6 +78,63 @@
 #'
 #' @examples
 #'
+#'
+#' #############################################################################
+#'
+#' # practical example with regex & fixed ====
+#'
+#' # input character vector:
+#' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+#' print(x)
+#'
+#' # report ith (second and second-last) vowel locations:
+#' p <- rep("A|E|I|O|U", 2) # vowels
+#' loc <- stri_locate_ith(x, c(2, -2), regex=p, case_insensitive=TRUE)
+#' print(loc)
+#'
+#' # extract ith vowels:
+#' extr <- stringi::stri_sub(x, from=loc)
+#' print(extr)
+#'
+#' # replace ith vowels with numbers:
+#' repl <- stringi::stri_replace_all(
+#' extr, fixed = c("a", "e", "i", "o", "u"), replacement = 1:5, vectorize_all = FALSE
+#' )
+#' x <- stringi::stri_sub_replace(x, loc, replacement=repl)
+#' print(x)
+#'
+#'
+#' #############################################################################
+#'
+#' # practical example with boundaries ====
+#'
+#' # input character vector:
+#' x <- c("good morning and good night",
+#' "hello ladies and gentlemen")
+#' print(x)
+#'
+#' # report ith word locations:
+#' loc <- stri_locate_ith_boundaries(x, c(-3, 3), type = "word")
+#' print(loc)
+#'
+#' # extract ith words:
+#' extr <- stringi::stri_sub(x, from=loc)
+#' print(extr)
+#'
+#' # transform and replace words:
+#' tf <- chartr(extr, old = "a-zA-Z", new = "A-Za-z")
+#' x <- stringi::stri_sub_replace(x, loc, replacement=tf)
+#' print(x)
+#'
+#'
+#' #############################################################################
+#'
+#' # find pattern ====
+#'
+#' extr <- stringi::stri_sub(x, from=loc)
+#' repl <- chartr(extr, old = "a-zA-Z", new = "A-Za-z")
+#' stringi::stri_sub_replace(x, loc, replacement=repl)
+#'
 #' # simple pattern ====
 #'
 #' x <- rep(paste0(1:10, collapse=""), 10)

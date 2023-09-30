@@ -32,6 +32,21 @@
 #'
 #' @examples
 #'
+#'
+#' #############################################################################
+#'
+#' # Basic example
+#'
+#' x <- matrix(letters[1:25], ncol=5, byrow = TRUE)
+#' print(x)
+#' stri_join_mat(x, margin=1)
+#'
+#' x <- matrix(letters[1:25], ncol=5, byrow = FALSE)
+#' print(x)
+#' stri_join_mat(x, margin=2)
+#'
+#'
+#' #############################################################################
 #' # re-ordering characters in strings ====
 #'
 #' x <- c("Hello world", "Goodbye world")

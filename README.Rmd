@@ -154,6 +154,7 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
  - 23 September 2023: fixed a mistake in `stri_locate_ith()` when used with `charclass` pattern. Added almost a 100 more tests. Still busy with checking the documentation before submitting to CRAN...
  - 25, 26, 28 September 2023: Minor textual corrections in documentation and website.
  - 29 September: Minor textual corrections in documentation and website. Added badges to pattern arguments of the stringi-based functions. Added a package startup message. Removed `%ss%`. Added missing boundaries functions, and made the existing boundaries functions more conform to `stringi`. Fixed a few minor issues. Added about 50 tests.
+ - 30 September: More examples added. Tiny textual edits to documentation.
  
 FUTURE PLANS:
 

@@ -355,6 +355,8 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   Added a package startup message. Removed `%ss%`. Added missing
   boundaries functions, and made the existing boundaries functions more
   conform to `stringi`. Fixed a few minor issues. Added about 50 tests.
+- 30 September: More examples added. Tiny textual edits to
+  documentation.
 
 FUTURE PLANS:
 

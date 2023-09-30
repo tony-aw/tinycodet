@@ -24,7 +24,7 @@
 #' `r .mybadge_import("use without attach", "Yes(advantage)", "darkgreen")` \verb{ }
 #' `r .mybadge_import("attaching", "No(disadvantage)", "red")` \cr
 #' \cr
-#' (4) Place/expose functions only in current environment instead of globally: \cr
+#' (4) Enable functions only in current/local environment instead of globally: \cr
 #' `r .mybadge_import("use without attach", "Yes(advantage)", "darkgreen")` \verb{ }
 #' `r .mybadge_import("attaching", "No(disadvantage)", "red")` \cr
 #' \cr
