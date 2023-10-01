@@ -28,8 +28,11 @@ and allows assigning the data set like so: \cr
 }
 \examples{
 
+if("gamair" \%installed in\% .libPaths()) {
 d <- import_data("gamair", "chicago")
 head(d)
+}
+
 
 
 }

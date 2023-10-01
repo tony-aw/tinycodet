@@ -32,7 +32,14 @@
 #' Do not use the \code{topic} / \code{package} and
 #' \code{i} / \code{alias} argument sets together.
 #' It's either one set or the other. \cr
-#' \cr
+#' For example:
+#'
+#' ```{r eval = FALSE}
+#' help.import(i=mr.$add)
+#' help.import(i=`%>%`)
+#' help.import(i="add", alias=mr.)
+#' ```
+#'
 #'
 #'
 #' @returns
@@ -100,9 +107,6 @@
 #' attr.import(mr.)
 #' attr.import(mr., which="conflicts")
 #'
-#' # help.import(i=mr.$add)
-#' # help.import(i=`%>%`)
-#' # help.import(i="add", alias=mr.)
 #'
 #'
 #'

@@ -96,7 +96,8 @@
 #'
 #'
 #' @examples
-#' \dontrun{
+#' if(all(c("tidytable", "data.table", "magrittr", "dplyr") %installed in% .libPaths())){
+#'
 #' import_as( # this creates the 'tdt.' object
 #'   "tdt.", "tidytable", dependencies = "data.table"
 #' )

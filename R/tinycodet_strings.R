@@ -2,21 +2,21 @@
 #'
 #' @description
 #' The \code{tinycodet} R package adds some functions and operators
-#' to extend the functionality of the \code{stringi} R package:
+#' to extend the functionality of the 'stringi' R package:
 #'
 #' * Infix operators for \link[=%s-%]{string arithmetic}. \cr
 #' * Infix operators for \link[=%sget%]{string sub-setting}. \cr
 #' * Infix operators for \link[=%s\{\}%]{detecting patterns}. \cr
 #' * The \code{tinycodet} package adds additional
-#' \code{stringi} functions, namely \link{stri_locate_ith}, and
+#' 'stringi' functions, namely \link{stri_locate_ith}, and
 #' \link{stri_join_mat} (and aliases). These functions use the same naming and argument convention as the rest of
-#' the \code{stringi} functions, thus keeping your code consistent. \cr
+#' the 'stringi' functions, thus keeping your code consistent. \cr
 #' * The \link[=strcut_loc]{strcut_-functions}.
-#' * Most \code{stringi} pattern expressions options
+#' * Most 'stringi' pattern expressions options
 #' are available for the string-pattern-related functions, when appropriate. \cr
 #' * Although the functions are written in R,
 #' they have been optimized to be in the same order of speed
-#' as the other \code{stringi} functions.
+#' as the other 'stringi' functions.
 #'
 #'
 #'

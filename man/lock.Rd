@@ -51,6 +51,26 @@ use this operator to create said \code{constant}. \cr
 Removing constant \code{X} also removes its binding lock.
 Thus to change a \code{constant}, simply remove it and re-create it. \cr
 }
+\details{
+Note that following statement
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{x \%<-c\% 2+2
+print(x)
+}\if{html}{\out{</div>}}
+
+returns
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{[1] 2
+}\if{html}{\out{</div>}}
+
+due to R's precedence rules.
+Therefore, in such cases, the right hand side of
+\code{X \%<-c\% A} need to be surrounded with brackets.
+I.e.:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{x \%<-c\% (2+2)
+}\if{html}{\out{</div>}}
+}
 \examples{
 
 lock_TF()

@@ -27,6 +27,29 @@
 #' (like the global environment, or the environment within a function)
 #' is used. \cr
 #'
+#' @details
+#' Note that following statement
+#'
+#' ```{r, eval = FALSE, echo = TRUE}
+#' x %<-c% 2+2
+#' print(x)
+#' ```
+#'
+#' returns
+#'
+#' ```{r, eval = FALSE, echo = TRUE}
+#' [1] 2
+#' ```
+#'
+#' due to R's precedence rules.
+#' Therefore, in such cases, the right hand side of
+#' \code{X %<-c% A} need to be surrounded with brackets.
+#' I.e.:
+#'
+#' ```{r, eval = FALSE, echo = TRUE}
+#' x %<-c% (2+2)
+#' ```
+#'
 #' @returns
 #' For \code{lock_TF()}: \cr
 #' Two \code{constants}, namely \code{T} and \code{F},

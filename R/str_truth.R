@@ -13,7 +13,7 @@
 #'
 #'
 #' @param x a string or character vector.
-#' @param p either a list with \code{stringi} arguments (see \link{stri_rgx}),
+#' @param p either a list with 'stringi' arguments (see \link{stri_rgx}),
 #' or else a character vector of the same length as \code{x} with regular expressions. \cr
 #' `r .mybadge_string("regex", "darkred")` \cr
 #' `r .mybadge_string("fixed", "darkgreen")` \cr

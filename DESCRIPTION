@@ -1,15 +1,17 @@
 Package: tinycodet
-Title: R package that adds a few tiny functions to help in your programming etiquette
-Version: 0.0.0.9
+Title: unctions to Help in your Coding Etiquette
+Version: 0.1
 Authors@R: 
-    person("Tony", "Wilkes", , "tony_a_wilkes@outlook.com", role = c("aut", "cre"),
+    person("Tony", "Wilkes", , "tony_a_wilkes@outlook.com", role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0000-0001-9498-8379"))
+Author: Tony Wilkes [aut, cre]
 Maintainer: Tony Wilkes <tony_a_wilkes@outlook.com>
-Description: The 'tinycodet' R-package is a tiny little R package that adds a few functions to help in your coding etiquette.
-    It primarily focuses on 4 things.
+Description: A tiny R package that adds a few functions to help in your coding etiquette.
+    It primarily focuses on 4 aspects.
     1) Safer decimal (in)equality testing, safer atomic conversions, and other functions for safer coding.
     2) A new package import system,
-    that combines the benefits of aliasing a package with the benefits of attaching a package.
+    that attempts to combine the benefits of using a package without attaching,
+    with the benefits of attaching a package.
     3) Extending the string manipulation capabilities of the `stringi` R package.
     4) Reducing repetitive code.
     The 'tinycodet' R-package has only one dependency, namely 'stringi'.

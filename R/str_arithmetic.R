@@ -5,12 +5,12 @@
 #'
 #' String arithmetic operators. \cr
 #' \cr
-#' The \code{x %s+% y } operator is exported from \code{stringi},
+#' The \code{x %s+% y } operator is exported from 'stringi',
 #' and concatenates character vectors \code{x} and \code{y}. \cr
 #' \cr
 #' The \code{ x %s-% p } operator removes character/pattern defined in \code{p} from \code{x}. \cr
 #' \cr
-#' The \code{ x %s*% n } operator is exported from \code{stringi},
+#' The \code{ x %s*% n } operator is exported from 'stringi',
 #' and duplicates each string in \code{x} \code{n} times, and concatenates the results. \cr
 #' \cr
 #' The \code{ x %s/% p } operator counts how often regular expression or character pattern \code{p}
@@ -19,11 +19,11 @@
 #' The \code{ x %s//% brk } operator counts how often the text boundary specified in list \code{brk}
 #' occurs in each element of \code{x}. \cr
 #' \cr
-#' The \code{e1 %s$% e2} operator is exported from \code{stringi},
+#' The \code{e1 %s$% e2} operator is exported from 'stringi',
 #' and provides access to \link[stringi]{stri_sprintf} in the form of an infix operator. \cr
 #'
 #' @param x a string or character vector.
-#' @param p either a list with \code{stringi} arguments (see \link{stri_rgx}),
+#' @param p either a list with 'stringi' arguments (see \link{stri_rgx}),
 #' or else a character vector of the same length as \code{x} with regular expressions. \cr
 #' `r .mybadge_string("regex", "darkred")` \cr
 #' `r .mybadge_string("fixed", "darkgreen")` \cr

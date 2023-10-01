@@ -23,7 +23,7 @@
 #' * \code{list(charclass=p, ...)}
 #'
 #' All arguments in the list are simply passed to the
-#' appropriate functions in \code{stringi}. \cr
+#' appropriate functions in 'stringi'. \cr
 #' For example:
 #'
 #' ```{r, echo = TRUE, eval = FALSE}
@@ -42,7 +42,7 @@
 #' and it does not distinguish between upper case and lower case characters. \cr
 #' \cr
 #' \code{tinycodet} adds some convenience functions based on
-#' the \code{stri_opts_} - functions in \code{stringi}: \cr
+#' the \code{stri_opts_} - functions in 'stringi': \cr
 #'
 #' * \code{stri_rgx(p, ...)} is equivalent to \code{c(list(regex = p), ...)}
 #' * \code{stri_fxd(p, ...)} is equivalent to \code{c(list(fixed = p), ...)}
@@ -51,7 +51,7 @@
 #'
 #' With the ellipsis (\code{...})
 #' being passed to the appropriate
-#' \code{stringi}-functions
+#' 'stringi'-functions
 #' when it matches their arguments.
 #'
 #'
