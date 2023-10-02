@@ -1,9 +1,9 @@
-#' The tinycodet "DRY" functionality
+#' Overview of the tinycodet "Don't Repeat Yourself" Functionality
 #'
 #' @description
 #' "Don't Repeat Yourself", sometimes abbreviated as "DRY",
 #' is the coding principle not to write unnecessarily repetitive code.
-#' To help you in that effort, the \code{tinycodet} R package
+#' To help in that effort, the 'tinycodet' R-package
 #' introduces a few functions:
 #'
 #'

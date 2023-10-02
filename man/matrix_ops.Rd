@@ -4,7 +4,7 @@
 \alias{matrix_ops}
 \alias{\%row~\%}
 \alias{\%col~\%}
-\title{Infix operators for row- and column-wise re-ordering of matrices}
+\title{Row- or Column-wise Re-ordering of Matrices}
 \usage{
 x \%row~\% mat
 

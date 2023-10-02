@@ -8,7 +8,7 @@
 \alias{\%?=\%}
 \alias{\%=numtype\%}
 \alias{\%=strtype\%}
-\title{Logic operators}
+\title{Additional Logic Operators}
 \usage{
 x \%xor\% y
 

@@ -5,7 +5,7 @@
 \alias{\%s-\%}
 \alias{\%s/\%}
 \alias{\%s//\%}
-\title{String arithmetic}
+\title{String Arithmetic Operators}
 \usage{
 x \%s-\% p
 

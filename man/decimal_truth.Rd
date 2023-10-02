@@ -10,7 +10,7 @@
 \alias{\%d>=\%}
 \alias{\%d{}\%}
 \alias{\%d!{}\%}
-\title{Safer decimal number (in)equality testing operators}
+\title{Safer Decimal Number (In)Equality Testing Operators}
 \usage{
 x \%d==\% y
 
@@ -88,9 +88,9 @@ bnd <- cbind(x-0.1, x+0.1)
 x \%d{}\% bnd
 x \%d!{}\% bnd
 
-# These operators still work for non-decimal numerics also:
-x <- 1:5
-y <- 1:5
+# These operators work for integers also:
+x <- 1L:5L
+y <- 1L:5L
 x \%d==\% y
 x \%d!=\% y
 x \%d<\% y
@@ -98,7 +98,7 @@ x \%d>\% y
 x \%d<=\% y
 x \%d>=\% y
 
-x <- 1:5
+x <- 1L:5L
 y <- x+1
 x \%d==\% y
 x \%d!=\% y
@@ -107,7 +107,7 @@ x \%d>\% y
 x \%d<=\% y
 x \%d>=\% y
 
-x <- 1:5
+x <- 1L:5L
 y <- x-1
 x \%d==\% y
 x \%d!=\% y

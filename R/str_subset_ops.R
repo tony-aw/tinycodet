@@ -1,16 +1,15 @@
-#' String subsetting operators
+#' String Subsetting Operators
 #'
 #' @description
-#'
 #'
 #' String subsetting operators. \cr
 #' \cr
 #' The \code{x %sget% ss } operator
-#' gets a certain number of the first and last characters of
+#' gets a certain number of the first and last characters of every string in
 #' character vector \code{x}. \cr
 #' \cr
 #' The \code{x %strim% ss } operator
-#' trims a certain number of the first and last characters of
+#' trims a certain number of the first and last characters of every string in
 #' character vector \code{x}. \cr
 #' \cr
 #'

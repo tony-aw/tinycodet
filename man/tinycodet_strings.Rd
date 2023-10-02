@@ -2,26 +2,23 @@
 % Please edit documentation in R/tinycodet_strings.R
 \name{tinycodet_strings}
 \alias{tinycodet_strings}
-\title{The tinycodet extension of 'stringi'}
+\title{Overview of the tinycodet Extension of 'stringi'}
 \usage{
 tinycodet_strings()
 }
 \description{
-The \code{tinycodet} R package adds some functions and operators
-to extend the functionality of the 'stringi' R package:
+The 'tinycodet' R-package adds some functions and operators
+to extend the functionality of the 'stringi' R-package:
 \itemize{
 \item Infix operators for \link[=\%s-\%]{string arithmetic}. \cr
 \item Infix operators for \link[=\%sget\%]{string sub-setting}. \cr
 \item Infix operators for \link[=\%s\{\}\%]{detecting patterns}. \cr
-\item The \code{tinycodet} package adds additional
-'stringi' functions, namely \link{stri_locate_ith}, and
-\link{stri_join_mat} (and aliases). These functions use the same naming and argument convention as the rest of
-the 'stringi' functions, thus keeping your code consistent. \cr
+\item Find  \eqn{i^{th}} pattern occurrence (\link{stri_locate_ith}),
+or \eqn{i^{th}} text boundary (\link{stri_locate_ith_boundaries}). \cr
+\item \link[=stri_join_mat]{Concatenate a character matrix row- or column-wise }. \cr
 \item The \link[=strcut_loc]{strcut_-functions}.
-\item Most 'stringi' pattern expressions options
-are available for the string-pattern-related functions, when appropriate. \cr
 \item Although the functions are written in R,
-they have been optimized to be in the same order of speed
+they have been optimized to be in somewhat the same order of speed
 as the other 'stringi' functions.
 }
 }

@@ -35,9 +35,13 @@
 #' For example:
 #'
 #' ```{r eval = FALSE}
+#'
+#' import_as(~ mr., "magrittr")
+#' import_inops(mr.)
 #' help.import(i=mr.$add)
 #' help.import(i=`%>%`)
 #' help.import(i="add", alias=mr.)
+#'
 #' ```
 #'
 #'
@@ -95,22 +99,16 @@
 #'
 #' @examples
 #'
-#' \dontrun{
-#' import_as(~ mr., "magrittr")
-#' import_inops(mr.)
-#' `:=` <- data.table::`:=`
+#' import_as(~ to., "tinycodet")
+#' import_inops(to.)
+#' `%s==%` <- stringi::`%s==%`
 #'
-#' is.tinyimport(mr.) # returns TRUE
-#' is.tinyimport(`%>%`) # returns TRUE
-#' is.tinyimport(`:=`) # returns FALSE
+#' is.tinyimport(to.) # returns TRUE
+#' is.tinyimport(`%:=%`) # returns TRUE
+#' is.tinyimport(`%s==%`) # returns FALSE: not imported by tinycodet import system
 #'
-#' attr.import(mr.)
-#' attr.import(mr., which="conflicts")
+#' attr.import(to., which="conflicts")
 #'
-#'
-#'
-#'
-#' }
 #'
 #'
 #'

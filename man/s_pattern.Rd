@@ -5,7 +5,7 @@
 \alias{stri_fxd}
 \alias{stri_cll}
 \alias{stri_chrcls}
-\title{Pattern specifications for string related infix operators.}
+\title{Pattern Specifications for String Related Infix Operators.}
 \usage{
 stri_rgx(
   p,
@@ -69,11 +69,11 @@ perform pattern matching for some purpose,
 where the pattern is given on the right hand side. \cr
 When a character vector or string is given on the right hand side,
 this is interpreted as case-sensitive
-\code{regex} patterns from \code{stringi}. \cr
+\code{regex} patterns from 'stringi'. \cr
 \cr
 Instead of giving a string or character vector of regex patterns,
 one can also supply a list to specify exactly how the pattern should be interpreted.
-The list should use the exact same argument convention as \code{stringi}. \cr
+The list should use the exact same argument convention as 'stringi'. \cr
 \cr
 For example: \cr
 \itemize{
@@ -100,7 +100,7 @@ will do the same,
 except it uses fixed (i.e. literal) expression,
 and it does not distinguish between upper case and lower case characters. \cr
 \cr
-\code{tinycodet} adds some convenience functions based on
+'tinycodet' adds some convenience functions based on
 the \code{stri_opts_} - functions in 'stringi': \cr
 \itemize{
 \item \code{stri_rgx(p, ...)} is equivalent to \code{c(list(regex = p), ...)}

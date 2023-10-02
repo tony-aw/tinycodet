@@ -5,7 +5,7 @@
 \alias{\%[if]\%}
 \alias{\%[!if]\%}
 \alias{\%unreal =\%}
-\title{The subset_if operators and the unreal in place modifier}
+\title{Conditional Sub-setting and In-place Replacer of Unreal Values}
 \usage{
 x \%[if]\% cond
 

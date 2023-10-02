@@ -1,7 +1,8 @@
-#' The tinycodet import system
+#' Overview of the 'tinycodet' Import System
 #'
 #' @description
-#' The tinycodet R package introduces a new package import system. \cr
+#'
+#' The 'tinycodet' R-package introduces a new package import system. \cr
 #' \cr
 #' One can use a package \bold{without attaching} the package -
 #' for example by using the \link[base]{::} operator. \cr
@@ -46,12 +47,12 @@
 #' `r .mybadge_import("attaching", "Yes(advantage)", "darkgreen")` \cr
 #' \cr
 #'
-#' What `tinycodet` attempts to do with its import system,
+#' What 'tinycodet' attempts to do with its import system,
 #' is to somewhat find the best of both worlds.
 #' It does this by introducing the following functions: \cr
 #'
 #' - \link{import_as}:
-#' Load a main package + its re-exports + its dependencies + its extensions under a single alias.
+#' Load a main package, and optionally its re-exports + its dependencies + its extensions, under a single alias.
 #' This essentially combines the attaching advantage of using multiple related packages (item 7 on the list),
 #' whilst keeping most advantages of using without attaching a package.
 #' - \link{import_inops}:
@@ -72,30 +73,32 @@
 #' thus allowing straight-forward project isolation. \cr
 #' \cr
 #' See the examples section below
-#' to get an idea how the \code{tinycodet} import system works in practice.
+#' to get an idea how the 'tinycodet' import system works in practice.
 #'
 #'
 #'
 #' @seealso \link{tinycodet_help}
 #'
 #' @examples
-#' \dontrun{
+#'
+#' check <- all(c("tidytable", "data.table", "magrittr", "dplyr") %installed in% .libPaths())
+#'
+#'
 #' # loading "tidytable" + "data.table" under alias "tdt.":
-#' import_as(
+#' if(check) import_as(
 #'   ~ tdt., "tidytable", dependencies = "data.table"
 #' )
 #'
 #' # exposing infix operators from "magrrittr" to current environment:
-#' import_inops("magrittr")
+#' if(check) import_inops("magrittr")
 #'
 #' # directly assigning dplyr's "starwars" dataset to object "d":
-#' d <- import_data("dplyr", "starwars")
+#' if(check) d <- import_data("dplyr", "starwars")
 #'
 #' # see it in action:
-#' d %>% tdt.$filter(species == "Droid") %>%
+#' if(check) d %>% tdt.$filter(species == "Droid") %>%
 #'   tdt.$select(name, tdt.$ends_with("color"))
 #'
-#' }
 #'
 
 

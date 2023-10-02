@@ -1,4 +1,4 @@
-#' Safer decimal number (in)equality testing operators
+#' Safer Decimal Number (In)Equality Testing Operators
 #'
 #' @description
 #' The \code{%d==%, %d!=% %d<%, %d>%, %d<=%, %d>=%} (in)equality operators
@@ -61,9 +61,9 @@
 #' x %d{}% bnd
 #' x %d!{}% bnd
 #'
-#' # These operators still work for non-decimal numerics also:
-#' x <- 1:5
-#' y <- 1:5
+#' # These operators work for integers also:
+#' x <- 1L:5L
+#' y <- 1L:5L
 #' x %d==% y
 #' x %d!=% y
 #' x %d<% y
@@ -71,7 +71,7 @@
 #' x %d<=% y
 #' x %d>=% y
 #'
-#' x <- 1:5
+#' x <- 1L:5L
 #' y <- x+1
 #' x %d==% y
 #' x %d!=% y
@@ -80,7 +80,7 @@
 #' x %d<=% y
 #' x %d>=% y
 #'
-#' x <- 1:5
+#' x <- 1L:5L
 #' y <- x-1
 #' x %d==% y
 #' x %d!=% y

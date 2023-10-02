@@ -2,12 +2,12 @@
 % Please edit documentation in R/tinycodet_import.R
 \name{tinycodet_import}
 \alias{tinycodet_import}
-\title{The tinycodet import system}
+\title{Overview of the 'tinycodet' Import System}
 \usage{
 tinycodet_import()
 }
 \description{
-The tinycodet R package introduces a new package import system. \cr
+The 'tinycodet' R-package introduces a new package import system. \cr
 \cr
 One can use a package \bold{without attaching} the package -
 for example by using the \link[base]{::} operator. \cr
@@ -52,12 +52,12 @@ without constantly switching between package prefixes \cr
 \ifelse{html}{\figure{attaching-Yes(advantage)-darkgreen.svg}{options: alt='[YES(ADVANTAGE)]'}}{\link[=tinycodet_import]{attaching}: Yes(advantage); } \cr
 \cr
 
-What \code{tinycodet} attempts to do with its import system,
+What 'tinycodet' attempts to do with its import system,
 is to somewhat find the best of both worlds.
 It does this by introducing the following functions: \cr
 \itemize{
 \item \link{import_as}:
-Load a main package + its re-exports + its dependencies + its extensions under a single alias.
+Load a main package, and optionally its re-exports + its dependencies + its extensions, under a single alias.
 This essentially combines the attaching advantage of using multiple related packages (item 7 on the list),
 whilst keeping most advantages of using without attaching a package.
 \item \link{import_inops}:
@@ -79,26 +79,28 @@ to specify the library path to load packages from,
 thus allowing straight-forward project isolation. \cr
 \cr
 See the examples section below
-to get an idea how the \code{tinycodet} import system works in practice.
+to get an idea how the 'tinycodet' import system works in practice.
 }
 \examples{
-\dontrun{
+
+check <- all(c("tidytable", "data.table", "magrittr", "dplyr") \%installed in\% .libPaths())
+
+
 # loading "tidytable" + "data.table" under alias "tdt.":
-import_as(
+if(check) import_as(
   ~ tdt., "tidytable", dependencies = "data.table"
 )
 
 # exposing infix operators from "magrrittr" to current environment:
-import_inops("magrittr")
+if(check) import_inops("magrittr")
 
 # directly assigning dplyr's "starwars" dataset to object "d":
-d <- import_data("dplyr", "starwars")
+if(check) d <- import_data("dplyr", "starwars")
 
 # see it in action:
-d \%>\% tdt.$filter(species == "Droid") \%>\%
+if(check) d \%>\% tdt.$filter(species == "Droid") \%>\%
   tdt.$select(name, tdt.$ends_with("color"))
 
-}
 
 }
 \seealso{

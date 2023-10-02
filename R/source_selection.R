@@ -1,4 +1,4 @@
-#' Source selection
+#' Source Specific Objects from Script
 #'
 #' @description
 #' The \code{source_selection()} function is the same as

@@ -5,7 +5,7 @@
 \alias{\%installed in\%}
 \alias{pkg_get_deps}
 \alias{pkg_lsf}
-\title{Miscellaneous package related functions}
+\title{Miscellaneous Package Related Functions}
 \usage{
 pkgs \%installed in\% lib.loc
 
@@ -40,12 +40,12 @@ indicating whether base/core R should be included (\code{TRUE}),
 or not included (\code{FALSE}; the default).}
 
 \item{recom}{logical,
-indicating whether the pre-installed "recommended" R packages should be included (\code{TRUE}),
+indicating whether the pre-installed "recommended" R-packages should be included (\code{TRUE}),
 or not included (\code{FALSE}; the default).
-Note that only the recommended R packages actually installed in your system are taken into consideration.}
+Note that only the recommended R-packages actually installed in your system are taken into consideration.}
 
 \item{rstudioapi}{logical,
-indicating whether the \code{rstudioapi} R package should be included (\code{TRUE}),
+indicating whether the \code{rstudioapi} R-package should be included (\code{TRUE}),
 or not included (\code{FALSE}; the default).}
 
 \item{type}{The type of functions to list. Possibilities: \cr
@@ -73,7 +73,7 @@ checks if one or more package(s) \code{pkgs} exist(s)
 in library location \code{lib.loc}, without loading the package(s). \cr
 The syntax of this operator forces the user to make it
 syntactically explicit
-where to look for installed R package(s). \cr
+where to look for installed R-package(s). \cr
 \cr
 The \code{pkg_get_deps()} function gets the dependencies of a package
 from the Description file. It works on non-CRAN packages also. \cr
@@ -111,18 +111,18 @@ The unique (thus non-repeating) package names are then returned to the user.
 }
 \examples{
 
-\dontrun{
-pkgs <- pkg_get_deps("devtools")
-pkgs \%installed in\% .libPaths()
-pkg_lsf("devtools", "all")
+check <- "devtools" \%installed in\% .libPaths()
 
-}
+if(check) pkgs <- pkg_get_deps("devtools")
+if(check) pkgs \%installed in\% .libPaths()
+if(check) pkg_lsf("devtools", "all")
+
 
 
 
 }
 \references{
-elegantly extract R package dependencies of a package not listed on CRAN. Stack Overflow. (1 September 2023). https://stackoverflow.com/questions/30223957/elegantly-extract-r-package-dependencies-of-a-package-not-listed-on-cran
+elegantly extract R-package dependencies of a package not listed on CRAN. Stack Overflow. (1 September 2023). https://stackoverflow.com/questions/30223957/elegantly-extract-r-package-dependencies-of-a-package-not-listed-on-cran
 }
 \seealso{
 \code{\link[=tinycodet_import]{tinycodet_import()}}

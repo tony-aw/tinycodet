@@ -1,7 +1,6 @@
-#' String arithmetic
+#' String Arithmetic Operators
 #'
 #' @description
-#'
 #'
 #' String arithmetic operators. \cr
 #' \cr

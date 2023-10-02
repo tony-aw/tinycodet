@@ -2,12 +2,12 @@
 % Please edit documentation in R/tinycodet_safer.R
 \name{tinycodet_safer}
 \alias{tinycodet_safer}
-\title{The tinycodet "safer" functionality}
+\title{Overview of the 'tinycodet' "Safer" Functionality}
 \usage{
 tinycodet_safer()
 }
 \description{
-To help make your code safer, the \code{tinycodet} R package
+To help make your code safer, the 'tinycodet' R-package
 introduces a few functions:
 \itemize{
 \item \link[=\%d==\%]{Safer decimal (in)equality testing}.

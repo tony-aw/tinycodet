@@ -2,12 +2,12 @@
 % Please edit documentation in R/tinycodet_misc.R
 \name{tinycodet_misc}
 \alias{tinycodet_misc}
-\title{The tinycodet miscellaneous functionality}
+\title{Overview of the 'tinycodet' Miscellaneous Functionality}
 \usage{
 tinycodet_misc()
 }
 \description{
-Some additional functions provided by the \code{tinycodet} R package:
+Some additional functions provided by the 'tinycodet' R-package:
 \itemize{
 \item \link[=\%xor\%]{Infix logical operators} for exclusive-or, not-and, not-in, number-type, and string-type.
 \item \link[=\%row~\%]{Infix operators for row- and column-wise re-ordering of matrices}.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/source_selection.R
 \name{source_selection}
 \alias{source_selection}
-\title{Source selection}
+\title{Source Specific Objects from Script}
 \usage{
 source_selection(lst, select = NULL, regex = NULL, fixed = NULL)
 }

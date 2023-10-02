@@ -1,4 +1,4 @@
-#' Pattern specifications for string related infix operators.
+#' Pattern Specifications for String Related Infix Operators.
 #'
 #' @description
 #'
@@ -9,11 +9,11 @@
 #' where the pattern is given on the right hand side. \cr
 #' When a character vector or string is given on the right hand side,
 #' this is interpreted as case-sensitive
-#' \code{regex} patterns from `stringi`. \cr
+#' \code{regex} patterns from 'stringi'. \cr
 #' \cr
 #' Instead of giving a string or character vector of regex patterns,
 #' one can also supply a list to specify exactly how the pattern should be interpreted.
-#' The list should use the exact same argument convention as `stringi`. \cr
+#' The list should use the exact same argument convention as 'stringi'. \cr
 #' \cr
 #' For example: \cr
 #'
@@ -41,7 +41,7 @@
 #' except it uses fixed (i.e. literal) expression,
 #' and it does not distinguish between upper case and lower case characters. \cr
 #' \cr
-#' \code{tinycodet} adds some convenience functions based on
+#' 'tinycodet' adds some convenience functions based on
 #' the \code{stri_opts_} - functions in 'stringi': \cr
 #'
 #' * \code{stri_rgx(p, ...)} is equivalent to \code{c(list(regex = p), ...)}

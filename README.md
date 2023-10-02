@@ -19,9 +19,9 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 
  
 
-## Description & Overview
+## Description
 
-The `tinycodet` R-package is a tiny little R package that adds a few
+The ‘tinycodet’ R-package is a tiny little R package that adds a few
 functions to help in your coding etiquette. It primarily focuses on 4
 things:
 
@@ -30,30 +30,19 @@ things:
 2)  A new package import system, that attempts to combine the benefits
     of using a package without attaching, with the benefits of attaching
     a package.
-3)  Extending the string manipulation capabilities of the `stringi` R
+3)  Extending the string manipulation capabilities of the ‘stringi’ R
     package.
 4)  Reducing repetitive code.
 
-The `tinycodet` R-package has only one dependency, namely `stringi`.
+The ‘tinycodet’ R-package has only one dependency, namely ‘stringi’.
 Most functions in this R-package are fully vectorized and optimized, and
 have been well documented.
 
  
 
-Although this is a relatively small R package, I do understand you may
-not want to go through all the articles and help files of `tinycodet`
-without knowing if the R package is even worthy of your time. Therefore,
-to get a quick glimpse of what is possible in this R package, I invite
-you to take a look at the [Get
-Started](https://tony-aw.github.io/tinycodet/articles/tinycodet.html)
-page on the website
-(<https://tony-aw.github.io/tinycodet/articles/tinycodet.html>).
-
- 
-
 ## Installation
 
-One can install `tinycodet` from github like so:
+One can install ‘tinycodet’ from github like so:
 
 ``` r
 remotes::install_github("https://github.com/tony-aw/tinycodet")
@@ -71,7 +60,7 @@ using:
 library(tinycodet)
 ```
 
-And one can open the introduction help page of the `tinycodet` package
+And one can open the introduction help page of the ‘tinycodet’ package
 using:
 
 ``` r
@@ -82,7 +71,7 @@ tinycodet::tinycodet_help()
 
 ## Reporting issues and giving suggestions
 
-When you coming across an issue with the `tinycodet` R package, you may
+When you coming across an issue with the ‘tinycodet’ R package, you may
 want to report it in the “Issues” tab on the GitHub page
 (<https://github.com/tony-aw/tinycodet/issues>). If relevant, please
 provide reproducible R code, as that will make it easier to diagnose the
@@ -90,8 +79,8 @@ issue. Please keep issue reports polite, professional, and to the point.
 
  
 
-If you have questions or suggestions, please submit them in the
-“Discussion” tab on the GitHub page
+If you have questions or ideas, please submit them in the “Discussion”
+tab on the GitHub page
 (<https://github.com/tony-aw/tinycodet/discussions>).
 
  

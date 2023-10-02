@@ -1,4 +1,4 @@
-#' Safer atomic type casting
+#' Atomic Type Casting Without Stripping Attributes
 #'
 #' @description
 #' Atomic type casting in R is generally performed using the functions
@@ -9,7 +9,7 @@
 #' strips the object of its attributes,
 #' including attributes such as names and dimensions. \cr
 #' \cr
-#' The functions provided here by the \code{tinycodet} package
+#' The functions provided here by the 'tinycodet' package
 #' preserve all attributes - except the "class" attribute. \cr
 #' \cr
 #' The functions are as follows: \cr
@@ -23,7 +23,7 @@
 #'
 #' @param x vector, matrix, array
 #' (or a similar object where all elements share the same class).
-#' @param tol the tolerance.
+#' @param tol numeric, giving the tolerance.
 #' @param ... further arguments passed to or from other methods.
 #'
 #' @returns
@@ -37,11 +37,14 @@
 #' attr(x, "test") <- "test"
 #' print(x)
 #'
-#' # notice that in all following, attributes are conserved:
+#' # notice that in all following, attributes (except class) are conserved:
 #' as_bool(x)
 #' as_int(x)
 #' as_dbl(x)
 #' as_chr(x)
+#'
+#' # is_wholenumber:
+#' is_wholenumber(1:10 + c(0, 0.1))
 #'
 #'
 
@@ -91,5 +94,8 @@ as_chr <- function(x, ...) {
 #' @rdname atomic_conversions
 #' @export
 is_wholenumber <- function(x, tol = sqrt(.Machine$double.eps)) {
+  if(!is.numeric(tol)) {
+    stop("`tol` must be numeric")
+  }
   return(abs(x - round(x)) < tol)
 }

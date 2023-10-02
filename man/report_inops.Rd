@@ -2,7 +2,7 @@
 % Please edit documentation in R/report_inops.R
 \name{report_inops}
 \alias{report_inops}
-\title{Report infix operators}
+\title{Report Infix Operators}
 \usage{
 report_inops(env)
 }

@@ -3,7 +3,7 @@
 \name{inplace}
 \alias{inplace}
 \alias{\%:=\%}
-\title{Generalized in-place modifier}
+\title{Generalized In-place Modifier Operator}
 \usage{
 x \%:=\% f
 }

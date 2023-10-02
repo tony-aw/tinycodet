@@ -3,7 +3,7 @@
 \name{strcut_loc}
 \alias{strcut_loc}
 \alias{strcut_brk}
-\title{Cut strings}
+\title{Cut Strings}
 \usage{
 strcut_loc(str, loc, fill_loc = TRUE)
 

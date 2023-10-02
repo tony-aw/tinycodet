@@ -1,7 +1,7 @@
-#' The tinycodet "safer" functionality
+#' Overview of the 'tinycodet' "Safer" Functionality
 #'
 #' @description
-#' To help make your code safer, the \code{tinycodet} R package
+#' To help make your code safer, the 'tinycodet' R-package
 #' introduces a few functions:
 #'
 #'  * \link[=%d==%]{Safer decimal (in)equality testing}.

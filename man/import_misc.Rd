@@ -3,7 +3,7 @@
 \name{import_LL}
 \alias{import_LL}
 \alias{import_int}
-\title{Miscellaneous import_ - functions}
+\title{Miscellaneous import_ - Functions}
 \usage{
 import_LL(package, selection, lib.loc = .libPaths())
 
@@ -83,12 +83,14 @@ do not support importing functions from base/core R. \cr
 \cr
 }
 \examples{
-\dontrun{
+
 # Using import_LL ====
 import_LL(
-  "tidytable", "across"
+  "stringi", "stri_sub"
 )
-across # <- this function cannot be modified, only used or removed, because it's locked
+# the stri_sub() function now cannot be modified, only used or removed, because it's locked:
+bindingIsLocked("stri_sub", environment()) # TRUE
+
 
 # Using internal function ====
 # Through re-assignment:
@@ -99,7 +101,6 @@ import_int(
   tinycodet ~ .internal_paste, .libPaths()
 )("hello", "world")
 
-}
 
 
 }

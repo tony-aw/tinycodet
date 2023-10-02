@@ -1,4 +1,4 @@
-#' The subset_if operators and the unreal in place modifier
+#' Conditional Sub-setting and In-place Replacer of Unreal Values
 #'
 #' @description
 #'

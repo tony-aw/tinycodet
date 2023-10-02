@@ -1,4 +1,4 @@
-#' Lock T, lock F, or create locked constants
+#' Lock T, Lock F, or Create Locked Constants
 #'
 #' @description
 #' One can re-assign the values \code{T} and \code{F}.

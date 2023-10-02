@@ -43,18 +43,18 @@
 #'
 #'
 #' @examples
-#' \dontrun{
+#'
 #' # additional arguments (only used when exposing, not unexposing):
-#' import_as(~ dt., "data.table")
-#' import_inops(expose = dt., include.only = ":=")
-#' import_inops(unexpose = dt.)
-#' import_inops(expose = "data.table", exclude = ":=")
-#' import_inops(unexpose = "data.table")
-#' import_inops(expose = dt., overwrite = FALSE)
-#' import_inops(unexpose = dt.)
-#' import_inops(expose = "data.table", overwrite = FALSE)
-#' import_inops(unexpose = "data.table")
-#' }
+#' import_as(~ stri., "stringi")
+#' import_inops(expose = stri., include.only = "%s==%")
+#' import_inops(unexpose = stri.)
+#' import_inops(expose = "stringi", exclude = "%s==%")
+#' import_inops(unexpose = "stringi")
+#' import_inops(expose = stri., overwrite = FALSE)
+#' import_inops(unexpose = stri.)
+#' import_inops(expose = "stringi", overwrite = FALSE)
+#' import_inops(unexpose = "stringi")
+#'
 #'
 
 #' @rdname import_inops.control

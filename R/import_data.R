@@ -1,4 +1,4 @@
-#' Directly return a data-set from a package
+#' Directly Return a Data-set From a Package
 #'
 #' @description
 #' The \code{import_data()} function gets a specified data set from a package. \cr

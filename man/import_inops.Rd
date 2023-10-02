@@ -2,7 +2,7 @@
 % Please edit documentation in R/import_inops.R
 \name{import_inops}
 \alias{import_inops}
-\title{(un)expose infix operators from package namespace in the current environment}
+\title{(Un)Expose Infix Operators From Package Namespace in the Current Environment}
 \usage{
 import_inops(expose = NULL, unexpose = NULL, lib.loc = .libPaths(), ...)
 }
@@ -47,11 +47,11 @@ in a package or an alias object to the current environment
 \cr
 \code{import_inops(unexpose=...)}
 unexposes (i.e. removes) the infix operators specified
-in a packages or an alias object
+in a package or an alias object
 from the current environment
 (like the global environment or the environment within a function). \cr
 Note that in this case only infix operators exposed by
-the \code{tinycodet} import system
+the 'tinycodet' import system
 will be removed from the current environment;
 "regular" (i.e. user-specified) infix operators will not be touched. \cr
 \cr
@@ -61,28 +61,28 @@ The \code{import_inops()} function does not support overloading base/core R oper
 \cr
 When using \code{import_inops()} to remove infix operators from the current environment,
 it will use the attributes of those operators to determine if the infix operator came from
-the \code{tinycodet} import system or not.
-Only infix operators exposed by the \code{tinycodet} import system will be removed.
+the 'tinycodet' import system or not.
+Only infix operators exposed by the 'tinycodet' import system will be removed.
 }
 \examples{
-\dontrun{
-import_as(~ dt., "data.table")
-import_inops(expose = dt.) # expose infix operators from alias
-import_inops(unexpose = dt.) # unexposed infix operators from current environment
-import_inops(expose = "data.table") # expose infix operators from package
-import_inops(unexpose = "data.table") # remove the exposed infix operators from environment
+
+import_as(~ stri., "stringi")
+import_inops(expose = stri.) # expose infix operators from alias
+import_inops(unexpose = stri.) # unexposed infix operators from current environment
+import_inops(expose = "stringi") # expose infix operators from package
+import_inops(unexpose = "stringi") # remove the exposed infix operators from environment
 
 # additional arguments (only used when exposing, not unexposing):
-import_as(~ dt., "data.table")
-import_inops(expose = dt., include.only = ":=")
-import_inops(unexpose = dt.)
-import_inops(expose = "data.table", exclude = ":=")
-import_inops(unexpose = "data.table")
-import_inops(expose = dt., overwrite = FALSE)
-import_inops(unexpose = dt.)
-import_inops(expose = "data.table", overwrite = FALSE)
-import_inops(unexpose = "data.table")
-}
+import_as(~ stri., "stringi")
+import_inops(expose = stri., include.only = "\%s==\%")
+import_inops(unexpose = stri.)
+import_inops(expose = "stringi", exclude = "\%s==\%")
+import_inops(unexpose = "stringi")
+import_inops(expose = stri., overwrite = FALSE)
+import_inops(unexpose = stri.)
+import_inops(expose = "stringi", overwrite = FALSE)
+import_inops(unexpose = "stringi")
+
 
 
 }

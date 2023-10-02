@@ -1,4 +1,4 @@
-#' Report infix operators
+#' Report Infix Operators
 #'
 #' @description
 #' The \code{report_inops()} function

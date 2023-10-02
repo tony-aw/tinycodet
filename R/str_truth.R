@@ -1,7 +1,6 @@
-#' Stringi pattern detection operators
+#' Stringi Pattern Detection Operators
 #'
 #' @description
-#'
 #'
 #' The \code{x %s{}% p} operator
 #' checks for every string in character vector \code{x} if

@@ -7,7 +7,7 @@
 \alias{as_dbl}
 \alias{as_chr}
 \alias{is_wholenumber}
-\title{Safer atomic type casting}
+\title{Atomic Type Casting Without Stripping Attributes}
 \usage{
 as_bool(x, ...)
 
@@ -25,7 +25,7 @@ is_wholenumber(x, tol = sqrt(.Machine$double.eps))
 
 \item{...}{further arguments passed to or from other methods.}
 
-\item{tol}{the tolerance.}
+\item{tol}{numeric, giving the tolerance.}
 }
 \value{
 The converted object.
@@ -39,7 +39,7 @@ Converting an object between atomic types using these functions
 strips the object of its attributes,
 including attributes such as names and dimensions. \cr
 \cr
-The functions provided here by the \code{tinycodet} package
+The functions provided here by the 'tinycodet' package
 preserve all attributes - except the "class" attribute. \cr
 \cr
 The functions are as follows: \cr
@@ -58,11 +58,14 @@ colnames(x) <- c("one", "two")
 attr(x, "test") <- "test"
 print(x)
 
-# notice that in all following, attributes are conserved:
+# notice that in all following, attributes (except class) are conserved:
 as_bool(x)
 as_int(x)
 as_dbl(x)
 as_chr(x)
+
+# is_wholenumber:
+is_wholenumber(1:10 + c(0, 0.1))
 
 
 }

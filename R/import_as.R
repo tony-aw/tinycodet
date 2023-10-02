@@ -1,9 +1,9 @@
-#' Load R-package + its re-exports + its dependencies + its extensions under one alias
+#' Load R-package and its Re-exports and/or its (Reverse) Dependencies Under a Single Alias
 #'
 #' @description
 #'
 #' The \code{import_as()} function
-#' imports the namespace of an R package,
+#' imports the namespace of an R-package,
 #' and optionally also its re-exports, dependencies, and extensions,
 #' all under the same alias.
 #' The specified alias will be placed in the current environment
@@ -20,36 +20,33 @@
 #' @param main_package a single string,
 #' giving the name of the main package to load under the given alias.
 #' @param re_exports logical;
-#' Some R packages export functions that are not defined in their own package,
+#' Some R-packages export functions that are not defined in their own package,
 #' but in their direct dependencies; "re-exports", if you will. \cr
-#' This argument determines what the \code{import_as} function
-#' will do with the re-exports of the \code{main_package}: \cr
-#'  * If \code{TRUE} the re-exports from the \code{main_package}
-#'  are added to the alias,
-#'  even if \code{dependencies = NULL}.
-#' This is the default, as it is analogous to the behaviour of base R's \link{::} operator. \cr
-#'  * If \code{FALSE}, these re-exports are not added,
-#' and the user must specify the appropriate packages in argument \code{dependencies}.
+#'  * If \code{re_exports = TRUE} the re-exports from the \code{main_package}
+#'  are added to the alias together with the main package.
+#'  This is the default, as it is analogous to the behaviour of base R's \link{::} operator. \cr
+#'  * If \code{re_exports = FALSE}, these re-exports are not added together with the main package.
+#'  The user can still specify the appropriate packages in argument \code{dependencies}.
 #' @param dependencies an optional character vector,
 #' giving the names of the dependencies of the
 #' \code{main_package} to be loaded also under the alias. \cr
 #' Defaults to \code{NULL}, which means no dependencies are loaded. \cr
-#' See \link{pkg_get_deps} to quickly get dependencies from a package.
+#' See \link{pkg_get_deps} to quickly get dependencies from a package. \cr
+#' NOTE: The order of the given character vector matters.
+#' If multiple packages share objects with the same name,
+#' the objects of the package named last will overwrite those of the earlier named packages.
 #' @param extensions an optional character vector,
 #' giving the names of the extensions of the
 #' \code{main_package} to be loaded also under the alias. \cr
-#' Defaults to \code{NULL}, which means no extensions are loaded.
+#' Defaults to \code{NULL}, which means no extensions are loaded. \cr
+#' NOTE: The order of the given character vector matters.
+#' If multiple packages share objects with the same name,
+#' the objects of the package named last will overwrite those of the earlier named packages.
 #' @param loadorder the character vector \cr
 #' \code{c("dependencies", "main_package", "extensions")}, \cr
 #' or some re-ordering of this character vector,
 #' giving the relative load order of the groups of packages. \cr
-#' The default setting (which is highly recommended) is the character vector \cr
-#' \code{c("dependencies", "main_package", "extensions")}, \cr
-#' which results in the following load order: \cr
-#'  1) The dependencies, \bold{in the order specified by the \code{depenencies} argument}. \cr
-#'  2) The main_package (see argument \code{main_package}),
-#' including re-exports (if \code{re_exports=TRUE}). \cr
-#'  3) The extensions, \bold{in the order specified by the \code{extensions} argument}.
+#' See Details section for more information. \cr
 #' @param lib.loc character vector specifying library search path
 #' (the location of R library trees to search through). \cr
 #' The \code{lib.loc} argument would usually be \code{.libPaths()}. \cr
@@ -57,24 +54,31 @@
 #'
 #'
 #' @details
+#'
+#' \bold{On the \code{loadorder} argument} \cr
+#' The default setting of the \code{loadorder} argument
+#' (which is highly recommended)
+#' is the character vector \cr
+#' \code{c("dependencies", "main_package", "extensions")}, \cr
+#' which results in the following load order: \cr
+#'  1) The dependencies, \bold{in the order specified by the \code{depenencies} argument}. \cr
+#'  2) The main_package (see argument \code{main_package}),
+#' including re-exports (if \code{re_exports=TRUE}). \cr
+#'  3) The extensions, \bold{in the order specified by the \code{extensions} argument}. \cr
+#'
+#'
 #' \bold{On the \code{dependencies} and \code{extensions} arguments} \cr
 #'
 #'  * \code{dependencies}: "Dependencies" here are defined as any package appearing in the
 #' "Depends", "Imports", or "LinkingTo" fields of the Description file of the
 #' \code{main_package}. So no recursive dependencies.
-#'  * \code{extensions}: "Extensions" here are defined as reverse-depends or reverse-imports.
+#'  * \code{extensions}: "Extensions" here are defined as
+#'  direct reverse-depends or direct reverse-imports.
 #' It does not matter if these are CRAN or non-CRAN packages.
 #' However, the intended meaning of an extension is not merely being a reverse dependency,
-#' but a package that actually extends the functionality of the \code{main_package}.
+#' but a package that actually extends the functionality of the \code{main_package}. \cr
 #'
-#' As implied in the description of the \code{loadorder} argument,
-#' the order of the character vectors given in the
-#' \code{dependencies}, and \code{extensions} arguments
-#' matter: \cr
-#' If multiple packages share objects with the same name,
-#' the objects of the package named last will overwrite those of the earlier named packages. \cr
-#' \cr
-#' \cr
+#'
 #' \bold{Additional details} \cr
 #' The \code{import_as()} function
 #' does not support loading base/core R under an alias. \cr
@@ -96,28 +100,28 @@
 #'
 #'
 #' @examples
-#' if(all(c("tidytable", "data.table", "magrittr", "dplyr") %installed in% .libPaths())){
 #'
-#' import_as( # this creates the 'tdt.' object
+#' check <- all(c("tidytable", "data.table", "magrittr", "dplyr") %installed in% .libPaths())
+#'
+#' if(check) import_as( # this creates the 'tdt.' object
 #'   "tdt.", "tidytable", dependencies = "data.table"
 #' )
 #' # same as:
-#' import_as(
+#' if(check) import_as(
 #'   ~ tdt., "tidytable", dependencies = "data.table"
 #' )
 #'
 #'
 #' # exposing infix operators from "magrrittr" to current environment:
-#' import_inops("magrittr")
+#' if(check) import_inops("magrittr")
 #'
 #' # directly assigning dplyr's "starwars" dataset to object "d":
-#' d <- import_data("dplyr", "starwars")
+#' if(check) d <- import_data("dplyr", "starwars")
 #'
 #' # see it in action:
-#' d %>% tdt.$filter(species == "Droid") %>%
+#' if(check) d %>% tdt.$filter(species == "Droid") %>%
 #'   tdt.$select(name, tdt.$ends_with("color"))
 #'
-#' }
 #'
 #'
 

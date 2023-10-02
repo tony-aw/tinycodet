@@ -1,4 +1,4 @@
-#' Generalized in-place modifier
+#' Generalized In-place Modifier Operator
 #'
 #' @description
 #' Generalized in-place modifier. \cr

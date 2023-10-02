@@ -3,7 +3,7 @@
 \name{\%s{}\%}
 \alias{\%s{}\%}
 \alias{\%s!{}\%}
-\title{Stringi pattern detection operators}
+\title{Stringi Pattern Detection Operators}
 \usage{
 x \%s{}\% p
 

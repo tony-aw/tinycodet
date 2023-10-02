@@ -4,7 +4,7 @@
 \alias{lock}
 \alias{lock_TF}
 \alias{\%<-c\%}
-\title{Lock T, lock F, or create locked constants}
+\title{Lock T, Lock F, or Create Locked Constants}
 \usage{
 lock_TF(env)
 

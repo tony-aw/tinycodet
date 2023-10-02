@@ -4,7 +4,7 @@
 \alias{str_subset_ops}
 \alias{\%sget\%}
 \alias{\%strim\%}
-\title{String subsetting operators}
+\title{String Subsetting Operators}
 \usage{
 x \%sget\% ss
 
@@ -38,11 +38,11 @@ character vector \code{x}. \cr
 String subsetting operators. \cr
 \cr
 The \code{x \%sget\% ss } operator
-gets a certain number of the first and last characters of
+gets a certain number of the first and last characters of every string in
 character vector \code{x}. \cr
 \cr
 The \code{x \%strim\% ss } operator
-trims a certain number of the first and last characters of
+trims a certain number of the first and last characters of every string in
 character vector \code{x}. \cr
 \cr
 }

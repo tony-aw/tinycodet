@@ -1,7 +1,6 @@
-#' Cut strings
+#' Cut Strings
 #'
 #' @description
-#'
 #'
 #' The \code{strcut_loc()} function
 #' cuts every string in a character vector around a location range \code{loc},

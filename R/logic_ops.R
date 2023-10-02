@@ -1,4 +1,4 @@
-#' Logic operators
+#' Additional Logic Operators
 #'
 #'@description
 #' Additional logic operators: \cr
