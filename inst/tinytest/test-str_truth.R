@@ -1,3 +1,8 @@
+# set-up ===
+enumerate <- 0 # to count number of tests performed using iterations in loops
+loops <- 0 # to count number of loops
+
+
 
 # regex ====
 x.regex <- c('stringi R', 'R STRINGI', '123')
@@ -97,7 +102,8 @@ x.list <- list("a", NA, character(0), "ipsum 1234", "")
 p.list <- list("a", NA, character(0), "ipsum 1234", "")
 expect1 <- expect2 <- list()
 out1 <- out2 <- list()
-k = 1
+k <- 1
+loops <- loops + 1
 for(i in 1:length(x.list)) {
   for(j in 1:length(p.list)) {
     expect1[[k]] <- suppressWarnings(stringi::stri_detect_coll(x.list[[i]], p.list[[j]]))
@@ -105,6 +111,8 @@ for(i in 1:length(x.list)) {
 
     expect2[[k]] <- suppressWarnings(!stringi::stri_detect_coll(x.list[[i]], p.list[[j]]))
     out2[[k]] <- suppressWarnings(x.list[[i]] %s!{}% stri_cll(p.list[[j]]))
+
+    enumerate <- enumerate + 1
   }
 }
 expect_equal(expect1, out1)

@@ -1,3 +1,8 @@
+# set-up ===
+enumerate <- 0 # to count number of tests performed using iterations in loops
+loops <- 0 # to count number of loops
+
+
 
 x <- c(-10:9, NA, NA)
 obj <- matrix(x, ncol=2)
@@ -35,6 +40,7 @@ no <- list(\(x)3, 3)
 other <- list(\(x)-1000, -1000)
 out <- list()
 m <- 1
+loops <- loops + 1
 for(i in 1:2) {
   for (j in 1:2) {
     for (k in 1:2) {
@@ -43,6 +49,7 @@ for(i in 1:2) {
           obj, cond = cond[[i]], yes = yes[[j]], no = no[[k]], other = other[[l]]
         )
         m <- m + 1
+        enumerate <- enumerate + 1
 
       }
     }

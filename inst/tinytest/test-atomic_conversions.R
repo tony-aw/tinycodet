@@ -1,3 +1,7 @@
+# set-up ===
+enumerate <- 0 # to count number of tests performed using iterations in loops
+loops <- 0 # to count number of loops
+
 
 # test whole vector type casting ====
 x <- seq(-2.5, 2, by =0.5)
@@ -58,7 +62,8 @@ as.funs1 <- as.funs2 <- list(as.logical, as.integer, as.double, as.character)
 tiny.funs1 <- tiny.funs2 <- list(as_bool, as_int, as_dbl, as_chr)
 outs <- list()
 expects<- list()
-enum <- 1
+iter <- 1
+loops <- loops + 1
 for (i in 1:4) {
   x <- initials[[i]]
   attr(x, "test") <- "test"
@@ -67,10 +72,11 @@ for (i in 1:4) {
   myattr[["class"]] <- NULL
   for (j in 1:4) {
     for (k in 1:4) {
-      expects[[enum]] <- as.funs1[[j]](as.funs2[[k]](x))
-      attributes(expects[[enum]]) <- myattr
-      outs[[enum]] <- tiny.funs1[[j]](tiny.funs2[[k]](x))
-      enum <- enum + 1
+      expects[[iter]] <- as.funs1[[j]](as.funs2[[k]](x))
+      attributes(expects[[iter]]) <- myattr
+      outs[[iter]] <- tiny.funs1[[j]](tiny.funs2[[k]](x))
+      iter <- iter + 1
+      enumerate <- enumerate + 1
     }
   }
 }
@@ -138,7 +144,8 @@ as.funs1 <- as.funs2 <- list(as.logical, as.integer, as.double, as.character)
 tiny.funs1 <- tiny.funs2 <- list(as_bool, as_int, as_dbl, as_chr)
 outs <- list()
 expects<- list()
-enum <- 1
+iter <- 1
+loops <- loops + 1
 for (i in 1:4) {
   x <- initials[[i]] |> matrix(ncol=2)
   colnames(x) <- c("one", "two")
@@ -148,10 +155,11 @@ for (i in 1:4) {
   myattr[["class"]] <- NULL
   for (j in 1:4) {
     for (k in 1:4) {
-      expects[[enum]] <- as.funs1[[j]](as.funs2[[k]](x))
-      attributes(expects[[enum]]) <- myattr
-      outs[[enum]] <- tiny.funs1[[j]](tiny.funs2[[k]](x))
-      enum <- enum + 1
+      expects[[iter]] <- as.funs1[[j]](as.funs2[[k]](x))
+      attributes(expects[[iter]]) <- myattr
+      outs[[iter]] <- tiny.funs1[[j]](tiny.funs2[[k]](x))
+      iter <- iter + 1
+      enumerate <- enumerate + 1
     }
   }
 }

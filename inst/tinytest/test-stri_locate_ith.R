@@ -1,3 +1,8 @@
+# set-up ===
+enumerate <- 0 # to count number of tests performed using iterations in loops
+loops <- 0 # to count number of loops
+
+
 # positions ====
 # regex
 x <- rep(paste0(0:9, collapse=""), 10)
@@ -72,6 +77,7 @@ x.regex <- c('stringi R', 'R STRINGI', '123')
 pattern <- list("R.", '[[:alpha:]]*?', '[a-zC1]', '( R|RE)', 'sTrInG')
 expect1 <- expect2 <- expect3 <- list()
 out1 <- out2 <- out3 <- list()
+loops <- loops + 1
 for(i in 1:length(pattern)) {
   out1[[i]] <- stri_locate_ith(x.regex, i = 1, regex = pattern[[i]])
   expect1[[i]] <- stringi::stri_locate_first_regex(x.regex, pattern[[i]])
@@ -81,6 +87,7 @@ for(i in 1:length(pattern)) {
   expect3[[i]] <- rbind(stringi::stri_locate_first_regex(x.regex[1], pattern[[i]]),
                    stringi::stri_locate_last_regex(x.regex[2], pattern[[i]]),
                    stringi::stri_locate_first_regex(x.regex[3], pattern[[i]]))
+  enumerate <- enumerate + 3
 }
 expect_equal(expect1, out1)
 expect_equal(expect2, out2)
@@ -107,6 +114,7 @@ x.fixed <- c('stringi R', 'R STRINGI', '123')
 p.fixed <- c('i', 'R', '0')
 expect1 <- expect2 <- expect3 <- list()
 out1 <- out2 <- out3 <- list()
+loops <- loops + 1
 for(i in 1:length(pattern)) {
   out1[[i]] <- stri_locate_ith(x.fixed, i = 1, fixed = pattern[[i]])
   expect1[[i]] <- stringi::stri_locate_first_fixed(x.fixed, pattern[[i]])
@@ -116,6 +124,7 @@ for(i in 1:length(pattern)) {
   expect3[[i]] <- rbind(stringi::stri_locate_first_fixed(x.fixed[1], pattern[[i]]),
                      stringi::stri_locate_last_fixed(x.fixed[2], pattern[[i]]),
                      stringi::stri_locate_first_fixed(x.fixed[3], pattern[[i]]))
+  enumerate <- enumerate + 3
 }
 expect_equal(expect1, out1)
 expect_equal(expect2, out2)
@@ -131,7 +140,8 @@ x.list <- list("a", NA, "ipsum 1234")
 p.list <- list("a", NA, "ipsum 1234")
 expect1 <- expect2 <- expect3 <- list()
 out1 <- out2 <- out3 <- list()
-k = 1
+k <- 1
+loops <- loops + 1
 for(i in 1:length(x.list)) {
   for(j in 1:length(p.list)) {
     out1[[k]] <- stri_locate_ith(x.list[[i]], i = 1, coll = p.list[[j]])
@@ -146,6 +156,8 @@ for(i in 1:length(x.list)) {
     )
 
     k = k +1
+
+    enumerate <- enumerate + 3
   }
 }
 expect_equal(expect1, out1)
@@ -164,6 +176,7 @@ tempfun <- function(x, i, pattern) {
   if(i == (-1)) out <- do.call(rbind, lapply(out, \(x)x[nrow(x),]))
   return(out)
 }
+loops <- loops + 1
 for(i in 1:length(pattern)) {
   out1[[i]] <- stri_locate_ith(x.charclass, i = 1, charclass = pattern[i])
   expect1[[i]] <- tempfun(x.charclass, i = 1, pattern[i])
@@ -175,6 +188,7 @@ for(i in 1:length(pattern)) {
     tempfun(x.charclass[2], i = -1, pattern[i]),
     tempfun(x.charclass[3], i = 1, pattern[i])
   )
+  enumerate <- enumerate + 3
 }
 expect_equal(expect1, out1)
 expect_equal(expect2, out2)
@@ -214,6 +228,7 @@ test <- c(
 )
 pattern <- c("character", "word", "sentence")
 out1 <- expect1 <- out2 <- expect2 <- out3 <- expect3 <- list()
+loops <- loops + 1
 for(i in 1:length(pattern)) {
   out1[[i]] <- stri_locate_ith_boundaries(test, i = 1, type = pattern[i])
   expect1[[i]] <- stringi::stri_locate_first_boundaries(test, type = pattern[i])
@@ -224,6 +239,8 @@ for(i in 1:length(pattern)) {
     stringi::stri_locate_first_boundaries(test[1], type = pattern[i]),
     stringi::stri_locate_last_boundaries(test[2], type = pattern[i])
   )
+
+  enumerate <- enumerate + 3
 }
 expect_equal(expect1, out1)
 expect_equal(expect2, out2)
