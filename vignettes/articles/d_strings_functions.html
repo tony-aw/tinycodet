@@ -341,7 +341,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(tinycodet)</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co">#&gt; Run `tinycodet_help()` to open the introduction help page of tinycodet.</span></span></code></pre></div>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co">#&gt; Run [4m?tinycodet::tinycodet[24m to open the introduction help page of tinycodet.</span></span></code></pre></div>
 <p> </p>
 <div id="stri_locate_ith" class="section level1">
 <h1>stri_locate_ith</h1>
@@ -415,8 +415,8 @@ every string is cut into the following parts:</p>
 <p>The location range <code>loc</code> would usually be matrix with 2
 columns, giving the start and end points of some pattern match.</p>
 <p>The <code>strcut_brk()</code> function is basically a wrapper around
-<code>stringi::stri_split_boundaries(..., simplify=TRUE)</code>, and
-with some more conveniently named arguments.</p>
+<code>stringi::stri_split_boundaries(..., simplify=NA)</code>, and with
+some more conveniently named arguments.</p>
 <p>Examples:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a></span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">paste0</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">collapse=</span><span class="st">&quot;&quot;</span>), <span class="dv">10</span>)</span>
@@ -538,7 +538,7 @@ sentences :</p>
 <span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a>mat <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(x)) <span class="sc">|&gt;</span> <span class="fu">matrix</span>(<span class="at">ncol=</span><span class="fu">ncol</span>(x))</span>
 <span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a>shuffled <span class="ot">&lt;-</span> x <span class="sc">%row~%</span> mat</span>
 <span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a><span class="fu">stri_paste_mat</span>(shuffled, <span class="at">margin=</span><span class="dv">1</span>, <span class="at">sep=</span><span class="st">&quot; &quot;</span>) <span class="co"># &lt;- another alias for stri_join_mat</span></span>
-<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Cool! Hello, who are you?  Oh, really?! &quot;</span></span>
+<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Hello, who are you?  Oh, really?!  Cool!&quot;</span></span>
 <span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a><span class="co">#&gt; [2] NA</span></span></code></pre></div>
 <p> </p>
 </div>

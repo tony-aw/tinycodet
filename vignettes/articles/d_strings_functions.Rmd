@@ -83,7 +83,7 @@ such that every string is cut into the following parts:
 The location range `loc` would usually be matrix with 2 columns, giving the start and end points of some pattern match.
 
 
-The `strcut_brk()` function is basically a wrapper around `stringi::stri_split_boundaries(..., simplify=TRUE)`, and with some more conveniently named arguments.
+The `strcut_brk()` function is basically a wrapper around `stringi::stri_split_boundaries(..., simplify=NA)`, and with some more conveniently named arguments.
 
 Examples:
 
