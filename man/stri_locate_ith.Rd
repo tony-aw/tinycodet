@@ -32,7 +32,7 @@ then if \code{i >= 3} the third instance will be located, \cr
 and if \code{i <= -3} the first instance will be located. \cr}
 
 \item{...}{more arguments to be supplied to
-\link[stringi]{stri_locate}. \cr
+\link[stringi]{stri_locate} or \link[stringi]{stri_locate_all_boundaries}. \cr
 Do not supply the arguments
 \code{omit_no_match}, \code{get_length}, or \code{pattern},
 as they are already specified internally.
@@ -84,7 +84,6 @@ The \code{stri_locate_ith()} is in this aspect more in line with
 as it gives the \eqn{i^{th}} set of consecutive characters.
 }
 \examples{
-
 
 #############################################################################
 

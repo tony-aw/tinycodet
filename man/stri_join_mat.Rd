@@ -37,11 +37,7 @@ perform row-wise (\code{margin=1}; the default) or
 column-wise (\code{margin=2}) joining of a matrix of strings,
 thereby transforming a matrix of strings into a vector of strings.
 }
-\details{
-The examples section show the uses of the \code{stri_join_mat()} function.
-}
 \examples{
-
 
 #############################################################################
 

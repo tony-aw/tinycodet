@@ -3,9 +3,6 @@
 \name{tinycodet_strings}
 \alias{tinycodet_strings}
 \title{Overview of the tinycodet Extension of 'stringi'}
-\usage{
-tinycodet_strings()
-}
 \description{
 The 'tinycodet' R-package adds some functions and operators
 to extend the functionality of the 'stringi' R-package:
@@ -43,7 +40,7 @@ stri_c_mat(sorted, margin=1, sep=" ")
 
 }
 \references{
-Gagolewski M., \emph{stringi: Fast and portable character string processing in R}, Journal of Statistical Software 103(2), 2022, 1–59, doi:10.18637/jss.v103.i02
+Gagolewski M., \emph{stringi: Fast and portable character string processing in R}, Journal of Statistical Software 103(2), 2022, 1–59, \doi{doi:10.18637/jss.v103.i02}
 }
 \seealso{
 \code{\link[=tinycodet_help]{tinycodet_help()}}, \code{\link[=stri_rgx]{stri_rgx()}}

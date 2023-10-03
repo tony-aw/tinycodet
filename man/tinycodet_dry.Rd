@@ -3,9 +3,6 @@
 \name{tinycodet_dry}
 \alias{tinycodet_dry}
 \title{Overview of the tinycodet "Don't Repeat Yourself" Functionality}
-\usage{
-tinycodet_dry()
-}
 \description{
 "Don't Repeat Yourself", sometimes abbreviated as "DRY",
 is the coding principle not to write unnecessarily repetitive code.
@@ -14,7 +11,7 @@ introduces a few functions:
 \itemize{
 \item The \link{transform_if} function
 \item The \link[=\%unreal =\%]{subset_if operators and the in-place unreal modifier operator}.
-\item The \link[=\%:=\%]{generalized in-place (mathematical) modification operator}.
+\item The \link[=\%:=\%]{general in-place (mathematical) modification operator}.
 }
 }
 \examples{

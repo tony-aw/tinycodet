@@ -23,7 +23,8 @@
 #'
 #' @returns
 #' The \code{x %s{}% p} and \code{x %s!{}% p} operators
-#' return logical vectors. \cr
+#' return logical vectors, where \code{TRUE} indicates a pattern was found,
+#' and \code{FALSE} indicates a pattern was not found. \cr
 #'
 #' @seealso [tinycodet_strings()]
 #'

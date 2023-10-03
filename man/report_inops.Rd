@@ -15,6 +15,9 @@ is used. \cr}
 }
 \value{
 A data.frame.
+The first column gives the infix operator names.
+The second column gives the package the operator came from,
+or NA if it did not come from a package.
 }
 \description{
 The \code{report_inops()} function
@@ -25,6 +28,10 @@ or a user specified environment.
 It also reports from which packages the infix operators came from.
 }
 \examples{
+
+report_inops()
+
+`\%paste\%` <- function(x,y)paste0(x,y)
 
 report_inops()
 

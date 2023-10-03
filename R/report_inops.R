@@ -17,11 +17,18 @@
 #'
 #' @returns
 #' A data.frame.
+#' The first column gives the infix operator names.
+#' The second column gives the package the operator came from,
+#' or NA if it did not come from a package.
 #'
 #'
 #' @seealso [tinycodet_misc()]
 #'
 #' @examples
+#'
+#' report_inops()
+#'
+#' `%paste%` <- function(x,y)paste0(x,y)
 #'
 #' report_inops()
 #'

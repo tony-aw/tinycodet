@@ -5,7 +5,7 @@
 \alias{stri_fxd}
 \alias{stri_cll}
 \alias{stri_chrcls}
-\title{Pattern Specifications for String Related Infix Operators.}
+\title{Pattern Specifications for String Related Infix Operators}
 \usage{
 stri_rgx(
   p,
@@ -60,7 +60,7 @@ For example: \code{max_count}}
 \item{uppercase_first, case_level}{see \link[stringi]{stri_opts_collator}.}
 }
 \value{
-A list.
+A list with arguments to be passed to the appropriate functions.
 }
 \description{
 The \link{\%s-\%} and \link{\%s/\%} operators,

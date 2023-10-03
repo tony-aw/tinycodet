@@ -22,7 +22,8 @@ the names of the functions or objects appearing in the script,
 to expose to the current environment. \cr
 For example, to expose the following methods to the current environment, \cr
 \code{mymethod.numeric()} and \code{mymethod.character()} from generic \code{mymethod()}, \cr
-one could specify \code{regex = "^mymethod"}. \cr}
+one could specify \code{regex = "^mymethod"}. \cr
+\ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_regex.html}{\figure{aboutsearch-regex-darkred.svg}{options: alt='[REGEX]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_regex.html}{about search: regex}} \cr}
 
 \item{fixed}{a character vector of \code{fixed} patterns
 (see \link[stringi]{about_search_fixed}). \cr
@@ -31,7 +32,8 @@ the names of the functions or objects appearing in the script,
 to expose to the current environment. \cr
 For example, to expose the following methods to the current environment, \cr
 \code{mymethod.numeric()} and \code{mymethod.character()} from generic \code{mymethod()}, \cr
-one could specify \code{fixed= "mymethod"}. \cr}
+one could specify \code{fixed= "mymethod"}. \cr
+\ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_fixed.html}{\figure{aboutsearch-fixed-darkgreen.svg}{options: alt='[FIXED]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_fixed.html}{about search: fixed}} \cr}
 }
 \value{
 Any specified objects will be placed

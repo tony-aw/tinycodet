@@ -1,6 +1,6 @@
 #' Additional Logic Operators
 #'
-#'@description
+#' @description
 #' Additional logic operators: \cr
 #' \cr
 #' The \code{x %xor% y} operator is the "exclusive-or" operator, the same as \link{xor}\code{(x, y)}. \cr
@@ -49,6 +49,7 @@
 #'
 #' @returns
 #' A logical vector.
+#'
 #'
 #' @examples
 #' x <- c(TRUE, FALSE, TRUE, FALSE, NA, NaN, Inf, -Inf, TRUE, FALSE)

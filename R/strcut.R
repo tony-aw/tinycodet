@@ -18,12 +18,6 @@
 #' cuts every string into individual text breaks
 #' (like character, word, line, or sentence boundaries). \cr
 #' \cr
-#' The main difference between the \code{strcut_} - functions
-#' and \link[stringi]{stri_split} /  \link[base]{strsplit},
-#' is that the latter generally removes the delimiter patterns in a string when cutting,
-#' while the \code{strcut_}-functions do not attempt to remove parts of the string by default,
-#' they only attempt to cut the strings into separate pieces.
-#' Moreover, the \code{strcut_} - functions always return a matrix, not a list.
 #'
 #'
 #' @param str a string or character vector.
@@ -32,15 +26,7 @@
 #'  * a matrix of 2 integer columns, with \code{nrow(loc)==length(str)},
 #'  giving the location range of the middle part.
 #'  * a vector of length 2, giving the location range of the middle part.
-#' @param fill_loc logical, indicating what should be done if
-#' for some row \code{i},
-#' \code{loc[i, ]} is \code{c(NA, NA)}. \cr
-#'  * If \code{TRUE}, \code{c(NA, NA)} in \code{loc[i, ]}
-#'  is translated to \code{c(1, nc[i])},
-#' where \code{nc[i]} is the number of characters of \code{str[i]}
-#'  * If \code{FALSE}, \code{strcut_loc()} will return \code{c(NA, NA, NA)}
-#'  for when \code{loc[i,]} is \code{c(NA, NA)}.
-#' @param brk single string;
+#' @param type single string;
 #' either the break iterator type,
 #' one of \code{character}, \code{line_break}, \code{sentence}, \code{word},
 #' or a custom set of ICU break iteration rules. Defaults to \code{"character"}. \cr
@@ -48,15 +34,26 @@
 #'
 #' @param ... additional settings for \link[stringi]{stri_opts_brkiter}
 #'
+#' @details
+#' The main difference between the \code{strcut_} - functions
+#' and \link[stringi]{stri_split} /  \link[base]{strsplit},
+#' is that the latter generally removes the delimiter patterns in a string when cutting,
+#' while the \code{strcut_}-functions do not attempt to remove parts of the string by default,
+#' they only attempt to cut the strings into separate pieces.
+#' Moreover, the \code{strcut_} - functions always return a matrix, not a list. \cr
+#' \cr
 #'
 #'
 #' @returns
 #' For the \code{strcut_loc()} function: \cr
 #' A character matrix with \code{length(str)} rows and 3 columns:
 #'
-#'  * the first column contains the sub-strings \bold{before} \code{loc};
-#'  * the second column contains the sub_strings at \code{loc};
-#'  * the third and last column contains the sub-strings \bold{after} \code{loc}. \cr
+#'  * the first column contains the sub-strings \bold{before} \code{loc},
+#'  or \code{NA} if \code{loc} is \code{c(NA, NA)};
+#'  * the second column contains the sub_strings at \code{loc},
+#'  or the uncut string if \code{loc} is \code{c(NA, NA)};
+#'  * the third and last column contains the sub-strings \bold{after} \code{loc},
+#'  or \code{NA} if \code{loc} is \code{c(NA, NA)}. \cr
 #'  \cr
 #'
 #' For the \code{strcut_brk()} function: \cr
@@ -71,14 +68,12 @@
 #'
 #' @examples
 #'
-#'
 #' x <- rep(paste0(1:10, collapse=""), 10)
 #' print(x)
 #' loc <- stri_locate_ith(x, 1:10, fixed = as.character(1:10))
 #' strcut_loc(x, loc)
 #' strcut_loc(x, c(5,5))
-#' strcut_loc(x, c(NA, NA), fill_loc = TRUE)
-#' strcut_loc(x, c(NA, NA), fill_loc = FALSE)
+#' strcut_loc(x, c(NA, NA))
 #'
 #' test <- "The\u00a0above-mentioned    features are very useful. " %s+%
 #' "Spam, spam, eggs, bacon, and spam. 123 456 789"
@@ -90,13 +85,10 @@
 
 #' @rdname strcut
 #' @export
-strcut_loc <- function(str, loc, fill_loc = TRUE) {
+strcut_loc <- function(str, loc) {
   # Error handling:
-  if(!isFALSE(fill_loc) && !isTRUE(fill_loc)) {
-    stop("`fill_loc` must be either `TRUE` or `FALSE`")
-  }
   loc <- matrix(loc, ncol=2)
-  cc_str <- !is.na(str)
+  cc <- !is.na(str) & stats::complete.cases(loc)
   nstr <- length(str)
   nloc <- nrow(loc)
   if(nrow(loc)==1) {
@@ -106,37 +98,31 @@ strcut_loc <- function(str, loc, fill_loc = TRUE) {
   if(nloc != nstr) {
     stop("`nrow(loc)` must equal to `length(str)` or 1")
   }
-  if(all(!cc_str)) {
+  if(all(!cc)) {
     repNA <- rep(NA, nstr)
-    out <- cbind(prepart = repNA, mainpart=repNA, postpart=repNA)
+    out <- cbind(prepart = repNA, mainpart = str, postpart = repNA)
     return(out)
   }
   if(!is.character(str)){
     stop("`str` must be a character vector")
   }
 
-
   # FUNCTION:
-  x <- str[cc_str]
-  cc_loc <- stats::complete.cases(loc)
-  loc <- loc[cc_str, , drop=FALSE] # new
-  cc <- stats::complete.cases(loc)
+  x <- str[cc]
+  loc <- loc[cc, , drop=FALSE] # new
 
   nx <- length(x)
   nc <- stringi::stri_length(x)
-  loc <- .substr_loc(loc, cc_str, cc, nx, nc, abortcall = sys.call())
+  loc <- .check_loc(loc, cc, abortcall = sys.call())
 
   prepart <- mainpart <- postpart <- character(nstr) # not nx
-  prepart[cc_str] <- .substr_prepart(x, loc, nx)
-  postpart[cc_str] <- .substr_postpart(x, loc, nx, nc)
-  mainpart[cc_str] <- stringi::stri_sub(
+  prepart[cc] <- .substr_prepart(x, loc, nx)
+  postpart[cc] <- .substr_postpart(x, loc, nx, nc)
+  mainpart[cc] <- stringi::stri_sub(
     x, from = loc[, 1], to = pmin(loc[, 2], nc)
   )
   out <- cbind(prepart, mainpart, postpart)
-  out[!cc_str, ] <- c(NA, NA, NA)
-  if(!fill_loc && any(!cc_loc)) {
-    out[!cc_loc, ] <- c(NA, NA, NA)
-  }
+  out[!cc, ] <- c(NA, str[!cc], NA)
 
   return(out)
 }
@@ -145,23 +131,20 @@ strcut_loc <- function(str, loc, fill_loc = TRUE) {
 
 #' @rdname strcut
 #' @export
-strcut_brk <- function(str, brk = "character", ...) {
-  if(length(brk) > 1) {
-    stop("`brk` must be a single string")
+strcut_brk <- function(str, type = "character", ...) {
+  if(length(type) > 1) {
+    stop("`type` must be a single string")
   }
   out <- stringi::stri_split_boundaries(
-    str=str, type = brk, n=-1L, tokens_only = FALSE, simplify = NA, ...
+    str=str, type = type, n=-1L, tokens_only = FALSE, simplify = NA, ...
   )
   return(out)
 }
 
 #' @keywords internal
 #' @noRd
-.substr_loc <- function(loc, cc_str, cc, nx, nc, abortcall) {
-  loc[!cc, 1] <- 1
-  loc[!cc, 2] <- nc[!cc] # added [!cc]
-  # loc <- loc[cc_str, , drop=FALSE]
-  if(any(loc[cc] <= 0)) {
+.check_loc <- function(loc, cc, abortcall) {
+  if(any(loc[cc] < 1)) {
     stop(simpleError("`loc` can only have strictly positive numbers", call = abortcall))
   }
   if(any(loc[,2] < loc[,1])) {
@@ -176,9 +159,10 @@ strcut_brk <- function(str, brk = "character", ...) {
   out <- character(nx)
   ind <- loc[, 1] == 1
   out[ind] <- ""
-  if(sum(!ind ) >0) {
-    out[!ind] <- stringi::stri_sub(
-      x[!ind], from = 1, to = loc[!ind ,1] - 1
+  ind2 <- which(!ind)
+  if(length(ind2) > 0) {
+    out[ind2] <- stringi::stri_sub(
+      x[ind2], from = 1, to = loc[ind2 ,1] - 1
     )
   }
   return(out)
@@ -190,9 +174,10 @@ strcut_brk <- function(str, brk = "character", ...) {
   out <- character(nx)
   ind <- loc[,2] >= nc
   out[ind] <- ""
-  if(sum(!ind) > 0) {
-    out[!ind] <- stringi::stri_sub(
-      x[!ind], from = loc[!ind, 2] + 1, to = nc[!ind]
+  ind2 <- which(!ind)
+  if(length(ind2) > 0) {
+    out[ind2] <- stringi::stri_sub(
+      x[ind2], from = loc[ind2, 2] + 1, to = nc[ind2]
     )
   }
   return(out)

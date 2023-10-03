@@ -1,7 +1,7 @@
 #' Row- or Column-wise Re-ordering of Matrices
 #'
-#'@description
-#' Infix operators for custom row- and column-wise re-ordering of matrices \cr
+#' @description
+#' Infix operators for custom row- and column-wise re-ordering of matrices. \cr
 #' \cr
 #' The \code{x %row~% mat} operator re-orders the elements of every row,
 #' each row ordered independently from the other rows, of matrix \code{x},

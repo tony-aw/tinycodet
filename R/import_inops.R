@@ -22,11 +22,11 @@
 #'  * a string giving the package name.
 #' @param lib.loc character vector specifying library search path
 #' (the location of R library trees to search through). \cr
-#' Only used when supplying a character vector of package names to
+#' Only used when supplying a string to
 #' \code{expose} / \code{unexpose},
 #' and ignored when supplying an alias object to
 #' \code{expose} / \code{unexpose}
-#' (the library is already defined inside the alias object). \cr
+#' (the library is path already stored inside the alias object). \cr
 #' The \code{lib.loc} argument would usually be \code{.libPaths()}. \cr
 #' See also \link[base]{loadNamespace}.
 #' @param ... additional arguments,
@@ -35,6 +35,30 @@
 #'
 #'
 #' @details
+#' \bold{Why Exposing Infix Operators Is Useful} \cr
+#' To use a function from an R-package,
+#' while avoiding the disadvantages of attaching a package
+#' (see \link{tinycodet_import}),
+#' one would traditionally use the \link[base]{::} operator like so:
+#'
+#' ```{r eval = FALSE}
+#' packagename::function_name()
+#' ```
+#'
+#' This is, however, cumbersome with infix operators,
+#' as it forces one to code like this:
+#'
+#' ```{r eval = FALSE}
+#' packagename::`%op%`(x,y)
+#' ```
+#'
+#' Exposing infix operators to the current environment,
+#' using the \code{import_inops()} function,
+#' allows one to use infix operators without using cumbersome code,
+#'and without having to attach the infix operators globally. \cr
+#' \cr
+#' \cr
+#' \bold{Other Details} \cr
 #' The \code{import_inops()} function does not support overloading base/core R operators. \cr
 #' \cr
 #' When using \code{import_inops()} to remove infix operators from the current environment,
@@ -55,7 +79,7 @@
 #' (like the Global environment, or the environment within a function). \cr
 #' If such infix operators could not be found, this function simply returns \code{NULL}. \cr
 #'
-#' @seealso [tinycodet_import()], [import_inops.control()]
+#' @seealso [tinycodet_import()], [import_inops.control()], [report_inops()]
 #'
 #'
 #' @examples

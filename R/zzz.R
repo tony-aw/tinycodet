@@ -1,5 +1,8 @@
 .onAttach <- function(libname, pkgname) {
-  packageStartupMessage(
-    "Run `tinycodet_help()` to open the introduction help page of tinycodet."
+  txt <- paste0(
+    "Run \033[4m",
+    '?tinycodet::tinycodet',
+    "\033[24m to open the introduction help page of tinycodet."
   )
+  packageStartupMessage(txt)
 }

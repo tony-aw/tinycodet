@@ -61,10 +61,12 @@ library(tinycodet)
 ```
 
 And one can open the introduction help page of the ‘tinycodet’ package
-using:
+using any of the following:
 
 ``` r
-tinycodet::tinycodet_help()
+?tinycodet
+?tinycodet::`tinycodet-package`
+?tinycodet::tinycodet_help
 ```
 
  

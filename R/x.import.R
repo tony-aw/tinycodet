@@ -41,6 +41,7 @@
 #' help.import(i=mr.$add)
 #' help.import(i=`%>%`)
 #' help.import(i="add", alias=mr.)
+#' help.import(topic = "%>%", package = "magrittr")
 #'
 #' ```
 #'

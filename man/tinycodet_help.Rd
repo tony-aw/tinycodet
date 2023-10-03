@@ -2,10 +2,9 @@
 % Please edit documentation in R/tinycodet_help.R
 \name{tinycodet_help}
 \alias{tinycodet_help}
+\alias{tinycodet-package}
+\alias{tinycodet}
 \title{The 'tinycodet' Introduction Help Page}
-\usage{
-tinycodet_help()
-}
 \description{
 Welcome to the 'tinycodet' introduction help page! \cr
 \cr
@@ -37,4 +36,7 @@ and optimized, and have been well documented.
 }
 \references{
 The badges shown in the documentation of this R-package were made using the services of: \url{https://shields.io/}
+}
+\author{
+\strong{Maintainer}: Tony Wilkes \email{tony_a_wilkes@outlook.com} (\href{https://orcid.org/0000-0001-9498-8379}{ORCID})
 }

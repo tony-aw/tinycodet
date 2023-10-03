@@ -21,7 +21,8 @@ or else a character vector of the same length as \code{x} with regular expressio
 }
 \value{
 The \code{x \%s{}\% p} and \code{x \%s!{}\% p} operators
-return logical vectors. \cr
+return logical vectors, where \code{TRUE} indicates a pattern was found,
+and \code{FALSE} indicates a pattern was not found. \cr
 }
 \description{
 The \code{x \%s{}\% p} operator

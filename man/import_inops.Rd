@@ -15,11 +15,11 @@ import_inops(expose = NULL, unexpose = NULL, lib.loc = .libPaths(), ...)
 
 \item{lib.loc}{character vector specifying library search path
 (the location of R library trees to search through). \cr
-Only used when supplying a character vector of package names to
+Only used when supplying a string to
 \code{expose} / \code{unexpose},
 and ignored when supplying an alias object to
 \code{expose} / \code{unexpose}
-(the library is already defined inside the alias object). \cr
+(the library is path already stored inside the alias object). \cr
 The \code{lib.loc} argument would usually be \code{.libPaths()}. \cr
 See also \link[base]{loadNamespace}.}
 
@@ -57,6 +57,28 @@ will be removed from the current environment;
 \cr
 }
 \details{
+\bold{Why Exposing Infix Operators Is Useful} \cr
+To use a function from an R-package,
+while avoiding the disadvantages of attaching a package
+(see \link{tinycodet_import}),
+one would traditionally use the \link[base]{::} operator like so:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{packagename::function_name()
+}\if{html}{\out{</div>}}
+
+This is, however, cumbersome with infix operators,
+as it forces one to code like this:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{packagename::`\%op\%`(x,y)
+}\if{html}{\out{</div>}}
+
+Exposing infix operators to the current environment,
+using the \code{import_inops()} function,
+allows one to use infix operators without using cumbersome code,
+and without having to attach the infix operators globally. \cr
+\cr
+\cr
+\bold{Other Details} \cr
 The \code{import_inops()} function does not support overloading base/core R operators. \cr
 \cr
 When using \code{import_inops()} to remove infix operators from the current environment,
@@ -87,5 +109,5 @@ import_inops(unexpose = "stringi")
 
 }
 \seealso{
-\code{\link[=tinycodet_import]{tinycodet_import()}}, \code{\link[=import_inops.control]{import_inops.control()}}
+\code{\link[=tinycodet_import]{tinycodet_import()}}, \code{\link[=import_inops.control]{import_inops.control()}}, \code{\link[=report_inops]{report_inops()}}
 }

@@ -2,7 +2,6 @@
 #'
 #' @description
 #'
-#'
 #' The \code{stri_locate_ith()} function
 #' locates the \eqn{i^{th}} occurrence of a pattern in each string of
 #' some character vector. \cr
@@ -42,7 +41,7 @@
 #' then if \code{i >= 3} the third instance will be located, \cr
 #' and if \code{i <= -3} the first instance will be located. \cr
 #' @param ... more arguments to be supplied to
-#' \link[stringi]{stri_locate}. \cr
+#' \link[stringi]{stri_locate} or \link[stringi]{stri_locate_all_boundaries}. \cr
 #' Do not supply the arguments
 #' \code{omit_no_match}, \code{get_length}, or \code{pattern},
 #' as they are already specified internally.
@@ -77,7 +76,6 @@
 #'
 #'
 #' @examples
-#'
 #'
 #' #############################################################################
 #'

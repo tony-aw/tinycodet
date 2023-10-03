@@ -1,4 +1,4 @@
-#' Pattern Specifications for String Related Infix Operators.
+#' Pattern Specifications for String Related Infix Operators
 #'
 #' @description
 #'
@@ -72,8 +72,8 @@
 #' For example: \code{max_count}
 #'
 #'
-#' @return
-#' A list.
+#' @returns
+#' A list with arguments to be passed to the appropriate functions.
 #'
 #' @seealso [tinycodet_strings()]
 #'

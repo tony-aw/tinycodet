@@ -20,9 +20,6 @@
 #' Thus if the matrix has 10 columns, it returns a vector of 10 strings. \cr
 #' @param sep,collapse as in \link[stringi]{stri_join}.
 #'
-#' @details
-#' The examples section show the uses of the \code{stri_join_mat()} function.
-#'
 #'
 #' @returns
 #'
@@ -31,7 +28,6 @@
 #' @seealso [tinycodet_strings()]
 #'
 #' @examples
-#'
 #'
 #' #############################################################################
 #'

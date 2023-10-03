@@ -50,7 +50,7 @@
 #' the \code{import_LL()} function locks these functions (see \link[base]{lockBinding}).
 #' For consistency, infix operators exposed by \code{import_LL()} are also locked. \cr
 #' \cr
-#' \bold{Other details} \cr
+#' \bold{Other Details} \cr
 #' The \code{import_LL()} and \code{import_int()} functions
 #' do not support importing functions from base/core R. \cr
 #' \cr

@@ -3,34 +3,8 @@
 #'
 #'
 #'
-
-#
-# .import_table_gfm <- function() {
-#   X <- rbind(
-#     c(" | ", "aspect", " | ",  "alias / ::", " | ", "attaching", " | "),
-#     c(" | ", "---", " | ", "---", " | ", "---", " | "),
-#     c(" | ", "prevent masking functions from other packages", " | ", " Yes (+)", " | ", " No (-)", " | "),
-#     c(" | ", "---", " | ", "---", " | ", "---", " | "),
-#     c(" | ", "prevent masking core R functions", " | ", " Yes (+)", " | ", " No (-)", " | "),
-#     c(" | ", "---", " | ", "---", " | ", "---", " | "),
-#     c(" | ", "clarify which function came from which package", " | ", " Yes (+)", " | ", " No (-)", " | "),
-#     c(" | ", "---", " | ", "---", " | ", "---", " | "),
-#     c(" | ", "place/expose functions only in current environment instead of globally", " | ", " Yes (+)", " | ", " No (-)", " | "),
-#     c(" | ", "---", " | ", "---", " | ", "---", " | "),
-#     c(" | ", "prevent namespace pollution", " | ", " Yes (+)", " | ", " No (-)", " | "),
-#     c(" | ", "---", " | ", "---", " | ", "---", " | "),
-#     c(" | ", "minimize typing - especially for infix operators
-#     (i.e. typing ``package::`%op%`(x, y)`` instead of `x %op% y` is cumbersome)",
-#       " | ", " No (-)", " | ", " Yes (+)", " | "),
-#     c(" | ", "---", " | ", "---", " | ", "---", " | "),
-#     c(" | ", "use multiple related packages,
-#     without constantly switching between package prefixes" , " | ", " No (-)", " | ", " Yes (+)", " | "),
-#     c(" | ", "---", " | ", "---", " | ", "---", " | "),
-#     c(" | ", "NOTE: + = advantage, - = disadvantage", " | ", "", " | ", "", " | ")
-#   )
-#   apply(X, 1, paste0, collapse = "") |> paste0(collapse = "\n")
-# }
-
+#'
+#'
 #' @keywords internal
 #' @noRd
 .internal_paste <- function(e1, e2) {

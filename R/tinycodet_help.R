@@ -32,12 +32,14 @@
 #' \cr
 #'
 #'
+#' @author \strong{Maintainer}: Tony Wilkes \email{tony_a_wilkes@outlook.com} (\href{https://orcid.org/0000-0001-9498-8379}{ORCID})
 #'
 #' @references The badges shown in the documentation of this R-package were made using the services of: \url{https://shields.io/}
 #'
 
 #' @rdname tinycodet_help
-#' @export
-tinycodet_help <- function() {
-  utils::`?`(tinycodet_help)
-}
+#' @name tinycodet_help
+#' @aliases tinycodet-package
+#' @aliases tinycodet
+#' @aliases tinycodet_help
+NULL

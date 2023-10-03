@@ -69,10 +69,12 @@ And attach the package - thus exposing its functions to the namespace - using:
 library(tinycodet)
 ```
 
-And one can open the introduction help page of the 'tinycodet' package using:
+And one can open the introduction help page of the 'tinycodet' package using any of the following:
 
 ```{r eval=FALSE}
-tinycodet::tinycodet_help()
+?tinycodet
+?tinycodet::`tinycodet-package`
+?tinycodet::tinycodet_help
 ```
 
 

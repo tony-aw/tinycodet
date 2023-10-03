@@ -18,42 +18,31 @@ import_as(
 \item{alias}{a syntactically valid non-hidden name giving the alias object
 where the package(s) are to be loaded into. \cr
 This name can be given either as a single string (i.e. \code{"alias."}),
-or as a one-sided formula with a single term (i.e. \code{~ alias.}). \cr
-NOTE: To keep aliases easily distinguishable from other objects
-that can also be subset with the \code{$} operator,
-I recommend ending (not starting!) all alias names
-with a dot (\code{.}) or underscore (\code{_}).}
+or as a one-sided formula with a single term (i.e. \code{~ alias.}).}
 
 \item{main_package}{a single string,
 giving the name of the main package to load under the given alias.}
 
-\item{re_exports}{logical;
-Some R-packages export functions that are not defined in their own package,
-but in their direct dependencies; "re-exports", if you will. \cr
+\item{re_exports}{\code{TRUE} or \code{FALSE}. \cr
 \itemize{
 \item If \code{re_exports = TRUE} the re-exports from the \code{main_package}
 are added to the alias together with the main package.
 This is the default, as it is analogous to the behaviour of base R's \link{::} operator. \cr
 \item If \code{re_exports = FALSE}, these re-exports are not added together with the main package.
-The user can still specify the appropriate packages in argument \code{dependencies}.
+The user can still load the packages from which the re-exported functions came from,
+by specifying them in the \code{dependencies} argument.
 }}
 
 \item{dependencies}{an optional character vector,
 giving the names of the dependencies of the
 \code{main_package} to be loaded also under the alias. \cr
 Defaults to \code{NULL}, which means no dependencies are loaded. \cr
-See \link{pkg_get_deps} to quickly get dependencies from a package. \cr
-NOTE: The order of the given character vector matters.
-If multiple packages share objects with the same name,
-the objects of the package named last will overwrite those of the earlier named packages.}
+See \link{pkg_get_deps} to quickly get dependencies from a package. \cr}
 
 \item{extensions}{an optional character vector,
 giving the names of the extensions of the
 \code{main_package} to be loaded also under the alias. \cr
-Defaults to \code{NULL}, which means no extensions are loaded. \cr
-NOTE: The order of the given character vector matters.
-If multiple packages share objects with the same name,
-the objects of the package named last will overwrite those of the earlier named packages.}
+Defaults to \code{NULL}, which means no extensions are loaded. \cr}
 
 \item{lib.loc}{character vector specifying library search path
 (the location of R library trees to search through). \cr
@@ -86,61 +75,110 @@ The specified alias will be placed in the current environment
 (like the global environment, or the environment within a function). \cr
 }
 \details{
-\bold{On the \code{loadorder} argument} \cr
-The default setting of the \code{loadorder} argument
-(which is highly recommended)
-is the character vector \cr
-\code{c("dependencies", "main_package", "extensions")}, \cr
-which results in the following load order: \cr
-\enumerate{
-\item The dependencies, \bold{in the order specified by the \code{depenencies} argument}. \cr
-\item The main_package (see argument \code{main_package}),
-including re-exports (if \code{re_exports=TRUE}). \cr
-\item The extensions, \bold{in the order specified by the \code{extensions} argument}. \cr
-}
-
-\bold{On the \code{dependencies} and \code{extensions} arguments} \cr
+\bold{Expanded Definitions of Some Arguments} \cr
 \itemize{
-\item \code{dependencies}: "Dependencies" here are defined as any package appearing in the
+\item "Re-exports" are functions that are defined in the dependencies of the
+\code{main_package}, but are re-exported in the namespace of the \code{main_package}.
+\item "Dependencies" are here defined as any R-package appearing in the
 "Depends", "Imports", or "LinkingTo" fields of the Description file of the
 \code{main_package}. So no recursive dependencies.
-\item \code{extensions}: "Extensions" here are defined as
+\item "Extensions" are here defined as
 direct reverse-depends or direct reverse-imports.
 It does not matter if these are CRAN or non-CRAN packages.
 However, the intended meaning of an extension is not merely being a reverse dependency,
-but a package that actually extends the functionality of the \code{main_package}. \cr
+but a package that actually extends the functionality of the
+\code{main_package}. \cr \cr
 }
 
-\bold{Additional details} \cr
+\bold{Why Aliasing Multiple Packages is Useful} \cr
+To use an R-package with its extension packages,
+whilst avoiding the disadvantages of attaching a package (see \link{tinycodet_import}),
+one would traditionally use the \link[base]{::} operator like so: \cr
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{main_package::some_function1()
+extension1::some_function2()
+extension2::some_function3()
+}\if{html}{\out{</div>}}
+
+This becomes cumbersome as more packages are needed and/or
+as the package name(s) become longer. \cr
+The \code{import_as()} function avoids this issue
+by allowing multiple \bold{related} packages to be loaded under a single alias,
+allowing one to code like this:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{import_as(
+   ~ alias., "main_package",
+   extensions = c("extension1", "extension2"),
+   lib.loc = .libPaths()
+)
+alias.$some_function1()
+alias.$some_function2()
+alias.$some_function3()
+}\if{html}{\out{</div>}}
+
+Thus loading a package, or multiple directly related packages, under a single alias,
+which \code{import_as()} provides, avoids the above issues.
+Loading (a) package(s) under an alias is known as "aliasing" (a) package(s). \cr
+\cr
+Notice that the \code{import_as()} function has the \code{lib.loc} argument,
+allowing to specify the library path,
+which the \link[base]{::} operator does not directly provide. \cr
+\cr
+\cr
+\bold{Alias Naming Recommendation} \cr
+To keep package alias object names easily distinguishable from other objects
+that can also be subset with the \link[base]{$} operator,
+I recommend ending (not starting!) all alias names
+with a dot (\code{.}) or underscore (\code{_}). \cr
+\cr
+\cr
+
+\bold{Regarding the Load Order} \cr
+The order of the character vector given in
+the \code{dependencies} and \code{extensions} arguments matters.
+If multiple packages share objects with the same name,
+the objects of the package named last will overwrite those of the earlier named packages. \cr
+\cr
+The \code{loadorder} argument defaults to the character vector \cr
+\code{c("dependencies", "main_package", "extensions")}, \cr
+which is the recommended setting. \cr
+This setting results in the following load order: \cr
+\enumerate{
+\item The dependencies, \bold{in the order specified by the \code{depenencies} argument}. \cr
+\item The main_package (see argument \code{main_package}),
+including re-exports (if \code{re_exports = TRUE}). \cr
+\item The extensions, \bold{in the order specified by the \code{extensions} argument}. \cr \cr
+}
+
+\bold{Other Details} \cr
 The \code{import_as()} function
 does not support loading base/core R under an alias. \cr
 \cr
 }
 \examples{
+\dontshow{if (all(c("tidytable", "data.table", "magrittr", "dplyr") \%installed in\% .libPaths())) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 
-check <- all(c("tidytable", "data.table", "magrittr", "dplyr") \%installed in\% .libPaths())
-
-if(check) import_as( # this creates the 'tdt.' object
+import_as( # this creates the 'tdt.' object
   "tdt.", "tidytable", dependencies = "data.table"
 )
 # same as:
-if(check) import_as(
+import_as(
   ~ tdt., "tidytable", dependencies = "data.table"
 )
 
 
 # exposing infix operators from "magrrittr" to current environment:
-if(check) import_inops("magrittr")
+import_inops("magrittr")
 
 # directly assigning dplyr's "starwars" dataset to object "d":
-if(check) d <- import_data("dplyr", "starwars")
+d <- import_data("dplyr", "starwars")
 
 # see it in action:
-if(check) d \%>\% tdt.$filter(species == "Droid") \%>\%
+d \%>\% tdt.$filter(species == "Droid") \%>\%
   tdt.$select(name, tdt.$ends_with("color"))
 
 
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link[=tinycodet_import]{tinycodet_import()}}

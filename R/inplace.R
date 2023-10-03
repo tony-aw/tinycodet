@@ -1,4 +1,4 @@
-#' Generalized In-place Modifier Operator
+#' General In-place Modifier Operator
 #'
 #' @description
 #' Generalized in-place modifier. \cr
@@ -16,14 +16,14 @@
 #' Can now be re-written as:
 #'
 #' ```{r echo=TRUE, eval = FALSE}
-#' \code{mtcars$mpg\[mtcars$cyl>6\] %:=% \(x)x^2}
+#' mtcars$mpg\[mtcars$cyl>6\] %:=% \(x)x^2
 #' ```
 #'
 #' @param x a variable.
 #' @param f a (possibly anonymous) function to be applied in-place on \code{x}.
 #' The function must take one argument only.
 #'
-#' @return
+#' @returns
 #' This operator does not return any value: \cr
 #' It is an in-place modifier, and thus modifies the object directly.
 #'

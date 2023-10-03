@@ -3,9 +3,6 @@
 \name{tinycodet_safer}
 \alias{tinycodet_safer}
 \title{Overview of the 'tinycodet' "Safer" Functionality}
-\usage{
-tinycodet_safer()
-}
 \description{
 To help make your code safer, the 'tinycodet' R-package
 introduces a few functions:

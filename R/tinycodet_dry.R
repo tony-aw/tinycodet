@@ -9,7 +9,7 @@
 #'
 #'  * The \link{transform_if} function
 #'  * The \link[=%unreal =%]{subset_if operators and the in-place unreal modifier operator}.
-#'  * The \link[=%:=%]{generalized in-place (mathematical) modification operator}.
+#'  * The \link[=%:=%]{general in-place (mathematical) modification operator}.
 #'
 #'
 #' @seealso [tinycodet_help()]
@@ -36,7 +36,5 @@
 
 
 #' @rdname tinycodet_dry
-#' @export
-tinycodet_dry <- function() {
-  utils::`?`(tinycodet_dry)
-}
+#' @name tinycodet_dry
+NULL

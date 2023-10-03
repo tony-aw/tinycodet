@@ -31,6 +31,7 @@
 #' For example, to expose the following methods to the current environment, \cr
 #' \code{mymethod.numeric()} and \code{mymethod.character()} from generic \code{mymethod()}, \cr
 #' one could specify \code{regex = "^mymethod"}. \cr
+#' `r .mybadge_string("regex", "darkred")` \cr
 #' @param fixed a character vector of \code{fixed} patterns
 #' (see \link[stringi]{about_search_fixed}). \cr
 #' These should give fixed expressions that match to
@@ -39,6 +40,7 @@
 #' For example, to expose the following methods to the current environment, \cr
 #' \code{mymethod.numeric()} and \code{mymethod.character()} from generic \code{mymethod()}, \cr
 #' one could specify \code{fixed= "mymethod"}. \cr
+#' `r .mybadge_string("fixed", "darkgreen")` \cr
 #'
 #'
 #' @details
@@ -55,6 +57,7 @@
 #' \cr
 #'
 #' @seealso \link{tinycodet_misc}, [base::source()]
+#'
 #'
 #' @examples
 #'

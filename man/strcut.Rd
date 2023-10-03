@@ -5,9 +5,9 @@
 \alias{strcut_brk}
 \title{Cut Strings}
 \usage{
-strcut_loc(str, loc, fill_loc = TRUE)
+strcut_loc(str, loc)
 
-strcut_brk(str, brk = "character", ...)
+strcut_brk(str, type = "character", ...)
 }
 \arguments{
 \item{str}{a string or character vector.}
@@ -20,18 +20,7 @@ giving the location range of the middle part.
 \item a vector of length 2, giving the location range of the middle part.
 }}
 
-\item{fill_loc}{logical, indicating what should be done if
-for some row \code{i},
-\code{loc[i, ]} is \code{c(NA, NA)}. \cr
-\itemize{
-\item If \code{TRUE}, \code{c(NA, NA)} in \code{loc[i, ]}
-is translated to \code{c(1, nc[i])},
-where \code{nc[i]} is the number of characters of \code{str[i]}
-\item If \code{FALSE}, \code{strcut_loc()} will return \code{c(NA, NA, NA)}
-for when \code{loc[i,]} is \code{c(NA, NA)}.
-}}
-
-\item{brk}{single string;
+\item{type}{single string;
 either the break iterator type,
 one of \code{character}, \code{line_break}, \code{sentence}, \code{word},
 or a custom set of ICU break iteration rules. Defaults to \code{"character"}. \cr
@@ -43,9 +32,12 @@ or a custom set of ICU break iteration rules. Defaults to \code{"character"}. \c
 For the \code{strcut_loc()} function: \cr
 A character matrix with \code{length(str)} rows and 3 columns:
 \itemize{
-\item the first column contains the sub-strings \bold{before} \code{loc};
-\item the second column contains the sub_strings at \code{loc};
-\item the third and last column contains the sub-strings \bold{after} \code{loc}. \cr
+\item the first column contains the sub-strings \bold{before} \code{loc},
+or \code{NA} if \code{loc} is \code{c(NA, NA)};
+\item the second column contains the sub_strings at \code{loc},
+or the uncut string if \code{loc} is \code{c(NA, NA)};
+\item the third and last column contains the sub-strings \bold{after} \code{loc},
+or \code{NA} if \code{loc} is \code{c(NA, NA)}. \cr
 \cr
 }
 
@@ -72,23 +64,24 @@ The \code{strcut_brk()} function
 cuts every string into individual text breaks
 (like character, word, line, or sentence boundaries). \cr
 \cr
+}
+\details{
 The main difference between the \code{strcut_} - functions
 and \link[stringi]{stri_split} /  \link[base]{strsplit},
 is that the latter generally removes the delimiter patterns in a string when cutting,
 while the \code{strcut_}-functions do not attempt to remove parts of the string by default,
 they only attempt to cut the strings into separate pieces.
-Moreover, the \code{strcut_} - functions always return a matrix, not a list.
+Moreover, the \code{strcut_} - functions always return a matrix, not a list. \cr
+\cr
 }
 \examples{
-
 
 x <- rep(paste0(1:10, collapse=""), 10)
 print(x)
 loc <- stri_locate_ith(x, 1:10, fixed = as.character(1:10))
 strcut_loc(x, loc)
 strcut_loc(x, c(5,5))
-strcut_loc(x, c(NA, NA), fill_loc = TRUE)
-strcut_loc(x, c(NA, NA), fill_loc = FALSE)
+strcut_loc(x, c(NA, NA))
 
 test <- "The\u00a0above-mentioned    features are very useful. " \%s+\%
 "Spam, spam, eggs, bacon, and spam. 123 456 789"

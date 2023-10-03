@@ -19,7 +19,7 @@
 #'
 #' @seealso [tinycodet_help()], [stri_rgx()]
 #'
-#' @references Gagolewski M., \emph{stringi: Fast and portable character string processing in R}, Journal of Statistical Software 103(2), 2022, 1–59, doi:10.18637/jss.v103.i02
+#' @references Gagolewski M., \emph{stringi: Fast and portable character string processing in R}, Journal of Statistical Software 103(2), 2022, 1–59, \doi{doi:10.18637/jss.v103.i02}
 #'
 #'
 #' @examples
@@ -43,7 +43,5 @@
 #'
 
 #' @rdname tinycodet_strings
-#' @export
-tinycodet_strings <- function() {
-  utils::`?`(tinycodet_strings)
-}
+#' @name tinycodet_strings
+NULL

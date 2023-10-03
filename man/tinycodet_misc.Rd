@@ -3,9 +3,6 @@
 \name{tinycodet_misc}
 \alias{tinycodet_misc}
 \title{Overview of the 'tinycodet' Miscellaneous Functionality}
-\usage{
-tinycodet_misc()
-}
 \description{
 Some additional functions provided by the 'tinycodet' R-package:
 \itemize{

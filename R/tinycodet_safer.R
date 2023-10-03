@@ -25,7 +25,5 @@
 #'
 
 #' @rdname tinycodet_safer
-#' @export
-tinycodet_safer <- function() {
-  utils::`?`(tinycodet_safer)
-}
+#' @name tinycodet_safer
+NULL

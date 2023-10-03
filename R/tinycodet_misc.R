@@ -17,7 +17,5 @@
 
 
 #' @rdname tinycodet_misc
-#' @export
-tinycodet_misc <- function() {
-  utils::`?`(tinycodet_misc)
-}
+#' @name tinycodet_misc
+NULL

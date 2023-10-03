@@ -3,9 +3,6 @@
 \name{tinycodet_import}
 \alias{tinycodet_import}
 \title{Overview of the 'tinycodet' Import System}
-\usage{
-tinycodet_import()
-}
 \description{
 The 'tinycodet' R-package introduces a new package import system. \cr
 \cr
@@ -82,26 +79,28 @@ See the examples section below
 to get an idea how the 'tinycodet' import system works in practice.
 }
 \examples{
+\dontshow{if (all(c("tidytable", "data.table", "magrittr", "dplyr") \%installed in\% .libPaths())) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 
-check <- all(c("tidytable", "data.table", "magrittr", "dplyr") \%installed in\% .libPaths())
-
+# checking if packages are installed:
+pkgs <- c("tidytable", "data.table", "magrittr", "dplyr")
+all(pkgs \%installed in\% .libPaths())
 
 # loading "tidytable" + "data.table" under alias "tdt.":
-if(check) import_as(
+import_as(
   ~ tdt., "tidytable", dependencies = "data.table"
 )
 
 # exposing infix operators from "magrrittr" to current environment:
-if(check) import_inops("magrittr")
+import_inops("magrittr")
 
 # directly assigning dplyr's "starwars" dataset to object "d":
-if(check) d <- import_data("dplyr", "starwars")
+d <- import_data("dplyr", "starwars")
 
 # see it in action:
-if(check) d \%>\% tdt.$filter(species == "Droid") \%>\%
+d \%>\% tdt.$filter(species == "Droid") \%>\%
   tdt.$select(name, tdt.$ends_with("color"))
 
-
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \link{tinycodet_help}

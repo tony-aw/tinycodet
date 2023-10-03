@@ -20,7 +20,7 @@ giving the ordering ranks of every element of matrix \code{x}. \cr}
 A modified matrix.
 }
 \description{
-Infix operators for custom row- and column-wise re-ordering of matrices \cr
+Infix operators for custom row- and column-wise re-ordering of matrices. \cr
 \cr
 The \code{x \%row~\% mat} operator re-orders the elements of every row,
 each row ordered independently from the other rows, of matrix \code{x},
