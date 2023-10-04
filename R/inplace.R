@@ -1,9 +1,7 @@
 #' General In-place Modifier Operator
 #'
 #' @description
-#' Generalized in-place modifier. \cr
-#' \cr
-#' The \code{x %:=% f} operator allows performing
+#' The \code{x %:=% f} operator performs
 #' in-place modification of some object \code{x}
 #' with a function \code{f}. \cr
 #' \cr

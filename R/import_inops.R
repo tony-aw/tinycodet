@@ -16,6 +16,7 @@
 #' will be removed from the current environment;
 #' "regular" (i.e. user-specified) infix operators will not be touched. \cr
 #' \cr
+#' `r .mybadge_importsite("main functions", "pink", "https://tony-aw.github.io/tinycodet/articles/b_import_main.html")` \cr
 #'
 #' @param expose,unexpose either one of the following:
 #'  * an alias object as produced by the \link{import_as} function.
@@ -84,22 +85,26 @@
 #'
 #' @examples
 #'
-#' import_as(~ stri., "stringi")
-#' import_inops(expose = stri.) # expose infix operators from alias
-#' import_inops(unexpose = stri.) # unexposed infix operators from current environment
 #' import_inops(expose = "stringi") # expose infix operators from package
 #' import_inops(unexpose = "stringi") # remove the exposed infix operators from environment
 #'
+#' import_as(~ stri., "stringi")
+#' import_inops(expose = stri.) # expose infix operators from alias
+#' import_inops(unexpose = stri.) # unexposed infix operators from current environment
+#'
+#'
 #' # additional arguments (only used when exposing, not unexposing):
+#' import_inops(expose = "stringi", exclude = "%s==%")
+#' import_inops(unexpose = "stringi")
+#' import_inops(expose = "stringi", overwrite = FALSE)
+#' import_inops(unexpose = "stringi")
+#'
 #' import_as(~ stri., "stringi")
 #' import_inops(expose = stri., include.only = "%s==%")
 #' import_inops(unexpose = stri.)
-#' import_inops(expose = "stringi", exclude = "%s==%")
-#' import_inops(unexpose = "stringi")
 #' import_inops(expose = stri., overwrite = FALSE)
 #' import_inops(unexpose = stri.)
-#' import_inops(expose = "stringi", overwrite = FALSE)
-#' import_inops(unexpose = "stringi")
+#'
 #'
 #'
 #'

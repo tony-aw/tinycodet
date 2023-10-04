@@ -73,6 +73,7 @@ and optionally also its re-exports, dependencies, and extensions,
 all under the same alias.
 The specified alias will be placed in the current environment
 (like the global environment, or the environment within a function). \cr
+\ifelse{html}{\href{https://tony-aw.github.io/tinycodet/articles/b_import_main.html}{\figure{aboutimport-mainfunctions-pink.svg}{options: alt='[MAIN FUNCTIONS]'}}}{\href{https://tony-aw.github.io/tinycodet/articles/b_import_main.html}{about import: main functions}} \cr
 }
 \details{
 \bold{Expanded Definitions of Some Arguments} \cr
@@ -85,13 +86,13 @@ The specified alias will be placed in the current environment
 \item "Extensions" are here defined as
 direct reverse-depends or direct reverse-imports.
 It does not matter if these are CRAN or non-CRAN packages.
-However, the intended meaning of an extension is not merely being a reverse dependency,
+However, the intended meaning of an extension is not merely a reverse dependency,
 but a package that actually extends the functionality of the
 \code{main_package}. \cr \cr
 }
 
 \bold{Why Aliasing Multiple Packages is Useful} \cr
-To use an R-package with its extension packages,
+To use an R-package with its extension packages or dependencies,
 whilst avoiding the disadvantages of attaching a package (see \link{tinycodet_import}),
 one would traditionally use the \link[base]{::} operator like so: \cr
 
@@ -132,7 +133,6 @@ I recommend ending (not starting!) all alias names
 with a dot (\code{.}) or underscore (\code{_}). \cr
 \cr
 \cr
-
 \bold{Regarding the Load Order} \cr
 The order of the character vector given in
 the \code{dependencies} and \code{extensions} arguments matters.
@@ -156,26 +156,21 @@ does not support loading base/core R under an alias. \cr
 \cr
 }
 \examples{
-\dontshow{if (all(c("tidytable", "data.table", "magrittr", "dplyr") \%installed in\% .libPaths())) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (all(c("magrittr", "dplyr", "powerjoin") \%installed in\% .libPaths())) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 
-import_as( # this creates the 'tdt.' object
-  "tdt.", "tidytable", dependencies = "data.table"
+import_as( # this creates the 'dpr.' object
+  "dpr.", "dplyr", extensions = "powerjoin"
 )
 # same as:
 import_as(
-  ~ tdt., "tidytable", dependencies = "data.table"
+  ~ dpr., "dplyr", extensions = "powerjoin"
 )
 
-
-# exposing infix operators from "magrrittr" to current environment:
-import_inops("magrittr")
-
-# directly assigning dplyr's "starwars" dataset to object "d":
-d <- import_data("dplyr", "starwars")
+data("starwars", package = "dplyr")
 
 # see it in action:
-d \%>\% tdt.$filter(species == "Droid") \%>\%
-  tdt.$select(name, tdt.$ends_with("color"))
+starwars |> dpr.$filter(species == "Droid") |>
+  dpr.$select(name, dpr.$ends_with("color"))
 
 
 \dontshow{\}) # examplesIf}

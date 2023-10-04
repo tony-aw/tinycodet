@@ -24,12 +24,13 @@ Thus, one can assign the data like so: \code{mydata <- import_data(...)}.
 The \code{import_data()} function gets a specified data set from a package. \cr
 Unlike \code{utils::data()}, the \code{import_data()} function returns the data set directly,
 and allows assigning the data set like so: \cr
-\code{mydata <- import_data(...)}.
+\code{mydata <- import_data(...)}. \cr
+\ifelse{html}{\href{https://tony-aw.github.io/tinycodet/articles/b_import_main.html}{\figure{aboutimport-mainfunctions-pink.svg}{options: alt='[MAIN FUNCTIONS]'}}}{\href{https://tony-aw.github.io/tinycodet/articles/b_import_main.html}{about import: main functions}} \cr
 }
 \examples{
 
-if("gamair" \%installed in\% .libPaths()) {
-d <- import_data("gamair", "chicago")
+if("dplyr" \%installed in\% .libPaths()) {
+d <- import_data("dplyr", "starwars")
 head(d)
 }
 

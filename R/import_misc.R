@@ -17,6 +17,8 @@
 #'  instead of making it ambiguous. \cr
 #' \cr
 #'
+#' `r .mybadge_importsite("additional functions", "darkgreen", "https://tony-aw.github.io/tinycodet/articles/c_import_additional.html")` \cr
+#'
 #'
 #' @param package a single string,
 #' giving the name of the package to take functions from.

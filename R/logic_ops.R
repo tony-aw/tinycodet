@@ -12,12 +12,12 @@
 #' The \code{x %?=% y} operator checks if \code{x} and \code{y}
 #' are **both** unreal or unknown (i.e. NA, NaN, Inf, -Inf). \cr
 #' \cr
-#' The \code{n %=numtype% numtype} operator is a vectorized operator that checks
+#' The \code{n %=numtype% numtype} operator checks
 #' for every value of numeric vector \code{n}
 #' if it can be considered a number belonging to type \code{numtype}. \cr
 #' See arguments for details. \cr
 #' \cr
-#' The \code{s %=strtype% strtype} operator is a vectorized operator that checks
+#' The \code{s %=strtype% strtype} operator checks
 #' for every value of character vector \code{s}
 #' if it can seen as a certain \code{strtype}. \cr
 #' See arguments for details. \cr

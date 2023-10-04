@@ -92,6 +92,8 @@ The \code{attr.import()} function
 gets one specific special attributes or all special attributes
 from an alias object returned by \link{import_as}. \cr
 \cr
+
+\ifelse{html}{\href{https://tony-aw.github.io/tinycodet/articles/c_import_additional.html}{\figure{aboutimport-additionalfunctions-darkgreen.svg}{options: alt='[ADDITIONAL FUNCTIONS]'}}}{\href{https://tony-aw.github.io/tinycodet/articles/c_import_additional.html}{about import: additional functions}} \cr
 }
 \details{
 For \code{help.import(...)}: \cr

@@ -73,7 +73,7 @@ x <- matrix(sample(1:25), nrow=5)
 print(x)
 mat <- sample(1:length(x)) |> matrix(ncol=ncol(x)) # matrix of non-repeating random integers
 x \%row~\% mat # randomly shuffle every row independently
-x \%col~\% mat # randomize shuffle every column independently
+x \%col~\% mat # randomise shuffle every column independently
 
 # character matrix ====
 
@@ -89,7 +89,7 @@ x <- matrix(sample(letters, 25), nrow=5)
 print(x)
 mat <- sample(1:length(x)) |> matrix(ncol=ncol(x)) # matrix of non-repeating random integers
 x \%row~\% mat # randomly shuffle every row independently
-x \%col~\% mat # randomize shuffle every column independently
+x \%col~\% mat # randomise shuffle every column independently
 
 
 

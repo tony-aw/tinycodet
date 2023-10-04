@@ -8,6 +8,7 @@
 #' all under the same alias.
 #' The specified alias will be placed in the current environment
 #' (like the global environment, or the environment within a function). \cr
+#' `r .mybadge_importsite("main functions", "pink", "https://tony-aw.github.io/tinycodet/articles/b_import_main.html")` \cr
 #'
 #' @param alias a syntactically valid non-hidden name giving the alias object
 #' where the package(s) are to be loaded into. \cr
@@ -54,13 +55,13 @@
 #'  * "Extensions" are here defined as
 #'  direct reverse-depends or direct reverse-imports.
 #'  It does not matter if these are CRAN or non-CRAN packages.
-#'  However, the intended meaning of an extension is not merely being a reverse dependency,
+#'  However, the intended meaning of an extension is not merely a reverse dependency,
 #'  but a package that actually extends the functionality of the
 #'  \code{main_package}. \cr \cr
 #'
 #'
 #' \bold{Why Aliasing Multiple Packages is Useful} \cr
-#' To use an R-package with its extension packages,
+#' To use an R-package with its extension packages or dependencies,
 #' whilst avoiding the disadvantages of attaching a package (see \link{tinycodet_import}),
 #' one would traditionally use the \link[base]{::} operator like so: \cr
 #'
@@ -103,7 +104,6 @@
 #' with a dot (\code{.}) or underscore (\code{_}). \cr
 #' \cr
 #' \cr
-#'
 #' \bold{Regarding the Load Order} \cr
 #' The order of the character vector given in
 #' the \code{dependencies} and \code{extensions} arguments matters.
@@ -142,26 +142,21 @@
 #' @seealso [tinycodet_import()]
 #'
 #'
-#' @examplesIf all(c("tidytable", "data.table", "magrittr", "dplyr") %installed in% .libPaths())
+#' @examplesIf all(c("magrittr", "dplyr", "powerjoin") %installed in% .libPaths())
 #'
-#' import_as( # this creates the 'tdt.' object
-#'   "tdt.", "tidytable", dependencies = "data.table"
+#' import_as( # this creates the 'dpr.' object
+#'   "dpr.", "dplyr", extensions = "powerjoin"
 #' )
 #' # same as:
 #' import_as(
-#'   ~ tdt., "tidytable", dependencies = "data.table"
+#'   ~ dpr., "dplyr", extensions = "powerjoin"
 #' )
 #'
-#'
-#' # exposing infix operators from "magrrittr" to current environment:
-#' import_inops("magrittr")
-#'
-#' # directly assigning dplyr's "starwars" dataset to object "d":
-#' d <- import_data("dplyr", "starwars")
+#' data("starwars", package = "dplyr")
 #'
 #' # see it in action:
-#' d %>% tdt.$filter(species == "Droid") %>%
-#'   tdt.$select(name, tdt.$ends_with("color"))
+#' starwars |> dpr.$filter(species == "Droid") |>
+#'   dpr.$select(name, dpr.$ends_with("color"))
 #'
 #'
 #'

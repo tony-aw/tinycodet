@@ -23,7 +23,7 @@ For example: \code{\(x)x>0}. \cr}
 \item{repl}{the replacement value.}
 }
 \value{
-For the \bold{subset-if} operators: \cr
+For the \code{x \%[if]\% cond} and \code{x \%[!if]\% cond} operators: \cr
 The subset_if - operators all return a vector with the selected elements. \cr
 \cr
 For the \code{x \%unreal =\% repl} operator: \cr

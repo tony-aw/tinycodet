@@ -18,9 +18,7 @@ This operator does not return any value: \cr
 It is an in-place modifier, and thus modifies the object directly.
 }
 \description{
-Generalized in-place modifier. \cr
-\cr
-The \code{x \%:=\% f} operator allows performing
+The \code{x \%:=\% f} operator performs
 in-place modification of some object \code{x}
 with a function \code{f}. \cr
 \cr

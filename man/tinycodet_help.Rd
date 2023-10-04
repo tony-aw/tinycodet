@@ -8,7 +8,7 @@
 \description{
 Welcome to the 'tinycodet' introduction help page! \cr
 \cr
-The 'tinycodet' R-package is a tiny R-package that adds a few functions to help in your coding etiquette. \cr
+'tinycodet' adds a few functions to help in your coding etiquette. \cr
 It primarily focuses on 4 things: \cr
 \cr
 (1) Safer decimal (in)equality testing, safer atomic conversions, and other functions for safer coding; \cr
@@ -28,10 +28,9 @@ see \link{tinycodet_dry}. \cr
 And some miscellaneous functionality; see \link{tinycodet_misc}. \cr
 \cr
 
-The 'tinycodet' R-package has only one dependency,
+'tinycodet' has only one dependency,
 namely 'stringi'. No other dependencies, thus avoiding "dependency hell".
-Most functions in this R-package are fully vectorized
-and optimized, and have been well documented.
+Most functions in this R-package are vectorised and optimised.
 \cr
 }
 \references{

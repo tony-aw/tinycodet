@@ -14,9 +14,6 @@ to extend the functionality of the 'stringi' R-package:
 or \eqn{i^{th}} text boundary (\link{stri_locate_ith_boundaries}). \cr
 \item \link[=stri_join_mat]{Concatenate a character matrix row- or column-wise }. \cr
 \item The \link[=strcut_loc]{strcut_-functions}.
-\item Although the functions are written in R,
-they have been optimized to be in somewhat the same order of speed
-as the other 'stringi' functions.
 }
 }
 \examples{
@@ -40,7 +37,7 @@ stri_c_mat(sorted, margin=1, sep=" ")
 
 }
 \references{
-Gagolewski M., \emph{stringi: Fast and portable character string processing in R}, Journal of Statistical Software 103(2), 2022, 1–59, \doi{doi:10.18637/jss.v103.i02}
+Gagolewski M., \bold{stringi}: Fast and portable character string processing in R, \emph{Journal of Statistical Software} 103(2), 2022, 1–59, \doi{doi:10.18637/jss.v103.i02}
 }
 \seealso{
 \code{\link[=tinycodet_help]{tinycodet_help()}}, \code{\link[=stri_rgx]{stri_rgx()}}

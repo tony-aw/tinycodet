@@ -4,12 +4,12 @@
 #'
 #' The 'tinycodet' R-package introduces a new package import system. \cr
 #' \cr
-#' One can use a package \bold{without attaching} the package -
+#' One can \bold{use} a package \bold{without attaching} the package -
 #' for example by using the \link[base]{::} operator. \cr
 #' Or, one can explicitly \bold{attach} a package -
 #' for example by using the \link[base]{library} function. \cr
 #' The advantages and disadvantages
-#' of using \bold{without attaching} a package versus \bold{attaching} a package,
+#' of \bold{using without attaching} a package versus \bold{attaching} a package,
 #' at least those relevant here,
 #' are compactly presented in the following list: \cr
 #' \cr
@@ -33,7 +33,7 @@
 #' `r .mybadge_import("use without attach", "Yes(advantage)", "darkgreen")` \verb{ }
 #' `r .mybadge_import("attaching", "No(disadvantage)", "red")` \cr
 #' \cr
-#' (6) Minimize typing - especially for infix operators \cr
+#' (6) Minimise typing - especially for infix operators \cr
 #' (i.e. typing ``package::`%op%`(x, y)`` instead of \code{x %op% y} is cumbersome): \cr
 #' `r .mybadge_import("use without attach", "No(disadvantage)", "red")` \verb{ }
 #' `r .mybadge_import("attaching", "Yes(advantage)", "darkgreen")` \cr
@@ -75,31 +75,58 @@
 #' See the examples section below
 #' to get an idea how the 'tinycodet' import system works in practice.
 #'
+#' @details
+#' Some additional comments on the 'tinycodet' import system:
+#'
+#'  * (S3) Methods will automatically be registered.
+#'  * Pronouns, such as the \code{.data} and \code{.env} pronouns
+#'  from the 'rlang' package, will work without any prefixes required.
 #'
 #'
 #' @seealso \link{tinycodet_help}
 #'
-#' @examplesIf all(c("tidytable", "data.table", "magrittr", "dplyr") %installed in% .libPaths())
+#' @examples
 #'
-#' # checking if packages are installed:
-#' pkgs <- c("tidytable", "data.table", "magrittr", "dplyr")
-#' all(pkgs %installed in% .libPaths())
+#' \dontrun{
 #'
-#' # loading "tidytable" + "data.table" under alias "tdt.":
+#' # NO packages are being attached in any of the following code
+#'
+#' # load 'dplyr' + extension 'powerjoin' under alias "dpr.":
 #' import_as(
-#'   ~ tdt., "tidytable", dependencies = "data.table"
+#'   ~ dpr., "dplyr", extensions = "powerjoin"
 #' )
 #'
-#' # exposing infix operators from "magrrittr" to current environment:
+#' # exposing infix operators from 'magrrittr' to current environment:
 #' import_inops("magrittr")
 #'
 #' # directly assigning dplyr's "starwars" dataset to object "d":
 #' d <- import_data("dplyr", "starwars")
 #'
-#' # see it in action:
-#' d %>% tdt.$filter(species == "Droid") %>%
-#'   tdt.$select(name, tdt.$ends_with("color"))
+#' # See it in Action:
+#' d %>% dpr.$filter(species == "Droid") %>%
+#'   dpr.$select(name, dpr.$ends_with("color"))
 #'
+#' male_penguins <- dpr.$tribble(
+#'   ~name,    ~species,     ~island, ~flipper_length_mm, ~body_mass_g,
+#'   "Giordan",    "Gentoo",    "Biscoe",               222L,        5250L,
+#'   "Lynden",    "Adelie", "Torgersen",               190L,        3900L,
+#'   "Reiner",    "Adelie",     "Dream",               185L,        3650L
+#' )
+#'
+#' female_penguins <- dpr.$tribble(
+#'   ~name,    ~species,  ~island, ~flipper_length_mm, ~body_mass_g,
+#'   "Alonda",    "Gentoo", "Biscoe",               211,        4500L,
+#'   "Ola",    "Adelie",  "Dream",               190,        3600L,
+#'   "Mishayla",    "Gentoo", "Biscoe",               215,        4750L,
+#' )
+#' dpr.$check_specs()
+#'
+#' dpr.$power_inner_join(
+#'   male_penguins[c("species", "island")],
+#'   female_penguins[c("species", "island")]
+#' )
+#'
+#' }
 #'
 
 

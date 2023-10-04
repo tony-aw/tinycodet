@@ -55,6 +55,7 @@ the 'tinycodet' import system
 will be removed from the current environment;
 "regular" (i.e. user-specified) infix operators will not be touched. \cr
 \cr
+\ifelse{html}{\href{https://tony-aw.github.io/tinycodet/articles/b_import_main.html}{\figure{aboutimport-mainfunctions-pink.svg}{options: alt='[MAIN FUNCTIONS]'}}}{\href{https://tony-aw.github.io/tinycodet/articles/b_import_main.html}{about import: main functions}} \cr
 }
 \details{
 \bold{Why Exposing Infix Operators Is Useful} \cr
@@ -88,22 +89,26 @@ Only infix operators exposed by the 'tinycodet' import system will be removed.
 }
 \examples{
 
-import_as(~ stri., "stringi")
-import_inops(expose = stri.) # expose infix operators from alias
-import_inops(unexpose = stri.) # unexposed infix operators from current environment
 import_inops(expose = "stringi") # expose infix operators from package
 import_inops(unexpose = "stringi") # remove the exposed infix operators from environment
 
+import_as(~ stri., "stringi")
+import_inops(expose = stri.) # expose infix operators from alias
+import_inops(unexpose = stri.) # unexposed infix operators from current environment
+
+
 # additional arguments (only used when exposing, not unexposing):
+import_inops(expose = "stringi", exclude = "\%s==\%")
+import_inops(unexpose = "stringi")
+import_inops(expose = "stringi", overwrite = FALSE)
+import_inops(unexpose = "stringi")
+
 import_as(~ stri., "stringi")
 import_inops(expose = stri., include.only = "\%s==\%")
 import_inops(unexpose = stri.)
-import_inops(expose = "stringi", exclude = "\%s==\%")
-import_inops(unexpose = "stringi")
 import_inops(expose = stri., overwrite = FALSE)
 import_inops(unexpose = stri.)
-import_inops(expose = "stringi", overwrite = FALSE)
-import_inops(unexpose = "stringi")
+
 
 
 

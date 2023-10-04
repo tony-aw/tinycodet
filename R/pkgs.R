@@ -21,6 +21,8 @@
 #' library(packagename, include.only = pkg_lsf("packagename", type="inops"))
 #' ```
 #'
+#' `r .mybadge_importsite("additional functions", "darkgreen", "https://tony-aw.github.io/tinycodet/articles/c_import_additional.html")` \cr
+#'
 #'
 #' @param pkgs a character vector with the package name(s).
 #' @param package a single string giving the package name.
@@ -82,7 +84,7 @@
 #' For \code{pkg_lsf()}: \cr
 #' Returns a character vector of exported function names in the specified package.
 #'
-#' @references elegantly extract R-package dependencies of a package not listed on CRAN. Stack Overflow. (1 September 2023). https://stackoverflow.com/questions/30223957/elegantly-extract-r-package-dependencies-of-a-package-not-listed-on-cran
+#' @references O'Brien J., elegantly extract R-package dependencies of a package not listed on CRAN. \emph{Stack Overflow}. (1 September 2023). \url{https://stackoverflow.com/questions/30223957/elegantly-extract-r-package-dependencies-of-a-package-not-listed-on-cran}
 #'
 #'
 #' @seealso [tinycodet_import()]
@@ -91,11 +93,11 @@
 #'
 #' @examples
 #'
-#' check <- "devtools" %installed in% .libPaths()
+#' check <- "dplyr" %installed in% .libPaths()
 #'
-#' if(check) pkgs <- pkg_get_deps("devtools")
+#' if(check) pkgs <- pkg_get_deps("dplyr") # many dependencies
 #' if(check) pkgs %installed in% .libPaths()
-#' if(check) pkg_lsf("devtools", "all")
+#' if(check) pkg_lsf("dplyr", "all")
 #'
 #'
 #'
@@ -144,7 +146,7 @@ pkg_get_deps <- function(
   .internal_check_pkgs(package, lib.loc, abortcall = sys.call())
 
   temp.fun <- function(x) { .internal_get_pkg_deps(
-      package, lib.loc, x, base=base, recom = recom, rstudioapi = rstudioapi
+      package, lib.loc, x, base = base, recom = recom, rstudioapi = rstudioapi
   )}
   depends <- lapply(
     deps_type, FUN = temp.fun

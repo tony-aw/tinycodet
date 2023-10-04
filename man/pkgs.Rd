@@ -86,6 +86,8 @@ like so:
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{library(packagename, include.only = pkg_lsf("packagename", type="inops"))
 }\if{html}{\out{</div>}}
+
+\ifelse{html}{\href{https://tony-aw.github.io/tinycodet/articles/c_import_additional.html}{\figure{aboutimport-additionalfunctions-darkgreen.svg}{options: alt='[ADDITIONAL FUNCTIONS]'}}}{\href{https://tony-aw.github.io/tinycodet/articles/c_import_additional.html}{about import: additional functions}} \cr
 }
 \details{
 For \code{pkg_get_deps()}: \cr
@@ -111,18 +113,18 @@ The unique (thus non-repeating) package names are then returned to the user.
 }
 \examples{
 
-check <- "devtools" \%installed in\% .libPaths()
+check <- "dplyr" \%installed in\% .libPaths()
 
-if(check) pkgs <- pkg_get_deps("devtools")
+if(check) pkgs <- pkg_get_deps("dplyr") # many dependencies
 if(check) pkgs \%installed in\% .libPaths()
-if(check) pkg_lsf("devtools", "all")
+if(check) pkg_lsf("dplyr", "all")
 
 
 
 
 }
 \references{
-elegantly extract R-package dependencies of a package not listed on CRAN. Stack Overflow. (1 September 2023). https://stackoverflow.com/questions/30223957/elegantly-extract-r-package-dependencies-of-a-package-not-listed-on-cran
+O'Brien J., elegantly extract R-package dependencies of a package not listed on CRAN. \emph{Stack Overflow}. (1 September 2023). \url{https://stackoverflow.com/questions/30223957/elegantly-extract-r-package-dependencies-of-a-package-not-listed-on-cran}
 }
 \seealso{
 \code{\link[=tinycodet_import]{tinycodet_import()}}

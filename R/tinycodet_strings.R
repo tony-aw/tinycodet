@@ -11,15 +11,12 @@
 #' or \eqn{i^{th}} text boundary (\link{stri_locate_ith_boundaries}). \cr
 #' * \link[=stri_join_mat]{Concatenate a character matrix row- or column-wise }. \cr
 #' * The \link[=strcut_loc]{strcut_-functions}.
-#' * Although the functions are written in R,
-#' they have been optimized to be in somewhat the same order of speed
-#' as the other 'stringi' functions.
 #'
 #'
 #'
 #' @seealso [tinycodet_help()], [stri_rgx()]
 #'
-#' @references Gagolewski M., \emph{stringi: Fast and portable character string processing in R}, Journal of Statistical Software 103(2), 2022, 1–59, \doi{doi:10.18637/jss.v103.i02}
+#' @references Gagolewski M., \bold{stringi}: Fast and portable character string processing in R, \emph{Journal of Statistical Software} 103(2), 2022, 1–59, \doi{doi:10.18637/jss.v103.i02}
 #'
 #'
 #' @examples

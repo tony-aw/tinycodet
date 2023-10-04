@@ -5,33 +5,29 @@ Authors@R:
     person("Tony", "Wilkes", , "tony_a_wilkes@outlook.com", role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0000-0001-9498-8379"))
 Maintainer: Tony Wilkes <tony_a_wilkes@outlook.com>
-Description: A tiny R package that adds a few functions to help in your coding etiquette.
-    It primarily focuses on 4 aspects.
+Description: Adds a few functions to help in your coding etiquette.
+    'tinycodet' primarily focuses on 4 aspects.
     1) Safer decimal (in)equality testing, safer atomic conversions, and other functions for safer coding.
     2) A new package import system,
     that attempts to combine the benefits of using a package without attaching,
     with the benefits of attaching a package.
     3) Extending the string manipulation capabilities of the 'stringi' R package.
     4) Reducing repetitive code.
-    The 'tinycodet' R-package has only one dependency, namely 'stringi'.
-    Most functions in this R-package are fully vectorized and optimized,
-    and have been well documented.
+    'tinycodet' has only one dependency, namely 'stringi'.
+    Most functions in this R-package are vectorised and optimised.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Suggests:
-    rlang,
     knitr,
     rmarkdown,
     tinytest,
-    pkgdown,
-    devtools,
-    data.table,
-    tidytable,
+    roxygen2,
     magrittr,
     dplyr,
-    gamair
+    powerjoin,
+    MASS
 Depends: 
     R (>= 4.1.0)
 Imports:

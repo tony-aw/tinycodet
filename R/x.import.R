@@ -14,6 +14,8 @@
 #' from an alias object returned by \link{import_as}. \cr
 #' \cr
 #'
+#' `r .mybadge_importsite("additional functions", "darkgreen", "https://tony-aw.github.io/tinycodet/articles/c_import_additional.html")` \cr
+#'
 #'
 #' @param i either one of the following: \cr
 #'  * a function (use back-ticks when the function is an infix operator).
