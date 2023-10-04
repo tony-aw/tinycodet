@@ -28,6 +28,8 @@ Suggests:
     dplyr,
     powerjoin,
     gamair,
+    data.table,
+    tidytable,
     MASS
 Depends: 
     R (>= 4.1.0)
