@@ -27,6 +27,7 @@ Suggests:
     magrittr,
     dplyr,
     powerjoin,
+    gamair,
     MASS
 Depends: 
     R (>= 4.1.0)
