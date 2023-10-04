@@ -339,8 +339,10 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   conform to `stringi`. Fixed a few minor issues. Added about 50 tests.
 - 30 September: More examples added. Tiny textual edits to
   documentation.
-- 3 October: Updated to R version 4.3.1. Removed `fill_loc` argument
-  from `strcut_loc`. Re-wrote the `import_as()` help page to be more in
-  line with CRAN rules. Checked the text for violations of CRAN’s rules.
+- 4 October: Updated to R version 4.3.1. Removed `fill_loc` argument
+  from `strcut_loc`, and changed the testing and documentation
+  accordingly. Re-wrote the `import_as()` help page to be more in line
+  with CRAN rules. More examples added. Tiny textual edits to
+  documentation.
 
  
