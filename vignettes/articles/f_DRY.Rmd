@@ -92,7 +92,7 @@ So `x %unreal =% y` is the same as `x[is.na(x)|is.nan(x)|is.infinite(x)] <- y`.
 &nbsp;
 
 
-# Generalized in-place modifier
+# General in-place modifier
 
 
 This R package includes a general in-place modifying infix operator.
@@ -105,7 +105,7 @@ mtcars$mpg[mtcars$cyl>6] <- mtcars$mpg[mtcars$cyl>6]^2
 
 The same expression, `mtcars$mpg[mtcars$cyl>6]`, is written twice, making this code rather long and cumbersome, even though we're just squaring the expression. 
 
-This R package solves the above laid-out problem by implementing a generalized in-place (mathematical) modifier, through the `x %:=% f` operator.
+This R package solves the above laid-out problem by implementing a general in-place (mathematical) modifier, through the `x %:=% f` operator.
 
 With `tinycodet` one can now make this more compact (more "tiny", if you will) as follows:
 

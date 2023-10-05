@@ -538,7 +538,7 @@ sentences :</p>
 <span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a>mat <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(x)) <span class="sc">|&gt;</span> <span class="fu">matrix</span>(<span class="at">ncol=</span><span class="fu">ncol</span>(x))</span>
 <span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a>shuffled <span class="ot">&lt;-</span> x <span class="sc">%row~%</span> mat</span>
 <span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a><span class="fu">stri_paste_mat</span>(shuffled, <span class="at">margin=</span><span class="dv">1</span>, <span class="at">sep=</span><span class="st">&quot; &quot;</span>) <span class="co"># &lt;- another alias for stri_join_mat</span></span>
-<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Hello, who are you?  Cool! Oh, really?! &quot;</span></span>
+<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Oh, really?!  Hello, who are you?  Cool!&quot;</span></span>
 <span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a><span class="co">#&gt; [2] NA</span></span></code></pre></div>
 <p> </p>
 </div>
