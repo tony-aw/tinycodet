@@ -8,7 +8,6 @@
 #' all under the same alias.
 #' The specified alias will be placed in the current environment
 #' (like the global environment, or the environment within a function). \cr
-#' `r .mybadge_importsite("main functions", "pink", "https://tony-aw.github.io/tinycodet/articles/b_import_main.html")` \cr
 #'
 #' @param alias a syntactically valid non-hidden name giving the alias object
 #' where the package(s) are to be loaded into. \cr
@@ -16,10 +15,10 @@
 #' or as a one-sided formula with a single term (i.e. \code{~ alias.}).
 #' @param main_package a single string,
 #' giving the name of the main package to load under the given alias.
-#' @param re_exports \code{TRUE} or \code{FALSE}. \cr
+#' @param re_exports \code{TRUE} or \code{FALSE}.
 #'  * If \code{re_exports = TRUE} the re-exports from the \code{main_package}
 #'  are added to the alias together with the main package.
-#'  This is the default, as it is analogous to the behaviour of base R's \link{::} operator. \cr
+#'  This is the default, as it is analogous to the behaviour of base R's \link{::} operator.
 #'  * If \code{re_exports = FALSE}, these re-exports are not added together with the main package.
 #'  The user can still load the packages from which the re-exported functions came from,
 #'  by specifying them in the \code{dependencies} argument.
@@ -114,9 +113,9 @@
 #' \code{c("dependencies", "main_package", "extensions")}, \cr
 #' which is the recommended setting. \cr
 #' This setting results in the following load order: \cr
-#'  1) The dependencies, \bold{in the order specified by the \code{depenencies} argument}. \cr
+#'  1) The dependencies, \bold{in the order specified by the \code{depenencies} argument}.
 #'  2) The main_package (see argument \code{main_package}),
-#' including re-exports (if \code{re_exports = TRUE}). \cr
+#' including re-exports (if \code{re_exports = TRUE}).
 #'  3) The extensions, \bold{in the order specified by the \code{extensions} argument}. \cr \cr
 #'
 #'
@@ -133,6 +132,8 @@
 #' with the name as specified in the \code{alias} argument,
 #' will be created in the current environment
 #' (like the global environment, or the environment within a function). \cr
+#' This locked environment contains the \bold{exported} functions
+#' from the specified packages. \cr
 #' \cr
 #' To use, for example, function "some_function()" from alias "alias.", use: \cr
 #' \code{alias.$some_function()} \cr
@@ -142,21 +143,15 @@
 #' @seealso [tinycodet_import()]
 #'
 #'
-#' @examplesIf all(c("magrittr", "dplyr", "powerjoin") %installed in% .libPaths())
+#' @examplesIf all(c("data.table", "tidytable") %installed in% .libPaths())
 #'
-#' import_as( # this creates the 'dpr.' object
-#'   "dpr.", "dplyr", extensions = "powerjoin"
+#' import_as( # this creates the 'tdt.' object
+#'   "tdt.", "data.table", extensions = "tidytable"
 #' )
 #' # same as:
 #' import_as(
-#'   ~ dpr., "dplyr", extensions = "powerjoin"
+#'   ~ tdt., "data.table", extensions = "tidytable"
 #' )
-#'
-#' data("starwars", package = "dplyr")
-#'
-#' # see it in action:
-#' starwars |> dpr.$filter(species == "Droid") |>
-#'   dpr.$select(name, dpr.$ends_with("color"))
 #'
 #'
 #'

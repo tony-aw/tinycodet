@@ -53,14 +53,11 @@ The \code{import_int()} function
 directly returns an internal function from a package. \cr
 It is similar to the \link[base]{:::} operator, but with 2 key differences: \cr
 \enumerate{
-\item It allows the user to explicitly set a library location through the \code{lib.loc} argument. \cr
+\item It allows the user to explicitly set a library location through the \code{lib.loc} argument.
 \item It only searches internal functions, not exported ones.
 This makes it clearer in your code that you're using an internal function,
-instead of making it ambiguous. \cr
-\cr
+instead of making it ambiguous. \cr \cr
 }
-
-\ifelse{html}{\href{https://tony-aw.github.io/tinycodet/articles/c_import_additional.html}{\figure{aboutimport-additionalfunctions-darkgreen.svg}{options: alt='[ADDITIONAL FUNCTIONS]'}}}{\href{https://tony-aw.github.io/tinycodet/articles/c_import_additional.html}{about import: additional functions}} \cr
 }
 \details{
 \bold{Regarding the Locks in \code{import_LL()}} \cr

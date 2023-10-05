@@ -47,7 +47,7 @@ base R's \link[base]{source} function, except that it allows only placing
 the selected objects and functions into the current environment,
 instead of all objects. \cr
 \cr
-The objects to be selected can be specified using any combination of the following: \cr
+The objects to be selected can be specified using any combination of the following:
 \itemize{
 \item by supplying a character vector of exact object names to the \code{select} argument.
 \item by supplying a character vector of \code{regex} patterns to the \code{regex} argument.

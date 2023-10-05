@@ -75,7 +75,7 @@ Instead of giving a string or character vector of regex patterns,
 one can also supply a list to specify exactly how the pattern should be interpreted.
 The list should use the exact same argument convention as 'stringi'. \cr
 \cr
-For example: \cr
+For example:
 \itemize{
 \item \code{list(regex=p, case_insensitive=FALSE, ...)}
 \item \code{list(fixed=p, ...)}
@@ -101,7 +101,7 @@ except it uses fixed (i.e. literal) expression,
 and it does not distinguish between upper case and lower case characters. \cr
 \cr
 'tinycodet' adds some convenience functions based on
-the \code{stri_opts_} - functions in 'stringi': \cr
+the \code{stri_opts_} - functions in 'stringi':
 \itemize{
 \item \code{stri_rgx(p, ...)} is equivalent to \code{c(list(regex = p), ...)}
 \item \code{stri_fxd(p, ...)} is equivalent to \code{c(list(fixed = p), ...)}

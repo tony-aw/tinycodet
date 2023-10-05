@@ -27,11 +27,19 @@
 #'
 #' 'tinycodet' has only one dependency,
 #' namely 'stringi'. No other dependencies, thus avoiding "dependency hell".
-#' Most functions in this R-package are vectorised and optimised.
+#' Most functions in this R-package are vectorised and optimised. \cr
 #' \cr
 #'
 #'
 #' @author \strong{Maintainer}: Tony Wilkes \email{tony_a_wilkes@outlook.com} (\href{https://orcid.org/0000-0001-9498-8379}{ORCID})
+#'
+#' @seealso
+#'
+#' Useful links:
+#'
+#'  * GitHub main page: \url{https://github.com/tony-aw/tinycodet/}
+#'  * Package website: \url{https://tony-aw.github.io/tinycodet/}
+#'  * Report bugs at: \url{https://github.com/tony-aw/tinycodet/issues}
 #'
 #' @references The badges shown in the documentation of this R-package were made using the services of: \url{https://shields.io/}
 #'

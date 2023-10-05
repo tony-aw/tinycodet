@@ -4,12 +4,12 @@
 #' The 'tinycodet' R-package adds some functions and operators
 #' to extend the functionality of the 'stringi' R-package:
 #'
-#' * Infix operators for \link[=%s-%]{string arithmetic}. \cr
-#' * Infix operators for \link[=%sget%]{string sub-setting}. \cr
-#' * Infix operators for \link[=%s\{\}%]{detecting patterns}. \cr
+#' * Infix operators for \link[=%s-%]{string arithmetic}.
+#' * Infix operators for \link[=%sget%]{string sub-setting}.
+#' * Infix operators for \link[=%s\{\}%]{detecting patterns}.
 #' * Find  \eqn{i^{th}} pattern occurrence (\link{stri_locate_ith}),
-#' or \eqn{i^{th}} text boundary (\link{stri_locate_ith_boundaries}). \cr
-#' * \link[=stri_join_mat]{Concatenate a character matrix row- or column-wise }. \cr
+#' or \eqn{i^{th}} text boundary (\link{stri_locate_ith_boundaries}).
+#' * \link[=stri_join_mat]{Concatenate a character matrix row- or column-wise }.
 #' * The \link[=strcut_loc]{strcut_-functions}.
 #'
 #'

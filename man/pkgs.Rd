@@ -48,7 +48,7 @@ Note that only the recommended R-packages actually installed in your system are 
 indicating whether the \code{rstudioapi} R-package should be included (\code{TRUE}),
 or not included (\code{FALSE}; the default).}
 
-\item{type}{The type of functions to list. Possibilities: \cr
+\item{type}{The type of functions to list. Possibilities:
 \itemize{
 \item \code{"inops"} or \code{"operators"}: Only infix operators.
 \item \code{"regfuns"}: Only regular functions (thus excluding infix operators).
@@ -86,8 +86,6 @@ like so:
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{library(packagename, include.only = pkg_lsf("packagename", type="inops"))
 }\if{html}{\out{</div>}}
-
-\ifelse{html}{\href{https://tony-aw.github.io/tinycodet/articles/c_import_additional.html}{\figure{aboutimport-additionalfunctions-darkgreen.svg}{options: alt='[ADDITIONAL FUNCTIONS]'}}}{\href{https://tony-aw.github.io/tinycodet/articles/c_import_additional.html}{about import: additional functions}} \cr
 }
 \details{
 For \code{pkg_get_deps()}: \cr

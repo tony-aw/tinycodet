@@ -282,13 +282,3 @@
   sprintf("\\ifelse{html}{%s}{%s}", html, text)
 }
 
-#' @keywords internal
-#' @noRd
-.mybadge_importsite <- function(x, color, url) {
-  filepath <- paste0("aboutimport", "-", gsub(" ", "", x), "-", color, ".svg")
-  text <- sprintf("\\href{%s}{about import: %s}", url, x)
-  html <- sprintf(
-    "\\href{%s}{\\figure{%s}{options: alt='[%s]'}}",
-    url, filepath, toupper(x))
-  sprintf("\\ifelse{html}{%s}{%s}", html, text)
-}

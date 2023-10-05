@@ -149,5 +149,6 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
  - 29 September: Minor textual corrections in documentation and website. Added badges to pattern arguments of the stringi-based functions. Added a package startup message. Removed `%ss%`. Added missing boundaries functions, and made the existing boundaries functions more conform to `stringi`. Fixed a few minor issues. Added about 50 tests.
  - 30 September: More examples added. Tiny textual edits to documentation.
  - 4 October: Updated to R version 4.3.1. Removed `fill_loc` argument from `strcut_loc`, and changed the testing and documentation accordingly. Re-wrote the `import_as()` help page to be more in line with CRAN rules. More examples added. Tiny textual edits to documentation.
+ - 5 October: Reduced the amount of text in the arguments sections. Reduced the number of suggested packages. Added URLs to the GitHub page and Website.
 
 &nbsp;

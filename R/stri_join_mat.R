@@ -11,10 +11,10 @@
 #'
 #'
 #' @param mat a matrix of strings
-#' @param margin the margin over which the strings must be joined. \cr
+#' @param margin the margin over which the strings must be joined.
 #'  * If \code{margin=1}, the elements in each row of matrix \code{mat}
 #' are joined into a single string.
-#' Thus if the matrix has 10 rows, it returns a vector of 10 strings. \cr
+#' Thus if the matrix has 10 rows, it returns a vector of 10 strings.
 #'  * If \code{margin=2}, the elements in each column of matrix \code{mat}
 #' are joined into a single string.
 #' Thus if the matrix has 10 columns, it returns a vector of 10 strings. \cr

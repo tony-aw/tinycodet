@@ -16,7 +16,6 @@
 #' will be removed from the current environment;
 #' "regular" (i.e. user-specified) infix operators will not be touched. \cr
 #' \cr
-#' `r .mybadge_importsite("main functions", "pink", "https://tony-aw.github.io/tinycodet/articles/b_import_main.html")` \cr
 #'
 #' @param expose,unexpose either one of the following:
 #'  * an alias object as produced by the \link{import_as} function.

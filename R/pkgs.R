@@ -21,8 +21,6 @@
 #' library(packagename, include.only = pkg_lsf("packagename", type="inops"))
 #' ```
 #'
-#' `r .mybadge_importsite("additional functions", "darkgreen", "https://tony-aw.github.io/tinycodet/articles/c_import_additional.html")` \cr
-#'
 #'
 #' @param pkgs a character vector with the package name(s).
 #' @param package a single string giving the package name.
@@ -44,7 +42,7 @@
 #' @param rstudioapi logical,
 #' indicating whether the \code{rstudioapi} R-package should be included (\code{TRUE}),
 #' or not included (\code{FALSE}; the default).
-#' @param type The type of functions to list. Possibilities: \cr
+#' @param type The type of functions to list. Possibilities:
 #'  * \code{"inops"} or \code{"operators"}: Only infix operators.
 #'  * \code{"regfuns"}: Only regular functions (thus excluding infix operators).
 #'  * \code{"all"}: All functions, both regular functions and infix operators.

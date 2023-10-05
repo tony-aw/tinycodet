@@ -13,7 +13,7 @@
 #' This can be handy to prevent overwriting any (user defined)
 #' infix operators already present in the current environment. \cr
 #' @param overwrite logical,
-#' indicating if it is allowed to overwrite existing infix operators. \cr
+#' indicating if it is allowed to overwrite existing infix operators.
 #' \itemize{
 #'  \item If \code{TRUE} (default), a warning is given when operators existing in the current environment
 #'  are being overwritten,

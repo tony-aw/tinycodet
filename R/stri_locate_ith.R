@@ -24,16 +24,16 @@
 #' `r .mybadge_string("boundaries", "blue")` \cr
 #' @param i a number, or a numeric vector of the same length as \code{str}. \cr
 #' Positive numbers are counting from the left. Negative numbers are counting from the right.
-#' I.e.: \cr
+#' I.e.:
 #' \itemize{
 #'  \item \code{stri_locate_ith(str, i=1, ...)} \cr
-#' gives the position (range) of the first occurrence of a pattern. \cr
+#' gives the position (range) of the first occurrence of a pattern.
 #'  \item \code{stri_locate_ith(str, i=-1, ...)} \cr
-#' gives the position (range) of the last occurrence of a pattern. \cr
+#' gives the position (range) of the last occurrence of a pattern.
 #'  \item \code{stri_locate_ith(str, i=2, ...)}\cr
-#' gives the position (range) of the second occurrence of a pattern. \cr
+#' gives the position (range) of the second occurrence of a pattern.
 #'  \item \code{stri_locate_ith(str, i=-2, ...)} \cr
-#' gives the position (range) of the second-last occurrence of a pattern. \cr
+#' gives the position (range) of the second-last occurrence of a pattern.
 #' }
 #' If \code{abs(i)} is larger than the number of instances,
 #' the first (if \code{i < 0}) or last (if \code{i > 0}) instance will be given. \cr

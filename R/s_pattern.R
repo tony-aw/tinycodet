@@ -15,7 +15,7 @@
 #' one can also supply a list to specify exactly how the pattern should be interpreted.
 #' The list should use the exact same argument convention as 'stringi'. \cr
 #' \cr
-#' For example: \cr
+#' For example:
 #'
 #' * \code{list(regex=p, case_insensitive=FALSE, ...)}
 #' * \code{list(fixed=p, ...)}
@@ -42,7 +42,7 @@
 #' and it does not distinguish between upper case and lower case characters. \cr
 #' \cr
 #' 'tinycodet' adds some convenience functions based on
-#' the \code{stri_opts_} - functions in 'stringi': \cr
+#' the \code{stri_opts_} - functions in 'stringi':
 #'
 #' * \code{stri_rgx(p, ...)} is equivalent to \code{c(list(regex = p), ...)}
 #' * \code{stri_fxd(p, ...)} is equivalent to \code{c(list(fixed = p), ...)}

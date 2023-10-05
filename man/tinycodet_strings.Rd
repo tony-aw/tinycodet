@@ -7,12 +7,12 @@
 The 'tinycodet' R-package adds some functions and operators
 to extend the functionality of the 'stringi' R-package:
 \itemize{
-\item Infix operators for \link[=\%s-\%]{string arithmetic}. \cr
-\item Infix operators for \link[=\%sget\%]{string sub-setting}. \cr
-\item Infix operators for \link[=\%s\{\}\%]{detecting patterns}. \cr
+\item Infix operators for \link[=\%s-\%]{string arithmetic}.
+\item Infix operators for \link[=\%sget\%]{string sub-setting}.
+\item Infix operators for \link[=\%s\{\}\%]{detecting patterns}.
 \item Find  \eqn{i^{th}} pattern occurrence (\link{stri_locate_ith}),
-or \eqn{i^{th}} text boundary (\link{stri_locate_ith_boundaries}). \cr
-\item \link[=stri_join_mat]{Concatenate a character matrix row- or column-wise }. \cr
+or \eqn{i^{th}} text boundary (\link{stri_locate_ith_boundaries}).
+\item \link[=stri_join_mat]{Concatenate a character matrix row- or column-wise }.
 \item The \link[=strcut_loc]{strcut_-functions}.
 }
 }

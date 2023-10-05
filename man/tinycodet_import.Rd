@@ -76,7 +76,8 @@ to specify the library path to load packages from,
 thus allowing straight-forward project isolation. \cr
 \cr
 See the examples section below
-to get an idea how the 'tinycodet' import system works in practice.
+to get an idea of how the 'tinycodet' import system works in practice.
+More examples can be found on the website (\url{https://tony-aw.github.io/tinycodet/})
 }
 \details{
 Some additional comments on the 'tinycodet' import system:

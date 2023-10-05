@@ -23,11 +23,11 @@ or as a one-sided formula with a single term (i.e. \code{~ alias.}).}
 \item{main_package}{a single string,
 giving the name of the main package to load under the given alias.}
 
-\item{re_exports}{\code{TRUE} or \code{FALSE}. \cr
+\item{re_exports}{\code{TRUE} or \code{FALSE}.
 \itemize{
 \item If \code{re_exports = TRUE} the re-exports from the \code{main_package}
 are added to the alias together with the main package.
-This is the default, as it is analogous to the behaviour of base R's \link{::} operator. \cr
+This is the default, as it is analogous to the behaviour of base R's \link{::} operator.
 \item If \code{re_exports = FALSE}, these re-exports are not added together with the main package.
 The user can still load the packages from which the re-exported functions came from,
 by specifying them in the \code{dependencies} argument.
@@ -60,6 +60,8 @@ A locked environment object, similar to the output of \link[base]{loadNamespace}
 with the name as specified in the \code{alias} argument,
 will be created in the current environment
 (like the global environment, or the environment within a function). \cr
+This locked environment contains the \bold{exported} functions
+from the specified packages. \cr
 \cr
 To use, for example, function "some_function()" from alias "alias.", use: \cr
 \code{alias.$some_function()} \cr
@@ -73,7 +75,6 @@ and optionally also its re-exports, dependencies, and extensions,
 all under the same alias.
 The specified alias will be placed in the current environment
 (like the global environment, or the environment within a function). \cr
-\ifelse{html}{\href{https://tony-aw.github.io/tinycodet/articles/b_import_main.html}{\figure{aboutimport-mainfunctions-pink.svg}{options: alt='[MAIN FUNCTIONS]'}}}{\href{https://tony-aw.github.io/tinycodet/articles/b_import_main.html}{about import: main functions}} \cr
 }
 \details{
 \bold{Expanded Definitions of Some Arguments} \cr
@@ -144,9 +145,9 @@ The \code{loadorder} argument defaults to the character vector \cr
 which is the recommended setting. \cr
 This setting results in the following load order: \cr
 \enumerate{
-\item The dependencies, \bold{in the order specified by the \code{depenencies} argument}. \cr
+\item The dependencies, \bold{in the order specified by the \code{depenencies} argument}.
 \item The main_package (see argument \code{main_package}),
-including re-exports (if \code{re_exports = TRUE}). \cr
+including re-exports (if \code{re_exports = TRUE}).
 \item The extensions, \bold{in the order specified by the \code{extensions} argument}. \cr \cr
 }
 
@@ -156,21 +157,15 @@ does not support loading base/core R under an alias. \cr
 \cr
 }
 \examples{
-\dontshow{if (all(c("magrittr", "dplyr", "powerjoin") \%installed in\% .libPaths())) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (all(c("data.table", "tidytable") \%installed in\% .libPaths())) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 
-import_as( # this creates the 'dpr.' object
-  "dpr.", "dplyr", extensions = "powerjoin"
+import_as( # this creates the 'tdt.' object
+  "tdt.", "data.table", extensions = "tidytable"
 )
 # same as:
 import_as(
-  ~ dpr., "dplyr", extensions = "powerjoin"
+  ~ tdt., "data.table", extensions = "tidytable"
 )
-
-data("starwars", package = "dplyr")
-
-# see it in action:
-starwars |> dpr.$filter(species == "Droid") |>
-  dpr.$select(name, dpr.$ends_with("color"))
 
 
 \dontshow{\}) # examplesIf}

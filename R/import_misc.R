@@ -11,13 +11,11 @@
 #' The \code{import_int()} function
 #' directly returns an internal function from a package. \cr
 #' It is similar to the \link[base]{:::} operator, but with 2 key differences: \cr
-#'  1) It allows the user to explicitly set a library location through the \code{lib.loc} argument. \cr
+#'  1) It allows the user to explicitly set a library location through the \code{lib.loc} argument.
 #'  2) It only searches internal functions, not exported ones.
 #'  This makes it clearer in your code that you're using an internal function,
-#'  instead of making it ambiguous. \cr
-#' \cr
+#'  instead of making it ambiguous. \cr \cr
 #'
-#' `r .mybadge_importsite("additional functions", "darkgreen", "https://tony-aw.github.io/tinycodet/articles/c_import_additional.html")` \cr
 #'
 #'
 #' @param package a single string,

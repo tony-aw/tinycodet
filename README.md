@@ -344,5 +344,8 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
   accordingly. Re-wrote the `import_as()` help page to be more in line
   with CRAN rules. More examples added. Tiny textual edits to
   documentation.
+- 5 October: Reduced the amount of text in the arguments sections.
+  Reduced the number of suggested packages. Added URLs to the GitHub
+  page and Website.
 
  

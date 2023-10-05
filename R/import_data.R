@@ -5,7 +5,6 @@
 #' Unlike \code{utils::data()}, the \code{import_data()} function returns the data set directly,
 #' and allows assigning the data set like so: \cr
 #' \code{mydata <- import_data(...)}. \cr
-#' `r .mybadge_importsite("main functions", "pink", "https://tony-aw.github.io/tinycodet/articles/b_import_main.html")` \cr
 #'
 #'
 #' @param package a single string, giving the name of the R-package.
@@ -27,10 +26,8 @@
 #'
 #' @examples
 #'
-#' if("dplyr" %installed in% .libPaths()) {
-#' d <- import_data("dplyr", "starwars")
+#' d <- import_data("datasets", "cars")
 #' head(d)
-#' }
 #'
 #'
 #'

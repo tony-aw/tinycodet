@@ -16,7 +16,7 @@ attr.import(alias, which = NULL)
 \arguments{
 \item{...}{further arguments to be passed to \link[utils]{help}.}
 
-\item{i}{either one of the following: \cr
+\item{i}{either one of the following:
 \itemize{
 \item a function (use back-ticks when the function is an infix operator).
 Examples:  \code{myfun} , \code{`\%operator\%`} , \code{myalias.$some_function} .
@@ -92,8 +92,6 @@ The \code{attr.import()} function
 gets one specific special attributes or all special attributes
 from an alias object returned by \link{import_as}. \cr
 \cr
-
-\ifelse{html}{\href{https://tony-aw.github.io/tinycodet/articles/c_import_additional.html}{\figure{aboutimport-additionalfunctions-darkgreen.svg}{options: alt='[ADDITIONAL FUNCTIONS]'}}}{\href{https://tony-aw.github.io/tinycodet/articles/c_import_additional.html}{about import: additional functions}} \cr
 }
 \details{
 For \code{help.import(...)}: \cr

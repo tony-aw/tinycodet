@@ -55,7 +55,6 @@ the 'tinycodet' import system
 will be removed from the current environment;
 "regular" (i.e. user-specified) infix operators will not be touched. \cr
 \cr
-\ifelse{html}{\href{https://tony-aw.github.io/tinycodet/articles/b_import_main.html}{\figure{aboutimport-mainfunctions-pink.svg}{options: alt='[MAIN FUNCTIONS]'}}}{\href{https://tony-aw.github.io/tinycodet/articles/b_import_main.html}{about import: main functions}} \cr
 }
 \details{
 \bold{Why Exposing Infix Operators Is Useful} \cr
