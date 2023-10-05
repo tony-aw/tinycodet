@@ -17,19 +17,19 @@ expect_equal(out, sort(stri))
 
 # incorrect package error handling ====
 expect_error(
-  import_as(~p1., "tinycodetfakepkg1", lib.loc=c(lib.loc, .libPaths()), dependencies = "data.table"),
+  import_as(~p1., "tinycodetfakepkg1", lib.loc=c(lib.loc, .libPaths()), dependencies = "stringi"),
   pattern = "The following given dependencies were not found to be actual dependencies"
 )
 
 
 expect_error(
-  import_as(~p1., "tinycodetfakepkg1", lib.loc=c(lib.loc, .libPaths()), extensions = "data.table"),
+  import_as(~p1., "tinycodetfakepkg1", lib.loc=c(lib.loc, .libPaths()), extensions = "stringi"),
   pattern = "The following given extensions were not found to be actual reverse dependencies"
 )
 
 
 # duplicate package error handling ====
-dupli_pkg <- "data.table"
+dupli_pkg <- "stringi"
 expect_error(
   import_as(~p1., "tinycodetfakepkg1", lib.loc=c(lib.loc, .libPaths()),
             dependencies = rep(dupli_pkg, 2)),
