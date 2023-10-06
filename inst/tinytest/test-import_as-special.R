@@ -122,6 +122,7 @@ p3 <- c(
 out <- setdiff(names(p3.), ".__attributes__.") |> sort()
 expect_equal(out,  sort(p3))
 expect_true(p3.$.__attributes__.$args$re_exports)
+expect_false("acf" %in% names(p3.)) # expect base packages to be NOT re-exported
 
 
 # test import_as - Dependencies ====
