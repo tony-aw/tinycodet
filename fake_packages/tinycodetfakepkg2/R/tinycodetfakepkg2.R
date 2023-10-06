@@ -1,0 +1,49 @@
+#' tinycodetfakepkg2ellaneous functions to help your coding etiquette
+#'
+#' @description
+#' Bla
+#' 
+#' 
+#' @param A whatever
+#' @param X whatever
+#' 
+#' @name tinycodetfakepkg2
+NULL
+
+#' @rdname tinycodetfakepkg2
+#' @export
+fun_overwritten <- function() {
+  print("overfun of tinycodetfakepkg2")
+}
+
+#' @rdname tinycodetfakepkg2
+#' @export
+#' 
+fun21 <- function() {
+  print("function 1 of tinycodetfakepkg2")
+}
+
+#' @rdname tinycodetfakepkg2
+#' @export
+fun22 <- function() {
+  print("function 2 of tinycodetfakepkg2")
+}
+
+
+#' @rdname tinycodetfakepkg2
+#' @export
+`%opover%` <- function(X, A) {
+  print("inop 1 of tinycodetfakepkg2")
+}
+
+#' @rdname tinycodetfakepkg2
+#' @export
+`%op21%` <- function(X, A) {
+  print("inop 1 of tinycodetfakepkg2")
+}
+
+#' @rdname tinycodetfakepkg2
+#' @export
+`%op22%` <- function(X, A) {
+  print("overinop of tinycodetfakepkg2")
+}
