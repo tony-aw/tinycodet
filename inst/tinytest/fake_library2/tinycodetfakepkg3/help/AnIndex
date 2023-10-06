@@ -1,0 +1,10 @@
+%op31%	tinycodetfakepkg3
+%op32%	tinycodetfakepkg3
+%opover%	tinycodetfakepkg3
+acf	reexports
+fun11	reexports
+fun31	tinycodetfakepkg3
+fun32	tinycodetfakepkg3
+fun_overwritten	tinycodetfakepkg3
+reexports	reexports
+tinycodetfakepkg3	tinycodetfakepkg3
