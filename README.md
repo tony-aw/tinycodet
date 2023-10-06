@@ -19,10 +19,10 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 
  
 
-## Description
+## Overview
 
-The ‘tinycodet’ R-package adds a few functions to help in your coding
-etiquette. It primarily focuses on 4 things:
+‘tinycodet’ is a small R-package adds a few functions to help in your
+coding etiquette. It primarily focuses on 4 things:
 
 1)  Safer decimal (in)equality testing, safer atomic conversions, and
     other functions for safer coding.
@@ -33,8 +33,19 @@ etiquette. It primarily focuses on 4 things:
     package.
 4)  Reducing repetitive code.
 
-The ‘tinycodet’ R-package has only one dependency, namely ‘stringi’.
-Most functions in this R-package are vectorised and optimised.
+‘tinycodet’ adheres to the [tinyverse](https://www.tinyverse.org/)
+philosophy (not to be confused with the tidyverse). It has only one
+dependency, namely ‘stringi’. No other dependencies, thus avoiding
+“dependency hell”. Most functions in this R-package are vectorised and
+optimised.
+
+Although this is a relatively small R package, I do understand you may
+not want to go through all the articles and help files of ‘tinycodet’
+without knowing if the R package is even worth your time. Therefore, to
+get a quick glimpse of what ‘tinycodet’ provides, I kindly invite you to
+take a look at the [Get
+Started](https://tony-aw.github.io/tinycodet/articles/tinycodet.html)
+page on the website (<https://tony-aw.github.io/tinycodet/>).
 
  
 
@@ -71,8 +82,8 @@ using any of the following:
 
 ## Reporting issues and giving suggestions
 
-When you coming across an issue with the ‘tinycodet’ R package, you may
-want to report it in the “Issues” tab on the GitHub page
+When you coming across an issue with the ‘tinycodet’ R package, please
+report it in the “Issues” tab on the GitHub page
 (<https://github.com/tony-aw/tinycodet/issues>). If relevant, please
 provide reproducible R code, as that will make it easier to diagnose the
 issue. Please keep issue reports polite, professional, and to the point.
