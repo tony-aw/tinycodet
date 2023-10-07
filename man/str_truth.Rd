@@ -3,7 +3,7 @@
 \name{\%s{}\%}
 \alias{\%s{}\%}
 \alias{\%s!{}\%}
-\title{Stringi Pattern Detection Operators}
+\title{'stringi' Pattern Detection Operators}
 \usage{
 x \%s{}\% p
 
@@ -12,7 +12,7 @@ x \%s!{}\% p
 \arguments{
 \item{x}{a string or character vector.}
 
-\item{p}{either a list with 'stringi' arguments (see \link{stri_rgx}),
+\item{p}{either a list with 'stringi' arguments (see \link{s_regex}),
 or else a character vector of the same length as \code{x} with regular expressions. \cr
 \ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_regex.html}{\figure{aboutsearch-regex-darkred.svg}{options: alt='[REGEX]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_regex.html}{about search: regex}} \cr
 \ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_fixed.html}{\figure{aboutsearch-fixed-darkgreen.svg}{options: alt='[FIXED]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_fixed.html}{about search: fixed}} \cr

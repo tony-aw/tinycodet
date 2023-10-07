@@ -93,9 +93,9 @@ from the 'rlang' package, will work without any prefixes required.
 
 # NO packages are being attached in any of the following code
 
-# load 'dplyr' + extension 'powerjoin' under alias "dpr.":
+# load 'dplyr' + its re-exports + extension 'powerjoin', under alias "dpr.":
 import_as(
-  ~ dpr., "dplyr", extensions = "powerjoin"
+  ~ dpr., "dplyr", re_exports = TRUE, extensions = "powerjoin"
 )
 
 # exposing infix operators from 'magrrittr' to current environment:

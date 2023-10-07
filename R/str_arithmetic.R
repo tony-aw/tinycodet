@@ -22,7 +22,7 @@
 #' and provides access to \link[stringi]{stri_sprintf} in the form of an infix operator. \cr
 #'
 #' @param x a string or character vector.
-#' @param p either a list with 'stringi' arguments (see \link{stri_rgx}),
+#' @param p either a list with 'stringi' arguments (see \link{s_regex}),
 #' or else a character vector of the same length as \code{x} with regular expressions. \cr
 #' `r .mybadge_string("regex", "darkred")` \cr
 #' `r .mybadge_string("fixed", "darkgreen")` \cr

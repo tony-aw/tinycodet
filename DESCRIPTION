@@ -1,5 +1,5 @@
 Package: tinycodet
-Title: Functions to Help in your Coding Etiquette
+Title: A Few Functions to Help in your Coding Etiquette
 Version: 0.0.0.9
 Authors@R: 
     person("Tony", "Wilkes", , "tony_a_wilkes@outlook.com", role = c("aut", "cre", "cph"),

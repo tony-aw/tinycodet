@@ -2,18 +2,34 @@
 % Please edit documentation in R/tinycodet_strings.R
 \name{tinycodet_strings}
 \alias{tinycodet_strings}
-\title{Overview of the tinycodet Extension of 'stringi'}
+\title{Overview of the 'tinycodet' Extension of 'stringi'}
 \description{
-The 'tinycodet' R-package adds some functions and operators
-to extend the functionality of the 'stringi' R-package:
+Virtually every programming language, even those primarily focused on mathematics,
+will at some point have to deal with strings.
+R's atomic classes basically boil down to some form of either numbers or characters.
+R's numerical functions are generally very fast.
+But R's native string functions are somewhat slow,
+do not have a unified naming scheme,
+and are not as comprehensive as R's impressive numerical functions. \cr
+\cr
+The primary R-package that fixes this is 'stringi'.
+'stringi' is
+the fastest and most comprehensive
+string manipulation package available at the time of writing.
+Many string related packages fully depend on 'stringi'.
+The 'stringr' package, for example, is merely a thin wrapper around 'stringi'. \cr
+\cr
+As string manipulation is so important to programming languagges,
+'tinycodet' adds a little bit new functionality to 'stringi':
 \itemize{
-\item Infix operators for \link[=\%s-\%]{string arithmetic}.
-\item Infix operators for \link[=\%sget\%]{string sub-setting}.
-\item Infix operators for \link[=\%s\{\}\%]{detecting patterns}.
 \item Find  \eqn{i^{th}} pattern occurrence (\link{stri_locate_ith}),
 or \eqn{i^{th}} text boundary (\link{stri_locate_ith_boundaries}).
 \item \link[=stri_join_mat]{Concatenate a character matrix row- or column-wise }.
-\item The \link[=strcut_loc]{strcut_-functions}.
+\item Cut strings with the \link[=strcut_loc]{strcut_-functions}.
+\item Infix operators for \link[=\%s-\%]{string arithmetic}.
+\item Infix operators for \link[=\%sget\%]{string sub-setting},
+which get or remove the first and/or last \code{n} characters from strings.
+\item Infix operators for \link[=\%s\{\}\%]{detecting patterns}.
 }
 }
 \examples{
@@ -40,5 +56,5 @@ stri_c_mat(sorted, margin=1, sep=" ")
 Gagolewski M., \bold{stringi}: Fast and portable character string processing in R, \emph{Journal of Statistical Software} 103(2), 2022, 1–59, \doi{doi:10.18637/jss.v103.i02}
 }
 \seealso{
-\code{\link[=tinycodet_help]{tinycodet_help()}}, \code{\link[=stri_rgx]{stri_rgx()}}
+\code{\link[=tinycodet_help]{tinycodet_help()}}, \code{\link[=s_regex]{s_regex()}}
 }

@@ -42,7 +42,7 @@ set.seed(1)
 
 'tinycodet' adheres to the [tinyverse](https://www.tinyverse.org/) philosophy (not to be confused with the tidyverse). It has only one dependency, namely 'stringi'. No other dependencies, thus avoiding "dependency hell". Most functions in this R-package are vectorised and optimised.
 
-Although this is a relatively small R package, I do understand you may not want to go through all the articles and help files of 'tinycodet' without knowing if the R package is even worth your time. Therefore, to get a quick glimpse of what 'tinycodet' provides, I kindly invite you to take a look at the [Get Started](https://tony-aw.github.io/tinycodet/articles/tinycodet.html) page on the website (https://tony-aw.github.io/tinycodet/).
+Although this is a relatively small R package, I do understand you may not want to go through all the articles and help files of 'tinycodet' without knowing if the R package is even worth your time. Therefore, to get a quick glimpse of what 'tinycodet' provides, I humbly invite you to take a look at the [Get Started](https://tony-aw.github.io/tinycodet/articles/tinycodet.html) page on the website (https://tony-aw.github.io/tinycodet/).
 
 
 
@@ -94,7 +94,7 @@ If you have questions or ideas, please submit them in the "Discussion" tab on th
 
 &nbsp;
 
-CHANGELOG (EXPERIMENTAL VERSIONS):
+# CHANGELOG (pre-release):
 
  - 8 March 2023: `stringi` is now a dependency. Completely re-written the ReadMe file, Description, and documentation.
  - 9 March 2023: added the "which"-operators.
@@ -153,5 +153,6 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
  - 30 September: More examples added. Tiny textual edits to documentation.
  - 4 October: Updated to R version 4.3.1. Removed `fill_loc` argument from `strcut_loc`, and changed the testing and documentation accordingly. Re-wrote the `import_as()` help page to be more in line with CRAN rules. More examples added. Tiny textual edits to documentation.
  - 5 October: Reduced the amount of text in the arguments sections. Reduced the number of suggested packages. Added URLs to the GitHub page and Website.
+ - 7 October: changed the name of the pattern list specification functions to starts with s_ rather than stri_, to clarify they're only for infix operators.
 
 &nbsp;

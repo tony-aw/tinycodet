@@ -28,6 +28,10 @@ see \link{tinycodet_dry}. \cr
 And some miscellaneous functionality; see \link{tinycodet_misc}. \cr
 \cr
 
+'tinycodet' adheres to the
+\href{https://www.tinyverse.org/}{tinyverse}
+philosophy
+(not to be confused with the tidyverse).
 'tinycodet' has only one dependency,
 namely 'stringi'. No other dependencies, thus avoiding "dependency hell".
 Most functions in this R-package are vectorised and optimised. \cr
@@ -39,9 +43,10 @@ The badges shown in the documentation of this R-package were made using the serv
 \seealso{
 Useful links:
 \itemize{
-\item GitHub main page: \url{https://github.com/tony-aw/tinycodet/}
-\item Package website: \url{https://tony-aw.github.io/tinycodet/}
-\item Report bugs at: \url{https://github.com/tony-aw/tinycodet/issues}
+\item 'tinycodet' GitHub page: \url{https://github.com/tony-aw/tinycodet/}
+\item 'tinycodet' package website: \url{https://tony-aw.github.io/tinycodet/}
+\item Report bugs at: \url{https://github.com/tony-aw/tinycodet/issues/}
+\item The fastverse, which is related to the tinyverse: \url{https://github.com/fastverse/fastverse/}
 }
 }
 \author{

@@ -42,7 +42,7 @@ optimised.
 Although this is a relatively small R package, I do understand you may
 not want to go through all the articles and help files of ‘tinycodet’
 without knowing if the R package is even worth your time. Therefore, to
-get a quick glimpse of what ‘tinycodet’ provides, I kindly invite you to
+get a quick glimpse of what ‘tinycodet’ provides, I humbly invite you to
 take a look at the [Get
 Started](https://tony-aw.github.io/tinycodet/articles/tinycodet.html)
 page on the website (<https://tony-aw.github.io/tinycodet/>).
@@ -96,7 +96,7 @@ tab on the GitHub page
 
  
 
-CHANGELOG (EXPERIMENTAL VERSIONS):
+# CHANGELOG (pre-release):
 
 - 8 March 2023: `stringi` is now a dependency. Completely re-written the
   ReadMe file, Description, and documentation.
@@ -358,5 +358,8 @@ CHANGELOG (EXPERIMENTAL VERSIONS):
 - 5 October: Reduced the amount of text in the arguments sections.
   Reduced the number of suggested packages. Added URLs to the GitHub
   page and Website.
+- 7 October: changed the name of the pattern list specification
+  functions to starts with s\_ rather than stri\_, to clarify they’re
+  only for infix operators.
 
  

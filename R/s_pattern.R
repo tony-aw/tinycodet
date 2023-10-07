@@ -44,15 +44,20 @@
 #' 'tinycodet' adds some convenience functions based on
 #' the \code{stri_opts_} - functions in 'stringi':
 #'
-#' * \code{stri_rgx(p, ...)} is equivalent to \code{c(list(regex = p), ...)}
-#' * \code{stri_fxd(p, ...)} is equivalent to \code{c(list(fixed = p), ...)}
-#' * \code{stri_cll(p, ...)} is equivalent to \code{c(list(coll = p), ...)}
-#' * \code{stri_chrcls(p, ...)} is equivalent to \code{c(list(charclass = p), ... )}
+#' * \code{s_regex(p, ...)} is equivalent to \code{list(regex = p, ...)}
+#' * \code{s_fixed(p, ...)} is equivalent to \code{list(fixed = p, ...)}
+#' * \code{s_coll(p, ...)} is equivalent to \code{list(coll = p, ...)}
+#' * \code{s_chrcls(p, ...)} is equivalent to \code{list(charclass = p, ... )}
 #'
 #' With the ellipsis (\code{...})
 #' being passed to the appropriate
 #' 'stringi'-functions
-#' when it matches their arguments.
+#' when it matches their arguments. \cr
+#' \cr
+#' 'stringi' infix operators start with \code{%s},
+#' though they all have an alias starting with \code{%stri}.
+#' In analogy to that, the above functions start with \code{s_}
+#' rather than \code{stri_}, as they are all meant for infix operators only. \cr
 #'
 #'
 #'
@@ -87,7 +92,7 @@
 #' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 #' print(x)
 #' x %s/% list(regex = rep("A|E|I|O|U", 2), case_insensitive = TRUE)
-#' x %s/% stri_rgx(rep("A|E|I|O|U", 2), case_insensitive = TRUE)
+#' x %s/% s_regex(rep("A|E|I|O|U", 2), case_insensitive = TRUE)
 #'
 #'
 #' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
@@ -110,7 +115,7 @@
 
 #' @rdname s_pattern
 #' @export
-stri_rgx <- function(
+s_regex <- function(
     p,
     case_insensitive,
     comments,
@@ -139,7 +144,7 @@ stri_rgx <- function(
 
 #' @rdname s_pattern
 #' @export
-stri_fxd <- function(
+s_fixed <- function(
     p, case_insensitive, overlap, ...
 ) {
   opts <- stringi::stri_opts_fixed(
@@ -156,7 +161,7 @@ stri_fxd <- function(
 
 #' @rdname s_pattern
 #' @export
-stri_cll <- function(
+s_coll <- function(
     p,
     locale,
     strength,
@@ -187,7 +192,7 @@ stri_cll <- function(
 
 #' @rdname s_pattern
 #' @export
-stri_chrcls <- function(
+s_chrcls <- function(
     p, ...
 ) {
   list(charclass = p, ...)
