@@ -35,11 +35,11 @@ expect_equal(
 )
 
 expect_equal(
-  x.regex %s/% stri_rgx('sTrInG', case_insensitive = TRUE),
+  x.regex %s/% s_regex('sTrInG', case_insensitive = TRUE),
   stringi::stri_count_regex(x.regex, 'sTrInG', case_insensitive = TRUE)
 )
 expect_equal(
-  x.regex %s-% stri_rgx('sTrInG', case_insensitive = TRUE),
+  x.regex %s-% s_regex('sTrInG', case_insensitive = TRUE),
   stringi::stri_replace_all_regex(x.regex, 'sTrInG', "", case_insensitive = TRUE)
 )
 
@@ -48,11 +48,11 @@ x.regex <- c('abc', 'def', '123', 'ghi', '456', '789', 'jkl')
 p.regex <- '^[0-9]+$'
 
 expect_equal(
-  x.regex %s/% stri_rgx(p.regex),
+  x.regex %s/% s_regex(p.regex),
   stringi::stri_count_regex(x.regex, p.regex)
 )
 expect_equal(
-  x.regex %s-% stri_rgx(p.regex),
+  x.regex %s-% s_regex(p.regex),
   stringi::stri_replace_all_regex(x.regex, p.regex, "")
 )
 
@@ -62,19 +62,19 @@ x.fixed <- c('stringi R', 'R STRINGI', '123')
 p.fixed <- c('i', 'R', '0')
 
 expect_equal(
-  x.fixed %s/% stri_fxd(p.fixed),
+  x.fixed %s/% s_fixed(p.fixed),
   stringi::stri_count_fixed(x.fixed, p.fixed)
 )
 expect_equal(
-  x.fixed %s-% stri_fxd(p.fixed),
+  x.fixed %s-% s_fixed(p.fixed),
   stringi::stri_replace_all_fixed(x.fixed, p.fixed, "")
 )
 expect_equal(
-  x.fixed %s/% stri_fxd('R'),
+  x.fixed %s/% s_fixed('R'),
   stringi::stri_count_fixed(x.fixed, 'R')
 )
 expect_equal(
-  x.fixed %s-% stri_fxd('R'),
+  x.fixed %s-% s_fixed('R'),
   stringi::stri_replace_all_fixed(x.fixed, 'R', "")
 )
 
@@ -89,9 +89,9 @@ loops <- loops + 1
 for(i in 1:length(x.list)) {
   for(j in 1:length(p.list)) {
     expect1[[k]] <- suppressWarnings(stringi::stri_count_coll(x.list[[i]], p.list[[j]]))
-    out1[[k]] <- suppressWarnings(x.list[[i]] %s/% stri_cll(p.list[[j]]))
+    out1[[k]] <- suppressWarnings(x.list[[i]] %s/% s_coll(p.list[[j]]))
     expect2[[k]] <- suppressWarnings(stringi::stri_replace_all_coll(x.list[[i]], p.list[[j]], ""))
-    out2[[k]] <- suppressWarnings(x.list[[i]] %s-% stri_cll(p.list[[j]]))
+    out2[[k]] <- suppressWarnings(x.list[[i]] %s-% s_coll(p.list[[j]]))
     enumerate <- enumerate + 2
 
   }
@@ -109,20 +109,20 @@ p.coll <- c(
 )
 expect_equal(
   stringi::stri_count_coll(x.coll, p.coll),
-  x.coll %s/% stri_cll(p.coll)
+  x.coll %s/% s_coll(p.coll)
 )
 expect_equal(
   stringi::stri_replace_all_coll(x.coll, p.coll, ""),
-  x.coll %s-% stri_cll(p.coll)
+  x.coll %s-% s_coll(p.coll)
 )
 
 expect_equal(
   stringi::stri_count_coll(character(0), "ipsum 1234"),
-  character(0) %s/% stri_cll("ipsum 1234")
+  character(0) %s/% s_coll("ipsum 1234")
 )
 expect_equal(
   stringi::stri_replace_all_coll(character(0), "ipsum 1234", ""),
-  character(0) %s-% stri_cll("ipsum 1234", "")
+  character(0) %s-% s_coll("ipsum 1234", "")
 )
 
 
@@ -131,11 +131,11 @@ x.charclass <- c('stRRRingi','R STRINGI', '123')
 p.charclass <- c('\\p{Ll}', '\\p{Lu}', '\\p{Zs}')
 
 expect_equal(
-  x.charclass %s/% stri_chrcls(p.charclass),
+  x.charclass %s/% s_chrcls(p.charclass),
   stringi::stri_count_charclass(x.charclass, p.charclass)
 )
 expect_equal(
-  x.charclass %s-% stri_chrcls(p.charclass),
+  x.charclass %s-% s_chrcls(p.charclass),
   stringi::stri_replace_all_charclass(x.charclass, p.charclass, "")
 )
 

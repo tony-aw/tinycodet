@@ -1,5 +1,5 @@
 # rgex ====
-out <- stri_rgx(
+out <- s_regex(
   "hello", case_insensitive = FALSE,
   comments = FALSE,
   dotall = FALSE,
@@ -21,7 +21,7 @@ expect <- c(
 expect_equal(out, expect)
 
 # fixed ====
-out <- stri_fxd(
+out <- s_fixed(
   "hello", case_insensitive = FALSE,
   overlap = FALSE
 )
@@ -32,7 +32,7 @@ expect <- c(
 expect_equal(out, expect)
 
 # coll ====
-out <- stri_cll(
+out <- s_coll(
   "hello",
   locale = NULL,
   strength = 3L,
@@ -60,6 +60,6 @@ expect <- c(
 expect_equal(out, expect)
 
 # chrcls ====
-out <- stri_chrcls("hello", some_option=NA)
+out <- s_chrcls("hello", some_option=NA)
 expect <- list(charclass="hello", some_option=NA)
 expect_equal(out, expect)
