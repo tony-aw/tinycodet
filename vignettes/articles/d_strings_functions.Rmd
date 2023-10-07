@@ -23,6 +23,18 @@ library(tinycodet)
 
 &nbsp;
 
+# Introduction
+
+Virtually every programming language, even those primarily focused on mathematics, will at some point have to deal with strings. R's atomic classes basically boil down to some form of either numbers or characters. R's numerical functions are generally very fast. But R's native string functions are somewhat slow, do not have a unified naming scheme, and are not as comprehensive as R's impressive numerical functions.
+
+The primary R-package that fixes this is 'stringi'. 'stringi' is arguably the fastest, most comprehensive, and one of the most downloaded string manipulation packages available at the time of writing. 'stringi' itself is dependency free. And many string related packages simply call 'stringi' functions.
+
+For example: 'stringr' (from the 'tidyverse') is merely a thin wrapper around 'stringi', with less functionality and yet more dependencies.
+
+The 'tinycodet' package actually adds more functionality to the 'stringi' string manipulation capabilities.
+
+&nbsp;
+
 # stri_locate_ith
 
 Suppose one wants to transform the **first** vowels in the strings of a character vector `str`, such that all upper case vowels become lower case, and vice-versa.

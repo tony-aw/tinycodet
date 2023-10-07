@@ -343,6 +343,27 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(tinycodet)</span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co">#&gt; Run [4m?tinycodet::tinycodet[24m to open the introduction help page of tinycodet.</span></span></code></pre></div>
 <p> </p>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>Virtually every programming language, even those primarily focused on
+mathematics, will at some point have to deal with strings. R’s atomic
+classes basically boil down to some form of either numbers or
+characters. R’s numerical functions are generally very fast. But R’s
+native string functions are somewhat slow, do not have a unified naming
+scheme, and are not as comprehensive as R’s impressive numerical
+functions.</p>
+<p>The primary R-package that fixes this is ‘stringi’. ‘stringi’ is
+arguably the fastest, most comprehensive, and one of the most downloaded
+string manipulation packages available at the time of writing. ‘stringi’
+itself is dependency free. And many string related packages simply call
+‘stringi’ functions.</p>
+<p>For example: ‘stringr’ (from the ‘tidyverse’) is merely a thin
+wrapper around ‘stringi’, with less functionality and yet more
+dependencies.</p>
+<p>The ‘tinycodet’ package actually adds more functionality to the
+‘stringi’ string manipulation capabilities.</p>
+<p> </p>
+</div>
 <div id="stri_locate_ith" class="section level1">
 <h1>stri_locate_ith</h1>
 <p>Suppose one wants to transform the <strong>first</strong> vowels in
@@ -538,7 +559,7 @@ sentences :</p>
 <span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a>mat <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(x)) <span class="sc">|&gt;</span> <span class="fu">matrix</span>(<span class="at">ncol=</span><span class="fu">ncol</span>(x))</span>
 <span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a>shuffled <span class="ot">&lt;-</span> x <span class="sc">%row~%</span> mat</span>
 <span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a><span class="fu">stri_paste_mat</span>(shuffled, <span class="at">margin=</span><span class="dv">1</span>, <span class="at">sep=</span><span class="st">&quot; &quot;</span>) <span class="co"># &lt;- another alias for stri_join_mat</span></span>
-<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Oh, really?!  Hello, who are you?  Cool!&quot;</span></span>
+<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Oh, really?!  Cool! Hello, who are you? &quot;</span></span>
 <span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a><span class="co">#&gt; [2] NA</span></span></code></pre></div>
 <p> </p>
 </div>
