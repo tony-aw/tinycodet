@@ -218,6 +218,17 @@ head(d)
 
 &nbsp;
 
+# When to use or not to use the new import system
+
+There is no necessity for using the 'tinycodet' import system with every single package. In fact, I would recommend attaching certain packages, for example the 'stringi' package:
+The 'stringi' package uses a unique and immediately recognisable naming scheme (all 'stringi' functions start with "`stri_`"), and this naming scheme does not conflict with core R nor with most other packages.
+Of course, if one wishes to use 'stringi' only within a specific environment, like only inside a function, it becomes advantageous to load 'stringi' using the 'tinycodet' import system (in this case the `import_LL()` function would be most applicable).
+
+I
+
+&nbsp;
+
+
 # Example
 
 One R package that could benefit from the import system introduced by `tinycodet`, is the [dplyr](https://github.com/tidyverse/dplyr) R package. The [dplyr](https://github.com/tidyverse/dplyr) R package overwrites **core R** functions (including base R) and it overwrites functions from pre-installed recommended R packages (such as `MASS`). I.e.:

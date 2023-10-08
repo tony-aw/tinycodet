@@ -738,6 +738,21 @@ on), one simply runs the following:</p>
 <span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a><span class="co">#&gt; 6   130  6.5664557         NA -17.63400  9.8585839 -2551.5 40.0</span></span></code></pre></div>
 <p> </p>
 </div>
+<div id="when-to-use-or-not-to-use-the-new-import-system" class="section level1">
+<h1>When to use or not to use the new import system</h1>
+<p>There is no necessity for using the ‘tinycodet’ import system with
+every single package. In fact, I would recommend attaching certain
+packages, for example the ‘stringi’ package: The ‘stringi’ package uses
+a unique and immediately recognisable naming scheme (all ‘stringi’
+functions start with “<code>stri_</code>”), and this naming scheme does
+not conflict with core R nor with most other packages. Of course, if one
+wishes to use ‘stringi’ only within a specific environment, like only
+inside a function, it becomes advantageous to load ‘stringi’ using the
+‘tinycodet’ import system (in this case the <code>import_LL()</code>
+function would be most applicable).</p>
+<p>I</p>
+<p> </p>
+</div>
 <div id="example" class="section level1">
 <h1>Example</h1>
 <p>One R package that could benefit from the import system introduced by

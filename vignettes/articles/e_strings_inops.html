@@ -469,6 +469,17 @@ interpreted. The list should use the exact same naming convention as
 <li><code>list(coll=p, ...)</code></li>
 <li><code>list(charclass=p, ...)</code></li>
 </ul>
+<p>For convenience, ‘tinycodet’ adds the following functions:</p>
+<ul>
+<li><code>s_regex(p, ...)</code> is equivalent to
+<code>list(regex = p, ...)</code></li>
+<li><code>s_fixed(p, ...)</code> is equivalent to
+<code>list(fixed = p, ...)</code></li>
+<li><code>s_coll(p, ...)</code> is equivalent to
+<code>list(coll = p, ...)</code></li>
+<li><code>s_chrcls(p, ...)</code> is equivalent to
+<code>list(charclass = p, ... )</code></li>
+</ul>
 <p>Examples with Regular expressions:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Hello world&quot;</span>, <span class="st">&quot;Goodbye world&quot;</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">regex=</span><span class="st">&quot; world&quot;</span>)</span>
@@ -476,14 +487,14 @@ interpreted. The list should use the exact same naming convention as
 <span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Hello&quot;   &quot;Goodbye&quot;</span></span>
 <span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a></span>
 <span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Ha&quot;</span>, <span class="st">&quot;Ho&quot;</span>, <span class="st">&quot;Hi&quot;</span>, <span class="st">&quot;Hu&quot;</span>, <span class="st">&quot;He&quot;</span>, <span class="st">&quot;Ha&quot;</span>) <span class="sc">%s*%</span> <span class="dv">10</span></span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">regex=</span><span class="st">&quot;Ha&quot;</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">s_regex</span>(<span class="st">&quot;Ha&quot;</span>)</span>
 <span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>x <span class="sc">%s/%</span> p</span>
 <span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a><span class="co">#&gt; [1] 10  0  0  0  0 10</span></span>
 <span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a></span>
 <span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">paste0</span>(letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">13</span>], <span class="at">collapse=</span><span class="st">&quot;&quot;</span>), <span class="fu">paste0</span>(letters[<span class="dv">14</span><span class="sc">:</span><span class="dv">26</span>], <span class="at">collapse=</span><span class="st">&quot;&quot;</span>))</span>
 <span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="fu">print</span>(x)</span>
 <span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="co">#&gt; [1] &quot;abcdefghijklm&quot; &quot;nopqrstuvwxyz&quot;</span></span>
-<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">regex =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;A&quot;</span>), <span class="at">case_insensitive=</span><span class="cn">TRUE</span>)</span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">s_regex</span>(<span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;A&quot;</span>), <span class="at">case_insensitive=</span><span class="cn">TRUE</span>)</span>
 <span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>x <span class="sc">%s{}%</span> p</span>
 <span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="co">#&gt; [1]  TRUE FALSE</span></span>
 <span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a>x <span class="sc">%s!{}%</span> p</span>

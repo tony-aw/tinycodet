@@ -122,6 +122,12 @@ Instead of giving a string or character vector of regex patterns, one can also s
  - `list(coll=p, ...)`
  - `list(charclass=p, ...)`
 
+For convenience, 'tinycodet' adds the following functions:
+
+ - `s_regex(p, ...)` is equivalent to `list(regex = p, ...)`
+ - `s_fixed(p, ...)` is equivalent to `list(fixed = p, ...)`
+ - `s_coll(p, ...)` is equivalent to `list(coll = p, ...)`
+ - `s_chrcls(p, ...)` is equivalent to `list(charclass = p, ... )`
 
 Examples with Regular expressions:
 
@@ -131,12 +137,12 @@ p <- list(regex=" world")
 x %s-% p
 
 x <- c("Ha", "Ho", "Hi", "Hu", "He", "Ha") %s*% 10
-p <- list(regex="Ha")
+p <- s_regex("Ha")
 x %s/% p
 
 x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 print(x)
-p <- list(regex = c("A", "A"), case_insensitive=TRUE)
+p <- s_regex(c("A", "A"), case_insensitive=TRUE)
 x %s{}% p
 x %s!{}% p
 ```
