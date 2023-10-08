@@ -84,11 +84,19 @@
 #' # the stri_sub() function now cannot be modified, only used or removed, because it's locked:
 #' bindingIsLocked("stri_sub", environment()) # TRUE
 #'
+#' mypaste <- function(x, y) {
+#'   import_LL("stringi", selection = "stri_c")
+#'   stringi::stri_c(x, y)
+#'   }
+#' mypaste("hello ", "world")
+#'
+#'
 #'
 #' # Using internal function ====
 #' # Through re-assignment:
 #' fun <- import_int(tinycodet ~ .internal_paste, .libPaths())
 #' fun("hello", "world")
+#'
 #' # Or using directly:
 #' import_int(
 #'   tinycodet ~ .internal_paste, .libPaths()

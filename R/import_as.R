@@ -207,11 +207,7 @@ import_as <- function(
   }
 
   # check load order:
-  loadorder <- tolower(loadorder)
-  check_loadorder <- all(
-    sort(loadorder) ==sort(c("dependencies", "main_package", "extensions"))
-  )
-  if(!isTRUE(check_loadorder)) {
+  if(!.loadorder_is_correct(loadorder)) {
     stop("Improper load order given")
   }
 
@@ -355,9 +351,7 @@ import_as <- function(
     isTRUE(args$re_exports) | isFALSE(args$re_exports),
     isTRUE(is.character(args$dependencies) | is.null(args$dependencies)),
     isTRUE(is.character(args$extensions) | is.null(args$extensions)),
-    isTRUE(all(
-      sort(args$loadorder) == sort(c("dependencies", "main_package", "extensions"))
-    ))
+    isTRUE(.loadorder_is_correct(args$loadorder))
   )
   if(any(!check_args)) {
     return(FALSE)
@@ -400,4 +394,28 @@ import_as <- function(
     }
     return(conflicts_df)
   }
+}
+
+#' @keywords internal
+#' @noRd
+.loadorder_is_correct <- function(loadorder) {
+  if(!is.character(loadorder)) {
+    return(FALSE)
+  }
+  loadorder <- tolower(loadorder)
+  if(length(loadorder) != 3) {
+    return(FALSE)
+  }
+  if(anyDuplicated(loadorder)) {
+    return(FALSE)
+  }
+  check_loadorder <- all(
+    sort(loadorder) ==sort(c("dependencies", "main_package", "extensions"))
+  )
+  if(!isTRUE(check_loadorder)) {
+    return(FALSE)
+  }
+
+  return(TRUE)
+
 }
