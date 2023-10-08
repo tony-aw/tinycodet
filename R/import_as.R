@@ -311,9 +311,9 @@ import_as <- function(
 
   message(paste0(
     "Done", "\n",
-    "You can now access the functions using \033[4m", alias, "$", "\033[24m", "\n",
+    "You can now access the functions using `", alias, "$", "`", "\n",
     "Methods will work like normally \n",
-    "For conflicts report, packages order, and other attributes, run \033[4m", "attr.import(", alias, ")", "\033[24m \n"
+    "For conflicts report, packages order, and other attributes, run `", "attr.import(", alias, ")", "` \n"
   ))
 
 }
