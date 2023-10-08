@@ -54,10 +54,10 @@
 #' 'stringi'-functions
 #' when it matches their arguments. \cr
 #' \cr
-#' 'stringi' infix operators start with \code{%s},
-#' though they all have an alias starting with \code{%stri}.
-#' In analogy to that, the above functions start with \code{s_}
-#' rather than \code{stri_}, as they are all meant for infix operators only. \cr
+#' 'stringi' infix operators start with "\code{%s}",
+#' though they all have an alias starting with "\code{%stri}".
+#' In analogy to that, the above functions start with "\code{s_}"
+#' rather than "\code{stri_}", as they are all meant for infix operators only. \cr
 #'
 #'
 #'
@@ -97,13 +97,10 @@
 #'
 #' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 #' print(x)
-#' p <- list(regex = c("A", "A"), case_insensitive=TRUE)
+#' p <- list(fixed = c("A", "A"), case_insensitive=TRUE)
 #' x %s{}% p
 #' x %s!{}% p
-#'
-#' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
-#' print(x)
-#' p <- list(fixed = c("A", "A"), case_insensitive=TRUE)
+#' p <- s_fixed(c("A", "A"), case_insensitive=TRUE)
 #' x %s{}% p
 #' x %s!{}% p
 #'
@@ -198,58 +195,3 @@ s_chrcls <- function(
   list(charclass = p, ...)
 }
 
-#
-# `%s-%` <- function (x, p) {
-#   check.list <- is.list(p)
-#   check.chr <- is.character(p) & !.is.stringrpattern(p)
-#   check.stringr <- .is.stringrpattern(p)
-#   if(check.list){
-#     return(do.call(stringi::stri_replace_all, c(list(str=x, replacement=""), p)))
-#   }
-#   if(check.chr) {
-#     return(stringi::stri_replace_all(x, "", regex=p))
-#   }
-#   if(check.stringr) {
-#     p <- .stringrpattern2list(p)
-#     return(do.call(stringi::stri_replace_all, c(list(str=x, replacement=""), p)))
-#   }
-#   if(!check.list & !check.chr & !check.stringr) {
-#     stop("right hand side must be a character vector or list")
-#   }
-# }
-#
-# `%s/%` <- function(x, p) {
-#   check.list <- is.list(p)
-#   check.chr <- is.character(p) & !.is.stringrpattern(p)
-#   check.stringr <- .is.stringrpattern(p)
-#   if(check.list){
-#     return(do.call(stringi::stri_count, c(list(str=x), p)))
-#   }
-#   if(check.chr){
-#     return(stringi::stri_count(x, regex=p))
-#   }
-#   if(check.stringr) {
-#     p <- .stringrpattern2list(p)
-#     return(do.call(stringi::stri_count, c(list(str=x), p)))
-#   }
-#   if(!check.list & !check.chr & !check.stringr) {
-#     stop("right hand side must be a character vector or list")
-#   }
-# }
-#
-# .is.stringrpattern <- function(p) {
-#   checks <- c(
-#     is.character(p),
-#     (!is.null(attr(p, "options"))),
-#     stringi::stri_detect(class(p)[1], regex = "stringr_")
-#   )
-#   return(isTRUE(all(checks)))
-# }
-#
-# .stringrpattern2list <- function(p) {
-#   pattern_type <- stringi::stri_replace_all(class(p)[1], regex = "stringr_", "")
-#   opts <- attr(p, "options")
-#   out <- c(p, opts)
-#   names(out)[[1]] <- pattern_type
-#   return(out)
-# }

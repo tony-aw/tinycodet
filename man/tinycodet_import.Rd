@@ -80,7 +80,18 @@ to get an idea of how the 'tinycodet' import system works in practice.
 More examples can be found on the website (\url{https://tony-aw.github.io/tinycodet/})
 }
 \details{
-Some additional comments on the 'tinycodet' import system:
+\bold{When to Use or Not to Use the 'tinycodet' Import System} \cr
+There is no necessity for using the 'tinycodet' import system with every single package.
+One can safely attach the 'stringi' package, for example,
+as 'stringi' uses a unique and immediately recognisable naming scheme
+(virtually all 'stringi' functions start with "\code{stri_}"),
+and this naming scheme does not conflict with core R, nor with most other packages. \cr
+Of course, if one wishes to use 'stringi' \bold{only} within a specific environment,
+like only inside a function,
+it becomes advantageous to load 'stringi' using the 'tinycodet' import system
+(in that case the \link{import_LL} function would be most applicable). \cr
+\cr
+\bold{Some Additional Comments on the 'tinycodet' Import System} \cr
 \itemize{
 \item (S3) Methods will automatically be registered.
 \item Pronouns, such as the \code{.data} and \code{.env} pronouns
@@ -127,6 +138,12 @@ dpr.$power_inner_join(
   male_penguins[c("species", "island")],
   female_penguins[c("species", "island")]
 )
+
+mypaste <- function(x, y) {
+  import_LL("stringi", selection = "stri_c")
+  stringi::stri_c(x, y)
+}
+mypaste("hello ", "world")
 
 }
 

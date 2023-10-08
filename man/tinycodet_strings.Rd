@@ -19,7 +19,7 @@ string manipulation package available at the time of writing.
 Many string related packages fully depend on 'stringi'.
 The 'stringr' package, for example, is merely a thin wrapper around 'stringi'. \cr
 \cr
-As string manipulation is so important to programming languagges,
+As string manipulation is so important to programming languages,
 'tinycodet' adds a little bit new functionality to 'stringi':
 \itemize{
 \item Find  \eqn{i^{th}} pattern occurrence (\link{stri_locate_ith}),

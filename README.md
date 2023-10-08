@@ -96,7 +96,7 @@ tab on the GitHub page
 
  
 
-# CHANGELOG (pre-release):
+## CHANGELOG (pre-release):
 
 - 8 March 2023: `stringi` is now a dependency. Completely re-written the
   ReadMe file, Description, and documentation.
@@ -343,23 +343,25 @@ tab on the GitHub page
   with checking the documentation before submitting to CRAN…
 - 25, 26, 28 September 2023: Minor textual corrections in documentation
   and website.
-- 29 September: Minor textual corrections in documentation and website.
-  Added badges to pattern arguments of the stringi-based functions.
-  Added a package startup message. Removed `%ss%`. Added missing
-  boundaries functions, and made the existing boundaries functions more
-  conform to `stringi`. Fixed a few minor issues. Added about 50 tests.
-- 30 September: More examples added. Tiny textual edits to
+- 29 September 2023: Minor textual corrections in documentation and
+  website. Added badges to pattern arguments of the stringi-based
+  functions. Added a package startup message. Removed `%ss%`. Added
+  missing boundaries functions, and made the existing boundaries
+  functions more conform to `stringi`. Fixed a few minor issues. Added
+  about 50 tests.
+- 30 September 2023: More examples added. Tiny textual edits to
   documentation.
 - 4 October: Updated to R version 4.3.1. Removed `fill_loc` argument
   from `strcut_loc`, and changed the testing and documentation
   accordingly. Re-wrote the `import_as()` help page to be more in line
   with CRAN rules. More examples added. Tiny textual edits to
   documentation.
-- 5 October: Reduced the amount of text in the arguments sections.
+- 5 October 2023: Reduced the amount of text in the arguments sections.
   Reduced the number of suggested packages. Added URLs to the GitHub
   page and Website.
-- 7 October: changed the name of the pattern list specification
+- 7 October 2023: changed the name of the pattern list specification
   functions to starts with s\_ rather than stri\_, to clarify they’re
   only for infix operators.
+- 8 October 2023: Minor changes to the documentation.
 
  

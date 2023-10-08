@@ -114,10 +114,10 @@ being passed to the appropriate
 'stringi'-functions
 when it matches their arguments. \cr
 \cr
-'stringi' infix operators start with \code{\%s},
-though they all have an alias starting with \code{\%stri}.
-In analogy to that, the above functions start with \code{s_}
-rather than \code{stri_}, as they are all meant for infix operators only. \cr
+'stringi' infix operators start with "\code{\%s}",
+though they all have an alias starting with "\code{\%stri}".
+In analogy to that, the above functions start with "\code{s_}"
+rather than "\code{stri_}", as they are all meant for infix operators only. \cr
 }
 \examples{
 x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
@@ -133,13 +133,10 @@ x \%s/\% s_regex(rep("A|E|I|O|U", 2), case_insensitive = TRUE)
 
 x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 print(x)
-p <- list(regex = c("A", "A"), case_insensitive=TRUE)
+p <- list(fixed = c("A", "A"), case_insensitive=TRUE)
 x \%s{}\% p
 x \%s!{}\% p
-
-x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
-print(x)
-p <- list(fixed = c("A", "A"), case_insensitive=TRUE)
+p <- s_fixed(c("A", "A"), case_insensitive=TRUE)
 x \%s{}\% p
 x \%s!{}\% p
 
