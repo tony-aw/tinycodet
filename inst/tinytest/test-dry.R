@@ -126,6 +126,14 @@ expect_error(
 )
 
 
+# unreal replacement works checks ====
+x <- c(1:10, NA, NaN, Inf, -Inf)
+x %unreal =% 0
+expect_equal(
+  c(1:10, rep(0, 4)),
+  x
+)
+
 # inplace function works ====
 mtcars <- mtcars2 <- datasets::mtcars
 y <- 2
