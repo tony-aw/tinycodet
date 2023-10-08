@@ -256,14 +256,17 @@ More examples can be found on the website (<a href="https://tony-aw.github.io/ti
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p><b>When to Use or Not to Use the 'tinycodet' Import System</b> <br>
+The 'tinycodet' import system is helpful particularly when packages
+have conflicting namespaces with each other, or conflict with core/base R. <br>
 There is no necessity for using the 'tinycodet' import system with every single package.
 One can safely attach the 'stringi' package, for example,
 as 'stringi' uses a unique and immediately recognisable naming scheme
 (virtually all 'stringi' functions start with "<code>stri_</code>"),
 and this naming scheme does not conflict with core R, nor with most other packages. <br>
-Of course, if one wishes to use 'stringi' <b>only</b> within a specific environment,
+Of course, if one wishes to use a package (like
+'stringi') <b>only</b> within a specific environment,
 like only inside a function,
-it becomes advantageous to load 'stringi' using the 'tinycodet' import system
+it becomes advantageous to still load the package using the 'tinycodet' import system
 (in that case the <a href="import_misc.html">import_LL</a> function would be most applicable). <br><br><b>Some Additional Comments on the 'tinycodet' Import System</b> <br></p><ul><li><p>(S3) Methods will automatically be registered.</p></li>
 <li><p>Pronouns, such as the <code>.data</code> and <code>.env</code> pronouns
 from the 'rlang' package, will work without any prefixes required.</p></li>
