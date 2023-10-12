@@ -1,7 +1,8 @@
 
-# added the following 2 lines just for testing on GitHUb - this is temporary:
+# added the following 3 lines just for testing on GitHUb - this is temporary:
 to.dir <- tempdir() |> normalizePath()
 write.csv("hello", file = file.path(to.dir, "hello.csv"))
+unlink(file.path(to.dir, "hello.csv"))
 
 # get fake pkgs library folders:
 lib.loc <- file.path(getwd(), "fake_library")
