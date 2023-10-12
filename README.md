@@ -21,8 +21,8 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 
 ## Overview
 
-‘tinycodet’ is a small R-package adds a few functions to help in your
-coding etiquette. It primarily focuses on 4 things:
+‘tinycodet’ is a small R-package that adds a few functions to help in
+your coding etiquette. It primarily focuses on 4 things:
 
 1)  Safer decimal (in)equality testing, safer atomic conversions, and
     other functions for safer coding.
@@ -36,7 +36,7 @@ coding etiquette. It primarily focuses on 4 things:
 ‘tinycodet’ adheres to the [tinyverse](https://www.tinyverse.org/)
 philosophy (not to be confused with the tidyverse). It has only one
 dependency, namely ‘stringi’. No other dependencies, thus avoiding
-“dependency hell”. Most functions in this R-package are vectorised and
+“dependency hell”. Most functions in this R-package are vectorized and
 optimised.
 
 Although this is a relatively small R package, I do understand you may

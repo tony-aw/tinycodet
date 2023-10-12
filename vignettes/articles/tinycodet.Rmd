@@ -29,7 +29,7 @@ The `tinycodet` R-package is a tiny little R package that adds a few functions t
 
 The `tinycodet` R-package has only one dependency, namely `stringi`. Most functions in this R-package are fully vectorized and optimized, and have been well documented.
 
-Although this is a relatively small R package, I do understand you may not want to go through all the articles and help files of `tinycodet` without knowing if the R package is even worthy of your time. So here I'll give a quick glimpse of what is possible in this R package.
+Here I'll give a quick glimpse of what is possible in this R package.
 
 &nbsp;
 
