@@ -1,4 +1,7 @@
 
+# added the following single line just for testing on GitHUb - this is temporary:
+to.dir <- tempdir() |> normalizePath()
+
 # get fake pkgs library folders:
 lib.loc <- file.path(getwd(), "fake_library")
 lib.loc2 <- file.path(getwd(), "fake_library2")
