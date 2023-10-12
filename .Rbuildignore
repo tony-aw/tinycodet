@@ -8,8 +8,13 @@
 ^linguist
 ^Readme
 ^sourcetest
+^cran-comments\.md$
 pdf$
 fake_packages
 README.Rmd
 README.md
 README.html
+^LICENSE\.md$
+inst/tinytest/count_tests
+usethis
+
