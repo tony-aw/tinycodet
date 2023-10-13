@@ -25,6 +25,8 @@ set.seed(1)
 `r badge_lifecycle("stable")`
 `r badge_custom("ORCID", "0000-0001-9498-8379", "green",   "https://orcid.org/0000-0001-9498-8379")`
 `r badge_custom("github-pages", "tony-aw.github.io/tinycodet", "purple",   "https://tony-aw.github.io/tinycodet/")`
+`r badge_cran_release("tinycodet")`
+`r badge_dependencies("tinycodet")`
 <!-- badges: end -->
 
 [![](man/figures/tinycodet.svg)](https://github.com/tony-aw/tinycodet/)

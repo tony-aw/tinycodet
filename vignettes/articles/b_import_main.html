@@ -742,17 +742,18 @@ on), one simply runs the following:</p>
 <h1>When to use or not to use the new import system</h1>
 <p>The ‘tinycodet’ import system is helpful particularly when packages
 have conflicting namespaces with each other, or conflict with core/base
-R. There is no necessity for using the ‘tinycodet’ import system with
+R.</p>
+<p>There is no necessity for using the ‘tinycodet’ import system with
 every single package. In fact, I would recommend attaching certain
-packages, for example the ‘stringi’ package: The ‘stringi’ package uses
-a unique and immediately recognisable naming scheme (all ‘stringi’
-functions start with “<code>stri_</code>”), and this naming scheme does
-not conflict with core R nor with most other packages. Of course, if one
-wishes to use ‘stringi’ only within a specific environment, like only
-inside a function, it becomes advantageous to load ‘stringi’ using the
-‘tinycodet’ import system (in this case the <code>import_LL()</code>
-function would be most applicable).</p>
-<p>I</p>
+packages, for example the ‘stringi’ package.</p>
+<p>The ‘stringi’ package uses a unique and immediately recognisable
+naming scheme (all ‘stringi’ functions start with “<code>stri_</code>”),
+and this naming scheme does not conflict with core R nor with most other
+packages.</p>
+<p>Of course, if one wishes to use ‘stringi’ only within a specific
+environment, like only inside a function, it becomes advantageous to
+load ‘stringi’ using the ‘tinycodet’ import system (in this case the
+<code>import_LL()</code> function would be most applicable).</p>
 <p> </p>
 </div>
 <div id="example" class="section level1">
