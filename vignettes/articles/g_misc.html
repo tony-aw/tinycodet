@@ -436,126 +436,126 @@ functions.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>), <span class="at">nrow=</span><span class="dv">5</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">print</span>(x)</span>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt; [1,]    3   25   24    7    9</span></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt; [2,]    1    5   22    8   11</span></span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; [3,]   16   19    2    4   21</span></span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt; [4,]   20   12   17   14   18</span></span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt; [5,]   13   23   15    6   10</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt; [1,]   21   18   20   14    5</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt; [2,]   15    4    6   23    3</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; [3,]    2   11    1   22    8</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt; [4,]   12   17   24    7   25</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt; [5,]    9   10   16   19   13</span></span>
 <span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>x <span class="sc">%row~%</span> x <span class="co"># sort elements of every row</span></span>
 <span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co">#&gt; [1,]    3    7    9   24   25</span></span>
-<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#&gt; [2,]    1    5    8   11   22</span></span>
-<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co">#&gt; [3,]    2    4   16   19   21</span></span>
-<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co">#&gt; [4,]   12   14   17   18   20</span></span>
-<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="co">#&gt; [5,]    6   10   13   15   23</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co">#&gt; [1,]    5   14   18   20   21</span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#&gt; [2,]    3    4    6   15   23</span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co">#&gt; [3,]    1    2    8   11   22</span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co">#&gt; [4,]    7   12   17   24   25</span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="co">#&gt; [5,]    9   10   13   16   19</span></span>
 <span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a>x <span class="sc">%row~%</span> <span class="sc">-</span>x <span class="co"># reverse-sort elements of every row</span></span>
 <span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="co">#&gt; [1,]   25   24    9    7    3</span></span>
-<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="co">#&gt; [2,]   22   11    8    5    1</span></span>
-<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="co">#&gt; [3,]   21   19   16    4    2</span></span>
-<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="co">#&gt; [4,]   20   18   17   14   12</span></span>
-<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="co">#&gt; [5,]   23   15   13   10    6</span></span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="co">#&gt; [1,]   21   20   18   14    5</span></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="co">#&gt; [2,]   23   15    6    4    3</span></span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="co">#&gt; [3,]   22   11    8    2    1</span></span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="co">#&gt; [4,]   25   24   17   12    7</span></span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="co">#&gt; [5,]   19   16   13   10    9</span></span>
 <span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a>x <span class="sc">%col~%</span> x <span class="co"># sort elements of every column</span></span>
 <span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a><span class="co">#&gt; [1,]    1    5    2    4    9</span></span>
-<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a><span class="co">#&gt; [2,]    3   12   15    6   10</span></span>
-<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a><span class="co">#&gt; [3,]   13   19   17    7   11</span></span>
-<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a><span class="co">#&gt; [4,]   16   23   22    8   18</span></span>
-<span id="cb3-29"><a href="#cb3-29" tabindex="-1"></a><span class="co">#&gt; [5,]   20   25   24   14   21</span></span>
+<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a><span class="co">#&gt; [1,]    2    4    1    7    3</span></span>
+<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a><span class="co">#&gt; [2,]    9   10    6   14    5</span></span>
+<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a><span class="co">#&gt; [3,]   12   11   16   19    8</span></span>
+<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a><span class="co">#&gt; [4,]   15   17   20   22   13</span></span>
+<span id="cb3-29"><a href="#cb3-29" tabindex="-1"></a><span class="co">#&gt; [5,]   21   18   24   23   25</span></span>
 <span id="cb3-30"><a href="#cb3-30" tabindex="-1"></a>x <span class="sc">%col~%</span> <span class="sc">-</span>x <span class="co"># reverse-sort elements of every column</span></span>
 <span id="cb3-31"><a href="#cb3-31" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span id="cb3-32"><a href="#cb3-32" tabindex="-1"></a><span class="co">#&gt; [1,]   20   25   24   14   21</span></span>
-<span id="cb3-33"><a href="#cb3-33" tabindex="-1"></a><span class="co">#&gt; [2,]   16   23   22    8   18</span></span>
-<span id="cb3-34"><a href="#cb3-34" tabindex="-1"></a><span class="co">#&gt; [3,]   13   19   17    7   11</span></span>
-<span id="cb3-35"><a href="#cb3-35" tabindex="-1"></a><span class="co">#&gt; [4,]    3   12   15    6   10</span></span>
-<span id="cb3-36"><a href="#cb3-36" tabindex="-1"></a><span class="co">#&gt; [5,]    1    5    2    4    9</span></span>
+<span id="cb3-32"><a href="#cb3-32" tabindex="-1"></a><span class="co">#&gt; [1,]   21   18   24   23   25</span></span>
+<span id="cb3-33"><a href="#cb3-33" tabindex="-1"></a><span class="co">#&gt; [2,]   15   17   20   22   13</span></span>
+<span id="cb3-34"><a href="#cb3-34" tabindex="-1"></a><span class="co">#&gt; [3,]   12   11   16   19    8</span></span>
+<span id="cb3-35"><a href="#cb3-35" tabindex="-1"></a><span class="co">#&gt; [4,]    9   10    6   14    5</span></span>
+<span id="cb3-36"><a href="#cb3-36" tabindex="-1"></a><span class="co">#&gt; [5,]    2    4    1    7    3</span></span>
 <span id="cb3-37"><a href="#cb3-37" tabindex="-1"></a></span>
 <span id="cb3-38"><a href="#cb3-38" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">25</span>), <span class="at">nrow=</span><span class="dv">5</span>)</span>
 <span id="cb3-39"><a href="#cb3-39" tabindex="-1"></a><span class="fu">print</span>(x)</span>
 <span id="cb3-40"><a href="#cb3-40" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span id="cb3-41"><a href="#cb3-41" tabindex="-1"></a><span class="co">#&gt; [1,]   12   22   13    7    4</span></span>
-<span id="cb3-42"><a href="#cb3-42" tabindex="-1"></a><span class="co">#&gt; [2,]   15   25   24   23   10</span></span>
-<span id="cb3-43"><a href="#cb3-43" tabindex="-1"></a><span class="co">#&gt; [3,]   18   16   17    9   11</span></span>
-<span id="cb3-44"><a href="#cb3-44" tabindex="-1"></a><span class="co">#&gt; [4,]    5    2   20    8   14</span></span>
-<span id="cb3-45"><a href="#cb3-45" tabindex="-1"></a><span class="co">#&gt; [5,]    3    1   19   21    6</span></span>
+<span id="cb3-41"><a href="#cb3-41" tabindex="-1"></a><span class="co">#&gt; [1,]    8    5   10   14   19</span></span>
+<span id="cb3-42"><a href="#cb3-42" tabindex="-1"></a><span class="co">#&gt; [2,]   17   25    3   23    2</span></span>
+<span id="cb3-43"><a href="#cb3-43" tabindex="-1"></a><span class="co">#&gt; [3,]   20    1   24   12   18</span></span>
+<span id="cb3-44"><a href="#cb3-44" tabindex="-1"></a><span class="co">#&gt; [4,]    4    6   22   15   13</span></span>
+<span id="cb3-45"><a href="#cb3-45" tabindex="-1"></a><span class="co">#&gt; [5,]   21    7   16    9   11</span></span>
 <span id="cb3-46"><a href="#cb3-46" tabindex="-1"></a>rand <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(x)) <span class="sc">|&gt;</span> <span class="fu">matrix</span>(<span class="at">ncol=</span><span class="fu">ncol</span>(x)) <span class="co"># matrix of random integers</span></span>
 <span id="cb3-47"><a href="#cb3-47" tabindex="-1"></a>x <span class="sc">%row~%</span> rand <span class="co"># random shuffle every row independent of other rows</span></span>
 <span id="cb3-48"><a href="#cb3-48" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span id="cb3-49"><a href="#cb3-49" tabindex="-1"></a><span class="co">#&gt; [1,]   13    7   12    4   22</span></span>
-<span id="cb3-50"><a href="#cb3-50" tabindex="-1"></a><span class="co">#&gt; [2,]   15   24   10   25   23</span></span>
-<span id="cb3-51"><a href="#cb3-51" tabindex="-1"></a><span class="co">#&gt; [3,]   16    9   17   11   18</span></span>
-<span id="cb3-52"><a href="#cb3-52" tabindex="-1"></a><span class="co">#&gt; [4,]    8   14    2    5   20</span></span>
-<span id="cb3-53"><a href="#cb3-53" tabindex="-1"></a><span class="co">#&gt; [5,]   21    3    1    6   19</span></span>
+<span id="cb3-49"><a href="#cb3-49" tabindex="-1"></a><span class="co">#&gt; [1,]   10    8    5   19   14</span></span>
+<span id="cb3-50"><a href="#cb3-50" tabindex="-1"></a><span class="co">#&gt; [2,]   23   17   25    2    3</span></span>
+<span id="cb3-51"><a href="#cb3-51" tabindex="-1"></a><span class="co">#&gt; [3,]   18   20   12   24    1</span></span>
+<span id="cb3-52"><a href="#cb3-52" tabindex="-1"></a><span class="co">#&gt; [4,]   22    4   13    6   15</span></span>
+<span id="cb3-53"><a href="#cb3-53" tabindex="-1"></a><span class="co">#&gt; [5,]   11    9    7   16   21</span></span>
 <span id="cb3-54"><a href="#cb3-54" tabindex="-1"></a>x <span class="sc">%col~%</span> rand <span class="co"># random shuffle every column independent of other columns</span></span>
 <span id="cb3-55"><a href="#cb3-55" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span id="cb3-56"><a href="#cb3-56" tabindex="-1"></a><span class="co">#&gt; [1,]   15   16   13   21   10</span></span>
-<span id="cb3-57"><a href="#cb3-57" tabindex="-1"></a><span class="co">#&gt; [2,]    3    1   24    7   11</span></span>
-<span id="cb3-58"><a href="#cb3-58" tabindex="-1"></a><span class="co">#&gt; [3,]   12   25   17    9   14</span></span>
-<span id="cb3-59"><a href="#cb3-59" tabindex="-1"></a><span class="co">#&gt; [4,]   18    2   19    8    4</span></span>
-<span id="cb3-60"><a href="#cb3-60" tabindex="-1"></a><span class="co">#&gt; [5,]    5   22   20   23    6</span></span></code></pre></div>
+<span id="cb3-56"><a href="#cb3-56" tabindex="-1"></a><span class="co">#&gt; [1,]   20    5   22    9   11</span></span>
+<span id="cb3-57"><a href="#cb3-57" tabindex="-1"></a><span class="co">#&gt; [2,]    4   25   10   12   18</span></span>
+<span id="cb3-58"><a href="#cb3-58" tabindex="-1"></a><span class="co">#&gt; [3,]    8    1   24   23   13</span></span>
+<span id="cb3-59"><a href="#cb3-59" tabindex="-1"></a><span class="co">#&gt; [4,]   17    7   16   15   19</span></span>
+<span id="cb3-60"><a href="#cb3-60" tabindex="-1"></a><span class="co">#&gt; [5,]   21    6    3   14    2</span></span></code></pre></div>
 <p>Examples with a character matrix:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">sample</span>(letters, <span class="dv">25</span>), <span class="at">nrow=</span><span class="dv">5</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">print</span>(x)</span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt; [1,] &quot;v&quot;  &quot;p&quot;  &quot;d&quot;  &quot;n&quot;  &quot;y&quot; </span></span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt; [2,] &quot;b&quot;  &quot;m&quot;  &quot;t&quot;  &quot;u&quot;  &quot;q&quot; </span></span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; [3,] &quot;o&quot;  &quot;g&quot;  &quot;j&quot;  &quot;x&quot;  &quot;s&quot; </span></span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; [4,] &quot;e&quot;  &quot;i&quot;  &quot;a&quot;  &quot;h&quot;  &quot;l&quot; </span></span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; [5,] &quot;z&quot;  &quot;f&quot;  &quot;k&quot;  &quot;r&quot;  &quot;c&quot;</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt; [1,] &quot;d&quot;  &quot;z&quot;  &quot;y&quot;  &quot;n&quot;  &quot;b&quot; </span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt; [2,] &quot;e&quot;  &quot;w&quot;  &quot;x&quot;  &quot;t&quot;  &quot;q&quot; </span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; [3,] &quot;a&quot;  &quot;u&quot;  &quot;k&quot;  &quot;v&quot;  &quot;m&quot; </span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; [4,] &quot;l&quot;  &quot;j&quot;  &quot;o&quot;  &quot;g&quot;  &quot;r&quot; </span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; [5,] &quot;p&quot;  &quot;f&quot;  &quot;c&quot;  &quot;s&quot;  &quot;i&quot;</span></span>
 <span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>mat <span class="ot">&lt;-</span> stringi<span class="sc">::</span><span class="fu">stri_rank</span>(<span class="fu">as.vector</span>(x)) <span class="sc">|&gt;</span></span>
 <span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>  <span class="fu">matrix</span>(<span class="at">ncol=</span><span class="fu">ncol</span>(x)) <span class="co"># matrix of ordering ranks</span></span>
 <span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>x <span class="sc">%row~%</span> mat <span class="co"># sort elements of every row</span></span>
 <span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co">#&gt; [1,] &quot;d&quot;  &quot;n&quot;  &quot;p&quot;  &quot;v&quot;  &quot;y&quot; </span></span>
-<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt; [2,] &quot;b&quot;  &quot;m&quot;  &quot;q&quot;  &quot;t&quot;  &quot;u&quot; </span></span>
-<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt; [3,] &quot;g&quot;  &quot;j&quot;  &quot;o&quot;  &quot;s&quot;  &quot;x&quot; </span></span>
-<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co">#&gt; [4,] &quot;a&quot;  &quot;e&quot;  &quot;h&quot;  &quot;i&quot;  &quot;l&quot; </span></span>
-<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co">#&gt; [5,] &quot;c&quot;  &quot;f&quot;  &quot;k&quot;  &quot;r&quot;  &quot;z&quot;</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co">#&gt; [1,] &quot;b&quot;  &quot;d&quot;  &quot;n&quot;  &quot;y&quot;  &quot;z&quot; </span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt; [2,] &quot;e&quot;  &quot;q&quot;  &quot;t&quot;  &quot;w&quot;  &quot;x&quot; </span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt; [3,] &quot;a&quot;  &quot;k&quot;  &quot;m&quot;  &quot;u&quot;  &quot;v&quot; </span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co">#&gt; [4,] &quot;g&quot;  &quot;j&quot;  &quot;l&quot;  &quot;o&quot;  &quot;r&quot; </span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co">#&gt; [5,] &quot;c&quot;  &quot;f&quot;  &quot;i&quot;  &quot;p&quot;  &quot;s&quot;</span></span>
 <span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a>x <span class="sc">%row~%</span> <span class="sc">-</span>mat <span class="co"># reverse-sort elements of every row</span></span>
 <span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="co">#&gt; [1,] &quot;y&quot;  &quot;v&quot;  &quot;p&quot;  &quot;n&quot;  &quot;d&quot; </span></span>
-<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="co">#&gt; [2,] &quot;u&quot;  &quot;t&quot;  &quot;q&quot;  &quot;m&quot;  &quot;b&quot; </span></span>
-<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a><span class="co">#&gt; [3,] &quot;x&quot;  &quot;s&quot;  &quot;o&quot;  &quot;j&quot;  &quot;g&quot; </span></span>
-<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a><span class="co">#&gt; [4,] &quot;l&quot;  &quot;i&quot;  &quot;h&quot;  &quot;e&quot;  &quot;a&quot; </span></span>
-<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a><span class="co">#&gt; [5,] &quot;z&quot;  &quot;r&quot;  &quot;k&quot;  &quot;f&quot;  &quot;c&quot;</span></span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="co">#&gt; [1,] &quot;z&quot;  &quot;y&quot;  &quot;n&quot;  &quot;d&quot;  &quot;b&quot; </span></span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="co">#&gt; [2,] &quot;x&quot;  &quot;w&quot;  &quot;t&quot;  &quot;q&quot;  &quot;e&quot; </span></span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a><span class="co">#&gt; [3,] &quot;v&quot;  &quot;u&quot;  &quot;m&quot;  &quot;k&quot;  &quot;a&quot; </span></span>
+<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a><span class="co">#&gt; [4,] &quot;r&quot;  &quot;o&quot;  &quot;l&quot;  &quot;j&quot;  &quot;g&quot; </span></span>
+<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a><span class="co">#&gt; [5,] &quot;s&quot;  &quot;p&quot;  &quot;i&quot;  &quot;f&quot;  &quot;c&quot;</span></span>
 <span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a>x <span class="sc">%col~%</span> mat <span class="co"># sort elements of every column</span></span>
 <span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a><span class="co">#&gt; [1,] &quot;b&quot;  &quot;f&quot;  &quot;a&quot;  &quot;h&quot;  &quot;c&quot; </span></span>
-<span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a><span class="co">#&gt; [2,] &quot;e&quot;  &quot;g&quot;  &quot;d&quot;  &quot;n&quot;  &quot;l&quot; </span></span>
-<span id="cb4-29"><a href="#cb4-29" tabindex="-1"></a><span class="co">#&gt; [3,] &quot;o&quot;  &quot;i&quot;  &quot;j&quot;  &quot;r&quot;  &quot;q&quot; </span></span>
-<span id="cb4-30"><a href="#cb4-30" tabindex="-1"></a><span class="co">#&gt; [4,] &quot;v&quot;  &quot;m&quot;  &quot;k&quot;  &quot;u&quot;  &quot;s&quot; </span></span>
-<span id="cb4-31"><a href="#cb4-31" tabindex="-1"></a><span class="co">#&gt; [5,] &quot;z&quot;  &quot;p&quot;  &quot;t&quot;  &quot;x&quot;  &quot;y&quot;</span></span>
+<span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a><span class="co">#&gt; [1,] &quot;a&quot;  &quot;f&quot;  &quot;c&quot;  &quot;g&quot;  &quot;b&quot; </span></span>
+<span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a><span class="co">#&gt; [2,] &quot;d&quot;  &quot;j&quot;  &quot;k&quot;  &quot;n&quot;  &quot;i&quot; </span></span>
+<span id="cb4-29"><a href="#cb4-29" tabindex="-1"></a><span class="co">#&gt; [3,] &quot;e&quot;  &quot;u&quot;  &quot;o&quot;  &quot;s&quot;  &quot;m&quot; </span></span>
+<span id="cb4-30"><a href="#cb4-30" tabindex="-1"></a><span class="co">#&gt; [4,] &quot;l&quot;  &quot;w&quot;  &quot;x&quot;  &quot;t&quot;  &quot;q&quot; </span></span>
+<span id="cb4-31"><a href="#cb4-31" tabindex="-1"></a><span class="co">#&gt; [5,] &quot;p&quot;  &quot;z&quot;  &quot;y&quot;  &quot;v&quot;  &quot;r&quot;</span></span>
 <span id="cb4-32"><a href="#cb4-32" tabindex="-1"></a>x <span class="sc">%col~%</span> <span class="sc">-</span>mat <span class="co"># reverse-sort elements of every column</span></span>
 <span id="cb4-33"><a href="#cb4-33" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span id="cb4-34"><a href="#cb4-34" tabindex="-1"></a><span class="co">#&gt; [1,] &quot;z&quot;  &quot;p&quot;  &quot;t&quot;  &quot;x&quot;  &quot;y&quot; </span></span>
-<span id="cb4-35"><a href="#cb4-35" tabindex="-1"></a><span class="co">#&gt; [2,] &quot;v&quot;  &quot;m&quot;  &quot;k&quot;  &quot;u&quot;  &quot;s&quot; </span></span>
-<span id="cb4-36"><a href="#cb4-36" tabindex="-1"></a><span class="co">#&gt; [3,] &quot;o&quot;  &quot;i&quot;  &quot;j&quot;  &quot;r&quot;  &quot;q&quot; </span></span>
-<span id="cb4-37"><a href="#cb4-37" tabindex="-1"></a><span class="co">#&gt; [4,] &quot;e&quot;  &quot;g&quot;  &quot;d&quot;  &quot;n&quot;  &quot;l&quot; </span></span>
-<span id="cb4-38"><a href="#cb4-38" tabindex="-1"></a><span class="co">#&gt; [5,] &quot;b&quot;  &quot;f&quot;  &quot;a&quot;  &quot;h&quot;  &quot;c&quot;</span></span>
+<span id="cb4-34"><a href="#cb4-34" tabindex="-1"></a><span class="co">#&gt; [1,] &quot;p&quot;  &quot;z&quot;  &quot;y&quot;  &quot;v&quot;  &quot;r&quot; </span></span>
+<span id="cb4-35"><a href="#cb4-35" tabindex="-1"></a><span class="co">#&gt; [2,] &quot;l&quot;  &quot;w&quot;  &quot;x&quot;  &quot;t&quot;  &quot;q&quot; </span></span>
+<span id="cb4-36"><a href="#cb4-36" tabindex="-1"></a><span class="co">#&gt; [3,] &quot;e&quot;  &quot;u&quot;  &quot;o&quot;  &quot;s&quot;  &quot;m&quot; </span></span>
+<span id="cb4-37"><a href="#cb4-37" tabindex="-1"></a><span class="co">#&gt; [4,] &quot;d&quot;  &quot;j&quot;  &quot;k&quot;  &quot;n&quot;  &quot;i&quot; </span></span>
+<span id="cb4-38"><a href="#cb4-38" tabindex="-1"></a><span class="co">#&gt; [5,] &quot;a&quot;  &quot;f&quot;  &quot;c&quot;  &quot;g&quot;  &quot;b&quot;</span></span>
 <span id="cb4-39"><a href="#cb4-39" tabindex="-1"></a></span>
 <span id="cb4-40"><a href="#cb4-40" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">sample</span>(letters, <span class="dv">25</span>), <span class="at">nrow=</span><span class="dv">5</span>)</span>
 <span id="cb4-41"><a href="#cb4-41" tabindex="-1"></a><span class="fu">print</span>(x)</span>
 <span id="cb4-42"><a href="#cb4-42" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span id="cb4-43"><a href="#cb4-43" tabindex="-1"></a><span class="co">#&gt; [1,] &quot;y&quot;  &quot;n&quot;  &quot;l&quot;  &quot;a&quot;  &quot;m&quot; </span></span>
-<span id="cb4-44"><a href="#cb4-44" tabindex="-1"></a><span class="co">#&gt; [2,] &quot;j&quot;  &quot;t&quot;  &quot;e&quot;  &quot;x&quot;  &quot;v&quot; </span></span>
-<span id="cb4-45"><a href="#cb4-45" tabindex="-1"></a><span class="co">#&gt; [3,] &quot;h&quot;  &quot;z&quot;  &quot;s&quot;  &quot;d&quot;  &quot;r&quot; </span></span>
-<span id="cb4-46"><a href="#cb4-46" tabindex="-1"></a><span class="co">#&gt; [4,] &quot;k&quot;  &quot;q&quot;  &quot;c&quot;  &quot;i&quot;  &quot;b&quot; </span></span>
-<span id="cb4-47"><a href="#cb4-47" tabindex="-1"></a><span class="co">#&gt; [5,] &quot;o&quot;  &quot;f&quot;  &quot;w&quot;  &quot;g&quot;  &quot;u&quot;</span></span>
+<span id="cb4-43"><a href="#cb4-43" tabindex="-1"></a><span class="co">#&gt; [1,] &quot;k&quot;  &quot;a&quot;  &quot;j&quot;  &quot;r&quot;  &quot;e&quot; </span></span>
+<span id="cb4-44"><a href="#cb4-44" tabindex="-1"></a><span class="co">#&gt; [2,] &quot;t&quot;  &quot;q&quot;  &quot;b&quot;  &quot;f&quot;  &quot;n&quot; </span></span>
+<span id="cb4-45"><a href="#cb4-45" tabindex="-1"></a><span class="co">#&gt; [3,] &quot;w&quot;  &quot;p&quot;  &quot;l&quot;  &quot;u&quot;  &quot;o&quot; </span></span>
+<span id="cb4-46"><a href="#cb4-46" tabindex="-1"></a><span class="co">#&gt; [4,] &quot;m&quot;  &quot;d&quot;  &quot;h&quot;  &quot;z&quot;  &quot;v&quot; </span></span>
+<span id="cb4-47"><a href="#cb4-47" tabindex="-1"></a><span class="co">#&gt; [5,] &quot;s&quot;  &quot;g&quot;  &quot;c&quot;  &quot;i&quot;  &quot;x&quot;</span></span>
 <span id="cb4-48"><a href="#cb4-48" tabindex="-1"></a>rand <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(x)) <span class="sc">|&gt;</span> <span class="fu">matrix</span>(<span class="at">ncol=</span><span class="fu">ncol</span>(x)) <span class="co"># matrix of random integers</span></span>
 <span id="cb4-49"><a href="#cb4-49" tabindex="-1"></a>x <span class="sc">%row~%</span> rand <span class="co"># random shuffle every row independent of other rows</span></span>
 <span id="cb4-50"><a href="#cb4-50" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span id="cb4-51"><a href="#cb4-51" tabindex="-1"></a><span class="co">#&gt; [1,] &quot;a&quot;  &quot;y&quot;  &quot;l&quot;  &quot;n&quot;  &quot;m&quot; </span></span>
-<span id="cb4-52"><a href="#cb4-52" tabindex="-1"></a><span class="co">#&gt; [2,] &quot;e&quot;  &quot;t&quot;  &quot;j&quot;  &quot;x&quot;  &quot;v&quot; </span></span>
-<span id="cb4-53"><a href="#cb4-53" tabindex="-1"></a><span class="co">#&gt; [3,] &quot;s&quot;  &quot;r&quot;  &quot;d&quot;  &quot;z&quot;  &quot;h&quot; </span></span>
-<span id="cb4-54"><a href="#cb4-54" tabindex="-1"></a><span class="co">#&gt; [4,] &quot;i&quot;  &quot;c&quot;  &quot;k&quot;  &quot;q&quot;  &quot;b&quot; </span></span>
-<span id="cb4-55"><a href="#cb4-55" tabindex="-1"></a><span class="co">#&gt; [5,] &quot;w&quot;  &quot;g&quot;  &quot;o&quot;  &quot;f&quot;  &quot;u&quot;</span></span>
+<span id="cb4-51"><a href="#cb4-51" tabindex="-1"></a><span class="co">#&gt; [1,] &quot;j&quot;  &quot;e&quot;  &quot;r&quot;  &quot;k&quot;  &quot;a&quot; </span></span>
+<span id="cb4-52"><a href="#cb4-52" tabindex="-1"></a><span class="co">#&gt; [2,] &quot;b&quot;  &quot;f&quot;  &quot;n&quot;  &quot;q&quot;  &quot;t&quot; </span></span>
+<span id="cb4-53"><a href="#cb4-53" tabindex="-1"></a><span class="co">#&gt; [3,] &quot;l&quot;  &quot;p&quot;  &quot;o&quot;  &quot;w&quot;  &quot;u&quot; </span></span>
+<span id="cb4-54"><a href="#cb4-54" tabindex="-1"></a><span class="co">#&gt; [4,] &quot;d&quot;  &quot;h&quot;  &quot;v&quot;  &quot;z&quot;  &quot;m&quot; </span></span>
+<span id="cb4-55"><a href="#cb4-55" tabindex="-1"></a><span class="co">#&gt; [5,] &quot;x&quot;  &quot;i&quot;  &quot;g&quot;  &quot;s&quot;  &quot;c&quot;</span></span>
 <span id="cb4-56"><a href="#cb4-56" tabindex="-1"></a>x <span class="sc">%col~%</span> rand <span class="co"># random shuffle every column independent of other columns</span></span>
 <span id="cb4-57"><a href="#cb4-57" tabindex="-1"></a><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span id="cb4-58"><a href="#cb4-58" tabindex="-1"></a><span class="co">#&gt; [1,] &quot;k&quot;  &quot;z&quot;  &quot;w&quot;  &quot;a&quot;  &quot;r&quot; </span></span>
-<span id="cb4-59"><a href="#cb4-59" tabindex="-1"></a><span class="co">#&gt; [2,] &quot;y&quot;  &quot;q&quot;  &quot;s&quot;  &quot;i&quot;  &quot;b&quot; </span></span>
-<span id="cb4-60"><a href="#cb4-60" tabindex="-1"></a><span class="co">#&gt; [3,] &quot;o&quot;  &quot;f&quot;  &quot;c&quot;  &quot;d&quot;  &quot;u&quot; </span></span>
-<span id="cb4-61"><a href="#cb4-61" tabindex="-1"></a><span class="co">#&gt; [4,] &quot;h&quot;  &quot;t&quot;  &quot;e&quot;  &quot;g&quot;  &quot;v&quot; </span></span>
-<span id="cb4-62"><a href="#cb4-62" tabindex="-1"></a><span class="co">#&gt; [5,] &quot;j&quot;  &quot;n&quot;  &quot;l&quot;  &quot;x&quot;  &quot;m&quot;</span></span></code></pre></div>
+<span id="cb4-58"><a href="#cb4-58" tabindex="-1"></a><span class="co">#&gt; [1,] &quot;s&quot;  &quot;d&quot;  &quot;j&quot;  &quot;f&quot;  &quot;x&quot; </span></span>
+<span id="cb4-59"><a href="#cb4-59" tabindex="-1"></a><span class="co">#&gt; [2,] &quot;w&quot;  &quot;p&quot;  &quot;b&quot;  &quot;i&quot;  &quot;n&quot; </span></span>
+<span id="cb4-60"><a href="#cb4-60" tabindex="-1"></a><span class="co">#&gt; [3,] &quot;k&quot;  &quot;g&quot;  &quot;l&quot;  &quot;r&quot;  &quot;o&quot; </span></span>
+<span id="cb4-61"><a href="#cb4-61" tabindex="-1"></a><span class="co">#&gt; [4,] &quot;m&quot;  &quot;q&quot;  &quot;h&quot;  &quot;u&quot;  &quot;e&quot; </span></span>
+<span id="cb4-62"><a href="#cb4-62" tabindex="-1"></a><span class="co">#&gt; [5,] &quot;t&quot;  &quot;a&quot;  &quot;c&quot;  &quot;z&quot;  &quot;v&quot;</span></span></code></pre></div>
 <p> </p>
 </div>
 <div id="additional-logic-operators" class="section level1">
