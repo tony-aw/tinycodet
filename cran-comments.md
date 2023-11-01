@@ -2,18 +2,17 @@
 
 0 errors | 0 warnings | 0 notes
 
+## This is an Update of 'tinycodet'.
+* The current version present in CRAN is 0.1.0.6. This submission updates it to version 0.2. What follows is the change log.
+* (Hopefully!) fixed the latex issue in the pdf file generation for users using R version < 4.2.0 with the Mac OS.
+* Removed or changed "a few functions" in the title, description, introduction help page, and website, as 'tinycodet' actually turned out to be somewhat larger than anticipated.
+* Changed the `@name` and `@rdname` parameters of the tinycodet overview help files, such that they get on the top of the pdf file.
+* Removed the sentence "Note that only the recommended R-packages actually installed in your system are taken into consideration" in the `pkgs` help file, as this is no longer applicable (the list of recommended R packages is hard coded).
+* Expanded the 'tinycodet_import' help page with more info.
 
-## This is a (new) re-submission
-* @Benjamin Altmann: Thank you for checking my package and your insight. I am impressed how fast you went through my R-package. I have implemented your requests as best I could (see the next few points).
-* Replaced usage of `installed.packages()` in the `%installed in%` operator with `find.package()`. Also added the sentence "As pkgs %installed in% lib.loc does not even load a package, the user can safely use it without fearing any unwanted side-effects." to the help page of said operator.
-* Replaced usage of `installed.packages()` with a manually specified character vector in the R scripts/functions "internal_functions.R", "import_misc.R", "import_inops.R", "x.import.R".
-* Replaced "\dontrun" with "\donttest" in help page "tinycodet_import", and set condition for examples.
-* Re-implemented the tests with fake packages, but this time preventing false positives more elegantly using a tip from Duncan Murdoch (kudos to him!). I tested this with different OS, including https://win-builder.r-project.org/, and it works. Hopefully this new solution also works on CRAN's servers. Let me know if there are problems.
-
-
-## General comments
+## General comments (same as in previous version; nothing new or something)
 * Thank you again for your patience, and for taking the time to review/quality-check R packages! I appreciate your hard, voluntary work.
-* I have created over 800 tests, some of them using loops (to reduce the amount of coding/typing), to properly test this package (so about a dozen tests per function on average). No errors found. Some tests done only on GitHub (see comment above); again, no errors found.
+* I have created over 800 tests, some of them using loops (to reduce the amount of coding/typing), to properly test this package (so about a dozen tests per function on average). No errors found.
 * I personally use Windows 11 as my operating system. But I have also used the 'rhub' R-package to test & check the package on the Mac OS, and Linux. No errors found.
 * There are no references describing my package.
 * I have checked the spelling (EN-GB) and the URLs. No problems.

@@ -78,19 +78,31 @@
 #'
 #' @details
 #' \bold{When to Use or Not to Use the 'tinycodet' Import System} \cr
-#' The 'tinycodet' import system is helpful particularly when packages
-#' have conflicting namespaces with each other, or conflict with core/base R. \cr
+#' The 'tinycodet' import system is helpful particularly
+#' for packages that have at least one of the following properties:
+#'
+#'  * The namespace of the package(s) conflicts with other packages.
+#'  * The namespace of the package(s) conflicts with core R,
+#'  or with those of recommended R packages.
+#'  * The package(s) have function names that are generic enough,
+#'  such that it is not obvious which function came from which package.
+#'
+#' An example of a package that displays all 3 of the above properties,
+#' at least at the time of writing,
+#' is the 'dplyr' package - see examples below. \cr
+#' \cr
 #' There is no necessity for using the 'tinycodet' import system with every single package.
 #' One can safely attach the 'stringi' package, for example,
 #' as 'stringi' uses a unique and immediately recognisable naming scheme
 #' (virtually all 'stringi' functions start with "\code{stri_}"),
 #' and this naming scheme does not conflict with core R, nor with most other packages. \cr
+#' \cr
 #' Of course, if one wishes to use a package (like
 #' 'stringi') \bold{only} within a specific environment,
 #' like only inside a function,
 #' it becomes advantageous to still load the package using the 'tinycodet' import system
 #' (in that case the \link{import_LL} function would be most applicable). \cr
-#' \cr
+#' \cr \cr
 #' \bold{Some Additional Comments on the 'tinycodet' Import System} \cr
 #'
 #'  * (S3) Methods will automatically be registered.
@@ -153,6 +165,7 @@
 #'
 
 
-#' @rdname tinycodet_import
-#' @name tinycodet_import
+#' @rdname aaa2_tinycodet_import
+#' @name aaa2_tinycodet_import
+#' @aliases tinycodet_import
 NULL

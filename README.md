@@ -23,8 +23,8 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 
 ## Overview
 
-‘tinycodet’ is a small R-package that adds a few functions to help in
-your coding etiquette. It primarily focuses on 4 things:
+‘tinycodet’ adds some functions to help in your coding etiquette. It
+primarily focuses on 4 aspects:
 
 1)  Safer decimal (in)equality testing, safer atomic conversions, and
     other functions for safer coding.

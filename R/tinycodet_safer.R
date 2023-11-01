@@ -24,6 +24,7 @@
 #'
 #'
 
-#' @rdname tinycodet_safer
-#' @name tinycodet_safer
+#' @rdname aaa1_tinycodet_safer
+#' @name aaa1_tinycodet_safer
+#' @aliases tinycodet_safer
 NULL

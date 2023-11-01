@@ -41,8 +41,7 @@ or not included (\code{FALSE}; the default).}
 
 \item{recom}{logical,
 indicating whether the pre-installed "recommended" R-packages should be included (\code{TRUE}),
-or not included (\code{FALSE}; the default).
-Note that only the recommended R-packages actually installed in your system are taken into consideration.}
+or not included (\code{FALSE}; the default).}
 
 \item{rstudioapi}{logical,
 indicating whether the \code{rstudioapi} R-package should be included (\code{TRUE}),

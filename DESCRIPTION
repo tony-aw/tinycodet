@@ -1,10 +1,10 @@
 Package: tinycodet
-Title: A Few Functions to Help in your Coding Etiquette
-Version: 0.1.0.6
+Title: Functions to Help in your Coding Etiquette
+Version: 0.2
 Authors@R: person("Tony", "Wilkes", role = c("aut", "cre", "cph"),
                   email = "tony_a_wilkes@outlook.com",
                   comment = c(ORCID = "0000-0001-9498-8379"))
-Description: Adds a few functions to help in your coding etiquette.
+Description: Adds some functions to help in your coding etiquette.
     'tinycodet' primarily focuses on 4 aspects.
     1) Safer decimal (in)equality testing, safer atomic conversions, and other functions for safer coding.
     2) A new package import system,
@@ -22,8 +22,7 @@ Suggests:
     rmarkdown,
     tinytest,
     roxygen2,
-    data.table,
-    tidytable
+    data.table
 Depends: 
     R (>= 4.1.0)
 Imports:

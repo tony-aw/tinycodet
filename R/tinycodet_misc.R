@@ -16,6 +16,7 @@
 #' @seealso [tinycodet_help()]
 
 
-#' @rdname tinycodet_misc
-#' @name tinycodet_misc
+#' @rdname aaa5_tinycodet_misc
+#' @name aaa5_tinycodet_misc
+#' @aliases tinycodet_misc
 NULL

@@ -1,12 +1,12 @@
-#' The 'tinycodet' Introduction Help Page
+#' tinycodet: Functions to Help in your Coding Etiquette
 #'
 #'
 #' @description
 #'
 #' Welcome to the 'tinycodet' introduction help page! \cr
 #' \cr
-#' 'tinycodet' adds a few functions to help in your coding etiquette. \cr
-#' It primarily focuses on 4 things: \cr
+#' 'tinycodet' adds some functions to help in your coding etiquette. \cr
+#' It primarily focuses on 4 aspects: \cr
 #' \cr
 #' (1) Safer decimal (in)equality testing, safer atomic conversions, and other functions for safer coding; \cr
 #' see \link{tinycodet_safer}. \cr
@@ -49,8 +49,8 @@
 #' @references The badges shown in the documentation of this R-package were made using the services of: \url{https://shields.io/}
 #'
 
-#' @rdname tinycodet_help
-#' @name tinycodet_help
+#' @rdname aaa0_tinycodet_help
+#' @name aaa0_tinycodet_help
 #' @aliases tinycodet-package
 #' @aliases tinycodet
 #' @aliases tinycodet_help

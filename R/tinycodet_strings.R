@@ -56,6 +56,7 @@
 #' stri_c_mat(sorted, margin=1, sep=" ")
 #'
 
-#' @rdname tinycodet_strings
-#' @name tinycodet_strings
+#' @rdname aaa3_tinycodet_strings
+#' @name aaa3_tinycodet_strings
+#' @aliases tinycodet_strings
 NULL

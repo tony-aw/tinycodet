@@ -1,4 +1,4 @@
-#' Overview of the tinycodet "Don't Repeat Yourself" Functionality
+#' Overview of the 'tinycodet' "Don't Repeat Yourself" Functionality
 #'
 #' @description
 #' "Don't Repeat Yourself", sometimes abbreviated as "DRY",
@@ -35,6 +35,7 @@
 #'
 
 
-#' @rdname tinycodet_dry
-#' @name tinycodet_dry
+#' @rdname aaa4_tinycodet_dry
+#' @name aaa4_tinycodet_dry
+#' @aliases tinycodet_dry
 NULL

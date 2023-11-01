@@ -96,6 +96,8 @@
 #'
 #'
 
+#' @name str_truth
+NULL
 
 #' @rdname str_truth
 #' @export
