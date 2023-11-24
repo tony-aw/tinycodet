@@ -30,7 +30,7 @@ or \eqn{i^{th}} text boundary (\link{stri_locate_ith_boundaries}).
 \item Infix operators for \link[=\%s-\%]{string arithmetic}.
 \item Infix operators for \link[=\%sget\%]{string sub-setting},
 which get or remove the first and/or last \code{n} characters from strings.
-\item Infix operators for \link[=\%s\{\}\%]{detecting patterns}.
+\item Infix operators for \link[=str_truth]{detecting patterns}.
 }
 }
 \examples{

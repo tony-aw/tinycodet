@@ -103,9 +103,9 @@ For example:
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{
 import_as(~ mr., "magrittr")
 import_inops(mr.)
-help.import(i=mr.$add)
-help.import(i=`\%>\%`)
-help.import(i="add", alias=mr.)
+help.import(i = mr.$add)
+help.import(i = `\%>\%`)
+help.import(i = "add", alias = mr.)
 help.import(topic = "\%>\%", package = "magrittr")
 
 }\if{html}{\out{</div>}}

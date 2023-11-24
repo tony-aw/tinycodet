@@ -64,7 +64,7 @@ A list with arguments to be passed to the appropriate functions.
 }
 \description{
 The \link{\%s-\%} and \link{\%s/\%} operators,
-as well as the string detection operators (\link{\%s\{\}\%}, \link{\%s!\{\}\%}),
+as well as the string detection operators (\link{str_truth}),
 perform pattern matching for some purpose,
 where the pattern is given on the right hand side. \cr
 When a character vector or string is given on the right hand side,

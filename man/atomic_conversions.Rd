@@ -21,7 +21,7 @@ is_wholenumber(x, tol = sqrt(.Machine$double.eps))
 }
 \arguments{
 \item{x}{vector, matrix, array
-(or a similar object where all elements share the same class).}
+(or a similar object where all elements share the same type).}
 
 \item{...}{further arguments passed to or from other methods.}
 
@@ -44,10 +44,10 @@ preserve all attributes - except the "class" attribute. \cr
 \cr
 The functions are as follows: \cr
 \itemize{
-\item \code{as_bool()}: converts object to class \code{logical} (\code{TRUE, FALSE, NA}).
-\item \code{as_int()}: converts object to class \code{integer}.
-\item \code{as_dbl()}: converts object to class \code{double} (AKA decimal numbers).
-\item \code{as_chr()}: converts object to class \code{character}.
+\item \code{as_bool()}: converts object to atomic type \code{logical} (\code{TRUE, FALSE, NA}).
+\item \code{as_int()}: converts object to atomic type \code{integer}.
+\item \code{as_dbl()}: converts object to atomic type \code{double} (AKA decimal numbers).
+\item \code{as_chr()}: converts object to atomic type \code{character}.
 }
 
 Moreover, the function \code{is_wholenumber()} is added, to safely test for whole numbers.

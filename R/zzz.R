@@ -2,7 +2,7 @@
   txt <- paste0(
     "Run `",
     '?tinycodet::tinycodet',
-    "` to open the introduction help page of tinycodet."
+    "` to open the introduction help page of 'tinycodet'."
   )
   packageStartupMessage(txt)
 }

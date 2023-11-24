@@ -1,3 +1,8 @@
+# tinycodet 0.2.1
+* Small tweak to the pdf manual.
+* Replaced the incorrect uses of the word "class" with "type" in the atomic type casting help file.
+
+
 # tinycodet 0.2
 * Removed or changed "a few functions" in the title, description, introduction help page, and website, as 'tinycodet' actually turned out to be somewhat larger than anticipated.
 * Fixed the latex issue in the pdf file generation for users using R version < 4.2.0 with the Mac OS.

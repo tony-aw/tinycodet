@@ -14,15 +14,15 @@
 #' \cr
 #' The functions are as follows: \cr
 #'
-#'  * \code{as_bool()}: converts object to class \code{logical} (\code{TRUE, FALSE, NA}).
-#'  * \code{as_int()}: converts object to class \code{integer}.
-#'  * \code{as_dbl()}: converts object to class \code{double} (AKA decimal numbers).
-#'  * \code{as_chr()}: converts object to class \code{character}.
+#'  * \code{as_bool()}: converts object to atomic type \code{logical} (\code{TRUE, FALSE, NA}).
+#'  * \code{as_int()}: converts object to atomic type \code{integer}.
+#'  * \code{as_dbl()}: converts object to atomic type \code{double} (AKA decimal numbers).
+#'  * \code{as_chr()}: converts object to atomic type \code{character}.
 #'
 #' Moreover, the function \code{is_wholenumber()} is added, to safely test for whole numbers.
 #'
 #' @param x vector, matrix, array
-#' (or a similar object where all elements share the same class).
+#' (or a similar object where all elements share the same type).
 #' @param tol numeric, giving the tolerance.
 #' @param ... further arguments passed to or from other methods.
 #'

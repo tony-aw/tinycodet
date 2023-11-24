@@ -87,9 +87,7 @@
 #'  * The package(s) have function names that are generic enough,
 #'  such that it is not obvious which function came from which package.
 #'
-#' An example of a package that displays all 3 of the above properties,
-#' at least at the time of writing,
-#' is the 'dplyr' package - see examples below. \cr
+#' See examples below. \cr
 #' \cr
 #' There is no necessity for using the 'tinycodet' import system with every single package.
 #' One can safely attach the 'stringi' package, for example,
