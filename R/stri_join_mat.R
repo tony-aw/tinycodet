@@ -43,40 +43,43 @@
 #'
 #'
 #' #############################################################################
-#' # re-ordering characters in strings ====
+#' # sorting characters in strings ====
 #'
-#' x <- c("Hello world", "Goodbye world")
+#' x <- c(paste(sample(letters), collapse = ""), paste(sample(letters), collapse = ""))
 #' print(x)
 #' mat <- strcut_brk(x)
 #' rank <- stringi::stri_rank(as.vector(mat)) |>  matrix(ncol=ncol(mat))
 #' sorted <- mat %row~% rank
+#' sorted[is.na(sorted)] <- ""
 #' print(sorted)
 #' stri_join_mat(sorted, margin=1)
 #' stri_join_mat(sorted, margin=2)
 #'
+#'
 #' #############################################################################
 #'
-#' # re-ordering words ====
+#' # sorting words ====
 #'
-#' x <- c("Hello everyone", "Goodbye everyone")
+#' x <- c("2nd 3rd 1st", "Goodbye everyone")
 #' print(x)
 #' mat <- strcut_brk(x, "word")
 #' rank <- stringi::stri_rank(as.vector(mat)) |> matrix(ncol=ncol(mat))
 #' sorted <- mat %row~% rank
-#' print(sorted)
-#' stri_c_mat(sorted, margin=1) # <- alias for stri_join_mat
-#' stri_c_mat(sorted, margin=2)
+#' sorted[is.na(sorted)] <- ""
+#' stri_c_mat(sorted, margin=1, sep = " ") # <- alias for stri_join_mat
+#' stri_c_mat(sorted, margin=2, sep = " ")
+#'
 #'
 #' #############################################################################
 #'
-#' # re-ordering sentences ====
+#' # randomly shuffling sentences ====
 #'
 #' x <- c("Hello, who are you? Oh, really?! Cool!", "I don't care. But I really don't.")
 #' print(x)
 #' mat <- strcut_brk(x, "sentence")
-#' rank <- stringi::stri_rank(as.vector(mat)) |> matrix(ncol=ncol(mat))
+#' rank <- sample(1:length(mat)) |> matrix(ncol = ncol(mat))
 #' sorted <- mat %row~% rank
-#' print(sorted)
+#' sorted[is.na(sorted)] <- ""
 #' stri_paste_mat(sorted, margin=1) # <- another alias for stri_join_mat
 #' stri_paste_mat(sorted, margin=2)
 
@@ -85,17 +88,17 @@
 #' @family join_mat
 #' @rdname stri_join_mat
 #' @export
-stri_join_mat <- function(mat, margin=1, sep="", collapse=NULL) {
+stri_join_mat <- function(mat, margin = 1, sep = "", collapse = NULL) {
   if(margin==1) {
-    out <- mat |> as.data.frame()
+    out <- t(mat) |> as.data.frame()
     return(
-      do.call(stringi::stri_join, c(out, sep=sep, collapse=collapse))
+      stringi::stri_join_list(as.list(out), sep = sep, collapse = collapse)
     )
   }
   if(margin==2) {
-    out <- t(mat) |> as.data.frame()
+    out <- mat |> as.data.frame()
     return(
-      do.call(stringi::stri_join, c(out, sep=sep, collapse=collapse))
+      stringi::stri_join_list(as.list(out), sep = sep, collapse = collapse)
     )
   } else {
     stop("`margin` must be either 1 or 2")

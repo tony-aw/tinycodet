@@ -1,6 +1,8 @@
-# tinycodet 0.2.1
+# tinycodet 0.2.2
 * Small tweak to the pdf manual.
 * Replaced the incorrect uses of the word "class" with "type" in the atomic type casting help file.
+* Improved the performance of `stri_join_mat()`, and produced better examples in both help file and website.
+* Fixed incorrect regex usage in one of the examples.
 
 
 # tinycodet 0.2

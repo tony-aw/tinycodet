@@ -136,7 +136,7 @@ strcut_brk <- function(str, type = "character", ...) {
     stop("`type` must be a single string")
   }
   out <- stringi::stri_split_boundaries(
-    str=str, type = type, n=-1L, tokens_only = FALSE, simplify = NA, ...
+    str = str, type = type, n = -1L, tokens_only = FALSE, simplify = NA, ...
   )
   return(out)
 }
