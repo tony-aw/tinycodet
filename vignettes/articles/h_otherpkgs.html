@@ -341,7 +341,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(tinycodet)</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co">#&gt; Run `?tinycodet::tinycodet` to open the introduction help page of tinycodet.</span></span></code></pre></div>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co">#&gt; Run `?tinycodet::tinycodet` to open the introduction help page of &#39;tinycodet&#39;.</span></span></code></pre></div>
 <p> </p>
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
@@ -367,7 +367,7 @@ something similar; so be mindful of that.</p>
 <p> </p>
 </div>
 <div id="other-import-systems" class="section level2">
-<h2>other import systems</h2>
+<h2>Other import systems</h2>
 <p>The <a href="https://github.com/rticulate/import">import</a> R
 package provides somewhat similar capabilities to the
 <code>tinycodet</code> import management system, but they are still
@@ -393,7 +393,7 @@ packages.</p>
 <p> </p>
 </div>
 <div id="packages-for-project-isolation" class="section level2">
-<h2>packages for project isolation</h2>
+<h2>Packages for project isolation</h2>
 <p>All <code>import_</code> - functions in <code>tinycodet</code> have
 the <code>lib.loc</code> argument to specify the library path, which can
 be used for straight-forward project isolation. The
@@ -430,43 +430,6 @@ of R packages for (mostly) data wrangling, focused on high speed, better
 memory management, and minimal dependencies.</p>
 <p>For quick ’n easy back-tracing of errors, I recommend the <a href="https://github.com/r-lib/rlang/tree/main/R">rlang</a> R
 package.</p>
-<p> </p>
-</div>
-<div id="tinyverse-solutions-to-library-handling-without-external-r-packages" class="section level1">
-<h1>Tinyverse solutions to library handling without external R
-packages</h1>
-<p>The <code>tinyverse</code> (<a href="https://cran.r-project.org/web/packages/pacs/vignettes/tinyverse.html" class="uri">https://cran.r-project.org/web/packages/pacs/vignettes/tinyverse.html</a>)
-- not to be confused with the tidyverse - attempts to minimize
-dependencies, and thus avoid using external R packages unless necessary.
-“External R packages” here meaning not base/core R, not pre-installed
-recommended R packages, and not <code>rstudioapi</code>.</p>
-<p>There are some library handling issues that are traditionally solved
-through external R packages - even though they can be solved quite well
-without external R packages (especially since R version 4+). Since this
-R package adheres to the <code>tinyverse</code> philosophy and focuses
-on coding etiquette, some of these solutions will briefly be given
-without the use of external R packages:</p>
-<ul>
-<li>Force an error when using a function that appears in multiple
-attached packages: one can use the
-<code>options(conflicts.policy = ...)</code> to specify when such an
-error should be enforced.</li>
-<li>Give warnings when partial argument matching occurs: one can use
-<code>options( warnPartialMatchArgs = TRUE, warnPartialMatchAttr = TRUE, warnPartialMatchDollar = TRUE)</code>.</li>
-<li>Get path of current script or project root folder: without R-Studio
-one can use <code>commandArgs()</code> function; with R-Studio one can
-use
-<code>rstudioapi::getSourceEditorContext()$path |&gt; dirname()</code>.
-Then use <code>setwd()</code> to set the working directory to the
-current script directory. Using <code>setwd(&quot;..&quot;)</code> will set the
-working directory one folder up - which would often be your project root
-folder.</li>
-<li>Project isolation: set your library to a folder specific to your
-project (i.e. using <code>.libPaths()</code>, and/or using the
-<code>lib.loc</code> argument in the relevant functions).</li>
-<li>Date-based version control: As MRAN is no longer available, one may
-use the R-Studio package manager website as your repository: <a href="https://packagemanager.posit.co/client/#/" class="uri">https://packagemanager.posit.co/client/#/</a>.</li>
-</ul>
 <p> </p>
 </div>
 

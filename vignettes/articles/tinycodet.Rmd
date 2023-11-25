@@ -112,48 +112,33 @@ d %>% tdt.$filter(species == "Droid") %>%
 
 # Extending the string manipulation capabilities of stringi
 
-Some nice string operators:
-
 ```{r}
-x <- c("hello", "goodbye", "good afternoon")
-# in stringi:
-x[stringi::stri_detect(x, regex = "r")]
 
-# in tinycodet:
-x[x %s{}% "r"]
-```
-
-
-&nbsp;
-
-
-Locate $i^\textrm{th}$ occurrence of some pattern in a string:
-
-```{r}
-x <- c(paste0(letters, collapse = ""), "first second third last")
+# character vector:
+x <- c("3rd 1st 2nd", "5th 4th 6th")
 print(x)
-loc <- stri_locate_ith(
-  # locate second-last occurrence of vowel (ignore case) of each string in x:
-  x, -2, regex="A|E|I|O|U", case_insensitive=TRUE
-)
-substr(x, loc[,1], loc[,2])
-```
 
-&nbsp;
+# detect if there are digits:
+x %s{}% "\\d"
 
-Re-arrange every string in a character vector (in this case, sorting words):
+# find second last digit:
+loc <- stri_locate_ith(x, i = -2, regex = "\\d")
+stringi::stri_sub(x, from = loc)
 
-```{r}
-x <- c("Hello everyone, I'm here", "Goodbye everyone")
-print(x)
 # cut x into matrix of individual words:
-x <- strcut_brk(x, "word")
-# re-order matrix using the fast %row~% operator:
-mat <- stringi::stri_rank(as.vector(x)) |> matrix(ncol=ncol(x))
-sorted <- x %row~% mat
+mat <- strcut_brk(x, "word")
+
+# sort rows of matrix using the fast %row~% operator:
+rank <- stringi::stri_rank(as.vector(mat)) |> matrix(ncol = ncol(mat))
+sorted <- mat %row~% rank
+sorted[is.na(sorted)] <- ""
+
 # join elements of every row into a single character vector:
-stri_c_mat(sorted, margin=1, sep=" ")
+stri_c_mat(sorted, margin = 1, sep = " ")
+
+
 ```
+
 
 
 &nbsp;

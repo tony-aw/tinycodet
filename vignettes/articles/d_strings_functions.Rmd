@@ -27,11 +27,9 @@ library(tinycodet)
 
 Virtually every programming language, even those primarily focused on mathematics, will at some point have to deal with strings. R's atomic classes basically boil down to some form of either numbers or characters. R's numerical functions are generally very fast. But R's native string functions are somewhat slow, do not have a unified naming scheme, and are not as comprehensive as R's impressive numerical functions.
 
-The primary R-package that fixes this is 'stringi'. 'stringi' is arguably the fastest, most comprehensive, and one of the most downloaded string manipulation packages available at the time of writing. 'stringi' itself is dependency free. And many string related packages simply call 'stringi' functions.
+The primary R-package that fixes this is 'stringi'. 'stringi' is the fastest and most comprehensive string manipulation package available at the time of writing. Many string related packages fully depend on 'stringi'. The 'stringr' package, for example, is merely a thin wrapper around 'stringi'.
 
-For example: 'stringr' (from the 'tidyverse') is merely a thin wrapper around 'stringi', with less functionality and yet more dependencies.
-
-The 'tinycodet' package actually adds more functionality to the 'stringi' string manipulation capabilities.
+The 'tinycodet' package adds a bit more functionality to the 'stringi' string manipulation capabilities.
 
 &nbsp;
 
@@ -145,25 +143,34 @@ Here is an example of their usage when re-ordering strings, words, or sentences 
 ```{r}
 
 # sorting characters in strings:
-x <- c("Hello world", "Goodbye world")
-x <- strcut_brk(x, "character")
-mat <- stringi::stri_rank(as.vector(x)) |>  matrix(ncol=ncol(x))
-sorted <- x %row~% mat
-stri_join_mat(sorted, margin=1, sep="") # <- using new function here
+x <- c(paste(sample(letters), collapse = ""), paste(sample(letters), collapse = ""))
+print(x)
+mat <- strcut_brk(x)
+rank <- stringi::stri_rank(as.vector(mat)) |>  matrix(ncol=ncol(mat))
+sorted <- mat %row~% rank
+print(sorted)
+stri_join_mat(sorted, margin=1)
+stri_join_mat(sorted, margin=2)
 
 # sorting words:
-x <- c("Hello everyone", "Goodbye everyone")
-x <- strcut_brk(x, "word")
-mat <- stringi::stri_rank(as.vector(x)) |>  matrix(ncol=ncol(x))
-sorted <- x %row~% mat
-stri_c_mat(sorted, margin=1, sep=" ") # <- alias for stri_join_mat
+x <- c("2nd 3rd 1st", "Goodbye everyone")
+print(x)
+mat <- strcut_brk(x, "word")
+rank <- stringi::stri_rank(as.vector(mat)) |> matrix(ncol=ncol(mat))
+sorted <- mat %row~% rank
+sorted[is.na(sorted)] <- ""
+stri_c_mat(sorted, margin=1, sep = " ") # <- alias for stri_join_mat
+stri_c_mat(sorted, margin=2, sep = " ")
 
 # randomly shuffle sentences:
 x <- c("Hello, who are you? Oh, really?! Cool!", "I don't care. But I really don't.")
-x <- strcut_brk(x, "sentence")
-mat <- sample(1:length(x)) |> matrix(ncol=ncol(x))
-shuffled <- x %row~% mat
-stri_paste_mat(shuffled, margin=1, sep=" ") # <- another alias for stri_join_mat
+print(x)
+mat <- strcut_brk(x, "sentence")
+rank <- sample(1:length(mat)) |> matrix(ncol = ncol(mat))
+sorted <- mat %row~% rank
+sorted[is.na(sorted)] <- ""
+stri_paste_mat(sorted, margin=1) # <- another alias for stri_join_mat
+stri_paste_mat(sorted, margin=2)
 
 ```
 
@@ -190,16 +197,16 @@ load("speedtest.RData")
 
 ```{r eval = FALSE}
 n <- 1e5
-x <- rep(paste0(1:100, collapse=""), n)
+x <- rep(paste0(1:100, collapse = ""), n)
 p <- "\\d"
-i <- sample(c(-50:-1, 1:50), replace=TRUE, size = n)
+i <- sample(c(-50:-1, 1:50), replace = TRUE, size = n)
 locate_stringi <- function(...) {
   stringi::stri_locate_all(...)
   stringi::stri_count(...)
 }
 benchmark(
   "stri_locate_ith" = { stri_locate_ith(x, i, regex=p) },
-  "locate_stringi" = { locate_stringi(str=x, regex=p) },
+  "locate_stringi" = { locate_stringi(str = x, regex=p) },
   replications = 500,
   order = NULL,
   columns = c("test", "replications", "elapsed",
@@ -220,7 +227,7 @@ benchmark.stri_locate_ith |> knitr::kable()
 n <- 1e5
 x <- rep("hello", n)
 i <- sample(1:3, n, replace = TRUE)
-loc <- stri_locate_ith(x, i=i, regex="a|e|i|o|u")
+loc <- stri_locate_ith(x, i = i, regex = "a|e|i|o|u")
 benchmark(
   "strcut_loc" = { strcut_loc(x, loc) },
   "strcut_brk" = { strcut_brk(x) },

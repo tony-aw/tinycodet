@@ -583,57 +583,48 @@ note that the following code is run without attaching a single R package
 </div>
 <div id="extending-the-string-manipulation-capabilities-of-stringi" class="section level1">
 <h1>Extending the string manipulation capabilities of stringi</h1>
-<p>Some nice string operators:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;hello&quot;</span>, <span class="st">&quot;goodbye&quot;</span>, <span class="st">&quot;good afternoon&quot;</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co"># in stringi:</span></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>x[stringi<span class="sc">::</span><span class="fu">stri_detect</span>(x, <span class="at">regex =</span> <span class="st">&quot;r&quot;</span>)]</span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt; [1] &quot;good afternoon&quot;</span></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co"># in tinycodet:</span></span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>x[x <span class="sc">%s{}%</span> <span class="st">&quot;r&quot;</span>]</span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt; [1] &quot;good afternoon&quot;</span></span></code></pre></div>
-<p> </p>
-<p>Locate <span class="math inline">\(i^\textrm{th}\)</span> occurrence
-of some pattern in a string:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">paste0</span>(letters, <span class="at">collapse =</span> <span class="st">&quot;&quot;</span>), <span class="st">&quot;first second third last&quot;</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">print</span>(x)</span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;abcdefghijklmnopqrstuvwxyz&quot; &quot;first second third last&quot;</span></span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>loc <span class="ot">&lt;-</span> <span class="fu">stri_locate_ith</span>(</span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  <span class="co"># locate second-last occurrence of vowel (ignore case) of each string in x:</span></span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  x, <span class="sc">-</span><span class="dv">2</span>, <span class="at">regex=</span><span class="st">&quot;A|E|I|O|U&quot;</span>, <span class="at">case_insensitive=</span><span class="cn">TRUE</span></span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>)</span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="fu">substr</span>(x, loc[,<span class="dv">1</span>], loc[,<span class="dv">2</span>])</span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt; [1] &quot;o&quot; &quot;i&quot;</span></span></code></pre></div>
-<p> </p>
-<p>Re-arrange every string in a character vector (in this case, sorting
-words):</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Hello everyone, I&#39;m here&quot;</span>, <span class="st">&quot;Goodbye everyone&quot;</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">print</span>(x)</span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Hello everyone, I&#39;m here&quot; &quot;Goodbye everyone&quot;</span></span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co"># cut x into matrix of individual words:</span></span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">strcut_brk</span>(x, <span class="st">&quot;word&quot;</span>)</span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co"># re-order matrix using the fast %row~% operator:</span></span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>mat <span class="ot">&lt;-</span> stringi<span class="sc">::</span><span class="fu">stri_rank</span>(<span class="fu">as.vector</span>(x)) <span class="sc">|&gt;</span> <span class="fu">matrix</span>(<span class="at">ncol=</span><span class="fu">ncol</span>(x))</span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>sorted <span class="ot">&lt;-</span> x <span class="sc">%row~%</span> mat</span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co"># join elements of every row into a single character vector:</span></span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="fu">stri_c_mat</span>(sorted, <span class="at">margin=</span><span class="dv">1</span>, <span class="at">sep=</span><span class="st">&quot; &quot;</span>)</span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt; [1] &quot;      , everyone Hello here I&#39;m&quot; NA</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co"># character vector:</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;3rd 1st 2nd&quot;</span>, <span class="st">&quot;5th 4th 6th&quot;</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="fu">print</span>(x)</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt; [1] &quot;3rd 1st 2nd&quot; &quot;5th 4th 6th&quot;</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co"># detect if there are digits:</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>x <span class="sc">%s{}%</span> <span class="st">&quot;</span><span class="sc">\\</span><span class="st">d&quot;</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt; [1] TRUE TRUE</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co"># find second last digit:</span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>loc <span class="ot">&lt;-</span> <span class="fu">stri_locate_ith</span>(x, <span class="at">i =</span> <span class="sc">-</span><span class="dv">2</span>, <span class="at">regex =</span> <span class="st">&quot;</span><span class="sc">\\</span><span class="st">d&quot;</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>stringi<span class="sc">::</span><span class="fu">stri_sub</span>(x, <span class="at">from =</span> loc)</span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co">#&gt; [1] &quot;1&quot; &quot;4&quot;</span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="co"># cut x into matrix of individual words:</span></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a>mat <span class="ot">&lt;-</span> <span class="fu">strcut_brk</span>(x, <span class="st">&quot;word&quot;</span>)</span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="co"># sort rows of matrix using the fast %row~% operator:</span></span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a>rank <span class="ot">&lt;-</span> stringi<span class="sc">::</span><span class="fu">stri_rank</span>(<span class="fu">as.vector</span>(mat)) <span class="sc">|&gt;</span> <span class="fu">matrix</span>(<span class="at">ncol =</span> <span class="fu">ncol</span>(mat))</span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a>sorted <span class="ot">&lt;-</span> mat <span class="sc">%row~%</span> rank</span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a>sorted[<span class="fu">is.na</span>(sorted)] <span class="ot">&lt;-</span> <span class="st">&quot;&quot;</span></span>
+<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a></span>
+<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a><span class="co"># join elements of every row into a single character vector:</span></span>
+<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a><span class="fu">stri_c_mat</span>(sorted, <span class="at">margin =</span> <span class="dv">1</span>, <span class="at">sep =</span> <span class="st">&quot; &quot;</span>)</span>
+<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a><span class="co">#&gt; [1] &quot;    1st 2nd 3rd&quot; &quot;    4th 5th 6th&quot;</span></span></code></pre></div>
 <p> </p>
 </div>
 <div id="reduce-repetitive-code" class="section level1">
 <h1>Reduce repetitive code</h1>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># in base R:</span></span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">ifelse</span>( <span class="co"># repetitive, and gives unnecessary warning</span></span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="fu">is.na</span>(object<span class="sc">&gt;</span><span class="dv">0</span>), <span class="sc">-</span><span class="cn">Inf</span>,</span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  <span class="fu">ifelse</span>(</span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>    object<span class="sc">&gt;</span><span class="dv">0</span>,  <span class="fu">log</span>(object), object<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>  )</span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>)</span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>mtcars<span class="sc">$</span>mpg[mtcars<span class="sc">$</span>cyl<span class="sc">&gt;</span><span class="dv">6</span>] <span class="ot">&lt;-</span> (mtcars<span class="sc">$</span>mpg[mtcars<span class="sc">$</span>cyl<span class="sc">&gt;</span><span class="dv">6</span>])<span class="sc">^</span><span class="dv">2</span> <span class="co"># long</span></span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a></span>
-<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co"># with tinycodet:</span></span>
-<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>object <span class="sc">|&gt;</span> <span class="fu">transform_if</span>(\(x)x<span class="sc">&gt;</span><span class="dv">0</span>, log, \(x)x<span class="sc">^</span><span class="dv">2</span>, \(x) <span class="sc">-</span><span class="cn">Inf</span>) <span class="co"># compact &amp; no warning</span></span>
-<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>mtcars<span class="sc">$</span>mpg[mtcars<span class="sc">$</span>cyl<span class="sc">&gt;</span><span class="dv">6</span>] <span class="sc">%:=%</span> \(x)x<span class="sc">^</span><span class="dv">2</span> <span class="co"># short</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># in base R:</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">ifelse</span>( <span class="co"># repetitive, and gives unnecessary warning</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="fu">is.na</span>(object<span class="sc">&gt;</span><span class="dv">0</span>), <span class="sc">-</span><span class="cn">Inf</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  <span class="fu">ifelse</span>(</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>    object<span class="sc">&gt;</span><span class="dv">0</span>,  <span class="fu">log</span>(object), object<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  )</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>)</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>mtcars<span class="sc">$</span>mpg[mtcars<span class="sc">$</span>cyl<span class="sc">&gt;</span><span class="dv">6</span>] <span class="ot">&lt;-</span> (mtcars<span class="sc">$</span>mpg[mtcars<span class="sc">$</span>cyl<span class="sc">&gt;</span><span class="dv">6</span>])<span class="sc">^</span><span class="dv">2</span> <span class="co"># long</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co"># with tinycodet:</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a>object <span class="sc">|&gt;</span> <span class="fu">transform_if</span>(\(x)x<span class="sc">&gt;</span><span class="dv">0</span>, log, \(x)x<span class="sc">^</span><span class="dv">2</span>, \(x) <span class="sc">-</span><span class="cn">Inf</span>) <span class="co"># compact &amp; no warning</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a>mtcars<span class="sc">$</span>mpg[mtcars<span class="sc">$</span>cyl<span class="sc">&gt;</span><span class="dv">6</span>] <span class="sc">%:=%</span> \(x)x<span class="sc">^</span><span class="dv">2</span> <span class="co"># short</span></span></code></pre></div>
 <p> </p>
 </div>
 <div id="the-articles" class="section level1">
