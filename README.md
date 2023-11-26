@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# tinycodet
+# tinycodet <a href="https://github.com/tony-aw/tinycodet/"><img src="man/figures/tinycodet.svg" align="right" height="138" style="float:right; height:200px;" /></a>
 
 <!-- badges: start -->
 
@@ -17,7 +17,7 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 [![Dependencies](https://tinyverse.netlify.com/badge/tinycodet)](https://cran.r-project.org/package=tinycodet)
 <!-- badges: end -->
 
-[![](man/figures/tinycodet.svg)](https://github.com/tony-aw/tinycodet/)
+<!-- [![](man/figures/tinycodet.svg)](https://github.com/tony-aw/tinycodet/) -->
 
  
 
