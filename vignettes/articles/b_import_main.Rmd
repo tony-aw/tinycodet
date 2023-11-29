@@ -25,7 +25,7 @@ library(tinycodet)
 
 # Introduction
 
-One can load a package without attaching the package (i.e. using `::` or using a package alias), or one can attach a package (i.e. using `library()` or `require()`).
+One can load a package without attaching the package (for example using `::`), or one can attach a package (for example using `library()` or `require()`).
 
 The advantages and disadvantages of loading without attaching a package versus attaching a package - at least those relevant for this article - can be compactly presented in the following table:
 
@@ -42,7 +42,7 @@ X <- rbind(
   c("use multiple related packages, <br> without constantly switching between package prefixes", "No (-)", "Yes (+)"),
   c("NOTE: + = advantage, - = disadvantage", "", "")
 )
-colnames(X) <- c("aspect", "alias / ::", "attaching")
+colnames(X) <- c("aspect", "::", "attach")
 X <- as.data.frame(X)
 rownames(X) <- c(1:7, "")
 knitr::kable(X, "html", row.names = TRUE, escape = FALSE)
@@ -51,7 +51,7 @@ knitr::kable(X, "html", row.names = TRUE, escape = FALSE)
 
 What `tinycodet` attempts to do with its import system, is to somewhat find the best of both worlds. Basically, `tinycodet` has functions that allow the following import functionality lacking in base R:
 
- - Allow an R package + its re-exports + its dependencies + its extensions to be loaded under **one alias**. This essentially combines the attaching advantage of using multiple related packages (row 7 in table above), whilst keeping most advantages of aliasing a package.
+ - Allow an R package + its re-exports + its dependencies + its extensions to be loaded under **one alias**. This essentially combines the attaching advantage of using multiple related packages (row 7 in table above), whilst keeping most advantages of using without attaching a package.
  - Allow **exposing infix operators** to the **current environment**. This gains the attaching advantage of less typing (row 6 in table above), whilst simultaneously avoiding the disadvantage of attaching functions from a package globally (row 4).
 
 The import package system presented here is just another option provided, just like the [import](https://github.com/rticulate/import) and [box](https://github.com/klmr/box) packages provide their own alternative import systems. Please feel free to completely ignore this article if you're really adamant on attaching packages using `library()`/`require()` :-).
@@ -87,26 +87,7 @@ What follows are descriptions of the main functions that together form this new,
 
 # import_as
 
-One can load a package without attaching it, and assign it to an alias, in base R, using, for example:
-
-```{r eval=FALSE}
-alias <- loadNamespace("packagename", lib.loc = lib.loc)
-```
-
-Doing the above, instead of attaching a package using `library()` or `require()`, can (often) be quite beneficial (see Introduction section in this article).
-
-Loading a package in an alias, whether one does it through base R or through an R package like `import` or `box`, does have some drawbacks. One is that you cannot easily import multiple related packages under the same alias. Although one may not *always* want to import *multiple* related packages under a *single alias*, there are several situations where importing multiple packages into a single alias may be preferable:
-
- - If multiple packages are meant to work together, constantly switching between the different package name/alias prefixes may eventually become annoying and even syntactically chaotic-looking.
- - A package may have one or several dependencies that are supposed to be loaded together. For example: the `tidytable` package essentially needs the `data.table` package to be loaded also.
- - A package may have many extensions you may want to load together. For example: `ggplot2` has many extensions (see https://exts.ggplot2.tidyverse.org/gallery/). If one wishes to alias `ggplot2` including some of its many extensions, it would be nice to load multiple R packages under the same alias.
- - Suppose package `B` is supposed to overwrite a couple of functions from package `A` (for example if package `B` extends or improves the functionality from a function in package `A`). In that case you may want to import package `A`, and then overwrite it with package `B`.
-
-So there are several cases where it is perhaps desirable to load *multiple* related packages under one alias.
-
-And that is where `tinycodet`'s `import_as()` function comes in. It loads an R package + its re-exports under an alias, and also loads any specified **dependencies** and/or **extensions** of the package under the very same alias. It also informs the user which objects from a package will overwrite which objects from other packages, so you will never be surprised.
-
-`import_as(alias, ...)` is thus essentially the more user-friendly and multi-package equivalent of `alias <- loadNamespace(...)`.
+The `import_as()` function loads an R package + its re-exports under an alias, and also loads any specified direct **dependencies** and/or direct **extensions** of the package under the very same alias. It also informs the user which objects from a package will overwrite which objects from other packages, so you will never be surprised.
 
 The main arguments of the `import_as()` function are:
 
@@ -117,14 +98,14 @@ The main arguments of the `import_as()` function are:
  - `extensions`: an optional character vector giving the extensions/reverse-dependencies of the `main_package` to load under the same alias also.
  - `lib.loc`: the library paths to look for the packages; defaults to `.libPaths()`. This argument is present in all `import_` - functions.
 
-Here is one example. Lets load  [data.table](https://github.com/Rdatatable/data.table) and its extensions [tidytable](https://github.com/markfairbanks/tidytable), under the same alias, which I will call "tdt." (for "tidy data.table"):
+Here is one example. Lets load [data.table](https://github.com/Rdatatable/data.table) and its extensions [tidytable](https://github.com/markfairbanks/tidytable), under the same alias, which I will call "tdt." (for "tidy data.table"):
 
 ```{r}
 import_as(~ tdt., "data.table", extensions = "tidytable") # this creates the tdt. object
 ```
 
 
-Now you can of course use those loaded packages as one would normally do when using a package alias: `tdt.$some_function()`.
+Now one can use the imported functions using: `tdt.$some_function()`.
 
 &nbsp;
 
@@ -222,9 +203,7 @@ head(d)
 
 The 'tinycodet' import system is helpful particularly when packages have conflicting namespaces with each other, or conflict with core/base R.
 
-There is no necessity for using the 'tinycodet' import system with every single package. In fact, I would recommend attaching certain packages, for example the 'stringi' package.
-
-The 'stringi' package uses a unique and immediately recognisable naming scheme (all 'stringi' functions start with "`stri_`"), and this naming scheme does not conflict with core R nor with most other packages.
+There is no necessity for using the 'tinycodet' import system with every single package. One can safely attach the 'stringi' package, for example, as 'stringi' uses a unique and immediately recognisable naming scheme (virtually all 'stringi' functions start with "stri_"), and this naming scheme does not conflict with core R, nor with most other packages.
 
 Of course, if one wishes to use 'stringi' only within a specific environment, like only inside a function, it becomes advantageous to load 'stringi' using the 'tinycodet' import system (in this case the `import_LL()` function would be most applicable).
 

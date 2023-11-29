@@ -345,9 +345,9 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <p> </p>
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
-<p>One can load a package without attaching the package (i.e. using
-<code>::</code> or using a package alias), or one can attach a package
-(i.e. using <code>library()</code> or <code>require()</code>).</p>
+<p>One can load a package without attaching the package (for example
+using <code>::</code>), or one can attach a package (for example using
+<code>library()</code> or <code>require()</code>).</p>
 <p>The advantages and disadvantages of loading without attaching a
 package versus attaching a package - at least those relevant for this
 article - can be compactly presented in the following table:</p>
@@ -360,10 +360,10 @@ article - can be compactly presented in the following table:</p>
 aspect
 </th>
 <th style="text-align:left;">
-alias / ::
+::
 </th>
 <th style="text-align:left;">
-attaching
+attach
 </th>
 </tr>
 </thead>
@@ -490,8 +490,8 @@ functionality lacking in base R:</p>
 <li>Allow an R package + its re-exports + its dependencies + its
 extensions to be loaded under <strong>one alias</strong>. This
 essentially combines the attaching advantage of using multiple related
-packages (row 7 in table above), whilst keeping most advantages of
-aliasing a package.</li>
+packages (row 7 in table above), whilst keeping most advantages of using
+without attaching a package.</li>
 <li>Allow <strong>exposing infix operators</strong> to the
 <strong>current environment</strong>. This gains the attaching advantage
 of less typing (row 6 in table above), whilst simultaneously avoiding
@@ -551,49 +551,12 @@ multi-package assignment friendly, import management system.</p>
 </div>
 <div id="import_as" class="section level1">
 <h1>import_as</h1>
-<p>One can load a package without attaching it, and assign it to an
-alias, in base R, using, for example:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>alias <span class="ot">&lt;-</span> <span class="fu">loadNamespace</span>(<span class="st">&quot;packagename&quot;</span>, <span class="at">lib.loc =</span> lib.loc)</span></code></pre></div>
-<p>Doing the above, instead of attaching a package using
-<code>library()</code> or <code>require()</code>, can (often) be quite
-beneficial (see Introduction section in this article).</p>
-<p>Loading a package in an alias, whether one does it through base R or
-through an R package like <code>import</code> or <code>box</code>, does
-have some drawbacks. One is that you cannot easily import multiple
-related packages under the same alias. Although one may not
-<em>always</em> want to import <em>multiple</em> related packages under
-a <em>single alias</em>, there are several situations where importing
-multiple packages into a single alias may be preferable:</p>
-<ul>
-<li>If multiple packages are meant to work together, constantly
-switching between the different package name/alias prefixes may
-eventually become annoying and even syntactically chaotic-looking.</li>
-<li>A package may have one or several dependencies that are supposed to
-be loaded together. For example: the <code>tidytable</code> package
-essentially needs the <code>data.table</code> package to be loaded
-also.</li>
-<li>A package may have many extensions you may want to load together.
-For example: <code>ggplot2</code> has many extensions (see <a href="https://exts.ggplot2.tidyverse.org/gallery/" class="uri">https://exts.ggplot2.tidyverse.org/gallery/</a>). If one
-wishes to alias <code>ggplot2</code> including some of its many
-extensions, it would be nice to load multiple R packages under the same
-alias.</li>
-<li>Suppose package <code>B</code> is supposed to overwrite a couple of
-functions from package <code>A</code> (for example if package
-<code>B</code> extends or improves the functionality from a function in
-package <code>A</code>). In that case you may want to import package
-<code>A</code>, and then overwrite it with package <code>B</code>.</li>
-</ul>
-<p>So there are several cases where it is perhaps desirable to load
-<em>multiple</em> related packages under one alias.</p>
-<p>And that is where <code>tinycodet</code>’s <code>import_as()</code>
-function comes in. It loads an R package + its re-exports under an
-alias, and also loads any specified <strong>dependencies</strong> and/or
-<strong>extensions</strong> of the package under the very same alias. It
-also informs the user which objects from a package will overwrite which
-objects from other packages, so you will never be surprised.</p>
-<p><code>import_as(alias, ...)</code> is thus essentially the more
-user-friendly and multi-package equivalent of
-<code>alias &lt;- loadNamespace(...)</code>.</p>
+<p>The <code>import_as()</code> function loads an R package + its
+re-exports under an alias, and also loads any specified direct
+<strong>dependencies</strong> and/or direct <strong>extensions</strong>
+of the package under the very same alias. It also informs the user which
+objects from a package will overwrite which objects from other packages,
+so you will never be surprised.</p>
 <p>The main arguments of the <code>import_as()</code> function are:</p>
 <ul>
 <li><code>alias</code>: the name of the alias object under which to load
@@ -622,14 +585,14 @@ defaults to <code>.libPaths()</code>. This argument is present in all
 <p>Here is one example. Lets load <a href="https://github.com/Rdatatable/data.table">data.table</a> and its
 extensions <a href="https://github.com/markfairbanks/tidytable">tidytable</a>, under
 the same alias, which I will call “tdt.” (for “tidy data.table”):</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">import_as</span>(<span class="sc">~</span> tdt., <span class="st">&quot;data.table&quot;</span>, <span class="at">extensions =</span> <span class="st">&quot;tidytable&quot;</span>) <span class="co"># this creates the tdt. object</span></span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="co">#&gt; Importing packages...</span></span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt; You can now access the functions using `tdt.$`</span></span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt; Methods will work like normally </span></span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; For conflicts report, packages order, and other attributes, run `attr.import(tdt.)`</span></span></code></pre></div>
-<p>Now you can of course use those loaded packages as one would normally
-do when using a package alias: <code>tdt.$some_function()</code>.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">import_as</span>(<span class="sc">~</span> tdt., <span class="st">&quot;data.table&quot;</span>, <span class="at">extensions =</span> <span class="st">&quot;tidytable&quot;</span>) <span class="co"># this creates the tdt. object</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">#&gt; Importing packages...</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt; You can now access the functions using `tdt.$`</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt; Methods will work like normally </span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; For conflicts report, packages order, and other attributes, run `attr.import(tdt.)`</span></span></code></pre></div>
+<p>Now one can use the imported functions using:
+<code>tdt.$some_function()</code>.</p>
 <p> </p>
 </div>
 <div id="import_inops" class="section level1">
@@ -637,10 +600,10 @@ do when using a package alias: <code>tdt.$some_function()</code>.</p>
 <p>When aliasing an R package, infix operators are also loaded in the
 alias. However, it may be cumbersome to use them from the alias. For
 example this:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">import_as</span>(<span class="sc">~</span> to., <span class="st">&quot;tinycodet&quot;</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>to.<span class="sc">$</span><span class="st">`</span><span class="at">%row~%</span><span class="st">`</span>(x, mat)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">import_as</span>(<span class="sc">~</span> to., <span class="st">&quot;tinycodet&quot;</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>to.<span class="sc">$</span><span class="st">`</span><span class="at">%row~%</span><span class="st">`</span>(x, mat)</span></code></pre></div>
 <p>or this:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>tinycodet<span class="sc">::</span><span class="st">`</span><span class="at">%row~%</span><span class="st">`</span>(x, mat)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>tinycodet<span class="sc">::</span><span class="st">`</span><span class="at">%row~%</span><span class="st">`</span>(x, mat)</span></code></pre></div>
 <p>is very cumbersome.</p>
 <p>Therefore, <code>tinycodet</code> also adds the
 <code>import_inops()</code> function, which exposes the infix operators.
@@ -649,34 +612,34 @@ global environment, or the environment within a function), but does not
 attach the functions to the namespace.</p>
 <p>For example, to expose the infix operators in the alias object from
 before to the current environment, one can do the following:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="at">expose =</span> tdt.)</span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co">#&gt; Checking for conflicting infix operators in the current environment...</span></span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">#&gt; Placing infix operators in current environment...</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="at">expose =</span> tdt.)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co">#&gt; Checking for conflicting infix operators in the current environment...</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#&gt; Placing infix operators in current environment...</span></span></code></pre></div>
 <p>One can give the <code>unexpose</code> argument instead of the
 <code>expose</code> argument, which will delete the infix operators from
 those packages/package alias exposed in the current environment by
 <code>import_inops()</code>. Infix operators defined by the user will
 not be touched. For example:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="at">unexpose =</span> tdt.)</span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co">#&gt; unexposing infix operators...</span></span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="co">#&gt; Done</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="at">unexpose =</span> tdt.)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co">#&gt; unexposing infix operators...</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">#&gt; Done</span></span></code></pre></div>
 <p>One can also expose and unexpose the infix operators directly from a
 package, instead of via an alias object. In that case the package name
 must be given as a string.</p>
 <p>For example, the following code exposes the infix operators from the
 <a href="https://github.com/Rdatatable/data.table">data.table</a> R
 package:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="at">expose =</span><span class="st">&quot;data.table&quot;</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="co">#&gt; Checking for conflicting infix operators in the current environment...</span></span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co">#&gt; Placing infix operators in current environment...</span></span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="co">#&gt; Done</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="at">expose =</span><span class="st">&quot;data.table&quot;</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co">#&gt; Checking for conflicting infix operators in the current environment...</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="co">#&gt; Placing infix operators in current environment...</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="co">#&gt; Done</span></span></code></pre></div>
 <p>And similarly one can remove the exposed infix operators again from
 the current environment as follows:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="at">unexpose =</span> <span class="st">&quot;data.table&quot;</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="co">#&gt; checking for infix operators exposed to the current environment by `import_inops()` ...</span></span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="co">#&gt; Removing the following infix operators:</span></span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="co">#&gt; %between%, %chin%, %flike%, %ilike%, %inrange%, %like%, :=</span></span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="co">#&gt; Done</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="at">unexpose =</span> <span class="st">&quot;data.table&quot;</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="co">#&gt; checking for infix operators exposed to the current environment by `import_inops()` ...</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co">#&gt; Removing the following infix operators:</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="co">#&gt; %between%, %chin%, %flike%, %ilike%, %inrange%, %like%, :=</span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="co">#&gt; Done</span></span></code></pre></div>
 <p> </p>
 <p>The <code>import_inops()</code> function has the <code>exclude</code>
 and <code>include.only</code> arguments to specify exactly which infix
@@ -687,21 +650,21 @@ exist in the current environment (and loaded namespaces). This can be
 handy to prevent overwriting any (user defined) infix operators already
 present in the current environment or loaded namespaces.</p>
 <p>Examples:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="at">expose =</span> tdt., <span class="at">include.only =</span> <span class="st">&quot;:=&quot;</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="co">#&gt; Checking for conflicting infix operators in the current environment...</span></span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="co">#&gt; Placing infix operators in current environment...</span></span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="at">unexpose =</span> tdt.)</span>
-<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="co">#&gt; unexposing infix operators...</span></span>
-<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
-<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="at">expose =</span> <span class="st">&quot;data.table&quot;</span>, , <span class="at">include.only =</span> <span class="st">&quot;:=&quot;</span>)</span>
-<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="co">#&gt; Checking for conflicting infix operators in the current environment...</span></span>
-<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a><span class="co">#&gt; Placing infix operators in current environment...</span></span>
-<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
-<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="at">unexpose =</span> <span class="st">&quot;data.table&quot;</span>)</span>
-<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a><span class="co">#&gt; checking for infix operators exposed to the current environment by `import_inops()` ...</span></span>
-<span id="cb11-13"><a href="#cb11-13" tabindex="-1"></a><span class="co">#&gt; Removing the following infix operators:</span></span>
-<span id="cb11-14"><a href="#cb11-14" tabindex="-1"></a><span class="co">#&gt; :=</span></span>
-<span id="cb11-15"><a href="#cb11-15" tabindex="-1"></a><span class="co">#&gt; Done</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="at">expose =</span> tdt., <span class="at">include.only =</span> <span class="st">&quot;:=&quot;</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="co">#&gt; Checking for conflicting infix operators in the current environment...</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="co">#&gt; Placing infix operators in current environment...</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="at">unexpose =</span> tdt.)</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="co">#&gt; unexposing infix operators...</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="at">expose =</span> <span class="st">&quot;data.table&quot;</span>, , <span class="at">include.only =</span> <span class="st">&quot;:=&quot;</span>)</span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="co">#&gt; Checking for conflicting infix operators in the current environment...</span></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co">#&gt; Placing infix operators in current environment...</span></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="at">unexpose =</span> <span class="st">&quot;data.table&quot;</span>)</span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="co">#&gt; checking for infix operators exposed to the current environment by `import_inops()` ...</span></span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="co">#&gt; Removing the following infix operators:</span></span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="co">#&gt; :=</span></span>
+<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a><span class="co">#&gt; Done</span></span></code></pre></div>
 <p> </p>
 <p>If the user would rather attach the infix operators to the (global)
 namespace, <code>tinycodet</code> provides the <code>pkg_lsf()</code>
@@ -709,7 +672,7 @@ function, which returns a character vector listing all functions or
 infix operators from a package. This vector can then be used in the
 <code>include.only</code> argument of the <code>library()</code>
 function. Like so:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">library</span>(magrittr, <span class="at">include.only =</span> <span class="fu">pkg_lsf</span>(<span class="st">&quot;magrittr&quot;</span>, <span class="at">type =</span> <span class="st">&quot;inops&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">library</span>(magrittr, <span class="at">include.only =</span> <span class="fu">pkg_lsf</span>(<span class="st">&quot;magrittr&quot;</span>, <span class="at">type =</span> <span class="st">&quot;inops&quot;</span>))</span></code></pre></div>
 <p> </p>
 </div>
 <div id="import_data" class="section level1">
@@ -727,15 +690,15 @@ directly returns a data set from a package.</p>
 <p>For example, to import the <code>chicago</code> data set from the <a href="https://github.com/cran/gamair">gamair</a> R package, and assign
 it directly to a variable (without having to do re-assignment and so
 on), one simply runs the following:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">import_data</span>(<span class="st">&quot;gamair&quot;</span>, <span class="st">&quot;chicago&quot;</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="fu">head</span>(d)</span>
-<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="co">#&gt;   death pm10median pm25median  o3median  so2median    time tmpd</span></span>
-<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="co">#&gt; 1   130 -7.4335443         NA -19.59234  1.9280426 -2556.5 31.5</span></span>
-<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="co">#&gt; 2   150         NA         NA -19.03861 -0.9855631 -2555.5 33.0</span></span>
-<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a><span class="co">#&gt; 3   101 -0.8265306         NA -20.21734 -1.8914161 -2554.5 33.0</span></span>
-<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a><span class="co">#&gt; 4   135  5.5664557         NA -19.67567  6.1393413 -2553.5 29.0</span></span>
-<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a><span class="co">#&gt; 5   126         NA         NA -19.21734  2.2784649 -2552.5 32.0</span></span>
-<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a><span class="co">#&gt; 6   130  6.5664557         NA -17.63400  9.8585839 -2551.5 40.0</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">import_data</span>(<span class="st">&quot;gamair&quot;</span>, <span class="st">&quot;chicago&quot;</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="fu">head</span>(d)</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="co">#&gt;   death pm10median pm25median  o3median  so2median    time tmpd</span></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="co">#&gt; 1   130 -7.4335443         NA -19.59234  1.9280426 -2556.5 31.5</span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="co">#&gt; 2   150         NA         NA -19.03861 -0.9855631 -2555.5 33.0</span></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="co">#&gt; 3   101 -0.8265306         NA -20.21734 -1.8914161 -2554.5 33.0</span></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="co">#&gt; 4   135  5.5664557         NA -19.67567  6.1393413 -2553.5 29.0</span></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a><span class="co">#&gt; 5   126         NA         NA -19.21734  2.2784649 -2552.5 32.0</span></span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a><span class="co">#&gt; 6   130  6.5664557         NA -17.63400  9.8585839 -2551.5 40.0</span></span></code></pre></div>
 <p> </p>
 </div>
 <div id="when-to-use-or-not-to-use-the-new-import-system" class="section level1">
@@ -744,11 +707,10 @@ on), one simply runs the following:</p>
 have conflicting namespaces with each other, or conflict with core/base
 R.</p>
 <p>There is no necessity for using the ‘tinycodet’ import system with
-every single package. In fact, I would recommend attaching certain
-packages, for example the ‘stringi’ package.</p>
-<p>The ‘stringi’ package uses a unique and immediately recognisable
-naming scheme (all ‘stringi’ functions start with “<code>stri_</code>”),
-and this naming scheme does not conflict with core R nor with most other
+every single package. One can safely attach the ‘stringi’ package, for
+example, as ‘stringi’ uses a unique and immediately recognisable naming
+scheme (virtually all ‘stringi’ functions start with “stri_”), and this
+naming scheme does not conflict with core R, nor with most other
 packages.</p>
 <p>Of course, if one wishes to use ‘stringi’ only within a specific
 environment, like only inside a function, it becomes advantageous to
@@ -763,23 +725,23 @@ load ‘stringi’ using the ‘tinycodet’ import system (in this case the
 <strong>core R</strong> functions (including base R) and it overwrites
 functions from pre-installed recommended R packages (such as
 <code>MASS</code>). I.e.:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">ls</span>()) <span class="co"># clearing environment again</span></span>
-<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
-<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a><span class="fu">library</span>(dplyr) <span class="co"># &lt;- notice dplyr overwrites base R and recommended R packages</span></span>
-<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a><span class="co">#&gt; Attaching package: &#39;dplyr&#39;</span></span>
-<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a><span class="co">#&gt; The following object is masked from &#39;package:MASS&#39;:</span></span>
-<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a><span class="co">#&gt;     select</span></span>
-<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from &#39;package:stats&#39;:</span></span>
-<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a><span class="co">#&gt;     filter, lag</span></span>
-<span id="cb14-12"><a href="#cb14-12" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from &#39;package:base&#39;:</span></span>
-<span id="cb14-13"><a href="#cb14-13" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb14-14"><a href="#cb14-14" tabindex="-1"></a><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
-<span id="cb14-15"><a href="#cb14-15" tabindex="-1"></a></span>
-<span id="cb14-16"><a href="#cb14-16" tabindex="-1"></a><span class="co"># detaching dplyr again:</span></span>
-<span id="cb14-17"><a href="#cb14-17" tabindex="-1"></a><span class="fu">detach</span>(<span class="st">&quot;package:dplyr&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">ls</span>()) <span class="co"># clearing environment again</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="fu">library</span>(dplyr) <span class="co"># &lt;- notice dplyr overwrites base R and recommended R packages</span></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="co">#&gt; Attaching package: &#39;dplyr&#39;</span></span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a><span class="co">#&gt; The following object is masked from &#39;package:MASS&#39;:</span></span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a><span class="co">#&gt;     select</span></span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from &#39;package:stats&#39;:</span></span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a><span class="co">#&gt;     filter, lag</span></span>
+<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from &#39;package:base&#39;:</span></span>
+<span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-14"><a href="#cb13-14" tabindex="-1"></a><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
+<span id="cb13-15"><a href="#cb13-15" tabindex="-1"></a></span>
+<span id="cb13-16"><a href="#cb13-16" tabindex="-1"></a><span class="co"># detaching dplyr again:</span></span>
+<span id="cb13-17"><a href="#cb13-17" tabindex="-1"></a><span class="fu">detach</span>(<span class="st">&quot;package:dplyr&quot;</span>)</span></code></pre></div>
 <p>Moreover, <a href="https://github.com/tidyverse/dplyr">dplyr</a>’s
 function names are sometimes generic enough that there is no obvious way
 to tell if a function came from <a href="https://github.com/tidyverse/dplyr">dplyr</a> or some other
@@ -799,19 +761,19 @@ its re-exports), along with <a href="https://github.com/moodymudskipper/powerjoi
 is an extension), all under one alias which I’ll call
 “<code>dpr.</code>”. Moreover, all infix operators from
 <code>magrittr</code> are exposed to the current environment.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">import_as</span>(</span>
-<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>  <span class="sc">~</span> dpr., <span class="st">&quot;dplyr&quot;</span>, <span class="at">extensions =</span> <span class="st">&quot;powerjoin&quot;</span>, <span class="at">lib.loc =</span> <span class="fu">.libPaths</span>()</span>
-<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>)</span>
-<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a><span class="co">#&gt; Importing packages...</span></span>
-<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
-<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a><span class="co">#&gt; You can now access the functions using `dpr.$`</span></span>
-<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a><span class="co">#&gt; Methods will work like normally </span></span>
-<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a><span class="co">#&gt; For conflicts report, packages order, and other attributes, run `attr.import(dpr.)`</span></span>
-<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a></span>
-<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="st">&quot;magrittr&quot;</span>) <span class="co"># getting the infix operators from `magrittr`</span></span>
-<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a><span class="co">#&gt; Checking for conflicting infix operators in the current environment...</span></span>
-<span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a><span class="co">#&gt; Placing infix operators in current environment...</span></span>
-<span id="cb15-13"><a href="#cb15-13" tabindex="-1"></a><span class="co">#&gt; Done</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">import_as</span>(</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>  <span class="sc">~</span> dpr., <span class="st">&quot;dplyr&quot;</span>, <span class="at">extensions =</span> <span class="st">&quot;powerjoin&quot;</span>, <span class="at">lib.loc =</span> <span class="fu">.libPaths</span>()</span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>)</span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a><span class="co">#&gt; Importing packages...</span></span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a><span class="co">#&gt; You can now access the functions using `dpr.$`</span></span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a><span class="co">#&gt; Methods will work like normally </span></span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a><span class="co">#&gt; For conflicts report, packages order, and other attributes, run `attr.import(dpr.)`</span></span>
+<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="st">&quot;magrittr&quot;</span>) <span class="co"># getting the infix operators from `magrittr`</span></span>
+<span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a><span class="co">#&gt; Checking for conflicting infix operators in the current environment...</span></span>
+<span id="cb14-12"><a href="#cb14-12" tabindex="-1"></a><span class="co">#&gt; Placing infix operators in current environment...</span></span>
+<span id="cb14-13"><a href="#cb14-13" tabindex="-1"></a><span class="co">#&gt; Done</span></span></code></pre></div>
 <p>The functions from <a href="https://github.com/tidyverse/dplyr">dplyr</a> can now be used with
 the <code>dpr.$</code> prefix. This way, base R functions are no longer
 overwritten, and it will be clear for someone who reads your code
@@ -819,63 +781,63 @@ whether functions like the <code>filter()</code> function is the base R
 filter function, or the <a href="https://github.com/tidyverse/dplyr">dplyr</a> filter function, as
 the latter would be called as <code>dpr.$filter()</code>.</p>
 <p>Let’s first run a simple example code with the loaded functions:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">import_data</span>(<span class="st">&quot;dplyr&quot;</span>, <span class="st">&quot;starwars&quot;</span>)</span>
-<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>d <span class="sc">%&gt;%</span></span>
-<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>  dpr.<span class="sc">$</span><span class="fu">filter</span>(.data<span class="sc">$</span>species <span class="sc">==</span> <span class="st">&quot;Droid&quot;</span>) <span class="sc">%&gt;%</span> <span class="co"># notice the &quot;.data&quot; pronoun can be used without problems</span></span>
-<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>  dpr.<span class="sc">$</span><span class="fu">select</span>(name, dpr.<span class="sc">$</span><span class="fu">ends_with</span>(<span class="st">&quot;color&quot;</span>))</span>
-<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 4</span></span>
-<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a><span class="co">#&gt;   name   hair_color skin_color  eye_color</span></span>
-<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;    </span></span>
-<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a><span class="co">#&gt; 1 C-3PO  &lt;NA&gt;       gold        yellow   </span></span>
-<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a><span class="co">#&gt; 2 R2-D2  &lt;NA&gt;       white, blue red      </span></span>
-<span id="cb16-10"><a href="#cb16-10" tabindex="-1"></a><span class="co">#&gt; 3 R5-D4  &lt;NA&gt;       white, red  red      </span></span>
-<span id="cb16-11"><a href="#cb16-11" tabindex="-1"></a><span class="co">#&gt; 4 IG-88  none       metal       red      </span></span>
-<span id="cb16-12"><a href="#cb16-12" tabindex="-1"></a><span class="co">#&gt; 5 R4-P17 none       silver, red red, blue</span></span>
-<span id="cb16-13"><a href="#cb16-13" tabindex="-1"></a><span class="co">#&gt; 6 BB8    none       none        black</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">import_data</span>(<span class="st">&quot;dplyr&quot;</span>, <span class="st">&quot;starwars&quot;</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>d <span class="sc">%&gt;%</span></span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>  dpr.<span class="sc">$</span><span class="fu">filter</span>(.data<span class="sc">$</span>species <span class="sc">==</span> <span class="st">&quot;Droid&quot;</span>) <span class="sc">%&gt;%</span> <span class="co"># notice the &quot;.data&quot; pronoun can be used without problems</span></span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>  dpr.<span class="sc">$</span><span class="fu">select</span>(name, dpr.<span class="sc">$</span><span class="fu">ends_with</span>(<span class="st">&quot;color&quot;</span>))</span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 4</span></span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a><span class="co">#&gt;   name   hair_color skin_color  eye_color</span></span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;    </span></span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a><span class="co">#&gt; 1 C-3PO  &lt;NA&gt;       gold        yellow   </span></span>
+<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a><span class="co">#&gt; 2 R2-D2  &lt;NA&gt;       white, blue red      </span></span>
+<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a><span class="co">#&gt; 3 R5-D4  &lt;NA&gt;       white, red  red      </span></span>
+<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a><span class="co">#&gt; 4 IG-88  none       metal       red      </span></span>
+<span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a><span class="co">#&gt; 5 R4-P17 none       silver, red red, blue</span></span>
+<span id="cb15-13"><a href="#cb15-13" tabindex="-1"></a><span class="co">#&gt; 6 BB8    none       none        black</span></span></code></pre></div>
 <p>Just add <code>dpr.$</code> in front of the functions you’d normally
 use, and everything works just as expected.</p>
 <p>Now lets run an example from the <a href="https://github.com/moodymudskipper/powerjoin">powerjoin</a> GitHub
 page (<a href="https://github.com/moodymudskipper/powerjoin" class="uri">https://github.com/moodymudskipper/powerjoin</a>), using the
 above alias:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>male_penguins <span class="ot">&lt;-</span> dpr.<span class="sc">$</span><span class="fu">tribble</span>(</span>
-<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>     <span class="sc">~</span>name,    <span class="sc">~</span>species,     <span class="sc">~</span>island, <span class="sc">~</span>flipper_length_mm, <span class="sc">~</span>body_mass_g,</span>
-<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a> <span class="st">&quot;Giordan&quot;</span>,    <span class="st">&quot;Gentoo&quot;</span>,    <span class="st">&quot;Biscoe&quot;</span>,               222L,        5250L,</span>
-<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>  <span class="st">&quot;Lynden&quot;</span>,    <span class="st">&quot;Adelie&quot;</span>, <span class="st">&quot;Torgersen&quot;</span>,               190L,        3900L,</span>
-<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a>  <span class="st">&quot;Reiner&quot;</span>,    <span class="st">&quot;Adelie&quot;</span>,     <span class="st">&quot;Dream&quot;</span>,               185L,        3650L</span>
-<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a>)</span>
-<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a></span>
-<span id="cb17-8"><a href="#cb17-8" tabindex="-1"></a>female_penguins <span class="ot">&lt;-</span> dpr.<span class="sc">$</span><span class="fu">tribble</span>(</span>
-<span id="cb17-9"><a href="#cb17-9" tabindex="-1"></a>     <span class="sc">~</span>name,    <span class="sc">~</span>species,  <span class="sc">~</span>island, <span class="sc">~</span>flipper_length_mm, <span class="sc">~</span>body_mass_g,</span>
-<span id="cb17-10"><a href="#cb17-10" tabindex="-1"></a>  <span class="st">&quot;Alonda&quot;</span>,    <span class="st">&quot;Gentoo&quot;</span>, <span class="st">&quot;Biscoe&quot;</span>,               <span class="dv">211</span>,        4500L,</span>
-<span id="cb17-11"><a href="#cb17-11" tabindex="-1"></a>     <span class="st">&quot;Ola&quot;</span>,    <span class="st">&quot;Adelie&quot;</span>,  <span class="st">&quot;Dream&quot;</span>,               <span class="dv">190</span>,        3600L,</span>
-<span id="cb17-12"><a href="#cb17-12" tabindex="-1"></a><span class="st">&quot;Mishayla&quot;</span>,    <span class="st">&quot;Gentoo&quot;</span>, <span class="st">&quot;Biscoe&quot;</span>,               <span class="dv">215</span>,        4750L,</span>
-<span id="cb17-13"><a href="#cb17-13" tabindex="-1"></a>)</span>
-<span id="cb17-14"><a href="#cb17-14" tabindex="-1"></a>dpr.<span class="sc">$</span><span class="fu">check_specs</span>()</span>
-<span id="cb17-15"><a href="#cb17-15" tabindex="-1"></a><span class="co">#&gt; # powerjoin check specifications</span></span>
-<span id="cb17-16"><a href="#cb17-16" tabindex="-1"></a><span class="co">#&gt; ℹ implicit_keys</span></span>
-<span id="cb17-17"><a href="#cb17-17" tabindex="-1"></a><span class="co">#&gt; → column_conflict</span></span>
-<span id="cb17-18"><a href="#cb17-18" tabindex="-1"></a><span class="co">#&gt; → duplicate_keys_left</span></span>
-<span id="cb17-19"><a href="#cb17-19" tabindex="-1"></a><span class="co">#&gt; → duplicate_keys_right</span></span>
-<span id="cb17-20"><a href="#cb17-20" tabindex="-1"></a><span class="co">#&gt; → unmatched_keys_left</span></span>
-<span id="cb17-21"><a href="#cb17-21" tabindex="-1"></a><span class="co">#&gt; → unmatched_keys_right</span></span>
-<span id="cb17-22"><a href="#cb17-22" tabindex="-1"></a><span class="co">#&gt; → missing_key_combination_left</span></span>
-<span id="cb17-23"><a href="#cb17-23" tabindex="-1"></a><span class="co">#&gt; → missing_key_combination_right</span></span>
-<span id="cb17-24"><a href="#cb17-24" tabindex="-1"></a><span class="co">#&gt; → inconsistent_factor_levels</span></span>
-<span id="cb17-25"><a href="#cb17-25" tabindex="-1"></a><span class="co">#&gt; → inconsistent_type</span></span>
-<span id="cb17-26"><a href="#cb17-26" tabindex="-1"></a><span class="co">#&gt; → grouped_input</span></span>
-<span id="cb17-27"><a href="#cb17-27" tabindex="-1"></a><span class="co">#&gt; → na_keys</span></span>
-<span id="cb17-28"><a href="#cb17-28" tabindex="-1"></a></span>
-<span id="cb17-29"><a href="#cb17-29" tabindex="-1"></a>dpr.<span class="sc">$</span><span class="fu">power_inner_join</span>(</span>
-<span id="cb17-30"><a href="#cb17-30" tabindex="-1"></a>  male_penguins[<span class="fu">c</span>(<span class="st">&quot;species&quot;</span>, <span class="st">&quot;island&quot;</span>)],</span>
-<span id="cb17-31"><a href="#cb17-31" tabindex="-1"></a>  female_penguins[<span class="fu">c</span>(<span class="st">&quot;species&quot;</span>, <span class="st">&quot;island&quot;</span>)]</span>
-<span id="cb17-32"><a href="#cb17-32" tabindex="-1"></a>)</span>
-<span id="cb17-33"><a href="#cb17-33" tabindex="-1"></a><span class="co">#&gt; Joining, by = c(&quot;species&quot;, &quot;island&quot;)</span></span>
-<span id="cb17-34"><a href="#cb17-34" tabindex="-1"></a><span class="co">#&gt; # A tibble: 3 × 2</span></span>
-<span id="cb17-35"><a href="#cb17-35" tabindex="-1"></a><span class="co">#&gt;   species island</span></span>
-<span id="cb17-36"><a href="#cb17-36" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt; </span></span>
-<span id="cb17-37"><a href="#cb17-37" tabindex="-1"></a><span class="co">#&gt; 1 Gentoo  Biscoe</span></span>
-<span id="cb17-38"><a href="#cb17-38" tabindex="-1"></a><span class="co">#&gt; 2 Gentoo  Biscoe</span></span>
-<span id="cb17-39"><a href="#cb17-39" tabindex="-1"></a><span class="co">#&gt; 3 Adelie  Dream</span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>male_penguins <span class="ot">&lt;-</span> dpr.<span class="sc">$</span><span class="fu">tribble</span>(</span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>     <span class="sc">~</span>name,    <span class="sc">~</span>species,     <span class="sc">~</span>island, <span class="sc">~</span>flipper_length_mm, <span class="sc">~</span>body_mass_g,</span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a> <span class="st">&quot;Giordan&quot;</span>,    <span class="st">&quot;Gentoo&quot;</span>,    <span class="st">&quot;Biscoe&quot;</span>,               222L,        5250L,</span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>  <span class="st">&quot;Lynden&quot;</span>,    <span class="st">&quot;Adelie&quot;</span>, <span class="st">&quot;Torgersen&quot;</span>,               190L,        3900L,</span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>  <span class="st">&quot;Reiner&quot;</span>,    <span class="st">&quot;Adelie&quot;</span>,     <span class="st">&quot;Dream&quot;</span>,               185L,        3650L</span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a>)</span>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a>female_penguins <span class="ot">&lt;-</span> dpr.<span class="sc">$</span><span class="fu">tribble</span>(</span>
+<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a>     <span class="sc">~</span>name,    <span class="sc">~</span>species,  <span class="sc">~</span>island, <span class="sc">~</span>flipper_length_mm, <span class="sc">~</span>body_mass_g,</span>
+<span id="cb16-10"><a href="#cb16-10" tabindex="-1"></a>  <span class="st">&quot;Alonda&quot;</span>,    <span class="st">&quot;Gentoo&quot;</span>, <span class="st">&quot;Biscoe&quot;</span>,               <span class="dv">211</span>,        4500L,</span>
+<span id="cb16-11"><a href="#cb16-11" tabindex="-1"></a>     <span class="st">&quot;Ola&quot;</span>,    <span class="st">&quot;Adelie&quot;</span>,  <span class="st">&quot;Dream&quot;</span>,               <span class="dv">190</span>,        3600L,</span>
+<span id="cb16-12"><a href="#cb16-12" tabindex="-1"></a><span class="st">&quot;Mishayla&quot;</span>,    <span class="st">&quot;Gentoo&quot;</span>, <span class="st">&quot;Biscoe&quot;</span>,               <span class="dv">215</span>,        4750L,</span>
+<span id="cb16-13"><a href="#cb16-13" tabindex="-1"></a>)</span>
+<span id="cb16-14"><a href="#cb16-14" tabindex="-1"></a>dpr.<span class="sc">$</span><span class="fu">check_specs</span>()</span>
+<span id="cb16-15"><a href="#cb16-15" tabindex="-1"></a><span class="co">#&gt; # powerjoin check specifications</span></span>
+<span id="cb16-16"><a href="#cb16-16" tabindex="-1"></a><span class="co">#&gt; ℹ implicit_keys</span></span>
+<span id="cb16-17"><a href="#cb16-17" tabindex="-1"></a><span class="co">#&gt; → column_conflict</span></span>
+<span id="cb16-18"><a href="#cb16-18" tabindex="-1"></a><span class="co">#&gt; → duplicate_keys_left</span></span>
+<span id="cb16-19"><a href="#cb16-19" tabindex="-1"></a><span class="co">#&gt; → duplicate_keys_right</span></span>
+<span id="cb16-20"><a href="#cb16-20" tabindex="-1"></a><span class="co">#&gt; → unmatched_keys_left</span></span>
+<span id="cb16-21"><a href="#cb16-21" tabindex="-1"></a><span class="co">#&gt; → unmatched_keys_right</span></span>
+<span id="cb16-22"><a href="#cb16-22" tabindex="-1"></a><span class="co">#&gt; → missing_key_combination_left</span></span>
+<span id="cb16-23"><a href="#cb16-23" tabindex="-1"></a><span class="co">#&gt; → missing_key_combination_right</span></span>
+<span id="cb16-24"><a href="#cb16-24" tabindex="-1"></a><span class="co">#&gt; → inconsistent_factor_levels</span></span>
+<span id="cb16-25"><a href="#cb16-25" tabindex="-1"></a><span class="co">#&gt; → inconsistent_type</span></span>
+<span id="cb16-26"><a href="#cb16-26" tabindex="-1"></a><span class="co">#&gt; → grouped_input</span></span>
+<span id="cb16-27"><a href="#cb16-27" tabindex="-1"></a><span class="co">#&gt; → na_keys</span></span>
+<span id="cb16-28"><a href="#cb16-28" tabindex="-1"></a></span>
+<span id="cb16-29"><a href="#cb16-29" tabindex="-1"></a>dpr.<span class="sc">$</span><span class="fu">power_inner_join</span>(</span>
+<span id="cb16-30"><a href="#cb16-30" tabindex="-1"></a>  male_penguins[<span class="fu">c</span>(<span class="st">&quot;species&quot;</span>, <span class="st">&quot;island&quot;</span>)],</span>
+<span id="cb16-31"><a href="#cb16-31" tabindex="-1"></a>  female_penguins[<span class="fu">c</span>(<span class="st">&quot;species&quot;</span>, <span class="st">&quot;island&quot;</span>)]</span>
+<span id="cb16-32"><a href="#cb16-32" tabindex="-1"></a>)</span>
+<span id="cb16-33"><a href="#cb16-33" tabindex="-1"></a><span class="co">#&gt; Joining, by = c(&quot;species&quot;, &quot;island&quot;)</span></span>
+<span id="cb16-34"><a href="#cb16-34" tabindex="-1"></a><span class="co">#&gt; # A tibble: 3 × 2</span></span>
+<span id="cb16-35"><a href="#cb16-35" tabindex="-1"></a><span class="co">#&gt;   species island</span></span>
+<span id="cb16-36"><a href="#cb16-36" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt; </span></span>
+<span id="cb16-37"><a href="#cb16-37" tabindex="-1"></a><span class="co">#&gt; 1 Gentoo  Biscoe</span></span>
+<span id="cb16-38"><a href="#cb16-38" tabindex="-1"></a><span class="co">#&gt; 2 Gentoo  Biscoe</span></span>
+<span id="cb16-39"><a href="#cb16-39" tabindex="-1"></a><span class="co">#&gt; 3 Adelie  Dream</span></span></code></pre></div>
 <p>Notice that the only change made, is that all functions start with
 <code>dpr.$</code>, the rest is the same. No need for constantly
 switching between <code>dplyr::...</code>, <code>powerjoin::...</code>

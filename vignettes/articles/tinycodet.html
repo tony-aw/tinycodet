@@ -347,8 +347,9 @@ your coding etiquette. It primarily focuses on 4 aspects:</p>
 <ol style="list-style-type: decimal">
 <li>Safer decimal (in)equality testing, safer atomic conversions, and
 other functions for safer coding.</li>
-<li>A new package import system, that combines the benefits of aliasing
-a package with the benefits of attaching a package.</li>
+<li>A new package import system, that attempts to combine the benefits
+of using a package without attaching, with the benefits of attaching a
+package.</li>
 <li>Extending the string manipulation capabilities of the
 <code>stringi</code> R package.</li>
 <li>Reducing repetitive code.</li>
@@ -391,12 +392,12 @@ stay <code>FALSE</code>.</p>
 </div>
 <div id="new-import-system" class="section level1">
 <h1>New import system</h1>
-<p>One can use a package without attaching the package (i.e. using
-<code>::</code> or using a package alias), or one can attach a package
-(i.e. using <code>library()</code> or <code>require()</code>). The
-advantages and disadvantages of loading without attaching a package
-versus attaching a package - at least those relevant for now - can be
-compactly presented in the following table:</p>
+<p>One can load a package without attaching the package (for example
+using <code>::</code>), or one can attach a package (for example using
+<code>library()</code> or <code>require()</code>). The advantages and
+disadvantages of loading without attaching a package versus attaching a
+package - at least those relevant for now - can be compactly presented
+in the following table:</p>
 <table>
 <thead>
 <tr>
@@ -406,10 +407,10 @@ compactly presented in the following table:</p>
 aspect
 </th>
 <th style="text-align:left;">
-alias / ::
+::
 </th>
 <th style="text-align:left;">
-attaching
+attach
 </th>
 </tr>
 </thead>
@@ -536,7 +537,7 @@ the following functions:</p>
 its dependencies + its extensions to be loaded under a single alias.
 This essentially combines the attaching advantage of using multiple
 related packages (row 7 in table above), whilst keeping most advantages
-of aliasing a package.</li>
+of using without attaching a package.</li>
 <li><code>import_inops()</code>: Expose infix operators from a package
 or an alias object to the current environment. This gains the attaching
 advantage of less typing (row 6 in table above), whilst simultaneously

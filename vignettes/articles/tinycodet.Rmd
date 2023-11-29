@@ -23,7 +23,7 @@ set.seed(1)
 The `tinycodet` R-package adds some functions to help in your coding etiquette. It primarily focuses on 4 aspects:
 
  1) Safer decimal (in)equality testing, safer atomic conversions, and other functions for safer coding.
- 2) A new package import system, that combines the benefits of aliasing a package with the benefits of attaching a package.
+ 2) A new package import system, that attempts to combine the benefits of using a package without attaching, with the benefits of attaching a package.
  3) Extending the string manipulation capabilities of the `stringi` R package.
  4) Reducing repetitive code.
 
@@ -59,7 +59,7 @@ x %d==% y # here it's done correctly
 
 # New import system
 
-One can use a package without attaching the package (i.e. using `::` or using a package alias), or one can attach a package (i.e. using `library()` or `require()`). The advantages and disadvantages of loading without attaching a package versus attaching a package - at least those relevant for now - can be compactly presented in the following table:
+One can load a package without attaching the package (for example using `::`), or one can attach a package (for example using `library()` or `require()`). The advantages and disadvantages of loading without attaching a package versus attaching a package - at least those relevant for now - can be compactly presented in the following table:
 
 ```{r echo=FALSE, results='markup'}
 X <- rbind(
@@ -74,7 +74,7 @@ X <- rbind(
   c("use multiple related packages, <br> without constantly switching between package prefixes", "No (-)", "Yes (+)"),
   c("NOTE: + = advantage, - = disadvantage", "", "")
 )
-colnames(X) <- c("aspect", "alias / ::", "attaching")
+colnames(X) <- c("aspect", "::", "attach")
 X <- as.data.frame(X)
 rownames(X) <- c(1:7, "")
 knitr::kable(X, "html", row.names = TRUE, escape = FALSE)
@@ -83,7 +83,7 @@ knitr::kable(X, "html", row.names = TRUE, escape = FALSE)
 
 What `tinycodet` attempts to do with its import system, is to somewhat find the best of both worlds. It does this by introducing the following functions:
 
- - `import_as()`: Allow a main package + its re-exports + its dependencies + its extensions to be loaded under a single alias. This essentially combines the attaching advantage of using multiple related packages (row 7 in table above), whilst keeping most advantages of aliasing a package.
+ - `import_as()`: Allow a main package + its re-exports + its dependencies + its extensions to be loaded under a single alias. This essentially combines the attaching advantage of using multiple related packages (row 7 in table above), whilst keeping most advantages of using without attaching a package.
  - `import_inops()`: Expose infix operators from a package or an alias object to the current environment. This gains the attaching advantage of less typing (row 6 in table above), whilst simultaneously avoiding the disadvantage of attaching functions from a package globally (row 4).
  - `import_data()`: Directly return a data set from a package, to allow straight-forward assignment.
 
