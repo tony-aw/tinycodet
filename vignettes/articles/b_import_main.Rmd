@@ -205,10 +205,23 @@ The 'tinycodet' import system is helpful particularly when packages have conflic
 
 There is no necessity for using the 'tinycodet' import system with every single package. One can safely attach the 'stringi' package, for example, as 'stringi' uses a unique and immediately recognisable naming scheme (virtually all 'stringi' functions start with "stri_"), and this naming scheme does not conflict with core R, nor with most other packages.
 
-Of course, if one wishes to use 'stringi' only within a specific environment, like only inside a function, it becomes advantageous to load 'stringi' using the 'tinycodet' import system (in this case the `import_LL()` function would be most applicable).
+Of course, if one wishes to use 'stringi' only within a specific environment, like only inside a function, it becomes advantageous to load 'stringi' using the 'tinycodet' import system - in that case the `import_LL()` function would be most applicable.
 
 &nbsp;
 
+# Function attributes
+
+All the functions imported by `import_as()`, `import_inops()`, and `import_LL()` functions will have a "package" attribute, so you will always know which function came from which package.
+
+For example:
+
+```{r}
+import_inops("magrittr")
+attributes(`%>%`)
+```
+
+
+&nbsp;
 
 # Example
 

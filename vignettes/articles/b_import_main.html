@@ -339,12 +339,24 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h1 class="title toc-ignore">Import system - main functions</h1>
 
 
+<div id="TOC">
+<ul>
+<li><a href="#introduction" id="toc-introduction"><span class="toc-section-number">1</span> Introduction</a></li>
+<li><a href="#import_as" id="toc-import_as"><span class="toc-section-number">2</span> import_as</a></li>
+<li><a href="#import_inops" id="toc-import_inops"><span class="toc-section-number">3</span> import_inops</a></li>
+<li><a href="#import_data" id="toc-import_data"><span class="toc-section-number">4</span> import_data</a></li>
+<li><a href="#when-to-use-or-not-to-use-the-new-import-system" id="toc-when-to-use-or-not-to-use-the-new-import-system"><span class="toc-section-number">5</span> When to use or not to use the new
+import system</a></li>
+<li><a href="#function-attributes" id="toc-function-attributes"><span class="toc-section-number">6</span> Function attributes</a></li>
+<li><a href="#example" id="toc-example"><span class="toc-section-number">7</span> Example</a></li>
+</ul>
+</div>
 
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(tinycodet)</span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co">#&gt; Run `?tinycodet::tinycodet` to open the introduction help page of &#39;tinycodet&#39;.</span></span></code></pre></div>
 <p> </p>
-<div id="introduction" class="section level1">
-<h1>Introduction</h1>
+<div id="introduction" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Introduction</h1>
 <p>One can load a package without attaching the package (for example
 using <code>::</code>), or one can attach a package (for example using
 <code>library()</code> or <code>require()</code>).</p>
@@ -549,8 +561,8 @@ form this new, infix-operator friendly <strong>&amp;</strong>
 multi-package assignment friendly, import management system.</p>
 <p> </p>
 </div>
-<div id="import_as" class="section level1">
-<h1>import_as</h1>
+<div id="import_as" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> import_as</h1>
 <p>The <code>import_as()</code> function loads an R package + its
 re-exports under an alias, and also loads any specified direct
 <strong>dependencies</strong> and/or direct <strong>extensions</strong>
@@ -595,8 +607,8 @@ the same alias, which I will call “tdt.” (for “tidy data.table”):</p>
 <code>tdt.$some_function()</code>.</p>
 <p> </p>
 </div>
-<div id="import_inops" class="section level1">
-<h1>import_inops</h1>
+<div id="import_inops" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> import_inops</h1>
 <p>When aliasing an R package, infix operators are also loaded in the
 alias. However, it may be cumbersome to use them from the alias. For
 example this:</p>
@@ -675,8 +687,8 @@ function. Like so:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">library</span>(magrittr, <span class="at">include.only =</span> <span class="fu">pkg_lsf</span>(<span class="st">&quot;magrittr&quot;</span>, <span class="at">type =</span> <span class="st">&quot;inops&quot;</span>))</span></code></pre></div>
 <p> </p>
 </div>
-<div id="import_data" class="section level1">
-<h1>import_data</h1>
+<div id="import_data" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> import_data</h1>
 <p>The <code>import_as()</code> and <code>import_inops()</code>
 functions get all functions from the package namespace. But packages
 often also have data sets, which are often not part of the
@@ -701,8 +713,9 @@ on), one simply runs the following:</p>
 <span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a><span class="co">#&gt; 6   130  6.5664557         NA -17.63400  9.8585839 -2551.5 40.0</span></span></code></pre></div>
 <p> </p>
 </div>
-<div id="when-to-use-or-not-to-use-the-new-import-system" class="section level1">
-<h1>When to use or not to use the new import system</h1>
+<div id="when-to-use-or-not-to-use-the-new-import-system" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> When to use or not to
+use the new import system</h1>
 <p>The ‘tinycodet’ import system is helpful particularly when packages
 have conflicting namespaces with each other, or conflict with core/base
 R.</p>
@@ -714,34 +727,60 @@ naming scheme does not conflict with core R, nor with most other
 packages.</p>
 <p>Of course, if one wishes to use ‘stringi’ only within a specific
 environment, like only inside a function, it becomes advantageous to
-load ‘stringi’ using the ‘tinycodet’ import system (in this case the
-<code>import_LL()</code> function would be most applicable).</p>
+load ‘stringi’ using the ‘tinycodet’ import system - in that case the
+<code>import_LL()</code> function would be most applicable.</p>
 <p> </p>
 </div>
-<div id="example" class="section level1">
-<h1>Example</h1>
+<div id="function-attributes" class="section level1" number="6">
+<h1><span class="header-section-number">6</span> Function
+attributes</h1>
+<p>All the functions imported by <code>import_as()</code>,
+<code>import_inops()</code>, and <code>import_LL()</code> functions will
+have a “package” attribute, so you will always know which function came
+from which package.</p>
+<p>For example:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="st">&quot;magrittr&quot;</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="co">#&gt; Checking for conflicting infix operators in the current environment...</span></span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="co">#&gt; Placing infix operators in current environment...</span></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="fu">attributes</span>(<span class="st">`</span><span class="at">%&gt;%</span><span class="st">`</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a><span class="co">#&gt; $package</span></span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a><span class="co">#&gt; [1] &quot;magrittr&quot;</span></span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a><span class="co">#&gt; $function_name</span></span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a><span class="co">#&gt; [1] &quot;%&gt;%&quot;</span></span>
+<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a><span class="co">#&gt; $tinyimport</span></span>
+<span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a><span class="co">#&gt; [1] &quot;tinyimport&quot;</span></span>
+<span id="cb13-14"><a href="#cb13-14" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-15"><a href="#cb13-15" tabindex="-1"></a><span class="co">#&gt; $class</span></span>
+<span id="cb13-16"><a href="#cb13-16" tabindex="-1"></a><span class="co">#&gt; [1] &quot;function&quot;   &quot;tinyimport&quot;</span></span></code></pre></div>
+<p> </p>
+</div>
+<div id="example" class="section level1" number="7">
+<h1><span class="header-section-number">7</span> Example</h1>
 <p>One R package that could benefit from the import system introduced by
 <code>tinycodet</code>, is the <a href="https://github.com/tidyverse/dplyr">dplyr</a> R package. The <a href="https://github.com/tidyverse/dplyr">dplyr</a> R package overwrites
 <strong>core R</strong> functions (including base R) and it overwrites
 functions from pre-installed recommended R packages (such as
 <code>MASS</code>). I.e.:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">ls</span>()) <span class="co"># clearing environment again</span></span>
-<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
-<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="fu">library</span>(dplyr) <span class="co"># &lt;- notice dplyr overwrites base R and recommended R packages</span></span>
-<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="co">#&gt; Attaching package: &#39;dplyr&#39;</span></span>
-<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a><span class="co">#&gt; The following object is masked from &#39;package:MASS&#39;:</span></span>
-<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a><span class="co">#&gt;     select</span></span>
-<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from &#39;package:stats&#39;:</span></span>
-<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a><span class="co">#&gt;     filter, lag</span></span>
-<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from &#39;package:base&#39;:</span></span>
-<span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb13-14"><a href="#cb13-14" tabindex="-1"></a><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
-<span id="cb13-15"><a href="#cb13-15" tabindex="-1"></a></span>
-<span id="cb13-16"><a href="#cb13-16" tabindex="-1"></a><span class="co"># detaching dplyr again:</span></span>
-<span id="cb13-17"><a href="#cb13-17" tabindex="-1"></a><span class="fu">detach</span>(<span class="st">&quot;package:dplyr&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">ls</span>()) <span class="co"># clearing environment again</span></span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="fu">library</span>(MASS)</span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a><span class="fu">library</span>(dplyr) <span class="co"># &lt;- notice dplyr overwrites base R and recommended R packages</span></span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a><span class="co">#&gt; Attaching package: &#39;dplyr&#39;</span></span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a><span class="co">#&gt; The following object is masked from &#39;package:MASS&#39;:</span></span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a><span class="co">#&gt;     select</span></span>
+<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from &#39;package:stats&#39;:</span></span>
+<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a><span class="co">#&gt;     filter, lag</span></span>
+<span id="cb14-12"><a href="#cb14-12" tabindex="-1"></a><span class="co">#&gt; The following objects are masked from &#39;package:base&#39;:</span></span>
+<span id="cb14-13"><a href="#cb14-13" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb14-14"><a href="#cb14-14" tabindex="-1"></a><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
+<span id="cb14-15"><a href="#cb14-15" tabindex="-1"></a></span>
+<span id="cb14-16"><a href="#cb14-16" tabindex="-1"></a><span class="co"># detaching dplyr again:</span></span>
+<span id="cb14-17"><a href="#cb14-17" tabindex="-1"></a><span class="fu">detach</span>(<span class="st">&quot;package:dplyr&quot;</span>)</span></code></pre></div>
 <p>Moreover, <a href="https://github.com/tidyverse/dplyr">dplyr</a>’s
 function names are sometimes generic enough that there is no obvious way
 to tell if a function came from <a href="https://github.com/tidyverse/dplyr">dplyr</a> or some other
@@ -761,19 +800,19 @@ its re-exports), along with <a href="https://github.com/moodymudskipper/powerjoi
 is an extension), all under one alias which I’ll call
 “<code>dpr.</code>”. Moreover, all infix operators from
 <code>magrittr</code> are exposed to the current environment.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">import_as</span>(</span>
-<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>  <span class="sc">~</span> dpr., <span class="st">&quot;dplyr&quot;</span>, <span class="at">extensions =</span> <span class="st">&quot;powerjoin&quot;</span>, <span class="at">lib.loc =</span> <span class="fu">.libPaths</span>()</span>
-<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>)</span>
-<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a><span class="co">#&gt; Importing packages...</span></span>
-<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
-<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a><span class="co">#&gt; You can now access the functions using `dpr.$`</span></span>
-<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a><span class="co">#&gt; Methods will work like normally </span></span>
-<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a><span class="co">#&gt; For conflicts report, packages order, and other attributes, run `attr.import(dpr.)`</span></span>
-<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a></span>
-<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="st">&quot;magrittr&quot;</span>) <span class="co"># getting the infix operators from `magrittr`</span></span>
-<span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a><span class="co">#&gt; Checking for conflicting infix operators in the current environment...</span></span>
-<span id="cb14-12"><a href="#cb14-12" tabindex="-1"></a><span class="co">#&gt; Placing infix operators in current environment...</span></span>
-<span id="cb14-13"><a href="#cb14-13" tabindex="-1"></a><span class="co">#&gt; Done</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">import_as</span>(</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>  <span class="sc">~</span> dpr., <span class="st">&quot;dplyr&quot;</span>, <span class="at">extensions =</span> <span class="st">&quot;powerjoin&quot;</span>, <span class="at">lib.loc =</span> <span class="fu">.libPaths</span>()</span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>)</span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a><span class="co">#&gt; Importing packages...</span></span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a><span class="co">#&gt; You can now access the functions using `dpr.$`</span></span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a><span class="co">#&gt; Methods will work like normally </span></span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a><span class="co">#&gt; For conflicts report, packages order, and other attributes, run `attr.import(dpr.)`</span></span>
+<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="st">&quot;magrittr&quot;</span>) <span class="co"># getting the infix operators from `magrittr`</span></span>
+<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a><span class="co">#&gt; Checking for conflicting infix operators in the current environment...</span></span>
+<span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a><span class="co">#&gt; Placing infix operators in current environment...</span></span>
+<span id="cb15-13"><a href="#cb15-13" tabindex="-1"></a><span class="co">#&gt; Done</span></span></code></pre></div>
 <p>The functions from <a href="https://github.com/tidyverse/dplyr">dplyr</a> can now be used with
 the <code>dpr.$</code> prefix. This way, base R functions are no longer
 overwritten, and it will be clear for someone who reads your code
@@ -781,63 +820,63 @@ whether functions like the <code>filter()</code> function is the base R
 filter function, or the <a href="https://github.com/tidyverse/dplyr">dplyr</a> filter function, as
 the latter would be called as <code>dpr.$filter()</code>.</p>
 <p>Let’s first run a simple example code with the loaded functions:</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">import_data</span>(<span class="st">&quot;dplyr&quot;</span>, <span class="st">&quot;starwars&quot;</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>d <span class="sc">%&gt;%</span></span>
-<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>  dpr.<span class="sc">$</span><span class="fu">filter</span>(.data<span class="sc">$</span>species <span class="sc">==</span> <span class="st">&quot;Droid&quot;</span>) <span class="sc">%&gt;%</span> <span class="co"># notice the &quot;.data&quot; pronoun can be used without problems</span></span>
-<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>  dpr.<span class="sc">$</span><span class="fu">select</span>(name, dpr.<span class="sc">$</span><span class="fu">ends_with</span>(<span class="st">&quot;color&quot;</span>))</span>
-<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 4</span></span>
-<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a><span class="co">#&gt;   name   hair_color skin_color  eye_color</span></span>
-<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;    </span></span>
-<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a><span class="co">#&gt; 1 C-3PO  &lt;NA&gt;       gold        yellow   </span></span>
-<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a><span class="co">#&gt; 2 R2-D2  &lt;NA&gt;       white, blue red      </span></span>
-<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a><span class="co">#&gt; 3 R5-D4  &lt;NA&gt;       white, red  red      </span></span>
-<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a><span class="co">#&gt; 4 IG-88  none       metal       red      </span></span>
-<span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a><span class="co">#&gt; 5 R4-P17 none       silver, red red, blue</span></span>
-<span id="cb15-13"><a href="#cb15-13" tabindex="-1"></a><span class="co">#&gt; 6 BB8    none       none        black</span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">import_data</span>(<span class="st">&quot;dplyr&quot;</span>, <span class="st">&quot;starwars&quot;</span>)</span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>d <span class="sc">%&gt;%</span></span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>  dpr.<span class="sc">$</span><span class="fu">filter</span>(.data<span class="sc">$</span>species <span class="sc">==</span> <span class="st">&quot;Droid&quot;</span>) <span class="sc">%&gt;%</span> <span class="co"># notice the &quot;.data&quot; pronoun can be used without problems</span></span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>  dpr.<span class="sc">$</span><span class="fu">select</span>(name, dpr.<span class="sc">$</span><span class="fu">ends_with</span>(<span class="st">&quot;color&quot;</span>))</span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a><span class="co">#&gt; # A tibble: 6 × 4</span></span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a><span class="co">#&gt;   name   hair_color skin_color  eye_color</span></span>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;    </span></span>
+<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a><span class="co">#&gt; 1 C-3PO  &lt;NA&gt;       gold        yellow   </span></span>
+<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a><span class="co">#&gt; 2 R2-D2  &lt;NA&gt;       white, blue red      </span></span>
+<span id="cb16-10"><a href="#cb16-10" tabindex="-1"></a><span class="co">#&gt; 3 R5-D4  &lt;NA&gt;       white, red  red      </span></span>
+<span id="cb16-11"><a href="#cb16-11" tabindex="-1"></a><span class="co">#&gt; 4 IG-88  none       metal       red      </span></span>
+<span id="cb16-12"><a href="#cb16-12" tabindex="-1"></a><span class="co">#&gt; 5 R4-P17 none       silver, red red, blue</span></span>
+<span id="cb16-13"><a href="#cb16-13" tabindex="-1"></a><span class="co">#&gt; 6 BB8    none       none        black</span></span></code></pre></div>
 <p>Just add <code>dpr.$</code> in front of the functions you’d normally
 use, and everything works just as expected.</p>
 <p>Now lets run an example from the <a href="https://github.com/moodymudskipper/powerjoin">powerjoin</a> GitHub
 page (<a href="https://github.com/moodymudskipper/powerjoin" class="uri">https://github.com/moodymudskipper/powerjoin</a>), using the
 above alias:</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>male_penguins <span class="ot">&lt;-</span> dpr.<span class="sc">$</span><span class="fu">tribble</span>(</span>
-<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>     <span class="sc">~</span>name,    <span class="sc">~</span>species,     <span class="sc">~</span>island, <span class="sc">~</span>flipper_length_mm, <span class="sc">~</span>body_mass_g,</span>
-<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a> <span class="st">&quot;Giordan&quot;</span>,    <span class="st">&quot;Gentoo&quot;</span>,    <span class="st">&quot;Biscoe&quot;</span>,               222L,        5250L,</span>
-<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>  <span class="st">&quot;Lynden&quot;</span>,    <span class="st">&quot;Adelie&quot;</span>, <span class="st">&quot;Torgersen&quot;</span>,               190L,        3900L,</span>
-<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>  <span class="st">&quot;Reiner&quot;</span>,    <span class="st">&quot;Adelie&quot;</span>,     <span class="st">&quot;Dream&quot;</span>,               185L,        3650L</span>
-<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a>)</span>
-<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a></span>
-<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a>female_penguins <span class="ot">&lt;-</span> dpr.<span class="sc">$</span><span class="fu">tribble</span>(</span>
-<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a>     <span class="sc">~</span>name,    <span class="sc">~</span>species,  <span class="sc">~</span>island, <span class="sc">~</span>flipper_length_mm, <span class="sc">~</span>body_mass_g,</span>
-<span id="cb16-10"><a href="#cb16-10" tabindex="-1"></a>  <span class="st">&quot;Alonda&quot;</span>,    <span class="st">&quot;Gentoo&quot;</span>, <span class="st">&quot;Biscoe&quot;</span>,               <span class="dv">211</span>,        4500L,</span>
-<span id="cb16-11"><a href="#cb16-11" tabindex="-1"></a>     <span class="st">&quot;Ola&quot;</span>,    <span class="st">&quot;Adelie&quot;</span>,  <span class="st">&quot;Dream&quot;</span>,               <span class="dv">190</span>,        3600L,</span>
-<span id="cb16-12"><a href="#cb16-12" tabindex="-1"></a><span class="st">&quot;Mishayla&quot;</span>,    <span class="st">&quot;Gentoo&quot;</span>, <span class="st">&quot;Biscoe&quot;</span>,               <span class="dv">215</span>,        4750L,</span>
-<span id="cb16-13"><a href="#cb16-13" tabindex="-1"></a>)</span>
-<span id="cb16-14"><a href="#cb16-14" tabindex="-1"></a>dpr.<span class="sc">$</span><span class="fu">check_specs</span>()</span>
-<span id="cb16-15"><a href="#cb16-15" tabindex="-1"></a><span class="co">#&gt; # powerjoin check specifications</span></span>
-<span id="cb16-16"><a href="#cb16-16" tabindex="-1"></a><span class="co">#&gt; ℹ implicit_keys</span></span>
-<span id="cb16-17"><a href="#cb16-17" tabindex="-1"></a><span class="co">#&gt; → column_conflict</span></span>
-<span id="cb16-18"><a href="#cb16-18" tabindex="-1"></a><span class="co">#&gt; → duplicate_keys_left</span></span>
-<span id="cb16-19"><a href="#cb16-19" tabindex="-1"></a><span class="co">#&gt; → duplicate_keys_right</span></span>
-<span id="cb16-20"><a href="#cb16-20" tabindex="-1"></a><span class="co">#&gt; → unmatched_keys_left</span></span>
-<span id="cb16-21"><a href="#cb16-21" tabindex="-1"></a><span class="co">#&gt; → unmatched_keys_right</span></span>
-<span id="cb16-22"><a href="#cb16-22" tabindex="-1"></a><span class="co">#&gt; → missing_key_combination_left</span></span>
-<span id="cb16-23"><a href="#cb16-23" tabindex="-1"></a><span class="co">#&gt; → missing_key_combination_right</span></span>
-<span id="cb16-24"><a href="#cb16-24" tabindex="-1"></a><span class="co">#&gt; → inconsistent_factor_levels</span></span>
-<span id="cb16-25"><a href="#cb16-25" tabindex="-1"></a><span class="co">#&gt; → inconsistent_type</span></span>
-<span id="cb16-26"><a href="#cb16-26" tabindex="-1"></a><span class="co">#&gt; → grouped_input</span></span>
-<span id="cb16-27"><a href="#cb16-27" tabindex="-1"></a><span class="co">#&gt; → na_keys</span></span>
-<span id="cb16-28"><a href="#cb16-28" tabindex="-1"></a></span>
-<span id="cb16-29"><a href="#cb16-29" tabindex="-1"></a>dpr.<span class="sc">$</span><span class="fu">power_inner_join</span>(</span>
-<span id="cb16-30"><a href="#cb16-30" tabindex="-1"></a>  male_penguins[<span class="fu">c</span>(<span class="st">&quot;species&quot;</span>, <span class="st">&quot;island&quot;</span>)],</span>
-<span id="cb16-31"><a href="#cb16-31" tabindex="-1"></a>  female_penguins[<span class="fu">c</span>(<span class="st">&quot;species&quot;</span>, <span class="st">&quot;island&quot;</span>)]</span>
-<span id="cb16-32"><a href="#cb16-32" tabindex="-1"></a>)</span>
-<span id="cb16-33"><a href="#cb16-33" tabindex="-1"></a><span class="co">#&gt; Joining, by = c(&quot;species&quot;, &quot;island&quot;)</span></span>
-<span id="cb16-34"><a href="#cb16-34" tabindex="-1"></a><span class="co">#&gt; # A tibble: 3 × 2</span></span>
-<span id="cb16-35"><a href="#cb16-35" tabindex="-1"></a><span class="co">#&gt;   species island</span></span>
-<span id="cb16-36"><a href="#cb16-36" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt; </span></span>
-<span id="cb16-37"><a href="#cb16-37" tabindex="-1"></a><span class="co">#&gt; 1 Gentoo  Biscoe</span></span>
-<span id="cb16-38"><a href="#cb16-38" tabindex="-1"></a><span class="co">#&gt; 2 Gentoo  Biscoe</span></span>
-<span id="cb16-39"><a href="#cb16-39" tabindex="-1"></a><span class="co">#&gt; 3 Adelie  Dream</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>male_penguins <span class="ot">&lt;-</span> dpr.<span class="sc">$</span><span class="fu">tribble</span>(</span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>     <span class="sc">~</span>name,    <span class="sc">~</span>species,     <span class="sc">~</span>island, <span class="sc">~</span>flipper_length_mm, <span class="sc">~</span>body_mass_g,</span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a> <span class="st">&quot;Giordan&quot;</span>,    <span class="st">&quot;Gentoo&quot;</span>,    <span class="st">&quot;Biscoe&quot;</span>,               222L,        5250L,</span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>  <span class="st">&quot;Lynden&quot;</span>,    <span class="st">&quot;Adelie&quot;</span>, <span class="st">&quot;Torgersen&quot;</span>,               190L,        3900L,</span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a>  <span class="st">&quot;Reiner&quot;</span>,    <span class="st">&quot;Adelie&quot;</span>,     <span class="st">&quot;Dream&quot;</span>,               185L,        3650L</span>
+<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a>)</span>
+<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" tabindex="-1"></a>female_penguins <span class="ot">&lt;-</span> dpr.<span class="sc">$</span><span class="fu">tribble</span>(</span>
+<span id="cb17-9"><a href="#cb17-9" tabindex="-1"></a>     <span class="sc">~</span>name,    <span class="sc">~</span>species,  <span class="sc">~</span>island, <span class="sc">~</span>flipper_length_mm, <span class="sc">~</span>body_mass_g,</span>
+<span id="cb17-10"><a href="#cb17-10" tabindex="-1"></a>  <span class="st">&quot;Alonda&quot;</span>,    <span class="st">&quot;Gentoo&quot;</span>, <span class="st">&quot;Biscoe&quot;</span>,               <span class="dv">211</span>,        4500L,</span>
+<span id="cb17-11"><a href="#cb17-11" tabindex="-1"></a>     <span class="st">&quot;Ola&quot;</span>,    <span class="st">&quot;Adelie&quot;</span>,  <span class="st">&quot;Dream&quot;</span>,               <span class="dv">190</span>,        3600L,</span>
+<span id="cb17-12"><a href="#cb17-12" tabindex="-1"></a><span class="st">&quot;Mishayla&quot;</span>,    <span class="st">&quot;Gentoo&quot;</span>, <span class="st">&quot;Biscoe&quot;</span>,               <span class="dv">215</span>,        4750L,</span>
+<span id="cb17-13"><a href="#cb17-13" tabindex="-1"></a>)</span>
+<span id="cb17-14"><a href="#cb17-14" tabindex="-1"></a>dpr.<span class="sc">$</span><span class="fu">check_specs</span>()</span>
+<span id="cb17-15"><a href="#cb17-15" tabindex="-1"></a><span class="co">#&gt; # powerjoin check specifications</span></span>
+<span id="cb17-16"><a href="#cb17-16" tabindex="-1"></a><span class="co">#&gt; ℹ implicit_keys</span></span>
+<span id="cb17-17"><a href="#cb17-17" tabindex="-1"></a><span class="co">#&gt; → column_conflict</span></span>
+<span id="cb17-18"><a href="#cb17-18" tabindex="-1"></a><span class="co">#&gt; → duplicate_keys_left</span></span>
+<span id="cb17-19"><a href="#cb17-19" tabindex="-1"></a><span class="co">#&gt; → duplicate_keys_right</span></span>
+<span id="cb17-20"><a href="#cb17-20" tabindex="-1"></a><span class="co">#&gt; → unmatched_keys_left</span></span>
+<span id="cb17-21"><a href="#cb17-21" tabindex="-1"></a><span class="co">#&gt; → unmatched_keys_right</span></span>
+<span id="cb17-22"><a href="#cb17-22" tabindex="-1"></a><span class="co">#&gt; → missing_key_combination_left</span></span>
+<span id="cb17-23"><a href="#cb17-23" tabindex="-1"></a><span class="co">#&gt; → missing_key_combination_right</span></span>
+<span id="cb17-24"><a href="#cb17-24" tabindex="-1"></a><span class="co">#&gt; → inconsistent_factor_levels</span></span>
+<span id="cb17-25"><a href="#cb17-25" tabindex="-1"></a><span class="co">#&gt; → inconsistent_type</span></span>
+<span id="cb17-26"><a href="#cb17-26" tabindex="-1"></a><span class="co">#&gt; → grouped_input</span></span>
+<span id="cb17-27"><a href="#cb17-27" tabindex="-1"></a><span class="co">#&gt; → na_keys</span></span>
+<span id="cb17-28"><a href="#cb17-28" tabindex="-1"></a></span>
+<span id="cb17-29"><a href="#cb17-29" tabindex="-1"></a>dpr.<span class="sc">$</span><span class="fu">power_inner_join</span>(</span>
+<span id="cb17-30"><a href="#cb17-30" tabindex="-1"></a>  male_penguins[<span class="fu">c</span>(<span class="st">&quot;species&quot;</span>, <span class="st">&quot;island&quot;</span>)],</span>
+<span id="cb17-31"><a href="#cb17-31" tabindex="-1"></a>  female_penguins[<span class="fu">c</span>(<span class="st">&quot;species&quot;</span>, <span class="st">&quot;island&quot;</span>)]</span>
+<span id="cb17-32"><a href="#cb17-32" tabindex="-1"></a>)</span>
+<span id="cb17-33"><a href="#cb17-33" tabindex="-1"></a><span class="co">#&gt; Joining, by = c(&quot;species&quot;, &quot;island&quot;)</span></span>
+<span id="cb17-34"><a href="#cb17-34" tabindex="-1"></a><span class="co">#&gt; # A tibble: 3 × 2</span></span>
+<span id="cb17-35"><a href="#cb17-35" tabindex="-1"></a><span class="co">#&gt;   species island</span></span>
+<span id="cb17-36"><a href="#cb17-36" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt; </span></span>
+<span id="cb17-37"><a href="#cb17-37" tabindex="-1"></a><span class="co">#&gt; 1 Gentoo  Biscoe</span></span>
+<span id="cb17-38"><a href="#cb17-38" tabindex="-1"></a><span class="co">#&gt; 2 Gentoo  Biscoe</span></span>
+<span id="cb17-39"><a href="#cb17-39" tabindex="-1"></a><span class="co">#&gt; 3 Adelie  Dream</span></span></code></pre></div>
 <p>Notice that the only change made, is that all functions start with
 <code>dpr.$</code>, the rest is the same. No need for constantly
 switching between <code>dplyr::...</code>, <code>powerjoin::...</code>
