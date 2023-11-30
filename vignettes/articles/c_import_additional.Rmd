@@ -108,7 +108,7 @@ So when importing packages, everything works as expected, including S3 methods.
 
 # lib.loc and project isolation
 
-All `import_` - functions have the `lib.loc` argument, that allows the user to specify exactly from which folder to take packages from. Thus, the import system from `tinycodet` allows for simple and straight-forward project isolation (and thus also version control), just like base R's `loadNamespace()` function.
+All `import_` - functions have the `lib.loc` argument, that allows the user to specify exactly from which folder to take packages from. Thus, the import system from `tinycodet` allows for simple and straight-forward project isolation (and thus also version control).
 
 &nbsp;
 

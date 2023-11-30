@@ -339,19 +339,34 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h1 class="title toc-ignore">Import system - additional details</h1>
 
 
+<div id="TOC">
+<ul>
+<li><a href="#introduction" id="toc-introduction"><span class="toc-section-number">1</span> Introduction</a></li>
+<li><a href="#miscellaneous-import_---functions" id="toc-miscellaneous-import_---functions"><span class="toc-section-number">2</span> Miscellaneous import_ -
+functions</a></li>
+<li><a href="#s3-methods-they-just-work" id="toc-s3-methods-they-just-work"><span class="toc-section-number">3</span> S3 methods: they just work</a></li>
+<li><a href="#lib.loc-and-project-isolation" id="toc-lib.loc-and-project-isolation"><span class="toc-section-number">4</span> lib.loc and project
+isolation</a></li>
+<li><a href="#alias-attributes" id="toc-alias-attributes"><span class="toc-section-number">5</span> Alias attributes</a></li>
+<li><a href="#help.import" id="toc-help.import"><span class="toc-section-number">6</span> help.import</a></li>
+<li><a href="#miscellaneous-comments-on-package-imports" id="toc-miscellaneous-comments-on-package-imports"><span class="toc-section-number">7</span> Miscellaneous comments on package
+imports</a></li>
+</ul>
+</div>
 
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(tinycodet)</span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co">#&gt; Run `?tinycodet::tinycodet` to open the introduction help page of &#39;tinycodet&#39;.</span></span></code></pre></div>
 <p> </p>
-<div id="introduction" class="section level1">
-<h1>Introduction</h1>
+<div id="introduction" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Introduction</h1>
 <p>The previous article, “Import system - main functions”, discussed the
 main functions of the import system. Please read that article first
 before reading this article.</p>
 <p> </p>
 </div>
-<div id="miscellaneous-import_---functions" class="section level1">
-<h1>Miscellaneous import_ - functions</h1>
+<div id="miscellaneous-import_---functions" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Miscellaneous import_ -
+functions</h1>
 <p>Beside the main <code>import_</code> functions
 (<code>import_as()</code>, <code>import_inops()</code>, and
 <code>import_data()</code>), there are 2 miscellaneous
@@ -399,8 +414,9 @@ function.</p>
 <span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt; [1] &quot;helloworld&quot;</span></span></code></pre></div>
 <p> </p>
 </div>
-<div id="s3-methods-they-just-work" class="section level1">
-<h1>S3 methods: they just work</h1>
+<div id="s3-methods-they-just-work" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> S3 methods: they just
+work</h1>
 <p>When importing packages with <code>tinycodet</code>’ import system,
 S3 methods will work just fine. For example, the S3 method ”
 <code>plot()</code> ” works with objects from the <code>mgcv</code> R
@@ -451,18 +467,18 @@ just works:</p>
 S3 methods.</p>
 <p> </p>
 </div>
-<div id="lib.loc-and-project-isolation" class="section level1">
-<h1>lib.loc and project isolation</h1>
+<div id="lib.loc-and-project-isolation" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> lib.loc and project
+isolation</h1>
 <p>All <code>import_</code> - functions have the <code>lib.loc</code>
 argument, that allows the user to specify exactly from which folder to
 take packages from. Thus, the import system from <code>tinycodet</code>
 allows for simple and straight-forward project isolation (and thus also
-version control), just like base R’s <code>loadNamespace()</code>
-function.</p>
+version control).</p>
 <p> </p>
 </div>
-<div id="alias-attributes" class="section level1">
-<h1>Alias attributes</h1>
+<div id="alias-attributes" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Alias attributes</h1>
 <p>One may have noticed in the “Import system - main functions” article,
 that aliasing a package like so:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">import_as</span>(<span class="sc">~</span> tdt., <span class="st">&quot;tidytable&quot;</span>, <span class="at">re_exports =</span> <span class="cn">TRUE</span>, <span class="at">dependencies =</span> <span class="st">&quot;data.table&quot;</span>)</span>
@@ -560,8 +576,8 @@ produced the alias object in question:</p>
 each of these options.</p>
 <p> </p>
 </div>
-<div id="help.import" class="section level1">
-<h1>help.import</h1>
+<div id="help.import" class="section level1" number="6">
+<h1><span class="header-section-number">6</span> help.import</h1>
 <p>The <code>help.import()</code> function gets the help file for a
 function <code>i</code> (or topic string <code>i</code>), even if the
 function is inside an alias object, or if the function is an unattached
@@ -575,8 +591,9 @@ function (like exposed infix operators).</p>
 <span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="fu">help.import</span>(<span class="at">i=</span><span class="st">&quot;add&quot;</span>, <span class="at">alias=</span>mr.)</span></code></pre></div>
 <p> </p>
 </div>
-<div id="miscellaneous-comments-on-package-imports" class="section level1">
-<h1>Miscellaneous comments on package imports</h1>
+<div id="miscellaneous-comments-on-package-imports" class="section level1" number="7">
+<h1><span class="header-section-number">7</span> Miscellaneous comments
+on package imports</h1>
 <p>The <a href="https://github.com/tidyverse/magrittr">magrittr</a> and
 <a href="https://github.com/r-lib/rlang">rlang</a> packages add
 “pronouns” to R: <code>.</code>, <code>. data</code>, <code>.env</code>.
