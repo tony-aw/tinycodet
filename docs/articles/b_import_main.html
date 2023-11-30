@@ -485,8 +485,35 @@ naming scheme does not conflict with core R, nor with most other
 packages.</p>
 <p>Of course, if one wishes to use ‘stringi’ only within a specific
 environment, like only inside a function, it becomes advantageous to
-load ‘stringi’ using the ‘tinycodet’ import system (in this case the
-<code><a href="../reference/import_misc.html">import_LL()</a></code> function would be most applicable).</p>
+load ‘stringi’ using the ‘tinycodet’ import system - in that case the
+<code><a href="../reference/import_misc.html">import_LL()</a></code> function would be most applicable.</p>
+<p> </p>
+</div>
+<div class="section level2">
+<h2 id="function-attributes">Function attributes<a class="anchor" aria-label="anchor" href="#function-attributes"></a>
+</h2>
+<p>All the functions imported by <code><a href="../reference/import_as.html">import_as()</a></code>,
+<code><a href="../reference/import_inops.html">import_inops()</a></code>, and <code><a href="../reference/import_misc.html">import_LL()</a></code> functions will
+have a “package” attribute, so you will always know which function came
+from which package.</p>
+<p>For example:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/import_inops.html">import_inops</a></span><span class="op">(</span><span class="st">"magrittr"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Checking for conflicting infix operators in the current environment...</span></span>
+<span><span class="co">#&gt; Placing infix operators in current environment...</span></span>
+<span><span class="co">#&gt; Done</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/attributes.html" class="external-link">attributes</a></span><span class="op">(</span><span class="va">`%&gt;%`</span><span class="op">)</span></span>
+<span><span class="co">#&gt; $package</span></span>
+<span><span class="co">#&gt; [1] "magrittr"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $function_name</span></span>
+<span><span class="co">#&gt; [1] "%&gt;%"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $tinyimport</span></span>
+<span><span class="co">#&gt; [1] "tinyimport"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $class</span></span>
+<span><span class="co">#&gt; [1] "function"   "tinyimport"</span></span></code></pre></div>
 <p> </p>
 </div>
 <div class="section level2">
@@ -497,7 +524,7 @@ load ‘stringi’ using the ‘tinycodet’ import system (in this case the
 <strong>core R</strong> functions (including base R) and it overwrites
 functions from pre-installed recommended R packages (such as
 <code>MASS</code>). I.e.:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span>list<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="co"># clearing environment again</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://www.stats.ox.ac.uk/pub/MASS4/" class="external-link">MASS</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span> <span class="co"># &lt;- notice dplyr overwrites base R and recommended R packages</span></span>
@@ -534,7 +561,7 @@ its re-exports), along with <a href="https://github.com/moodymudskipper/powerjoi
 is an extension), all under one alias which I’ll call
 “<code>dpr.</code>”. Moreover, all infix operators from
 <code>magrittr</code> are exposed to the current environment.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/import_as.html">import_as</a></span><span class="op">(</span></span>
 <span>  <span class="op">~</span> <span class="va">dpr.</span>, <span class="st">"dplyr"</span>, extensions <span class="op">=</span> <span class="st">"powerjoin"</span>, lib.loc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
@@ -555,7 +582,7 @@ whether functions like the <code><a href="https://dplyr.tidyverse.org/reference/
 filter function, or the <a href="https://github.com/tidyverse/dplyr" class="external-link">dplyr</a> filter function, as
 the latter would be called as <code>dpr.$filter()</code>.</p>
 <p>Let’s first run a simple example code with the loaded functions:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/import_data.html">import_data</a></span><span class="op">(</span><span class="st">"dplyr"</span>, <span class="st">"starwars"</span><span class="op">)</span></span>
 <span><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="va">dpr.</span><span class="op">$</span><span class="fu">filter</span><span class="op">(</span><span class="va">.data</span><span class="op">$</span><span class="va">species</span> <span class="op">==</span> <span class="st">"Droid"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="co"># notice the ".data" pronoun can be used without problems</span></span>
@@ -574,7 +601,7 @@ use, and everything works just as expected.</p>
 <p>Now lets run an example from the <a href="https://github.com/moodymudskipper/powerjoin" class="external-link">powerjoin</a> GitHub
 page (<a href="https://github.com/moodymudskipper/powerjoin" class="external-link uri">https://github.com/moodymudskipper/powerjoin</a>), using the
 above alias:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">male_penguins</span> <span class="op">&lt;-</span> <span class="va">dpr.</span><span class="op">$</span><span class="fu">tribble</span><span class="op">(</span></span>
 <span>     <span class="op">~</span><span class="va">name</span>,    <span class="op">~</span><span class="va">species</span>,     <span class="op">~</span><span class="va">island</span>, <span class="op">~</span><span class="va">flipper_length_mm</span>, <span class="op">~</span><span class="va">body_mass_g</span>,</span>
 <span> <span class="st">"Giordan"</span>,    <span class="st">"Gentoo"</span>,    <span class="st">"Biscoe"</span>,               <span class="fl">222L</span>,        <span class="fl">5250L</span>,</span>
