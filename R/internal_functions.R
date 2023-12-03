@@ -42,9 +42,9 @@
 
 #' @keywords internal
 #' @noRd
-.internal_list_commonshared <- function() {
+.internal_list_tidyshared <- function() {
   out <- c(
-    "rlang", "cli", "lifecycle"
+    "rlang", "lifecycle", "cli", "glue", "withr"
   )
   return(out)
 }
@@ -237,7 +237,7 @@
     base=TRUE, recom=TRUE, rstudioapi = TRUE
   ) |> unique()
 
-  if(is.character(dependencies) & length(dependencies)>0) {
+  if(is.character(dependencies) && length(dependencies)>0) {
     .internal_check_pkgs(
       pkgs=dependencies, lib.loc=lib.loc, pkgs_txt = "dependencies",
       correct_pkgs=actual_dependencies, abortcall=abortcall
@@ -254,7 +254,7 @@
     base=TRUE, recom=TRUE, rstudioapi = TRUE
   ) |> unique()
 
-  if(is.character(enhances) & length(enhances)>0) {
+  if(is.character(enhances) && length(enhances)>0) {
     .internal_check_pkgs(
       pkgs=enhances, lib.loc=lib.loc, pkgs_txt = "enhances",
       correct_pkgs = actual_enhances, abortcall=abortcall
@@ -266,13 +266,13 @@
 #' @noRd
 .internal_check_extends <- function(package, extends, lib.loc, abortcall) {
 
-  if(!is.null(extends) & is.character(extends) & length(extends)>0) {
+  if(!is.null(extends) && is.character(extends) && length(extends)>0) {
     .internal_check_pkgs(
       pkgs=extends, lib.loc=lib.loc, pkgs_txt = "extensions",
       abortcall = abortcall
     )
 
-    recom_extends <- extends[extends %in% c(.internal_list_preinst(), .internal_list_commonshared(), "rstudioapi")]
+    recom_extends <- extends[extends %in% c(.internal_list_preinst(), .internal_list_tidyshared(), "rstudioapi")]
     if(length(recom_extends) > 0) {
       error.txt <- simpleError(paste0(
         "The following given extensions were not found to be actual extensions:",
@@ -288,9 +288,9 @@
     tempfun <- function(x){
       depends <- pkg_get_deps(
         x, lib.loc=lib.loc, deps_type=c("Depends", "Imports"),
-        base = FALSE, recom = FALSE, rstudioapi = FALSE
+        base = FALSE, recom = FALSE, rstudioapi = FALSE, shared_tidy = FALSE
       )
-      depends <- setdiff(depends, c(.internal_list_commonshared(), "rstudioapi"))
+      depends <- setdiff(depends, c(.internal_list_tidyshared(), "rstudioapi"))
       return(package %in% depends)
     }
     check_extends <- vapply(

@@ -15,7 +15,8 @@ pkg_get_deps(
   deps_type = c("LinkingTo", "Depends", "Imports"),
   base = FALSE,
   recom = FALSE,
-  rstudioapi = FALSE
+  rstudioapi = FALSE,
+  shared_tidy = FALSE
 )
 
 pkg_lsf(package, type, lib.loc = .libPaths())
@@ -40,12 +41,21 @@ indicating whether base/core R should be included (\code{TRUE}),
 or not included (\code{FALSE}; the default).}
 
 \item{recom}{logical,
-indicating whether the pre-installed "recommended" R-packages should be included (\code{TRUE}),
+indicating whether the pre-installed 'recommended' R-packages should be included (\code{TRUE}),
 or not included (\code{FALSE}; the default).}
 
 \item{rstudioapi}{logical,
-indicating whether the \code{rstudioapi} R-package should be included (\code{TRUE}),
+indicating whether the 'rstudioapi' R-package should be included (\code{TRUE}),
 or not included (\code{FALSE}; the default).}
+
+\item{shared_tidy}{logical,
+indicating whether the shared dependencies of the 'tidyverse' should be included (\code{TRUE}),
+or not included (\code{FALSE}; the default). \cr
+Details: \cr
+'tidyverse' packages tend to have large number of dependencies,
+some which are shared across the 'tidyverse'. \cr
+The "official" list of shared dependencies in the 'tidyverse' currently is the following: \cr
+'rlang', 'lifecycle', 'cli', 'glue', and 'withr'.}
 
 \item{type}{The type of functions to list. Possibilities:
 \itemize{

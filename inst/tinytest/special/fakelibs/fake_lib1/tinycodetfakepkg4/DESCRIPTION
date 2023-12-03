@@ -14,9 +14,9 @@ Depends: base, compiler, datasets, grDevices, graphics, grid, methods,
         parallel, splines, stats, stats4, tcltk, tools, utils
 Imports: boot, class, cluster, codetools, foreign, KernSmooth, lattice,
         MASS, Matrix, mgcv, nlme, nnet, rpart, spatial, survival
-Suggests: rlang, cli, lifecycle, rstudioapi
+Suggests: rlang, lifecycle, cli, glue, withr, rstudioapi
 NeedsCompilation: no
-Packaged: 2023-12-03 10:51:45 UTC; Tony
+Packaged: 2023-12-03 17:54:45 UTC; Tony
 Author: First Last [aut, cre] (YOUR-ORCID-ID)
 Maintainer: First Last <first.last@example.com>
-Built: R 4.3.2; ; 2023-12-03 10:51:46 UTC; windows
+Built: R 4.3.2; ; 2023-12-03 17:54:46 UTC; windows

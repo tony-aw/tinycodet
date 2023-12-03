@@ -28,14 +28,6 @@ expect_error(
 )
 
 
-import_as(~ gg., "ggplot2", dependencies = "MASS")
-expect_error(
-  import_as(~ new., "ggplot2",
-            dependencies = pkg_get_deps("ggplot2")
-  ),
-  pattern = "more than 10 packages not allowed to be loaded under a single alias"
-)
-
 # is.tinyimport & help.import() ====
 import_inops("magrittr")
 import_as(~mr., "magrittr")

@@ -17,29 +17,29 @@ expected <- names(ns)
 expect_equal(out, expected)
 
 expect_equal(
-  tinycodet:::.internal_list_coreR(),
-  c(
+  sort(tinycodet:::.internal_list_coreR()),
+  sort(c(
     "base", "compiler", "datasets", "grDevices", "graphics", "grid", "methods",
     "parallel", "splines", "stats", "stats4", "tcltk", "tools",
     "translations", "utils"
-  )
+  ))
 )
 
 expect_equal(
-  tinycodet:::.internal_list_preinst(),
-  c(
+  sort(tinycodet:::.internal_list_preinst()),
+  sort(c(
     "boot", "class", "cluster", "codetools", "foreign", "KernSmooth",
     "lattice", "MASS", "Matrix",  "mgcv", "nlme", "nnet",
     "rpart", "spatial", "survival"
-  )
+  ))
 )
 
 expect_equal(
-  tinycodet:::.internal_list_knownmeta(),
-  c("tidyverse", "fastverse", "tinyverse")
+  sort(tinycodet:::.internal_list_knownmeta()),
+  sort(c("tidyverse", "fastverse", "tinyverse"))
 )
 
 expect_equal(
-  tinycodet:::.internal_list_commonshared(),
-  c("rlang", "cli", "lifecycle")
+  sort(tinycodet:::.internal_list_tidyshared()),
+  sort(c("rlang", "lifecycle", "cli", "glue", "withr"))
 )

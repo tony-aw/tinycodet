@@ -129,7 +129,8 @@ like so:</p>
 <span>  deps_type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"LinkingTo"</span>, <span class="st">"Depends"</span>, <span class="st">"Imports"</span><span class="op">)</span>,</span>
 <span>  base <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  recom <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  rstudioapi <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  rstudioapi <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  shared_tidy <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">pkg_lsf</span><span class="op">(</span><span class="va">package</span>, <span class="va">type</span>, lib.loc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -167,14 +168,25 @@ or not included (<code>FALSE</code>; the default).</p></dd>
 
 <dt>recom</dt>
 <dd><p>logical,
-indicating whether the pre-installed "recommended" R-packages should be included (<code>TRUE</code>),
+indicating whether the pre-installed 'recommended' R-packages should be included (<code>TRUE</code>),
 or not included (<code>FALSE</code>; the default).</p></dd>
 
 
 <dt>rstudioapi</dt>
 <dd><p>logical,
-indicating whether the <code>rstudioapi</code> R-package should be included (<code>TRUE</code>),
+indicating whether the 'rstudioapi' R-package should be included (<code>TRUE</code>),
 or not included (<code>FALSE</code>; the default).</p></dd>
+
+
+<dt>shared_tidy</dt>
+<dd><p>logical,
+indicating whether the shared dependencies of the 'tidyverse' should be included (<code>TRUE</code>),
+or not included (<code>FALSE</code>; the default). <br>
+Details: <br>
+'tidyverse' packages tend to have large number of dependencies,
+some which are shared across the 'tidyverse'. <br>
+The "official" list of shared dependencies in the 'tidyverse' currently is the following: <br>
+'rlang', 'lifecycle', 'cli', 'glue', and 'withr'.</p></dd>
 
 
 <dt>type</dt>
@@ -248,10 +260,8 @@ means the package names are extracted from the fields in the following order:</p
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="va">check</span><span class="op">)</span> <span class="va">pkgs</span> <span class="op">&lt;-</span> <span class="fu">pkg_get_deps</span><span class="op">(</span><span class="st">"dplyr"</span><span class="op">)</span> <span class="co"># many dependencies</span></span></span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="va">check</span><span class="op">)</span> <span class="va">pkgs</span> <span class="op">%installed in%</span> <span class="fu"><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        cli   generics       glue  lifecycle   magrittr     pillar         R6 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   generics   magrittr     pillar         R6     tibble tidyselect      vctrs </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       TRUE       TRUE       TRUE       TRUE       TRUE       TRUE       TRUE </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      rlang     tibble tidyselect      vctrs </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       TRUE       TRUE       TRUE       TRUE </span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="va">check</span><span class="op">)</span> <span class="fu">pkg_lsf</span><span class="op">(</span><span class="st">"dplyr"</span>, <span class="st">"all"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [1] "slice_max"             "src"                   "db_desc"              </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [4] "group_by_drop_default" "db_commit"             "coalesce"             </span>

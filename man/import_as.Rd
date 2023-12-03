@@ -90,7 +90,7 @@ The specified alias will be placed in the current environment
 Programmatically, some package "E" is considered an extension of some
 "main_package",
 if the following is \code{TRUE}: \cr
-\code{"main_package" \%in\% pkg_get_deps("E", deps_type = c("Depends", "Imports"))} \cr \cr
+\code{"main_package" \%in\% } \link{pkg_get_deps}\code{("E", deps_type = c("Depends", "Imports"))} \cr \cr
 }
 
 \bold{Why Aliasing Multiple Packages is Useful} \cr

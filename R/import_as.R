@@ -56,7 +56,7 @@
 #'  Programmatically, some package "E" is considered an extension of some
 #'  "main_package",
 #'  if the following is \code{TRUE}: \cr
-#'  \code{"main_package" %in% pkg_get_deps("E", deps_type = c("Depends", "Imports"))} \cr \cr
+#'  \code{"main_package" %in% } \link{pkg_get_deps}\code{("E", deps_type = c("Depends", "Imports"))} \cr \cr
 #'
 #'
 #' \bold{Why Aliasing Multiple Packages is Useful} \cr
@@ -223,10 +223,22 @@ import_as <- function(
   }
   
   # Check dependencies:
-  .internal_check_dependencies(main_package, dependencies, lib.loc, abortcall=sys.call())
+  if(!is.null(dependencies)) {
+    if(!is.character(dependencies) || length(dependencies) == 0) { 
+      stop("`dependencies` must be a character vector")
+    }
+    .internal_check_dependencies(main_package, dependencies, lib.loc, abortcall=sys.call())
+  }
+  
 
   # Check extensions:
-  .internal_check_extends(main_package, extensions, lib.loc, abortcall=sys.call())
+  if(!is.null(extensions)) {
+    if(!is.character(extensions) || length(extensions) == 0) { 
+      stop("`extensions` must be a character vector")
+    }
+    .internal_check_extends(main_package, extensions, lib.loc, abortcall=sys.call())
+  }
+  
 
 
   # make packages:

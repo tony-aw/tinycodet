@@ -3,9 +3,10 @@
 * Expanded the import system documentation. Also tweaked the documentation of `import_as()` to be make it slightly clearer.
 * `import_as()` now does not allow more than 10 packages to be loaded under a single alias, to prevent abusive usage of `import_as()`.
 * The import system now has a few more tiny safety checks, including checks for widely known meta-packages (such as "fastverse").
-* Fixed a tiny bug in `pkg_get_deps()` regarding getting the recommended R-packages.
+* The `pkg_get_deps()` function now also has `shared_tidy` argumentt to ignore the shared 'tidyverse' libraries ('rlang', 'lifecycle', 'cli', 'glue', and 'withr').
 * Changed the error message for wrong extension specifications: replaced "actual reverse-dependencies" into "actual extensions".
 * Added more tests.
+* Bug fix: Fixed a tiny bug in `pkg_get_deps()` where it didn't properly ignore all the recommended R-packages.
 
 
 # tinycodet 0.2.2

@@ -68,6 +68,7 @@
 <code><a href="../reference/import_as.html">import_as()</a></code> now does not allow more than 10 packages to be loaded under a single alias, to prevent abusive usage of <code><a href="../reference/import_as.html">import_as()</a></code>.</li>
 <li>The import system now has a few more tiny safety checks, including checks for widely known meta-packages (such as “fastverse”).</li>
 <li>Fixed a tiny bug in <code><a href="../reference/pkgs.html">pkg_get_deps()</a></code> regarding getting the recommended R-packages.</li>
+<li>The <code><a href="../reference/pkgs.html">pkg_get_deps()</a></code> function now also has <code>shared_tidy</code> argumentt to ignore the shared ‘tidyverse’ libraries (‘rlang’, ‘lifecycle’, ‘cli’, ‘glue’, and ‘withr’).</li>
 <li>Changed the error message for wrong extension specifications: replaced “actual reverse-dependencies” into “actual extensions”.</li>
 <li>Added more tests.</li>
 </ul></div>

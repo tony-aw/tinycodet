@@ -39,11 +39,19 @@
 #' indicating whether base/core R should be included (\code{TRUE}),
 #' or not included (\code{FALSE}; the default).
 #' @param recom logical,
-#' indicating whether the pre-installed "recommended" R-packages should be included (\code{TRUE}),
+#' indicating whether the pre-installed 'recommended' R-packages should be included (\code{TRUE}),
 #' or not included (\code{FALSE}; the default).
 #' @param rstudioapi logical,
-#' indicating whether the \code{rstudioapi} R-package should be included (\code{TRUE}),
+#' indicating whether the 'rstudioapi' R-package should be included (\code{TRUE}),
 #' or not included (\code{FALSE}; the default).
+#' @param shared_tidy logical,
+#' indicating whether the shared dependencies of the 'tidyverse' should be included (\code{TRUE}),
+#' or not included (\code{FALSE}; the default). \cr
+#' Details: \cr
+#' 'tidyverse' packages tend to have large number of dependencies,
+#' some which are shared across the 'tidyverse'. \cr
+#' The "official" list of shared dependencies in the 'tidyverse' currently is the following: \cr
+#' 'rlang', 'lifecycle', 'cli', 'glue', and 'withr'.
 #' @param type The type of functions to list. Possibilities:
 #'  * \code{"inops"} or \code{"operators"}: Only infix operators.
 #'  * \code{"regfuns"}: Only regular functions (thus excluding infix operators).
@@ -144,7 +152,7 @@ NULL
 #' @export
 pkg_get_deps <- function(
     package, lib.loc=.libPaths(), deps_type=c("LinkingTo", "Depends", "Imports"),
-    base=FALSE, recom=FALSE, rstudioapi=FALSE
+    base = FALSE, recom = FALSE, rstudioapi = FALSE, shared_tidy = FALSE
 ) {
   if(length(package)>1){
     stop("Only one package can be given")
@@ -153,7 +161,7 @@ pkg_get_deps <- function(
   .internal_check_pkgs(package, lib.loc, abortcall = sys.call())
 
   temp.fun <- function(x) { .internal_get_pkg_deps(
-      package, lib.loc, x, base = base, recom = recom, rstudioapi = rstudioapi
+      package, lib.loc, x, base = base, recom = recom, rstudioapi = rstudioapi, shared_tidy = shared_tidy
   )}
   depends <- lapply(
     deps_type, FUN = temp.fun
@@ -195,7 +203,7 @@ pkg_lsf <- function(package, type, lib.loc = .libPaths()) {
 #' @noRd
 .internal_get_pkg_deps <- function(
     package, lib.loc, type,
-    base=FALSE, recom=FALSE, rstudioapi=FALSE
+    base = FALSE, translations = FALSE, recom = FALSE, rstudioapi = FALSE, shared_tidy = FALSE
 ) {
   # based of https://stackoverflow.com/questions/30223957/elegantly-extract-r-package-dependencies-of-a-package-not-listed-on-cran
   dcf <- read.dcf(file.path(system.file("DESCRIPTION", package = package, lib.loc = lib.loc)))
@@ -203,16 +211,17 @@ pkg_lsf <- function(package, type, lib.loc = .libPaths()) {
   val <- unlist(strsplit(dcf[, jj], ","), use.names=FALSE)
   val <- gsub("\\s.*", "", trimws(val))
   depends <- val[val != "R"]
-  if(!base){
-    pkgs_core <- .internal_list_coreR()
-    depends <- setdiff(depends, pkgs_core)
+  if(!base) {
+    depends <- setdiff(depends, .internal_list_coreR())
   }
   if(!recom) {
-    pkgs_preinst <- .internal_list_preinst()
-    depends <- setdiff(depends, pkgs_preinst)
+    depends <- setdiff(depends, .internal_list_preinst())
   }
   if(!rstudioapi) {
     depends <- setdiff(depends, "rstudioapi")
+  }
+  if(!shared_tidy) {
+    depends <- setdiff(depends, .internal_list_tidyshared())
   }
   return(depends)
 }

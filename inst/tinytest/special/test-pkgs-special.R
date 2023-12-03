@@ -12,7 +12,7 @@ print(lib.loc3)
 
 
 
-# test %installed in% operator:
+# test %installed in% operator ====
 expect_equal(
   "foo" %installed in% lib.loc1,
   setNames(FALSE, 'foo')
@@ -31,7 +31,7 @@ expect_error(
 )
 
 
-# test pkg_get_deps:
+# test pkg_get_deps ====
 expect_equal(
   pkg_get_deps("tinycodetfakepkg1", lib.loc1, deps_type = "Enhances"),
   "tinycodetfakepkg3"
@@ -62,19 +62,19 @@ expect_error(
 )
 
 
-# test pkg_get_deps - core, preinst, rstudioapi, and commonshared
+# test pkg_get_deps - core, preinst, rstudioapi, and shared_tidy ====
 expect_equal(
-  pkg_get_deps("tinycodetfakepkg4", "Depends", lib.loc = lib.loc1, base = TRUE),
-  setdiff(tinycodet:::.internal_list_coreR(), "translations")
+  sort(pkg_get_deps("tinycodetfakepkg4", "Depends", lib.loc = lib.loc1, base = TRUE)),
+  sort(setdiff(tinycodet:::.internal_list_coreR(), "translations"))
 )
 expect_equal(
-  pkg_get_deps("tinycodetfakepkg4", "Depends", lib.loc = lib.loc1),
+  sort(pkg_get_deps("tinycodetfakepkg4", "Depends", lib.loc = lib.loc1)),
   character(0)
 )
 
 expect_equal(
-  pkg_get_deps("tinycodetfakepkg4", "Imports", lib.loc = lib.loc1, recom = TRUE),
-  tinycodet:::.internal_list_preinst()
+  sort(pkg_get_deps("tinycodetfakepkg4", "Imports", lib.loc = lib.loc1, recom = TRUE)),
+  sort(tinycodet:::.internal_list_preinst())
 )
 expect_equal(
   pkg_get_deps("tinycodetfakepkg4", "Imports", lib.loc = lib.loc1),
@@ -82,12 +82,12 @@ expect_equal(
 )
 
 expect_equal(
-  pkg_get_deps("tinycodetfakepkg4", "Suggests", lib.loc = lib.loc1, rstudioapi = TRUE),
-  c("rlang", "cli", "lifecycle", "rstudioapi")
+  sort(pkg_get_deps("tinycodetfakepkg4", "Suggests", lib.loc = lib.loc1, rstudioapi = TRUE, shared_tidy = TRUE)),
+  sort(c("rlang", "lifecycle", "cli", "glue", "withr", "rstudioapi"))
 )
 expect_equal(
   pkg_get_deps("tinycodetfakepkg4", "Suggests", lib.loc = lib.loc1),
-  c("rlang", "cli", "lifecycle")
+  character(0)
 )
 
 

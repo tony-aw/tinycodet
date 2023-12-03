@@ -17,7 +17,7 @@ temp.fun <- function() {
 expect_equal(temp.fun(), "ab")
 
 
-# package error handling ====
+# main_package error handling ====
 expect_error(
   import_as(~stri., c("stringi", "tinycodet")),
   pattern = "`main_package` must be a single string"
@@ -65,6 +65,41 @@ expect_error(
 expect_error(
   import_as(~ .__foo__., "stringi"),
   pattern = "Syntactically invalid name for object `alias`"
+)
+
+
+# dependencies/extensions basic error handling ====
+expect_error(
+  import_as(~stri., "stringi", dependencies = ~foo),
+  pattern = "`dependencies` must be a character vector",
+  fixed = TRUE
+)
+expect_error(
+  import_as(~stri., "stringi", dependencies = character(0)),
+  pattern = "`dependencies` must be a character vector",
+  fixed = TRUE
+)
+
+expect_error(
+  import_as(~stri., "stringi", extensions = ~foo),
+  pattern = "`extensions` must be a character vector",
+  fixed = TRUE
+)
+expect_error(
+  import_as(~stri., "stringi", extensions = character(0)),
+  pattern = "`extensions` must be a character vector",
+  fixed = TRUE
+)
+
+expect_error(
+  import_as(~stri., "stringi", dependencies = character(11)),
+  pattern = "more than 10 packages not allowed to be loaded under a single alias",
+  fixed = TRUE
+)
+expect_error(
+  import_as(~stri., "stringi", extensions = character(11)),
+  pattern = "more than 10 packages not allowed to be loaded under a single alias",
+  fixed = TRUE
 )
 
 
