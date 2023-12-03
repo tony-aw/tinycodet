@@ -214,12 +214,6 @@ import_as <- function(
     stop("Improper load order given")
   }
 
-  # Check dependencies:
-  .internal_check_dependencies(main_package, dependencies, lib.loc, abortcall=sys.call())
-
-  # Check extensions:
-  .internal_check_extends(main_package, extensions, lib.loc, abortcall=sys.call())
-
   # check dependencies + extensions combo:
   if(length(intersect(dependencies, extensions)) > 0) {
     stop("packages cannot be both dependencies and extensions!")
@@ -227,6 +221,13 @@ import_as <- function(
   if((length(dependencies) + length(extensions) + 1) > 10) {
     stop("more than 10 packages not allowed to be loaded under a single alias")
   }
+  
+  # Check dependencies:
+  .internal_check_dependencies(main_package, dependencies, lib.loc, abortcall=sys.call())
+
+  # Check extensions:
+  .internal_check_extends(main_package, extensions, lib.loc, abortcall=sys.call())
+
 
   # make packages:
   pkgs <- list(
