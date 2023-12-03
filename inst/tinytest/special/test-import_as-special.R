@@ -27,7 +27,7 @@ expect_error(
 
 expect_error(
   import_as(~p1., "tinycodetfakepkg1", lib.loc=c(lib.loc1, .libPaths()), extensions = "stringi"),
-  pattern = "The following given extensions were not found to be actual reverse dependencies"
+  pattern = "The following given extensions were not found to be actual extensions"
 )
 
 
@@ -126,7 +126,10 @@ out <- setdiff(names(p3.), ".__attributes__.") |> sort()
 expect_equal(out,  sort(p3))
 expect_true(p3.$.__attributes__.$args$re_exports)
 expect_false("acf" %in% names(p3.)) # expect base packages to be NOT re-exported
-
+expect_equal(
+  import_as(~ p3., "tinycodetfakepkg3", re_exports = FALSE, dependencies = "tinycodetfakepkg1", lib.loc = lib.loc1),
+  import_as(~ p3., "tinycodetfakepkg1", re_exports = FALSE, extensions = "tinycodetfakepkg3", lib.loc = lib.loc1),
+)
 
 # test import_as - Dependencies ====
 import_as(

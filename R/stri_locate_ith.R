@@ -210,7 +210,7 @@ stri_locate_ith <- function(
   if(length(i) != n) {
     stop("`i` must be the same length as `str`, or be a length of 1")
   }
-  if(any(i==0) || any(is.na(i))){
+  if(any(i==0) || anyNA(i)) {
     stop("`i` is not allowed to be zero or NA")
   }
   providedarg <- c(
@@ -268,7 +268,7 @@ stri_locate_ith_boundaries <- function(
   if(length(i) != n) {
     stop("`i` must be the same length as `str`, or be a length of 1")
   }
-  if(any(i==0) || any(is.na(i))){
+  if(any(i == 0) || anyNA(i)) {
     stop("`i` is not allowed to be zero or NA")
   }
   p1 <- stringi::stri_locate_all_boundaries(

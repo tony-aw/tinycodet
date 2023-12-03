@@ -152,7 +152,7 @@ More examples can be found on the website (https://tony-aw.github.io/tinycodet/)
     
     <a class="navbar-brand me-2" href="../index.html">tinycodet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -278,6 +278,10 @@ it becomes advantageous to still load the package using the 'tinycodet' import s
 (in that case the <a href="import_misc.html">import_LL</a> function would be most applicable). <br><br><br><b>Some Additional Comments on the 'tinycodet' Import System</b> <br></p><ul><li><p>(S3) Methods will automatically be registered.</p></li>
 <li><p>Pronouns, such as the <code>.data</code> and <code>.env</code> pronouns
 from the 'rlang' package, will work without any prefixes required.</p></li>
+<li><p>All functions imported by the
+<a href="import_as.html">import_as</a>, <a href="import_inops.html">import_inops</a>, or <a href="import_misc.html">import_LL</a> functions
+have a "package" attribute,
+so you will always know which function came from which package.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

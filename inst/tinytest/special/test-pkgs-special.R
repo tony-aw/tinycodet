@@ -62,6 +62,35 @@ expect_error(
 )
 
 
+# test pkg_get_deps - core, preinst, rstudioapi, and commonshared
+expect_equal(
+  pkg_get_deps("tinycodetfakepkg4", "Depends", lib.loc = lib.loc1, base = TRUE),
+  setdiff(tinycodet:::.internal_list_coreR(), "translations")
+)
+expect_equal(
+  pkg_get_deps("tinycodetfakepkg4", "Depends", lib.loc = lib.loc1),
+  character(0)
+)
+
+expect_equal(
+  pkg_get_deps("tinycodetfakepkg4", "Imports", lib.loc = lib.loc1, recom = TRUE),
+  tinycodet:::.internal_list_preinst()
+)
+expect_equal(
+  pkg_get_deps("tinycodetfakepkg4", "Imports", lib.loc = lib.loc1),
+  character(0)
+)
+
+expect_equal(
+  pkg_get_deps("tinycodetfakepkg4", "Suggests", lib.loc = lib.loc1, rstudioapi = TRUE),
+  c("rlang", "cli", "lifecycle", "rstudioapi")
+)
+expect_equal(
+  pkg_get_deps("tinycodetfakepkg4", "Suggests", lib.loc = lib.loc1),
+  c("rlang", "cli", "lifecycle")
+)
+
+
 # test pkg_lsf:
 ns <- loadNamespace("stringi") |> as.list(all.names=TRUE, sorted=TRUE)
 names_exported <- names(ns[[".__NAMESPACE__."]][["exports"]])

@@ -106,6 +106,10 @@
 #'  * (S3) Methods will automatically be registered.
 #'  * Pronouns, such as the \code{.data} and \code{.env} pronouns
 #'  from the 'rlang' package, will work without any prefixes required.
+#'  * All functions imported by the
+#'  \link{import_as}, \link{import_inops}, or \link{import_LL} functions
+#'  have a "package" attribute,
+#'  so you will always know which function came from which package.
 #'
 #'
 #' @seealso \link{tinycodet_help}

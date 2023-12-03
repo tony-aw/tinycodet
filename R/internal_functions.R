@@ -10,12 +10,13 @@
 #' @noRd
 .internal_list_coreR <- function() {
   out <- c(
-    "base", "compiler", "datasets", "grDevices", "graphics", "grid"," methods",
+    "base", "compiler", "datasets", "grDevices", "graphics", "grid", "methods",
     "parallel", "splines", "stats", "stats4", "tcltk", "tools",
     "translations", "utils"
   )
   return(out)
 }
+
 
 #' @keywords internal
 #' @noRd
@@ -25,7 +26,29 @@
     "lattice", "MASS", "Matrix",  "mgcv", "nlme", "nnet",
     "rpart", "spatial", "survival"
   )
+  return(out)
 }
+
+
+#' @keywords internal
+#' @noRd
+.internal_list_knownmeta <- function() {
+  out <- c(
+    "tidyverse", "fastverse", "tinyverse"
+  )
+  return(out)
+}
+
+
+#' @keywords internal
+#' @noRd
+.internal_list_commonshared <- function() {
+  out <- c(
+    "rlang", "cli", "lifecycle"
+  )
+  return(out)
+}
+
 
 #' @keywords internal
 #' @noRd
@@ -38,9 +61,19 @@
   }
 }
 
+
 #' @keywords internal
 #' @noRd
 .internal_prep_Namespace <- function(package, lib.loc, abortcall) {
+
+  if(package %in% .internal_list_knownmeta()) {
+    error.txt <- paste0(
+      "the package `",
+      package,
+      "` is a known metaverse"
+    )
+    stop(simpleError(error.txt, call = abortcall))
+  }
 
   pkgs_required <- pkg_get_deps(package, lib.loc = lib.loc, deps_type=c("LinkingTo", "Depends", "Imports"),
                base=FALSE, recom=TRUE, rstudioapi=TRUE)
@@ -62,7 +95,7 @@
   ns <- ns[names_exported]
   ns <- ns[!is.na(names(ns))]
   names_exported <- names(ns)
-  names_functions <- names(ns)[sapply(ns, is.function)]
+  names_functions <- names(ns)[vapply(ns, is.function, FUN.VALUE = logical(1))|> unlist(use.names = FALSE)]
   if(length(names_functions)>0) {
     for (i in names_functions){
       if(isFALSE(is.null(ns[[i]]))){
@@ -71,6 +104,14 @@
       attr(ns[[i]], which = "tinyimport") <- "tinyimport"
       }
     }
+  }
+  if(length(ns) == 0) {
+    error.txt <- paste0(
+      "the package `",
+      package,
+      "`, has no exported functions"
+    )
+    stop(simpleError(error.txt, call = abortcall))
   }
   return(ns)
 }
@@ -203,7 +244,6 @@
     )
   }
 
-  return(dependencies)
 }
 
 #' @keywords internal
@@ -220,7 +260,6 @@
       correct_pkgs = actual_enhances, abortcall=abortcall
     )
   }
-  return(enhances)
 }
 
 #' @keywords internal
@@ -232,6 +271,16 @@
       pkgs=extends, lib.loc=lib.loc, pkgs_txt = "extensions",
       abortcall = abortcall
     )
+
+    recom_extends <- extends[extends %in% c(.internal_list_preinst(), .internal_list_commonshared(), "rstudioapi")]
+    if(length(recom_extends) > 0) {
+      error.txt <- simpleError(paste0(
+        "The following given extensions were not found to be actual extensions:",
+        "\n",
+        paste0(recom_extends, collapse = ", ")
+      ), call=abortcall)
+      stop(error.txt)
+    }
     # checking extensions AFTER basic package checks,
     # because these packages need to be actually installed and correctly specified
     # before I can check them
@@ -239,24 +288,24 @@
     tempfun <- function(x){
       depends <- pkg_get_deps(
         x, lib.loc=lib.loc, deps_type=c("Depends", "Imports"),
-        base=FALSE, recom=FALSE, rstudioapi = FALSE
+        base = FALSE, recom = FALSE, rstudioapi = FALSE
       )
+      depends <- setdiff(depends, c(.internal_list_commonshared(), "rstudioapi"))
       return(package %in% depends)
     }
-    check_extends <- sapply(
-      extends, tempfun
-    )
+    check_extends <- vapply(
+      extends, FUN = tempfun, FUN.VALUE = logical(1)
+    ) |> unlist(use.names = FALSE)
     wrong_extends <- extends[!check_extends]
     if(length(wrong_extends)>0) {
       error.txt <- simpleError(paste0(
-        "The following given extensions were not found to be actual reverse dependencies:",
+        "The following given extensions were not found to be actual extensions:",
         "\n",
         paste0(wrong_extends, collapse = ", ")
       ), call=abortcall)
       stop(error.txt)
     }
   }
-  return(extends)
 }
 
 #' @keywords internal

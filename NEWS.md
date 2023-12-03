@@ -1,3 +1,13 @@
+# tinycodet 0.2.3
+* Minor optimizations for the `import_*` functions and for `transform_if()`.
+* Expanded the import system documentation. Also tweaked the documentation of `import_as()` to be make it slightly clearer.
+* `import_as()` now does not allow more than 10 packages to be loaded under a single alias, to prevent abusive usage of `import_as()`.
+* The import system now has a few more tiny safety checks, including checks for widely known meta-packages (such as "fastverse").
+* Fixed a tiny bug in `pkg_get_deps()` regarding getting the recommended R-packages.
+* Changed the error message for wrong extension specifications: replaced "actual reverse-dependencies" into "actual extensions".
+* Added more tests.
+
+
 # tinycodet 0.2.2
 * Small tweak to the pdf manual.
 * Replaced the incorrect uses of the word "class" with "type" in the atomic type casting help file.

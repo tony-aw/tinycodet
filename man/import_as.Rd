@@ -85,12 +85,12 @@ The specified alias will be placed in the current environment
 \item "Dependencies" are here defined as any R-package appearing in the
 "Depends", "Imports", or "LinkingTo" fields of the Description file of the
 \code{main_package}. So no recursive dependencies.
-\item "Extensions" are here defined as
-direct reverse-depends or direct reverse-imports.
-It does not matter if these are CRAN or non-CRAN packages.
-However, the intended meaning of an extension is not merely a reverse dependency,
-but a package that actually extends the functionality of the
-\code{main_package}. \cr \cr
+\item "Extensions" are reverse-dependencies that actually extend the functionality of the
+\code{main_package}. \cr
+Programmatically, some package "E" is considered an extension of some
+"main_package",
+if the following is \code{TRUE}: \cr
+\code{"main_package" \%in\% pkg_get_deps("E", deps_type = c("Depends", "Imports"))} \cr \cr
 }
 
 \bold{Why Aliasing Multiple Packages is Useful} \cr
@@ -99,8 +99,8 @@ whilst avoiding the disadvantages of attaching a package (see \link{tinycodet_im
 one would traditionally use the \link[base]{::} operator like so: \cr
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{main_package::some_function1()
-extension1::some_function2()
-extension2::some_function3()
+dependency1::some_function2()
+extension1::some_function3()
 }\if{html}{\out{</div>}}
 
 This becomes cumbersome as more packages are needed and/or
@@ -111,7 +111,7 @@ allowing one to code like this:
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{import_as(
    ~ alias., "main_package",
-   extensions = c("extension1", "extension2"),
+   dependencies = "dependency1", extensions = "extension1",
    lib.loc = .libPaths()
 )
 alias.$some_function1()
@@ -155,17 +155,19 @@ including re-exports (if \code{re_exports = TRUE}).
 \bold{Other Details} \cr
 The \code{import_as()} function
 does not support loading base/core R under an alias. \cr
+Packages that appear in the "Suggests" or "Enhances" fields of packages
+are not considered dependencies or extensions. \cr
 \cr
 }
 \examples{
 \dontshow{if (all(c("data.table", "tidytable") \%installed in\% .libPaths())) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 
 import_as( # this creates the 'tdt.' object
-  "tdt.", "data.table", extensions = "tidytable"
+  "tdt.", "tidytable", dependencies = "data.table"
 )
 # same as:
 import_as(
-  ~ tdt., "data.table", extensions = "tidytable"
+  ~ tdt., "tidytable", dependencies = "data.table"
 )
 
 

@@ -41,7 +41,7 @@
   file.copy(list.files(from.dir, full.names = TRUE),
             to.dir, recursive = TRUE)
   for(i in paste0("fake_lib", 1:3)) {
-    for(j in paste0("tinycodetfakepkg", 1:3)) {
+    for(j in paste0("tinycodetfakepkg", 1:4)) {
       if(dir.exists(file.path(to.dir, i, j))) {
         print(file.path(to.dir, i, j))
         dir2rename <- file.path(to.dir, i, j, "Poof")

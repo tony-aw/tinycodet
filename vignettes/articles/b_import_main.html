@@ -339,24 +339,12 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h1 class="title toc-ignore">Import system - main functions</h1>
 
 
-<div id="TOC">
-<ul>
-<li><a href="#introduction" id="toc-introduction"><span class="toc-section-number">1</span> Introduction</a></li>
-<li><a href="#import_as" id="toc-import_as"><span class="toc-section-number">2</span> import_as</a></li>
-<li><a href="#import_inops" id="toc-import_inops"><span class="toc-section-number">3</span> import_inops</a></li>
-<li><a href="#import_data" id="toc-import_data"><span class="toc-section-number">4</span> import_data</a></li>
-<li><a href="#when-to-use-or-not-to-use-the-new-import-system" id="toc-when-to-use-or-not-to-use-the-new-import-system"><span class="toc-section-number">5</span> When to use or not to use the new
-import system</a></li>
-<li><a href="#function-attributes" id="toc-function-attributes"><span class="toc-section-number">6</span> Function attributes</a></li>
-<li><a href="#example" id="toc-example"><span class="toc-section-number">7</span> Example</a></li>
-</ul>
-</div>
 
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(tinycodet)</span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co">#&gt; Run `?tinycodet::tinycodet` to open the introduction help page of &#39;tinycodet&#39;.</span></span></code></pre></div>
 <p> </p>
-<div id="introduction" class="section level1" number="1">
-<h1><span class="header-section-number">1</span> Introduction</h1>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
 <p>One can load a package without attaching the package (for example
 using <code>::</code>), or one can attach a package (for example using
 <code>library()</code> or <code>require()</code>).</p>
@@ -561,8 +549,8 @@ form this new, infix-operator friendly <strong>&amp;</strong>
 multi-package assignment friendly, import management system.</p>
 <p> </p>
 </div>
-<div id="import_as" class="section level1" number="2">
-<h1><span class="header-section-number">2</span> import_as</h1>
+<div id="import_as" class="section level1">
+<h1>import_as</h1>
 <p>The <code>import_as()</code> function loads an R package + its
 re-exports under an alias, and also loads any specified direct
 <strong>dependencies</strong> and/or direct <strong>extensions</strong>
@@ -607,8 +595,8 @@ the same alias, which I will call “tdt.” (for “tidy data.table”):</p>
 <code>tdt.$some_function()</code>.</p>
 <p> </p>
 </div>
-<div id="import_inops" class="section level1" number="3">
-<h1><span class="header-section-number">3</span> import_inops</h1>
+<div id="import_inops" class="section level1">
+<h1>import_inops</h1>
 <p>When aliasing an R package, infix operators are also loaded in the
 alias. However, it may be cumbersome to use them from the alias. For
 example this:</p>
@@ -687,8 +675,8 @@ function. Like so:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">library</span>(magrittr, <span class="at">include.only =</span> <span class="fu">pkg_lsf</span>(<span class="st">&quot;magrittr&quot;</span>, <span class="at">type =</span> <span class="st">&quot;inops&quot;</span>))</span></code></pre></div>
 <p> </p>
 </div>
-<div id="import_data" class="section level1" number="4">
-<h1><span class="header-section-number">4</span> import_data</h1>
+<div id="import_data" class="section level1">
+<h1>import_data</h1>
 <p>The <code>import_as()</code> and <code>import_inops()</code>
 functions get all functions from the package namespace. But packages
 often also have data sets, which are often not part of the
@@ -713,9 +701,8 @@ on), one simply runs the following:</p>
 <span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a><span class="co">#&gt; 6   130  6.5664557         NA -17.63400  9.8585839 -2551.5 40.0</span></span></code></pre></div>
 <p> </p>
 </div>
-<div id="when-to-use-or-not-to-use-the-new-import-system" class="section level1" number="5">
-<h1><span class="header-section-number">5</span> When to use or not to
-use the new import system</h1>
+<div id="when-to-use-or-not-to-use-the-new-import-system" class="section level1">
+<h1>When to use or not to use the new import system</h1>
 <p>The ‘tinycodet’ import system is helpful particularly when packages
 have conflicting namespaces with each other, or conflict with core/base
 R.</p>
@@ -731,9 +718,8 @@ load ‘stringi’ using the ‘tinycodet’ import system - in that case the
 <code>import_LL()</code> function would be most applicable.</p>
 <p> </p>
 </div>
-<div id="function-attributes" class="section level1" number="6">
-<h1><span class="header-section-number">6</span> Function
-attributes</h1>
+<div id="function-attributes" class="section level1">
+<h1>Function attributes</h1>
 <p>All the functions imported by <code>import_as()</code>,
 <code>import_inops()</code>, and <code>import_LL()</code> functions will
 have a “package” attribute, so you will always know which function came
@@ -757,8 +743,8 @@ from which package.</p>
 <span id="cb13-16"><a href="#cb13-16" tabindex="-1"></a><span class="co">#&gt; [1] &quot;function&quot;   &quot;tinyimport&quot;</span></span></code></pre></div>
 <p> </p>
 </div>
-<div id="example" class="section level1" number="7">
-<h1><span class="header-section-number">7</span> Example</h1>
+<div id="example" class="section level1">
+<h1>Example</h1>
 <p>One R package that could benefit from the import system introduced by
 <code>tinycodet</code>, is the <a href="https://github.com/tidyverse/dplyr">dplyr</a> R package. The <a href="https://github.com/tidyverse/dplyr">dplyr</a> R package overwrites
 <strong>core R</strong> functions (including base R) and it overwrites

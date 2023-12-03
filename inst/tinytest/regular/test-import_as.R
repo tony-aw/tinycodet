@@ -20,7 +20,12 @@ expect_equal(temp.fun(), "ab")
 # package error handling ====
 expect_error(
   import_as(~stri., c("stringi", "tinycodet")),
-  pattern = "A single package must be given in the `main_package` argument"
+  pattern = "`main_package` must be a single string"
+)
+
+expect_error(
+  import_as(~stri., ~ stringi),
+  pattern = "`main_package` must be a single string"
 )
 
 expect_error(
@@ -41,6 +46,12 @@ expect_error(
 expect_error(
   import_as(~stri., "base"),
   pattern = 'The following "packages" are base/core R, which is not allowed:'
+)
+
+expect_error(
+  import_as(~stri., "fastverse"),
+  pattern = 'the package `fastverse` is a known metaverse',
+  fixed = TRUE
 )
 
 

@@ -48,7 +48,7 @@ library(packagename, include.only = pkg_lsf("packagename", type="inops"))
     
     <a class="navbar-brand me-2" href="../index.html">tinycodet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -248,10 +248,10 @@ means the package names are extracted from the fields in the following order:</p
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="va">check</span><span class="op">)</span> <span class="va">pkgs</span> <span class="op">&lt;-</span> <span class="fu">pkg_get_deps</span><span class="op">(</span><span class="st">"dplyr"</span><span class="op">)</span> <span class="co"># many dependencies</span></span></span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="va">check</span><span class="op">)</span> <span class="va">pkgs</span> <span class="op">%installed in%</span> <span class="fu"><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        cli   generics       glue  lifecycle   magrittr    methods     pillar </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        cli   generics       glue  lifecycle   magrittr     pillar         R6 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       TRUE       TRUE       TRUE       TRUE       TRUE       TRUE       TRUE </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         R6      rlang     tibble tidyselect      vctrs </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       TRUE       TRUE       TRUE       TRUE       TRUE </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      rlang     tibble tidyselect      vctrs </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       TRUE       TRUE       TRUE       TRUE </span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="va">check</span><span class="op">)</span> <span class="fu">pkg_lsf</span><span class="op">(</span><span class="st">"dplyr"</span>, <span class="st">"all"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [1] "slice_max"             "src"                   "db_desc"              </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [4] "group_by_drop_default" "db_commit"             "coalesce"             </span>

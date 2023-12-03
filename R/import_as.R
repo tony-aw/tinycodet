@@ -51,12 +51,12 @@
 #'  * "Dependencies" are here defined as any R-package appearing in the
 #'  "Depends", "Imports", or "LinkingTo" fields of the Description file of the
 #'  \code{main_package}. So no recursive dependencies.
-#'  * "Extensions" are here defined as
-#'  direct reverse-depends or direct reverse-imports.
-#'  It does not matter if these are CRAN or non-CRAN packages.
-#'  However, the intended meaning of an extension is not merely a reverse dependency,
-#'  but a package that actually extends the functionality of the
-#'  \code{main_package}. \cr \cr
+#'  * "Extensions" are reverse-dependencies that actually extend the functionality of the
+#'  \code{main_package}. \cr
+#'  Programmatically, some package "E" is considered an extension of some
+#'  "main_package",
+#'  if the following is \code{TRUE}: \cr
+#'  \code{"main_package" %in% pkg_get_deps("E", deps_type = c("Depends", "Imports"))} \cr \cr
 #'
 #'
 #' \bold{Why Aliasing Multiple Packages is Useful} \cr
@@ -66,8 +66,8 @@
 #'
 #' ```{r eval = FALSE}
 #' main_package::some_function1()
-#' extension1::some_function2()
-#' extension2::some_function3()
+#' dependency1::some_function2()
+#' extension1::some_function3()
 #' ```
 #'
 #' This becomes cumbersome as more packages are needed and/or
@@ -79,7 +79,7 @@
 #' ```{r eval = FALSE}
 #' import_as(
 #'    ~ alias., "main_package",
-#'    extensions = c("extension1", "extension2"),
+#'    dependencies = "dependency1", extensions = "extension1",
 #'    lib.loc = .libPaths()
 #' )
 #' alias.$some_function1()
@@ -124,6 +124,8 @@
 #' \bold{Other Details} \cr
 #' The \code{import_as()} function
 #' does not support loading base/core R under an alias. \cr
+#' Packages that appear in the "Suggests" or "Enhances" fields of packages
+#' are not considered dependencies or extensions. \cr
 #' \cr
 #'
 #'
@@ -147,11 +149,11 @@
 #' @examplesIf all(c("data.table", "tidytable") %installed in% .libPaths())
 #'
 #' import_as( # this creates the 'tdt.' object
-#'   "tdt.", "data.table", extensions = "tidytable"
+#'   "tdt.", "tidytable", dependencies = "data.table"
 #' )
 #' # same as:
 #' import_as(
-#'   ~ tdt., "data.table", extensions = "tidytable"
+#'   ~ tdt., "tidytable", dependencies = "data.table"
 #' )
 #'
 #'
@@ -197,13 +199,13 @@ import_as <- function(
   .internal_check_lib.loc(lib.loc, sys.call())
 
   # check main_package:
-  if(length(main_package) != 1){
-    stop("A single package must be given in the `main_package` argument")
+  if(length(main_package) != 1 || !is.character(main_package)){
+    stop("`main_package` must be a single string")
   }
   .internal_check_pkgs(pkgs=main_package, lib.loc=lib.loc, abortcall=sys.call())
 
   # check re-exports:
-  if(!isTRUE(re_exports) & !isFALSE(re_exports)) {
+  if(!isTRUE(re_exports) && !isFALSE(re_exports)) {
     stop("`re_exports` must be either `TRUE` or `FALSE`")
   }
 
@@ -213,14 +215,17 @@ import_as <- function(
   }
 
   # Check dependencies:
-  dependencies <- .internal_check_dependencies(main_package, dependencies, lib.loc, abortcall=sys.call())
+  .internal_check_dependencies(main_package, dependencies, lib.loc, abortcall=sys.call())
 
   # Check extensions:
-  extensions <- .internal_check_extends(main_package, extensions, lib.loc, abortcall=sys.call())
+  .internal_check_extends(main_package, extensions, lib.loc, abortcall=sys.call())
 
   # check dependencies + extensions combo:
   if(length(intersect(dependencies, extensions)) > 0) {
     stop("packages cannot be both dependencies and extensions!")
+  }
+  if((length(dependencies) + length(extensions) + 1) > 10) {
+    stop("more than 10 packages not allowed to be loaded under a single alias")
   }
 
   # make packages:

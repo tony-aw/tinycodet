@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tinycodet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,6 +60,17 @@
       <small>Source: <a href="https://github.com/tony-aw/tinycodet/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.2.3" id="tinycodet-023">tinycodet 0.2.3<a class="anchor" aria-label="anchor" href="#tinycodet-023"></a></h2>
+<ul><li>Minor optimizations for the <code>import_*</code> functions and for <code><a href="../reference/transform_if.html">transform_if()</a></code>.</li>
+<li>Expanded the import system documentation. Also tweaked the documentation of <code><a href="../reference/import_as.html">import_as()</a></code> to be make it slightly clearer.</li>
+<li>
+<code><a href="../reference/import_as.html">import_as()</a></code> now does not allow more than 10 packages to be loaded under a single alias, to prevent abusive usage of <code><a href="../reference/import_as.html">import_as()</a></code>.</li>
+<li>The import system now has a few more tiny safety checks, including checks for widely known meta-packages (such as “fastverse”).</li>
+<li>Fixed a tiny bug in <code><a href="../reference/pkgs.html">pkg_get_deps()</a></code> regarding getting the recommended R-packages.</li>
+<li>Changed the error message for wrong extension specifications: replaced “actual reverse-dependencies” into “actual extensions”.</li>
+<li>Added more tests.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.2" id="tinycodet-022">tinycodet 0.2.2<a class="anchor" aria-label="anchor" href="#tinycodet-022"></a></h2><p class="text-muted">CRAN release: 2023-11-25</p>
 <ul><li>Small tweak to the pdf manual.</li>
