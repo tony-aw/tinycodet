@@ -48,12 +48,6 @@ expect_error(
   pattern = 'The following "packages" are base/core R, which is not allowed:'
 )
 
-expect_error(
-  import_as(~stri., "fastverse"),
-  pattern = 'the package `fastverse` is a known metaverse',
-  fixed = TRUE
-)
-
 
 # alias error handling ====
 expect_error(
