@@ -1,6 +1,7 @@
 # tinycodet 0.2.3
 * Minor optimizations for the `import_*` functions and for `transform_if()`.
 * Expanded the import system documentation. Also tweaked the documentation of `import_as()` to be make it slightly clearer.
+* Expanded the documentation of the `decimal_truth` operators.
 * `import_as()` now does not allow more than 10 packages to be loaded under a single alias, to prevent abusive usage of `import_as()`.
 * The import system now has a few more tiny safety checks, including checks for widely known meta-packages (such as "fastverse").
 * The `pkg_get_deps()` function now also has `shared_tidy` argumentt to ignore the shared 'tidyverse' libraries ('rlang', 'lifecycle', 'cli', 'glue', and 'withr').

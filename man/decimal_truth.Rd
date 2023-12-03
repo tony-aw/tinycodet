@@ -34,7 +34,7 @@ x \%d!{}\% bnd
 \item{bnd}{either a vector of length 2, or a matrix with 2 columns and 1 row,
 or else a matrix with 2 columns where \code{nrow(bnd)==length(x)}. \cr
 The first element/column of \code{bnd} gives the lower bound of the closed interval; \cr
-The second element/column of \code{bnd} gives the upper bound of the closed interval; \cr}
+The second element/column of \code{bnd} gives the upper bound of the closed interval. \cr}
 }
 \value{
 A logical vector with the same dimensions as \code{x},
@@ -45,20 +45,24 @@ The \code{\%d==\%, \%d!=\% \%d<\%, \%d>\%, \%d<=\%, \%d>=\%} (in)equality operat
 perform decimal (class "double") number truth testing. \cr
 They are virtually equivalent to the regular (in)equality operators, \cr
 \code{==, !=, <, >, <=, >=}, \cr
-except for one aspect. \cr
-The decimal number (in)equality operators assume that
+except for two aspects:
+\enumerate{
+\item The decimal number (in)equality operators assume that
 if the absolute difference between any two numbers
 \code{x} and \code{y}
 is smaller than the Machine tolerance,
 \code{sqrt(.Machine$double.eps)},
 then \code{x} and \code{y}
 should be consider to be equal. \cr
-\cr
-Thus these operators provide safer decimal number (in)equality tests. \cr
-\cr
 For example: \code{0.1*7 == 0.7} returns \code{FALSE}, even though they are equal,
 due to the way decimal numbers are stored in programming languages like 'R' and  'Python'. \cr
-But \code{0.1*7 \%d==\% 0.7} returns \code{TRUE}. \cr
+But \code{0.1*7 \%d==\% 0.7} returns \code{TRUE}.
+\item Only numeric input is allowed, so characters are not coerced to numbers. \cr
+I.e. \code{1 < "a"} gives \code{TRUE}, whereas \code{1 \%d<\% "a"} gives an error. \cr
+For character equality testing, see \link[stringi]{\%s==\%}.
+}
+
+Thus these operators provide safer decimal number (in)equality tests. \cr
 \cr
 There are also the \code{x \%d{}\% bnd} and \code{x \%d!{}\% bnd} operators,
 where \code{bnd} is a vector of length 2,

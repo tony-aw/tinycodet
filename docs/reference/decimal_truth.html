@@ -3,7 +3,7 @@
 perform decimal (class &quot;double&quot;) number truth testing. 
 They are virtually equivalent to the regular (in)equality operators, 
 ==, !=, &amp;lt;, &amp;gt;, &amp;lt;=, &amp;gt;=, 
-except for one aspect. 
+except for two aspects:
 The decimal number (in)equality operators assume that
 if the absolute difference between any two numbers
 x and y
@@ -11,12 +11,15 @@ is smaller than the Machine tolerance,
 sqrt(.Machine$double.eps),
 then x and y
 should be consider to be equal. 
-
-Thus these operators provide safer decimal number (in)equality tests. 
-
 For example: 0.1*7 == 0.7 returns FALSE, even though they are equal,
 due to the way decimal numbers are stored in programming languages like 'R' and  'Python'. 
-But 0.1*7 %d==% 0.7 returns TRUE. 
+But 0.1*7 %d==% 0.7 returns TRUE.
+Only numeric input is allowed, so characters are not coerced to numbers. 
+I.e. 1 &amp;lt; &quot;a&quot; gives TRUE, whereas 1 %d&amp;lt;% &quot;a&quot; gives an error. 
+For character equality testing, see %s==%.
+
+
+Thus these operators provide safer decimal number (in)equality tests. 
 
 There are also the x %d{}% bnd and x %d!{}% bnd operators,
 where bnd is a vector of length 2,
@@ -28,7 +31,7 @@ is outside the closed interval with bounds defined by bnd. "><title>Safer Decima
 perform decimal (class &quot;double&quot;) number truth testing. 
 They are virtually equivalent to the regular (in)equality operators, 
 ==, !=, &amp;lt;, &amp;gt;, &amp;lt;=, &amp;gt;=, 
-except for one aspect. 
+except for two aspects:
 The decimal number (in)equality operators assume that
 if the absolute difference between any two numbers
 x and y
@@ -36,12 +39,15 @@ is smaller than the Machine tolerance,
 sqrt(.Machine$double.eps),
 then x and y
 should be consider to be equal. 
-
-Thus these operators provide safer decimal number (in)equality tests. 
-
 For example: 0.1*7 == 0.7 returns FALSE, even though they are equal,
 due to the way decimal numbers are stored in programming languages like 'R' and  'Python'. 
-But 0.1*7 %d==% 0.7 returns TRUE. 
+But 0.1*7 %d==% 0.7 returns TRUE.
+Only numeric input is allowed, so characters are not coerced to numbers. 
+I.e. 1 &amp;lt; &quot;a&quot; gives TRUE, whereas 1 %d&amp;lt;% &quot;a&quot; gives an error. 
+For character equality testing, see %s==%.
+
+
+Thus these operators provide safer decimal number (in)equality tests. 
 
 There are also the x %d{}% bnd and x %d!{}% bnd operators,
 where bnd is a vector of length 2,
@@ -115,18 +121,20 @@ is outside the closed interval with bounds defined by bnd. "><!-- mathjax --><sc
     <p>The <code>%d==%, %d!=% %d&lt;%, %d&gt;%, %d&lt;=%, %d&gt;=%</code> (in)equality operators
 perform decimal (class "double") number truth testing. <br>
 They are virtually equivalent to the regular (in)equality operators, <br><code>==, !=, &lt;, &gt;, &lt;=, &gt;=</code>, <br>
-except for one aspect. <br>
-The decimal number (in)equality operators assume that
+except for two aspects:</p><ol><li><p>The decimal number (in)equality operators assume that
 if the absolute difference between any two numbers
 <code>x</code> and <code>y</code>
 is smaller than the Machine tolerance,
 <code>sqrt(.Machine$double.eps)</code>,
 then <code>x</code> and <code>y</code>
-should be consider to be equal. <br><br>
-Thus these operators provide safer decimal number (in)equality tests. <br><br>
+should be consider to be equal. <br>
 For example: <code>0.1*7 == 0.7</code> returns <code>FALSE</code>, even though they are equal,
 due to the way decimal numbers are stored in programming languages like 'R' and  'Python'. <br>
-But <code>0.1*7 %d==% 0.7</code> returns <code>TRUE</code>. <br><br>
+But <code>0.1*7 %d==% 0.7</code> returns <code>TRUE</code>.</p></li>
+<li><p>Only numeric input is allowed, so characters are not coerced to numbers. <br>
+I.e. <code>1 &lt; "a"</code> gives <code>TRUE</code>, whereas <code>1 %d&lt;% "a"</code> gives an error. <br>
+For character equality testing, see <a href="https://rdrr.io/pkg/stringi/man/operator_compare.html" class="external-link">%s==%</a>.</p></li>
+</ol><p>Thus these operators provide safer decimal number (in)equality tests. <br><br>
 There are also the <code>x %d{}% bnd</code> and <code>x %d!{}% bnd</code> operators,
 where <code>bnd</code> is a vector of length 2,
 or a 2-column matrix (<code>nrow(bnd)==length(x)</code> or <code>nrow(bnd)==1</code>). <br>
@@ -165,7 +173,7 @@ is outside the closed interval with bounds defined by <code>bnd</code>. <br></p>
 <dd><p>either a vector of length 2, or a matrix with 2 columns and 1 row,
 or else a matrix with 2 columns where <code>nrow(bnd)==length(x)</code>. <br>
 The first element/column of <code>bnd</code> gives the lower bound of the closed interval; <br>
-The second element/column of <code>bnd</code> gives the upper bound of the closed interval; <br></p></dd>
+The second element/column of <code>bnd</code> gives the upper bound of the closed interval. <br></p></dd>
 
 </dl></div>
     <div class="section level2">

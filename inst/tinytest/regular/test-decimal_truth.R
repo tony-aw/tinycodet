@@ -108,3 +108,13 @@ expect_equal(0.3 %d{}% c(0.29, 0.31), TRUE)
 expect_equal(0.3 %d!{}% c(0.29, 0.31), FALSE)
 expect_equal(-0.3 %d{}% c(0.29, 0.31), FALSE)
 expect_equal(-0.3 %d!{}% c(0.29, 0.31), TRUE)
+
+# errors ====
+expect_error(1 %d==% "a")
+expect_error(1 %d!=% "a")
+expect_error(1 %d<=% "a")
+expect_error(1 %d>=% "a")
+expect_error(1 %d<% "a")
+expect_error(1 %d>% "a")
+expect_error(1 %d{}% "a")
+expect_error(1 %d!{}% "a")

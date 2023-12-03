@@ -26,13 +26,18 @@ library(tinycodet)
 
 This package adds the `%d==%, %d!=% %d<%, %d>%, %d<=%, %d>=%` (in)equality operators, which perform safer decimal number truth testing. They are virtually equivalent to the regular (in)equality operators,
 `==, !=, <, >, <=, >=`,
-except for one aspect.
+except for two aspects:
 
-The decimal number truth testing operators assume that if the absolute difference between `x` and `y` is smaller than the Machine tolerance, `sqrt(.Machine$double.eps)`, then `x` and `y` ought to be consider to be equal.
+ 1) The decimal number truth testing operators assume that if the absolute difference between `x` and `y` is smaller than the Machine tolerance, `sqrt(.Machine$double.eps)`, then `x` and `y` ought to be consider to be equal.  
+ For example: `(0.1*7) == 0.7` returns `FALSE`, even though they are equal, due to the way decimal numbers are stored in programming languages like `R`, `Python`, etc. But `(0.1*7) %d==% 0.7` returns `TRUE`.
+ 2) Only numeric input is allowed, so characters are not coerced to numbers.  
+ I.e. `1 < "a"` gives `TRUE`, whereas `1 %d<% "a"` gives an error.
+ For character equality testing, see `` ?stringi::`%s==%` ``.
+
 
 Thus these provide safer decimal number (in)equality operators.
 
-For example: `(0.1*7) == 0.7` returns `FALSE`, even though they are equal, due to the way decimal numbers are stored in programming languages like `R`, `Python`, etc. But `(0.1*7) %d==% 0.7` returns `TRUE`.
+
 
 Some examples:
 

@@ -53,7 +53,7 @@ indicating whether the shared dependencies of the 'tidyverse' should be included
 or not included (\code{FALSE}; the default). \cr
 Details: \cr
 'tidyverse' packages tend to have large number of dependencies,
-some which are shared across the 'tidyverse'. \cr
+some of which are shared across the 'tidyverse'. \cr
 The "official" list of shared dependencies in the 'tidyverse' currently is the following: \cr
 'rlang', 'lifecycle', 'cli', 'glue', and 'withr'.}
 
