@@ -24,7 +24,10 @@
 #' \cr
 #' And some miscellaneous functionality; see \link{tinycodet_misc}. \cr
 #' \cr
-#'
+#' \cr
+#' Please check the GitHub main page (\url{https://github.com/tony-aw/tinycodet/})
+#' regularly for updates (such as bug fixes). \cr
+#' \cr
 #' 'tinycodet' adheres to the
 #' \href{https://www.tinyverse.org/}{tinyverse}
 #' philosophy

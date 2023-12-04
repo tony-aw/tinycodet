@@ -54,15 +54,14 @@ help.import(i = "add", alias=mr.)
 
 
 # .internal_list_* ====
-n <- length(tinycodet:::.internal_list_coreR())
-checks <- logical(n)
-for(i in 1:n) checks[i] <- tinycodet:::.internal_list_coreR()[i] %installed in% .libPaths()
-expect_true(all(checks))
-
-n <- length(tinycodet:::.internal_list_preinst())
-checks <- logical(n)
-for(i in 1:n) checks[i] <- tinycodet:::.internal_list_preinst()[i] %installed in% .libPaths()
-expect_true(all(checks))
+expect_equal(
+  sort(tinycodet:::.internal_list_coreR()),
+  c(installed.packages(priority = "base") |> rownames(), "translations") |> unique() |> sort()
+)
+expect_equal(
+  sort(tinycodet:::.internal_list_preinst()),
+  installed.packages(priority = "recommended") |> rownames() |> sort()
+)
 
 n <- length(tinycodet:::.internal_list_tidyshared())
 checks <- logical(n)

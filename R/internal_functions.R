@@ -162,7 +162,7 @@
   ns <- ns[!is.na(names(ns))]
   names_exported <- names(ns)
   names_functions <- names(ns)[vapply(ns, is.function, FUN.VALUE = logical(1))|> unlist(use.names = FALSE)]
-  if(length(names_functions)>0) {
+  if(length(names_functions) > 0) {
     for (i in names_functions){
       if(isFALSE(is.null(ns[[i]]))){
       attr(ns[[i]], which = "package") <- package
@@ -171,30 +171,16 @@
       }
     }
   }
-  if(length(ns) == 0) {
+  if(length(names_functions) == 0) {
     error.txt <- paste0(
-      "the package `",
-      package,
-      "`, has no exported functions"
+      "the package `", package, "`, has no exported functions"
     )
     stop(simpleError(error.txt, call = abortcall))
   }
   return(ns)
 }
 
-#' 
-#' #' @keywords internal
-#' #' @noRd
-#' .internal_check_deps_overlap_any <- function(
-#'     pkgs, lib.loc, deps_type=c("Depends", "Imports", "LinkingTo")
-#' ) {
-#'   all_deps <- sapply(
-#'     pkgs, function(p)pkg_get_deps(p, lib.loc=lib.loc, deps_type=deps_type,
-#'     base=FALSE, recom=FALSE, rstudioapi=FALSE, shared_tidy=FALSE)
-#'   ) |> unlist() |> unname()
-#'   check <- any(pkgs %in% all_deps)
-#'   return(check)
-#' }
+
 
 #' @keywords internal
 #' @noRd
@@ -244,69 +230,51 @@
     base=TRUE, recom=TRUE, rstudioapi = TRUE, shared_tidy = TRUE
   ) |> unique()
 
-  if(is.character(dependencies) && length(dependencies)>0) {
-    .internal_check_pkgs(
-      pkgs=dependencies, lib.loc=lib.loc, pkgs_txt = "dependencies",
-      correct_pkgs=actual_dependencies, abortcall=abortcall
-    )
-  }
+  
 
-}
+  .internal_check_pkgs(
+    pkgs=dependencies, lib.loc=lib.loc, pkgs_txt = "dependencies",
+    correct_pkgs=actual_dependencies, abortcall=abortcall
+  )
 
-#' @keywords internal
-#' @noRd
-.internal_check_enhances <- function(package, enhances, lib.loc, abortcall) {
-  actual_enhances <- pkg_get_deps(
-    package, lib.loc=lib.loc, deps_type=c("Enhances"),
-    base=TRUE, recom=TRUE, rstudioapi = TRUE, shared_tidy=TRUE
-  ) |> unique()
-
-  if(is.character(enhances) && length(enhances)>0) {
-    .internal_check_pkgs(
-      pkgs=enhances, lib.loc=lib.loc, pkgs_txt = "enhances",
-      correct_pkgs = actual_enhances, abortcall=abortcall
-    )
-  }
 }
 
 #' @keywords internal
 #' @noRd
 .internal_check_extends <- function(package, extends, lib.loc, abortcall) {
 
-  if(!is.null(extends) && is.character(extends) && length(extends)>0) {
-    .internal_check_pkgs(
-      pkgs=extends, lib.loc=lib.loc, pkgs_txt = "extensions",
-      abortcall = abortcall
-    )
+  .internal_check_pkgs(
+    pkgs=extends, lib.loc=lib.loc, pkgs_txt = "extensions",
+    abortcall = abortcall
+  )
 
-    recom_extends <- extends[extends %in% c(.internal_list_preinst(), .internal_list_tidyshared(), "rstudioapi")]
-    if(length(recom_extends) > 0) {
-      error.txt <- simpleError(paste0(
-        "The following given extensions were not found to be actual extensions:",
-        "\n",
-        paste0(recom_extends, collapse = ", ")
-      ), call=abortcall)
-      stop(error.txt)
-    }
-    # checking extensions AFTER basic package checks,
-    # because these packages need to be actually installed and correctly specified
-    # before I can check them
-    # (dependencies and enhances, on the other hand, can be checked from the main package itself)
-    tempfun <- function(x){
-      return(package %in% pkg_get_deps_minimal(x, lib.loc = lib.loc))
-    }
-    check_extends <- vapply(
-      extends, FUN = tempfun, FUN.VALUE = logical(1)
-    ) |> unlist(use.names = FALSE)
-    wrong_extends <- extends[!check_extends]
-    if(length(wrong_extends)>0) {
-      error.txt <- simpleError(paste0(
-        "The following given extensions were not found to be actual extensions:",
-        "\n",
-        paste0(wrong_extends, collapse = ", ")
-      ), call=abortcall)
-      stop(error.txt)
-    }
+  wrong_extends <- extends[extends %in% c(.internal_list_preinst(), .internal_list_tidyshared(), "rstudioapi")]
+  if(length(wrong_extends) > 0) {
+    error.txt <- simpleError(paste0(
+      "The following given extensions were not found to be actual extensions:",
+      "\n",
+      paste0(wrong_extends, collapse = ", ")
+    ), call=abortcall)
+    stop(error.txt)
+  }
+  # checking extensions AFTER basic package checks,
+  # because these packages need to be actually installed and correctly specified
+  # before I can check them
+  # (dependencies and enhances, on the other hand, can be checked from the main package itself)
+  tempfun <- function(x){
+    return(package %in% pkg_get_deps_minimal(x, lib.loc = lib.loc))
+  }
+  check_extends <- vapply(
+    extends, FUN = tempfun, FUN.VALUE = logical(1)
+  ) |> unlist(use.names = FALSE)
+  wrong_extends <- extends[!check_extends]
+  if(length(wrong_extends)>0) {
+    error.txt <- simpleError(paste0(
+      "The following given extensions were not found to be actual extensions:",
+      "\n",
+      paste0(wrong_extends, collapse = ", ")
+    ), call=abortcall)
+    stop(error.txt)
   }
 }
 
