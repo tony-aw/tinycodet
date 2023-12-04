@@ -46,11 +46,13 @@
 #' indicating whether base/core R should be included (\code{TRUE}),
 #' or not included (\code{FALSE}; the default).
 #' @param recom logical,
-#' indicating whether the pre-installed 'recommended' R-packages should be included (\code{TRUE}),
-#' or not included (\code{FALSE}; the default).
+#' indicating whether the pre-installed 'recommended' R-packages should be included
+#' (\code{TRUE}; the default),
+#' or not included (\code{FALSE}).
 #' @param rstudioapi logical,
-#' indicating whether the 'rstudioapi' R-package should be included (\code{TRUE}),
-#' or not included (\code{FALSE}; the default).
+#' indicating whether the 'rstudioapi' R-package should be included
+#' (\code{TRUE}; the default),
+#' or not included (\code{FALSE}).
 #' @param shared_tidy logical,
 #' indicating whether the shared dependencies of the 'tidyverse' should be included
 #' (\code{TRUE}; the default),
