@@ -2,10 +2,15 @@
 
 0 errors | 0 warnings | 0 notes
 
-## This is a re-submission of the 'tinycodet' package; updating it to version 0.2.2.
+## This is a re-submission of the 'tinycodet' package; updating it to version 0.2.3. Sorry for the submission after just a few weeks (instead of a few months), but I found a bug (despite my many unit tests) that really needed to be fixed quickly. I beg your understanding.
 * Changes made:
-* Small tweak to the pdf manual.
-* Replaced the incorrect uses of the word "class" with "type" in the atomic type casting help file.
-* Improved the performance of `stri_join_mat()`, and produced better examples in both help file and website.
-* Fixed incorrect regex usage in 2 examples.
-* If there are any NOTES/WARNINGS/ERRORS which I have missed (despite my many checks), please inform me before publishing on CRAN.
+* Expanded the import system documentation. Also tweaked the documentation of `import_as()` to be make it slightly clearer.
+* Expanded the documentation of the `decimal_truth` operators.
+* `import_as()` now does not allow more than 10 packages to be loaded under a single alias, to prevent abusive usage of `import_as()`.
+* The import system now has a few more tiny safety checks, including checks for widely known meta-packages (such as "fastverse").
+* The `pkg_get_deps()` function now also has the `shared_tidy` argument to ignore the shared 'tidyverse' libraries ('rlang', 'lifecycle', 'cli', 'glue', and 'withr'). Also changed the default values of the `recom`, and `rstudioapi` arguments.
+* Added the `pkg_get_deps_minimal()` function.
+* Changed the error message for wrong extension specifications: replaced "actual reverse-dependencies" into "actual extensions".
+* **Tests:** Added more tests.
+* **Optimization:** Minor optimizations for the `import_*` functions and for `transform_if()`.
+* **Bug fix:** Fixed a tiny bug in `pkg_get_deps()` where it didn't properly ignore all the recommended R-packages when `recom = FALSE`.

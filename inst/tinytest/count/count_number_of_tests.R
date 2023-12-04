@@ -1,49 +1,36 @@
 
+library(tinytest)
+library(tinycodet)
+
 # set working directory to source file location ====
-stub <- function() {}
-thisPath <- function() {
-  # Based on:
-  # https://stackoverflow.com/questions/1815606/determine-path-of-the-executing-script/15373917#15373917
-  # https://stackoverflow.com/questions/1815606/determine-path-of-the-executing-script/7585599#7585599
-  # https://stackoverflow.com/questions/47044068/get-the-path-of-current-script/47045368#47045368
-  # https://stackoverflow.com/questions/53512868/how-to-automatically-include-filepath-in-r-markdown-document/53516876#53516876
-  # https://gist.github.com/jasonsychau/ff6bc78a33bf3fd1c6bd4fa78bbf42e7
-  cmdArgs <- commandArgs(trailingOnly = FALSE)
-  if (length(grep("^-f$", cmdArgs)) > 0) {
-    # R console option
-    return(normalizePath(dirname(cmdArgs[grep("^-f", cmdArgs) + 1]))[1])
-  } else if (length(grep("^--file=", cmdArgs)) > 0) {
-    # Rscript/R console option
-    scriptPath <- normalizePath(dirname(sub("^--file=", "", cmdArgs[grep("^--file=", cmdArgs)])))[1]
-    return(scriptPath)
-  } else if (Sys.getenv("RSTUDIO") == "1") {
-    if (rstudioapi::isAvailable(version_needed=NULL,child_ok=FALSE)) {
-      # RStudio interactive
+SourceFileLocation <- function() {
+  # BATCH way:
+  path <- funr::get_script_path()
+  if(!is.null(path)) return(path)
+  
+  # R-Studio way:
+  if(Sys.getenv("RSTUDIO") == "1") {
+    if(rstudioapi::isAvailable(version_needed = NULL,child_ok = FALSE)) {
       return(dirname(rstudioapi::getSourceEditorContext()$path))
-    } else if (is.null(knitr::current_input(dir = TRUE)) == FALSE) {
-      # Knit
-      return(knitr::current_input(dir = TRUE))
-    } else {
-      # R markdown on RStudio
-      return(getwd())
     }
-  } else if (is.null(attr(stub, "srcref")) == FALSE) {
-    # 'source'd via R console
-    return(dirname(normalizePath(attr(attr(stub, "srcref"), "srcfile")$filename)))
-  } else {
-    stop("Cannot find file path")
+    if(is.null(knitr::current_input(dir = TRUE)) == FALSE) {
+      return(knitr::current_input(dir = TRUE))
+    }
+    return(getwd())
   }
 }
 
-wd <- thisPath()
+wd <- SourceFileLocation()
 setwd(wd)
+setwd("..")
+
 
 
 # count number of "expect_" occurrences ====
-testfiles <- list.files(file.path(wd, "/tinytest/"), pattern = "*.R")
+testfiles <- list.files(file.path(getwd(), "/"), pattern = "*.R", recursive = TRUE)
 n.testfiles <- length(testfiles)
 temp.fun <- function(x) {
-  foo <- readLines(file.path("./tinytest/", x))
+  foo <- readLines(file.path(x))
   sum(stringi::stri_count(foo, regex="expect_"))
 }
 testcount_regular <- sapply(
@@ -55,10 +42,11 @@ testcount_regular <- sapply(
 # count number of loop iterated tests ====
 n.iterations <- 0
 n.loops <- 0
+testfiles <- list.files(file.path(getwd(), "regular"), pattern = "*.R", recursive = FALSE)
 for(i in testfiles) {
   if(!grepl("-special", i)) {
     my_env <- new.env()
-    source(file.path("./tinytest/", i), local = my_env) |> suppressMessages()
+    source(file.path(getwd(),"regular", i), local = my_env) |> suppressMessages()
     if("enumerate" %in% names(my_env) & "loops" %in% names(my_env)){
       print(my_env$enumerate)
       n.iterations <- n.iterations + my_env$enumerate
