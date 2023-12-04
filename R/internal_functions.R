@@ -64,16 +64,82 @@
 
 #' @keywords internal
 #' @noRd
-.internal_prep_Namespace <- function(package, lib.loc, abortcall) {
-
-  if(package %in% .internal_list_knownmeta()) {
+.internal_check_pkgs <- function(pkgs, lib.loc, pkgs_txt="packages", correct_pkgs=NULL, abortcall) {
+  
+  pkgs_core <- .internal_list_coreR()
+  
+  misspelled_pkgs <- pkgs[pkgs != make.names(pkgs)]
+  if(length(misspelled_pkgs)>0) {
+    error.txt <- simpleError(paste0(
+      "You have misspelled the following ", pkgs_txt, ":",
+      "\n",
+      paste0(misspelled_pkgs, collapse = ", ")
+    ), call=abortcall)
+    stop(error.txt)
+  }
+  
+  duplicate_pkgs <- pkgs[duplicated(pkgs)]
+  if(length(duplicate_pkgs)>0) {
+    error.txt <- simpleError(paste0(
+      "The following duplicate ", pkgs_txt, " given:",
+      "\n",
+      paste0(duplicate_pkgs, collapse = ", ")
+    ), call=abortcall)
+    stop(error.txt)
+  }
+  
+  
+  meta_pkgs <- pkgs[pkgs %in% .internal_list_knownmeta()]
+  if(length(meta_pkgs) > 0) {
     error.txt <- paste0(
-      "the package `",
-      package,
-      "` is a known metaverse"
+      "The following packages are known meta-verse packages, which is not allowed:",
+      "\n",
+      paste0(meta_pkgs, collapse = ", ")
     )
     stop(simpleError(error.txt, call = abortcall))
   }
+  
+  
+  forbidden_pkgs <- pkgs[pkgs %in% pkgs_core]
+  if(length(forbidden_pkgs)>0) {
+    error.txt <- simpleError(paste0(
+      'The following "packages" are base/core R, which is not allowed:',
+      "\n",
+      paste0(forbidden_pkgs)
+    ), call=abortcall)
+    stop(error.txt)
+  }
+  
+  
+  uninstalled_pkgs <- pkgs[!pkgs %installed in% lib.loc]
+  if(length(uninstalled_pkgs)>0) {
+    error.txt <- simpleError(paste0(
+      "The following ", pkgs_txt, " are not installed:",
+      "\n",
+      paste0(uninstalled_pkgs, collapse = ", ")
+    ), call=abortcall)
+    stop(error.txt)
+  }
+  
+  
+  if(!is.null(correct_pkgs)) {
+    wrong_pkgs <- pkgs[!pkgs %in% correct_pkgs]
+    if(length(wrong_pkgs)>0) {
+      error.txt <- simpleError(paste0(
+        "The following given ", pkgs_txt, " were not found to be actual ", pkgs_txt, ":",
+        "\n",
+        paste0(wrong_pkgs, collapse = ", ")
+      ), call=abortcall)
+      stop(error.txt)
+    }
+  }
+  
+}
+
+
+#' @keywords internal
+#' @noRd
+.internal_prep_Namespace <- function(package, lib.loc, abortcall) {
 
   pkgs_required <- pkg_get_deps(package, lib.loc = lib.loc, deps_type=c("LinkingTo", "Depends", "Imports"),
                base=FALSE, recom=TRUE, rstudioapi=TRUE, shared_tidy=TRUE)
@@ -89,7 +155,7 @@
     )
     stop(simpleError(error.txt, call = abortcall))
   }
-
+  
   ns <- loadNamespace(package, lib.loc = lib.loc) |> as.list(all.names=TRUE, sorted=TRUE)
   names_exported <- names(ns[[".__NAMESPACE__."]][["exports"]])
   ns <- ns[names_exported]
@@ -168,65 +234,6 @@
   return(ns_foreign)
 }
 
-#' @keywords internal
-#' @noRd
-.internal_check_pkgs <- function(pkgs, lib.loc, pkgs_txt="packages", correct_pkgs=NULL, abortcall) {
-
-  pkgs_core <- .internal_list_coreR()
-
-  misspelled_pkgs <- pkgs[pkgs != make.names(pkgs)]
-  if(isTRUE(length(misspelled_pkgs)>0)) {
-    error.txt <- simpleError(paste0(
-      "You have misspelled the following ", pkgs_txt, ":",
-      "\n",
-      paste0(misspelled_pkgs, collapse = ", ")
-    ), call=abortcall)
-    stop(error.txt)
-  }
-
-  duplicate_pkgs <- pkgs[duplicated(pkgs)]
-  if(isTRUE(length(duplicate_pkgs)>0)) {
-    error.txt <- simpleError(paste0(
-      "The following duplicate ", pkgs_txt, " given:",
-      "\n",
-      paste0(duplicate_pkgs, collapse = ", ")
-    ), call=abortcall)
-    stop(error.txt)
-  }
-
-  uninstalled_pkgs <- pkgs[!pkgs %installed in% lib.loc]
-  if(isTRUE(length(uninstalled_pkgs)>0)) {
-    error.txt <- simpleError(paste0(
-      "The following ", pkgs_txt, " are not installed:",
-      "\n",
-      paste0(uninstalled_pkgs, collapse = ", ")
-    ), call=abortcall)
-    stop(error.txt)
-  }
-
-  forbidden_pkgs <- pkgs[pkgs %in% pkgs_core]
-  if(isTRUE(length(forbidden_pkgs)>0)) {
-    error.txt <- simpleError(paste0(
-      'The following "packages" are base/core R, which is not allowed:',
-      "\n",
-      paste0(forbidden_pkgs)
-    ), call=abortcall)
-    stop(error.txt)
-  }
-
-  if(!is.null(correct_pkgs)) {
-    wrong_pkgs <- pkgs[!pkgs %in% correct_pkgs]
-    if(length(wrong_pkgs)>0) {
-      error.txt <- simpleError(paste0(
-        "The following given ", pkgs_txt, " were not found to be actual ", pkgs_txt, ":",
-        "\n",
-        paste0(wrong_pkgs, collapse = ", ")
-      ), call=abortcall)
-      stop(error.txt)
-    }
-  }
-
-}
 
 #' @keywords internal
 #' @noRd
@@ -302,6 +309,7 @@
     }
   }
 }
+
 
 #' @keywords internal
 #' @noRd

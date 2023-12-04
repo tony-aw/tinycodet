@@ -2,6 +2,7 @@
 library(tinycodet)
 library(tinytest)
 
+
 # import_as ====
 import_as(~ dpr., "dplyr", re_exports = TRUE)
 out <- setdiff(names(dpr.), ".__attributes__.") |> sort()
@@ -73,3 +74,14 @@ checks <- logical(n)
 for(i in 1:n) checks[i] <- tinycodet:::.internal_list_knownmeta()[i] %installed in% .libPaths()
 cbind(checks, tinycodet:::.internal_list_knownmeta())
 
+
+# meta-verse error checks ====
+expect_error(
+  import_as(~tdy., "tidyverse"),
+  pattern = "he following packages are known meta-verse packages, which is not allowed"
+)
+
+expect_error(
+  import_as(~tny., "fastverse"),
+  pattern = "he following packages are known meta-verse packages, which is not allowed"
+)
