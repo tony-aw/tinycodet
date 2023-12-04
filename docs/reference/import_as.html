@@ -192,7 +192,7 @@ will contain the exported functions from the specified package(s). <br></p>
 <code>main_package</code>. <br>
 Programmatically, some package "E" is considered an extension of some
 "main_package",
-if the following is <code>TRUE</code>: <br><code>"main_package" %in% </code> <a href="pkgs.html">pkg_get_deps</a><code>("E", deps_type = c("Depends", "Imports"))</code> <br><br></p></li>
+if the following is <code>TRUE</code>: <br><code>"main_package" %in% </code> <a href="pkgs.html">pkg_get_deps_minimal</a><code>("E")</code> <br><br></p></li>
 </ul><p><b>Why Aliasing Multiple Packages is Useful</b> <br>
 To use an R-package with its extension packages or dependencies,
 whilst avoiding the disadvantages of attaching a package (see <a href="aaa2_tinycodet_import.html">tinycodet_import</a>),
@@ -246,7 +246,9 @@ are not considered dependencies or extensions. <br><br></p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/all.html" class="external-link">all</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"data.table"</span>, <span class="st">"tidytable"</span><span class="op">)</span> <span class="op"><a href="pkgs.html">%installed in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">import_as</span><span class="op">(</span> <span class="co"># this creates the 'tdt.' object</span></span></span>
 <span class="r-in"><span>  <span class="st">"tdt."</span>, <span class="st">"tidytable"</span>, dependencies <span class="op">=</span> <span class="st">"data.table"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>

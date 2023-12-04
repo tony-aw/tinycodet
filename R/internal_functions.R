@@ -76,7 +76,7 @@
   }
 
   pkgs_required <- pkg_get_deps(package, lib.loc = lib.loc, deps_type=c("LinkingTo", "Depends", "Imports"),
-               base=FALSE, recom=TRUE, rstudioapi=TRUE)
+               base=FALSE, recom=TRUE, rstudioapi=TRUE, shared_tidy=TRUE)
   pkgs_total <- c(package, pkgs_required)
   pkgs_missing <- pkgs_total[!pkgs_total %installed in% lib.loc]
   if(length(pkgs_missing)>0) {
@@ -116,19 +116,19 @@
   return(ns)
 }
 
-
-#' @keywords internal
-#' @noRd
-.internal_check_deps_overlap_any <- function(
-    pkgs, lib.loc, deps_type=c("Depends", "Imports", "LinkingTo")
-) {
-  all_deps <- sapply(
-    pkgs, function(p)pkg_get_deps(p, lib.loc=lib.loc, deps_type=deps_type,
-    base=FALSE, recom=FALSE, rstudioapi=FALSE)
-  ) |> unlist() |> unname()
-  check <- any(pkgs %in% all_deps)
-  return(check)
-}
+#' 
+#' #' @keywords internal
+#' #' @noRd
+#' .internal_check_deps_overlap_any <- function(
+#'     pkgs, lib.loc, deps_type=c("Depends", "Imports", "LinkingTo")
+#' ) {
+#'   all_deps <- sapply(
+#'     pkgs, function(p)pkg_get_deps(p, lib.loc=lib.loc, deps_type=deps_type,
+#'     base=FALSE, recom=FALSE, rstudioapi=FALSE, shared_tidy=FALSE)
+#'   ) |> unlist() |> unname()
+#'   check <- any(pkgs %in% all_deps)
+#'   return(check)
+#' }
 
 #' @keywords internal
 #' @noRd
@@ -234,7 +234,7 @@
 
   actual_dependencies <- pkg_get_deps(
     package, lib.loc=lib.loc, deps_type=c("Depends", "Imports", "LinkingTo"),
-    base=TRUE, recom=TRUE, rstudioapi = TRUE
+    base=TRUE, recom=TRUE, rstudioapi = TRUE, shared_tidy = TRUE
   ) |> unique()
 
   if(is.character(dependencies) && length(dependencies)>0) {
@@ -251,7 +251,7 @@
 .internal_check_enhances <- function(package, enhances, lib.loc, abortcall) {
   actual_enhances <- pkg_get_deps(
     package, lib.loc=lib.loc, deps_type=c("Enhances"),
-    base=TRUE, recom=TRUE, rstudioapi = TRUE
+    base=TRUE, recom=TRUE, rstudioapi = TRUE, shared_tidy=TRUE
   ) |> unique()
 
   if(is.character(enhances) && length(enhances)>0) {
@@ -286,12 +286,7 @@
     # before I can check them
     # (dependencies and enhances, on the other hand, can be checked from the main package itself)
     tempfun <- function(x){
-      depends <- pkg_get_deps(
-        x, lib.loc=lib.loc, deps_type=c("Depends", "Imports"),
-        base = FALSE, recom = FALSE, rstudioapi = FALSE, shared_tidy = FALSE
-      )
-      depends <- setdiff(depends, c(.internal_list_tidyshared(), "rstudioapi"))
-      return(package %in% depends)
+      return(package %in% pkg_get_deps_minimal(x, lib.loc = lib.loc))
     }
     check_extends <- vapply(
       extends, FUN = tempfun, FUN.VALUE = logical(1)

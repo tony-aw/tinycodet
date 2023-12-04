@@ -68,7 +68,7 @@ expect_equal(
   sort(setdiff(tinycodet:::.internal_list_coreR(), "translations"))
 )
 expect_equal(
-  sort(pkg_get_deps("tinycodetfakepkg4", "Depends", lib.loc = lib.loc1)),
+  sort(pkg_get_deps("tinycodetfakepkg4", "Depends", lib.loc = lib.loc1, base = FALSE)),
   character(0)
 )
 
@@ -77,7 +77,7 @@ expect_equal(
   sort(tinycodet:::.internal_list_preinst())
 )
 expect_equal(
-  pkg_get_deps("tinycodetfakepkg4", "Imports", lib.loc = lib.loc1),
+  pkg_get_deps("tinycodetfakepkg4", "Imports", lib.loc = lib.loc1, recom = FALSE),
   character(0)
 )
 
@@ -86,8 +86,16 @@ expect_equal(
   sort(c("rlang", "lifecycle", "cli", "glue", "withr", "rstudioapi"))
 )
 expect_equal(
-  pkg_get_deps("tinycodetfakepkg4", "Suggests", lib.loc = lib.loc1),
+  pkg_get_deps("tinycodetfakepkg4", "Suggests", lib.loc = lib.loc1, rstudioapi = FALSE, shared_tidy = FALSE),
   character(0)
+)
+
+expect_equal(
+  pkg_get_deps("tinycodetfakepkg4",
+               c("Depends", "Imports"),
+               lib.loc = lib.loc1,
+               base = FALSE, recom = FALSE, rstudioapi = FALSE, shared_tidy = FALSE),
+  pkg_get_deps_minimal("tinycodetfakepkg4", lib.loc = lib.loc1)
 )
 
 

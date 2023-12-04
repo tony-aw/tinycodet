@@ -14,6 +14,13 @@
 #' The \code{pkg_get_deps()} function gets the dependencies of a package
 #' from the Description file. It works on non-CRAN packages also. \cr
 #' \cr
+#' The \code{pkg_get_deps_minimal()} function is the same as
+#' \code{pkg_get_deps()},
+#' except with
+#' \code{base, recom, rstudioapi, shared_tidy}
+#' all set to \code{FALSE},
+#' and the default value for \code{deps_type} is c("Depends", "Imports"). \cr
+#' \cr
 #' The \code{pkg_lsf()} function
 #' gets a list of exported functions/operators from a package. \cr
 #' One handy use for this function is to, for example,
@@ -45,9 +52,11 @@
 #' indicating whether the 'rstudioapi' R-package should be included (\code{TRUE}),
 #' or not included (\code{FALSE}; the default).
 #' @param shared_tidy logical,
-#' indicating whether the shared dependencies of the 'tidyverse' should be included (\code{TRUE}),
-#' or not included (\code{FALSE}; the default). \cr
-#' Details: \cr
+#' indicating whether the shared dependencies of the 'tidyverse' should be included
+#' (\code{TRUE}; the default),
+#' or not included (\code{FALSE}). \cr
+#' \bold{Details:} \cr
+#' Unlike 'tinyverse' and 'fastverse' packages,
 #' 'tidyverse' packages tend to have large number of dependencies,
 #' some of which are shared across the 'tidyverse'. \cr
 #' The "official" list of shared dependencies in the 'tidyverse' currently is the following: \cr
@@ -59,10 +68,6 @@
 #'
 #' @details
 #' For \code{pkg_get_deps()}: \cr
-#' If using the \code{pkgs_get_deps()} function
-#' to fill in the \code{dependencies} argument of the \link{import_as} function,
-#' one may want to know the how character vector returned by \code{pkgs_get_deps()} is ordered. \cr
-#' The order is determined as follows. \cr
 #' For each string in argument \code{deps_type},
 #' the package names in the corresponding field of the Description file are extracted,
 #' in the order as they appear in that field. \cr
@@ -151,17 +156,26 @@ NULL
 #' @rdname pkgs
 #' @export
 pkg_get_deps <- function(
-    package, lib.loc=.libPaths(), deps_type=c("LinkingTo", "Depends", "Imports"),
-    base = FALSE, recom = FALSE, rstudioapi = FALSE, shared_tidy = FALSE
+    package, lib.loc = .libPaths(), deps_type = c("LinkingTo", "Depends", "Imports"),
+    base = FALSE, recom = TRUE, rstudioapi = TRUE, shared_tidy = TRUE
 ) {
   if(length(package)>1){
     stop("Only one package can be given")
   }
   .internal_check_lib.loc(lib.loc, sys.call())
   .internal_check_pkgs(package, lib.loc, abortcall = sys.call())
+  
+  check_opts <- vapply(
+    list(base, recom, rstudioapi, shared_tidy),
+    FUN = \(x)isTRUE(x) || isFALSE(x),
+    FUN.VALUE = logical(1)
+  )
+  if(any(!check_opts)) {
+    stop("arguments `base`, `recom`, `rstudioapi`, `shared_tidy` must each be either `TRUE` OR `FALSE`")
+  }
 
   temp.fun <- function(x) { .internal_get_pkg_deps(
-      package, lib.loc, x, base = base, recom = recom, rstudioapi = rstudioapi, shared_tidy = shared_tidy
+      package, lib.loc, type = x, base = base, recom = recom, rstudioapi = rstudioapi, shared_tidy = shared_tidy
   )}
   depends <- lapply(
     deps_type, FUN = temp.fun
@@ -169,6 +183,15 @@ pkg_get_deps <- function(
   depends <- do.call(c, depends) |> unique()
 
   return(depends)
+}
+
+
+#' @rdname pkgs
+#' @export
+pkg_get_deps_minimal <- function(package, lib.loc = .libPaths(), deps_type = c("Depends", "Imports")) {
+  return(pkg_get_deps(
+    package, lib.loc, deps_type, base = FALSE, recom = FALSE, rstudioapi = FALSE, shared_tidy = FALSE
+  ))
 }
 
 
@@ -203,7 +226,7 @@ pkg_lsf <- function(package, type, lib.loc = .libPaths()) {
 #' @noRd
 .internal_get_pkg_deps <- function(
     package, lib.loc, type,
-    base = FALSE, translations = FALSE, recom = FALSE, rstudioapi = FALSE, shared_tidy = FALSE
+    base, recom, rstudioapi, shared_tidy
 ) {
   # based of https://stackoverflow.com/questions/30223957/elegantly-extract-r-package-dependencies-of-a-package-not-listed-on-cran
   dcf <- read.dcf(file.path(system.file("DESCRIPTION", package = package, lib.loc = lib.loc)))

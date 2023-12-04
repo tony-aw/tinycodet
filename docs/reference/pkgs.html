@@ -12,6 +12,13 @@ without fearing any unwanted side-effects.
 The pkg_get_deps() function gets the dependencies of a package
 from the Description file. It works on non-CRAN packages also. 
 
+The pkg_get_deps_minimal() function is the same as
+pkg_get_deps(),
+except with
+base, recom, rstudioapi, shared_tidy
+all set to FALSE,
+and the default value for deps_type is c("Depends", "Imports"). 
+
 The pkg_lsf() function
 gets a list of exported functions/operators from a package. 
 One handy use for this function is to, for example,
@@ -30,6 +37,13 @@ without fearing any unwanted side-effects.
 
 The pkg_get_deps() function gets the dependencies of a package
 from the Description file. It works on non-CRAN packages also. 
+
+The pkg_get_deps_minimal() function is the same as
+pkg_get_deps(),
+except with
+base, recom, rstudioapi, shared_tidy
+all set to FALSE,
+and the default value for deps_type is c("Depends", "Imports"). 
 
 The pkg_lsf() function
 gets a list of exported functions/operators from a package. 
@@ -111,6 +125,12 @@ the user can safely use it
 without fearing any unwanted side-effects. <br><br>
 The <code>pkg_get_deps()</code> function gets the dependencies of a package
 from the Description file. It works on non-CRAN packages also. <br><br>
+The <code>pkg_get_deps_minimal()</code> function is the same as
+<code>pkg_get_deps()</code>,
+except with
+<code>base, recom, rstudioapi, shared_tidy</code>
+all set to <code>FALSE</code>,
+and the default value for <code>deps_type</code> is c("Depends", "Imports"). <br><br>
 The <code>pkg_lsf()</code> function
 gets a list of exported functions/operators from a package. <br>
 One handy use for this function is to, for example,
@@ -128,9 +148,15 @@ like so:</p>
 <span>  lib.loc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  deps_type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"LinkingTo"</span>, <span class="st">"Depends"</span>, <span class="st">"Imports"</span><span class="op">)</span>,</span>
 <span>  base <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  recom <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  rstudioapi <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  shared_tidy <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  recom <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  rstudioapi <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  shared_tidy <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">pkg_get_deps_minimal</span><span class="op">(</span></span>
+<span>  <span class="va">package</span>,</span>
+<span>  lib.loc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  deps_type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Depends"</span>, <span class="st">"Imports"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">pkg_lsf</span><span class="op">(</span><span class="va">package</span>, <span class="va">type</span>, lib.loc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -180,9 +206,10 @@ or not included (<code>FALSE</code>; the default).</p></dd>
 
 <dt>shared_tidy</dt>
 <dd><p>logical,
-indicating whether the shared dependencies of the 'tidyverse' should be included (<code>TRUE</code>),
-or not included (<code>FALSE</code>; the default). <br>
-Details: <br>
+indicating whether the shared dependencies of the 'tidyverse' should be included
+(<code>TRUE</code>; the default),
+or not included (<code>FALSE</code>). <br><b>Details:</b> <br>
+Unlike 'tinyverse' and 'fastverse' packages,
 'tidyverse' packages tend to have large number of dependencies,
 some of which are shared across the 'tidyverse'. <br>
 The "official" list of shared dependencies in the 'tidyverse' currently is the following: <br>
@@ -228,10 +255,6 @@ and the value <code>FALSE</code> indicates a package is not installed. <br></p>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>For <code>pkg_get_deps()</code>: <br>
-If using the <code>pkgs_get_deps()</code> function
-to fill in the <code>dependencies</code> argument of the <a href="import_as.html">import_as</a> function,
-one may want to know the how character vector returned by <code>pkgs_get_deps()</code> is ordered. <br>
-The order is determined as follows. <br>
 For each string in argument <code>deps_type</code>,
 the package names in the corresponding field of the Description file are extracted,
 in the order as they appear in that field. <br>
@@ -260,8 +283,10 @@ means the package names are extracted from the fields in the following order:</p
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="va">check</span><span class="op">)</span> <span class="va">pkgs</span> <span class="op">&lt;-</span> <span class="fu">pkg_get_deps</span><span class="op">(</span><span class="st">"dplyr"</span><span class="op">)</span> <span class="co"># many dependencies</span></span></span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="va">check</span><span class="op">)</span> <span class="va">pkgs</span> <span class="op">%installed in%</span> <span class="fu"><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   generics   magrittr     pillar         R6     tibble tidyselect      vctrs </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        cli   generics       glue  lifecycle   magrittr     pillar         R6 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       TRUE       TRUE       TRUE       TRUE       TRUE       TRUE       TRUE </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      rlang     tibble tidyselect      vctrs </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       TRUE       TRUE       TRUE       TRUE </span>
 <span class="r-in"><span><span class="kw">if</span><span class="op">(</span><span class="va">check</span><span class="op">)</span> <span class="fu">pkg_lsf</span><span class="op">(</span><span class="st">"dplyr"</span>, <span class="st">"all"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [1] "slice_max"             "src"                   "db_desc"              </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [4] "group_by_drop_default" "db_commit"             "coalesce"             </span>

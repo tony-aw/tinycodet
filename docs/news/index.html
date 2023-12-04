@@ -62,16 +62,20 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.3" id="tinycodet-023">tinycodet 0.2.3<a class="anchor" aria-label="anchor" href="#tinycodet-023"></a></h2>
-<ul><li>Minor optimizations for the <code>import_*</code> functions and for <code><a href="../reference/transform_if.html">transform_if()</a></code>.</li>
-<li>Expanded the import system documentation. Also tweaked the documentation of <code><a href="../reference/import_as.html">import_as()</a></code> to be make it slightly clearer.</li>
+<ul><li>Expanded the import system documentation. Also tweaked the documentation of <code><a href="../reference/import_as.html">import_as()</a></code> to be make it slightly clearer.</li>
 <li>Expanded the documentation of the <code>decimal_truth</code> operators.</li>
 <li>
 <code><a href="../reference/import_as.html">import_as()</a></code> now does not allow more than 10 packages to be loaded under a single alias, to prevent abusive usage of <code><a href="../reference/import_as.html">import_as()</a></code>.</li>
 <li>The import system now has a few more tiny safety checks, including checks for widely known meta-packages (such as “fastverse”).</li>
-<li>The <code><a href="../reference/pkgs.html">pkg_get_deps()</a></code> function now also has <code>shared_tidy</code> argumentt to ignore the shared ‘tidyverse’ libraries (‘rlang’, ‘lifecycle’, ‘cli’, ‘glue’, and ‘withr’).</li>
+<li>The <code><a href="../reference/pkgs.html">pkg_get_deps()</a></code> function now also has the <code>shared_tidy</code> argument to ignore the shared ‘tidyverse’ libraries (‘rlang’, ‘lifecycle’, ‘cli’, ‘glue’, and ‘withr’).</li>
+<li>Added the <code><a href="../reference/pkgs.html">pkg_get_deps_minimal()</a></code> function.</li>
 <li>Changed the error message for wrong extension specifications: replaced “actual reverse-dependencies” into “actual extensions”.</li>
-<li>Added more tests.</li>
-<li>Bug fix: Fixed a tiny bug in <code><a href="../reference/pkgs.html">pkg_get_deps()</a></code> where it didn’t properly ignore all the recommended R-packages.</li>
+<li>
+<strong>Tests:</strong> Added more tests.</li>
+<li>
+<strong>Optimization:</strong> Minor optimizations for the <code>import_*</code> functions and for <code><a href="../reference/transform_if.html">transform_if()</a></code>.</li>
+<li>
+<strong>Bug fix:</strong> Fixed a tiny bug in <code><a href="../reference/pkgs.html">pkg_get_deps()</a></code> where it didn’t properly ignore all the recommended R-packages.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.2" id="tinycodet-022">tinycodet 0.2.2<a class="anchor" aria-label="anchor" href="#tinycodet-022"></a></h2><p class="text-muted">CRAN release: 2023-11-25</p>

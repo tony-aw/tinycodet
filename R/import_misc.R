@@ -228,7 +228,7 @@ import_int <- function(form, lib.loc = .libPaths()) {
 .get_internals <- function(package, lib.loc, abortcall) {
 
   pkgs_required <- pkg_get_deps(package, lib.loc = lib.loc, deps_type=c("LinkingTo", "Depends", "Imports"),
-                                base=FALSE, recom=TRUE, rstudioapi=TRUE)
+                                base=FALSE, recom=TRUE, rstudioapi=TRUE, shared_tidy=TRUE)
   pkgs_total <- c(package, pkgs_required)
   pkgs_missing <- pkgs_total[!pkgs_total %installed in% lib.loc]
   if(length(pkgs_missing)>0) {

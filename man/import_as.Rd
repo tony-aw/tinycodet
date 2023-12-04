@@ -90,7 +90,7 @@ The specified alias will be placed in the current environment
 Programmatically, some package "E" is considered an extension of some
 "main_package",
 if the following is \code{TRUE}: \cr
-\code{"main_package" \%in\% } \link{pkg_get_deps}\code{("E", deps_type = c("Depends", "Imports"))} \cr \cr
+\code{"main_package" \%in\% } \link{pkg_get_deps_minimal}\code{("E")} \cr \cr
 }
 
 \bold{Why Aliasing Multiple Packages is Useful} \cr
@@ -161,6 +161,7 @@ are not considered dependencies or extensions. \cr
 }
 \examples{
 \dontshow{if (all(c("data.table", "tidytable") \%installed in\% .libPaths())) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+all(c("data.table", "tidytable") \%installed in\% .libPaths())
 
 import_as( # this creates the 'tdt.' object
   "tdt.", "tidytable", dependencies = "data.table"
