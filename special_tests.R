@@ -51,3 +51,25 @@ help.import(i = mr.$multiply_by)
 help.import(i = "%>%", alias=mr.)
 help.import(i = "add", alias=mr.)
 
+
+# .internal_list_* ====
+n <- length(tinycodet:::.internal_list_coreR())
+checks <- logical(n)
+for(i in 1:n) checks[i] <- tinycodet:::.internal_list_coreR()[i] %installed in% .libPaths()
+expect_true(all(checks))
+
+n <- length(tinycodet:::.internal_list_preinst())
+checks <- logical(n)
+for(i in 1:n) checks[i] <- tinycodet:::.internal_list_preinst()[i] %installed in% .libPaths()
+expect_true(all(checks))
+
+n <- length(tinycodet:::.internal_list_tidyshared())
+checks <- logical(n)
+for(i in 1:n) checks[i] <- tinycodet:::.internal_list_tidyshared()[i] %installed in% .libPaths()
+expect_true(all(checks))
+
+n <- length(tinycodet:::.internal_list_knownmeta())
+checks <- logical(n)
+for(i in 1:n) checks[i] <- tinycodet:::.internal_list_knownmeta()[i] %installed in% .libPaths()
+cbind(checks, tinycodet:::.internal_list_knownmeta())
+
