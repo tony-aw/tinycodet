@@ -77,12 +77,12 @@ cbind(checks, tinycodet:::.internal_list_knownmeta()) |> print()
 # meta-verse error checks ====
 expect_error(
   import_as(~tdy., "tidyverse"),
-  pattern = "he following packages are known meta-verse packages, which is not allowed"
+  pattern = "The following packages are known meta-verse packages, which is not allowed"
 )
 
 expect_error(
   import_as(~tny., "fastverse"),
-  pattern = "he following packages are known meta-verse packages, which is not allowed"
+  pattern = "The following packages are known meta-verse packages, which is not allowed"
 )
 
 
