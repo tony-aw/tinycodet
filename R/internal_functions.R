@@ -173,7 +173,7 @@
   }
   if(length(names_functions) == 0) {
     error.txt <- paste0(
-      "the package `", package, "`, has no exported functions"
+      "the package `", package, "` has no exported functions"
     )
     stop(simpleError(error.txt, call = abortcall))
   }

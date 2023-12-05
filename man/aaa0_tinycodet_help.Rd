@@ -29,7 +29,8 @@ see \link{tinycodet_dry}. \cr
 And some miscellaneous functionality; see \link{tinycodet_misc}. \cr
 \cr
 \cr
-Please check the GitHub main page (\url{https://github.com/tony-aw/tinycodet/})
+Please check the Change-log
+(see links below)
 regularly for updates (such as bug fixes). \cr
 \cr
 'tinycodet' adheres to the
@@ -47,9 +48,10 @@ The badges shown in the documentation of this R-package were made using the serv
 \seealso{
 Useful links:
 \itemize{
-\item 'tinycodet' GitHub page: \url{https://github.com/tony-aw/tinycodet/}
+\item 'tinycodet' GitHub main page and Read-Me: \url{https://github.com/tony-aw/tinycodet/}
 \item 'tinycodet' package website: \url{https://tony-aw.github.io/tinycodet/}
 \item Report bugs at: \url{https://github.com/tony-aw/tinycodet/issues/}
+\item Changelog: \url{https://github.com/tony-aw/tinycodet/blob/main/NEWS.md/} or \cr \url{https://tony-aw.github.io/tinycodet/news/index.html}
 \item The 'fastverse', which is related to the 'tinyverse': \url{https://github.com/fastverse/fastverse/}
 }
 }

@@ -23,7 +23,7 @@ expect_error(
 )
 
 expect_error(
-  import_as(~ rsa., "rstudioapi", extensions = "tidyverse"),
+  import_as(~ rsa., "rstudioapi", extensions = "knitr"),
   "The following given extensions were not found to be actual extensions:",
   fixed = TRUE
 )
@@ -71,7 +71,7 @@ expect_true(all(checks))
 n <- length(tinycodet:::.internal_list_knownmeta())
 checks <- logical(n)
 for(i in 1:n) checks[i] <- tinycodet:::.internal_list_knownmeta()[i] %installed in% .libPaths()
-cbind(checks, tinycodet:::.internal_list_knownmeta())
+cbind(checks, tinycodet:::.internal_list_knownmeta()) |> print()
 
 
 # meta-verse error checks ====
@@ -84,3 +84,27 @@ expect_error(
   import_as(~tny., "fastverse"),
   pattern = "he following packages are known meta-verse packages, which is not allowed"
 )
+
+
+# empty packages checks ====
+expect_error(
+  tinycodet:::.internal_prep_Namespace("spam64", .libPaths(), sys.call()),
+  pattern = "the package `spam64` has no exported functions"
+)
+
+expect_error(
+  import_as(~ sp64., "spam64"),
+  pattern = "the package `spam64` has no exported functions"
+)
+
+expect_error(
+  import_inops("spam64"),
+  pattern = "the package `spam64` has no exported functions"
+)
+
+expect_error(
+  import_LL("spam64", 'foo'),
+  pattern = "the package `spam64` has no exported functions"
+)
+
+
