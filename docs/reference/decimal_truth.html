@@ -16,7 +16,7 @@ due to the way decimal numbers are stored in programming languages like 'R' and 
 But 0.1*7 %d==% 0.7 returns TRUE.
 Only numeric input is allowed, so characters are not coerced to numbers. 
 I.e. 1 &amp;lt; &quot;a&quot; gives TRUE, whereas 1 %d&amp;lt;% &quot;a&quot; gives an error. 
-For character equality testing, see %s==%.
+For character equality testing, see %s==% from the 'stringi' package.
 
 
 Thus these operators provide safer decimal number (in)equality tests. 
@@ -44,7 +44,7 @@ due to the way decimal numbers are stored in programming languages like 'R' and 
 But 0.1*7 %d==% 0.7 returns TRUE.
 Only numeric input is allowed, so characters are not coerced to numbers. 
 I.e. 1 &amp;lt; &quot;a&quot; gives TRUE, whereas 1 %d&amp;lt;% &quot;a&quot; gives an error. 
-For character equality testing, see %s==%.
+For character equality testing, see %s==% from the 'stringi' package.
 
 
 Thus these operators provide safer decimal number (in)equality tests. 
@@ -133,7 +133,7 @@ due to the way decimal numbers are stored in programming languages like 'R' and 
 But <code>0.1*7 %d==% 0.7</code> returns <code>TRUE</code>.</p></li>
 <li><p>Only numeric input is allowed, so characters are not coerced to numbers. <br>
 I.e. <code>1 &lt; "a"</code> gives <code>TRUE</code>, whereas <code>1 %d&lt;% "a"</code> gives an error. <br>
-For character equality testing, see <a href="https://rdrr.io/pkg/stringi/man/operator_compare.html" class="external-link">%s==%</a>.</p></li>
+For character equality testing, see <a href="https://rdrr.io/pkg/stringi/man/operator_compare.html" class="external-link">%s==%</a> from the 'stringi' package.</p></li>
 </ol><p>Thus these operators provide safer decimal number (in)equality tests. <br><br>
 There are also the <code>x %d{}% bnd</code> and <code>x %d!{}% bnd</code> operators,
 where <code>bnd</code> is a vector of length 2,

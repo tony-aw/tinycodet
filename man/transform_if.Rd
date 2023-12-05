@@ -17,7 +17,7 @@ For example: \code{\(x)x>0}. \cr}
 \item{yes}{the (possibly anonymous) transformation function to use
 when function \code{cond(x)==TRUE} / logical \code{cond==TRUE}. \cr
 Alternatively, one can also supply an atomic scalar. \cr
-If argument \code{yes}is not specified, it defaults to \code{\(x)x}.}
+If argument \code{yes} is not specified, it defaults to \code{\(x)x}.}
 
 \item{no}{the (possibly anonymous) transformation function to use
 when function \code{cond(x)==FALSE} / logical \code{cond==FALSE}. \cr

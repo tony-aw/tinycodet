@@ -23,17 +23,6 @@ checklist <- checklist[order(names(checklist))]
 expect <- rep("tinycodetfakepkg3", length(checklist))
 expect[stringi::stri_detect(names(checklist), regex = "1\\d")] <- "tinycodetfakepkg1"
 expect[stringi::stri_detect(names(checklist), regex = "2\\d")] <- "tinycodetfakepkg2"
-#
-#
-# expect <- c(
-#   rep("tinycodetfakepkg1", 2),
-#   rep("tinycodetfakepkg2", 2),
-#   rep("tinycodetfakepkg3", 2),
-#   rep("tinycodetfakepkg3", 2),
-#   rep("tinycodetfakepkg1", 2),
-#   rep("tinycodetfakepkg2", 2),
-#   rep("tinycodetfakepkg3", 2)
-# )
 
 out <- sapply(checklist, \(x)attr(x, "package")) |> unname()
 

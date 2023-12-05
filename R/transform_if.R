@@ -25,7 +25,7 @@
 #' @param yes the (possibly anonymous) transformation function to use
 #' when function \code{cond(x)==TRUE} / logical \code{cond==TRUE}. \cr
 #' Alternatively, one can also supply an atomic scalar. \cr
-#' If argument \code{yes}is not specified, it defaults to \code{\(x)x}.
+#' If argument \code{yes} is not specified, it defaults to \code{\(x)x}.
 #' @param no the (possibly anonymous) transformation function to use
 #' when function \code{cond(x)==FALSE} / logical \code{cond==FALSE}. \cr
 #' Alternatively, one can also supply an atomic scalar. \cr
@@ -131,7 +131,7 @@ transform_if <- function(
     ind_F <- which(!cond)
     y[ind_F] <- .internal_transform_if(no, y, ind_F)
   }
-  if(any(is.na(cond))) {
+  if(anyNA(cond)) {
     ind_NA <- which(is.na(cond))
     y[ind_NA] <- .internal_transform_if(other, y, ind_NA)
   }

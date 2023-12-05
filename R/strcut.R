@@ -46,14 +46,15 @@
 #'
 #' @returns
 #' For the \code{strcut_loc()} function: \cr
-#' A character matrix with \code{length(str)} rows and 3 columns:
+#' A character matrix with \code{length(str)} rows and 3 columns,
+#' where for every row \code{i} it holds the following:
 #'
-#'  * the first column contains the sub-strings \bold{before} \code{loc},
-#'  or \code{NA} if \code{loc} is \code{c(NA, NA)};
-#'  * the second column contains the sub_strings at \code{loc},
-#'  or the uncut string if \code{loc} is \code{c(NA, NA)};
-#'  * the third and last column contains the sub-strings \bold{after} \code{loc},
-#'  or \code{NA} if \code{loc} is \code{c(NA, NA)}. \cr
+#'  * the first column contains the sub-string \bold{before} \code{loc[i,]},
+#'  or \code{NA} if \code{loc[i,]} contains \code{NA};
+#'  * the second column contains the sub_string at \code{loc[i,]},
+#'  or the uncut string if \code{loc[i,]} contains \code{NA};
+#'  * the third and last column contains the sub-string \bold{after} \code{loc[i,]},
+#'  or \code{NA} if \code{loc[i,]} contains \code{NA}. \cr
 #'  \cr
 #'
 #' For the \code{strcut_brk()} function: \cr
@@ -74,6 +75,8 @@
 #' strcut_loc(x, loc)
 #' strcut_loc(x, c(5,5))
 #' strcut_loc(x, c(NA, NA))
+#' strcut_loc(x, c(5, NA))
+#' strcut_loc(x, c(NA, 5))
 #'
 #' test <- "The\u00a0above-mentioned    features are very useful. " %s+%
 #' "Spam, spam, eggs, bacon, and spam. 123 456 789"
@@ -92,18 +95,18 @@ strcut_loc <- function(str, loc) {
   nstr <- length(str)
   nloc <- nrow(loc)
   if(nrow(loc)==1) {
-    loc <- loc[rep(1, nstr), , drop=FALSE]
+    loc <- loc[rep_len(1, nstr), , drop=FALSE]
   }
   nloc <- nrow(loc)
   if(nloc != nstr) {
     stop("`nrow(loc)` must equal to `length(str)` or 1")
   }
   if(all(!cc)) {
-    repNA <- rep(NA, nstr)
+    repNA <- rep_len(NA, nstr)
     out <- cbind(prepart = repNA, mainpart = str, postpart = repNA)
     return(out)
   }
-  if(!is.character(str)){
+  if(!is.character(str)){ # placing this later in case all(is.na(str))
     stop("`str` must be a character vector")
   }
 
@@ -128,7 +131,6 @@ strcut_loc <- function(str, loc) {
 }
 
 
-
 #' @rdname strcut
 #' @export
 strcut_brk <- function(str, type = "character", ...) {
@@ -141,6 +143,7 @@ strcut_brk <- function(str, type = "character", ...) {
   return(out)
 }
 
+
 #' @keywords internal
 #' @noRd
 .check_loc <- function(loc, cc, abortcall) {
@@ -152,6 +155,7 @@ strcut_brk <- function(str, type = "character", ...) {
   }
   return(loc)
 }
+
 
 #' @keywords internal
 #' @noRd

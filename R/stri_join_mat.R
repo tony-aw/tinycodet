@@ -5,17 +5,17 @@
 #'
 #' The \code{stri_join_mat()} function
 #' (and their aliases \code{stri_c_mat} and \code{stri_paste_mat})
-#' perform row-wise (`margin=1`; the default) or
-#' column-wise (`margin=2`) joining of a matrix of strings,
+#' perform row-wise (\code{margin = 1}; the default) or
+#' column-wise (\code{margin = 2}) joining of a matrix of strings,
 #' thereby transforming a matrix of strings into a vector of strings.
 #'
 #'
 #' @param mat a matrix of strings
 #' @param margin the margin over which the strings must be joined.
-#'  * If \code{margin=1}, the elements in each row of matrix \code{mat}
+#'  * If \code{margin = 1}, the elements within each row of matrix \code{mat}
 #' are joined into a single string.
 #' Thus if the matrix has 10 rows, it returns a vector of 10 strings.
-#'  * If \code{margin=2}, the elements in each column of matrix \code{mat}
+#'  * If \code{margin = 2}, the elements within each column of matrix \code{mat}
 #' are joined into a single string.
 #' Thus if the matrix has 10 columns, it returns a vector of 10 strings. \cr
 #' @param sep,collapse as in \link[stringi]{stri_join}.
@@ -33,13 +33,13 @@
 #'
 #' # Basic example
 #'
-#' x <- matrix(letters[1:25], ncol=5, byrow = TRUE)
+#' x <- matrix(letters[1:25], ncol = 5, byrow = TRUE)
 #' print(x)
-#' stri_join_mat(x, margin=1)
+#' stri_join_mat(x, margin = 1)
 #'
-#' x <- matrix(letters[1:25], ncol=5, byrow = FALSE)
+#' x <- matrix(letters[1:25], ncol = 5, byrow = FALSE)
 #' print(x)
-#' stri_join_mat(x, margin=2)
+#' stri_join_mat(x, margin = 2)
 #'
 #'
 #' #############################################################################
@@ -52,8 +52,8 @@
 #' sorted <- mat %row~% rank
 #' sorted[is.na(sorted)] <- ""
 #' print(sorted)
-#' stri_join_mat(sorted, margin=1)
-#' stri_join_mat(sorted, margin=2)
+#' stri_join_mat(sorted, margin = 1)
+#' stri_join_mat(sorted, margin = 2)
 #'
 #'
 #' #############################################################################
@@ -66,8 +66,8 @@
 #' rank <- stringi::stri_rank(as.vector(mat)) |> matrix(ncol=ncol(mat))
 #' sorted <- mat %row~% rank
 #' sorted[is.na(sorted)] <- ""
-#' stri_c_mat(sorted, margin=1, sep = " ") # <- alias for stri_join_mat
-#' stri_c_mat(sorted, margin=2, sep = " ")
+#' stri_c_mat(sorted, margin = 1, sep = " ") # <- alias for stri_join_mat
+#' stri_c_mat(sorted, margin = 2, sep = " ")
 #'
 #'
 #' #############################################################################
@@ -80,8 +80,8 @@
 #' rank <- sample(1:length(mat)) |> matrix(ncol = ncol(mat))
 #' sorted <- mat %row~% rank
 #' sorted[is.na(sorted)] <- ""
-#' stri_paste_mat(sorted, margin=1) # <- another alias for stri_join_mat
-#' stri_paste_mat(sorted, margin=2)
+#' stri_paste_mat(sorted, margin = 1) # <- another alias for stri_join_mat
+#' stri_paste_mat(sorted, margin = 2)
 
 
 

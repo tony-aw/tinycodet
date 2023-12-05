@@ -59,7 +59,7 @@ due to the way decimal numbers are stored in programming languages like 'R' and 
 But \code{0.1*7 \%d==\% 0.7} returns \code{TRUE}.
 \item Only numeric input is allowed, so characters are not coerced to numbers. \cr
 I.e. \code{1 < "a"} gives \code{TRUE}, whereas \code{1 \%d<\% "a"} gives an error. \cr
-For character equality testing, see \link[stringi]{\%s==\%}.
+For character equality testing, see \link[stringi]{\%s==\%} from the 'stringi' package.
 }
 
 Thus these operators provide safer decimal number (in)equality tests. \cr

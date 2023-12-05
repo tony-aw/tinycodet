@@ -30,14 +30,15 @@ or a custom set of ICU break iteration rules. Defaults to \code{"character"}. \c
 }
 \value{
 For the \code{strcut_loc()} function: \cr
-A character matrix with \code{length(str)} rows and 3 columns:
+A character matrix with \code{length(str)} rows and 3 columns,
+where for every row \code{i} it holds the following:
 \itemize{
-\item the first column contains the sub-strings \bold{before} \code{loc},
-or \code{NA} if \code{loc} is \code{c(NA, NA)};
-\item the second column contains the sub_strings at \code{loc},
-or the uncut string if \code{loc} is \code{c(NA, NA)};
-\item the third and last column contains the sub-strings \bold{after} \code{loc},
-or \code{NA} if \code{loc} is \code{c(NA, NA)}. \cr
+\item the first column contains the sub-string \bold{before} \code{loc[i,]},
+or \code{NA} if \code{loc[i,]} contains \code{NA};
+\item the second column contains the sub_string at \code{loc[i,]},
+or the uncut string if \code{loc[i,]} contains \code{NA};
+\item the third and last column contains the sub-string \bold{after} \code{loc[i,]},
+or \code{NA} if \code{loc[i,]} contains \code{NA}. \cr
 \cr
 }
 
@@ -82,6 +83,8 @@ loc <- stri_locate_ith(x, 1:10, fixed = as.character(1:10))
 strcut_loc(x, loc)
 strcut_loc(x, c(5,5))
 strcut_loc(x, c(NA, NA))
+strcut_loc(x, c(5, NA))
+strcut_loc(x, c(NA, 5))
 
 test <- "The\u00a0above-mentioned    features are very useful. " \%s+\%
 "Spam, spam, eggs, bacon, and spam. 123 456 789"

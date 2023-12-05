@@ -163,9 +163,9 @@
 #' @rdname import_as
 #' @export
 import_as <- function(
-    alias, main_package, re_exports=TRUE,
-    dependencies=NULL, extensions=NULL,
-    lib.loc=.libPaths(),
+    alias, main_package, re_exports = TRUE,
+    dependencies = NULL, extensions = NULL,
+    lib.loc = .libPaths(),
     loadorder = c("dependencies", "main_package", "extensions")
 ) {
 

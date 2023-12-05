@@ -425,7 +425,7 @@ import_inops <- function(
       return(TRUE)
     }
   }
-  checks <- rep(FALSE, length(nms))
+  checks <- rep_len(FALSE, length(nms))
   for (i in 1:length(nms)) {
     checks[i] <- temp.fun(nms[i], pkgs, env)
   }

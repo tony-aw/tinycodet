@@ -2,7 +2,8 @@
 #'
 #' @description
 #' The \code{help.import()} function
-#' finds the help file for functions in an alias object or exposed infix operators. \cr
+#' finds the help file for functions or topics,
+#' including exposed functions/operators as well as functions in a package alias object. \cr
 #' \cr
 #' The \code{is.tinyimport()} function
 #' checks if an alias object or an exposed function is of class \code{tinyimport};
@@ -10,7 +11,7 @@
 #' \link{import_as}, \link{import_inops}, or \link{import_LL} function. \cr
 #' \cr
 #' The \code{attr.import()} function
-#' gets one specific special attributes or all special attributes
+#' gets one or all special attribute(s)
 #' from an alias object returned by \link{import_as}. \cr
 #' \cr
 #'
@@ -43,6 +44,7 @@
 #' help.import(i = `%>%`)
 #' help.import(i = "add", alias = mr.)
 #' help.import(topic = "%>%", package = "magrittr")
+#' help.import("%>%", package = "magrittr") # same as previous line
 #'
 #' ```
 #'
@@ -109,7 +111,7 @@
 #' is.tinyimport(`%:=%`) # returns TRUE
 #' is.tinyimport(`%s==%`) # returns FALSE: not imported by tinycodet import system
 #'
-#' attr.import(to., which="conflicts")
+#' attr.import(to., which = "conflicts")
 #'
 #'
 #'
@@ -245,7 +247,7 @@ attr.import <- function(alias, which = NULL) {
 
   allowed_which <- c("pkgs", "conflicts", "versions", "args", "ordered_object_names")
   if(!isTRUE(which %in% allowed_which)) {
-    stop("unknown which given")
+    stop("unknown `which` given")
   }
 
   if(isTRUE(which %in% allowed_which)){

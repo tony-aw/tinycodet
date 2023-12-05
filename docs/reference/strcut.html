@@ -144,12 +144,13 @@ or a custom set of ICU break iteration rules. Defaults to <code>"character"</cod
 <p>For the <code>strcut_loc()</code> function: <br></p>
 
 
-<p>A character matrix with <code>length(str)</code> rows and 3 columns:</p><ul><li><p>the first column contains the sub-strings <b>before</b> <code>loc</code>,
-or <code>NA</code> if <code>loc</code> is <code>c(NA, NA)</code>;</p></li>
-<li><p>the second column contains the sub_strings at <code>loc</code>,
-or the uncut string if <code>loc</code> is <code>c(NA, NA)</code>;</p></li>
-<li><p>the third and last column contains the sub-strings <b>after</b> <code>loc</code>,
-or <code>NA</code> if <code>loc</code> is <code>c(NA, NA)</code>. <br><br></p></li>
+<p>A character matrix with <code>length(str)</code> rows and 3 columns,
+where for every row <code>i</code> it holds the following:</p><ul><li><p>the first column contains the sub-string <b>before</b> <code>loc[i,]</code>,
+or <code>NA</code> if <code>loc[i,]</code> contains <code>NA</code>;</p></li>
+<li><p>the second column contains the sub_string at <code>loc[i,]</code>,
+or the uncut string if <code>loc[i,]</code> contains <code>NA</code>;</p></li>
+<li><p>the third and last column contains the sub-string <b>after</b> <code>loc[i,]</code>,
+or <code>NA</code> if <code>loc[i,]</code> contains <code>NA</code>. <br><br></p></li>
 </ul><p>For the <code>strcut_brk()</code> function: <br></p>
 
 
@@ -206,6 +207,30 @@ Moreover, the <code>strcut_</code> - functions always return a matrix, not a lis
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [9,] "1234"  "5"      "678910"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [10,] "1234"  "5"      "678910"</span>
 <span class="r-in"><span><span class="fu">strcut_loc</span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="cn">NA</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       prepart mainpart      postpart</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] NA      "12345678910" NA      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] NA      "12345678910" NA      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] NA      "12345678910" NA      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,] NA      "12345678910" NA      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,] NA      "12345678910" NA      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,] NA      "12345678910" NA      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,] NA      "12345678910" NA      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,] NA      "12345678910" NA      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,] NA      "12345678910" NA      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] NA      "12345678910" NA      </span>
+<span class="r-in"><span><span class="fu">strcut_loc</span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="cn">NA</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       prepart mainpart      postpart</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] NA      "12345678910" NA      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] NA      "12345678910" NA      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] NA      "12345678910" NA      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,] NA      "12345678910" NA      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,] NA      "12345678910" NA      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,] NA      "12345678910" NA      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,] NA      "12345678910" NA      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,] NA      "12345678910" NA      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,] NA      "12345678910" NA      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] NA      "12345678910" NA      </span>
+<span class="r-in"><span><span class="fu">strcut_loc</span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       prepart mainpart      postpart</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] NA      "12345678910" NA      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] NA      "12345678910" NA      </span>

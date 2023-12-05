@@ -103,8 +103,8 @@ and this naming scheme does not conflict with core R, nor with most other packag
 Of course, if one wishes to use a package (like
 'stringi') \bold{only} within a specific environment,
 like only inside a function,
-it becomes advantageous to still load the package using the 'tinycodet' import system
-(in that case the \link{import_LL} function would be most applicable). \cr
+it becomes advantageous to still load the package using the 'tinycodet' import system.
+In that case the \link{import_LL} function would be most applicable. \cr
 \cr \cr
 \bold{Some Additional Comments on the 'tinycodet' Import System} \cr
 \itemize{

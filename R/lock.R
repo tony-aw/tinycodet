@@ -1,8 +1,6 @@
 #' Lock T, Lock F, or Create Locked Constants
 #'
 #' @description
-#' One can re-assign the values \code{T} and \code{F}.
-#' One can even run things like \code{T <- FALSE} and \code{F <- TRUE} ! \cr
 #' The \code{lock_TF()} function
 #' locks the \code{T} and \code{F} values and sets them to \code{TRUE} and \code{FALSE},
 #' respectively,

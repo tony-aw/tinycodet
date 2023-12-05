@@ -45,7 +45,7 @@ attr.import(mr., "args")
 attr.import(mr., "ordered_object_names")
 expect_error(
   attr.import(mr., "foo"),
-  pattern = "unknown which given"
+  pattern = "unknown `which` given"
 )
 help.import(i = `%>%`)
 help.import(i = mr.$multiply_by)
