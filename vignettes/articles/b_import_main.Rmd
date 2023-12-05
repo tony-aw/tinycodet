@@ -25,9 +25,9 @@ library(tinycodet)
 
 # Introduction
 
-One can load a package without attaching the package (for example using `::`), or one can attach a package (for example using `library()` or `require()`).
+One can use a package without attaching (for example using `::`), or one can attach a package (for example using `library()` or `require()`).
 
-The advantages and disadvantages of loading without attaching a package versus attaching a package - at least those relevant for this article - can be compactly presented in the following table:
+The advantages and disadvantages of using without attaching a package versus attaching a package - at least those relevant for this article - can be compactly presented in the following table:
 
 ```{r echo=FALSE, results='markup'}
 X <- rbind(
@@ -51,7 +51,7 @@ knitr::kable(X, "html", row.names = TRUE, escape = FALSE)
 
 What `tinycodet` attempts to do with its import system, is to somewhat find the best of both worlds. Basically, `tinycodet` has functions that allow the following import functionality lacking in base R:
 
- - Allow an R package + its re-exports + its dependencies + its extensions to be loaded under **one alias**. This essentially combines the attaching advantage of using multiple related packages (row 7 in table above), whilst keeping most advantages of using without attaching a package.
+ - Allow an R package + its re-exports + its dependencies + its extensions to be imported under **one alias**. This essentially combines the attaching advantage of using multiple related packages (row 7 in table above), whilst keeping most advantages of using without attaching a package.
  - Allow **exposing infix operators** to the **current environment**. This gains the attaching advantage of less typing (row 6 in table above), whilst simultaneously avoiding the disadvantage of attaching functions from a package globally (row 4).
 
 The import package system presented here is just another option provided, just like the [import](https://github.com/rticulate/import) and [box](https://github.com/klmr/box) packages provide their own alternative import systems. Please feel free to completely ignore this article if you're really adamant on attaching packages using `library()`/`require()` :-).
@@ -59,7 +59,7 @@ The import package system presented here is just another option provided, just l
 This article is rather lengthy, so I will start with a quick example code using `tinycodet`' import system:
 
 ```{r}
-# loading "tidytable" + its re-exports + "data.table" under alias "tdt.":
+# importing "tidytable" + its re-exports + "data.table" under alias "tdt.":
 import_as( 
   ~ tdt., "tidytable", dependencies = "data.table"
 )
@@ -87,18 +87,18 @@ What follows are descriptions of the main functions that together form this new,
 
 # import_as
 
-The `import_as()` function loads an R package + its re-exports under an alias, and also loads any specified direct **dependencies** and/or direct **extensions** of the package under the very same alias. It also informs the user which objects from a package will overwrite which objects from other packages, so you will never be surprised.
+The `import_as()` function imports an R package + its re-exports under an alias, and also imports any specified direct **dependencies** and/or direct **extensions** of the package under the very same alias. It also informs the user which objects from a package will overwrite which objects from other packages, so you will never be surprised.
 
 The main arguments of the `import_as()` function are:
 
- - `alias`: the name of the alias object under which to load the package(s). Can be given as a single string or as a formula with a single term. To keep aliases easily distinguishable from other objects that can also be subset with the `$` operator, I recommend ending (not starting!) all alias names with a dot (.).
- - `main_package`: the name (string) of the main package to load.
+ - `alias`: the name of the alias object under which to import the package(s). Can be given as a single string or as a formula with a single term. To keep aliases easily distinguishable from other objects that can also be subset with the `$` operator, I recommend ending (not starting!) all alias names with a dot (.).
+ - `main_package`: the name (string) of the main package to import.
  - `re_exports`: Some R packages export functions that are not defined in their own package, but in their direct dependencies - "re-exports". If `TRUE` (default), the re-exports of the `main_package` are added to the alias, analogous to the behaviour of base R's `::` operator. If `FALSE`, re-exports are not added.
- - `dependencies`: an optional character vector giving the dependencies of the `main_package` to load under the alias also.
- - `extensions`: an optional character vector giving the extensions/reverse-dependencies of the `main_package` to load under the same alias also.
+ - `dependencies`: an optional character vector giving the dependencies of the `main_package` to import under the alias also.
+ - `extensions`: an optional character vector giving the extensions/reverse-dependencies of the `main_package` to import under the same alias also.
  - `lib.loc`: the library paths to look for the packages; defaults to `.libPaths()`. This argument is present in all `import_` - functions.
 
-Here is one example. Lets load [data.table](https://github.com/Rdatatable/data.table) and its extensions [tidytable](https://github.com/markfairbanks/tidytable), under the same alias, which I will call "tdt." (for "tidy data.table"):
+Here is one example. Lets import [data.table](https://github.com/Rdatatable/data.table) and its extensions [tidytable](https://github.com/markfairbanks/tidytable), under the same alias, which I will call "tdt." (for "tidy data.table"):
 
 ```{r}
 import_as(~ tdt., "data.table", extensions = "tidytable") # this creates the tdt. object
@@ -111,7 +111,7 @@ Now one can use the imported functions using: `tdt.$some_function()`.
 
 # import_inops
 
-When aliasing an R package, infix operators are also loaded in the alias. However, it may be cumbersome to use them from the alias. For example this:
+When aliasing an R package, infix operators are also imported in the alias. However, it may be cumbersome to use them from the alias. For example this:
 
 ```{r eval=FALSE}
 import_as(~ to., "tinycodet")
@@ -205,7 +205,7 @@ The 'tinycodet' import system is helpful particularly when packages have conflic
 
 There is no necessity for using the 'tinycodet' import system with every single package. One can safely attach the 'stringi' package, for example, as 'stringi' uses a unique and immediately recognisable naming scheme (virtually all 'stringi' functions start with "stri_"), and this naming scheme does not conflict with core R, nor with most other packages.
 
-Of course, if one wishes to use 'stringi' only within a specific environment, like only inside a function, it becomes advantageous to load 'stringi' using the 'tinycodet' import system - in that case the `import_LL()` function would be most applicable.
+Of course, if one wishes to use 'stringi' only within a specific environment, like only inside a function, it becomes advantageous to import 'stringi' using the 'tinycodet' import system - in that case the `import_LL()` function would be most applicable.
 
 &nbsp;
 
@@ -240,7 +240,7 @@ Moreover, [dplyr](https://github.com/tidyverse/dplyr)'s function names are somet
 
 To prevent masking base R functions, and to prevent obscurity regarding which functions come from [dplyr](https://github.com/tidyverse/dplyr) and [powerjoin](https://github.com/moodymudskipper/powerjoin), and which functions come from core R, one could constantly use `dplyr::` and `powerjoin::`. But constantly switching between package prefixes or aliases is perhaps undesirable. 
 
-So here `tinycodet`' `import_as()` function might help. Below is an example where [dplyr](https://github.com/tidyverse/dplyr) is loaded (including its re-exports), along with [powerjoin](https://github.com/moodymudskipper/powerjoin) (which is an extension), all under one alias which I'll call "`dpr.`". Moreover, all infix operators from `magrittr` are exposed to the current environment.
+So here `tinycodet`' `import_as()` function might help. Below is an example where [dplyr](https://github.com/tidyverse/dplyr) is imported (including its re-exports), along with [powerjoin](https://github.com/moodymudskipper/powerjoin) (which is an extension), all under one alias which I'll call "`dpr.`". Moreover, all infix operators from `magrittr` are exposed to the current environment.
 
 ```{r}
 import_as(
@@ -252,7 +252,7 @@ import_inops("magrittr") # getting the infix operators from `magrittr`
 
 The functions from [dplyr](https://github.com/tidyverse/dplyr) can now be used with the `dpr.$` prefix. This way, base R functions are no longer overwritten, and it will be clear for someone who reads your code whether functions like the `filter()` function is the base R filter function, or the [dplyr](https://github.com/tidyverse/dplyr) filter function, as the latter would be called as `dpr.$filter()`.
 
-Let's first run a simple example code with the loaded functions:
+Let's first run a simple example code with the imported functions:
 
 ```{r}
 d <- import_data("dplyr", "starwars")

@@ -392,10 +392,10 @@ stay <code>FALSE</code>.</p>
 </div>
 <div id="new-import-system" class="section level1">
 <h1>New import system</h1>
-<p>One can load a package without attaching the package (for example
+<p>One can use a package without attaching the package (for example
 using <code>::</code>), or one can attach a package (for example using
 <code>library()</code> or <code>require()</code>). The advantages and
-disadvantages of loading without attaching a package versus attaching a
+disadvantages of using without attaching a package versus attaching a
 package - at least those relevant for now - can be compactly presented
 in the following table:</p>
 <table>
@@ -533,11 +533,11 @@ NOTE: + = advantage, - = disadvantage
 to somewhat find the best of both worlds. It does this by introducing
 the following functions:</p>
 <ul>
-<li><code>import_as()</code>: Allow a main package + its re-exports +
-its dependencies + its extensions to be loaded under a single alias.
+<li><code>import_as()</code>: Import a main package, and optionally its
+re-exports + its dependencies + its extensions, under a single alias.
 This essentially combines the attaching advantage of using multiple
-related packages (row 7 in table above), whilst keeping most advantages
-of using without attaching a package.</li>
+related packages (row 7 on the table above), whilst keeping most
+advantages of using without attaching a package.</li>
 <li><code>import_inops()</code>: Expose infix operators from a package
 or an alias object to the current environment. This gains the attaching
 advantage of less typing (row 6 in table above), whilst simultaneously
@@ -549,7 +549,7 @@ package, to allow straight-forward assignment.</li>
 <p>Here is an example using <code>tinycodet&#39;s</code> new import system;
 note that the following code is run without attaching a single R package
 (besides <code>tinycodet</code> itself of course):</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># loading &quot;tidytable&quot; + &quot;data.table&quot; under alias &quot;tdt.&quot;:</span></span>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># importing &quot;tidytable&quot; + &quot;data.table&quot; under alias &quot;tdt.&quot;:</span></span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">import_as</span>( </span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="sc">~</span> tdt., <span class="st">&quot;tidytable&quot;</span>, <span class="at">dependencies =</span> <span class="st">&quot;data.table&quot;</span></span>
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>)</span>

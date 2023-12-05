@@ -93,12 +93,12 @@ expect_error(
 
 expect_error(
   import_as(~stri., "stringi", dependencies = character(11)),
-  pattern = "more than 10 packages not allowed to be loaded under a single alias",
+  pattern = "more than 10 packages not allowed to be imported under a single alias",
   fixed = TRUE
 )
 expect_error(
   import_as(~stri., "stringi", extensions = character(11)),
-  pattern = "more than 10 packages not allowed to be loaded under a single alias",
+  pattern = "more than 10 packages not allowed to be imported under a single alias",
   fixed = TRUE
 )
 
@@ -115,13 +115,13 @@ expect_error(
 )
 
 expect_error(
-  import_as(~stri., "stringi", loadorder = letters[1:4]),
-  pattern = "Improper load order given"
+  import_as(~stri., "stringi", import_order = letters[1:4]),
+  pattern = "Improper `import_order` given"
 )
 
 expect_error(
-  import_as(~stri., "stringi", loadorder = c("main_package", "dependencies")),
-  pattern = "Improper load order given"
+  import_as(~stri., "stringi", import_order = c("main_package", "dependencies")),
+  pattern = "Improper `import_order` given"
 )
 
 expect_error(

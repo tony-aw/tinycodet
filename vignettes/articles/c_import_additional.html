@@ -361,7 +361,7 @@ before reading this article.</p>
 <p>The <code>import_LL()</code> function places specific functions from
 a package in the current environment, and also locks the specified
 functions to prevent modification. The primary use-case for this
-function is for loading functions inside a local environment, like the
+function is for exposing functions inside a local environment, like the
 environment within a function. (“LL” stands for “Local &amp;
 Locked”.)</p>
 <p>Example:</p>
@@ -404,7 +404,7 @@ function.</p>
 <p>When importing packages with <code>tinycodet</code>’ import system,
 S3 methods will work just fine. For example, the S3 method ”
 <code>plot()</code> ” works with objects from the <code>mgcv</code> R
-package, even when loaded in an alias:</p>
+package, even when imported in an alias:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">import_as</span>(<span class="sc">~</span> mgcv., <span class="st">&quot;mgcv&quot;</span>) <span class="sc">|&gt;</span> <span class="fu">suppressMessages</span>()</span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">import_data</span>(<span class="st">&quot;gamair&quot;</span>, <span class="st">&quot;chicago&quot;</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a></span>
@@ -475,11 +475,11 @@ report, packages order, and other attributes, run
 <code>attr.import()</code>”.</p>
 <p>The <code>attr.import()</code> function allows the user to access the
 special attributes stored and locked inside the alias object. These
-attributes show which loaded package overwrites which loaded functions,
-in what order the packages are loaded and so on.</p>
+attributes show which imported package overwrites which imported
+functions, in what order the packages are imported and so on.</p>
 <p>Here are some examples.</p>
-<p>Show the packages loaded under the alias, and in which order the
-packages are loaded, and from which packages the re-exported functions
+<p>Show the packages imported under the alias, and in which order the
+packages are imported, and from which packages the re-exported functions
 came from:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">attr.import</span>(tdt., <span class="st">&quot;pkgs&quot;</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co">#&gt; $packages_order</span></span>
@@ -515,7 +515,7 @@ data.table, %between%, setDTthreads, fwrite, %like%</td>
 </tr>
 </tbody>
 </table>
-<p>Show the versions of the R packages loaded:</p>
+<p>Show the versions of the R packages imported:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">attr.import</span>(tdt., <span class="st">&quot;versions&quot;</span>)<span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <thead>
@@ -553,7 +553,7 @@ produced the alias object in question:</p>
 <span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="co">#&gt; $lib.loc</span></span>
 <span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a><span class="co">#&gt; [1] &quot;D:/Programs/R-4.3.2/library&quot;</span></span>
 <span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a><span class="co">#&gt; $loadorder</span></span>
+<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a><span class="co">#&gt; $import_order</span></span>
 <span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a><span class="co">#&gt; [1] &quot;dependencies&quot; &quot;main_package&quot; &quot;extensions&quot;</span></span></code></pre></div>
 <p>The help file on <code>attr.import()</code> provides more details on
 each of these options.</p>

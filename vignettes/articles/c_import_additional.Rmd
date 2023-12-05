@@ -36,7 +36,7 @@ Beside the main `import_` functions (`import_as()`, `import_inops()`, and `impor
 &nbsp;
 
 The `import_LL()` function places specific functions from a package in the current environment, and also locks the specified functions to prevent modification.
-The primary use-case for this function is for loading functions inside a local environment, like the environment within a function. ("LL" stands for "Local & Locked".)
+The primary use-case for this function is for exposing functions inside a local environment, like the environment within a function. ("LL" stands for "Local & Locked".)
 
 Example:
 
@@ -74,7 +74,7 @@ import_int(
 
 # S3 methods: they just work
 
-When importing packages with `tinycodet`' import system, S3 methods will work just fine. For example, the S3 method " `plot()` " works with objects from the `mgcv` R package, even when loaded in an alias:
+When importing packages with `tinycodet`' import system, S3 methods will work just fine. For example, the S3 method " `plot()` " works with objects from the `mgcv` R package, even when imported in an alias:
 
 ```{r}
 import_as(~ mgcv., "mgcv") |> suppressMessages()
@@ -122,11 +122,11 @@ import_as(~ tdt., "tidytable", re_exports = TRUE, dependencies = "data.table")
 
 ... produces several messages, including the message "For conflicts report, packages order, and other attributes, run `attr.import()`".
 
-The `attr.import()` function allows the user to access the special attributes stored and locked inside the alias object. These attributes show which loaded package overwrites which loaded functions, in what order the packages are loaded and so on.
+The `attr.import()` function allows the user to access the special attributes stored and locked inside the alias object. These attributes show which imported package overwrites which imported functions, in what order the packages are imported and so on.
 
 Here are some examples.
 
-Show the packages loaded under the alias, and in which order the packages are loaded, and from which packages the re-exported functions came from:
+Show the packages imported under the alias, and in which order the packages are imported, and from which packages the re-exported functions came from:
 
 ```{r}
 attr.import(tdt., "pkgs")
@@ -138,7 +138,7 @@ Show which functions from which packages "win" conflicts:
 attr.import(tdt., "conflicts")|> knitr::kable()
 ```
 
-Show the versions of the R packages loaded:
+Show the versions of the R packages imported:
 
 ```{r}
 attr.import(tdt., "versions")|> knitr::kable()

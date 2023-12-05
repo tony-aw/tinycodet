@@ -219,7 +219,7 @@ import_as(
   re_exports = TRUE,
   dependencies=c("tinycodetfakepkg1", "tinycodetfakepkg2"),
   lib.loc=lib.loc1,
-  loadorder = c("main_package", "dependencies", "extensions")
+  import_order = c("main_package", "dependencies", "extensions")
 ) |> suppressMessages()
 p3 <- data.frame(
   package=c("tinycodetfakepkg3 + re-exports", "tinycodetfakepkg1", "tinycodetfakepkg2"),
@@ -239,12 +239,12 @@ expect_silent(import_as(
 ) |> suppressMessages())
 
 
-# test import_as - loadorder ====
+# test import_as - import_order ====
 import_as(
   ~ new., "tinycodetfakepkg3",
   re_exports = FALSE,
   dependencies = c("tinycodetfakepkg2", "tinycodetfakepkg1"),
-  loadorder = c("main_package", "dependencies", "extensions"),
+  import_order = c("main_package", "dependencies", "extensions"),
   lib.loc = lib.loc1
 )  |> suppressMessages()
 expect_equal(
@@ -264,7 +264,7 @@ import_as(
   ~ new., "tinycodetfakepkg1",
   re_exports = FALSE,
   extensions = c("tinycodetfakepkg3"),
-  loadorder = c("extensions", "main_package", "dependencies"),
+  import_order = c("extensions", "main_package", "dependencies"),
   lib.loc = lib.loc1
 ) |> suppressMessages()
 expect_equal(
@@ -283,7 +283,7 @@ expect_equal(
 import_as(
   ~ new., "tinycodetfakepkg1",
   re_exports = FALSE,
-  loadorder = c("main_package", "dependencies", "extensions"),
+  import_order = c("main_package", "dependencies", "extensions"),
   lib.loc = lib.loc1
 ) |> suppressMessages()
 expect_equal(

@@ -47,7 +47,7 @@ What 'tinycodet' attempts to do with its import system,
 is to somewhat find the best of both worlds.
 It does this by introducing the following functions: 
 import_as:
-Load a main package, and optionally its re-exports + its dependencies + its extensions, under a single alias.
+Import a main package, and optionally its re-exports + its dependencies + its extensions, under a single alias.
 This essentially combines the attaching advantage of using multiple related packages (item 7 on the list),
 whilst keeping most advantages of using without attaching a package.
 import_inops:
@@ -65,7 +65,7 @@ And there are also some additional helper functions for the package import syste
 see x.import and pkgs. 
 
 All import_-functions have the lib.loc argument
-to specify the library path to load packages from,
+to specify the library path to import packages from,
 thus allowing straight-forward project isolation. 
 
 See the examples section below
@@ -118,7 +118,7 @@ What 'tinycodet' attempts to do with its import system,
 is to somewhat find the best of both worlds.
 It does this by introducing the following functions: 
 import_as:
-Load a main package, and optionally its re-exports + its dependencies + its extensions, under a single alias.
+Import a main package, and optionally its re-exports + its dependencies + its extensions, under a single alias.
 This essentially combines the attaching advantage of using multiple related packages (item 7 on the list),
 whilst keeping most advantages of using without attaching a package.
 import_inops:
@@ -136,7 +136,7 @@ And there are also some additional helper functions for the package import syste
 see x.import and pkgs. 
 
 All import_-functions have the lib.loc argument
-to specify the library path to load packages from,
+to specify the library path to import packages from,
 thus allowing straight-forward project isolation. 
 
 See the examples section below
@@ -233,7 +233,7 @@ without constantly switching between package prefixes <br>
 <p>What 'tinycodet' attempts to do with its import system,
 is to somewhat find the best of both worlds.
 It does this by introducing the following functions: <br></p><ul><li><p><a href="import_as.html">import_as</a>:
-Load a main package, and optionally its re-exports + its dependencies + its extensions, under a single alias.
+Import a main package, and optionally its re-exports + its dependencies + its extensions, under a single alias.
 This essentially combines the attaching advantage of using multiple related packages (item 7 on the list),
 whilst keeping most advantages of using without attaching a package.</p></li>
 <li><p><a href="import_inops.html">import_inops</a>:
@@ -248,7 +248,7 @@ to allow straight-forward assignment.</p></li>
 And there are also some additional helper functions for the package import system,
 see <a href="x.import.html">x.import</a> and <a href="pkgs.html">pkgs</a>. <br><br>
 All <code>import_</code>-functions have the <code>lib.loc</code> argument
-to specify the library path to load packages from,
+to specify the library path to import packages from,
 thus allowing straight-forward project isolation. <br><br>
 See the examples section below
 to get an idea of how the 'tinycodet' import system works in practice.
@@ -274,7 +274,7 @@ and this naming scheme does not conflict with core R, nor with most other packag
 Of course, if one wishes to use a package (like
 'stringi') <b>only</b> within a specific environment,
 like only inside a function,
-it becomes advantageous to still load the package using the 'tinycodet' import system.
+it becomes advantageous to still import the package using the 'tinycodet' import system.
 In that case the <a href="import_misc.html">import_LL</a> function would be most applicable. <br><br><br><b>Some Additional Comments on the 'tinycodet' Import System</b> <br></p><ul><li><p>(S3) Methods will automatically be registered.</p></li>
 <li><p>Pronouns, such as the <code>.data</code> and <code>.env</code> pronouns
 from the 'rlang' package, will work without any prefixes required.</p></li>
@@ -298,7 +298,7 @@ so you will always know which function came from which package.</p></li>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># NO packages are being attached in any of the following code</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># load 'dplyr' + its re-exports + extension 'powerjoin', under alias "dpr.":</span></span></span>
+<span class="r-in"><span><span class="co"># import 'dplyr' + its re-exports + extension 'powerjoin', under alias "dpr.":</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="import_as.html">import_as</a></span><span class="op">(</span></span></span>
 <span class="r-in"><span>  <span class="op">~</span> <span class="va">dpr.</span>, <span class="st">"dplyr"</span>, re_exports <span class="op">=</span> <span class="cn">TRUE</span>, extensions <span class="op">=</span> <span class="st">"powerjoin"</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>

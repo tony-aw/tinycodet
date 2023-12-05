@@ -147,10 +147,10 @@ stay <code>FALSE</code>.</p>
 <div class="section level2">
 <h2 id="new-import-system">New import system<a class="anchor" aria-label="anchor" href="#new-import-system"></a>
 </h2>
-<p>One can load a package without attaching the package (for example
+<p>One can use a package without attaching the package (for example
 using <code>::</code>), or one can attach a package (for example using
 <code><a href="https://rdrr.io/r/base/library.html" class="external-link">library()</a></code> or <code><a href="https://rdrr.io/r/base/library.html" class="external-link">require()</a></code>). The advantages and
-disadvantages of loading without attaching a package versus attaching a
+disadvantages of using without attaching a package versus attaching a
 package - at least those relevant for now - can be compactly presented
 in the following table:</p>
 <table class="table">
@@ -287,11 +287,11 @@ to somewhat find the best of both worlds. It does this by introducing
 the following functions:</p>
 <ul>
 <li>
-<code><a href="../reference/import_as.html">import_as()</a></code>: Allow a main package + its re-exports +
-its dependencies + its extensions to be loaded under a single alias.
+<code><a href="../reference/import_as.html">import_as()</a></code>: Import a main package, and optionally its
+re-exports + its dependencies + its extensions, under a single alias.
 This essentially combines the attaching advantage of using multiple
-related packages (row 7 in table above), whilst keeping most advantages
-of using without attaching a package.</li>
+related packages (row 7 on the table above), whilst keeping most
+advantages of using without attaching a package.</li>
 <li>
 <code><a href="../reference/import_inops.html">import_inops()</a></code>: Expose infix operators from a package
 or an alias object to the current environment. This gains the attaching
@@ -306,7 +306,7 @@ package, to allow straight-forward assignment.</li>
 note that the following code is run without attaching a single R package
 (besides <code>tinycodet</code> itself of course):</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># loading "tidytable" + "data.table" under alias "tdt.":</span></span>
+<code class="sourceCode R"><span><span class="co"># importing "tidytable" + "data.table" under alias "tdt.":</span></span>
 <span><span class="fu"><a href="../reference/import_as.html">import_as</a></span><span class="op">(</span> </span>
 <span>  <span class="op">~</span> <span class="va">tdt.</span>, <span class="st">"tidytable"</span>, dependencies <span class="op">=</span> <span class="st">"data.table"</span></span>
 <span><span class="op">)</span></span>

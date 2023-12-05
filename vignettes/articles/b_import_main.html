@@ -345,12 +345,12 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <p> </p>
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
-<p>One can load a package without attaching the package (for example
-using <code>::</code>), or one can attach a package (for example using
+<p>One can use a package without attaching (for example using
+<code>::</code>), or one can attach a package (for example using
 <code>library()</code> or <code>require()</code>).</p>
-<p>The advantages and disadvantages of loading without attaching a
-package versus attaching a package - at least those relevant for this
-article - can be compactly presented in the following table:</p>
+<p>The advantages and disadvantages of using without attaching a package
+versus attaching a package - at least those relevant for this article -
+can be compactly presented in the following table:</p>
 <table>
 <thead>
 <tr>
@@ -488,7 +488,7 @@ to somewhat find the best of both worlds. Basically,
 functionality lacking in base R:</p>
 <ul>
 <li>Allow an R package + its re-exports + its dependencies + its
-extensions to be loaded under <strong>one alias</strong>. This
+extensions to be imported under <strong>one alias</strong>. This
 essentially combines the attaching advantage of using multiple related
 packages (row 7 in table above), whilst keeping most advantages of using
 without attaching a package.</li>
@@ -505,7 +505,7 @@ article if you’re really adamant on attaching packages using
 <code>library()</code>/<code>require()</code> :-).</p>
 <p>This article is rather lengthy, so I will start with a quick example
 code using <code>tinycodet</code>’ import system:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># loading &quot;tidytable&quot; + its re-exports + &quot;data.table&quot; under alias &quot;tdt.&quot;:</span></span>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># importing &quot;tidytable&quot; + its re-exports + &quot;data.table&quot; under alias &quot;tdt.&quot;:</span></span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">import_as</span>( </span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="sc">~</span> tdt., <span class="st">&quot;tidytable&quot;</span>, <span class="at">dependencies =</span> <span class="st">&quot;data.table&quot;</span></span>
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>)</span>
@@ -551,21 +551,21 @@ multi-package assignment friendly, import management system.</p>
 </div>
 <div id="import_as" class="section level1">
 <h1>import_as</h1>
-<p>The <code>import_as()</code> function loads an R package + its
-re-exports under an alias, and also loads any specified direct
+<p>The <code>import_as()</code> function imports an R package + its
+re-exports under an alias, and also imports any specified direct
 <strong>dependencies</strong> and/or direct <strong>extensions</strong>
 of the package under the very same alias. It also informs the user which
 objects from a package will overwrite which objects from other packages,
 so you will never be surprised.</p>
 <p>The main arguments of the <code>import_as()</code> function are:</p>
 <ul>
-<li><code>alias</code>: the name of the alias object under which to load
-the package(s). Can be given as a single string or as a formula with a
-single term. To keep aliases easily distinguishable from other objects
-that can also be subset with the <code>$</code> operator, I recommend
-ending (not starting!) all alias names with a dot (.).</li>
+<li><code>alias</code>: the name of the alias object under which to
+import the package(s). Can be given as a single string or as a formula
+with a single term. To keep aliases easily distinguishable from other
+objects that can also be subset with the <code>$</code> operator, I
+recommend ending (not starting!) all alias names with a dot (.).</li>
 <li><code>main_package</code>: the name (string) of the main package to
-load.</li>
+import.</li>
 <li><code>re_exports</code>: Some R packages export functions that are
 not defined in their own package, but in their direct dependencies -
 “re-exports”. If <code>TRUE</code> (default), the re-exports of the
@@ -573,16 +573,16 @@ not defined in their own package, but in their direct dependencies -
 behaviour of base R’s <code>::</code> operator. If <code>FALSE</code>,
 re-exports are not added.</li>
 <li><code>dependencies</code>: an optional character vector giving the
-dependencies of the <code>main_package</code> to load under the alias
+dependencies of the <code>main_package</code> to import under the alias
 also.</li>
 <li><code>extensions</code>: an optional character vector giving the
-extensions/reverse-dependencies of the <code>main_package</code> to load
-under the same alias also.</li>
+extensions/reverse-dependencies of the <code>main_package</code> to
+import under the same alias also.</li>
 <li><code>lib.loc</code>: the library paths to look for the packages;
 defaults to <code>.libPaths()</code>. This argument is present in all
 <code>import_</code> - functions.</li>
 </ul>
-<p>Here is one example. Lets load <a href="https://github.com/Rdatatable/data.table">data.table</a> and its
+<p>Here is one example. Lets import <a href="https://github.com/Rdatatable/data.table">data.table</a> and its
 extensions <a href="https://github.com/markfairbanks/tidytable">tidytable</a>, under
 the same alias, which I will call “tdt.” (for “tidy data.table”):</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">import_as</span>(<span class="sc">~</span> tdt., <span class="st">&quot;data.table&quot;</span>, <span class="at">extensions =</span> <span class="st">&quot;tidytable&quot;</span>) <span class="co"># this creates the tdt. object</span></span>
@@ -597,7 +597,7 @@ the same alias, which I will call “tdt.” (for “tidy data.table”):</p>
 </div>
 <div id="import_inops" class="section level1">
 <h1>import_inops</h1>
-<p>When aliasing an R package, infix operators are also loaded in the
+<p>When aliasing an R package, infix operators are also imported in the
 alias. However, it may be cumbersome to use them from the alias. For
 example this:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">import_as</span>(<span class="sc">~</span> to., <span class="st">&quot;tinycodet&quot;</span>)</span>
@@ -714,7 +714,7 @@ naming scheme does not conflict with core R, nor with most other
 packages.</p>
 <p>Of course, if one wishes to use ‘stringi’ only within a specific
 environment, like only inside a function, it becomes advantageous to
-load ‘stringi’ using the ‘tinycodet’ import system - in that case the
+import ‘stringi’ using the ‘tinycodet’ import system - in that case the
 <code>import_LL()</code> function would be most applicable.</p>
 <p> </p>
 </div>
@@ -781,8 +781,8 @@ which functions come from core R, one could constantly use
 switching between package prefixes or aliases is perhaps
 undesirable.</p>
 <p>So here <code>tinycodet</code>’ <code>import_as()</code> function
-might help. Below is an example where <a href="https://github.com/tidyverse/dplyr">dplyr</a> is loaded (including
-its re-exports), along with <a href="https://github.com/moodymudskipper/powerjoin">powerjoin</a> (which
+might help. Below is an example where <a href="https://github.com/tidyverse/dplyr">dplyr</a> is imported
+(including its re-exports), along with <a href="https://github.com/moodymudskipper/powerjoin">powerjoin</a> (which
 is an extension), all under one alias which I’ll call
 “<code>dpr.</code>”. Moreover, all infix operators from
 <code>magrittr</code> are exposed to the current environment.</p>
@@ -805,7 +805,8 @@ overwritten, and it will be clear for someone who reads your code
 whether functions like the <code>filter()</code> function is the base R
 filter function, or the <a href="https://github.com/tidyverse/dplyr">dplyr</a> filter function, as
 the latter would be called as <code>dpr.$filter()</code>.</p>
-<p>Let’s first run a simple example code with the loaded functions:</p>
+<p>Let’s first run a simple example code with the imported
+functions:</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">import_data</span>(<span class="st">&quot;dplyr&quot;</span>, <span class="st">&quot;starwars&quot;</span>)</span>
 <span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>d <span class="sc">%&gt;%</span></span>
 <span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>  dpr.<span class="sc">$</span><span class="fu">filter</span>(.data<span class="sc">$</span>species <span class="sc">==</span> <span class="st">&quot;Droid&quot;</span>) <span class="sc">%&gt;%</span> <span class="co"># notice the &quot;.data&quot; pronoun can be used without problems</span></span>

@@ -114,7 +114,7 @@ before reading this article.</p>
 <p>The <code><a href="../reference/import_misc.html">import_LL()</a></code> function places specific functions from
 a package in the current environment, and also locks the specified
 functions to prevent modification. The primary use-case for this
-function is for loading functions inside a local environment, like the
+function is for exposing functions inside a local environment, like the
 environment within a function. (“LL” stands for “Local &amp;
 Locked”.)</p>
 <p>Example:</p>
@@ -160,7 +160,7 @@ function.</p>
 <p>When importing packages with <code>tinycodet</code>’ import system,
 S3 methods will work just fine. For example, the S3 method ”
 <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> ” works with objects from the <code>mgcv</code> R
-package, even when loaded in an alias:</p>
+package, even when imported in an alias:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/import_as.html">import_as</a></span><span class="op">(</span><span class="op">~</span> <span class="va">mgcv.</span>, <span class="st">"mgcv"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressMessages</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/import_data.html">import_data</a></span><span class="op">(</span><span class="st">"gamair"</span>, <span class="st">"chicago"</span><span class="op">)</span></span>
@@ -236,11 +236,11 @@ report, packages order, and other attributes, run
 <code><a href="../reference/x.import.html">attr.import()</a></code>”.</p>
 <p>The <code><a href="../reference/x.import.html">attr.import()</a></code> function allows the user to access the
 special attributes stored and locked inside the alias object. These
-attributes show which loaded package overwrites which loaded functions,
-in what order the packages are loaded and so on.</p>
+attributes show which imported package overwrites which imported
+functions, in what order the packages are imported and so on.</p>
 <p>Here are some examples.</p>
-<p>Show the packages loaded under the alias, and in which order the
-packages are loaded, and from which packages the re-exported functions
+<p>Show the packages imported under the alias, and in which order the
+packages are imported, and from which packages the re-exported functions
 came from:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/x.import.html">attr.import</a></span><span class="op">(</span><span class="va">tdt.</span>, <span class="st">"pkgs"</span><span class="op">)</span></span>
@@ -276,7 +276,7 @@ data.table, %between%, setDTthreads, fwrite, %like%</td>
 </tr>
 </tbody>
 </table>
-<p>Show the versions of the R packages loaded:</p>
+<p>Show the versions of the R packages imported:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/x.import.html">attr.import</a></span><span class="op">(</span><span class="va">tdt.</span>, <span class="st">"versions"</span><span class="op">)</span><span class="op">|&gt;</span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
@@ -312,10 +312,10 @@ produced the alias object in question:</p>
 <span><span class="co">#&gt; NULL</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $lib.loc</span></span>
-<span><span class="co">#&gt; [1] "C:/Users/Tony/AppData/Local/Temp/RtmpY7yG0I/temp_libpath241c2e6a2110"</span></span>
+<span><span class="co">#&gt; [1] "C:/Users/Tony/AppData/Local/Temp/RtmpEBjKli/temp_libpath1e9c5202596c"</span></span>
 <span><span class="co">#&gt; [2] "D:/Programs/R-4.3.2/library"                                         </span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $loadorder</span></span>
+<span><span class="co">#&gt; $import_order</span></span>
 <span><span class="co">#&gt; [1] "dependencies" "main_package" "extensions"</span></span></code></pre></div>
 <p>The help file on <code><a href="../reference/x.import.html">attr.import()</a></code> provides more details on
 each of these options.</p>

@@ -97,12 +97,12 @@
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>One can load a package without attaching the package (for example
-using <code>::</code>), or one can attach a package (for example using
+<p>One can use a package without attaching (for example using
+<code>::</code>), or one can attach a package (for example using
 <code><a href="https://rdrr.io/r/base/library.html" class="external-link">library()</a></code> or <code><a href="https://rdrr.io/r/base/library.html" class="external-link">require()</a></code>).</p>
-<p>The advantages and disadvantages of loading without attaching a
-package versus attaching a package - at least those relevant for this
-article - can be compactly presented in the following table:</p>
+<p>The advantages and disadvantages of using without attaching a package
+versus attaching a package - at least those relevant for this article -
+can be compactly presented in the following table:</p>
 <table class="table">
 <thead><tr>
 <th style="text-align:left;">
@@ -238,7 +238,7 @@ to somewhat find the best of both worlds. Basically,
 functionality lacking in base R:</p>
 <ul>
 <li>Allow an R package + its re-exports + its dependencies + its
-extensions to be loaded under <strong>one alias</strong>. This
+extensions to be imported under <strong>one alias</strong>. This
 essentially combines the attaching advantage of using multiple related
 packages (row 7 in table above), whilst keeping most advantages of using
 without attaching a package.</li>
@@ -256,7 +256,7 @@ article if you’re really adamant on attaching packages using
 <p>This article is rather lengthy, so I will start with a quick example
 code using <code>tinycodet</code>’ import system:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># loading "tidytable" + its re-exports + "data.table" under alias "tdt.":</span></span>
+<code class="sourceCode R"><span><span class="co"># importing "tidytable" + its re-exports + "data.table" under alias "tdt.":</span></span>
 <span><span class="fu"><a href="../reference/import_as.html">import_as</a></span><span class="op">(</span> </span>
 <span>  <span class="op">~</span> <span class="va">tdt.</span>, <span class="st">"tidytable"</span>, dependencies <span class="op">=</span> <span class="st">"data.table"</span></span>
 <span><span class="op">)</span></span>
@@ -303,8 +303,8 @@ multi-package assignment friendly, import management system.</p>
 <div class="section level2">
 <h2 id="import_as">import_as<a class="anchor" aria-label="anchor" href="#import_as"></a>
 </h2>
-<p>The <code><a href="../reference/import_as.html">import_as()</a></code> function loads an R package + its
-re-exports under an alias, and also loads any specified direct
+<p>The <code><a href="../reference/import_as.html">import_as()</a></code> function imports an R package + its
+re-exports under an alias, and also imports any specified direct
 <strong>dependencies</strong> and/or direct <strong>extensions</strong>
 of the package under the very same alias. It also informs the user which
 objects from a package will overwrite which objects from other packages,
@@ -312,14 +312,14 @@ so you will never be surprised.</p>
 <p>The main arguments of the <code><a href="../reference/import_as.html">import_as()</a></code> function are:</p>
 <ul>
 <li>
-<code>alias</code>: the name of the alias object under which to load
-the package(s). Can be given as a single string or as a formula with a
-single term. To keep aliases easily distinguishable from other objects
-that can also be subset with the <code>$</code> operator, I recommend
-ending (not starting!) all alias names with a dot (.).</li>
+<code>alias</code>: the name of the alias object under which to
+import the package(s). Can be given as a single string or as a formula
+with a single term. To keep aliases easily distinguishable from other
+objects that can also be subset with the <code>$</code> operator, I
+recommend ending (not starting!) all alias names with a dot (.).</li>
 <li>
 <code>main_package</code>: the name (string) of the main package to
-load.</li>
+import.</li>
 <li>
 <code>re_exports</code>: Some R packages export functions that are
 not defined in their own package, but in their direct dependencies -
@@ -329,18 +329,18 @@ behaviour of base R’s <code>::</code> operator. If <code>FALSE</code>,
 re-exports are not added.</li>
 <li>
 <code>dependencies</code>: an optional character vector giving the
-dependencies of the <code>main_package</code> to load under the alias
+dependencies of the <code>main_package</code> to import under the alias
 also.</li>
 <li>
 <code>extensions</code>: an optional character vector giving the
-extensions/reverse-dependencies of the <code>main_package</code> to load
-under the same alias also.</li>
+extensions/reverse-dependencies of the <code>main_package</code> to
+import under the same alias also.</li>
 <li>
 <code>lib.loc</code>: the library paths to look for the packages;
 defaults to <code><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths()</a></code>. This argument is present in all
 <code>import_</code> - functions.</li>
 </ul>
-<p>Here is one example. Lets load <a href="https://github.com/Rdatatable/data.table" class="external-link">data.table</a> and its
+<p>Here is one example. Lets import <a href="https://github.com/Rdatatable/data.table" class="external-link">data.table</a> and its
 extensions <a href="https://github.com/markfairbanks/tidytable" class="external-link">tidytable</a>, under
 the same alias, which I will call “tdt.” (for “tidy data.table”):</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -357,7 +357,7 @@ the same alias, which I will call “tdt.” (for “tidy data.table”):</p>
 <div class="section level2">
 <h2 id="import_inops">import_inops<a class="anchor" aria-label="anchor" href="#import_inops"></a>
 </h2>
-<p>When aliasing an R package, infix operators are also loaded in the
+<p>When aliasing an R package, infix operators are also imported in the
 alias. However, it may be cumbersome to use them from the alias. For
 example this:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -485,7 +485,7 @@ naming scheme does not conflict with core R, nor with most other
 packages.</p>
 <p>Of course, if one wishes to use ‘stringi’ only within a specific
 environment, like only inside a function, it becomes advantageous to
-load ‘stringi’ using the ‘tinycodet’ import system - in that case the
+import ‘stringi’ using the ‘tinycodet’ import system - in that case the
 <code><a href="../reference/import_misc.html">import_LL()</a></code> function would be most applicable.</p>
 <p> </p>
 </div>
@@ -556,8 +556,8 @@ which functions come from core R, one could constantly use
 switching between package prefixes or aliases is perhaps
 undesirable.</p>
 <p>So here <code>tinycodet</code>’ <code><a href="../reference/import_as.html">import_as()</a></code> function
-might help. Below is an example where <a href="https://github.com/tidyverse/dplyr" class="external-link">dplyr</a> is loaded (including
-its re-exports), along with <a href="https://github.com/moodymudskipper/powerjoin" class="external-link">powerjoin</a> (which
+might help. Below is an example where <a href="https://github.com/tidyverse/dplyr" class="external-link">dplyr</a> is imported
+(including its re-exports), along with <a href="https://github.com/moodymudskipper/powerjoin" class="external-link">powerjoin</a> (which
 is an extension), all under one alias which I’ll call
 “<code>dpr.</code>”. Moreover, all infix operators from
 <code>magrittr</code> are exposed to the current environment.</p>
@@ -581,7 +581,8 @@ overwritten, and it will be clear for someone who reads your code
 whether functions like the <code><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter()</a></code> function is the base R
 filter function, or the <a href="https://github.com/tidyverse/dplyr" class="external-link">dplyr</a> filter function, as
 the latter would be called as <code>dpr.$filter()</code>.</p>
-<p>Let’s first run a simple example code with the loaded functions:</p>
+<p>Let’s first run a simple example code with the imported
+functions:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/import_data.html">import_data</a></span><span class="op">(</span><span class="st">"dplyr"</span>, <span class="st">"starwars"</span><span class="op">)</span></span>
 <span><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>

@@ -48,15 +48,15 @@ For \code{attr.import(alias, which = "pkgs")}: \cr
 Returns a list with 3 elements:
 \itemize{
 \item packages_order: a character vector of package names,
-giving the packages in the order they were loaded in the alias object.
+giving the packages in the order they were imported in the alias object.
 \item main_package: a string giving the name of the main package.
-Re-exported functions, if present, are loaded together with the main package.
+Re-exported functions, if present, are taken together with the main package.
 \item re_exports.pkgs: a character vector of package names,
 giving the packages from which the re-exported functions in the main package were taken. \cr \cr
 }
 
 For \code{attr.import(alias, which = "conflicts")}: \cr
-The order in which packages are loaded in the alias object
+The order in which packages are imported in the alias object
 (see attribute \code{pkgs$packages_order})
 matters:
 Functions from later named packages overwrite those from earlier named packages,
@@ -65,7 +65,7 @@ The "conflicts" attribute returns a data.frame showing exactly which functions o
 functions from earlier named packages, and as such "win" the conflicts. \cr
 \cr
 For \code{attr.import(alias, which = "versions")}: \cr
-A data.frame, giving the version of every package loaded in the alias,
+A data.frame, giving the version of every package imported under the alias,
 ignoring re-exports. \cr
 \cr
 For \code{attr.import(alias, which = "args")}: \cr
@@ -74,10 +74,11 @@ These were the arguments supplied to \link{import_as} when
 the alias object in question was created. \cr
 \cr
 For \code{attr.import(alias, which = "ordered_object_names")}: \cr
-Gives the names of the objects in the alias, in the order as they were loaded. \cr
-For conflicting objects, the last load is used for the ordering. \cr
+Gives the names of the objects in the alias, in the order as they were imported. \cr
+For conflicting objects, the last imported ones are used for the ordering. \cr
 Note that if argument \code{re_exports} is \code{TRUE},
-re-exported functions are loaded when the main package is loaded, thus changing this order slightly.
+re-exported functions are imported when the main package is imported,
+thus changing this order slightly.
 }
 \description{
 The \code{help.import()} function

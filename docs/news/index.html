@@ -68,8 +68,11 @@
 <code><a href="../reference/import_as.html">import_as()</a></code> now does not allow more than 10 packages to be loaded under a single alias, to prevent abusive usage of <code><a href="../reference/import_as.html">import_as()</a></code>.</li>
 <li>The import system now has a few more tiny safety checks, including checks for widely known meta-packages (such as “fastverse”).</li>
 <li>The <code><a href="../reference/pkgs.html">pkg_get_deps()</a></code> function now also has the <code>shared_tidy</code> argument to ignore the shared ‘tidyverse’ libraries (‘rlang’, ‘lifecycle’, ‘cli’, ‘glue’, and ‘withr’). Also changed the default values of the <code>recom</code>, and <code>rstudioapi</code> arguments.</li>
-<li>Added the <code><a href="../reference/pkgs.html">pkg_get_deps_minimal()</a></code> function.</li>
+<li>Added the <code><a href="../reference/pkgs.html">pkg_get_deps_minimal()</a></code> function. Also changed the default arguments of <code><a href="../reference/pkgs.html">pkg_get_deps()</a></code>.</li>
 <li>Changed the error message for wrong extension specifications: replaced “actual reverse-dependencies” into “actual extensions”.</li>
+<li>Changed the usage of the word “load” to “import” in the import system documentation, to avoid confusion with the concept of loading a package.</li>
+<li>
+<strong>Argument name change:</strong> in the <code><a href="../reference/import_as.html">import_as()</a></code> function, changed argument name <code>loadorder</code> to <code>import_order</code>, to avoid confusion with the concept of loading a package.</li>
 <li>
 <strong>Tests:</strong> Added more tests.</li>
 <li>

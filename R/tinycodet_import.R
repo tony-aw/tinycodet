@@ -52,7 +52,7 @@
 #' It does this by introducing the following functions: \cr
 #'
 #' - \link{import_as}:
-#' Load a main package, and optionally its re-exports + its dependencies + its extensions, under a single alias.
+#' Import a main package, and optionally its re-exports + its dependencies + its extensions, under a single alias.
 #' This essentially combines the attaching advantage of using multiple related packages (item 7 on the list),
 #' whilst keeping most advantages of using without attaching a package.
 #' - \link{import_inops}:
@@ -69,7 +69,7 @@
 #' see \link[=help.import]{x.import} and \link[=pkg_get_deps]{pkgs}. \cr
 #' \cr
 #' All \code{import_}-functions have the \code{lib.loc} argument
-#' to specify the library path to load packages from,
+#' to specify the library path to import packages from,
 #' thus allowing straight-forward project isolation. \cr
 #' \cr
 #' See the examples section below
@@ -98,7 +98,7 @@
 #' Of course, if one wishes to use a package (like
 #' 'stringi') \bold{only} within a specific environment,
 #' like only inside a function,
-#' it becomes advantageous to still load the package using the 'tinycodet' import system.
+#' it becomes advantageous to still import the package using the 'tinycodet' import system.
 #' In that case the \link{import_LL} function would be most applicable. \cr
 #' \cr \cr
 #' \bold{Some Additional Comments on the 'tinycodet' Import System} \cr
@@ -122,7 +122,7 @@
 #'
 #' # NO packages are being attached in any of the following code
 #'
-#' # load 'dplyr' + its re-exports + extension 'powerjoin', under alias "dpr.":
+#' # import 'dplyr' + its re-exports + extension 'powerjoin', under alias "dpr.":
 #' import_as(
 #'   ~ dpr., "dplyr", re_exports = TRUE, extensions = "powerjoin"
 #' )

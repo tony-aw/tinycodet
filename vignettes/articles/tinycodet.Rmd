@@ -59,7 +59,7 @@ x %d==% y # here it's done correctly
 
 # New import system
 
-One can load a package without attaching the package (for example using `::`), or one can attach a package (for example using `library()` or `require()`). The advantages and disadvantages of loading without attaching a package versus attaching a package - at least those relevant for now - can be compactly presented in the following table:
+One can use a package without attaching the package (for example using `::`), or one can attach a package (for example using `library()` or `require()`). The advantages and disadvantages of using without attaching a package versus attaching a package - at least those relevant for now - can be compactly presented in the following table:
 
 ```{r echo=FALSE, results='markup'}
 X <- rbind(
@@ -83,14 +83,14 @@ knitr::kable(X, "html", row.names = TRUE, escape = FALSE)
 
 What `tinycodet` attempts to do with its import system, is to somewhat find the best of both worlds. It does this by introducing the following functions:
 
- - `import_as()`: Allow a main package + its re-exports + its dependencies + its extensions to be loaded under a single alias. This essentially combines the attaching advantage of using multiple related packages (row 7 in table above), whilst keeping most advantages of using without attaching a package.
+ - `import_as()`: Import a main package, and optionally its re-exports + its dependencies + its extensions, under a single alias. This essentially combines the attaching advantage of using multiple related packages (row 7 on the table above), whilst keeping most advantages of using without attaching a package.
  - `import_inops()`: Expose infix operators from a package or an alias object to the current environment. This gains the attaching advantage of less typing (row 6 in table above), whilst simultaneously avoiding the disadvantage of attaching functions from a package globally (row 4).
  - `import_data()`: Directly return a data set from a package, to allow straight-forward assignment.
 
 Here is an example using `tinycodet's` new import system; note that the following code is run without attaching a single R package (besides `tinycodet` itself of course):
 
 ```{r}
-# loading "tidytable" + "data.table" under alias "tdt.":
+# importing "tidytable" + "data.table" under alias "tdt.":
 import_as( 
   ~ tdt., "tidytable", dependencies = "data.table"
 )

@@ -537,7 +537,7 @@ sentences :</p>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co"># sorting characters in strings:</span></span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">paste</span>(<span class="fu">sample</span>(letters), <span class="at">collapse =</span> <span class="st">&quot;&quot;</span>), <span class="fu">paste</span>(<span class="fu">sample</span>(letters), <span class="at">collapse =</span> <span class="st">&quot;&quot;</span>))</span>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="fu">print</span>(x)</span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; [1] &quot;lownryfjhcdztaseimqvkguxpb&quot; &quot;cdwgpoiuzqhfbsyatkjenvrmxl&quot;</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; [1] &quot;ldqjfuywirmczpbksehgaxtvon&quot; &quot;bkurfpdmiyoaljwgqzhtxvensc&quot;</span></span>
 <span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>mat <span class="ot">&lt;-</span> <span class="fu">strcut_brk</span>(x)</span>
 <span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>rank <span class="ot">&lt;-</span> stringi<span class="sc">::</span><span class="fu">stri_rank</span>(<span class="fu">as.vector</span>(mat)) <span class="sc">|&gt;</span>  <span class="fu">matrix</span>(<span class="at">ncol=</span><span class="fu">ncol</span>(mat))</span>
 <span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>sorted <span class="ot">&lt;-</span> mat <span class="sc">%row~%</span> rank</span>
@@ -577,11 +577,11 @@ sentences :</p>
 <span id="cb5-42"><a href="#cb5-42" tabindex="-1"></a>sorted <span class="ot">&lt;-</span> mat <span class="sc">%row~%</span> rank</span>
 <span id="cb5-43"><a href="#cb5-43" tabindex="-1"></a>sorted[<span class="fu">is.na</span>(sorted)] <span class="ot">&lt;-</span> <span class="st">&quot;&quot;</span></span>
 <span id="cb5-44"><a href="#cb5-44" tabindex="-1"></a><span class="fu">stri_paste_mat</span>(sorted, <span class="at">margin=</span><span class="dv">1</span>) <span class="co"># &lt;- another alias for stri_join_mat</span></span>
-<span id="cb5-45"><a href="#cb5-45" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Cool!Oh, really?! Hello, who are you? &quot;</span></span>
-<span id="cb5-46"><a href="#cb5-46" tabindex="-1"></a><span class="co">#&gt; [2] &quot;I don&#39;t care. But I really don&#39;t.&quot;</span></span>
+<span id="cb5-45"><a href="#cb5-45" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Oh, really?! Hello, who are you? Cool!&quot;</span></span>
+<span id="cb5-46"><a href="#cb5-46" tabindex="-1"></a><span class="co">#&gt; [2] &quot;But I really don&#39;t.I don&#39;t care. &quot;</span></span>
 <span id="cb5-47"><a href="#cb5-47" tabindex="-1"></a><span class="fu">stri_paste_mat</span>(sorted, <span class="at">margin=</span><span class="dv">2</span>)</span>
-<span id="cb5-48"><a href="#cb5-48" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Cool!I don&#39;t care. &quot;              &quot;Oh, really?! But I really don&#39;t.&quot;</span></span>
-<span id="cb5-49"><a href="#cb5-49" tabindex="-1"></a><span class="co">#&gt; [3] &quot;Hello, who are you? &quot;</span></span></code></pre></div>
+<span id="cb5-48"><a href="#cb5-48" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Oh, really?! But I really don&#39;t.&quot;   &quot;Hello, who are you? I don&#39;t care. &quot;</span></span>
+<span id="cb5-49"><a href="#cb5-49" tabindex="-1"></a><span class="co">#&gt; [3] &quot;Cool!&quot;</span></span></code></pre></div>
 <p> </p>
 </div>
 <div id="performance" class="section level1">
