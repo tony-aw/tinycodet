@@ -13,4 +13,4 @@
 * Changed the error message for wrong extension specifications: replaced "actual reverse-dependencies" into "actual extensions".
 * **Tests:** Added more tests.
 * **Optimization:** Minor optimizations for the `import_*` functions and for `transform_if()`.
-* **Bug fix:** Fixed a bug in `pkg_get_deps()` where it didn't properly ignore all the recommended R-packages when `recom = FALSE` (this also slightly affected the extensions detection in `import_as()`).
+* **Bug fix:** Fixed a bug in `pkg_get_deps()` where it didn't properly ignore all the recommended R-packages when `recom = FALSE`.
