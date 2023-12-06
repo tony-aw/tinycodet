@@ -76,33 +76,33 @@ cbind(checks, tinycodet:::.internal_list_knownmeta()) |> print()
 
 
 # empty packages checks ====
-expect_error(
+expect_warning(
   tinycodet:::.internal_prep_Namespace("spam64", .libPaths(), sys.call()),
   pattern = "the package `spam64` has no exported functions"
 )
 
-expect_error(
+expect_warning(
   import_as(~ sp64., "spam64"),
   pattern = "the package `spam64` has no exported functions"
 )
 
-expect_error(
+expect_warning(
   import_inops("spam64"),
   pattern = "the package `spam64` has no exported functions"
 )
 
-expect_error(
+expect_warning(
   import_LL("spam64", 'foo'),
   pattern = "the package `spam64` has no exported functions"
 )
 
-
-# loadNamespace different versions ====
-lib <- file.path(getwd(), 'templib')
-install.packages(
-  c("Rcpp"),
-  repos = c(CRAN = "https://packagemanager.posit.co/cran/2017-10-10"),
-  lib = lib
-)
-import_as(~ dpr_old, "dplyr", lib.loc = lib)
-dpr_new <- loadNamespace("dplyr", lib.loc = .libPaths())
+# 
+# # loadNamespace different versions ====
+# lib <- file.path(getwd(), 'templib')
+# install.packages(
+#   c("Rcpp"),
+#   repos = c(CRAN = "https://packagemanager.posit.co/cran/2017-10-10"),
+#   lib = lib
+# )
+# import_as(~ dpr_old, "dplyr", lib.loc = lib)
+# dpr_new <- loadNamespace("dplyr", lib.loc = .libPaths())

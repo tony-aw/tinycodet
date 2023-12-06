@@ -175,7 +175,7 @@
     warn.txt <- paste0(
       "the package `", package, "` has no exported functions"
     )
-    stop(simpleWarning(warn.txt, call = abortcall))
+    warning(simpleWarning(warn.txt, call = abortcall))
   }
   return(ns)
 }
