@@ -1,4 +1,4 @@
-Package: tinycodetfakepkg4
+Package: tinycodetfakepkg5
 Title: What the Package Does (One Line, Title Case)
 Version: 0.0.0.9000
 Authors@R: 
@@ -10,13 +10,8 @@ License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
-Depends: base, compiler, datasets, grDevices, graphics, grid, methods,
-        parallel, splines, stats, stats4, tcltk, tools, utils
-Imports: boot, class, cluster, codetools, foreign, KernSmooth, lattice,
-        MASS, Matrix, mgcv, nlme, nnet, rpart, spatial, survival
-Suggests: rlang, lifecycle, cli, glue, withr, rstudioapi
 NeedsCompilation: no
-Packaged: 2023-12-06 12:10:21 UTC; Tony
+Packaged: 2023-12-06 12:21:16 UTC; Tony
 Author: First Last [aut, cre] (YOUR-ORCID-ID)
 Maintainer: First Last <first.last@example.com>
-Built: R 4.3.2; ; 2023-12-06 12:10:22 UTC; windows
+Built: R 4.3.2; ; 2023-12-06 12:21:16 UTC; windows

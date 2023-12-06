@@ -4,8 +4,8 @@
 #' Bla
 #' 
 #' 
-#' @param A whatever
-#' @param X whatever
+#' @param x whatever
+#' @param y whatever
 #' 
 #' @name tinycodetfakepkg1
 NULL
@@ -17,3 +17,8 @@ fun_paste <- function(x, y) {
 }
 
 
+#' @rdname tinycodetfakepkg1
+#' @export
+`%paste0%` <- function(x, y) {
+  paste0(x, y)
+}

@@ -1,5 +1,5 @@
 
-# test import_as - single package:
+# test import_as - single package ====
 stri <- loadNamespace("stringi") |> getNamespaceExports()
 temp.fun <- function() {
   import_as(~stri., "stringi")
@@ -9,7 +9,7 @@ temp.fun <- function() {
 expect_equal(temp.fun(), sort(stri))
 
 
-# test import_as - functional functions:
+# test import_as - functional functions ====
 temp.fun <- function() {
   import_as(~stri., "stringi")
   stri.$stri_c("a", "b")
