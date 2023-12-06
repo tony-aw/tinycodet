@@ -97,3 +97,12 @@ expect_error(
 )
 
 
+# loadNamespace different versions ====
+lib <- file.path(getwd(), 'templib')
+install.packages(
+  c("Rcpp"),
+  repos = c(CRAN = "https://packagemanager.posit.co/cran/2017-10-10"),
+  lib = lib
+)
+import_as(~ dpr_old, "dplyr", lib.loc = lib)
+dpr_new <- loadNamespace("dplyr", lib.loc = .libPaths())
