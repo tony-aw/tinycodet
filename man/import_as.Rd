@@ -2,7 +2,7 @@
 % Please edit documentation in R/import_as.R
 \name{import_as}
 \alias{import_as}
-\title{Import R-package and its Re-exports and/or its (Reverse) Dependencies Under a Single Alias}
+\title{Import R-package, its Re-exports, Dependencies, and/or Extensions, Under a Single Alias}
 \usage{
 import_as(
   alias,
@@ -74,7 +74,9 @@ The \code{import_as()} function
 imports the namespace of an R-package,
 and optionally also its re-exports, dependencies, and extensions,
 all under the same alias.
-The specified alias will be placed in the current environment
+The specified alias,
+containing the exported functions from the specified packages,
+will be placed in the current environment
 (like the global environment, or the environment within a function). \cr
 }
 \details{

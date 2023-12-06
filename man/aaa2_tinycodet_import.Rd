@@ -55,7 +55,9 @@ is to somewhat find the best of both worlds.
 It does this by introducing the following functions: \cr
 \itemize{
 \item \link{import_as}:
-Import a main package, and optionally its re-exports + its dependencies + its extensions, under a single alias.
+Import a main package,
+and optionally its re-exports + its direct dependencies + its direct extensions,
+under a single alias.
 This essentially combines the attaching advantage of using multiple related packages (item 7 on the list),
 whilst keeping most advantages of using without attaching a package.
 \item \link{import_inops}:

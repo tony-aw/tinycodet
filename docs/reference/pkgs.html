@@ -62,7 +62,7 @@ library(packagename, include.only = pkg_lsf("packagename", type="inops"))
     
     <a class="navbar-brand me-2" href="../index.html">tinycodet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -181,7 +181,6 @@ See also <a href="https://rdrr.io/r/base/ns-load.html" class="external-link">loa
 
 <dt>deps_type</dt>
 <dd><p>a character vector, giving the dependency types to be used. <br>
-Defaults to <code>c("LinkingTo", "Depends", "Imports")</code>. <br>
 The order of the character vector given in <code>deps_type</code> affects
 the order of the returned character vector; see Details sections.</p></dd>
 
@@ -189,27 +188,27 @@ the order of the returned character vector; see Details sections.</p></dd>
 <dt>base</dt>
 <dd><p>logical,
 indicating whether base/core R should be included (<code>TRUE</code>),
-or not included (<code>FALSE</code>; the default).</p></dd>
+or not included (<code>FALSE</code>).</p></dd>
 
 
 <dt>recom</dt>
 <dd><p>logical,
 indicating whether the pre-installed 'recommended' R-packages should be included
-(<code>TRUE</code>; the default),
+(<code>TRUE</code>),
 or not included (<code>FALSE</code>).</p></dd>
 
 
 <dt>rstudioapi</dt>
 <dd><p>logical,
 indicating whether the 'rstudioapi' R-package should be included
-(<code>TRUE</code>; the default),
+(<code>TRUE</code>),
 or not included (<code>FALSE</code>).</p></dd>
 
 
 <dt>shared_tidy</dt>
 <dd><p>logical,
 indicating whether the shared dependencies of the 'tidyverse' should be included
-(<code>TRUE</code>; the default),
+(<code>TRUE</code>),
 or not included (<code>FALSE</code>). <br><b>Details:</b> <br>
 Unlike 'tinyverse' and 'fastverse' packages,
 'tidyverse' packages tend to have large number of dependencies,
@@ -262,7 +261,7 @@ the package names in the corresponding field of the Description file are extract
 in the order as they appear in that field. <br>
 The order given in argument <code>deps_type</code>
 also affects the order of the returned character vector: <br>
-The default, <br><code>c("LinkingTo", "Depends", "Imports")</code>, <br>
+For example, <code>c("LinkingTo", "Depends", "Imports")</code>, <br>
 means the package names are extracted from the fields in the following order:</p>
 <ol><li><p>"LinkingTo";</p></li>
 <li><p>"Depends";</p></li>

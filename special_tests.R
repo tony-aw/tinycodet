@@ -74,17 +74,6 @@ for(i in 1:n) checks[i] <- tinycodet:::.internal_list_knownmeta()[i] %installed 
 cbind(checks, tinycodet:::.internal_list_knownmeta()) |> print()
 
 
-# meta-verse error checks ====
-expect_error(
-  import_as(~tdy., "tidyverse"),
-  pattern = "The following packages are known meta-verse packages, which is not allowed"
-)
-
-expect_error(
-  import_as(~tny., "fastverse"),
-  pattern = "The following packages are known meta-verse packages, which is not allowed"
-)
-
 
 # empty packages checks ====
 expect_error(

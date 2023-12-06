@@ -39,27 +39,26 @@ See also \link[base]{loadNamespace}.}
 \item{package}{a single string giving the package name.}
 
 \item{deps_type}{a character vector, giving the dependency types to be used. \cr
-Defaults to \code{c("LinkingTo", "Depends", "Imports")}. \cr
 The order of the character vector given in \code{deps_type} affects
 the order of the returned character vector; see Details sections.}
 
 \item{base}{logical,
 indicating whether base/core R should be included (\code{TRUE}),
-or not included (\code{FALSE}; the default).}
+or not included (\code{FALSE}).}
 
 \item{recom}{logical,
 indicating whether the pre-installed 'recommended' R-packages should be included
-(\code{TRUE}; the default),
+(\code{TRUE}),
 or not included (\code{FALSE}).}
 
 \item{rstudioapi}{logical,
 indicating whether the 'rstudioapi' R-package should be included
-(\code{TRUE}; the default),
+(\code{TRUE}),
 or not included (\code{FALSE}).}
 
 \item{shared_tidy}{logical,
 indicating whether the shared dependencies of the 'tidyverse' should be included
-(\code{TRUE}; the default),
+(\code{TRUE}),
 or not included (\code{FALSE}). \cr
 \bold{Details:} \cr
 Unlike 'tinyverse' and 'fastverse' packages,
@@ -124,8 +123,7 @@ the package names in the corresponding field of the Description file are extract
 in the order as they appear in that field. \cr
 The order given in argument \code{deps_type}
 also affects the order of the returned character vector: \cr
-The default, \cr
-\code{c("LinkingTo", "Depends", "Imports")}, \cr
+For example, \code{c("LinkingTo", "Depends", "Imports")}, \cr
 means the package names are extracted from the fields in the following order:
 
 \enumerate{

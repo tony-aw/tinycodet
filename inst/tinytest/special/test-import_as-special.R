@@ -67,26 +67,6 @@ expect_error(
 
 # missing package error handling ====
 expect_error(
-  import_as(~ p3., "tinycodetfakepkg3", re_exports=TRUE, lib.loc=lib.loc2),
-  pattern = paste0(
-    "to load the namespace of package `",
-    "tinycodetfakepkg3",
-    "`, the following packages are required but not installed:"
-  ),
-  fixed = TRUE
-)
-
-expect_error(
-  import_as(~ p3., "tinycodetfakepkg3", re_exports=FALSE, lib.loc=lib.loc2),
-  pattern = paste0(
-    "to load the namespace of package `",
-    "tinycodetfakepkg3",
-    "`, the following packages are required but not installed:"
-  ),
-  fixed = TRUE
-)
-
-expect_error(
   import_as(~ p3., "tinycodetfakepkg3", dependencies = "tinycodetfakepkg1", lib.loc=lib.loc2),
   pattern = "The following dependencies are not installed",
   fixed = TRUE
@@ -130,6 +110,7 @@ expect_equal(
   import_as(~ p3., "tinycodetfakepkg3", re_exports = FALSE, dependencies = "tinycodetfakepkg1", lib.loc = lib.loc1),
   import_as(~ p3., "tinycodetfakepkg1", re_exports = FALSE, extensions = "tinycodetfakepkg3", lib.loc = lib.loc1),
 )
+
 
 # test import_as - Dependencies ====
 import_as(
