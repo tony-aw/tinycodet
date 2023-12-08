@@ -5,7 +5,6 @@
 \alias{\%installed in\%}
 \alias{pkg_get_deps}
 \alias{pkg_get_deps_minimal}
-\alias{pkgs_check_version_mismatch}
 \alias{pkg_lsf}
 \title{Miscellaneous Package Related Functions}
 \usage{
@@ -26,8 +25,6 @@ pkg_get_deps_minimal(
   lib.loc = .libPaths(),
   deps_type = c("Depends", "Imports")
 )
-
-pkgs_check_version_mismatch(pkgs, lib.loc = .libPaths())
 
 pkg_lsf(package, type, lib.loc = .libPaths())
 }
@@ -86,16 +83,6 @@ and the value \code{FALSE} indicates a package is not installed. \cr
 For \code{pkg_get_deps()}: \cr
 A character vector of unique dependencies. \cr
 \cr
-For \code{pkgs_check_version_mismatch()}: \cr
-If no mismatch between loaded versions and those in \code{lib.loc} were found,
-returns \code{NULL}. \cr
-Else it returns a table with 3 columns:
-\itemize{
-\item "package": specifying the packages.
-\item "version_lib.loc": the version of each package found in the library location.
-\item "version_loaded": the version already loaded. \cr \cr
-}
-
 For \code{pkg_lsf()}: \cr
 Returns a character vector of exported function names in the specified package.
 }
@@ -110,7 +97,7 @@ As \code{pkgs \%installed in\% lib.loc} does not even load a package,
 the user can safely use it
 without fearing any unwanted side-effects. \cr
 \cr
-The \code{pkg_get_deps()} function gets the dependencies of a package
+The \code{pkg_get_deps()} function gets the direct dependencies of a package
 from the Description file. It works on non-CRAN packages also. \cr
 \cr
 The \code{pkg_get_deps_minimal()} function is the same as
@@ -119,10 +106,6 @@ except with
 \code{base, recom, rstudioapi, shared_tidy}
 all set to \code{FALSE},
 and the default value for \code{deps_type} is c("Depends", "Imports"). \cr
-\cr
-The \code{pkgs_check_version_mismatch()} function
-checks for difference between the versions of the packages in the specified library,
-and the versions of the packages already loaded. \cr
 \cr
 The \code{pkg_lsf()} function
 gets a list of exported functions/operators from a package. \cr

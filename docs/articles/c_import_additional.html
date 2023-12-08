@@ -163,14 +163,6 @@ S3 methods will work just fine. For example, the S3 method ”
 package, even when imported in an alias:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/import_as.html">import_as</a></span><span class="op">(</span><span class="op">~</span> <span class="va">mgcv.</span>, <span class="st">"mgcv"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressMessages</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in import_as(~mgcv., "mgcv"): Different versions of packages already loaded:</span></span>
-<span><span class="co">#&gt;   package version_lib.loc version_loaded</span></span>
-<span><span class="co">#&gt; 1    nlme         3.1.163        3.1-163</span></span>
-<span><span class="co">#&gt; 2  Matrix         1.6.1.1        1.6-1.1</span></span>
-<span><span class="co">#&gt; 3 lattice          0.21.9         0.21-9</span></span>
-<span><span class="co">#&gt; 4 lattice          0.21.9         0.21-9</span></span>
-<span><span class="co">#&gt; Already loaded versions will be used instead of the versions in lib.loc!!!</span></span>
-<span><span class="co">#&gt; To correct this: unload the packages and ALL its recursive dependencies, and reload.</span></span>
 <span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/import_data.html">import_data</a></span><span class="op">(</span><span class="st">"gamair"</span>, <span class="st">"chicago"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># just a random model for the sake of demonstration:</span></span>
@@ -291,8 +283,8 @@ produced the alias object in question:</p>
 <span><span class="co">#&gt; NULL</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $lib.loc</span></span>
-<span><span class="co">#&gt; [1] "C:/Users/Tony/AppData/Local/Temp/Rtmp230A5Z/temp_libpath5b385a8f7ed7"</span></span>
-<span><span class="co">#&gt; [2] "D:/Programs/R-4.3.2/library"                                         </span></span>
+<span><span class="co">#&gt; [1] "C:/Users/Tony/AppData/Local/Temp/Rtmp0MtPup/temp_libpath2c0c6da1717"</span></span>
+<span><span class="co">#&gt; [2] "D:/Programs/R-4.3.2/library"                                        </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $import_order</span></span>
 <span><span class="co">#&gt; [1] "dependencies" "main_package" "extensions"</span></span></code></pre></div>
