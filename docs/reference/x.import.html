@@ -132,7 +132,7 @@ If a string, argument <code>alias</code> must be specified also.</p></li>
 
 <dt>which</dt>
 <dd><p>The attributes to list. If <code>NULL</code>, all attributes will be returned. <br>
-Possibilities: "pkgs", "conflicts", "versions", "args", and "ordered_object_names".</p></dd>
+Possibilities: "pkgs", "conflicts", "args", and "ordered_object_names".</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -189,16 +189,6 @@ in case of conflicts. <br></p>
 
 <p>The "conflicts" attribute returns a data.frame showing exactly which functions overwrite
 functions from earlier named packages, and as such "win" the conflicts. <br></p>
-
-
-<p><br></p>
-
-
-<p>For <code>attr.import(alias, which = "versions")</code>: <br></p>
-
-
-<p>A data.frame, giving the version of every package imported under the alias,
-ignoring re-exports. <br></p>
 
 
 <p><br></p>

@@ -206,7 +206,7 @@ import_as <- function(
     stop("`main_package` must be a single string")
   }
   .internal_check_pkgs(pkgs=main_package, lib.loc=lib.loc, abortcall=sys.call())
-
+  
   # check re-exports:
   if(!isTRUE(re_exports) && !isFALSE(re_exports)) {
     stop("`re_exports` must be either `TRUE` or `FALSE`")
@@ -244,7 +244,7 @@ import_as <- function(
   
 
 
-  # make packages:
+  # list packages:
   pkgs <- list(
     dependencies=dependencies, main_package=main_package, extensions=extensions
   )
@@ -260,10 +260,11 @@ import_as <- function(
     package = character(length(pkgs)),
     winning_conflicts = character(length(pkgs))
   )
-  versions_df <- data.frame(
-    package = character(length(pkgs)),
-    version = character(length(pkgs))
-  )
+  # versions_df <- data.frame(
+  #   package = character(length(pkgs)),
+  #   version_ns = character(length(pkgs)),
+  #   version_lib.loc = character(length(pkgs))
+  # )
   namespaces <- list()
 
   message("Importing packages...")
@@ -271,8 +272,10 @@ import_as <- function(
   for (i in 1:length(pkgs)) {
 
     namespace_current <- .internal_prep_Namespace(pkgs[i], lib.loc, abortcall = sys.call())
-    conflicts_df$package[i] <- versions_df$package[i] <- pkgs[i]
-    versions_df$version[i] <- getNamespaceVersion(loadNamespace(pkgs[i], lib.loc = lib.loc))
+    conflicts_df$package[i] <- pkgs[i]
+    # versions_df$package[i] <- pkgs[i]
+    # versions_df$version_ns[i] <- getNamespaceVersion(pkgs[i])
+    # versions_df$version_lib.loc[i] <- utils::packageVersion(pkgs[i], lib.loc)
 
     if(pkgs[i]==main_package & isTRUE(re_exports)) {
       foreignexports <- .internal_get_foreignexports_ns(main_package, lib.loc, abortcall=sys.call())
@@ -318,7 +321,7 @@ import_as <- function(
   out$.__attributes__. <- list(
     pkgs = pkgs,
     conflicts = .format_conflicts_df(conflicts_df),
-    versions = versions_df,
+    # versions = versions_df,
     args = args,
     ordered_object_names = ordered_object_names,
     tinyimport = "tinyimport"

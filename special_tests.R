@@ -40,7 +40,6 @@ alias_attr <- mr.$.__attributes__.
 str(alias_attr)
 attr.import(mr., "pkgs")
 attr.import(mr., "conflicts")
-attr.import(mr., "versions")
 attr.import(mr., "args")
 attr.import(mr., "ordered_object_names")
 expect_error(
@@ -96,13 +95,16 @@ expect_warning(
   pattern = "the package `spam64` has no exported functions"
 )
 
-# 
-# # loadNamespace different versions ====
-# lib <- file.path(getwd(), 'templib')
+
+# loadNamespace different versions ====
+lib <- file.path(getwd(), 'special_tests_lib')
 # install.packages(
 #   c("Rcpp"),
 #   repos = c(CRAN = "https://packagemanager.posit.co/cran/2017-10-10"),
 #   lib = lib
 # )
-# import_as(~ dpr_old, "dplyr", lib.loc = lib)
-# dpr_new <- loadNamespace("dplyr", lib.loc = .libPaths())
+import_as(~ dpr_old, "dplyr", lib.loc = lib, re_exports = FALSE)
+import_as(~ dpr_new, "dplyr", lib.loc = .libPaths(), re_exports = FALSE)
+dpr_new <- tinycodet:::.internal_prep_Namespace("dplyr", .libPaths(), sys.call()) |> as.environment()
+pversion_check4mismatch(tools::package_dependencies("dplyr")|> unlist())
+pversion_report(tools::package_dependencies("dplyr")|> unlist())

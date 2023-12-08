@@ -134,3 +134,4 @@ temp.fun <- function(){
   stri_c("a", "b")
 }
 expect_error(temp.fun(), "could not find function")
+

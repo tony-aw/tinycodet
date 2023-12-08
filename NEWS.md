@@ -7,6 +7,8 @@
 * Added the `pkg_get_deps_minimal()` function. Also changed the default arguments of `pkg_get_deps()`.
 * Changed the error message for wrong extension specifications: replaced "actual reverse-dependencies" into "actual extensions".
 * Changed the usage of the word "load" to "import" in the import system documentation, to avoid confusion with the concept of loading a package.
+* Added the `pversion_` functions to help in checking package versions.
+* Removed the "versions" attribute from alias objects, in favour of the aforementioned `pversion_` functions.
 * **Argument name change:** in the `import_as()` function, changed argument name `loadorder` to `import_order`, to avoid confusion with the concept of loading a package.
 * **Tests:** Added more tests.
 * **Optimization:** Minor optimizations for the `import_*` functions and for `transform_if()`.

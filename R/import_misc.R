@@ -119,7 +119,7 @@ import_LL <- function(
     stop("`package` must be a single string")
   }
   .internal_check_pkgs(pkgs=package, lib.loc=lib.loc, abortcall=sys.call())
-
+  
   # check selection:
   checks <- c(
     !is.character(selection),
@@ -227,23 +227,7 @@ import_int <- function(form, lib.loc = .libPaths()) {
 #' @noRd
 .get_internals <- function(package, lib.loc, abortcall) {
 
-  pkgs_required <- pkg_get_deps(
-    package, lib.loc = lib.loc,
-    deps_type=c("LinkingTo", "Depends", "Imports"),
-    base=FALSE, recom=TRUE, rstudioapi=TRUE, shared_tidy=TRUE
-  )
-  pkgs_total <- c(package, pkgs_required)
-  pkgs_missing <- pkgs_total[!pkgs_total %installed in% lib.loc]
-  if(length(pkgs_missing)>0) {
-    error.txt <- paste0(
-      "to load the namespace of package `",
-      package,
-      "`, the following packages are required but not installed:",
-      "\n",
-      paste0(pkgs_missing, collapse = ", ")
-    )
-    stop(simpleError(error.txt, call = abortcall))
-  }
+  .internal_check_ns_requirements(package, lib.loc, abortcall)
 
   ns <- loadNamespace(package, lib.loc = lib.loc) |> as.list(all.names=TRUE, sorted=TRUE)
   names_exported <- names(ns[[".__NAMESPACE__."]][["exports"]])

@@ -49,11 +49,7 @@ There is also the [box](https://github.com/klmr/box) package. Where [import](htt
 
 &nbsp;
 
-## Packages for project isolation
-
-All `import_` - functions in `tinycodet` have the `lib.loc` argument to specify the library path, which can be used for straight-forward project isolation. The `library()` and `require()` functions also have arguments to specify the exact library path. This combined with the R-Studio Package Manager for date-based repositories gives one everything that is needed for project isolation and version control.
-
-However, I can understand one might still one to use an additional R package for this, like `renv`.
+## Renv
 
 When using the [renv](https://github.com/rstudio/renv) R package, note that it only registers packages loads using plain `library()` or `require()` calls. Anything different from that, even things like `for(... in ...)library(...)` or `if(...)library(...)`, will by default NOT be understood by [renv](https://github.com/rstudio/renv). Therefore, if using [renv](https://github.com/rstudio/renv), please make sure to set the following:
 

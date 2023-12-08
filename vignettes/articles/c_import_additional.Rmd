@@ -104,11 +104,6 @@ d %>%
 
 So when importing packages, everything works as expected, including S3 methods.
 
-&nbsp;
-
-# lib.loc and project isolation
-
-All `import_` - functions have the `lib.loc` argument, that allows the user to specify exactly from which folder to take packages from. Thus, the import system from `tinycodet` allows for simple and straight-forward project isolation (and thus also version control).
 
 &nbsp;
 
@@ -136,12 +131,6 @@ Show which functions from which packages "win" conflicts:
 
 ```{r}
 attr.import(tdt., "conflicts")|> knitr::kable()
-```
-
-Show the versions of the R packages imported:
-
-```{r}
-attr.import(tdt., "versions")|> knitr::kable()
 ```
 
 Show the arguments used in the `import_as()` call that produced the alias object in question:

@@ -148,17 +148,8 @@ packages.</p>
 <p> </p>
 </div>
 <div class="section level3">
-<h3 id="packages-for-project-isolation">Packages for project isolation<a class="anchor" aria-label="anchor" href="#packages-for-project-isolation"></a>
+<h3 id="renv">Renv<a class="anchor" aria-label="anchor" href="#renv"></a>
 </h3>
-<p>All <code>import_</code> - functions in <code>tinycodet</code> have
-the <code>lib.loc</code> argument to specify the library path, which can
-be used for straight-forward project isolation. The
-<code><a href="https://rdrr.io/r/base/library.html" class="external-link">library()</a></code> and <code><a href="https://rdrr.io/r/base/library.html" class="external-link">require()</a></code> functions also have
-arguments to specify the exact library path. This combined with the
-R-Studio Package Manager for date-based repositories gives one
-everything that is needed for project isolation and version control.</p>
-<p>However, I can understand one might still one to use an additional R
-package for this, like <code>renv</code>.</p>
 <p>When using the <a href="https://github.com/rstudio/renv" class="external-link">renv</a> R
 package, note that it only registers packages loads using plain
 <code><a href="https://rdrr.io/r/base/library.html" class="external-link">library()</a></code> or <code><a href="https://rdrr.io/r/base/library.html" class="external-link">require()</a></code> calls. Anything

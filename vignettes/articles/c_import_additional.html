@@ -406,13 +406,21 @@ S3 methods will work just fine. For example, the S3 method ”
 <code>plot()</code> ” works with objects from the <code>mgcv</code> R
 package, even when imported in an alias:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">import_as</span>(<span class="sc">~</span> mgcv., <span class="st">&quot;mgcv&quot;</span>) <span class="sc">|&gt;</span> <span class="fu">suppressMessages</span>()</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">import_data</span>(<span class="st">&quot;gamair&quot;</span>, <span class="st">&quot;chicago&quot;</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co"># just a random model for the sake of demonstration:</span></span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>model <span class="ot">&lt;-</span> mgcv.<span class="sc">$</span><span class="fu">gam</span>(death <span class="sc">~</span> <span class="fu">s</span>(o3median), <span class="at">data=</span>d)</span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="fu">isS3method</span>(<span class="at">f=</span><span class="st">&quot;plot&quot;</span>, <span class="at">class=</span><span class="st">&quot;gam&quot;</span>) <span class="co"># this is an S3 method</span></span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="fu">plot</span>(model)</span></code></pre></div>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="co">#&gt; Warning in import_as(~mgcv., &quot;mgcv&quot;): Different versions of packages already loaded:</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#&gt;   package version_lib.loc version_loaded</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt; 1    nlme         3.1.163        3.1-163</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt; 2  Matrix         1.6.1.1        1.6-1.1</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; 3 lattice          0.21.9         0.21-9</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; 4 lattice          0.21.9         0.21-9</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; Already loaded versions will be used instead of the versions in lib.loc!!!</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt; To correct this: unload the packages and ALL its recursive dependencies, and reload.</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">import_data</span>(<span class="st">&quot;gamair&quot;</span>, <span class="st">&quot;chicago&quot;</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co"># just a random model for the sake of demonstration:</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>model <span class="ot">&lt;-</span> mgcv.<span class="sc">$</span><span class="fu">gam</span>(death <span class="sc">~</span> <span class="fu">s</span>(o3median), <span class="at">data=</span>d)</span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="fu">isS3method</span>(<span class="at">f=</span><span class="st">&quot;plot&quot;</span>, <span class="at">class=</span><span class="st">&quot;gam&quot;</span>) <span class="co"># this is an S3 method</span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="fu">plot</span>(model)</span></code></pre></div>
 <p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASAAAAEgCAMAAAAjXV6yAAAAXVBMVEUAAAAAADoAAGYAOpAAZrY6AAA6ADo6AGY6OpA6ZmY6kNtmAABmADpmAGZmtrZmtv+QOgCQZgCQkGaQ2/+2ZgC225C2///bkDrb2//b////tmb/25D//7b//9v////z0yhTAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAJ10lEQVR4nO2diXryNhBFlYUuSdukDQ0NEN7/MWtJFmCwdWe02CLc87XBP5FH5kSrLRtzIFHM0gfQOhQEoCAABQEoCEBBAAoCUBCAggAUBKAgAAUBKAhAQQAKAlAQgIIAFASgIAAFASgIQEEACgJQEICCABQEoCAABQEoCEBBAAoCUBCAggAUBKAgAAUBKAhAQQAKAlAQgIIAFASgIAAFASgIQEEACgJQEICCABQEoCAABQEoCEBBAAoCUBCAggAUBKAgAAUBKAhAQQAKAlAQgIIAFASgIAAFASgIQEEACgJQEOAkaGs8bwseTYP0gvav5tlvfb+bx8/ljqc5vKD9n+dOhv+6c9gGASgIEAStu4ZntzLm4SMpyu2hFOT8/PJhW+usXuxmCqRS0P71pZPk+rHN09cc+S6NWtBb17+/2M1tVif/UwW50rO5jxJkzn6Kk3dF6PHTFaFtWit9Ea5hzOBFnP4403gukn27mItX8Q6F828eCgKoBXVzVEfmRFXZAs6MGd0U7bMxL35jGzayDqFNQ2ZiW7BTPwaylOnmWzRkJv+B9zqbYEQHirAimquNVriYfdUpQbgiNuclcHlg+jaoL0KxNkigsVlBl6h7sf2rrzyxFkhQEX+uIAm6EtSQq5FDqTNQxBUxqSetzOjJsXRBm1gvBitiWldalfGjaGKq0YagcWYWpD/VuzRNlKDlmf6DqUfSWROM6XyXFRbJXS3o9xWepIYmOjLZuMp3SUOxvBOuamzw2cTvd3Q25DrfxipdIOWyjz3rChx9v4MEzQhC3UWSoINzFC0kW7A6ppHygnvTVEG5tCFIcBRNCWrD2pC2xkGzGpJl1pagOQ0Js8qYrKYugTkLdz3lmM2QdLKzeAlaaGJW/nNXrWIDR2011W0IOgwcNTXVTxBU5Nrq6Mm7o5nahhTxEwStSyyPnurFZik9mjz0gsqMFafz7RvtiqJUoVMElbgHIZ6vM1RLkS6uXhCcqEejCE+5mnqKlEET2iA0Uc/J96wry89DlXN28rMqFj9XmJGv12PCS0Z46VHg4tzMOGjkt/bAa7bV5yOvUiftizEyULxOUFPQVX650+dTwlDHSlaxkcPry08lQyNhM8/AnA0Un742z4fdquC9GhPHZvr/yhEdqhe6Nm8Hitunr5lW2tep2VNRxeUqtq8dKO5+/XT/p7NM23dq/KcSXLeNutgHv/hn/8dHOUHRQyhaxQzOL/2S7ymhXfeyfilWxeDxFpuZSfxcFaKUor5+tj1Z3pxePGIuaEgm6ELRwuMgQf2xHVnB7CWB2hGk6MsK5S8LI20h9ZHFaKeM+dkbTbYJk2afsBsEVZysRlJnC9IVWTCkjO0gQ34rgjT3TEcjfkA8MKacSi+j/K0ImYau/PTndWNVV1nmQhWDa8cOVW5FMAXGjPIJGNopntCXithNvdO3IuSsci3UDClb/JSphj8nHRlJV7qZJdnQsLJo+wdtwlA8YveL6W5FEB9B4ilGM/YiPZi0yaplHb/fR3MrgvgI0iYdsLUtK6i/qrGZ/8ECiYbM1U/N0aR08654ZC4oT2pPTHItQ6Oa6ZA3MtVI3hO2Pyjq7QnSVLPQoRs86NOXremEXRV7+lrnLWHI6bL9GFiRSc4fN6WRfvjoRjeZizyyqpjyyn2BSZwmoe3m7fAvesdhuXzHdz1WneOcavT1PK/EHNMGilbQck+g0pUfsZ/xFOklKDpQTDwaVQRZCEH7fEwqfjOe0LdBm7xFMJmC3O5mvEaN5SPKrpQgP1DMG0hnl6DrlRljJwmUJw3GUt/gOChEGP+DnyyVWRB6u4IiUUreV50gqMbyl+QwqA1ShhO9Bfb9fi9x43PhAuljTnTU2hEBegvsm7UMOOeUqyi85K1YAME7aNez86kZ1BHkIqddWp9KntAGuYcB51JP0CEMtctcGUgRtGqnka5PShXLfEqpLt+lmbmR1ue7ND+vkc7k8sB+ZCOdxeV0Tr3fEstf5iRbkIjSy1/mxET+Jd4NcMNP4rwkTdA2fj7orp/EuTbmZffbV7S3v+cncdoz0WtXeuZf/jIbSZM5n9CVDd/Pz778ZT6yBNkP/P3fATxwu8byl/nIEHS6XLjYldU5MKObsn36dUG5tz7/XEHlD6FtZhZU+ZRrBVIEuTNmsYFiypM4WyXl0rPruqOXnlOexNkUZmRLuksYBUa7+YQncbaFudoQ7yFZJ30zT+KcJEOQqATJw7WKuXgV7yBqgzThGiVDEO7FemJnr5sXFKg5DqIgwD0KUn0Z9m0LMoMXcXrN16nftqD+EJN6MU+BXszdmrIIh4utcDD2v0HZWXY2T0F3Kch/dUTmDWM/WdD66Wu3eu6/MzxZ0M2gFmQnq3YqmnevxnT8pd9ObUsGguwDgfPu9pmOv/Tb2YK6umW/Amn/WmKh2Vj8hd/OF9SNFR8+yizEG42/8Nv5gupAQWnxKQjEpyAQn4JAfAr6MVAQgIIAFASgIAAFASgIQEEACgJQEICCABQEoCBAPUHu5jt3FR/cZRUQJkuI7B8aJY4/oJqg7/fuaNx32NsHDMceMtwjTJYS2V0NFccfUk2Q/5KgzeOnXwwCr0cKkyVEdo8/VMQfUrkN6v5kx88TTylMlhB58/R3J0gbP1BZ0PrxE9+G5hAm00fuUtk2SBs/UFeQXTnr6z2s/cJk6si2allByvhHqgrahpa0uCB55PDowxYF+ZXXNaqYPLJL01oV2/hhSn+XfYVGWhF50692eWuvkQ5r9ot389rIvgQ1183vVmEtbOmBojqyH0m3NlDsy7Y9oo1sjC9MlhDZTzWk8YdwsgqgIAAFASgIQEEACgJQEICCABQEoCAABQEoCEBBAAoCUBCAggAUBKAgAAUBKAhAQQAKAlAQgIIAFASgIAAFAVoSJLh4vn34KPMlRGIaEmTX7qDlFwnLMzJpR5B7WDx6dshdCtqGdfMHL2i3+uvVfsvHyj9wbhN+bWvgP6GKrY377f7Vpq1Z55YXZJ/qdHwoj320/m7lVtL3zzLy77y4db9d2l6QXSlmf7N/tWlrFqvFBfmlcf0aVFdWnI7+x5v/lobt46dfY7j2gvZ/fPgliu7X/leVWFyQ/3ThM9pve3Xb4Yc3Zzfc8suzXmxrXNF7K/XlehM0Iuj4GcMdBkdBYZXqZiCoa48e/13dkaBjLek2RkrQIaxw7gUdk9yBoGMb5B2F1ib8OH74fp2zF+Rsbe+jip16sbCaeSDId1Hrvq8KvZgvPF2Lfg+CTuOgfmwzFOTGQa56nY+D3Kyk79J+vKC2oSAABQEoCEBBAAoCUBCAggAUBKAgAAUBKAhAQQAKAlAQgIIAFASgIAAFASgIQEEACgJQEICCAP8DFZ7IBmvReaAAAAAASUVORK5CYII=" /><!-- --></p>
 <p>Also, S3 methods defined in the package will automatically be
 registered, and thus automatically work. For example, the following code
@@ -449,15 +457,6 @@ just works:</p>
 <span id="cb5-30"><a href="#cb5-30" tabindex="-1"></a><span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span></span></code></pre></div>
 <p>So when importing packages, everything works as expected, including
 S3 methods.</p>
-<p> </p>
-</div>
-<div id="lib.loc-and-project-isolation" class="section level1">
-<h1>lib.loc and project isolation</h1>
-<p>All <code>import_</code> - functions have the <code>lib.loc</code>
-argument, that allows the user to specify exactly from which folder to
-take packages from. Thus, the import system from <code>tinycodet</code>
-allows for simple and straight-forward project isolation (and thus also
-version control).</p>
 <p> </p>
 </div>
 <div id="alias-attributes" class="section level1">
@@ -515,46 +514,26 @@ data.table, %between%, setDTthreads, fwrite, %like%</td>
 </tr>
 </tbody>
 </table>
-<p>Show the versions of the R packages imported:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">attr.import</span>(tdt., <span class="st">&quot;versions&quot;</span>)<span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
-<table>
-<thead>
-<tr class="header">
-<th align="left">package</th>
-<th align="left">version</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">data.table</td>
-<td align="left">1.14.8</td>
-</tr>
-<tr class="even">
-<td align="left">tidytable</td>
-<td align="left">0.10.2</td>
-</tr>
-</tbody>
-</table>
 <p>Show the arguments used in the <code>import_as()</code> call that
 produced the alias object in question:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">attr.import</span>(tdt., <span class="st">&quot;args&quot;</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="co">#&gt; $main_package</span></span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;tidytable&quot;</span></span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="co">#&gt; $re_exports</span></span>
-<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
-<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="co">#&gt; $dependencies</span></span>
-<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co">#&gt; [1] &quot;data.table&quot;</span></span>
-<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="co">#&gt; $extensions</span></span>
-<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="co">#&gt; NULL</span></span>
-<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="co">#&gt; $lib.loc</span></span>
-<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a><span class="co">#&gt; [1] &quot;D:/Programs/R-4.3.2/library&quot;</span></span>
-<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a><span class="co">#&gt; $import_order</span></span>
-<span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a><span class="co">#&gt; [1] &quot;dependencies&quot; &quot;main_package&quot; &quot;extensions&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">attr.import</span>(tdt., <span class="st">&quot;args&quot;</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="co">#&gt; $main_package</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;tidytable&quot;</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="co">#&gt; $re_exports</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co">#&gt; $dependencies</span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="co">#&gt; [1] &quot;data.table&quot;</span></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a><span class="co">#&gt; $extensions</span></span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="co">#&gt; NULL</span></span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a><span class="co">#&gt; $lib.loc</span></span>
+<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a><span class="co">#&gt; [1] &quot;D:/Programs/R-4.3.2/library&quot;</span></span>
+<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a><span class="co">#&gt; $import_order</span></span>
+<span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a><span class="co">#&gt; [1] &quot;dependencies&quot; &quot;main_package&quot; &quot;extensions&quot;</span></span></code></pre></div>
 <p>The help file on <code>attr.import()</code> provides more details on
 each of these options.</p>
 <p> </p>
@@ -566,12 +545,12 @@ function <code>i</code> (or topic string <code>i</code>), even if the
 function is inside an alias object, or if the function is an unattached
 function (like exposed infix operators).</p>
 <p>Example:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">import_as</span>(<span class="sc">~</span> mr., <span class="st">&quot;magrittr&quot;</span>)</span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="fu">import_inops</span>(mr.)</span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a></span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="fu">help.import</span>(<span class="at">i=</span>mr.<span class="sc">$</span>add)</span>
-<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="fu">help.import</span>(<span class="at">i=</span><span class="st">`</span><span class="at">%&gt;%</span><span class="st">`</span>)</span>
-<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="fu">help.import</span>(<span class="at">i=</span><span class="st">&quot;add&quot;</span>, <span class="at">alias=</span>mr.)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">import_as</span>(<span class="sc">~</span> mr., <span class="st">&quot;magrittr&quot;</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="fu">import_inops</span>(mr.)</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="fu">help.import</span>(<span class="at">i=</span>mr.<span class="sc">$</span>add)</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="fu">help.import</span>(<span class="at">i=</span><span class="st">`</span><span class="at">%&gt;%</span><span class="st">`</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="fu">help.import</span>(<span class="at">i=</span><span class="st">&quot;add&quot;</span>, <span class="at">alias=</span>mr.)</span></code></pre></div>
 <p> </p>
 </div>
 <div id="miscellaneous-comments-on-package-imports" class="section level1">

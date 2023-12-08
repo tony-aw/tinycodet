@@ -71,6 +71,8 @@
 <li>Added the <code><a href="../reference/pkgs.html">pkg_get_deps_minimal()</a></code> function. Also changed the default arguments of <code><a href="../reference/pkgs.html">pkg_get_deps()</a></code>.</li>
 <li>Changed the error message for wrong extension specifications: replaced “actual reverse-dependencies” into “actual extensions”.</li>
 <li>Changed the usage of the word “load” to “import” in the import system documentation, to avoid confusion with the concept of loading a package.</li>
+<li>Added the <code>pversion_</code> functions to help in checking package versions.</li>
+<li>Removed the “versions” attribute from alias objects, in favour of the aforementioned <code>pversion_</code> functions.</li>
 <li>
 <strong>Argument name change:</strong> in the <code><a href="../reference/import_as.html">import_as()</a></code> function, changed argument name <code>loadorder</code> to <code>import_order</code>, to avoid confusion with the concept of loading a package.</li>
 <li>

@@ -51,29 +51,33 @@
 #' is to somewhat find the best of both worlds.
 #' It does this by introducing the following functions: \cr
 #'
-#' - \link{import_as}:
+#'  * \link{import_as}:
 #' Import a main package,
 #' and optionally its re-exports + its direct dependencies + its direct extensions,
 #' under a single alias.
 #' This essentially combines the attaching advantage of using multiple related packages (item 7 on the list),
 #' whilst keeping most advantages of using without attaching a package.
-#' - \link{import_inops}:
+#'  * \link{import_inops}:
 #' Expose infix operators from a package or an alias object to the current environment.
 #' This gains the attaching advantage of less typing (item 6 on the list),
 #' whilst simultaneously avoiding the disadvantage of attaching functions from a package globally (item 4 on the list).
-#' - \link{import_data}:
+#'  * \link{import_data}:
 #' Directly return a data set from a package,
 #' to allow straight-forward assignment.
 #'
 #' Furthermore, there are two miscellaneous \code{import_} - functions:
 #' \link{import_LL} and \link{import_int}. \cr
-#' And there are also some additional helper functions for the package import system,
-#' see \link[=help.import]{x.import} and \link[=pkg_get_deps]{pkgs}. \cr
 #' \cr
-#' All \code{import_}-functions have the \code{lib.loc} argument
-#' to specify the library path to import packages from,
-#' thus allowing straight-forward project isolation. \cr
-#' \cr
+#' The import system also includes general helper functions:
+#' 
+#'  * The \link[=help.import]{x.import} functions:
+#'  helper functions specifically for the 'tinycodet' import system.
+#'  * The \link{pversion}_ functions:
+#'  various helper functions regarding checking package version mismatches.
+#'  * The \link[=pkg_get_deps]{pkgs} - functions:
+#'  general helper functions regarding packages.
+#' 
+#' 
 #' See the examples section below
 #' to get an idea of how the 'tinycodet' import system works in practice.
 #' More examples can be found on the website (\url{https://tony-aw.github.io/tinycodet/})

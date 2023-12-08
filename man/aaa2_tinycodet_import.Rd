@@ -71,13 +71,17 @@ to allow straight-forward assignment.
 
 Furthermore, there are two miscellaneous \code{import_} - functions:
 \link{import_LL} and \link{import_int}. \cr
-And there are also some additional helper functions for the package import system,
-see \link[=help.import]{x.import} and \link[=pkg_get_deps]{pkgs}. \cr
 \cr
-All \code{import_}-functions have the \code{lib.loc} argument
-to specify the library path to import packages from,
-thus allowing straight-forward project isolation. \cr
-\cr
+The import system also includes general helper functions:
+\itemize{
+\item The \link[=help.import]{x.import} functions:
+helper functions specifically for the 'tinycodet' import system.
+\item The \link{pversion}_ functions:
+various helper functions regarding checking package version mismatches.
+\item The \link[=pkg_get_deps]{pkgs} - functions:
+general helper functions regarding packages.
+}
+
 See the examples section below
 to get an idea of how the 'tinycodet' import system works in practice.
 More examples can be found on the website (\url{https://tony-aw.github.io/tinycodet/})

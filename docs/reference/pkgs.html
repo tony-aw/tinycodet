@@ -19,6 +19,10 @@ base, recom, rstudioapi, shared_tidy
 all set to FALSE,
 and the default value for deps_type is c("Depends", "Imports"). 
 
+The pkgs_check_version_mismatch() function
+checks for difference between the versions of the packages in the specified library,
+and the versions of the packages already loaded. 
+
 The pkg_lsf() function
 gets a list of exported functions/operators from a package. 
 One handy use for this function is to, for example,
@@ -44,6 +48,10 @@ except with
 base, recom, rstudioapi, shared_tidy
 all set to FALSE,
 and the default value for deps_type is c("Depends", "Imports"). 
+
+The pkgs_check_version_mismatch() function
+checks for difference between the versions of the packages in the specified library,
+and the versions of the packages already loaded. 
 
 The pkg_lsf() function
 gets a list of exported functions/operators from a package. 
@@ -131,6 +139,9 @@ except with
 <code>base, recom, rstudioapi, shared_tidy</code>
 all set to <code>FALSE</code>,
 and the default value for <code>deps_type</code> is c("Depends", "Imports"). <br><br>
+The <code>pkgs_check_version_mismatch()</code> function
+checks for difference between the versions of the packages in the specified library,
+and the versions of the packages already loaded. <br><br>
 The <code>pkg_lsf()</code> function
 gets a list of exported functions/operators from a package. <br>
 One handy use for this function is to, for example,
@@ -158,6 +169,8 @@ like so:</p>
 <span>  lib.loc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  deps_type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Depends"</span>, <span class="st">"Imports"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">pkgs_check_version_mismatch</span><span class="op">(</span><span class="va">pkgs</span>, lib.loc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">pkg_lsf</span><span class="op">(</span><span class="va">package</span>, <span class="va">type</span>, lib.loc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -248,7 +261,17 @@ and the value <code>FALSE</code> indicates a package is not installed. <br></p>
 <p><br></p>
 
 
-<p>For <code>pkg_lsf()</code>: <br></p>
+<p>For <code>pkgs_check_version_mismatch()</code>: <br></p>
+
+
+<p>If no mismatch between loaded versions and those in <code>lib.loc</code> were found,
+returns <code>NULL</code>. <br></p>
+
+
+<p>Else it returns a table with 3 columns:</p><ul><li><p>"package": specifying the packages.</p></li>
+<li><p>"version_lib.loc": the version of each package found in the library location.</p></li>
+<li><p>"version_loaded": the version already loaded. <br><br></p></li>
+</ul><p>For <code>pkg_lsf()</code>: <br></p>
 
 
 <p>Returns a character vector of exported function names in the specified package.</p>

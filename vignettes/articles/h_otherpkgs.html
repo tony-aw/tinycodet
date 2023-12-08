@@ -392,17 +392,8 @@ user-defined scripts, and <code>tinycodet</code> for handling
 packages.</p>
 <p> </p>
 </div>
-<div id="packages-for-project-isolation" class="section level2">
-<h2>Packages for project isolation</h2>
-<p>All <code>import_</code> - functions in <code>tinycodet</code> have
-the <code>lib.loc</code> argument to specify the library path, which can
-be used for straight-forward project isolation. The
-<code>library()</code> and <code>require()</code> functions also have
-arguments to specify the exact library path. This combined with the
-R-Studio Package Manager for date-based repositories gives one
-everything that is needed for project isolation and version control.</p>
-<p>However, I can understand one might still one to use an additional R
-package for this, like <code>renv</code>.</p>
+<div id="renv" class="section level2">
+<h2>Renv</h2>
 <p>When using the <a href="https://github.com/rstudio/renv">renv</a> R
 package, note that it only registers packages loads using plain
 <code>library()</code> or <code>require()</code> calls. Anything

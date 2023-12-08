@@ -21,6 +21,10 @@
 #' all set to \code{FALSE},
 #' and the default value for \code{deps_type} is c("Depends", "Imports"). \cr
 #' \cr
+#' The \code{pkgs_check_version_mismatch()} function
+#' checks for difference between the versions of the packages in the specified library,
+#' and the versions of the packages already loaded. \cr
+#' \cr
 #' The \code{pkg_lsf()} function
 #' gets a list of exported functions/operators from a package. \cr
 #' One handy use for this function is to, for example,
@@ -94,6 +98,15 @@
 #' For \code{pkg_get_deps()}: \cr
 #' A character vector of unique dependencies. \cr
 #' \cr
+#' For \code{pkgs_check_version_mismatch()}: \cr
+#' If no mismatch between loaded versions and those in \code{lib.loc} were found,
+#' returns \code{NULL}. \cr
+#' Else it returns a table with 3 columns:
+#' 
+#'  * "package": specifying the packages.
+#'  * "version_lib.loc": the version of each package found in the library location.
+#'  * "version_loaded": the version already loaded. \cr \cr
+#' 
 #' For \code{pkg_lsf()}: \cr
 #' Returns a character vector of exported function names in the specified package.
 #'
@@ -194,6 +207,33 @@ pkg_get_deps_minimal <- function(package, lib.loc = .libPaths(), deps_type = c("
   ))
 }
 
+#' @rdname pkgs
+#' @export
+pkgs_check_version_mismatch <- function(pkgs, lib.loc = .libPaths()) {
+  
+  pkgs <- pkgs[pkgs %installed in% lib.loc]
+  pkgs <- pkgs[pkgs %in% loadedNamespaces()]
+  
+  if(length(pkgs) > 0) {
+    versions_loaded <- lapply(pkgs, getNamespaceVersion) |> unlist()
+    versions_lib <- as.character(lapply(pkgs, \(x)as.character(utils::packageVersion(x, lib.loc = lib.loc))) |> unlist())
+    ind <- which(versions_loaded != versions_lib)
+    if(length(ind) > 0) {
+      pkgs <- pkgs[ind]
+      versions_lib <- versions_lib[ind]
+      versions_loaded <- versions_loaded[ind]
+      tab <- data.frame(
+        package = pkgs,
+        version_lib.loc = versions_lib,
+        version_loaded = versions_loaded
+      )
+      rownames(tab) <- 1:nrow(tab)
+      return(tab)
+    }
+  }
+  
+  return(NULL)
+}
 
 #' @rdname pkgs
 #' @export

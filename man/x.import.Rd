@@ -30,7 +30,7 @@ If a string, argument \code{alias} must be specified also.
 \item{x}{the object/function to be tested.}
 
 \item{which}{The attributes to list. If \code{NULL}, all attributes will be returned. \cr
-Possibilities: "pkgs", "conflicts", "versions", "args", and "ordered_object_names".}
+Possibilities: "pkgs", "conflicts", "args", and "ordered_object_names".}
 }
 \value{
 For \code{help.import()}: \cr
@@ -63,10 +63,6 @@ Functions from later named packages overwrite those from earlier named packages,
 in case of conflicts. \cr
 The "conflicts" attribute returns a data.frame showing exactly which functions overwrite
 functions from earlier named packages, and as such "win" the conflicts. \cr
-\cr
-For \code{attr.import(alias, which = "versions")}: \cr
-A data.frame, giving the version of every package imported under the alias,
-ignoring re-exports. \cr
 \cr
 For \code{attr.import(alias, which = "args")}: \cr
 Returns a list of input arguments.

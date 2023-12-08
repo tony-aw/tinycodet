@@ -66,7 +66,6 @@
 #' @noRd
 .internal_check_pkgs <- function(pkgs, lib.loc, pkgs_txt="packages", correct_pkgs=NULL, abortcall) {
   
-  pkgs_core <- .internal_list_coreR()
   
   misspelled_pkgs <- pkgs[pkgs != make.names(pkgs)]
   if(length(misspelled_pkgs)>0) {
@@ -100,12 +99,12 @@
   }
   
   
-  forbidden_pkgs <- pkgs[pkgs %in% pkgs_core]
+  forbidden_pkgs <- pkgs[pkgs %in% .internal_list_coreR()]
   if(length(forbidden_pkgs)>0) {
     error.txt <- simpleError(paste0(
       'The following "packages" are base/core R, which is not allowed:',
       "\n",
-      paste0(forbidden_pkgs)
+      paste0(forbidden_pkgs, collapse = ", ")
     ), call=abortcall)
     stop(error.txt)
   }
@@ -133,16 +132,48 @@
       stop(error.txt)
     }
   }
-  
+
 }
 
 
 #' @keywords internal
 #' @noRd
-.internal_prep_Namespace <- function(package, lib.loc, abortcall) {
+.internal_check_versions <- function(pkgs, lib.loc, abortcall) {
+  tempfun <- function(x) {
+    return(pkg_get_deps(
+      x, lib.loc = lib.loc,
+      deps_type=c("LinkingTo", "Depends", "Imports"),
+      base=FALSE, recom=TRUE, rstudioapi=TRUE, shared_tidy=TRUE
+    ))
+  }
+  pkgs_required <- lapply(pkgs, tempfun) |> unlist()
+  pkgs <- c(pkgs, pkgs_required)
+  
+  tab <- pkgs_check_version_mismatch(pkgs, lib.loc)
+  if(!is.null(tab)) {
+    tab.txt <- paste0(utils::capture.output(tab), collapse = "\n")
+    warning(simpleWarning(paste0(
+      "Different versions of packages already loaded:",
+      "\n",
+      tab.txt,
+      "\n",
+      "Already loaded versions will be used instead of the versions in lib.loc!!!",
+      "\n",
+      "To correct this: unload the packages and ALL its recursive dependencies, and reload."
+    ), call = abortcall))
+  }
+}
 
-  pkgs_required <- pkg_get_deps(package, lib.loc = lib.loc, deps_type=c("LinkingTo", "Depends", "Imports"),
-               base=FALSE, recom=TRUE, rstudioapi=TRUE, shared_tidy=TRUE)
+
+
+#' @keywords internal
+#' @noRd
+.internal_check_ns_requirements <- function(package, lib.loc, abortcall) {
+  
+  pkgs_required <- pkg_get_deps(
+    package, lib.loc = lib.loc,
+    deps_type=c("LinkingTo", "Depends", "Imports"),
+    base=FALSE, recom=TRUE, rstudioapi=TRUE, shared_tidy=TRUE)
   pkgs_total <- c(package, pkgs_required)
   pkgs_missing <- pkgs_total[!pkgs_total %installed in% lib.loc]
   if(length(pkgs_missing)>0) {
@@ -155,6 +186,14 @@
     )
     stop(simpleError(error.txt, call = abortcall))
   }
+  
+}
+
+#' @keywords internal
+#' @noRd
+.internal_prep_Namespace <- function(package, lib.loc, abortcall) {
+  
+  .internal_check_ns_requirements(package, lib.loc, abortcall)
   
   ns <- loadNamespace(package, lib.loc = lib.loc) |> as.list(all.names=TRUE, sorted=TRUE)
   names_exported <- names(ns[[".__NAMESPACE__."]][["exports"]])
@@ -188,36 +227,42 @@
   ns <- loadNamespace(main_package, lib.loc = lib.loc) |> as.list(all.names=TRUE, sorted=TRUE)
   names_exports <- names(ns[[".__NAMESPACE__."]][["exports"]])
   lst_imports <- ns[[".__NAMESPACE__."]][["imports"]]
-  pkgs_core <- .internal_list_coreR()
 
-  lst_imports <- lst_imports[!names(lst_imports) %in% pkgs_core]
+  lst_imports <- lst_imports[!names(lst_imports) %in% .internal_list_coreR()]
   pkgs <- names(lst_imports) |> unique()
-
-  uninstalled_pkgs <- pkgs[!pkgs %installed in% lib.loc]
-  if(length(uninstalled_pkgs)>0) {
-    error.txt <- simpleError(paste0(
-      "The following dependent packages (for the re-exports) are not installed:",
-      "\n",
-      paste0(uninstalled_pkgs, collapse = ", ")
-    ), call = abortcall)
-    stop(error.txt)
+  pkgs <- pkgs[!pkgs %in% .internal_list_coreR()]
+  
+  if(length(pkgs) > 0) {
+    .internal_check_versions(pkgs, lib.loc, abortcall)
+    
+    uninstalled_pkgs <- pkgs[!pkgs %installed in% lib.loc]
+    if(length(uninstalled_pkgs)>0) {
+      error.txt <- simpleError(paste0(
+        "The following dependent packages (for the re-exports) are not installed:",
+        "\n",
+        paste0(uninstalled_pkgs, collapse = ", ")
+      ), call = abortcall)
+      stop(error.txt)
+    }
+    
+    ns_foreign <- list()
+    for (i in pkgs) {
+      names_funs <- lst_imports[names(lst_imports) %in% i] |> unlist()
+      names_funs <- intersect(names_exports, names_funs)
+      ns_i <- .internal_prep_Namespace(i, lib.loc = lib.loc, abortcall) |> as.environment()
+      names_funs <- intersect(names_funs, names(ns_i))
+      ns_temp <- mget(
+        names_funs, envir = ns_i,
+        inherits = FALSE
+      )
+      ns_foreign <- utils::modifyList(
+        ns_foreign, ns_temp
+      )
+    }
+    return(ns_foreign)
   }
-
-  ns_foreign <- list()
-  for (i in pkgs) {
-    names_funs <- lst_imports[names(lst_imports) %in% i] |> unlist()
-    names_funs <- intersect(names_exports, names_funs)
-    ns_i <- .internal_prep_Namespace(i, lib.loc = lib.loc, abortcall) |> as.environment()
-    names_funs <- intersect(names_funs, names(ns_i))
-    ns_temp <- mget(
-      names_funs, envir = ns_i,
-      inherits = FALSE
-    )
-    ns_foreign <- utils::modifyList(
-      ns_foreign, ns_temp
-    )
-  }
-  return(ns_foreign)
+  if(length(pkgs) == 0) return(list())
+  
 }
 
 
