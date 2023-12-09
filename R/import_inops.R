@@ -184,9 +184,7 @@ import_inops <- function(
       if(length(expose)>1) {
         stop("`expose` must be a package name (string) or an alias from `import_as()`")
       }
-      .internal_check_pkgs(
-        pkgs=expose, lib.loc=lib.loc, pkgs_txt = "packages", abortcall=sys.call()
-      )
+      
       .import_inops_main(
         expose, lib.loc = lib.loc,
         env=parent.frame(n = 1), abortcall = sys.call(),
@@ -247,6 +245,16 @@ import_inops <- function(
 .import_inops_main <- function(
     package, lib.loc, env, abortcall, ...
 ){
+  
+  
+  # check library:
+  .internal_check_lib.loc(lib.loc, abortcall)
+  
+  
+  # check package
+  .internal_check_pkgs(
+    pkgs=package, lib.loc=lib.loc, pkgs_txt = "packages", abortcall=sys.call()
+  )
 
   # check additional arguments:
   lst <- import_inops.control(...) # checks are done in here
@@ -257,6 +265,8 @@ import_inops <- function(
 
   # FUNCTION:
   ns <- .internal_prep_Namespace(package, lib.loc, abortcall = sys.call())
+  
+  
   export_names <-  grep("%|:=", names(ns), value=TRUE)
 
   if(length(export_names)==0){

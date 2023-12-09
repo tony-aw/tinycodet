@@ -135,36 +135,6 @@
 
 }
 
-#' 
-#' #' @keywords internal
-#' #' @noRd
-#' .internal_check_versions <- function(pkgs, lib.loc, abortcall) {
-#'   tempfun <- function(x) {
-#'     return(pkg_get_deps(
-#'       x, lib.loc = lib.loc,
-#'       deps_type=c("LinkingTo", "Depends", "Imports"),
-#'       base=FALSE, recom=TRUE, rstudioapi=TRUE, shared_tidy=TRUE
-#'     ))
-#'   }
-#'   pkgs_required <- lapply(pkgs, tempfun) |> unlist()
-#'   pkgs <- c(pkgs, pkgs_required)
-#'   
-#'   tab <- pkgs_check_version_mismatch(pkgs, lib.loc)
-#'   if(!is.null(tab)) {
-#'     tab.txt <- paste0(utils::capture.output(tab), collapse = "\n")
-#'     warning(simpleWarning(paste0(
-#'       "Different versions of packages already loaded:",
-#'       "\n",
-#'       tab.txt,
-#'       "\n",
-#'       "Already loaded versions will be used instead of the versions in lib.loc!!!",
-#'       "\n",
-#'       "To correct this: unload the packages and ALL its recursive dependencies, and reload."
-#'     ), call = abortcall))
-#'   }
-#' }
-
-
 
 #' @keywords internal
 #' @noRd

@@ -77,7 +77,7 @@ The import system also includes general helper functions:
 \item The \link[=help.import]{x.import} functions:
 helper functions specifically for the 'tinycodet' import system.
 \item The \link{pversion}_ functions:
-various helper functions regarding checking package version mismatches.
+check mismatch between loaded package version and package version in library path.
 \item The \link[=pkg_get_deps]{pkgs} - functions:
 general helper functions regarding packages.
 }

@@ -13,7 +13,9 @@ pversion_report(pkgs = NULL, lib.loc = .libPaths())
 \arguments{
 \item{pkgs}{a character vector with the package name(s). \cr
 Packages that are not actually loaded will be ignored. \cr
-If \code{NULL}, ALL loaded packages (excluding core R) will be checked.}
+If \code{NULL}, all loaded packages
+(see \link[base]{loadedNamespaces})
+excluding core/base R will be checked.}
 
 \item{lib.loc}{character vector specifying library search path
 (the location of R library trees to search through). \cr
@@ -40,14 +42,13 @@ In both functions, the data.frame consists of the following columns:
 }
 }
 \description{
-The \link[base]{loadNamespace} function
-has the unfortunate property that when dependencies of the specified package
-cannot be found in the specified library,
-it searches other known libraries to load the dependencies. \cr
-\cr
 The \code{pversion_check4mismatch()} function
 checks if there is any mismatch between
-the currently loaded packages and the packages in the specified library. \cr
+the currently loaded packages and the packages in the specified library path. \cr
+This is useful as 'R' (silently) looks for all known libraries
+(see \link[base]{.libPaths})
+when it cannot find package dependencies that need to be loaded. \cr
+\cr
 So one could, for example,
 load and import or attach all packages at the start of a script,
 and check for version mismatches like so:
@@ -74,8 +75,9 @@ regardless if there is a mismatch or not.
 "dplyr" \%installed in\%  .libPaths()
 
 import_as(~dpr., "dplyr")
-pversion_report(loadedNamespaces(), .libPaths())
-pversion_check4mismatch(loadedNamespaces(), .libPaths())
+pversion_check4mismatch()
+pversion_report()
+
 
 
 

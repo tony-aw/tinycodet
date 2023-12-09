@@ -170,7 +170,7 @@ import_as <- function(
     lib.loc = .libPaths(),
     import_order = c("dependencies", "main_package", "extensions")
 ) {
-
+  
   # Check alias:
   alias_is_formula <- inherits(alias, "formula") && is.call(alias) && alias[[1]] == "~"
   if(!is.character(alias) & !alias_is_formula) {
@@ -197,10 +197,10 @@ import_as <- function(
   if(!isTRUE(all(check_proper_alias))){
     stop("Syntactically invalid name for object `alias`")
   }
-
+  
   # check library:
   .internal_check_lib.loc(lib.loc, sys.call())
-
+  
   # check main_package:
   if(length(main_package) != 1 || !is.character(main_package)){
     stop("`main_package` must be a single string")
@@ -211,12 +211,12 @@ import_as <- function(
   if(!isTRUE(re_exports) && !isFALSE(re_exports)) {
     stop("`re_exports` must be either `TRUE` or `FALSE`")
   }
-
+  
   # check import order:
   if(!.import_order_is_correct(import_order)) {
     stop("Improper `import_order` given")
   }
-
+  
   # check dependencies + extensions combo:
   if(length(intersect(dependencies, extensions)) > 0) {
     stop("packages cannot be both dependencies and extensions!")
@@ -233,7 +233,7 @@ import_as <- function(
     .internal_check_dependencies(main_package, dependencies, lib.loc, abortcall=sys.call())
   }
   
-
+  
   # Check extensions:
   if(!is.null(extensions)) {
     if(!is.character(extensions) || length(extensions) == 0) { 
@@ -242,8 +242,8 @@ import_as <- function(
     .internal_check_extends(main_package, extensions, lib.loc, abortcall=sys.call())
   }
   
-
-
+  
+  
   # list packages:
   pkgs <- list(
     dependencies=dependencies, main_package=main_package, extensions=extensions
@@ -266,30 +266,30 @@ import_as <- function(
   #   version_lib.loc = character(length(pkgs))
   # )
   namespaces <- list()
-
+  
   message("Importing packages...")
-
+  
   for (i in 1:length(pkgs)) {
-
+    
     namespace_current <- .internal_prep_Namespace(pkgs[i], lib.loc, abortcall = sys.call())
     conflicts_df$package[i] <- pkgs[i]
     # versions_df$package[i] <- pkgs[i]
     # versions_df$version_ns[i] <- getNamespaceVersion(pkgs[i])
     # versions_df$version_lib.loc[i] <- utils::packageVersion(pkgs[i], lib.loc)
-
+    
     if(pkgs[i]==main_package & isTRUE(re_exports)) {
       foreignexports <- .internal_get_foreignexports_ns(main_package, lib.loc, abortcall=sys.call())
-
+      
       namespace_current <- utils::modifyList(
         namespace_current,
         foreignexports
       )
       conflicts_df$package[i] <- paste0(pkgs[i], " + re-exports")
-
+      
     }
-
+    
     export_names_current <- names(namespace_current)
-
+    
     export_names_intersection <- intersect(export_names_current, export_names_all)
     if(length(export_names_intersection)>0) {
       conflicts_df$winning_conflicts[i] <- paste0(export_names_intersection, collapse = ", ")
@@ -298,7 +298,7 @@ import_as <- function(
     export_names_all <- c(export_names_all, export_names_current)
     namespaces <- utils::modifyList(namespaces, namespace_current)
   }
-
+  
   # make attributes:
   ordered_object_names <- names(namespaces)
   out <- as.environment(namespaces)
@@ -326,18 +326,18 @@ import_as <- function(
     ordered_object_names = ordered_object_names,
     tinyimport = "tinyimport"
   )
-
+  
   # lock environment (JUST LIKE LOADNAMESPACE)
   lockEnvironment(out, bindings = TRUE)
   assign(alias, out, envir = parent.frame(n = 1))
-
+  
   message(paste0(
     "Done", "\n",
     "You can now access the functions using `", alias, "$", "`", "\n",
     "Methods will work like normally \n",
     "For conflicts report, packages order, and other attributes, run `", "attr.import(", alias, ")", "` \n"
   ))
-
+  
 }
 
 #' @keywords internal
@@ -388,7 +388,7 @@ import_as <- function(
   if(!check_pkgs) {
     return(FALSE)
   }
-
+  
   return(TRUE)
 }
 
@@ -437,7 +437,9 @@ import_as <- function(
   if(!isTRUE(check_import_order)) {
     return(FALSE)
   }
-
+  
   return(TRUE)
-
+  
 }
+
+

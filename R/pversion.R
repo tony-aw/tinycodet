@@ -1,14 +1,13 @@
 #' Check for Package Versions Mismatch
 #'
 #' @description
-#' The \link[base]{loadNamespace} function
-#' has the unfortunate property that when dependencies of the specified package
-#' cannot be found in the specified library,
-#' it searches other known libraries to load the dependencies. \cr
-#' \cr
 #' The \code{pversion_check4mismatch()} function
 #' checks if there is any mismatch between
-#' the currently loaded packages and the packages in the specified library. \cr
+#' the currently loaded packages and the packages in the specified library path. \cr
+#' This is useful as 'R' (silently) looks for all known libraries
+#' (see \link[base]{.libPaths})
+#' when it cannot find package dependencies that need to be loaded. \cr
+#' \cr
 #' So one could, for example,
 #' load and import or attach all packages at the start of a script,
 #' and check for version mismatches like so:
@@ -33,7 +32,9 @@
 #'
 #' @param pkgs a character vector with the package name(s). \cr
 #' Packages that are not actually loaded will be ignored. \cr
-#' If \code{NULL}, ALL loaded packages (excluding core R) will be checked.
+#' If \code{NULL}, all loaded packages
+#' (see \link[base]{loadedNamespaces})
+#' excluding core/base R will be checked.
 #' @param lib.loc character vector specifying library search path
 #' (the location of R library trees to search through). \cr
 #' The \code{lib.loc} argument would usually be \code{.libPaths()}. \cr
@@ -66,8 +67,9 @@
 #' "dplyr" %installed in%  .libPaths()
 #' 
 #' import_as(~dpr., "dplyr")
-#' pversion_report(loadedNamespaces(), .libPaths())
-#' pversion_check4mismatch(loadedNamespaces(), .libPaths())
+#' pversion_check4mismatch()
+#' pversion_report()
+#' 
 #'
 #'
 #'
@@ -101,7 +103,8 @@ pversion_check4mismatch <- function(pkgs = NULL, lib.loc = .libPaths()) {
     versions_loaded <- lapply(pkgs, getNamespaceVersion) |> unlist()
     versions_lib <- lapply(pkgs, \(x)as.character(utils::packageVersion(x, lib.loc = lib.loc))) |>
       unlist()
-    ind <- which(versions_loaded != versions_lib)
+    versions_compare <- mapply(utils::compareVersion, versions_loaded, versions_lib)
+    ind <- which(versions_compare != 0)
     if(length(ind) > 0) {
       pkgs <- pkgs[ind]
       versions_lib <- versions_lib[ind]

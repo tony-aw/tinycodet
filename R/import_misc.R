@@ -114,11 +114,13 @@ import_LL <- function(
   # check library:
   .internal_check_lib.loc(lib.loc, sys.call())
 
+
   # check main_package:
   if(!is.character(package) | length(package)>1){
     stop("`package` must be a single string")
   }
   .internal_check_pkgs(pkgs=package, lib.loc=lib.loc, abortcall=sys.call())
+  
   
   # check selection:
   checks <- c(
@@ -130,10 +132,12 @@ import_LL <- function(
   if(any(checks)) {
     stop("`selection` must be a non-empty character vector of unique function names")
   }
+  
   # load package:
   ns <- .internal_prep_Namespace(package, lib.loc, abortcall = sys.call())
   ns <- ns[lapply(ns, is.function) |> unlist()]
-
+  
+  # finish up:
   if(any(!selection %in% names(ns))) {
     stop("specified functions not found in package namespace")
   }
@@ -156,8 +160,6 @@ import_LL <- function(
 #' @export
 import_int <- function(form, lib.loc = .libPaths()) {
 
-  # check library:
-  .internal_check_lib.loc(lib.loc, sys.call())
 
   # check form:
   check_form <- inherits(form, "formula") && is.call(form) && form[[1]] == "~"
@@ -175,10 +177,14 @@ import_int <- function(form, lib.loc = .libPaths()) {
   if(length(package) != 1) {
     stop("must give a single package")
   }
+  
+  # check library:
+  .internal_check_lib.loc(lib.loc, sys.call())
+
+  # check & get package:
   .internal_check_pkgs(package, lib.loc, abortcall = sys.call())
-
-
   ns <- .get_internals(package, lib.loc, abortcall = sys.call())
+  
   ns <- as.environment(ns)
   if(!intfun %in% names(ns)) {
     stop(paste0(intfun, " is not an internal function of ", package))
