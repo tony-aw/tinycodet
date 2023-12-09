@@ -159,6 +159,7 @@ The \code{import_as()} function
 does not support importing base/core R under an alias. \cr
 Packages that appear in the "Suggests" or "Enhances" fields of packages
 are not considered dependencies or extensions. \cr
+No more than 10 packages are allowed to be imported under a single alias. \cr
 \cr
 }
 \examples{

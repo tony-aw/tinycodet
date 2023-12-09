@@ -61,9 +61,8 @@ indicating whether the shared dependencies of the 'tidyverse' should be included
 (\code{TRUE}),
 or not included (\code{FALSE}). \cr
 \bold{Details:} \cr
-Unlike 'tinyverse' and 'fastverse' packages,
-'tidyverse' packages tend to have large number of dependencies,
-some of which are shared across the 'tidyverse'. \cr
+'tidyverse' packages tend to have more dependencies than 'tinyverse' and 'fastverse' packages. \cr
+Some of these dependencies are shared across the 'tidyverse'. \cr
 The "official" list of shared dependencies in the 'tidyverse' currently is the following: \cr
 'rlang', 'lifecycle', 'cli', 'glue', and 'withr'.}
 
@@ -134,16 +133,17 @@ means the package names are extracted from the fields in the following order:
 The unique (thus non-repeating) package names are then returned to the user.
 }
 \examples{
+\dontshow{if ("dplyr" \%installed in\% .libPaths()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+"dplyr" \%installed in\% .libPaths()
 
-check <- "dplyr" \%installed in\% .libPaths()
-
-if(check) pkgs <- pkg_get_deps("dplyr") # many dependencies
-if(check) pkgs \%installed in\% .libPaths()
-if(check) pkg_lsf("dplyr", "all")
-
+pkg_get_deps_minimal("dplyr")
+pkgs <- pkg_get_deps("dplyr")
+pkgs \%installed in\% .libPaths()
+pkg_lsf("dplyr", "all")
 
 
 
+\dontshow{\}) # examplesIf}
 }
 \references{
 O'Brien J., elegantly extract R-package dependencies of a package not listed on CRAN. \emph{Stack Overflow}. (1 September 2023). \url{https://stackoverflow.com/questions/30223957/elegantly-extract-r-package-dependencies-of-a-package-not-listed-on-cran}

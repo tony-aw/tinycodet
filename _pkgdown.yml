@@ -14,3 +14,4 @@ home:
 search:
   exclude: ['vignettes/*']
 url: https://tony-aw.github.io/tinycodet
+

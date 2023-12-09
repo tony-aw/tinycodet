@@ -4,21 +4,8 @@ checks if there is any mismatch between
 the currently loaded packages and the packages in the specified library path. 
 This is useful as 'R' (silently) looks for all known libraries
 (see .libPaths)
-when it cannot find package dependencies that need to be loaded. 
-
-So one could, for example,
-load and import or attach all packages at the start of a script,
-and check for version mismatches like so:
-lib.loc &amp;lt;- ...some library path...
-import_as(~ dpr., &quot;dplyr&quot;, lib.loc = lib.loc)
-import_inops(&quot;magrittr&quot;, lib.loc = lib.loc)
-import_data(&quot;dplyr&quot;, starwars&quot;, lib.loc = lib.loc)
-library(ggplot2)
-pkgs &amp;lt;- tools::package_dependencies(
-   c(&quot;dplyr&quot;, &quot;magrtittr&quot;, &quot;ggplot2&quot;), recursive = TRUE
-)
-pversion_check4mismatch(pkgs, lib.loc)
-
+when it cannot find package dependencies that need to be loaded,
+which may result in loading packages of a different version than the user expected. 
 
 The pversion_report() function
 gives a table of all specified packages,
@@ -28,21 +15,8 @@ checks if there is any mismatch between
 the currently loaded packages and the packages in the specified library path. 
 This is useful as 'R' (silently) looks for all known libraries
 (see .libPaths)
-when it cannot find package dependencies that need to be loaded. 
-
-So one could, for example,
-load and import or attach all packages at the start of a script,
-and check for version mismatches like so:
-lib.loc &amp;lt;- ...some library path...
-import_as(~ dpr., &quot;dplyr&quot;, lib.loc = lib.loc)
-import_inops(&quot;magrittr&quot;, lib.loc = lib.loc)
-import_data(&quot;dplyr&quot;, starwars&quot;, lib.loc = lib.loc)
-library(ggplot2)
-pkgs &amp;lt;- tools::package_dependencies(
-   c(&quot;dplyr&quot;, &quot;magrtittr&quot;, &quot;ggplot2&quot;), recursive = TRUE
-)
-pversion_check4mismatch(pkgs, lib.loc)
-
+when it cannot find package dependencies that need to be loaded,
+which may result in loading packages of a different version than the user expected. 
 
 The pversion_report() function
 gives a table of all specified packages,
@@ -115,22 +89,9 @@ checks if there is any mismatch between
 the currently loaded packages and the packages in the specified library path. <br>
 This is useful as 'R' (silently) looks for all known libraries
 (see <a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths</a>)
-when it cannot find package dependencies that need to be loaded. <br><br>
-So one could, for example,
-load and import or attach all packages at the start of a script,
-and check for version mismatches like so:</p>
-<p></p><div class="sourceCode r"><pre><code>lib.loc &lt;- ...some library path...
-import_as(~ dpr., "dplyr", lib.loc = lib.loc)
-import_inops("magrittr", lib.loc = lib.loc)
-import_data("dplyr", starwars", lib.loc = lib.loc)
-library(ggplot2)
-pkgs &lt;- tools::package_dependencies(
-   c("dplyr", "magrtittr", "ggplot2"), recursive = TRUE
-)
-pversion_check4mismatch(pkgs, lib.loc)
-
-</code></pre><p></p></div>
-<p>The <code>pversion_report()</code> function
+when it cannot find package dependencies that need to be loaded,
+which may result in loading packages of a different version than the user expected. <br><br>
+The <code>pversion_report()</code> function
 gives a table of all specified packages,
 with their loaded and installed versions,
 regardless if there is a mismatch or not.</p>

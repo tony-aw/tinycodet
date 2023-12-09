@@ -6,25 +6,9 @@
 #' the currently loaded packages and the packages in the specified library path. \cr
 #' This is useful as 'R' (silently) looks for all known libraries
 #' (see \link[base]{.libPaths})
-#' when it cannot find package dependencies that need to be loaded. \cr
+#' when it cannot find package dependencies that need to be loaded,
+#' which may result in loading packages of a different version than the user expected. \cr
 #' \cr
-#' So one could, for example,
-#' load and import or attach all packages at the start of a script,
-#' and check for version mismatches like so:
-#' 
-#' ```{r eval = FALSE}
-#' lib.loc <- ...some library path...
-#' import_as(~ dpr., "dplyr", lib.loc = lib.loc)
-#' import_inops("magrittr", lib.loc = lib.loc)
-#' import_data("dplyr", starwars", lib.loc = lib.loc)
-#' library(ggplot2)
-#' pkgs <- tools::package_dependencies(
-#'    c("dplyr", "magrtittr", "ggplot2"), recursive = TRUE
-#' )
-#' pversion_check4mismatch(pkgs, lib.loc)
-#' 
-#' ```
-#' 
 #' The \code{pversion_report()} function
 #' gives a table of all specified packages,
 #' with their loaded and installed versions,

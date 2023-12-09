@@ -57,9 +57,8 @@
 #' (\code{TRUE}),
 #' or not included (\code{FALSE}). \cr
 #' \bold{Details:} \cr
-#' Unlike 'tinyverse' and 'fastverse' packages,
-#' 'tidyverse' packages tend to have large number of dependencies,
-#' some of which are shared across the 'tidyverse'. \cr
+#' 'tidyverse' packages tend to have more dependencies than 'tinyverse' and 'fastverse' packages. \cr
+#' Some of these dependencies are shared across the 'tidyverse'. \cr
 #' The "official" list of shared dependencies in the 'tidyverse' currently is the following: \cr
 #' 'rlang', 'lifecycle', 'cli', 'glue', and 'withr'.
 #' @param type The type of functions to list. Possibilities:
@@ -104,13 +103,13 @@
 #'
 #'
 #'
-#' @examples
-#'
-#' check <- "dplyr" %installed in% .libPaths()
-#'
-#' if(check) pkgs <- pkg_get_deps("dplyr") # many dependencies
-#' if(check) pkgs %installed in% .libPaths()
-#' if(check) pkg_lsf("dplyr", "all")
+#' @examplesIf "dplyr" %installed in% .libPaths()
+#' "dplyr" %installed in% .libPaths()
+#' 
+#' pkg_get_deps_minimal("dplyr")
+#' pkgs <- pkg_get_deps("dplyr")
+#' pkgs %installed in% .libPaths()
+#' pkg_lsf("dplyr", "all")
 #'
 #'
 #'
