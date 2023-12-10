@@ -17,6 +17,14 @@ expect_error(
   import_int(stringi ~ foo, lib.loc="foo"),
   pattern = "The following packages are not installed"
 )
+expect_error(
+  pversion_check4mismatch("foo", lib.loc="foo"),
+  pattern = "The following packages are not installed"
+)
+expect_error(
+  pversion_report("foo", lib.loc="foo"),
+  pattern = "The following packages are not installed"
+)
 
 
 # package misspelled ====
@@ -36,6 +44,14 @@ for(i in c("", "!@#$%^&*()")) {
   )  |> errorfun()
   expect_error(
     import_LL(i, "foo"),
+    pattern = pattern
+  )  |> errorfun()
+  expect_error(
+    pversion_check4mismatch(i),
+    pattern = pattern
+  )  |> errorfun()
+  expect_error(
+    pversion_report(i),
     pattern = pattern
   )  |> errorfun()
 }
@@ -96,6 +112,14 @@ for(i in metapkgs) {
     import_int(form),
     pattern = pattern
   )  |> errorfun()
+  expect_error(
+    pversion_check4mismatch(i),
+    pattern = pattern
+  )  |> errorfun()
+  expect_error(
+    pversion_report(i),
+    pattern = pattern
+  )  |> errorfun()
 }
 
 
@@ -120,4 +144,11 @@ expect_error(
   import_data("stringi", 'foo', lib.loc=mean),
   pattern = "`lib.loc` must be a character vector with at least one library path"
 )
-
+expect_error(
+  pversion_report("stringi", lib.loc = mean),
+  pattern = "`lib.loc` must be a character vector with at least one library path"
+)
+expect_error(
+  pversion_check4mismatch("stringi", lib.loc = mean),
+  pattern = "`lib.loc` must be a character vector with at least one library path"
+)

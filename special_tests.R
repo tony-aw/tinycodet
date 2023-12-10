@@ -94,3 +94,26 @@ expect_warning(
   import_LL("spam64", 'foo'),
   pattern = "the package `spam64` has no exported functions"
 )
+
+
+# pversion checks ====
+loadNamespace("boot")
+templib <- tempdir()
+remotes::install_version("boot", "1.3-25", lib = templib)
+
+check <- pversion_check4mismatch("boot", lib.loc = templib)
+expect_true(nrow(check) == 1)
+expect_equal(
+  lapply(check, class),
+  list("package" = "character",
+       "version_loaded" = "character",
+       "version_lib.loc" = "character"
+  )
+)
+expect_true(
+  utils::compareVersion(check$version_loaded, check$version_lib.loc) == 1
+)
+
+dir2remove <- file.path(templib, list.files(templib)) |> normalizePath()
+unlink(dir2remove, recursive = TRUE, force = TRUE)
+expect_false(any(file.exists(dir2remove)))

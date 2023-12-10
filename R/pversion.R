@@ -121,11 +121,12 @@ pversion_report <- function(pkgs = NULL, lib.loc = .libPaths()) {
     versions_lib <- lapply(pkgs, \(x)as.character(utils::packageVersion(x, lib.loc = lib.loc))) |>
       unlist()
     versions_compare <- mapply(utils::compareVersion, versions_loaded, versions_lib)
+    versions_compare <- as.logical(versions_compare == 0)
     tab <- data.frame(
       package = pkgs,
       version_loaded = versions_loaded,
       version_lib.loc = versions_lib,
-      version_equal = versions_compare
+      versions_equal = versions_compare
     )
     rownames(tab) <- 1:nrow(tab)
     return(tab)
@@ -135,7 +136,7 @@ pversion_report <- function(pkgs = NULL, lib.loc = .libPaths()) {
     package = character(0),
     version_loaded = character(0),
     version_lib.loc = character(0),
-    version_equal = logical(0)
+    versions_equal = logical(0)
   )
   return(tab)
   
