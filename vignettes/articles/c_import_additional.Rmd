@@ -50,8 +50,8 @@ ls() # notice `accross` is now exposed in this environment
 
 The `import_int()` function directly returns an internal function from a package. It is similar to the `:::` operator, but with 2 key differences:
 
- 1) It it allows the user to explicitly set a library location through the `lib.loc` argument.
- 2) It only searches internal functions, not exported ones. This makes it clearer in your code that you're using an internal function, instead of making it ambiguous.
+ 1) `import_int()` includes the `lib.loc` argument.
+ 2) `import_int()` only searches internal functions, not exported ones. This makes it clearer in your code that you're using an internal function, instead of making it ambiguous.
 
 The main argument is the `form` argument, which is a 2-sided formula with one term on each side, the left term giving the package name and the right term giving the name of the internal function.
 

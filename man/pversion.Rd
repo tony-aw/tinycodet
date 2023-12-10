@@ -31,24 +31,15 @@ with the loaded version and library version of the specified packages. \cr
 \cr
 For \code{pversion_report()}: \cr
 Returns a \code{data.frame},
-with the loaded version and library version of the specified packages. \cr
+with the loaded version and library version of the specified packages,
+as well as a logical column indicating whether the two versions are equal (\code{TRUE}),
+or not equal (\code{FALSE}). \cr
 \cr
-
-In both functions, the data.frame consists of the following columns:
-\itemize{
-\item "package": specifying the packages.
-\item "version_loaded": the version already loaded.
-\item "version_lib.loc": the version of each package found in the library location. \cr \cr
-}
 }
 \description{
 The \code{pversion_check4mismatch()} function
 checks if there is any mismatch between
 the currently loaded packages and the packages in the specified library path. \cr
-This is useful as 'R' (silently) looks for all known libraries
-(see \link[base]{.libPaths})
-when it cannot find package dependencies that need to be loaded,
-which may result in loading packages of a different version than the user expected. \cr
 \cr
 The \code{pversion_report()} function
 gives a table of all specified packages,

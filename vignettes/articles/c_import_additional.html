@@ -376,11 +376,11 @@ Locked”.)</p>
 function from a package. It is similar to the <code>:::</code> operator,
 but with 2 key differences:</p>
 <ol style="list-style-type: decimal">
-<li>It it allows the user to explicitly set a library location through
-the <code>lib.loc</code> argument.</li>
-<li>It only searches internal functions, not exported ones. This makes
-it clearer in your code that you’re using an internal function, instead
-of making it ambiguous.</li>
+<li><code>import_int()</code> includes the <code>lib.loc</code>
+argument.</li>
+<li><code>import_int()</code> only searches internal functions, not
+exported ones. This makes it clearer in your code that you’re using an
+internal function, instead of making it ambiguous.</li>
 </ol>
 <p>The main argument is the <code>form</code> argument, which is a
 2-sided formula with one term on each side, the left term giving the

@@ -123,7 +123,7 @@ where to look for installed R-package(s). <br>
 As <code>pkgs %installed in% lib.loc</code> does not even load a package,
 the user can safely use it
 without fearing any unwanted side-effects. <br><br>
-The <code>pkg_get_deps()</code> function gets the direct dependencies of a package
+The <code>pkg_get_deps()</code> function gets the <b>direct</b> dependencies of a package
 from the Description file. It works on non-CRAN packages also. <br><br>
 The <code>pkg_get_deps_minimal()</code> function is the same as
 <code>pkg_get_deps()</code>,
@@ -241,7 +241,7 @@ and the value <code>FALSE</code> indicates a package is not installed. <br></p>
 <p>For <code>pkg_get_deps()</code>: <br></p>
 
 
-<p>A character vector of unique dependencies. <br></p>
+<p>A character vector of direct dependencies, without duplicates. <br></p>
 
 
 <p><br></p>

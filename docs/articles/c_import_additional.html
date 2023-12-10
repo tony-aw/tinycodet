@@ -130,11 +130,13 @@ Locked”.)</p>
 function from a package. It is similar to the <code>:::</code> operator,
 but with 2 key differences:</p>
 <ol style="list-style-type: decimal">
-<li>It it allows the user to explicitly set a library location through
-the <code>lib.loc</code> argument.</li>
-<li>It only searches internal functions, not exported ones. This makes
-it clearer in your code that you’re using an internal function, instead
-of making it ambiguous.</li>
+<li>
+<code><a href="../reference/import_misc.html">import_int()</a></code> includes the <code>lib.loc</code>
+argument.</li>
+<li>
+<code><a href="../reference/import_misc.html">import_int()</a></code> only searches internal functions, not
+exported ones. This makes it clearer in your code that you’re using an
+internal function, instead of making it ambiguous.</li>
 </ol>
 <p>The main argument is the <code>form</code> argument, which is a
 2-sided formula with one term on each side, the left term giving the
@@ -283,8 +285,8 @@ produced the alias object in question:</p>
 <span><span class="co">#&gt; NULL</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $lib.loc</span></span>
-<span><span class="co">#&gt; [1] "C:/Users/Tony/AppData/Local/Temp/Rtmpuw1gfX/temp_libpath4abcb3463f1"</span></span>
-<span><span class="co">#&gt; [2] "D:/Programs/R-4.3.2/library"                                        </span></span>
+<span><span class="co">#&gt; [1] "C:/Users/Tony/AppData/Local/Temp/RtmpSSOa9b/temp_libpath21e465225e15"</span></span>
+<span><span class="co">#&gt; [2] "D:/Programs/R-4.3.2/library"                                         </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $import_order</span></span>
 <span><span class="co">#&gt; [1] "dependencies" "main_package" "extensions"</span></span></code></pre></div>

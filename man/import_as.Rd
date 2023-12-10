@@ -125,10 +125,6 @@ Thus importing a package, or multiple directly related packages, under a single 
 which \code{import_as()} provides, avoids the above issues.
 Importing (a) package(s) under an alias is known as "aliasing" (a) package(s). \cr
 \cr
-Notice that the \code{import_as()} function has the \code{lib.loc} argument,
-allowing to specify the library path,
-which the \link[base]{::} operator does not directly provide. \cr
-\cr
 \cr
 \bold{Alias Naming Recommendation} \cr
 To keep package alias object names easily distinguishable from other objects

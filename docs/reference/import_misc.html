@@ -8,8 +8,8 @@ like the environment within a function.
 The import_int() function
 directly returns an internal function from a package. 
 It is similar to the ::: operator, but with 2 key differences: 
-It allows the user to explicitly set a library location through the lib.loc argument.
-It only searches internal functions, not exported ones.
+import_int() includes the lib.loc argument.
+import_int() only searches internal functions, not exported ones.
 This makes it clearer in your code that you're using an internal function,
 instead of making it ambiguous.  
 
@@ -22,8 +22,8 @@ like the environment within a function.
 The import_int() function
 directly returns an internal function from a package. 
 It is similar to the ::: operator, but with 2 key differences: 
-It allows the user to explicitly set a library location through the lib.loc argument.
-It only searches internal functions, not exported ones.
+import_int() includes the lib.loc argument.
+import_int() only searches internal functions, not exported ones.
 This makes it clearer in your code that you're using an internal function,
 instead of making it ambiguous.  
 
@@ -97,8 +97,8 @@ The primary use-case for this function is for exposing functions inside a local 
 like the environment within a function. <br><br>
 The <code>import_int()</code> function
 directly returns an internal function from a package. <br>
-It is similar to the <a href="https://rdrr.io/r/base/ns-dblcolon.html" class="external-link">:::</a> operator, but with 2 key differences: <br></p><ol><li><p>It allows the user to explicitly set a library location through the <code>lib.loc</code> argument.</p></li>
-<li><p>It only searches internal functions, not exported ones.
+It is similar to the <a href="https://rdrr.io/r/base/ns-dblcolon.html" class="external-link">:::</a> operator, but with 2 key differences: <br></p><ol><li><p><code>import_int()</code> includes the <code>lib.loc</code> argument.</p></li>
+<li><p><code>import_int()</code> only searches internal functions, not exported ones.
 This makes it clearer in your code that you're using an internal function,
 instead of making it ambiguous. <br><br></p></li>
 </ol></div>

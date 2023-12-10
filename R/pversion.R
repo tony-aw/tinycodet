@@ -4,10 +4,6 @@
 #' The \code{pversion_check4mismatch()} function
 #' checks if there is any mismatch between
 #' the currently loaded packages and the packages in the specified library path. \cr
-#' This is useful as 'R' (silently) looks for all known libraries
-#' (see \link[base]{.libPaths})
-#' when it cannot find package dependencies that need to be loaded,
-#' which may result in loading packages of a different version than the user expected. \cr
 #' \cr
 #' The \code{pversion_report()} function
 #' gives a table of all specified packages,
@@ -34,15 +30,10 @@
 #' \cr
 #' For \code{pversion_report()}: \cr
 #' Returns a \code{data.frame},
-#' with the loaded version and library version of the specified packages. \cr
+#' with the loaded version and library version of the specified packages,
+#' as well as a logical column indicating whether the two versions are equal (\code{TRUE}),
+#' or not equal (\code{FALSE}). \cr
 #' \cr
-#' 
-#' In both functions, the data.frame consists of the following columns:
-#' 
-#'  * "package": specifying the packages.
-#'  * "version_loaded": the version already loaded.
-#'  * "version_lib.loc": the version of each package found in the library location. \cr \cr
-#' 
 #'
 #' @seealso [tinycodet_import()]
 #'
@@ -129,10 +120,12 @@ pversion_report <- function(pkgs = NULL, lib.loc = .libPaths()) {
     versions_loaded <- lapply(pkgs, getNamespaceVersion) |> unlist()
     versions_lib <- lapply(pkgs, \(x)as.character(utils::packageVersion(x, lib.loc = lib.loc))) |>
       unlist()
+    versions_compare <- mapply(utils::compareVersion, versions_loaded, versions_lib)
     tab <- data.frame(
       package = pkgs,
       version_loaded = versions_loaded,
-      version_lib.loc = versions_lib
+      version_lib.loc = versions_lib,
+      version_equal = versions_compare
     )
     rownames(tab) <- 1:nrow(tab)
     return(tab)
@@ -141,7 +134,8 @@ pversion_report <- function(pkgs = NULL, lib.loc = .libPaths()) {
   tab <- data.frame(
     package = character(0),
     version_loaded = character(0),
-    version_lib.loc = character(0)
+    version_lib.loc = character(0),
+    version_equal = logical(0)
   )
   return(tab)
   
