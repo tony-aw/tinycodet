@@ -12,6 +12,7 @@
 #'
 #' @param pkgs a character vector with the package name(s). \cr
 #' Packages that are not actually loaded will be ignored. \cr
+#' Base/core R will also be ignored. \cr
 #' If \code{NULL}, all loaded packages
 #' (see \link[base]{loadedNamespaces})
 #' excluding core/base R will be checked.
