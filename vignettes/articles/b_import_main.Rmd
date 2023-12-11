@@ -95,7 +95,7 @@ The main arguments of the `import_as()` function are:
  - `main_package`: the name (string) of the main package to import.
  - `re_exports`: Some R packages export functions that are not defined in their own package, but in their direct dependencies - "re-exports". If `TRUE` (default), the re-exports of the `main_package` are added to the alias, analogous to the behaviour of base R's `::` operator. If `FALSE`, re-exports are not added.
  - `dependencies`: an optional character vector giving the dependencies of the `main_package` to import under the alias also.
- - `extensions`: an optional character vector giving the extensions/reverse-dependencies of the `main_package` to import under the same alias also.
+ - `extensions`: an optional character vector giving the extensions of the `main_package` to import under the same alias also.
  - `lib.loc`: the library paths to look for the packages; defaults to `.libPaths()`. This argument is present in all `import_` - functions.
 
 Here is one example. Lets import [data.table](https://github.com/Rdatatable/data.table) and its extensions [tidytable](https://github.com/markfairbanks/tidytable), under the same alias, which I will call "tdt." (for "tidy data.table"):

@@ -87,11 +87,11 @@ Returns a character vector of exported function names in the specified package.
 }
 \description{
 The \code{pkgs \%installed in\% lib.loc} operator
-checks if one or more package(s) \code{pkgs} exist(s)
-in library location \code{lib.loc}, without loading the package(s). \cr
+checks if one or more packages (\code{pkgs}) exist
+in a library location (\code{lib.loc}), without loading the packages. \cr
 The syntax of this operator forces the user to make it
 syntactically explicit
-where to look for installed R-package(s). \cr
+where to look for installed R-packages. \cr
 As \code{pkgs \%installed in\% lib.loc} does not even load a package,
 the user can safely use it
 without fearing any unwanted side-effects. \cr
@@ -109,7 +109,7 @@ and the default value for \code{deps_type} is c("Depends", "Imports"). \cr
 The \code{pkg_lsf()} function
 gets a list of exported functions/operators from a package. \cr
 One handy use for this function is to, for example,
-globally attach all infix operators from a function using \code{library},
+globally attach all infix operators from a package using \code{library},
 like so:
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{library(packagename, include.only = pkg_lsf("packagename", type="inops"))

@@ -1,4 +1,4 @@
-# tinycodet 0.3.0 (under development)
+# tinycodet 0.3.0
 * Expanded the import system documentation. Also tweaked the documentation of `import_as()` to be make it slightly clearer.
 * Expanded the documentation of the `decimal_truth` operators.
 * `import_as()` now does not allow more than 10 packages to be loaded under a single alias, to prevent abusive usage of `import_as()`.

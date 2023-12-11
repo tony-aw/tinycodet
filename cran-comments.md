@@ -2,9 +2,9 @@
 
 0 errors | 0 warnings | 0 notes
 
-## This is a re-submission of the 'tinycodet' package; updating it to version 0.2.3. Sorry for the submission after just a few weeks (instead of a few months), but I found a bug (despite my many unit tests) that really needed to be fixed quickly. I beg your understanding.
+## This is a re-submission of the 'tinycodet' package; updating it to version 0.3.0. Sorry for the submission after slightly less than a month (instead of > 1 months), but I found a bug (despite my many unit tests) that really needed to be fixed quickly. I beg your understanding.
 
-Changes made:
+Change log:
 
 * Expanded the import system documentation. Also tweaked the documentation of `import_as()` to be make it slightly clearer.
 * Expanded the documentation of the `decimal_truth` operators.

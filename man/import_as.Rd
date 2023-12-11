@@ -123,7 +123,7 @@ alias.$some_function3()
 
 Thus importing a package, or multiple directly related packages, under a single alias,
 which \code{import_as()} provides, avoids the above issues.
-Importing (a) package(s) under an alias is known as "aliasing" (a) package(s). \cr
+Importing a package under an alias is referred to as "aliasing" a package. \cr
 \cr
 \cr
 \bold{Alias Naming Recommendation} \cr
