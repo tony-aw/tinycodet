@@ -191,127 +191,127 @@ functions.</p>
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">25</span><span class="op">)</span>, nrow<span class="op">=</span><span class="fl">5</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span><span class="co">#&gt; [1,]    4   22    5   12   14</span></span>
-<span><span class="co">#&gt; [2,]   23    8   11   15   20</span></span>
-<span><span class="co">#&gt; [3,]   19   17   10   18    1</span></span>
-<span><span class="co">#&gt; [4,]   21    7    6    2   16</span></span>
-<span><span class="co">#&gt; [5,]   24    3   13   25    9</span></span>
+<span><span class="co">#&gt; [1,]   25   16   15   12   11</span></span>
+<span><span class="co">#&gt; [2,]    5    8    7    9   10</span></span>
+<span><span class="co">#&gt; [3,]   22   17    1   23   19</span></span>
+<span><span class="co">#&gt; [4,]    3   18   13    6    2</span></span>
+<span><span class="co">#&gt; [5,]   21   24   20   14    4</span></span>
 <span><span class="va">x</span> <span class="op"><a href="../reference/matrix_ops.html">%row~%</a></span> <span class="va">x</span> <span class="co"># sort elements of every row</span></span>
 <span><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span><span class="co">#&gt; [1,]    4    5   12   14   22</span></span>
-<span><span class="co">#&gt; [2,]    8   11   15   20   23</span></span>
-<span><span class="co">#&gt; [3,]    1   10   17   18   19</span></span>
-<span><span class="co">#&gt; [4,]    2    6    7   16   21</span></span>
-<span><span class="co">#&gt; [5,]    3    9   13   24   25</span></span>
+<span><span class="co">#&gt; [1,]   11   12   15   16   25</span></span>
+<span><span class="co">#&gt; [2,]    5    7    8    9   10</span></span>
+<span><span class="co">#&gt; [3,]    1   17   19   22   23</span></span>
+<span><span class="co">#&gt; [4,]    2    3    6   13   18</span></span>
+<span><span class="co">#&gt; [5,]    4   14   20   21   24</span></span>
 <span><span class="va">x</span> <span class="op"><a href="../reference/matrix_ops.html">%row~%</a></span> <span class="op">-</span><span class="va">x</span> <span class="co"># reverse-sort elements of every row</span></span>
 <span><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span><span class="co">#&gt; [1,]   22   14   12    5    4</span></span>
-<span><span class="co">#&gt; [2,]   23   20   15   11    8</span></span>
-<span><span class="co">#&gt; [3,]   19   18   17   10    1</span></span>
-<span><span class="co">#&gt; [4,]   21   16    7    6    2</span></span>
-<span><span class="co">#&gt; [5,]   25   24   13    9    3</span></span>
+<span><span class="co">#&gt; [1,]   25   16   15   12   11</span></span>
+<span><span class="co">#&gt; [2,]   10    9    8    7    5</span></span>
+<span><span class="co">#&gt; [3,]   23   22   19   17    1</span></span>
+<span><span class="co">#&gt; [4,]   18   13    6    3    2</span></span>
+<span><span class="co">#&gt; [5,]   24   21   20   14    4</span></span>
 <span><span class="va">x</span> <span class="op"><a href="../reference/matrix_ops.html">%col~%</a></span> <span class="va">x</span> <span class="co"># sort elements of every column</span></span>
 <span><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span><span class="co">#&gt; [1,]    4    3    5    2    1</span></span>
-<span><span class="co">#&gt; [2,]   19    7    6   12    9</span></span>
-<span><span class="co">#&gt; [3,]   21    8   10   15   14</span></span>
-<span><span class="co">#&gt; [4,]   23   17   11   18   16</span></span>
-<span><span class="co">#&gt; [5,]   24   22   13   25   20</span></span>
+<span><span class="co">#&gt; [1,]    3    8    1    6    2</span></span>
+<span><span class="co">#&gt; [2,]    5   16    7    9    4</span></span>
+<span><span class="co">#&gt; [3,]   21   17   13   12   10</span></span>
+<span><span class="co">#&gt; [4,]   22   18   15   14   11</span></span>
+<span><span class="co">#&gt; [5,]   25   24   20   23   19</span></span>
 <span><span class="va">x</span> <span class="op"><a href="../reference/matrix_ops.html">%col~%</a></span> <span class="op">-</span><span class="va">x</span> <span class="co"># reverse-sort elements of every column</span></span>
 <span><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span><span class="co">#&gt; [1,]   24   22   13   25   20</span></span>
-<span><span class="co">#&gt; [2,]   23   17   11   18   16</span></span>
-<span><span class="co">#&gt; [3,]   21    8   10   15   14</span></span>
-<span><span class="co">#&gt; [4,]   19    7    6   12    9</span></span>
-<span><span class="co">#&gt; [5,]    4    3    5    2    1</span></span>
+<span><span class="co">#&gt; [1,]   25   24   20   23   19</span></span>
+<span><span class="co">#&gt; [2,]   22   18   15   14   11</span></span>
+<span><span class="co">#&gt; [3,]   21   17   13   12   10</span></span>
+<span><span class="co">#&gt; [4,]    5   16    7    9    4</span></span>
+<span><span class="co">#&gt; [5,]    3    8    1    6    2</span></span>
 <span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">25</span><span class="op">)</span>, nrow<span class="op">=</span><span class="fl">5</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span><span class="co">#&gt; [1,]    9   21   15    2   20</span></span>
-<span><span class="co">#&gt; [2,]   14    3   23   13    1</span></span>
-<span><span class="co">#&gt; [3,]    5   18   24    6   17</span></span>
-<span><span class="co">#&gt; [4,]   10   16   12   22    4</span></span>
-<span><span class="co">#&gt; [5,]   11    7   19    8   25</span></span>
+<span><span class="co">#&gt; [1,]    4    7   11   18    9</span></span>
+<span><span class="co">#&gt; [2,]   22    6   10    3   14</span></span>
+<span><span class="co">#&gt; [3,]   23   19   21   17    1</span></span>
+<span><span class="co">#&gt; [4,]   20    2   16    8   25</span></span>
+<span><span class="co">#&gt; [5,]    5   15   13   12   24</span></span>
 <span><span class="va">rand</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>ncol<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span> <span class="co"># matrix of random integers</span></span>
 <span><span class="va">x</span> <span class="op"><a href="../reference/matrix_ops.html">%row~%</a></span> <span class="va">rand</span> <span class="co"># random shuffle every row independent of other rows</span></span>
 <span><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span><span class="co">#&gt; [1,]    9   20   21    2   15</span></span>
-<span><span class="co">#&gt; [2,]    1   14   23    3   13</span></span>
-<span><span class="co">#&gt; [3,]   24   18    6   17    5</span></span>
-<span><span class="co">#&gt; [4,]   16   22    4   10   12</span></span>
-<span><span class="co">#&gt; [5,]   11    8    7   25   19</span></span>
+<span><span class="co">#&gt; [1,]   11    7    9   18    4</span></span>
+<span><span class="co">#&gt; [2,]   10    3    6   22   14</span></span>
+<span><span class="co">#&gt; [3,]   19    1   23   21   17</span></span>
+<span><span class="co">#&gt; [4,]   20    8   16    2   25</span></span>
+<span><span class="co">#&gt; [5,]    5   24   15   12   13</span></span>
 <span><span class="va">x</span> <span class="op"><a href="../reference/matrix_ops.html">%col~%</a></span> <span class="va">rand</span> <span class="co"># random shuffle every column independent of other columns</span></span>
 <span><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span><span class="co">#&gt; [1,]    9   18   24    8    1</span></span>
-<span><span class="co">#&gt; [2,]   11   16   23    6   20</span></span>
-<span><span class="co">#&gt; [3,]   14   21   15   22    4</span></span>
-<span><span class="co">#&gt; [4,]    5    7   19    2   17</span></span>
-<span><span class="co">#&gt; [5,]   10    3   12   13   25</span></span></code></pre></div>
+<span><span class="co">#&gt; [1,]    5   19   10    3   24</span></span>
+<span><span class="co">#&gt; [2,]   20    6   21   12    1</span></span>
+<span><span class="co">#&gt; [3,]   23   15   11    8    9</span></span>
+<span><span class="co">#&gt; [4,]   22    7   16   18   14</span></span>
+<span><span class="co">#&gt; [5,]    4    2   13   17   25</span></span></code></pre></div>
 <p>Examples with a character matrix:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">letters</span>, <span class="fl">25</span><span class="op">)</span>, nrow<span class="op">=</span><span class="fl">5</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span><span class="co">#&gt; [1,] "z"  "e"  "h"  "b"  "r" </span></span>
-<span><span class="co">#&gt; [2,] "v"  "o"  "f"  "a"  "k" </span></span>
-<span><span class="co">#&gt; [3,] "y"  "q"  "n"  "t"  "i" </span></span>
-<span><span class="co">#&gt; [4,] "l"  "m"  "g"  "j"  "d" </span></span>
-<span><span class="co">#&gt; [5,] "s"  "p"  "x"  "c"  "u"</span></span>
+<span><span class="co">#&gt; [1,] "s"  "h"  "y"  "v"  "a" </span></span>
+<span><span class="co">#&gt; [2,] "k"  "p"  "n"  "q"  "j" </span></span>
+<span><span class="co">#&gt; [3,] "g"  "c"  "o"  "r"  "z" </span></span>
+<span><span class="co">#&gt; [4,] "f"  "m"  "w"  "d"  "t" </span></span>
+<span><span class="co">#&gt; [5,] "x"  "i"  "b"  "l"  "e"</span></span>
 <span><span class="va">mat</span> <span class="op">&lt;-</span> <span class="fu">stringi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stringi/man/stri_rank.html" class="external-link">stri_rank</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">as.vector</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>ncol<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span> <span class="co"># matrix of ordering ranks</span></span>
 <span><span class="va">x</span> <span class="op"><a href="../reference/matrix_ops.html">%row~%</a></span> <span class="va">mat</span> <span class="co"># sort elements of every row</span></span>
 <span><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span><span class="co">#&gt; [1,] "b"  "e"  "h"  "r"  "z" </span></span>
-<span><span class="co">#&gt; [2,] "a"  "f"  "k"  "o"  "v" </span></span>
-<span><span class="co">#&gt; [3,] "i"  "n"  "q"  "t"  "y" </span></span>
-<span><span class="co">#&gt; [4,] "d"  "g"  "j"  "l"  "m" </span></span>
-<span><span class="co">#&gt; [5,] "c"  "p"  "s"  "u"  "x"</span></span>
+<span><span class="co">#&gt; [1,] "a"  "h"  "s"  "v"  "y" </span></span>
+<span><span class="co">#&gt; [2,] "j"  "k"  "n"  "p"  "q" </span></span>
+<span><span class="co">#&gt; [3,] "c"  "g"  "o"  "r"  "z" </span></span>
+<span><span class="co">#&gt; [4,] "d"  "f"  "m"  "t"  "w" </span></span>
+<span><span class="co">#&gt; [5,] "b"  "e"  "i"  "l"  "x"</span></span>
 <span><span class="va">x</span> <span class="op"><a href="../reference/matrix_ops.html">%row~%</a></span> <span class="op">-</span><span class="va">mat</span> <span class="co"># reverse-sort elements of every row</span></span>
 <span><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span><span class="co">#&gt; [1,] "z"  "r"  "h"  "e"  "b" </span></span>
-<span><span class="co">#&gt; [2,] "v"  "o"  "k"  "f"  "a" </span></span>
-<span><span class="co">#&gt; [3,] "y"  "t"  "q"  "n"  "i" </span></span>
-<span><span class="co">#&gt; [4,] "m"  "l"  "j"  "g"  "d" </span></span>
-<span><span class="co">#&gt; [5,] "x"  "u"  "s"  "p"  "c"</span></span>
+<span><span class="co">#&gt; [1,] "y"  "v"  "s"  "h"  "a" </span></span>
+<span><span class="co">#&gt; [2,] "q"  "p"  "n"  "k"  "j" </span></span>
+<span><span class="co">#&gt; [3,] "z"  "r"  "o"  "g"  "c" </span></span>
+<span><span class="co">#&gt; [4,] "w"  "t"  "m"  "f"  "d" </span></span>
+<span><span class="co">#&gt; [5,] "x"  "l"  "i"  "e"  "b"</span></span>
 <span><span class="va">x</span> <span class="op"><a href="../reference/matrix_ops.html">%col~%</a></span> <span class="va">mat</span> <span class="co"># sort elements of every column</span></span>
 <span><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span><span class="co">#&gt; [1,] "l"  "e"  "f"  "a"  "d" </span></span>
-<span><span class="co">#&gt; [2,] "s"  "m"  "g"  "b"  "i" </span></span>
-<span><span class="co">#&gt; [3,] "v"  "o"  "h"  "c"  "k" </span></span>
-<span><span class="co">#&gt; [4,] "y"  "p"  "n"  "j"  "r" </span></span>
-<span><span class="co">#&gt; [5,] "z"  "q"  "x"  "t"  "u"</span></span>
+<span><span class="co">#&gt; [1,] "f"  "c"  "b"  "d"  "a" </span></span>
+<span><span class="co">#&gt; [2,] "g"  "h"  "n"  "l"  "e" </span></span>
+<span><span class="co">#&gt; [3,] "k"  "i"  "o"  "q"  "j" </span></span>
+<span><span class="co">#&gt; [4,] "s"  "m"  "w"  "r"  "t" </span></span>
+<span><span class="co">#&gt; [5,] "x"  "p"  "y"  "v"  "z"</span></span>
 <span><span class="va">x</span> <span class="op"><a href="../reference/matrix_ops.html">%col~%</a></span> <span class="op">-</span><span class="va">mat</span> <span class="co"># reverse-sort elements of every column</span></span>
 <span><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span><span class="co">#&gt; [1,] "z"  "q"  "x"  "t"  "u" </span></span>
-<span><span class="co">#&gt; [2,] "y"  "p"  "n"  "j"  "r" </span></span>
-<span><span class="co">#&gt; [3,] "v"  "o"  "h"  "c"  "k" </span></span>
-<span><span class="co">#&gt; [4,] "s"  "m"  "g"  "b"  "i" </span></span>
-<span><span class="co">#&gt; [5,] "l"  "e"  "f"  "a"  "d"</span></span>
+<span><span class="co">#&gt; [1,] "x"  "p"  "y"  "v"  "z" </span></span>
+<span><span class="co">#&gt; [2,] "s"  "m"  "w"  "r"  "t" </span></span>
+<span><span class="co">#&gt; [3,] "k"  "i"  "o"  "q"  "j" </span></span>
+<span><span class="co">#&gt; [4,] "g"  "h"  "n"  "l"  "e" </span></span>
+<span><span class="co">#&gt; [5,] "f"  "c"  "b"  "d"  "a"</span></span>
 <span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="va">letters</span>, <span class="fl">25</span><span class="op">)</span>, nrow<span class="op">=</span><span class="fl">5</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span><span class="co">#&gt; [1,] "i"  "k"  "n"  "v"  "y" </span></span>
-<span><span class="co">#&gt; [2,] "w"  "s"  "o"  "d"  "e" </span></span>
-<span><span class="co">#&gt; [3,] "p"  "q"  "j"  "b"  "f" </span></span>
-<span><span class="co">#&gt; [4,] "r"  "g"  "x"  "t"  "h" </span></span>
-<span><span class="co">#&gt; [5,] "c"  "l"  "z"  "a"  "u"</span></span>
+<span><span class="co">#&gt; [1,] "t"  "x"  "r"  "v"  "u" </span></span>
+<span><span class="co">#&gt; [2,] "c"  "b"  "d"  "g"  "l" </span></span>
+<span><span class="co">#&gt; [3,] "s"  "w"  "y"  "m"  "q" </span></span>
+<span><span class="co">#&gt; [4,] "k"  "a"  "h"  "z"  "i" </span></span>
+<span><span class="co">#&gt; [5,] "o"  "e"  "p"  "n"  "f"</span></span>
 <span><span class="va">rand</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>ncol<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span> <span class="co"># matrix of random integers</span></span>
 <span><span class="va">x</span> <span class="op"><a href="../reference/matrix_ops.html">%row~%</a></span> <span class="va">rand</span> <span class="co"># random shuffle every row independent of other rows</span></span>
 <span><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span><span class="co">#&gt; [1,] "y"  "n"  "v"  "k"  "i" </span></span>
-<span><span class="co">#&gt; [2,] "s"  "d"  "o"  "w"  "e" </span></span>
-<span><span class="co">#&gt; [3,] "j"  "f"  "q"  "b"  "p" </span></span>
-<span><span class="co">#&gt; [4,] "r"  "x"  "g"  "t"  "h" </span></span>
-<span><span class="co">#&gt; [5,] "c"  "z"  "l"  "u"  "a"</span></span>
+<span><span class="co">#&gt; [1,] "r"  "x"  "u"  "t"  "v" </span></span>
+<span><span class="co">#&gt; [2,] "c"  "l"  "d"  "g"  "b" </span></span>
+<span><span class="co">#&gt; [3,] "q"  "w"  "y"  "m"  "s" </span></span>
+<span><span class="co">#&gt; [4,] "i"  "a"  "h"  "k"  "z" </span></span>
+<span><span class="co">#&gt; [5,] "n"  "e"  "p"  "o"  "f"</span></span>
 <span><span class="va">x</span> <span class="op"><a href="../reference/matrix_ops.html">%col~%</a></span> <span class="va">rand</span> <span class="co"># random shuffle every column independent of other columns</span></span>
 <span><span class="co">#&gt;      [,1] [,2] [,3] [,4] [,5]</span></span>
-<span><span class="co">#&gt; [1,] "r"  "l"  "j"  "d"  "y" </span></span>
-<span><span class="co">#&gt; [2,] "c"  "s"  "z"  "t"  "u" </span></span>
-<span><span class="co">#&gt; [3,] "i"  "q"  "n"  "v"  "f" </span></span>
-<span><span class="co">#&gt; [4,] "w"  "g"  "x"  "a"  "h" </span></span>
-<span><span class="co">#&gt; [5,] "p"  "k"  "o"  "b"  "e"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1,] "c"  "w"  "r"  "n"  "q" </span></span>
+<span><span class="co">#&gt; [2,] "k"  "e"  "d"  "g"  "i" </span></span>
+<span><span class="co">#&gt; [3,] "o"  "a"  "h"  "m"  "l" </span></span>
+<span><span class="co">#&gt; [4,] "s"  "x"  "y"  "v"  "f" </span></span>
+<span><span class="co">#&gt; [5,] "t"  "b"  "p"  "z"  "u"</span></span></code></pre></div>
 <p> </p>
 </div>
 <div class="section level2">

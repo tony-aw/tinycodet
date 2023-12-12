@@ -2,7 +2,7 @@
 
 0 errors | 0 warnings | 0 notes
 
-## This is a re-submission of the 'tinycodet' package; updating it to version 0.3.0. Sorry for the submission after slightly less than a month (instead of > 1 months), but I found a bug (despite my many unit tests) that really needed to be fixed quickly. I beg your understanding.
+## This is a re-submission of the 'tinycodet' package, updating it to version 0.3.0. Sorry for the submission after slightly less than a month (instead of > 1 months), but I found a bug (despite my many unit tests) that really needed to be fixed quickly. I beg your understanding.
 
 Change log:
 
