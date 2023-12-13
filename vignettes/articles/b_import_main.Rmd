@@ -49,12 +49,15 @@ knitr::kable(X, "html", row.names = TRUE, escape = FALSE)
 ```
 
 
-What `tinycodet` attempts to do with its import system, is to somewhat find the best of both worlds. Basically, `tinycodet` has functions that allow the following import functionality lacking in base R:
+What `tinycodet` attempts to do with its import system, is to somewhat find the best of both worlds. It does this by introducing the following functions:
 
- - Allow an R package + its re-exports + its dependencies + its extensions to be imported under **one alias**. This essentially combines the attaching advantage of using multiple related packages (row 7 in table above), whilst keeping most advantages of using without attaching a package.
- - Allow **exposing infix operators** to the **current environment**. This gains the attaching advantage of less typing (row 6 in table above), whilst simultaneously avoiding the disadvantage of attaching functions from a package globally (row 4).
+ - `import_as()`: Import a main package, and optionally its re-exports + its dependencies + its extensions, under a single alias. This essentially combines the attaching advantage of using multiple related packages (row 7 on the table above), whilst keeping most advantages of using without attaching a package.
+ - `import_inops()`: Expose infix operators from a package or an alias object to the current environment. This gains the attaching advantage of less typing (row 6 in table above), whilst simultaneously avoiding the disadvantage of attaching functions from a package globally (row 4).
+ - `import_data()`: Directly return a data set from a package, to allow straight-forward assignment.
+
 
 The import package system presented here is just another option provided, just like the [import](https://github.com/rticulate/import) and [box](https://github.com/klmr/box) packages provide their own alternative import systems. Please feel free to completely ignore this article if you're really adamant on attaching packages using `library()`/`require()` :-).
+
 
 This article is rather lengthy, so I will start with a quick example code using `tinycodet`' import system:
 
@@ -201,11 +204,17 @@ head(d)
 
 # When to use or not to use the new import system
 
-The 'tinycodet' import system is helpful particularly when packages have conflicting namespaces with each other, or conflict with core/base R.
+The 'tinycodet' import system is helpful particularly for packages that have at least one of the following properties:
+
+ - The namespace of the package(s) conflicts with other packages.
+
+ - The namespace of the package(s) conflicts with core R, or with those of recommended R packages.
+
+ - The package(s) have function names that are generic enough, such that it is not obvious which function came from which package.
 
 There is no necessity for using the 'tinycodet' import system with every single package. One can safely attach the 'stringi' package, for example, as 'stringi' uses a unique and immediately recognisable naming scheme (virtually all 'stringi' functions start with "stri_"), and this naming scheme does not conflict with core R, nor with most other packages.
 
-Of course, if one wishes to use 'stringi' only within a specific environment, like only inside a function, it becomes advantageous to import 'stringi' using the 'tinycodet' import system - in that case the `import_LL()` function would be most applicable.
+Of course, if one wishes to use 'stringi' only within a specific environment, like only inside a function, it becomes advantageous to import 'stringi' using the 'tinycodet' import system. In that case the `import_LL()` function would be most applicable.
 
 &nbsp;
 
