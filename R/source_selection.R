@@ -165,7 +165,7 @@ source_selection <- function(
       warning("no appropriate matches found in sourced script")
     }
     if(length(methodnames) > 0) {
-      methods_used <- TRUE
+      # methods_used <- TRUE
       for(meth in methodnames) {
         attr(tempenv[[meth]], "env") <- tempenv
         assign(meth, tempenv[[meth]], envir = parent.frame(n = 1))

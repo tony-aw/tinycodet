@@ -40,7 +40,9 @@
 #' where the shuffling order in each column is independent from the shuffling order in the other columns. \cr
 #' \cr
 #' Re-ordering/sorting every row/column of a matrix with these operators
-#' is generally faster than doing so through loops or apply-like functions.
+#' is generally faster than doing so through loops or apply-like functions. \cr
+#' \cr
+#' Note that these operators strip all attributes except dimensions.
 #'
 #' @returns
 #' A modified matrix.

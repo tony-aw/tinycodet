@@ -107,7 +107,8 @@
 #'
 
 
-#'
+#' @name s_pattern
+NULL
 
 
 #' @rdname s_pattern
@@ -130,7 +131,7 @@ s_regex <- function(
     time_limit = time_limit,
     stack_limit = stack_limit
   )
-
+  
   out <- c(
     list(regex = p),
     opts,
@@ -185,6 +186,7 @@ s_coll <- function(
     opts,
     ...
   )
+  return(out)
 }
 
 #' @rdname s_pattern
@@ -192,6 +194,5 @@ s_coll <- function(
 s_chrcls <- function(
     p, ...
 ) {
-  list(charclass = p, ...)
+  return(list(charclass = p, ...))
 }
-

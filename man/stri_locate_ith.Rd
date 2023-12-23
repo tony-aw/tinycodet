@@ -81,7 +81,9 @@ give the location of the first or last single character matching the \code{charc
 \link[stringi]{stri_locate_all} gives the start and end of \bold{consecutive} characters. \cr
 The \code{stri_locate_ith()} is in this aspect more in line with
 \link[stringi]{stri_locate_all},
-as it gives the \eqn{i^{th}} set of consecutive characters.
+as it gives the \eqn{i^{th}} set of consecutive characters. \cr
+To make \code{stri_locare_ith()} work more like \link[stringi]{stri_locate_first} or \link[stringi]{stri_locate_last},
+in this regard, add the argument \code{merge = FALSE}.
 }
 \examples{
 

@@ -13,8 +13,9 @@ x \%s!{}\% p
 \arguments{
 \item{x}{a string or character vector.}
 
-\item{p}{either a list with 'stringi' arguments (see \link{s_regex}),
-or else a character vector of the same length as \code{x} with regular expressions. \cr
+\item{p}{either a list with 'stringi' arguments (see \link{s_pattern}),
+or else a character vector of the same length as \code{x} or length 1
+with regular expressions. \cr
 \ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_regex.html}{\figure{aboutsearch-regex-darkred.svg}{options: alt='[REGEX]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_regex.html}{about search: regex}} \cr
 \ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_fixed.html}{\figure{aboutsearch-fixed-darkgreen.svg}{options: alt='[FIXED]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_fixed.html}{about search: fixed}} \cr
 \ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_coll.html}{\figure{aboutsearch-coll-pink.svg}{options: alt='[COLL]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_coll.html}{about search: coll}} \cr
@@ -32,7 +33,9 @@ the pattern defined in \code{p} is present. \cr
 \cr
 The \code{x \%s!{}\% p} operator
 checks for every string in character vector \code{x} if
-the pattern defined in \code{p} is NOT present. \cr
+the pattern defined in \code{p} is NOT present. \cr \cr
+\cr
+For string (in)equality operators, see \link[stringi]{\%s==\%} from the 'stringi' package.
 }
 \examples{
 

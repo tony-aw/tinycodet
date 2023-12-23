@@ -22,8 +22,9 @@
 #' and provides access to \link[stringi]{stri_sprintf} in the form of an infix operator. \cr
 #'
 #' @param x a string or character vector.
-#' @param p either a list with 'stringi' arguments (see \link{s_regex}),
-#' or else a character vector of the same length as \code{x} with regular expressions. \cr
+#' @param p either a list with 'stringi' arguments (see \link{s_pattern}),
+#' or else a character vector of the same length as \code{x} or length 1
+#' with regular expressions. \cr
 #' `r .mybadge_string("regex", "darkred")` \cr
 #' `r .mybadge_string("fixed", "darkgreen")` \cr
 #' `r .mybadge_string("coll", "pink")` \cr
@@ -103,10 +104,9 @@ stringi::`%s$%`
 #' @rdname str_arithmetic
 #' @export
 `%s-%` <- function (x, p) {
-  if(isTRUE(is.list(p))){
+  if(is.list(p)){
     return(do.call(stringi::stri_replace_all, c(list(str=x, replacement=""), p)))
-  }
-  if(isTRUE(is.character(p))) {
+  } else if(is.character(p)) {
     return(stringi::stri_replace_all(x, "", regex=p))
   } else {
     stop("right hand side must be a character vector or list")
@@ -116,10 +116,9 @@ stringi::`%s$%`
 #' @rdname str_arithmetic
 #' @export
 `%s/%` <- function(x, p) {
-  if(isTRUE(is.list(p))){
+  if(is.list(p)){
     return(do.call(stringi::stri_count, c(list(str=x), p)))
-  }
-  if(isTRUE(is.character(p))){
+  } else if(is.character(p)){
     return(stringi::stri_count(x, regex=p))
   } else {
     stop("right hand side must be a character vector or list")
@@ -129,6 +128,5 @@ stringi::`%s$%`
 #' @rdname str_arithmetic
 #' @export
 `%s//%` <- function(x, brk) {
-  out <- do.call(stringi::stri_count_boundaries, c(list(str=x), brk))
-  return(out)
+  return(do.call(stringi::stri_count_boundaries, c(list(str=x), brk)))
 }

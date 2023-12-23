@@ -86,7 +86,7 @@
 #'
 #' mypaste <- function(x, y) {
 #'   import_LL("stringi", selection = "stri_c")
-#'   stringi::stri_c(x, y)
+#'   stri_c(x, y)
 #'   }
 #' mypaste("hello ", "world")
 #'

@@ -8,12 +8,15 @@
 #' \cr
 #' The \code{x %s!{}% p} operator
 #' checks for every string in character vector \code{x} if
-#' the pattern defined in \code{p} is NOT present. \cr
+#' the pattern defined in \code{p} is NOT present. \cr \cr
+#' \cr
+#' For string (in)equality operators, see \link[stringi]{%s==%} from the 'stringi' package.
 #'
 #'
 #' @param x a string or character vector.
-#' @param p either a list with 'stringi' arguments (see \link{s_regex}),
-#' or else a character vector of the same length as \code{x} with regular expressions. \cr
+#' @param p either a list with 'stringi' arguments (see \link{s_pattern}),
+#' or else a character vector of the same length as \code{x} or length 1
+#' with regular expressions. \cr
 #' `r .mybadge_string("regex", "darkred")` \cr
 #' `r .mybadge_string("fixed", "darkgreen")` \cr
 #' `r .mybadge_string("coll", "pink")` \cr
@@ -102,10 +105,10 @@ NULL
 #' @rdname str_truth
 #' @export
 `%s{}%` <- function(x, p) {
-  if(isTRUE(is.list(p))){
+  if(is.list(p)){
     return(do.call(stringi::stri_detect, c(list(str=x), p)))
   }
-  if(isTRUE(is.character(p))) {
+  if(is.character(p)) {
     return(stringi::stri_detect(x, regex=p))
   } else {
     stop("right hand side must be a character vector or list")
@@ -115,10 +118,10 @@ NULL
 #' @rdname str_truth
 #' @export
 `%s!{}%` <- function(x, p) {
-  if(isTRUE(is.list(p))){
+  if(is.list(p)){
     return(!do.call(stringi::stri_detect, c(list(str=x), p)))
   }
-  if(isTRUE(is.character(p))) {
+  if(is.character(p)) {
     return(!stringi::stri_detect(x, regex=p))
   } else {
     stop("right hand side must be a character vector or list")

@@ -125,7 +125,7 @@ x %row~% rand # random shuffle every row independent of other rows
 x %col~% rand # random shuffle every column independent of other columns
 ```
 
-
+Because each row/column is re-ordered independently of all other columns, it would be deceptive to keep the row- and column-names, as they no longer hold. Thus, for consistency, these operators strip all attributes from the input matrix `x`.
 
 &nbsp;
 

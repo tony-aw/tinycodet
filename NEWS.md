@@ -1,3 +1,16 @@
+# tinycodet 0.3.1 (Under Development)
+* Clarified in the documentation that `%col~%` and `%row~%` strip attributes (this was not really made clear in the documentation before).
+* Clarified the usage of `merge = FALSE` for pattern `charclass`,
+in the documentation of the `stri_locate_ith()` function.
+* Clarified in the documentation that the locked objects are not protected from modification by reference.
+* Clarified in the documentation of 'stringi' pattern-searching infix operators that the `p` argument can also be a character vector of length 1.
+* Removed the redundant `stringi::` call in the example code for `import_LL()`.
+* The help file for the `s_pattern` functions is now actually titled "s_pattern".
+* **Bug fix:** There was a small bug where `s_coll()` worked properly when assigned to an object (as usual), but not when called directly (like nested inside a function). *This is now fixed.*
+* Improved the tests for the `s_pattern` operators.
+
+
+
 # tinycodet 0.3.0
 * Expanded the import system documentation. Also tweaked the documentation of `import_as()` to be make it slightly clearer.
 * Expanded the documentation of the `decimal_truth` operators.

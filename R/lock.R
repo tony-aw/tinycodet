@@ -47,6 +47,12 @@
 #' ```{r, eval = FALSE, echo = TRUE}
 #' x %<-c% (2+2)
 #' ```
+#' 
+#' Note that the \code{lock_TF()} function and \code{%s<-c%} operator
+#' create constants through \link[base]{lockBinding}. \cr
+#' The constants are protected from modification by copy,
+#' but they are \bold{not} protected from modification by reference
+#' (see for example \code{collapse::}\link[collapse]{setv}).
 #'
 #' @returns
 #' For \code{lock_TF()}: \cr

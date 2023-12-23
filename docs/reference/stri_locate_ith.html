@@ -22,7 +22,7 @@ locates the \(i^{th}\) text boundary
     
     <a class="navbar-brand me-2" href="../index.html">tinycodet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -163,7 +163,9 @@ give the location of the first or last single character matching the <code>charc
 <a href="https://rdrr.io/pkg/stringi/man/stri_locate.html" class="external-link">stri_locate_all</a> gives the start and end of <b>consecutive</b> characters. <br>
 The <code>stri_locate_ith()</code> is in this aspect more in line with
 <a href="https://rdrr.io/pkg/stringi/man/stri_locate.html" class="external-link">stri_locate_all</a>,
-as it gives the \(i^{th}\) set of consecutive characters.</p>
+as it gives the \(i^{th}\) set of consecutive characters. <br>
+To make <code>stri_locare_ith()</code> work more like <a href="https://rdrr.io/pkg/stringi/man/stri_locate.html" class="external-link">stri_locate_first</a> or <a href="https://rdrr.io/pkg/stringi/man/stri_locate.html" class="external-link">stri_locate_last</a>,
+in this regard, add the argument <code>merge = FALSE</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

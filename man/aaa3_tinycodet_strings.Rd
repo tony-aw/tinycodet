@@ -62,5 +62,5 @@ stri_c_mat(sorted, margin = 1, sep = " ")
 Gagolewski M., \bold{stringi}: Fast and portable character string processing in R, \emph{Journal of Statistical Software} 103(2), 2022, 1–59, \doi{doi:10.18637/jss.v103.i02}
 }
 \seealso{
-\code{\link[=tinycodet_help]{tinycodet_help()}}, \code{\link[=s_regex]{s_regex()}}
+\code{\link[=tinycodet_help]{tinycodet_help()}}, \code{\link[=s_pattern]{s_pattern()}}
 }
