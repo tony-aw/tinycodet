@@ -8,7 +8,7 @@
 #' @keywords internal
 #' @noRd
 .internal_paste <- function(e1, e2) {
-  paste0(e1, e2)
+  return(paste0(e1, e2))
 }
 
 #' @keywords internal

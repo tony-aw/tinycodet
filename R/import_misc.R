@@ -189,7 +189,7 @@ import_int <- function(form, lib.loc = .libPaths()) {
   if(!intfun %in% names(ns)) {
     stop(paste0(intfun, " is not an internal function of ", package))
   }
-  get(as.character(intfun), envir = ns, inherits = FALSE)
+  return(get(as.character(intfun), envir = ns, inherits = FALSE))
 }
 
 

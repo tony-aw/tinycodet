@@ -99,13 +99,20 @@ NULL
 #' @rdname logic_ops
 #' @export
 `%xor%` <- function(x, y) {
-  xor(x,y)
+  return(xor(x,y))
 }
 
 #' @rdname logic_ops
 #' @export
 `%n&%` <- function(x, y) {
-  ifelse(is.na(x)|is.na(y), NA, (!x) & (!y))
+  out <- logical(max(length(x), length(y)))
+  ind <- is.na(x)|is.na(y)
+  out[ind] <- NA
+  ind <- !ind
+  x <- x[ind]
+  y <- y[ind]
+  out[ind] <- (!x) & (!y)
+  return(out)
 }
 
 #' @rdname logic_ops
@@ -131,7 +138,7 @@ NULL
   }
   if(!is.numeric(n)) { stop("`n` must be numeric") }
   check.unreal <- is.infinite(n) | is.nan(n) | is.na(n)
-  switch(
+  return(switch(
     numtype,
     "unreal" = check.unreal,
     "~0" = ifelse(check.unreal, FALSE, abs(n) < sqrt(.Machine$double.eps)),
@@ -141,7 +148,7 @@ NULL
     "odd" = ifelse(check.unreal, FALSE, n==round(n) & !(n/2 == round(n/2))),
     "even" = ifelse(check.unreal, FALSE, n==round(n) & (n/2 == round(n/2))),
     "R" = !check.unreal
-  )
+  ))
 }
 
 #' @rdname logic_ops
@@ -154,7 +161,7 @@ NULL
   if(!is.character(s)) { stop("`s` must be character") }
   check.unreal <- is.na(s)
   s.clean <- trimws(s, which="both")
-  switch(
+  return(switch(
     strtype,
     "empty" = ifelse(
       check.unreal, FALSE, s.clean==""
@@ -169,5 +176,5 @@ NULL
       check.unreal, FALSE,
       (nchar(s.clean)==nchar(gsub("[[:alnum:]]", "", s.clean))) & (nchar(s.clean)>0)
     )
-  )
+  ))
 }

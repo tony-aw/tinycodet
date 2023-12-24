@@ -68,10 +68,13 @@
 <li>Clarified in the documentation of ‘stringi’ pattern-searching infix operators that the <code>p</code> argument can also be a character vector of length 1.</li>
 <li>Removed the redundant <code>stringi::</code> call in the example code for <code><a href="../reference/import_misc.html">import_LL()</a></code>.</li>
 <li>The help file for the <code>s_pattern</code> functions is now actually titled “s_pattern”.</li>
+<li>Cleaned up the internal code here and there.</li>
 <li>
-<strong>Bug fix:</strong> There was a small bug where <code><a href="../reference/s_pattern.html">s_coll()</a></code> worked properly when assigned to an object (as usual), but not when called directly (like nested inside a function). <em>This is now fixed.</em>
-</li>
-<li>Improved the tests for the <code>s_pattern</code> operators.</li>
+<strong>Optimization:</strong> Optimized the <code>%n&amp;%</code> operator.</li>
+<li>
+<strong>Tests:</strong> Improved the tests for the <code>s_pattern</code> operators. Added even more tests.</li>
+<li>
+<strong>Bug fix:</strong> There was a small bug where <code><a href="../reference/s_pattern.html">s_coll()</a></code> worked properly when assigned to an object (as usual), but not when called directly (like nested inside a function). This is now fixed.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3.0" id="tinycodet-030">tinycodet 0.3.0<a class="anchor" aria-label="anchor" href="#tinycodet-030"></a></h2><p class="text-muted">CRAN release: 2023-12-11</p>
