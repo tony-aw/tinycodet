@@ -125,9 +125,12 @@ help.import <- function(..., i, alias) {
   # check arguments:
   lst <- list(...)
   args_base <- any(names(lst) %in% c("package", "topic"))
-  args_import <- !missing(i) | !missing(alias)
-  if(args_base & args_import) {
+  args_import <- !missing(i) || !missing(alias)
+  if(args_base && args_import) {
     stop("you cannot provide both `package`/`topic` AND `i`/`alias`")
+  }
+  if(!args_base && !args_import) {
+    stop("must specify at least `package`/`topic` OR `i`/`alias`")
   }
   if(!missing(alias)) {
     if(!is.environment(alias)) {
@@ -135,7 +138,7 @@ help.import <- function(..., i, alias) {
     }
   }
   if(!missing(i)) {
-    if(isFALSE(is.character(i)) & isFALSE(is.function(i))) {
+    if(isFALSE(is.character(i)) && isFALSE(is.function(i))) {
       stop("`i` must be a function or string")
     }
   }

@@ -97,9 +97,7 @@
 #' print(extr)
 #'
 #' # replace ith vowels with numbers:
-#' repl <- stringi::stri_replace_all(
-#' extr, fixed = c("a", "e", "i", "o", "u"), replacement = 1:5, vectorize_all = FALSE
-#' )
+#' repl <- chartr("aeiou", "12345", extr)
 #' x <- stringi::stri_sub_replace(x, loc, replacement=repl)
 #' print(x)
 #'
@@ -212,9 +210,6 @@ stri_locate_ith <- function(
   if(length(i) != n) {
     stop("`i` must be the same length as `str`, or be a length of 1")
   }
-  if(any(i==0) || anyNA(i)) {
-    stop("`i` is not allowed to be zero or NA")
-  }
   providedarg <- c(
     regex = !missing(regex), fixed = !missing(fixed),
     coll = !missing(coll), charclass = !missing(charclass)
@@ -250,15 +245,19 @@ stri_locate_ith <- function(
   n.matches <- pmax(n.matches, 1) # if no matches found, n.matches must be 1 so that NA is returned.
   neg <- which(i < 0)
   pos <- which(i > 0)
+  bad_i <- length(i) != (length(neg) + length(pos))
+  if(bad_i) stop("`i` is not allowed to be zero or NA")
+  
   i[neg] <- pmax(n.matches[neg] - abs(i[neg]+1), 1)
   i[pos] <- pmin(i[pos], n.matches[pos])
-
+  
   rowind <- i + c(0, cumsum(n.matches))[seq_len(n)]
   mat <- do.call(rbind, p1)
   mat <- mat[rowind, , drop=FALSE]
   colnames(mat) <- c("start", "end")
   return(mat)
 }
+
 
 #' @rdname stri_locate_ith
 #' @export
@@ -270,9 +269,6 @@ stri_locate_ith_boundaries <- function(
   if(length(i) != n) {
     stop("`i` must be the same length as `str`, or be a length of 1")
   }
-  if(any(i == 0) || anyNA(i)) {
-    stop("`i` is not allowed to be zero or NA")
-  }
   p1 <- stringi::stri_locate_all_boundaries(
     str = str, type = type, omit_no_match = FALSE, get_length = FALSE, ...
   )
@@ -281,6 +277,9 @@ stri_locate_ith_boundaries <- function(
   n.matches <- pmax(n.matches, 1) # if no matches found, n.matches must be 1 so that NA is returned.
   neg <- which(i < 0)
   pos <- which(i > 0)
+  bad_i <- length(i) != (length(neg) + length(pos))
+  if(bad_i) stop("`i` is not allowed to be zero or NA")
+  
   i[neg] <- pmax(n.matches[neg] - abs(i[neg]+1), 1)
   i[pos] <- pmin(i[pos], n.matches[pos])
 

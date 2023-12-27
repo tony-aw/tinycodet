@@ -61,7 +61,7 @@ For example: \code{max_count}}
 \item{uppercase_first, case_level}{see \link[stringi]{stri_opts_collator}.}
 }
 \value{
-A list with arguments to be passed to the appropriate functions.
+A list with arguments to be passed to the appropriate infix operators.
 }
 \description{
 The \link{\%s-\%} and \link{\%s/\%} operators,

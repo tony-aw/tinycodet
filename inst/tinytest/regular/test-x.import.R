@@ -44,9 +44,18 @@ expect_error(
   pattern = "you cannot provide both `package`/`topic` AND `i`/`alias`"
 )
 expect_error(
+  help.import(topic = "deparse", i = "deparse"),
+  pattern = "you cannot provide both `package`/`topic` AND `i`/`alias`"
+)
+expect_error(
+  help.import("deparse"),
+  pattern = "must specify at least `package`/`topic` OR `i`/`alias`"
+)
+expect_error(
   help.import(i = "string"),
   pattern = "if `i` is specified as a string, `alias` must also be supplied"
 )
+
 
 # is.tinyimport ====
 expect_true(is.tinyimport(stri.))

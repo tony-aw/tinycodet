@@ -78,7 +78,7 @@
 #'
 #'
 #' @returns
-#' A list with arguments to be passed to the appropriate functions.
+#' A list with arguments to be passed to the appropriate infix operators.
 #'
 #' @seealso [tinycodet_strings()]
 #'
@@ -131,12 +131,14 @@ s_regex <- function(
     time_limit = time_limit,
     stack_limit = stack_limit
   )
+  addargs <- list(...)
   
   out <- c(
     list(regex = p),
     opts,
-    ...
+    addargs
   )
+  # if(!missing(rp)) out <- c(out, list(replacement = rp))
   return(out)
 }
 
@@ -149,11 +151,13 @@ s_fixed <- function(
     case_insensitive = case_insensitive,
     overlap = overlap
   )
+  addargs <- list(...)
   out <- c(
     list(fixed = p),
     opts,
-    ...
+    addargs
   )
+  # if(!missing(rp)) out <- c(out, list(replacement = rp))
   return(out)
 }
 
@@ -181,11 +185,13 @@ s_coll <- function(
     numeric = numeric,
     normalization = normalization
   )
+  addargs <- list(...)
   out <- c(
     list(coll=p),
     opts,
-    ...
+    addargs
   )
+  # if(!missing(rp)) out <- c(out, list(replacement = rp))
   return(out)
 }
 
@@ -194,5 +200,11 @@ s_coll <- function(
 s_chrcls <- function(
     p, ...
 ) {
-  return(list(charclass = p, ...))
+  addargs <- list(...)
+  out <- c(
+    list(charclass = p),
+    addargs
+  )
+  # if(!missing(rp)) out <- c(out, list(replacement = rp))
+  return(out)
 }

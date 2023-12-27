@@ -31,8 +31,7 @@
 #' \cr
 #' 'tinycodet' adheres to the
 #' \href{https://www.tinyverse.org/}{tinyverse}
-#' philosophy
-#' (not to be confused with the 'tidyverse').
+#' philosophy.
 #' 'tinycodet' has only one dependency,
 #' namely 'stringi'. No other dependencies, thus avoiding "dependency hell".
 #' Most functions in this R-package are vectorized and optimised. \cr

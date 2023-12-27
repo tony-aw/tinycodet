@@ -145,7 +145,7 @@ NULL
 #' @export
 `%d{}%` <- function(x, bnd) {
   bnd <- matrix(bnd, ncol=2)
-  check <- nrow(bnd)==1 | nrow(bnd)==length(x)
+  check <- nrow(bnd)==1 || nrow(bnd)==length(x)
   if(!check){stop("`nrow(bnd)` must be equal to 1 or equal the number of elements of `x`")}
   if(any(bnd[,2] < bnd[,1])) {
     stop("`bnd[, 2] < bnd[, 1]`")
@@ -157,7 +157,7 @@ NULL
 #' @export
 `%d!{}%` <- function(x, bnd) {
   bnd <- matrix(bnd, ncol=2)
-  check <- nrow(bnd)==1 | nrow(bnd)==length(x)
+  check <- nrow(bnd)==1 || nrow(bnd)==length(x)
   if(!check){stop("`nrow(bnd)` must be equal to 1 or equal the number of elements of `x`")}
   if(any(bnd[,2] < bnd[,1])) {
     stop("`bnd[, 2] < bnd[, 1]`")

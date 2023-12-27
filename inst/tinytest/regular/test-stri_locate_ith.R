@@ -165,7 +165,7 @@ expect_equal(expect2, out2)
 
 
 
-# charclass ====
+# charclass - merge = TRUE (default) ====
 x.charclass <- c('stRRRingi','R STRINGI', '123')
 pattern <- c('\\p{Ll}', '\\p{Lu}', '\\p{Zs}')
 expect1 <- expect2 <- expect3 <- list()
@@ -220,6 +220,47 @@ expect_equal(
 )
 
 
+# charclass - merge = FALSE ====
+x.charclass <- c('stRRRingi','R STRINGI', '123')
+pattern <- c('\\p{Ll}', '\\p{Lu}', '\\p{Zs}')
+expect1 <- expect2 <- expect3 <- list()
+out1 <- out2 <- out3 <- list()
+loops <- loops + 1
+for(i in 1:length(pattern)) {
+  out1[[i]] <- stri_locate_ith(x.charclass, i = 1, charclass = pattern[[i]], merge = FALSE)
+  expect1[[i]] <- stringi::stri_locate_first_charclass(x.charclass, pattern[[i]])
+  out2[[i]] <- stri_locate_ith(x.charclass, i = -1, charclass = pattern[[i]], merge = FALSE)
+  expect2[[i]] <- stringi::stri_locate_last_charclass(x.charclass, pattern[[i]])
+  out3[[i]] <- stri_locate_ith(x.charclass, i = c(1, -1, 1), charclass = pattern[[i]], merge = FALSE)
+  expect3[[i]] <- rbind(stringi::stri_locate_first_charclass(x.charclass[1], pattern[[i]]),
+                        stringi::stri_locate_last_charclass(x.charclass[2], pattern[[i]]),
+                        stringi::stri_locate_first_charclass(x.charclass[3], pattern[[i]]))
+  enumerate <- enumerate + 3
+}
+expect_equal(expect1, out1)
+expect_equal(expect2, out2)
+expect_equal(expect3, out3)
+
+x.charclass <- c('stRRRingi','R STRINGI', '123')
+pattern <- c('\\p{Ll}', '\\p{Lu}', '\\p{Zs}')
+expect_equal(
+  stri_locate_ith(x.charclass, i = 1, charclass = pattern, merge = FALSE),
+  stringi::stri_locate_first_charclass(x.charclass, pattern)
+)
+expect_equal(
+  stri_locate_ith(x.charclass, i = -1, charclass = pattern, merge = FALSE),
+  stringi::stri_locate_last_charclass(x.charclass, pattern)
+)
+expect_equal(
+  stri_locate_ith(x.charclass, i = c(1, -1, 1), charclass = pattern, merge = FALSE),
+  rbind(
+    stringi::stri_locate_first_charclass(x.charclass[1], pattern[1]),
+    stringi::stri_locate_last_charclass(x.charclass[2], pattern[2]),
+    stringi::stri_locate_first_charclass(x.charclass[3], pattern[3])
+  )
+)
+
+
 # boundaries ====
 test <- c(
   paste0("The\u00a0above-mentioned    features are very useful. ",
@@ -265,6 +306,7 @@ expect_error(
   stri_locate_ith(x, i, regex="a|e|i|o|u"),
   pattern = "`i` must be the same length as `str`, or be a length of 1"
 )
+
 
 # bad pattern ====
 x <- c("hello", "goodbye")

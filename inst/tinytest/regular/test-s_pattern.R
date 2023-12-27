@@ -6,7 +6,8 @@ expected <- c(
                            dotall = FALSE,
                            multiline = FALSE,
                            time_limit = 0L,
-                           stack_limit = 0L)
+                           stack_limit = 0L),
+  list(foo = 1:10)
 )
 
 expect_equal(s_regex(
@@ -15,7 +16,8 @@ expect_equal(s_regex(
   dotall = FALSE,
   multiline = FALSE,
   time_limit = 0L,
-  stack_limit = 0L
+  stack_limit = 0L,
+  foo = 1:10
 ), expected)
 
 
@@ -26,7 +28,8 @@ tempfun <- function() {
     dotall = FALSE,
     multiline = FALSE,
     time_limit = 0L,
-    stack_limit = 0L
+    stack_limit = 0L,
+    foo = 1:10
   )
 }
 expect_equal(tempfun(), expected)
@@ -35,18 +38,21 @@ expect_equal(tempfun(), expected)
 # fixed ====
 expected <- c(
   list(fixed = "hello"),
-  stringi::stri_opts_fixed(case_insensitive = FALSE, overlap = FALSE)
+  stringi::stri_opts_fixed(case_insensitive = FALSE, overlap = FALSE),
+  list(foo = 1:10)
 )
 expect_equal(s_fixed(
   "hello", case_insensitive = FALSE,
-  overlap = FALSE
+  overlap = FALSE,
+  foo = 1:10
 ), expected)
 
 
 tempfun <- function() {
   s_fixed(
     "hello", case_insensitive = FALSE,
-    overlap = FALSE
+    overlap = FALSE,
+    foo = 1:10
   )
 }
 expect_equal(tempfun(), expected)
@@ -65,7 +71,8 @@ expected <- c(
     case_level = FALSE,
     numeric = FALSE,
     normalization = FALSE,
-  )
+  ),
+  list(foo = 1:10)
 )
 expect_equal(s_coll(
   "hello",
@@ -76,7 +83,8 @@ expect_equal(s_coll(
   uppercase_first = NA,
   case_level = FALSE,
   numeric = FALSE,
-  normalization = FALSE
+  normalization = FALSE,
+  foo = 1:10
 ), expected)
 
 tempfun <- function() {
@@ -89,19 +97,24 @@ tempfun <- function() {
     uppercase_first = NA,
     case_level = FALSE,
     numeric = FALSE,
-    normalization = FALSE
+    normalization = FALSE,
+    foo = 1:10
   )
 }
 expect_equal(tempfun(), expected)
 
 
 # chrcls ====
-expected <- list(charclass="hello", some_option=NA)
-expect_equal(s_chrcls("hello", some_option=NA), expected)
+expected <- list(charclass="hello", some_option=NA,
+                 foo = 1:10)
+expect_equal(s_chrcls("hello", some_option=NA,
+                      foo = 1:10), expected)
 
 tempfun <- function() {
-  s_chrcls("hello", some_option=NA)
+  s_chrcls("hello", some_option=NA,
+           foo = 1:10)
 }
 expect_equal(tempfun(), expected)
+
 
 

@@ -118,11 +118,11 @@ expect_equal(x %[!if]% \(x)x %in% 1:10,
 # subset_if error checks ====
 expect_error(
   x %[if]% \(x)x*10,
-  pattern = "`cond` must return a logical vector containing only TRUE or FALSE"
+  pattern = "`cond` must return a logical vector"
 )
 expect_error(
   x %[!if]% \(x)x*10,
-  pattern = "`cond` must return a logical vector containing only TRUE or FALSE"
+  pattern = "`cond` must return a logical vector"
 )
 
 

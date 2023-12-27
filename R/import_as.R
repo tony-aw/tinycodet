@@ -263,7 +263,7 @@ import_as <- function(
   # )
   namespaces <- list()
   
-  message("Importing packages...")
+  message("Importing packages and registering methods...")
   
   for (i in 1:length(pkgs)) {
     
@@ -330,7 +330,6 @@ import_as <- function(
   message(paste0(
     "Done", "\n",
     "You can now access the functions using `", alias, "$", "`", "\n",
-    "Methods will work like normally \n",
     "For conflicts report, packages order, and other attributes, run `", "attr.import(", alias, ")", "` \n"
   ))
   

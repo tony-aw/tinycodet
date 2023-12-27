@@ -85,15 +85,14 @@ NULL
 #' @export
 `%sget%` <- function(x, ss) {
   ss <- matrix(as.integer(ss), ncol = 2)
-  if(isTRUE(any(ss < 0))) { stop("right hand side cannot contain negative numbers") }
   if(isTRUE(anyNA(ss))) { stop("right hand side cannot contain NA") }
+  if(isTRUE(any(ss < 0))) { stop("right hand side cannot contain negative numbers") }
+  
   n <- stringi::stri_length(x)
   first <- stringi::stri_sub(x, from = 1, to = ss[,1])
   last <-  stringi::stri_sub(x, from = n - ss[,2] + 1, to = n)
-  out <- ifelse(
-    rowSums(ss) >= n,
-    x, stringi::stri_c(first, last, sep = "")
-  )
+  out <- stringi::stri_c(first, last, sep = "") 
+  out[which(rowSums(ss) >= n)] <- x 
   return(out)
 }
 
@@ -101,13 +100,12 @@ NULL
 #' @export
 `%strim%` <- function(x, ss) {
   ss <- matrix(as.integer(ss), ncol=2)
-  if(isTRUE(any(ss < 0))) { stop("right hand side cannot contain negative numbers") }
   if(isTRUE(anyNA(ss))) { stop("right hand side cannot contain NA") }
+  if(isTRUE(any(ss < 0))) { stop("right hand side cannot contain negative numbers") }
+  
   n <- stringi::stri_length(x)
-  out <- ifelse(
-    rowSums(ss) >= n,
-    "", stringi::stri_sub(x, from = 1 + ss[,1], to = n - ss[,2])
-  )
+  out <- stringi::stri_sub(x, from = 1 + ss[,1], to = n - ss[,2])
+  out[which(rowSums(ss) >= n)] <- ""
   return(out)
 }
 

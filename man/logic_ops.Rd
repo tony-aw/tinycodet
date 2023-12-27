@@ -41,14 +41,16 @@ A logical vector.
 \description{
 Additional logic operators: \cr
 \cr
-The \code{x \%xor\% y} operator is the "exclusive-or" operator, the same as \link{xor}\code{(x, y)}. \cr
+The \code{x \%xor\% y} operator is the "exclusive-or" operator,
+the same as \link{xor}\code{(x, y)}. \cr
 \cr
-The \code{x \%n&\%} operator is the "not-and" operator, the same as \code{(!x) & (!y)}. \cr
+The \code{x \%n&\%} operator is the "not-and" operator,
+the same as \code{(!x) & (!y)}. \cr
 \cr
 The \code{x \%out\% y} operator is the same as \code{!x \%in\% y}. \cr
 \cr
 The \code{x \%?=\% y} operator checks if \code{x} and \code{y}
-are \strong{both} unreal or unknown (i.e. NA, NaN, Inf, -Inf). \cr
+are \bold{both} unreal or unknown (i.e. NA, NaN, Inf, -Inf). \cr
 \cr
 The \code{n \%=numtype\% numtype} operator checks
 for every value of numeric vector \code{n}

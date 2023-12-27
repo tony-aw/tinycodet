@@ -1,4 +1,4 @@
-# tinycodet 0.3.1 (Under Development)
+# tinycodet 0.3.9 (Under Development)
 * Clarified in the documentation that `%col~%` and `%row~%` strip attributes (this was not really made clear in the documentation before).
 * Clarified the usage of `merge = FALSE` for pattern `charclass`,
 in the documentation of the `stri_locate_ith()` function.
@@ -7,8 +7,11 @@ in the documentation of the `stri_locate_ith()` function.
 * Removed the redundant `stringi::` call in the example code for `import_LL()`.
 * The help file for the `s_pattern` functions is now actually titled "s_pattern".
 * Cleaned up the internal code here and there.
-* **Optimization:** Optimized the `%n&%` operator.
-* **Tests:** Improved the tests for the `s_pattern` operators. Added even more tests.
+* The `help.import()` function now gives an error if neither `topic/package` nor `i/alias` is supplied, instead of just silently doing nothing.
+* The messages returned by `import_as()` when aliasing packages is now slightly less verbose: removed the line "Methods work like normally", and replaced the line "Importing packages ..." with "Importing packages and registering methods...".
+* **Optimization:** Managed to optimise `stri_locate_ith()` even further. Optimised the 'subset_if' operators. Optimised the `%sget%`, `%strim%`, `%n&%`, and `%=strtype%` operators.
+* **Argument API change:** The `s_pattern` functions now wrap additional arguments in a list for the user, in case of using vector arguments, preventing potential confusion.
+* **Tests:** Improved the tests for the `s_pattern` operators. Added tests for `stri_locate_ith()` when using argument `merge = FALSE`. Added more error check tests for `help.import()`.
 * **Bug fix:** There was a small bug where `s_coll()` worked properly when assigned to an object (as usual), but not when called directly (like nested inside a function). This is now fixed.
 
 

@@ -510,35 +510,34 @@ code using <code>tinycodet</code>’ import system:</p>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">import_as</span>( </span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="sc">~</span> tdt., <span class="st">&quot;tidytable&quot;</span>, <span class="at">dependencies =</span> <span class="st">&quot;data.table&quot;</span></span>
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>)</span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">#&gt; Importing packages...</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">#&gt; Importing packages and registering methods...</span></span>
 <span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
 <span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt; You can now access the functions using `tdt.$`</span></span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt; Methods will work like normally </span></span>
-<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt; For conflicts report, packages order, and other attributes, run `attr.import(tdt.)`</span></span>
-<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co"># exposing operators from `magrrittr` to current environment:</span></span>
-<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="st">&quot;magrittr&quot;</span>)</span>
-<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt; Checking for conflicting infix operators in the current environment...</span></span>
-<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co">#&gt; Placing infix operators in current environment...</span></span>
-<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
-<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a></span>
-<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="co"># directly assigning the &quot;starwars&quot; dataset to object &quot;d&quot;:</span></span>
-<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">import_data</span>(<span class="st">&quot;dplyr&quot;</span>, <span class="st">&quot;starwars&quot;</span>) </span>
-<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a></span>
-<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a><span class="co"># see it in action:</span></span>
-<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a>d <span class="sc">%&gt;%</span> tdt.<span class="sc">$</span><span class="fu">filter</span>(species <span class="sc">==</span> <span class="st">&quot;Droid&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a>  tdt.<span class="sc">$</span><span class="fu">select</span>(name, tdt.<span class="sc">$</span><span class="fu">ends_with</span>(<span class="st">&quot;color&quot;</span>))</span>
-<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a><span class="co">#&gt; # A tidytable: 6 × 4</span></span>
-<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a><span class="co">#&gt;   name   hair_color skin_color  eye_color</span></span>
-<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;    </span></span>
-<span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a><span class="co">#&gt; 1 C-3PO  &lt;NA&gt;       gold        yellow   </span></span>
-<span id="cb2-27"><a href="#cb2-27" tabindex="-1"></a><span class="co">#&gt; 2 R2-D2  &lt;NA&gt;       white, blue red      </span></span>
-<span id="cb2-28"><a href="#cb2-28" tabindex="-1"></a><span class="co">#&gt; 3 R5-D4  &lt;NA&gt;       white, red  red      </span></span>
-<span id="cb2-29"><a href="#cb2-29" tabindex="-1"></a><span class="co">#&gt; 4 IG-88  none       metal       red      </span></span>
-<span id="cb2-30"><a href="#cb2-30" tabindex="-1"></a><span class="co">#&gt; 5 R4-P17 none       silver, red red, blue</span></span>
-<span id="cb2-31"><a href="#cb2-31" tabindex="-1"></a><span class="co">#&gt; 6 BB8    none       none        black</span></span>
-<span id="cb2-32"><a href="#cb2-32" tabindex="-1"></a></span>
-<span id="cb2-33"><a href="#cb2-33" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">ls</span>()) <span class="co"># clearing everything</span></span></code></pre></div>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt; For conflicts report, packages order, and other attributes, run `attr.import(tdt.)`</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co"># exposing operators from `magrrittr` to current environment:</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="st">&quot;magrittr&quot;</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#&gt; Checking for conflicting infix operators in the current environment...</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt; Placing infix operators in current environment...</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="co"># directly assigning the &quot;starwars&quot; dataset to object &quot;d&quot;:</span></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">import_data</span>(<span class="st">&quot;dplyr&quot;</span>, <span class="st">&quot;starwars&quot;</span>) </span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a><span class="co"># see it in action:</span></span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a>d <span class="sc">%&gt;%</span> tdt.<span class="sc">$</span><span class="fu">filter</span>(species <span class="sc">==</span> <span class="st">&quot;Droid&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a>  tdt.<span class="sc">$</span><span class="fu">select</span>(name, tdt.<span class="sc">$</span><span class="fu">ends_with</span>(<span class="st">&quot;color&quot;</span>))</span>
+<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a><span class="co">#&gt; # A tidytable: 6 × 4</span></span>
+<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a><span class="co">#&gt;   name   hair_color skin_color  eye_color</span></span>
+<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;    </span></span>
+<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a><span class="co">#&gt; 1 C-3PO  &lt;NA&gt;       gold        yellow   </span></span>
+<span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a><span class="co">#&gt; 2 R2-D2  &lt;NA&gt;       white, blue red      </span></span>
+<span id="cb2-27"><a href="#cb2-27" tabindex="-1"></a><span class="co">#&gt; 3 R5-D4  &lt;NA&gt;       white, red  red      </span></span>
+<span id="cb2-28"><a href="#cb2-28" tabindex="-1"></a><span class="co">#&gt; 4 IG-88  none       metal       red      </span></span>
+<span id="cb2-29"><a href="#cb2-29" tabindex="-1"></a><span class="co">#&gt; 5 R4-P17 none       silver, red red, blue</span></span>
+<span id="cb2-30"><a href="#cb2-30" tabindex="-1"></a><span class="co">#&gt; 6 BB8    none       none        black</span></span>
+<span id="cb2-31"><a href="#cb2-31" tabindex="-1"></a></span>
+<span id="cb2-32"><a href="#cb2-32" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">ls</span>()) <span class="co"># clearing everything</span></span></code></pre></div>
 <p>The above code is run <em>without attaching</em> any of the packages
 or its dependencies. So none of the problems with attaching a package is
 present.</p>
@@ -587,11 +586,10 @@ defaults to <code>.libPaths()</code>. This argument is present in all
 extensions <a href="https://github.com/markfairbanks/tidytable">tidytable</a>, under
 the same alias, which I will call “tdt.” (for “tidy data.table”):</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">import_as</span>(<span class="sc">~</span> tdt., <span class="st">&quot;data.table&quot;</span>, <span class="at">extensions =</span> <span class="st">&quot;tidytable&quot;</span>) <span class="co"># this creates the tdt. object</span></span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">#&gt; Importing packages...</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">#&gt; Importing packages and registering methods...</span></span>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
 <span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt; You can now access the functions using `tdt.$`</span></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt; Methods will work like normally </span></span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; For conflicts report, packages order, and other attributes, run `attr.import(tdt.)`</span></span></code></pre></div>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt; For conflicts report, packages order, and other attributes, run `attr.import(tdt.)`</span></span></code></pre></div>
 <p>Now one can use the imported functions using:
 <code>tdt.$some_function()</code>.</p>
 <p> </p>
@@ -615,7 +613,8 @@ attach the functions to the namespace.</p>
 before to the current environment, one can do the following:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="at">expose =</span> tdt.)</span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co">#&gt; Checking for conflicting infix operators in the current environment...</span></span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#&gt; Placing infix operators in current environment...</span></span></code></pre></div>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#&gt; Placing infix operators in current environment...</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt; Done</span></span></code></pre></div>
 <p>One can give the <code>unexpose</code> argument instead of the
 <code>expose</code> argument, which will delete the infix operators from
 those packages/package alias exposed in the current environment by
@@ -654,18 +653,19 @@ present in the current environment or loaded namespaces.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="at">expose =</span> tdt., <span class="at">include.only =</span> <span class="st">&quot;:=&quot;</span>)</span>
 <span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="co">#&gt; Checking for conflicting infix operators in the current environment...</span></span>
 <span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="co">#&gt; Placing infix operators in current environment...</span></span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="at">unexpose =</span> tdt.)</span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="co">#&gt; unexposing infix operators...</span></span>
-<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
-<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="at">expose =</span> <span class="st">&quot;data.table&quot;</span>, , <span class="at">include.only =</span> <span class="st">&quot;:=&quot;</span>)</span>
-<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="co">#&gt; Checking for conflicting infix operators in the current environment...</span></span>
-<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co">#&gt; Placing infix operators in current environment...</span></span>
-<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
-<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="at">unexpose =</span> <span class="st">&quot;data.table&quot;</span>)</span>
-<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="co">#&gt; checking for infix operators exposed to the current environment by `import_inops()` ...</span></span>
-<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="co">#&gt; Removing the following infix operators:</span></span>
-<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="co">#&gt; :=</span></span>
-<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a><span class="co">#&gt; Done</span></span></code></pre></div>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="at">unexpose =</span> tdt.)</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="co">#&gt; unexposing infix operators...</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="at">expose =</span> <span class="st">&quot;data.table&quot;</span>, , <span class="at">include.only =</span> <span class="st">&quot;:=&quot;</span>)</span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co">#&gt; Checking for conflicting infix operators in the current environment...</span></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="co">#&gt; Placing infix operators in current environment...</span></span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="at">unexpose =</span> <span class="st">&quot;data.table&quot;</span>)</span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="co">#&gt; checking for infix operators exposed to the current environment by `import_inops()` ...</span></span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="co">#&gt; Removing the following infix operators:</span></span>
+<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a><span class="co">#&gt; :=</span></span>
+<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a><span class="co">#&gt; Done</span></span></code></pre></div>
 <p> </p>
 <p>If the user would rather attach the infix operators to the (global)
 namespace, <code>tinycodet</code> provides the <code>pkg_lsf()</code>
@@ -797,16 +797,15 @@ is an extension), all under one alias which I’ll call
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">import_as</span>(</span>
 <span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>  <span class="sc">~</span> dpr., <span class="st">&quot;dplyr&quot;</span>, <span class="at">extensions =</span> <span class="st">&quot;powerjoin&quot;</span>, <span class="at">lib.loc =</span> <span class="fu">.libPaths</span>()</span>
 <span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>)</span>
-<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a><span class="co">#&gt; Importing packages...</span></span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a><span class="co">#&gt; Importing packages and registering methods...</span></span>
 <span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
 <span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a><span class="co">#&gt; You can now access the functions using `dpr.$`</span></span>
-<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a><span class="co">#&gt; Methods will work like normally </span></span>
-<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a><span class="co">#&gt; For conflicts report, packages order, and other attributes, run `attr.import(dpr.)`</span></span>
-<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a></span>
-<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="st">&quot;magrittr&quot;</span>) <span class="co"># getting the infix operators from `magrittr`</span></span>
-<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a><span class="co">#&gt; Checking for conflicting infix operators in the current environment...</span></span>
-<span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a><span class="co">#&gt; Placing infix operators in current environment...</span></span>
-<span id="cb15-13"><a href="#cb15-13" tabindex="-1"></a><span class="co">#&gt; Done</span></span></code></pre></div>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a><span class="co">#&gt; For conflicts report, packages order, and other attributes, run `attr.import(dpr.)`</span></span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="st">&quot;magrittr&quot;</span>) <span class="co"># getting the infix operators from `magrittr`</span></span>
+<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a><span class="co">#&gt; Checking for conflicting infix operators in the current environment...</span></span>
+<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a><span class="co">#&gt; Placing infix operators in current environment...</span></span>
+<span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a><span class="co">#&gt; Done</span></span></code></pre></div>
 <p>The functions from <a href="https://github.com/tidyverse/dplyr">dplyr</a> can now be used with
 the <code>dpr.$</code> prefix. This way, base R functions are no longer
 overwritten, and it will be clear for someone who reads your code

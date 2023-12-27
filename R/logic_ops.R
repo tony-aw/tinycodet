@@ -3,14 +3,16 @@
 #' @description
 #' Additional logic operators: \cr
 #' \cr
-#' The \code{x %xor% y} operator is the "exclusive-or" operator, the same as \link{xor}\code{(x, y)}. \cr
+#' The \code{x %xor% y} operator is the "exclusive-or" operator,
+#' the same as \link{xor}\code{(x, y)}. \cr
 #' \cr
-#' The \code{x %n&%} operator is the "not-and" operator, the same as \code{(!x) & (!y)}. \cr
+#' The \code{x %n&%} operator is the "not-and" operator,
+#' the same as \code{(!x) & (!y)}. \cr
 #' \cr
 #' The \code{x %out% y} operator is the same as \code{!x %in% y}. \cr
 #' \cr
 #' The \code{x %?=% y} operator checks if \code{x} and \code{y}
-#' are **both** unreal or unknown (i.e. NA, NaN, Inf, -Inf). \cr
+#' are \bold{both} unreal or unknown (i.e. NA, NaN, Inf, -Inf). \cr
 #' \cr
 #' The \code{n %=numtype% numtype} operator checks
 #' for every value of numeric vector \code{n}
@@ -105,13 +107,8 @@ NULL
 #' @rdname logic_ops
 #' @export
 `%n&%` <- function(x, y) {
-  out <- logical(max(length(x), length(y)))
-  ind <- is.na(x)|is.na(y)
-  out[ind] <- NA
-  ind <- !ind
-  x <- x[ind]
-  y <- y[ind]
-  out[ind] <- (!x) & (!y)
+  out <- (!x) & (!y)
+  out[is.na(x) | is.na(y)] <- NA
   return(out)
 }
 
@@ -154,13 +151,14 @@ NULL
 #' @rdname logic_ops
 #' @export
 `%=strtype%` <- function(s, strtype) {
-  if(length(strtype)>1){stop("`strtype` must be a single string")}
+  if(length(strtype) > 1){stop("`strtype` must be a single string")}
   if(! strtype %in% c("unreal", "empty", "numeric", "special")){
     stop("strtype not recognised")
   }
   if(!is.character(s)) { stop("`s` must be character") }
   check.unreal <- is.na(s)
   s.clean <- trimws(s, which="both")
+  
   return(switch(
     strtype,
     "empty" = ifelse(
@@ -174,7 +172,7 @@ NULL
     ),
     "special" = ifelse(
       check.unreal, FALSE,
-      (nchar(s.clean)==nchar(gsub("[[:alnum:]]", "", s.clean))) & (nchar(s.clean)>0)
+      (nchar(s.clean) == nchar(stringi::stri_replace_all_regex(s.clean, "[[:alnum:]]", ""))) & (nchar(s.clean) > 0)
     )
   ))
 }

@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tinycodet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.9</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,7 +61,7 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.3.1" id="tinycodet-031-under-development">tinycodet 0.3.1 (Under Development)<a class="anchor" aria-label="anchor" href="#tinycodet-031-under-development"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.3.9" id="tinycodet-039-under-development">tinycodet 0.3.9 (Under Development)<a class="anchor" aria-label="anchor" href="#tinycodet-039-under-development"></a></h2>
 <ul><li>Clarified in the documentation that <code>%col~%</code> and <code>%row~%</code> strip attributes (this was not really made clear in the documentation before).</li>
 <li>Clarified the usage of <code>merge = FALSE</code> for pattern <code>charclass</code>, in the documentation of the <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> function.</li>
 <li>Clarified in the documentation that the locked objects are not protected from modification by reference.</li>
@@ -69,10 +69,14 @@
 <li>Removed the redundant <code>stringi::</code> call in the example code for <code><a href="../reference/import_misc.html">import_LL()</a></code>.</li>
 <li>The help file for the <code>s_pattern</code> functions is now actually titled “s_pattern”.</li>
 <li>Cleaned up the internal code here and there.</li>
+<li>The <code><a href="../reference/x.import.html">help.import()</a></code> function now gives an error if neither <code>topic/package</code> nor <code>i/alias</code> is supplied, instead of just silently doing nothing.</li>
+<li>The messages returned by <code><a href="../reference/import_as.html">import_as()</a></code> when aliasing packages is now slightly less verbose: removed the line “Methods work like normally”, and replaced the line “Importing packages …” with “Importing packages and registering methods…”.</li>
 <li>
-<strong>Optimization:</strong> Optimized the <code>%n&amp;%</code> operator.</li>
+<strong>Optimization:</strong> Managed to optimise <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> even further. Optimised the ‘subset_if’ operators. Optimised the <code>%sget%</code>, <code>%strim%</code>, <code>%n&amp;%</code>, and <code>%=strtype%</code> operators.</li>
 <li>
-<strong>Tests:</strong> Improved the tests for the <code>s_pattern</code> operators. Added even more tests.</li>
+<strong>Argument API change:</strong> The <code>s_pattern</code> functions now wrap additional arguments in a list for the user, in case of using vector arguments, preventing potential confusion.</li>
+<li>
+<strong>Tests:</strong> Improved the tests for the <code>s_pattern</code> operators. Added tests for <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> when using argument <code>merge = FALSE</code>. Added more error check tests for <code><a href="../reference/x.import.html">help.import()</a></code>.</li>
 <li>
 <strong>Bug fix:</strong> There was a small bug where <code><a href="../reference/s_pattern.html">s_coll()</a></code> worked properly when assigned to an object (as usual), but not when called directly (like nested inside a function). This is now fixed.</li>
 </ul></div>

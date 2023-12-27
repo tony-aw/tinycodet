@@ -105,9 +105,7 @@ extr <- stringi::stri_sub(x, from=loc)
 print(extr)
 
 # replace ith vowels with numbers:
-repl <- stringi::stri_replace_all(
-extr, fixed = c("a", "e", "i", "o", "u"), replacement = 1:5, vectorize_all = FALSE
-)
+repl <- chartr("aeiou", "12345", extr)
 x <- stringi::stri_sub_replace(x, loc, replacement=repl)
 print(x)
 

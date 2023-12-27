@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tinycodet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.9</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -218,10 +218,9 @@ S3 methods.</p>
 that aliasing a package like so:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/import_as.html">import_as</a></span><span class="op">(</span><span class="op">~</span> <span class="va">tdt.</span>, <span class="st">"tidytable"</span>, re_exports <span class="op">=</span> <span class="cn">TRUE</span>, dependencies <span class="op">=</span> <span class="st">"data.table"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Importing packages...</span></span>
+<span><span class="co">#&gt; Importing packages and registering methods...</span></span>
 <span><span class="co">#&gt; Done</span></span>
 <span><span class="co">#&gt; You can now access the functions using `tdt.$`</span></span>
-<span><span class="co">#&gt; Methods will work like normally </span></span>
 <span><span class="co">#&gt; For conflicts report, packages order, and other attributes, run `attr.import(tdt.)`</span></span></code></pre></div>
 <p>… produces several messages, including the message “For conflicts
 report, packages order, and other attributes, run
@@ -285,7 +284,7 @@ produced the alias object in question:</p>
 <span><span class="co">#&gt; NULL</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $lib.loc</span></span>
-<span><span class="co">#&gt; [1] "C:/Users/Tony/AppData/Local/Temp/RtmpcrGOag/temp_libpath4ce01c407137"</span></span>
+<span><span class="co">#&gt; [1] "C:/Users/Tony/AppData/Local/Temp/RtmpOCZT88/temp_libpath579444522606"</span></span>
 <span><span class="co">#&gt; [2] "D:/Programs/R-4.3.2/library"                                         </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $import_order</span></span>

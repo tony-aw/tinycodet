@@ -58,20 +58,20 @@ NULL
 #' @export
 `%[if]%` <- function(x, cond) {
   indx <- cond(x)
-  if(!all(indx %in% c(TRUE, FALSE))) {
-    stop("`cond` must return a logical vector containing only TRUE or FALSE")
+  if(!is.logical(indx)) {
+    stop("`cond` must return a logical vector")
   }
-  return(x[indx])
+  return(x[which(indx)])
 }
 
 #' @rdname subset_if
 #' @export
 `%[!if]%` <- function(x, cond) {
   indx <- cond(x)
-  if(!all(indx %in% c(TRUE, FALSE))) {
-    stop("`cond` must return a logical vector containing only TRUE or FALSE")
+  if(!is.logical(indx)) {
+    stop("`cond` must return a logical vector")
   }
-  return(x[!indx])
+  return(x[which(!indx)])
 }
 
 #' @rdname subset_if

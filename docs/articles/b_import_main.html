@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tinycodet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.9</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -264,10 +264,9 @@ code using <code>tinycodet</code>’ import system:</p>
 <span><span class="fu"><a href="../reference/import_as.html">import_as</a></span><span class="op">(</span> </span>
 <span>  <span class="op">~</span> <span class="va">tdt.</span>, <span class="st">"tidytable"</span>, dependencies <span class="op">=</span> <span class="st">"data.table"</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; Importing packages...</span></span>
+<span><span class="co">#&gt; Importing packages and registering methods...</span></span>
 <span><span class="co">#&gt; Done</span></span>
 <span><span class="co">#&gt; You can now access the functions using `tdt.$`</span></span>
-<span><span class="co">#&gt; Methods will work like normally </span></span>
 <span><span class="co">#&gt; For conflicts report, packages order, and other attributes, run `attr.import(tdt.)`</span></span>
 <span></span>
 <span><span class="co"># exposing operators from `magrrittr` to current environment:</span></span>
@@ -349,10 +348,9 @@ extensions <a href="https://github.com/markfairbanks/tidytable" class="external-
 the same alias, which I will call “tdt.” (for “tidy data.table”):</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/import_as.html">import_as</a></span><span class="op">(</span><span class="op">~</span> <span class="va">tdt.</span>, <span class="st">"data.table"</span>, extensions <span class="op">=</span> <span class="st">"tidytable"</span><span class="op">)</span> <span class="co"># this creates the tdt. object</span></span>
-<span><span class="co">#&gt; Importing packages...</span></span>
+<span><span class="co">#&gt; Importing packages and registering methods...</span></span>
 <span><span class="co">#&gt; Done</span></span>
 <span><span class="co">#&gt; You can now access the functions using `tdt.$`</span></span>
-<span><span class="co">#&gt; Methods will work like normally </span></span>
 <span><span class="co">#&gt; For conflicts report, packages order, and other attributes, run `attr.import(tdt.)`</span></span></code></pre></div>
 <p>Now one can use the imported functions using:
 <code>tdt.$some_function()</code>.</p>
@@ -381,7 +379,8 @@ before to the current environment, one can do the following:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/import_inops.html">import_inops</a></span><span class="op">(</span>expose <span class="op">=</span> <span class="va">tdt.</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Checking for conflicting infix operators in the current environment...</span></span>
-<span><span class="co">#&gt; Placing infix operators in current environment...</span></span></code></pre></div>
+<span><span class="co">#&gt; Placing infix operators in current environment...</span></span>
+<span><span class="co">#&gt; Done</span></span></code></pre></div>
 <p>One can give the <code>unexpose</code> argument instead of the
 <code>expose</code> argument, which will delete the infix operators from
 those packages/package alias exposed in the current environment by
@@ -424,6 +423,7 @@ present in the current environment or loaded namespaces.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/import_inops.html">import_inops</a></span><span class="op">(</span>expose <span class="op">=</span> <span class="va">tdt.</span>, include.only <span class="op">=</span> <span class="st">":="</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Checking for conflicting infix operators in the current environment...</span></span>
 <span><span class="co">#&gt; Placing infix operators in current environment...</span></span>
+<span><span class="co">#&gt; Done</span></span>
 <span><span class="fu"><a href="../reference/import_inops.html">import_inops</a></span><span class="op">(</span>unexpose <span class="op">=</span> <span class="va">tdt.</span><span class="op">)</span></span>
 <span><span class="co">#&gt; unexposing infix operators...</span></span>
 <span><span class="co">#&gt; Done</span></span>
@@ -576,10 +576,9 @@ is an extension), all under one alias which I’ll call
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/import_as.html">import_as</a></span><span class="op">(</span></span>
 <span>  <span class="op">~</span> <span class="va">dpr.</span>, <span class="st">"dplyr"</span>, extensions <span class="op">=</span> <span class="st">"powerjoin"</span>, lib.loc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span><span class="co">#&gt; Importing packages...</span></span>
+<span><span class="co">#&gt; Importing packages and registering methods...</span></span>
 <span><span class="co">#&gt; Done</span></span>
 <span><span class="co">#&gt; You can now access the functions using `dpr.$`</span></span>
-<span><span class="co">#&gt; Methods will work like normally </span></span>
 <span><span class="co">#&gt; For conflicts report, packages order, and other attributes, run `attr.import(dpr.)`</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/import_inops.html">import_inops</a></span><span class="op">(</span><span class="st">"magrittr"</span><span class="op">)</span> <span class="co"># getting the infix operators from `magrittr`</span></span>

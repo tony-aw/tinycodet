@@ -34,7 +34,7 @@ from an alias object returned by import_as.
     
     <a class="navbar-brand me-2" href="../index.html">tinycodet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.9</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -244,14 +244,14 @@ For example:</p>
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu"><a href="import_as.html">import_as</a></span><span class="op">(</span><span class="op">~</span> <span class="va">to.</span>, <span class="st">"tinycodet"</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Importing packages...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Importing packages and registering methods...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Done</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> You can now access the functions using `to.$`</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Methods will work like normally </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> For conflicts report, packages order, and other attributes, run `attr.import(to.)` </span>
 <span class="r-in"><span><span class="fu"><a href="import_inops.html">import_inops</a></span><span class="op">(</span><span class="va">to.</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Checking for conflicting infix operators in the current environment...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Placing infix operators in current environment...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Done</span>
 <span class="r-in"><span><span class="va">`%s==%`</span> <span class="op">&lt;-</span> <span class="fu">stringi</span><span class="fu">::</span><span class="va">`%s==%`</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="fu">is.tinyimport</span><span class="op">(</span><span class="va">to.</span><span class="op">)</span> <span class="co"># returns TRUE</span></span></span>

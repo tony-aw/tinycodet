@@ -553,33 +553,32 @@ note that the following code is run without attaching a single R package
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">import_as</span>( </span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="sc">~</span> tdt., <span class="st">&quot;tidytable&quot;</span>, <span class="at">dependencies =</span> <span class="st">&quot;data.table&quot;</span></span>
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>)</span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">#&gt; Importing packages...</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">#&gt; Importing packages and registering methods...</span></span>
 <span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
 <span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt; You can now access the functions using `tdt.$`</span></span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt; Methods will work like normally </span></span>
-<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt; For conflicts report, packages order, and other attributes, run `attr.import(tdt.)`</span></span>
-<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a></span>
-<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co"># exposing operators from `magrrittr` to current environment:</span></span>
-<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="st">&quot;magrittr&quot;</span>)</span>
-<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt; Checking for conflicting infix operators in the current environment...</span></span>
-<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co">#&gt; Placing infix operators in current environment...</span></span>
-<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
-<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a></span>
-<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="co"># directly assigning the &quot;starwars&quot; dataset to object &quot;d&quot;:</span></span>
-<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">import_data</span>(<span class="st">&quot;dplyr&quot;</span>, <span class="st">&quot;starwars&quot;</span>) </span>
-<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a></span>
-<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a><span class="co"># see it in action:</span></span>
-<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a>d <span class="sc">%&gt;%</span> tdt.<span class="sc">$</span><span class="fu">filter</span>(species <span class="sc">==</span> <span class="st">&quot;Droid&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a>  tdt.<span class="sc">$</span><span class="fu">select</span>(name, tdt.<span class="sc">$</span><span class="fu">ends_with</span>(<span class="st">&quot;color&quot;</span>))</span>
-<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a><span class="co">#&gt; # A tidytable: 6 × 4</span></span>
-<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a><span class="co">#&gt;   name   hair_color skin_color  eye_color</span></span>
-<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;    </span></span>
-<span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a><span class="co">#&gt; 1 C-3PO  &lt;NA&gt;       gold        yellow   </span></span>
-<span id="cb2-27"><a href="#cb2-27" tabindex="-1"></a><span class="co">#&gt; 2 R2-D2  &lt;NA&gt;       white, blue red      </span></span>
-<span id="cb2-28"><a href="#cb2-28" tabindex="-1"></a><span class="co">#&gt; 3 R5-D4  &lt;NA&gt;       white, red  red      </span></span>
-<span id="cb2-29"><a href="#cb2-29" tabindex="-1"></a><span class="co">#&gt; 4 IG-88  none       metal       red      </span></span>
-<span id="cb2-30"><a href="#cb2-30" tabindex="-1"></a><span class="co">#&gt; 5 R4-P17 none       silver, red red, blue</span></span>
-<span id="cb2-31"><a href="#cb2-31" tabindex="-1"></a><span class="co">#&gt; 6 BB8    none       none        black</span></span></code></pre></div>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt; For conflicts report, packages order, and other attributes, run `attr.import(tdt.)`</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co"># exposing operators from `magrrittr` to current environment:</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="st">&quot;magrittr&quot;</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#&gt; Checking for conflicting infix operators in the current environment...</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt; Placing infix operators in current environment...</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="co"># directly assigning the &quot;starwars&quot; dataset to object &quot;d&quot;:</span></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">import_data</span>(<span class="st">&quot;dplyr&quot;</span>, <span class="st">&quot;starwars&quot;</span>) </span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a><span class="co"># see it in action:</span></span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a>d <span class="sc">%&gt;%</span> tdt.<span class="sc">$</span><span class="fu">filter</span>(species <span class="sc">==</span> <span class="st">&quot;Droid&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a>  tdt.<span class="sc">$</span><span class="fu">select</span>(name, tdt.<span class="sc">$</span><span class="fu">ends_with</span>(<span class="st">&quot;color&quot;</span>))</span>
+<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a><span class="co">#&gt; # A tidytable: 6 × 4</span></span>
+<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a><span class="co">#&gt;   name   hair_color skin_color  eye_color</span></span>
+<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;    </span></span>
+<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a><span class="co">#&gt; 1 C-3PO  &lt;NA&gt;       gold        yellow   </span></span>
+<span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a><span class="co">#&gt; 2 R2-D2  &lt;NA&gt;       white, blue red      </span></span>
+<span id="cb2-27"><a href="#cb2-27" tabindex="-1"></a><span class="co">#&gt; 3 R5-D4  &lt;NA&gt;       white, red  red      </span></span>
+<span id="cb2-28"><a href="#cb2-28" tabindex="-1"></a><span class="co">#&gt; 4 IG-88  none       metal       red      </span></span>
+<span id="cb2-29"><a href="#cb2-29" tabindex="-1"></a><span class="co">#&gt; 5 R4-P17 none       silver, red red, blue</span></span>
+<span id="cb2-30"><a href="#cb2-30" tabindex="-1"></a><span class="co">#&gt; 6 BB8    none       none        black</span></span></code></pre></div>
 <p> </p>
 </div>
 <div id="extending-the-string-manipulation-capabilities-of-stringi" class="section level1">
