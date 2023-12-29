@@ -3,7 +3,7 @@ enumerate <- 0 # to count number of tests performed using iterations in loops
 loops <- 0 # to count number of loops
 
 
-
+# transform_if works ====
 x <- c(-10:9, NA, NA)
 obj <- matrix(x, ncol=2)
 expected <- obj
@@ -12,15 +12,32 @@ expected[12:20] <- log(expected[12:20])
 expected[1:11] <- expected[1:11]^2
 cond <- 0
 const <- 1000
-
-
-# transform_if works ====
 expect_equal(
   transform_if(obj, \(x)x>cond, log, \(x)x^2, \(x)-const),
   expected
 )
 
-# trasnform_if works like ifelse (but without warnings) ====
+
+# transform_if works on empty condition subsets ====
+expect_equal(
+  transform_if(1:10, \(x) x > 1000, 2, 3, -1), # all YES & NA empty
+  rep(3, 10)
+)
+expect_equal(
+  transform_if(1:10, \(x) x %in% 1:10, 2, 3, -1), # all NO & NA empty 
+  rep(2, 10)
+)
+expect_equal(
+  transform_if(rep(NA, 10), \(x) x == 1, 2, 3, -1), # all YES & NO empty 
+  rep(-1, 10)
+)
+expect_equal(
+  transform_if(1:10, as.logical(rep(NA, 10)), 2, 3, -1), # condition completely NA
+  rep(-1, 10)
+)
+
+
+# transform_if works like ifelse (but without warnings) ====
 expected <- ifelse(
   is.na(obj>0), -1000,
   ifelse(
@@ -87,7 +104,6 @@ expect_error(
   transform_if(obj, \(x)x>0, log, \(x)x^2, c(1,1)),
   pattern = "improper `other` given"
 )
-
 
 expect_error(
   transform_if(obj, \(x)x*10, log, \(x)x^2, \(x)-1000),

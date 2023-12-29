@@ -14,7 +14,7 @@
 #' giving the start and end points of some pattern match. \cr
 #' \cr
 #' The \code{strcut_brk()} function
-#' (a wrapper around \link[stringi]{stri_split_boundaries})
+#' (a wrapper around \link[stringi]{stri_split_boundaries}\code{(..., tokens_only = FALSE)})
 #' cuts every string into individual text breaks
 #' (like character, word, line, or sentence boundaries). \cr
 #' \cr
@@ -29,10 +29,13 @@
 #' @param type single string;
 #' either the break iterator type,
 #' one of \code{character}, \code{line_break}, \code{sentence}, \code{word},
-#' or a custom set of ICU break iteration rules. Defaults to \code{"character"}. \cr
+#' or a custom set of ICU break iteration rules. \cr
 #' `r .mybadge_string("boundaries", "blue")` \cr
-#'
-#' @param ... additional settings for \link[stringi]{stri_opts_brkiter}
+#' 
+#' @param tolist logical, indicating if \code{strcut_brk} should return a list (\code{TRUE}),
+#' or a matrix (\code{FALSE}, default).
+#' @param n see \link[stringi]{stri_split_boundaries}.
+#' @param ... additional arguments to be passed to \link[stringi]{stri_split_boundaries}.
 #'
 #' @details
 #' The main difference between the \code{strcut_} - functions
@@ -40,7 +43,7 @@
 #' is that the latter generally removes the delimiter patterns in a string when cutting,
 #' while the \code{strcut_}-functions do not attempt to remove parts of the string by default,
 #' they only attempt to cut the strings into separate pieces.
-#' Moreover, the \code{strcut_} - functions always return a matrix, not a list. \cr
+#' Moreover, the \code{strcut_} - functions return a matrix by default. \cr
 #' \cr
 #'
 #'
@@ -84,6 +87,11 @@
 #' strcut_brk(test, "word")
 #' strcut_brk(test, "sentence")
 #' strcut_brk(test)
+#' strcut_brk(test, n = 1)
+#' strcut_brk(test, "line", tolist = TRUE)
+#' strcut_brk(test, "word", tolist = TRUE)
+#' strcut_brk(test, "sentence", tolist = TRUE)
+#' 
 
 
 #' @rdname strcut
@@ -133,13 +141,20 @@ strcut_loc <- function(str, loc) {
 
 #' @rdname strcut
 #' @export
-strcut_brk <- function(str, type = "character", ...) {
+strcut_brk <- function(str, type = "character", tolist = FALSE, n = -1L, ...) {
   if(length(type) > 1) {
     stop("`type` must be a single string")
   }
-  out <- stringi::stri_split_boundaries(
-    str = str, type = type, n = -1L, tokens_only = FALSE, simplify = NA, ...
-  )
+  if(isFALSE(tolist)) {
+    out <- stringi::stri_split_boundaries(
+      str = str, type = type, simplify = NA, tokens_only = FALSE, n = n, ...
+    )
+  } else if(isTRUE(tolist)) {
+    out <- stringi::stri_split_boundaries(
+      str = str, type = type, simplify = FALSE, tokens_only = FALSE, n = n, ...
+    )
+  } else stop("`tolist` must be either `TRUE` or `FALSE`")
+  
   return(out)
 }
 

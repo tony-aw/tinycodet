@@ -9,12 +9,12 @@ in the documentation of the `stri_locate_ith()` function.
 * Cleaned up the internal code here and there.
 * The `help.import()` function now gives an error if neither `topic/package` nor `i/alias` is supplied, instead of just silently doing nothing.
 * The messages returned by `import_as()` when aliasing packages is now slightly less verbose: removed the line "Methods work like normally", and replaced the line "Importing packages ..." with "Importing packages and registering methods...".
+* The `strcut_brk()` function now includes the `tolist` argument to return a list. Moreover, the `n` argument may now also be specified (`n = -1L` by default).
+* Improved safety against malformed condition in the `transformed_if()` function.
 * **Optimization:** Managed to optimise `stri_locate_ith()` even further. Optimised the 'subset_if' operators. Optimised the `%sget%`, `%strim%`, `%n&%`, and `%=strtype%` operators.
 * **Argument API change:** The `s_pattern` functions now wrap additional arguments in a list for the user, in case of using vector arguments, preventing potential confusion.
-* **Tests:** Improved the tests for the `s_pattern` operators. Added tests for `stri_locate_ith()` when using argument `merge = FALSE`. Added more error check tests for `help.import()`.
+* **Tests:** Improved the tests for the `s_pattern` operators. Added tests for `stri_locate_ith()` when using argument `merge = FALSE`. Added more error check tests for `help.import()`. Added tests for unequal vector sizes for the logic operators. Added tests for empty condition subsets for `transform_if()`.
 * **Bug fix:** There was a small bug where `s_coll()` worked properly when assigned to an object (as usual), but not when called directly (like nested inside a function). This is now fixed.
-
-
 
 
 # tinycodet 0.3.0
@@ -59,21 +59,25 @@ in the documentation of the `stri_locate_ith()` function.
 # tinycodet 0.1.0.5
 * The fake packages will now only be tested on my GitHub page, and not in the package folder itself, to prevent false positives from CRAN checks.
 
+
 # tinycodet 0.1.0.4
 * Removed the last sentence in the Description of the DESCRIPTION file, which contained the word "vectorized", because both "vectorised" AND "vectorized" cause CRAN checks to complain.
 
+
 # tinycodet 0.1.0.3
 * Changed all the spellings of the word "vectorised", to "vectorized", despite the clear Language field.
+
 
 # tinycodet 0.1.0.2
 * Corrected the 'Authors@R' field in the DESCRIPTION file.
 * Added 'Language: en-gb' to the DESCRIPTION file.
 * Removed the "Maintainer" field, as it can be auto-generated from 'Authors@R'.
 
-# tinycodet 0.1.0.1
 
+# tinycodet 0.1.0.1
 * Corrected the LICENSE file.
 
-# tinycodet 0.1
 
+# tinycodet 0.1
 * Initial release.
+

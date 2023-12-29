@@ -99,11 +99,9 @@ transform_if <- function(
     stop("improper `other` given")
   }
 
-  y <- x
-
   # make & check cond:
   if (is.function(cond)) {
-    cond <- cond(y)
+    cond <- cond(x)
   }
   if (!is.logical(cond)) {
     stop(paste0(
@@ -123,28 +121,21 @@ transform_if <- function(
   }
 
   # make transformations:
-  if(any(cond)) {
-    ind_T <- which(cond)
-    y[ind_T] <- .internal_transform_if(yes, y, ind_T)
-  }
-  if(any(!cond)) {
-    ind_F <- which(!cond)
-    y[ind_F] <- .internal_transform_if(no, y, ind_F)
-  }
-  if(anyNA(cond)) {
-    ind_NA <- which(is.na(cond))
-    y[ind_NA] <- .internal_transform_if(other, y, ind_NA)
-  }
+  ind_T <- which(cond)
+  x[ind_T] <- .internal_transform_if(yes, x, ind_T)
+  ind_F <- which(!cond)
+  x[ind_F] <- .internal_transform_if(no, x, ind_F)
+  ind_NA <- which(is.na(cond))
+  x[ind_NA] <- .internal_transform_if(other, x, ind_NA)
 
-  return(y)
+  return(x)
 }
 
 
 .internal_transform_if <- function(f, y, ind) {
   if(is.function(f)) {
     return(f(y[ind]))
-  }
-  else {
+  } else {
     return(f)
   }
 }

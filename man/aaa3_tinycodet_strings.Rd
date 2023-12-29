@@ -17,8 +17,8 @@ The primary R-package that fixes this is 'stringi'.
 'stringi' is
 the fastest and most comprehensive
 string manipulation package available at the time of writing.
-Many string related packages fully depend on 'stringi'.
-The 'stringr' package, for example, is merely a thin wrapper around 'stringi'. \cr
+Many string related packages fully depend on 'stringi'
+('stringr', for example, is just a wrapper around 'stringi'). \cr
 \cr
 As string manipulation is so important to programming languages,
 'tinycodet' adds a little bit new functionality to 'stringi':

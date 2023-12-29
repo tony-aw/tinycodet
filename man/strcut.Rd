@@ -7,7 +7,7 @@
 \usage{
 strcut_loc(str, loc)
 
-strcut_brk(str, type = "character", ...)
+strcut_brk(str, type = "character", tolist = FALSE, n = -1L, ...)
 }
 \arguments{
 \item{str}{a string or character vector.}
@@ -23,10 +23,15 @@ giving the location range of the middle part.
 \item{type}{single string;
 either the break iterator type,
 one of \code{character}, \code{line_break}, \code{sentence}, \code{word},
-or a custom set of ICU break iteration rules. Defaults to \code{"character"}. \cr
+or a custom set of ICU break iteration rules. \cr
 \ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_boundaries.html}{\figure{aboutsearch-boundaries-blue.svg}{options: alt='[BOUNDARIES]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_boundaries.html}{about search: boundaries}} \cr}
 
-\item{...}{additional settings for \link[stringi]{stri_opts_brkiter}}
+\item{tolist}{logical, indicating if \code{strcut_brk} should return a list (\code{TRUE}),
+or a matrix (\code{FALSE}, default).}
+
+\item{n}{see \link[stringi]{stri_split_boundaries}.}
+
+\item{...}{additional arguments to be passed to \link[stringi]{stri_split_boundaries}.}
 }
 \value{
 For the \code{strcut_loc()} function: \cr
@@ -61,7 +66,7 @@ The location range \code{loc} would usually be matrix with 2 columns,
 giving the start and end points of some pattern match. \cr
 \cr
 The \code{strcut_brk()} function
-(a wrapper around \link[stringi]{stri_split_boundaries})
+(a wrapper around \link[stringi]{stri_split_boundaries}\code{(..., tokens_only = FALSE)})
 cuts every string into individual text breaks
 (like character, word, line, or sentence boundaries). \cr
 \cr
@@ -72,7 +77,7 @@ and \link[stringi]{stri_split} /  \link[base]{strsplit},
 is that the latter generally removes the delimiter patterns in a string when cutting,
 while the \code{strcut_}-functions do not attempt to remove parts of the string by default,
 they only attempt to cut the strings into separate pieces.
-Moreover, the \code{strcut_} - functions always return a matrix, not a list. \cr
+Moreover, the \code{strcut_} - functions return a matrix by default. \cr
 \cr
 }
 \examples{
@@ -92,6 +97,11 @@ strcut_brk(test, "line")
 strcut_brk(test, "word")
 strcut_brk(test, "sentence")
 strcut_brk(test)
+strcut_brk(test, n = 1)
+strcut_brk(test, "line", tolist = TRUE)
+strcut_brk(test, "word", tolist = TRUE)
+strcut_brk(test, "sentence", tolist = TRUE)
+
 }
 \seealso{
 \code{\link[=tinycodet_strings]{tinycodet_strings()}}

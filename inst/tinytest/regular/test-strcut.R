@@ -74,7 +74,7 @@ expect_error(
 )
 
 
-# test strcut_brk ====
+# test strcut_brk - matrix ====
 test <- c(
   paste0("The\u00a0above-mentioned    features are very useful. ",
   "Spam, spam, eggs, bacon, and spam. 123 456 789"),
@@ -82,6 +82,10 @@ test <- c(
 )
 expect_equal(
   strcut_brk(test),
+  stringi::stri_split_boundaries(test, type="character", simplify = NA)
+)
+expect_equal(
+  strcut_brk(test, type = "character"),
   stringi::stri_split_boundaries(test, type="character", simplify = NA)
 )
 expect_equal(
@@ -121,6 +125,55 @@ expect_equal(
   stringi::stri_split_boundaries(test, type="character", simplify = NA)
 )
 
+
+# test strcut_brk - list ====
+test <- c(
+  paste0("The\u00a0above-mentioned    features are very useful. ",
+         "Spam, spam, eggs, bacon, and spam. 123 456 789"),
+  "good morning, good evening, and good night"
+)
+expect_equal(
+  strcut_brk(test, tolist = TRUE),
+  stringi::stri_split_boundaries(test, type="character", simplify = FALSE)
+)
+expect_equal(
+  strcut_brk(test, type = "character", tolist = TRUE),
+  stringi::stri_split_boundaries(test, type="character", simplify = FALSE)
+)
+expect_equal(
+  strcut_brk(test, "line", tolist = TRUE),
+  stringi::stri_split_boundaries(test, type="line_break", simplify = FALSE)
+)
+expect_equal(
+  strcut_brk(test, "line", tolist = TRUE),
+  stringi::stri_split_boundaries(test, type="line_break", simplify = FALSE)
+)
+expect_equal(
+  strcut_brk(test, "word", tolist = TRUE),
+  stringi::stri_split_boundaries(test, type="word", simplify = FALSE)
+)
+expect_equal(
+  strcut_brk(test, "word", skip_word_none=TRUE, tolist = TRUE),
+  stringi::stri_split_boundaries(test, type="word", simplify = FALSE, skip_word_none=TRUE)
+)
+expect_equal(
+  strcut_brk(test, "word", skip_word_none=TRUE, skip_word_letter=TRUE, tolist = TRUE),
+  stringi::stri_split_boundaries(test, type="word", simplify = FALSE, skip_word_none=TRUE, skip_word_letter=TRUE)
+)
+expect_equal(
+  strcut_brk(test, "word", skip_word_none=FALSE, skip_word_letter=TRUE, tolist = TRUE),
+  stringi::stri_split_boundaries(test, type="word", simplify = FALSE, skip_word_none=FALSE, skip_word_letter=TRUE)
+)
+expect_equal(
+  strcut_brk(test, "sentence", tolist = TRUE),
+  stringi::stri_split_boundaries(test, type="sentence", simplify = FALSE)
+)
+expect_equal(
+  strcut_brk(test, "sentence", skip_sentence_sep=TRUE, tolist = TRUE),
+  stringi::stri_split_boundaries(test, type="sentence", simplify = FALSE, skip_sentence_sep=TRUE)
+)
+
+
 # strcut_brk - error checks ====
 expect_error(
   strcut_brk(test, "whoopsie"),
@@ -128,10 +181,8 @@ expect_error(
   fixed = TRUE
 )
 expect_error(
-  strcut_brk(test, n=1)
-)
-expect_error(
-  strcut_brk(test, tokens_only=TRUE)
+  strcut_brk(test, tokens_only = TRUE),
+  pattern = "formal argument \"tokens_only\" matched by multiple actual arguments"
 )
 expect_error(
   strcut_brk(test, "chr", simplify = NA),
@@ -140,5 +191,10 @@ expect_error(
 expect_error(
   strcut_brk(test, c("character", "word")),
   pattern = "`type` must be a single string"
+)
+expect_error(
+  strcut_brk(test, tolist = NA),
+  pattern = "`tolist` must be either `TRUE` or `FALSE`",
+  fixed = TRUE
 )
 
