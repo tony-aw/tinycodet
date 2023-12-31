@@ -64,7 +64,7 @@ For example: \code{max_count}}
 A list with arguments to be passed to the appropriate infix operators.
 }
 \description{
-The \link{\%s-\%} and \link{\%s/\%} operators,
+The \link[=str_arithmetic]{\%s-\%, \%s/\%, \%ss\%} operators,
 as well as the string detection operators (\link{str_truth}),
 perform pattern matching for some purpose,
 where the pattern is given on the right hand side. \cr

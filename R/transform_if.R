@@ -15,7 +15,9 @@
 #'  \item For every value where \code{cond(x)==NA} / \code{cond==NA},
 #'  function \code{other(x)} is run or scalar \code{other} is returned. \cr
 #' }
-#'
+#' 
+#' For a more \code{ifelse}-like function where \code{yes} and \code{no} are vectors,
+#' see \code{kit::}\link[kit]{iif}.
 #'
 #' @param x a vector, matrix, or array.
 #' @param cond either an object of class \code{logical} with the same length as \code{x}, \cr

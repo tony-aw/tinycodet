@@ -11,9 +11,10 @@ in the documentation of the `stri_locate_ith()` function.
 * The messages returned by `import_as()` when aliasing packages is now slightly less verbose: removed the line "Methods work like normally", and replaced the line "Importing packages ..." with "Importing packages and registering methods...".
 * The `strcut_brk()` function now includes the `tolist` argument to return a list. Moreover, the `n` argument may now also be specified (`n = -1L` by default).
 * Improved safety against malformed condition in the `transform_if()` function.
+* **New Feature:** Added `%ss%` to the collection of string arithmetic operators. Added tests for this new operator also.
 * **Optimization:** Managed to optimise `stri_locate_ith()` even further. Optimised the 'subset_if' operators a bit more. Also optimised the `%n&%`, and `%=strtype%` operators a bit more.
 * **Argument API change:** The `s_pattern` functions now wrap additional arguments in a list for the user, in case of using vector arguments, preventing potential confusion.
-* **Tests:** Improved the tests for the `s_pattern` operators. Added tests for `stri_locate_ith()` when using argument `merge = FALSE`. Added more error check tests for `help.import()`. Added tests for unequal vector sizes for the logic operators. Added tests for empty condition subsets for `transform_if()`.
+* **Tests:** Improved the tests for the `s_pattern` operators. Added tests for `stri_locate_ith()` when using argument `merge = FALSE`. Added more error check tests for `help.import()`. Added tests for unequal vector sizes for the logic operators. Added tests for empty condition subsets for `transform_if()`. Added tests for the new `%ss%` infix operator.
 * **Bug fix:** There was a small bug where `s_coll()` worked properly when assigned to an object (as usual), but not when called directly (like nested inside a function). This is now fixed.
 
 

@@ -74,11 +74,13 @@
 <li>The <code><a href="../reference/strcut.html">strcut_brk()</a></code> function now includes the <code>tolist</code> argument to return a list. Moreover, the <code>n</code> argument may now also be specified (<code>n = -1L</code> by default).</li>
 <li>Improved safety against malformed condition in the <code><a href="../reference/transform_if.html">transform_if()</a></code> function.</li>
 <li>
+<strong>New Feature:</strong> Added <code>%ss%</code> to the collection of string arithmetic operators. Added tests for this new operator also.</li>
+<li>
 <strong>Optimization:</strong> Managed to optimise <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> even further. Optimised the ‘subset_if’ operators a bit more. Also optimised the <code>%n&amp;%</code>, and <code>%=strtype%</code> operators a bit more.</li>
 <li>
 <strong>Argument API change:</strong> The <code>s_pattern</code> functions now wrap additional arguments in a list for the user, in case of using vector arguments, preventing potential confusion.</li>
 <li>
-<strong>Tests:</strong> Improved the tests for the <code>s_pattern</code> operators. Added tests for <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> when using argument <code>merge = FALSE</code>. Added more error check tests for <code><a href="../reference/x.import.html">help.import()</a></code>. Added tests for unequal vector sizes for the logic operators. Added tests for empty condition subsets for <code><a href="../reference/transform_if.html">transform_if()</a></code>.</li>
+<strong>Tests:</strong> Improved the tests for the <code>s_pattern</code> operators. Added tests for <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> when using argument <code>merge = FALSE</code>. Added more error check tests for <code><a href="../reference/x.import.html">help.import()</a></code>. Added tests for unequal vector sizes for the logic operators. Added tests for empty condition subsets for <code><a href="../reference/transform_if.html">transform_if()</a></code>. Added tests for the new <code>%ss%</code> infix operator.</li>
 <li>
 <strong>Bug fix:</strong> There was a small bug where <code><a href="../reference/s_pattern.html">s_coll()</a></code> worked properly when assigned to an object (as usual), but not when called directly (like nested inside a function). This is now fixed.</li>
 </ul></div>

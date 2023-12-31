@@ -12,7 +12,7 @@
 #' see \link{tinycodet_safer}. \cr
 #' \cr
 #' (2) A new package import system,
-#' that attempts to combine the benefits of using a package without attaching,
+#' that attempts to combine the benefits of using a package without attaching it,
 #' with the benefits of attaching a package; \cr
 #' see \link{tinycodet_import} \cr
 #' \cr

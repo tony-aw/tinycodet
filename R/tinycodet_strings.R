@@ -1,17 +1,18 @@
 #' Overview of the 'tinycodet' Extension of 'stringi'
 #'
 #' @description
-#' Virtually every programming language, even those primarily focused on mathematics,
+#' 
+#' Virtually every programming language,
+#' even those primarily focused on mathematics,
 #' will at some point have to deal with strings.
-#' R's atomic classes basically boil down to some form of either numbers or characters.
+#' R's atomic classes boil down to some form of either numbers or characters.
 #' R's numerical functions are generally very fast.
 #' But R's native string functions are somewhat slow,
 #' do not have a unified naming scheme,
-#' and are not as comprehensive as R's impressive numerical functions. \cr
-#' \cr
-#' The primary R-package that fixes this is 'stringi'.
-#' 'stringi' is
-#' the fastest and most comprehensive
+#' and are not as comprehensive as R's impressive numerical functions.
+#' The primary R-package that fixes this is 'stringi'. \cr
+#'  \cr
+#' 'stringi' is the fastest and most comprehensive
 #' string manipulation package available at the time of writing.
 #' Many string related packages fully depend on 'stringi'
 #' ('stringr', for example, is just a wrapper around 'stringi'). \cr
