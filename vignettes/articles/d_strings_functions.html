@@ -537,7 +537,7 @@ sentences :</p>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co"># sorting characters in strings:</span></span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">paste</span>(<span class="fu">sample</span>(letters), <span class="at">collapse =</span> <span class="st">&quot;&quot;</span>), <span class="fu">paste</span>(<span class="fu">sample</span>(letters), <span class="at">collapse =</span> <span class="st">&quot;&quot;</span>))</span>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="fu">print</span>(x)</span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; [1] &quot;bnvrsqtxihjmdguofealkwpzyc&quot; &quot;tzrvucsjgxdhapqeokwynlbmif&quot;</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; [1] &quot;mkjazyduhclpntgqsvbxrwofei&quot; &quot;nezgaiblpskwjurothqxdcvmyf&quot;</span></span>
 <span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>mat <span class="ot">&lt;-</span> <span class="fu">strcut_brk</span>(x)</span>
 <span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>rank <span class="ot">&lt;-</span> stringi<span class="sc">::</span><span class="fu">stri_rank</span>(<span class="fu">as.vector</span>(mat)) <span class="sc">|&gt;</span>  <span class="fu">matrix</span>(<span class="at">ncol=</span><span class="fu">ncol</span>(mat))</span>
 <span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>sorted <span class="ot">&lt;-</span> mat <span class="sc">%row~%</span> rank</span>
@@ -577,141 +577,12 @@ sentences :</p>
 <span id="cb5-42"><a href="#cb5-42" tabindex="-1"></a>sorted <span class="ot">&lt;-</span> mat <span class="sc">%row~%</span> rank</span>
 <span id="cb5-43"><a href="#cb5-43" tabindex="-1"></a>sorted[<span class="fu">is.na</span>(sorted)] <span class="ot">&lt;-</span> <span class="st">&quot;&quot;</span></span>
 <span id="cb5-44"><a href="#cb5-44" tabindex="-1"></a><span class="fu">stri_paste_mat</span>(sorted, <span class="at">margin=</span><span class="dv">1</span>) <span class="co"># &lt;- another alias for stri_join_mat</span></span>
-<span id="cb5-45"><a href="#cb5-45" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Cool!Hello, who are you? Oh, really?! &quot;</span></span>
-<span id="cb5-46"><a href="#cb5-46" tabindex="-1"></a><span class="co">#&gt; [2] &quot;But I really don&#39;t.I don&#39;t care. &quot;</span></span>
+<span id="cb5-45"><a href="#cb5-45" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Hello, who are you? Oh, really?! Cool!&quot;</span></span>
+<span id="cb5-46"><a href="#cb5-46" tabindex="-1"></a><span class="co">#&gt; [2] &quot;I don&#39;t care. But I really don&#39;t.&quot;</span></span>
 <span id="cb5-47"><a href="#cb5-47" tabindex="-1"></a><span class="fu">stri_paste_mat</span>(sorted, <span class="at">margin=</span><span class="dv">2</span>)</span>
-<span id="cb5-48"><a href="#cb5-48" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Cool!&quot;                                  </span></span>
-<span id="cb5-49"><a href="#cb5-49" tabindex="-1"></a><span class="co">#&gt; [2] &quot;Hello, who are you? But I really don&#39;t.&quot;</span></span>
-<span id="cb5-50"><a href="#cb5-50" tabindex="-1"></a><span class="co">#&gt; [3] &quot;Oh, really?! I don&#39;t care. &quot;</span></span></code></pre></div>
+<span id="cb5-48"><a href="#cb5-48" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Hello, who are you? I don&#39;t care. &quot; &quot;Oh, really?! &quot;                     </span></span>
+<span id="cb5-49"><a href="#cb5-49" tabindex="-1"></a><span class="co">#&gt; [3] &quot;Cool!But I really don&#39;t.&quot;</span></span></code></pre></div>
 <p> </p>
-</div>
-<div id="performance" class="section level1">
-<h1>Performance</h1>
-<p>Although the functions in this R package were written in R, the
-functions - especially the string related ones - have been somewhat
-aggressively optimized. The string related functions, for example, are
-about in the same order of magnitude in terms of speed as the
-<code>stringi</code> functions they call.</p>
-<p>Here some speed comparisons are given, using the <a href="https://cran.r-project.org/web/packages/rbenchmark/index.html">rbenchmark</a>
-R package.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">library</span>(rbenchmark)</span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">load</span>(<span class="st">&quot;speedtest.RData&quot;</span>)</span></code></pre></div>
-<p> </p>
-<div id="stri_locate_ith-1" class="section level2">
-<h2>stri_locate_ith</h2>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fl">1e5</span></span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">paste0</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">100</span>, <span class="at">collapse =</span> <span class="st">&quot;&quot;</span>), n)</span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="st">&quot;</span><span class="sc">\\</span><span class="st">d&quot;</span></span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">50</span><span class="sc">:-</span><span class="dv">1</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">50</span>), <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">size =</span> n)</span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>locate_stringi <span class="ot">&lt;-</span> <span class="cf">function</span>(...) {</span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>  stringi<span class="sc">::</span><span class="fu">stri_locate_all</span>(...)</span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>  stringi<span class="sc">::</span><span class="fu">stri_count</span>(...)</span>
-<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>}</span>
-<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="fu">benchmark</span>(</span>
-<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>  <span class="st">&quot;stri_locate_ith&quot;</span> <span class="ot">=</span> { <span class="fu">stri_locate_ith</span>(x, i, <span class="at">regex=</span>p) },</span>
-<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>  <span class="st">&quot;locate_stringi&quot;</span> <span class="ot">=</span> { <span class="fu">locate_stringi</span>(<span class="at">str =</span> x, <span class="at">regex=</span>p) },</span>
-<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>  <span class="at">replications =</span> <span class="dv">500</span>,</span>
-<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>  <span class="at">order =</span> <span class="cn">NULL</span>,</span>
-<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a>  <span class="at">columns =</span> <span class="fu">c</span>(<span class="st">&quot;test&quot;</span>, <span class="st">&quot;replications&quot;</span>, <span class="st">&quot;elapsed&quot;</span>,</span>
-<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a>                      <span class="st">&quot;relative&quot;</span>, <span class="st">&quot;user.self&quot;</span>, <span class="st">&quot;sys.self&quot;</span>)</span>
-<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a>) <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
-<table>
-<thead>
-<tr class="header">
-<th align="left">test</th>
-<th align="right">replications</th>
-<th align="right">elapsed</th>
-<th align="right">relative</th>
-<th align="right">user.self</th>
-<th align="right">sys.self</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">stri_locate_ith</td>
-<td align="right">500</td>
-<td align="right">918.88</td>
-<td align="right">1.000</td>
-<td align="right">360.20</td>
-<td align="right">6.23</td>
-</tr>
-<tr class="even">
-<td align="left">locate_stringi</td>
-<td align="right">500</td>
-<td align="right">1116.44</td>
-<td align="right">1.215</td>
-<td align="right">523.45</td>
-<td align="right">2.47</td>
-</tr>
-</tbody>
-</table>
-<p> </p>
-</div>
-<div id="strcut" class="section level2">
-<h2>strcut</h2>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fl">1e5</span></span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="st">&quot;hello&quot;</span>, n)</span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, n, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>loc <span class="ot">&lt;-</span> <span class="fu">stri_locate_ith</span>(x, <span class="at">i =</span> i, <span class="at">regex =</span> <span class="st">&quot;a|e|i|o|u&quot;</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="fu">benchmark</span>(</span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>  <span class="st">&quot;strcut_loc&quot;</span> <span class="ot">=</span> { <span class="fu">strcut_loc</span>(x, loc) },</span>
-<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>  <span class="st">&quot;strcut_brk&quot;</span> <span class="ot">=</span> { <span class="fu">strcut_brk</span>(x) },</span>
-<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>  <span class="st">&quot;stringi::stri_split_boundaries&quot;</span> <span class="ot">=</span> {</span>
-<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>    stringi<span class="sc">::</span><span class="fu">stri_split_boundaries</span>(x, <span class="at">type=</span><span class="st">&quot;character&quot;</span>)</span>
-<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>    },</span>
-<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>  <span class="at">replications =</span> <span class="dv">500</span>,</span>
-<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>  <span class="at">order =</span> <span class="cn">NULL</span>,</span>
-<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a>  <span class="at">columns =</span> <span class="fu">c</span>(<span class="st">&quot;test&quot;</span>, <span class="st">&quot;replications&quot;</span>, <span class="st">&quot;elapsed&quot;</span>,</span>
-<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a>              <span class="st">&quot;relative&quot;</span>, <span class="st">&quot;user.self&quot;</span>, <span class="st">&quot;sys.self&quot;</span>)</span>
-<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a>) <span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
-<table>
-<colgroup>
-<col width="38%" />
-<col width="16%" />
-<col width="10%" />
-<col width="11%" />
-<col width="12%" />
-<col width="11%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th align="left">test</th>
-<th align="right">replications</th>
-<th align="right">elapsed</th>
-<th align="right">relative</th>
-<th align="right">user.self</th>
-<th align="right">sys.self</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">strcut_loc</td>
-<td align="right">500</td>
-<td align="right">17.58</td>
-<td align="right">1.000</td>
-<td align="right">6.12</td>
-<td align="right">1.03</td>
-</tr>
-<tr class="even">
-<td align="left">strcut_brk</td>
-<td align="right">500</td>
-<td align="right">20.87</td>
-<td align="right">1.187</td>
-<td align="right">9.90</td>
-<td align="right">0.28</td>
-</tr>
-<tr class="odd">
-<td align="left">stringi::stri_split_boundaries</td>
-<td align="right">500</td>
-<td align="right">17.79</td>
-<td align="right">1.012</td>
-<td align="right">7.63</td>
-<td align="right">0.14</td>
-</tr>
-</tbody>
-</table>
-<p> </p>
-</div>
 </div>
 
 

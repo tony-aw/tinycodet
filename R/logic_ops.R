@@ -130,7 +130,7 @@ NULL
 #' @export
 `%=numtype%` <- function(n, numtype) {
   if(length(numtype) > 1){stop("`numtype` must be a single string")}
-  if(! numtype %in% c("unreal", "~0", "B", "prop", "I", "odd", "even", "R")){
+  if(!numtype %in% c("unreal", "~0", "B", "prop", "I", "odd", "even", "R")){
     stop("numtype not recognised")
   }
   if(!is.numeric(n)) { stop("`n` must be numeric") }

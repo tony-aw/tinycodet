@@ -127,7 +127,7 @@ transform_if <- function(
   x[ind_T] <- .internal_transform_if(yes, x, ind_T)
   ind_F <- which(!cond)
   x[ind_F] <- .internal_transform_if(no, x, ind_F)
-  ind_NA <- which(is.na(cond))
+  ind_NA <- collapse::whichNA(cond)
   x[ind_NA] <- .internal_transform_if(other, x, ind_NA)
 
   return(x)

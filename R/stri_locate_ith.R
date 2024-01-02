@@ -11,7 +11,7 @@
 #' (like character, word, line, or sentence boundaries). \cr
 #'
 #' @param str a string or character vector.
-#' @param regex,fixed,coll,charclass a character vector of search patterns,
+#' @param pattern,regex,fixed,coll,charclass a character vector of search patterns,
 #' as in \link[stringi]{stri_locate}. \cr
 #' `r .mybadge_string("regex", "darkred")` \cr
 #' `r .mybadge_string("fixed", "darkgreen")` \cr
@@ -46,25 +46,26 @@
 #' \code{omit_no_match}, \code{get_length}, or \code{pattern},
 #' as they are already specified internally.
 #' Supplying these arguments anyway will result in an error.
-#'
-#'
-#' @details
-#' \bold{Special note regarding charclass} \cr
-#' The \code{stri_locate_ith()} function is based on
-#' \link[stringi]{stri_locate_all}.
-#' This generally gives results consistent with
-#' \link[stringi]{stri_locate_first} or \link[stringi]{stri_locate_last},
-#' but the exception is when \code{charclass} pattern is used. \cr
-#' Where the functions
-#' \link[stringi]{stri_locate_first} or \link[stringi]{stri_locate_last}
-#' give the location of the first or last single character matching the \code{charclass}
-#' (respectively),
-#' \link[stringi]{stri_locate_all} gives the start and end of \bold{consecutive} characters. \cr
-#' The \code{stri_locate_ith()} is in this aspect more in line with
-#' \link[stringi]{stri_locate_all},
-#' as it gives the \eqn{i^{th}} set of consecutive characters. \cr
-#' To make \code{stri_locare_ith()} work more like \link[stringi]{stri_locate_first} or \link[stringi]{stri_locate_last},
-#' in this regard, add the argument \code{merge = FALSE}.
+#' @param opts_regex,opts_fixed,opts_collator
+#' named list used to tune up the selected search engine's settings. \cr
+#' see \link[stringi]{stri_opts_regex},
+#' \link[stringi]{stri_opts_fixed},
+#' and \link[stringi]{stri_opts_collator}. \cr
+#' NULL for the defaults.
+#' @param merge logical, indicating if charclass locations should be merged or not. \cr
+#' \bold{Details:} \cr
+#' For the \code{charclass} pattern type,
+#' the \code{stri_locate_ith} function gives the start and end of
+#' \bold{consecutive} characters by default,
+#' just like \link[stringi]{stri_locate_all}. \cr
+#' To give the start and end positions of single characters,
+#' much like \link[stringi]{stri_locate_first} or \link[stringi]{stri_locate_last},
+#' set \code{merge = FALSE}.
+#' @param capture_groups logical,
+#' indicating whether positions of matches to parenthesized subexpressions should be returned too
+#' (as capture_groups attribute); \cr
+#' only for \code{regex} patterns.
+#' 
 #'
 #'
 #' @returns
@@ -205,11 +206,7 @@
 stri_locate_ith <- function(
     str, i, ... , regex, fixed, coll, charclass
 ) {
-  n <- length(str)
-  if(length(i) == 1) i <- rep.int(i, n)
-  if(length(i) != n) {
-    stop("`i` must be the same length as `str`, or be a length of 1")
-  }
+  
   providedarg <- c(
     regex = !missing(regex), fixed = !missing(fixed),
     coll = !missing(coll), charclass = !missing(charclass)
@@ -220,42 +217,76 @@ stri_locate_ith <- function(
     )
   }
 
-  if (providedarg["regex"]) {
-    p1 <- stringi::stri_locate_all_regex(
-      str=str, pattern=regex, omit_no_match = FALSE, get_length = FALSE, ...
-    )
-    n.matches <- lengths(p1)/2
-  } else if (providedarg["fixed"]) {
-    p1 <- stringi::stri_locate_all_fixed(
-      str=str, pattern=fixed, omit_no_match = FALSE, get_length = FALSE, ...
-    )
-    n.matches <- lengths(p1)/2
-  } else if (providedarg["coll"]) {
-    p1 <- stringi::stri_locate_all_coll(
-      str=str, pattern=coll, omit_no_match = FALSE, get_length = FALSE, ...
-    )
-    n.matches <- lengths(p1)/2
-  } else if (providedarg["charclass"]) {
-    p1 <- stringi::stri_locate_all_charclass(
-      str=str, pattern=charclass, omit_no_match = FALSE, get_length = FALSE, ...
-    )
-    n.matches <- lengths(p1)/2
+  if (providedarg["regex"])
+    {
+    return(stri_locate_ith_regex(str = str, pattern = regex, i = i, ...))
   }
+  else if (providedarg["fixed"])
+    {
+    return(stri_locate_ith_fixed(str = str, pattern = fixed, i = i, ...))
+  }
+  else if (providedarg["coll"])
+    {
+    return(stri_locate_ith_coll(str = str, pattern = coll, i = i, ...))
+  }
+  else if (providedarg["charclass"])
+    {
+    return(stri_locate_ith_charclass(str = str, pattern = charclass, i = i, ...))
+  }
+}
 
-  n.matches <- pmax(n.matches, 1) # if no matches found, n.matches must be 1 so that NA is returned.
-  neg <- which(i < 0)
-  pos <- which(i > 0)
-  bad_i <- length(i) != (length(neg) + length(pos))
-  if(bad_i) stop("`i` is not allowed to be zero or NA")
+
+#' @rdname stri_locate_ith
+#' @export
+stri_locate_ith_regex <- function(str, pattern, i, capture_groups = FALSE, ..., opts_regex = NULL) {
   
-  i[neg] <- pmax(n.matches[neg] - abs(i[neg]+1), 1)
-  i[pos] <- pmin(i[pos], n.matches[pos])
+  n <- length(str)
+  p1 <- stringi::stri_locate_all_regex(
+    str=str, pattern = pattern, capture_groups = capture_groups,
+    omit_no_match = FALSE, get_length = FALSE,
+    ..., opts_regex = opts_regex
+  )
+  return(.stri_locate_ith_internal(p1, i, n, sys.call()))
+}
+
+
+#' @rdname stri_locate_ith
+#' @export
+stri_locate_ith_fixed <- function(str, pattern, i, ..., opts_fixed = NULL) {
   
-  rowind <- i + c(0, cumsum(n.matches))[seq_len(n)]
-  mat <- do.call(rbind, p1)
-  mat <- mat[rowind, , drop=FALSE]
-  colnames(mat) <- c("start", "end")
-  return(mat)
+  n <- length(str)
+  p1 <- stringi::stri_locate_all_fixed(
+    str, pattern, omit_no_match = FALSE, get_length = FALSE,
+    ..., opts_fixed = opts_fixed
+  )
+  return(.stri_locate_ith_internal(p1, i, n, sys.call()))
+}
+
+
+#' @rdname stri_locate_ith
+#' @export
+stri_locate_ith_coll <- function(str, pattern, i, ..., opts_collator = NULL) {
+  
+  n <- length(str)
+  p1 <- stringi::stri_locate_all_coll(
+    str = str, pattern = pattern, omit_no_match = FALSE, get_length = FALSE,
+    ..., opts_collator = opts_collator
+  )
+  return(.stri_locate_ith_internal(p1, i, n, sys.call()))
+}
+
+
+#' @rdname stri_locate_ith
+#' @export
+stri_locate_ith_charclass <- function(str, pattern, i, merge = TRUE, ...) {
+  
+  n <- length(str)
+  p1 <- stringi::stri_locate_all_charclass(
+    str = str, pattern = pattern, merge = merge,
+    omit_no_match = FALSE, get_length = FALSE,
+    ...
+  )
+  return(.stri_locate_ith_internal(p1, i, n, sys.call()))
 }
 
 
@@ -265,28 +296,41 @@ stri_locate_ith_boundaries <- function(
     str, i, ... , type = "character"
 ) {
   n <- length(str)
-  if(length(i) == 1) i <- rep.int(i, n)
-  if(length(i) != n) {
-    stop("`i` must be the same length as `str`, or be a length of 1")
-  }
   p1 <- stringi::stri_locate_all_boundaries(
-    str = str, type = type, omit_no_match = FALSE, get_length = FALSE, ...
+    str = str, type = type,
+    omit_no_match = FALSE, get_length = FALSE, ...
   )
-  n.matches <- lengths(p1)/2
-
-  n.matches <- pmax(n.matches, 1) # if no matches found, n.matches must be 1 so that NA is returned.
-  neg <- which(i < 0)
-  pos <- which(i > 0)
-  bad_i <- length(i) != (length(neg) + length(pos))
-  if(bad_i) stop("`i` is not allowed to be zero or NA")
+  return(.stri_locate_ith_internal(p1, i, n, sys.call()))
   
-  i[neg] <- pmax(n.matches[neg] - abs(i[neg]+1), 1)
-  i[pos] <- pmin(i[pos], n.matches[pos])
-
-  rowind <- i + c(0, cumsum(n.matches))[seq_len(n)]
-  mat <- do.call(rbind, p1)
-  mat <- mat[rowind, , drop=FALSE]
-  colnames(mat) <- c("start", "end")
-  return(mat)
 }
 
+
+#' @keywords internal
+#' @noRd
+.stri_locate_ith_internal <- function(p1, i, n, abortcall) {
+  
+  if(length(i) == 1) i <- rep.int(i, n)
+  if(length(i) != n) {
+    stop(simpleError("`i` must be the same length as `str`, or be a length of 1", call = abortcall))
+  }
+  
+  n.matches <- collapse::vlengths(p1) / 2
+  n.matches <- pmax(n.matches, 1) # if no matches found, n.matches must be 1 so that "match" NA is returned.
+  neg <- which(i < 0)
+  pos <- which(i > 0)
+  
+  bad_i <- length(i) != (length(neg) + length(pos))
+  if(bad_i){
+    stop(simpleError("`i` is not allowed to be zero or NA", call = abortcall))
+  }
+  
+  i[neg] <- pmax(n.matches[neg] - abs(i[neg] + 1), 1)
+  i[pos] <- pmin(i[pos], n.matches[pos])
+  
+  rowind <- i + c(0, collapse::fcumsum.default(n.matches))[seq_len(n)]
+  mat <- do.call(rbind, p1)
+  mat <- mat[rowind, , drop = FALSE]
+  colnames(mat) <- c("start", "end")
+  
+  return(mat)
+}

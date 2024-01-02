@@ -394,17 +394,22 @@ number of characters from the left and right as defined in the matrix
 <p>The <code>tinycodet</code> package adds 5 string arithmetic
 operators:</p>
 <ul>
-<li><code>x %s+% y</code> concatenates <code>x</code> and
-<code>y</code>;</li>
+<li><code>x %s+% y</code> concatenates <code>x</code> and <code>y</code>
+(exported from ‘stringi’);</li>
 <li><code>x %s-% p</code> removes pattern <code>p</code> from each
 string in character vector <code>x</code>;</li>
 <li><code>x %s*% n</code> repeats each string in character vector
-<code>x</code> for <code>n</code> times;</li>
+<code>x</code> for <code>n</code> times (exported from ‘stringi’);</li>
 <li><code>x %s/% p</code> counts how often pattern <code>p</code> occurs
 in each string of character vector <code>x</code>.</li>
 <li><code>x %s//% brk</code> counts how often the text boundary
 specified in list <code>brk</code> occurs in each string of character
 vector <code>x</code>.</li>
+<li><code>e1 %s$% e2</code> provides access to
+<code>stri_sprintf</code>.</li>
+<li><code>x %ss% p</code> splits the strings in <code>x</code> by a
+delimiter character/pattern defined in <code>p</code>, and removes
+<code>p</code> in the process.</li>
 </ul>
 <p>I.e.:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="st">&quot;Hello &quot;</span><span class="sc">%s+%</span> <span class="st">&quot; world&quot;</span></span>

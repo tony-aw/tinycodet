@@ -34,13 +34,23 @@ expected <- cbind(0:9, 1:10, 1:10, 10:1, 10:1)
 colnames(expected) <- c("", "start", "end", "start", "end")
 expect_equal(expected, outcome)
 
-# charclass
+# charclass, merge = TRUE (default)
 x <- rep("a a a a a a a a a a", 10)
 print(x)
 out1 <- stri_locate_ith(x, 1:10, charclass = "[a]")
 out2 <- stri_locate_ith(x, -1:-10, charclass = "[a]")
 outcome <- cbind(0:9, out1, out2)
 expected <- cbind(0:9, seq(1, 19, by = 2), seq(1, 19, by = 2), seq(19, 1, by = -2), seq(19, 1, by = -2))
+colnames(expected) <- c("", "start", "end", "start", "end")
+expect_equal(expected, outcome)
+
+# charclass, merge = FALSE
+x <- rep("aaaaaaaaaa", 10)
+print(x)
+out1 <- stri_locate_ith(x, 1:10, charclass = "[a]", merge = FALSE)
+out2 <- stri_locate_ith(x, -1:-10, charclass = "[a]", merge = FALSE)
+outcome <- cbind(0:9, out1, out2)
+expected <- cbind(0:9, 1:10, 1:10, 10:1, 10:1)
 colnames(expected) <- c("", "start", "end", "start", "end")
 expect_equal(expected, outcome)
 

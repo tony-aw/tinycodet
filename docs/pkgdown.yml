@@ -10,8 +10,9 @@ articles:
   f_DRY: f_DRY.html
   g_misc: g_misc.html
   h_otherpkgs: h_otherpkgs.html
+  i_benchmarks: i_benchmarks.html
   tinycodet: tinycodet.html
-last_built: 2023-12-31T15:59Z
+last_built: 2024-01-02T21:14Z
 urls:
   reference: https://tony-aw.github.io/tinycodet/reference
   article: https://tony-aw.github.io/tinycodet/articles

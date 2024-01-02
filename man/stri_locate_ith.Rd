@@ -2,10 +2,29 @@
 % Please edit documentation in R/stri_locate_ith.R
 \name{stri_locate_ith}
 \alias{stri_locate_ith}
+\alias{stri_locate_ith_regex}
+\alias{stri_locate_ith_fixed}
+\alias{stri_locate_ith_coll}
+\alias{stri_locate_ith_charclass}
 \alias{stri_locate_ith_boundaries}
 \title{Locate \eqn{i^{th}} Pattern Occurrence or Text Boundary}
 \usage{
 stri_locate_ith(str, i, ..., regex, fixed, coll, charclass)
+
+stri_locate_ith_regex(
+  str,
+  pattern,
+  i,
+  capture_groups = FALSE,
+  ...,
+  opts_regex = NULL
+)
+
+stri_locate_ith_fixed(str, pattern, i, ..., opts_fixed = NULL)
+
+stri_locate_ith_coll(str, pattern, i, ..., opts_collator = NULL)
+
+stri_locate_ith_charclass(str, pattern, i, merge = TRUE, ...)
 
 stri_locate_ith_boundaries(str, i, ..., type = "character")
 }
@@ -38,12 +57,33 @@ Do not supply the arguments
 as they are already specified internally.
 Supplying these arguments anyway will result in an error.}
 
-\item{regex, fixed, coll, charclass}{a character vector of search patterns,
+\item{pattern, regex, fixed, coll, charclass}{a character vector of search patterns,
 as in \link[stringi]{stri_locate}. \cr
 \ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_regex.html}{\figure{aboutsearch-regex-darkred.svg}{options: alt='[REGEX]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_regex.html}{about search: regex}} \cr
 \ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_fixed.html}{\figure{aboutsearch-fixed-darkgreen.svg}{options: alt='[FIXED]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_fixed.html}{about search: fixed}} \cr
 \ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_coll.html}{\figure{aboutsearch-coll-pink.svg}{options: alt='[COLL]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_coll.html}{about search: coll}} \cr
 \ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_charclass.html}{\figure{aboutsearch-charclass-lightyellow.svg}{options: alt='[CHARCLASS]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_charclass.html}{about search: charclass}} \cr}
+
+\item{capture_groups}{logical,
+indicating whether positions of matches to parenthesized subexpressions should be returned too
+(as capture_groups attribute); \cr
+only for \code{regex} patterns.}
+
+\item{opts_regex, opts_fixed, opts_collator}{named list used to tune up the selected search engine's settings. \cr
+see \link[stringi]{stri_opts_regex},
+\link[stringi]{stri_opts_fixed},
+and \link[stringi]{stri_opts_collator}. \cr
+NULL for the defaults.}
+
+\item{merge}{logical, indicating if charclass locations should be merged or not. \cr
+\bold{Details:} \cr
+For the \code{charclass} pattern type,
+the \code{stri_locate_ith} function gives the start and end of
+\bold{consecutive} characters by default,
+just like \link[stringi]{stri_locate_all}. \cr
+To give the start and end positions of single characters,
+much like \link[stringi]{stri_locate_first} or \link[stringi]{stri_locate_last},
+set \code{merge = FALSE}.}
 
 \item{type}{single string;
 either the break iterator type,
@@ -66,24 +106,6 @@ some character vector. \cr
 The \code{stri_locate_ith_boundaries()} function
 locates the \eqn{i^{th}} text boundary
 (like character, word, line, or sentence boundaries). \cr
-}
-\details{
-\bold{Special note regarding charclass} \cr
-The \code{stri_locate_ith()} function is based on
-\link[stringi]{stri_locate_all}.
-This generally gives results consistent with
-\link[stringi]{stri_locate_first} or \link[stringi]{stri_locate_last},
-but the exception is when \code{charclass} pattern is used. \cr
-Where the functions
-\link[stringi]{stri_locate_first} or \link[stringi]{stri_locate_last}
-give the location of the first or last single character matching the \code{charclass}
-(respectively),
-\link[stringi]{stri_locate_all} gives the start and end of \bold{consecutive} characters. \cr
-The \code{stri_locate_ith()} is in this aspect more in line with
-\link[stringi]{stri_locate_all},
-as it gives the \eqn{i^{th}} set of consecutive characters. \cr
-To make \code{stri_locare_ith()} work more like \link[stringi]{stri_locate_first} or \link[stringi]{stri_locate_last},
-in this regard, add the argument \code{merge = FALSE}.
 }
 \examples{
 

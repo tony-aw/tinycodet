@@ -12,7 +12,8 @@ Description: Adds some functions to help in your coding etiquette.
     with the benefits of attaching a package.
     3) Extending the string manipulation capabilities of the 'stringi' R package.
     4) Reducing repetitive code.
-    'tinycodet' has only one dependency, namely 'stringi'.
+    'tinycodet' has only two dependencies, namely 'stringi' and 'collapse'.
+    No other dependencies, thus avoiding "dependency hell".
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -25,7 +26,8 @@ Suggests:
 Depends: 
     R (>= 4.1.0)
 Imports:
-    stringi (>= 1.7.12)
+    stringi (>= 1.7.12),
+    collapse (>= 2.0.2)
 URL: https://github.com/tony-aw/tinycodet/, https://tony-aw.github.io/tinycodet/
 BugReports: https://github.com/tony-aw/tinycodet/issues/
 Language: en-gb

@@ -1,0 +1,109 @@
+---
+title: "Benchmarks"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    number_sections: true
+vignette: >
+  %\VignetteIndexEntry{Benchmarks}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(tinycodet)
+loadNamespace("bench")
+loadNamespace("ggplot2")
+```
+
+&nbsp;
+
+# Introduction
+
+Although the functions in this R package were written R, the functions - especially the string related ones - have been somewhat aggressively optimized. The string related functions, for example, are about in the same order of magnitude in terms of speed as the `stringi` functions they call.
+
+
+Here some speed comparisons are given, using the 'bench' package.
+
+&nbsp;
+
+# stri_locate_ith
+
+```{r eval = FALSE}
+n <- 1e5
+x <- rep(paste0(1:50, collapse = ""), n)
+p <- "\\d"
+i <- sample(c(-50:-1, 1:50), replace=TRUE, size = n)
+locate_stringi <- function(...) {
+  stringi::stri_locate_all(...)
+  stringi::stri_count(...)
+}
+bm.stri_locate_ith <- bench::mark(
+  "stri_locate_ith" = { stri_locate_ith_regex(x, p, i) },
+  "stringi::(stri_locate_all + stri_count)" = { locate_stringi(str=x, regex = p) },
+  min_iterations = 500,
+  check = FALSE,
+  filter_gc = TRUE
+)
+ggplot2::autoplot(bm.stri_locate_ith)
+```
+
+```{r echo = FALSE, fig.width = 8}
+load("bm.stri_locate_ith.RData")
+ggplot2::autoplot(bm.stri_locate_ith)
+```
+
+
+&nbsp;
+
+# strcut
+
+```{r eval = FALSE}
+n <- 1e5
+x <- rep("hello", n)
+i <- sample(1:3, n, replace = TRUE)
+loc <- stri_locate_ith(x, i=i, regex="a|e|i|o|u")
+bm.strcut <- bench::mark(
+  "strcut_loc" = { strcut_loc(x, loc) },
+  "strcut_brk" = { strcut_brk(x, type = "character") },
+  "stringi::stri_split_boundaries" = {
+    stringi::stri_split_boundaries(x, type="character")
+  },
+  min_iterations = 500,
+  check = FALSE,
+  filter_gc = FALSE
+)
+ggplot2::autoplot(bm.strcut)
+```
+
+```{r echo = FALSE, fig.width=8}
+load("bm.strcut.RData")
+ggplot2::autoplot(bm.strcut)
+```
+
+&nbsp;
+
+# Row/column-wise re-ordering
+
+```{r eval = FALSE}
+mat <- matrix(10000^2, ncol = 10000)
+bm.matorder <- bench::mark(
+  tinycodet = {mat %row~% mat; mat %col~% mat},
+  Rfast = {Rfast::rowSort(mat); Rfast::colSort(mat)},
+  min_iterations = 1000
+)
+ggplot2::autoplot(bm.matorder)
+```
+
+```{r echo = FALSE, fig.width=8}
+load("bm.matorder.RData")
+ggplot2::autoplot(bm.matorder)
+```
+

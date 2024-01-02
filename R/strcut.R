@@ -102,7 +102,7 @@ strcut_loc <- function(str, loc) {
   cc <- !is.na(str) & stats::complete.cases(loc)
   nstr <- length(str)
   nloc <- nrow(loc)
-  if(nrow(loc)==1) {
+  if(nrow(loc) == 1) {
     loc <- loc[rep_len(1, nstr), , drop=FALSE]
   }
   nloc <- nrow(loc)
