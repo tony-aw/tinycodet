@@ -93,7 +93,7 @@ ggplot2::autoplot(bm.strcut)
 # Row/column-wise re-ordering
 
 ```{r eval = FALSE}
-mat <- matrix(10000^2, ncol = 10000)
+mat <- matrix(1:(1e3)^2, ncol = 1e3)
 bm.matorder <- bench::mark(
   tinycodet = {mat %row~% mat; mat %col~% mat},
   Rfast = {Rfast::rowSort(mat); Rfast::colSort(mat)},

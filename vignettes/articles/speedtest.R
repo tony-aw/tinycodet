@@ -40,7 +40,7 @@ autoplot(bm.stri_locate_ith)
 save(bm.stri_locate_ith, file = "bm.stri_locate_ith.RData")
 
 
-mat <- matrix(10000^2, ncol = 10000)
+mat <- matrix(1:(1e3)^2, ncol = 1e3)
 bm.matorder <- bench::mark(
   tinycodet = {mat %row~% mat; mat %col~% mat},
   Rfast = {Rfast::rowSort(mat); Rfast::colSort(mat)},
