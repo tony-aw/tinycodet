@@ -72,7 +72,7 @@ i <- sample(1:3, n, replace = TRUE)
 loc <- stri_locate_ith(x, i=i, regex="a|e|i|o|u")
 bm.strcut <- bench::mark(
   "strcut_loc" = { strcut_loc(x, loc) },
-  "strcut_brk" = { strcut_brk(x, type = "character") },
+  "strcut_brk" = { strcut_brk(x, type = "", tolist = TRUE) },
   "stringi::stri_split_boundaries" = {
     stringi::stri_split_boundaries(x, type="character")
   },

@@ -387,7 +387,7 @@ about in the same order of magnitude in terms of speed as the
 <span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>loc <span class="ot">&lt;-</span> <span class="fu">stri_locate_ith</span>(x, <span class="at">i=</span>i, <span class="at">regex=</span><span class="st">&quot;a|e|i|o|u&quot;</span>)</span>
 <span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>bm.strcut <span class="ot">&lt;-</span> bench<span class="sc">::</span><span class="fu">mark</span>(</span>
 <span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  <span class="st">&quot;strcut_loc&quot;</span> <span class="ot">=</span> { <span class="fu">strcut_loc</span>(x, loc) },</span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>  <span class="st">&quot;strcut_brk&quot;</span> <span class="ot">=</span> { <span class="fu">strcut_brk</span>(x, <span class="at">type =</span> <span class="st">&quot;character&quot;</span>) },</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>  <span class="st">&quot;strcut_brk&quot;</span> <span class="ot">=</span> { <span class="fu">strcut_brk</span>(x, <span class="at">type =</span> <span class="st">&quot;&quot;</span>, <span class="at">tolist =</span> <span class="cn">TRUE</span>) },</span>
 <span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>  <span class="st">&quot;stringi::stri_split_boundaries&quot;</span> <span class="ot">=</span> {</span>
 <span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>    stringi<span class="sc">::</span><span class="fu">stri_split_boundaries</span>(x, <span class="at">type=</span><span class="st">&quot;character&quot;</span>)</span>
 <span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>  },</span>
