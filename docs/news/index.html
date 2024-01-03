@@ -74,6 +74,7 @@
 <li>The messages returned by <code><a href="../reference/import_as.html">import_as()</a></code> when aliasing packages is now slightly less verbose: removed the line “Methods work like normally”, and replaced the line “Importing packages …” with “Importing packages and registering methods…”.</li>
 <li>The <code><a href="../reference/strcut.html">strcut_brk()</a></code> function now includes the <code>tolist</code> argument to return a list. Moreover, the <code>n</code> argument may now also be specified (<code>n = -1L</code> by default).</li>
 <li>Improved safety against malformed condition in the <code><a href="../reference/transform_if.html">transform_if()</a></code> function.</li>
+<li>Clarified that <code>capture_groups</code> is not supported (not yet at least) in <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code>.</li>
 <li>
 <strong>Added dependency:</strong> ‘collapse’ is now added as an dependency, for improved speed. No other dependencies are added, and it is not likely more will be added.</li>
 <li>
@@ -83,7 +84,7 @@
 <li>
 <strong>Argument API change:</strong> The <code>s_pattern</code> functions now wrap additional arguments in a list for the user, in case of using vector arguments, preventing potential confusion.</li>
 <li>
-<strong>Argument API change:</strong> There are now also the explicit <code>stri_locate_ith_[regex/fixed/coll/charclass]</code> functions, using the same argument conventions as the rest of ‘stringi’.</li>
+<strong>Argument API change:</strong> There are now also the explicit <code>stri_locate_ith_[regex/fixed/coll/charclass]</code> functions, using the same argument conventions as the rest of ‘stringi’. <strong>Argument API change:</strong> The <code>type</code> argument in <code><a href="../reference/stri_locate_ith.html">stri_locate_ith_boundaries()</a></code> is now not a mandatory argument; one can now also supply it through <code>stri_opts_brikiter()</code>, to keep it more consistent with the rest of ‘stringi’.</li>
 <li>
 <strong>Tests:</strong> Improved the tests for the <code>s_pattern</code> operators. Added tests for <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> when using argument <code>merge = FALSE</code>. Added more error check tests for <code><a href="../reference/x.import.html">help.import()</a></code>. Added tests for unequal vector sizes for the logic operators. Added tests for empty condition subsets for <code><a href="../reference/transform_if.html">transform_if()</a></code>. Added tests for the new <code>%ss%</code> infix operator.</li>
 <li>

@@ -87,14 +87,7 @@ locates the \(i^{th}\) text boundary
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">stri_locate_ith</span><span class="op">(</span><span class="va">str</span>, <span class="va">i</span>, <span class="va">...</span>, <span class="va">regex</span>, <span class="va">fixed</span>, <span class="va">coll</span>, <span class="va">charclass</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">stri_locate_ith_regex</span><span class="op">(</span></span>
-<span>  <span class="va">str</span>,</span>
-<span>  <span class="va">pattern</span>,</span>
-<span>  <span class="va">i</span>,</span>
-<span>  capture_groups <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  <span class="va">...</span>,</span>
-<span>  opts_regex <span class="op">=</span> <span class="cn">NULL</span></span>
-<span><span class="op">)</span></span>
+<span><span class="fu">stri_locate_ith_regex</span><span class="op">(</span><span class="va">str</span>, <span class="va">pattern</span>, <span class="va">i</span>, <span class="va">...</span>, opts_regex <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">stri_locate_ith_fixed</span><span class="op">(</span><span class="va">str</span>, <span class="va">pattern</span>, <span class="va">i</span>, <span class="va">...</span>, opts_fixed <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
 <span></span>
@@ -102,7 +95,7 @@ locates the \(i^{th}\) text boundary
 <span></span>
 <span><span class="fu">stri_locate_ith_charclass</span><span class="op">(</span><span class="va">str</span>, <span class="va">pattern</span>, <span class="va">i</span>, merge <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">stri_locate_ith_boundaries</span><span class="op">(</span><span class="va">str</span>, <span class="va">i</span>, <span class="va">...</span>, type <span class="op">=</span> <span class="st">"character"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">stri_locate_ith_boundaries</span><span class="op">(</span><span class="va">str</span>, <span class="va">i</span>, <span class="va">...</span>, opts_brkiter <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -143,37 +136,24 @@ Supplying these arguments anyway will result in an error.</p></dd>
 as in <a href="https://rdrr.io/pkg/stringi/man/stri_locate.html" class="external-link">stri_locate</a>. <br><a href="https://stringi.gagolewski.com/rapi/about_search_regex.html" class="external-link"><img src="figures/aboutsearch-regex-darkred.svg" alt="[REGEX]"></a> <br><a href="https://stringi.gagolewski.com/rapi/about_search_fixed.html" class="external-link"><img src="figures/aboutsearch-fixed-darkgreen.svg" alt="[FIXED]"></a> <br><a href="https://stringi.gagolewski.com/rapi/about_search_coll.html" class="external-link"><img src="figures/aboutsearch-coll-pink.svg" alt="[COLL]"></a> <br><a href="https://stringi.gagolewski.com/rapi/about_search_charclass.html" class="external-link"><img src="figures/aboutsearch-charclass-lightyellow.svg" alt="[CHARCLASS]"></a> <br></p></dd>
 
 
-<dt>capture_groups</dt>
-<dd><p>logical,
-indicating whether positions of matches to parenthesized subexpressions should be returned too
-(as capture_groups attribute); <br>
-only for <code>regex</code> patterns.</p></dd>
-
-
-<dt>opts_regex, opts_fixed, opts_collator</dt>
+<dt>opts_regex, opts_fixed, opts_collator, opts_brkiter</dt>
 <dd><p>named list used to tune up the selected search engine's settings. <br>
 see <a href="https://rdrr.io/pkg/stringi/man/stri_opts_regex.html" class="external-link">stri_opts_regex</a>,
 <a href="https://rdrr.io/pkg/stringi/man/stri_opts_fixed.html" class="external-link">stri_opts_fixed</a>,
-and <a href="https://rdrr.io/pkg/stringi/man/stri_opts_collator.html" class="external-link">stri_opts_collator</a>. <br>
-NULL for the defaults.</p></dd>
+<a href="https://rdrr.io/pkg/stringi/man/stri_opts_collator.html" class="external-link">stri_opts_collator</a>,
+and <a href="https://rdrr.io/pkg/stringi/man/stri_opts_brkiter.html" class="external-link">stri_opts_brkiter</a> <br>
+NULL for the defaults. <br><a href="https://stringi.gagolewski.com/rapi/about_search_regex.html" class="external-link"><img src="figures/aboutsearch-regex-darkred.svg" alt="[REGEX]"></a> <br><a href="https://stringi.gagolewski.com/rapi/about_search_fixed.html" class="external-link"><img src="figures/aboutsearch-fixed-darkgreen.svg" alt="[FIXED]"></a> <br><a href="https://stringi.gagolewski.com/rapi/about_search_coll.html" class="external-link"><img src="figures/aboutsearch-coll-pink.svg" alt="[COLL]"></a> <br><a href="https://stringi.gagolewski.com/rapi/about_search_charclass.html" class="external-link"><img src="figures/aboutsearch-charclass-lightyellow.svg" alt="[CHARCLASS]"></a> <br><a href="https://stringi.gagolewski.com/rapi/about_search_boundaries.html" class="external-link"><img src="figures/aboutsearch-boundaries-blue.svg" alt="[BOUNDARIES]"></a> <br></p></dd>
 
 
 <dt>merge</dt>
 <dd><p>logical, indicating if charclass locations should be merged or not. <br><b>Details:</b> <br>
 For the <code>charclass</code> pattern type,
-the <code>stri_locate_ith</code> function gives the start and end of
+the <code>stri_locate_ith()</code> function gives the start and end of
 <b>consecutive</b> characters by default,
 just like <a href="https://rdrr.io/pkg/stringi/man/stri_locate.html" class="external-link">stri_locate_all</a>. <br>
 To give the start and end positions of single characters,
 much like <a href="https://rdrr.io/pkg/stringi/man/stri_locate.html" class="external-link">stri_locate_first</a> or <a href="https://rdrr.io/pkg/stringi/man/stri_locate.html" class="external-link">stri_locate_last</a>,
 set <code>merge = FALSE</code>.</p></dd>
-
-
-<dt>type</dt>
-<dd><p>single string;
-either the break iterator type,
-one of <code>character</code>, <code>line_break</code>, <code>sentence</code>, <code>word</code>,
-or a custom set of ICU break iteration rules. Defaults to <code>"character"</code>. <br><a href="https://stringi.gagolewski.com/rapi/about_search_boundaries.html" class="external-link"><img src="figures/aboutsearch-boundaries-blue.svg" alt="[BOUNDARIES]"></a> <br></p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -191,6 +171,34 @@ and also two <code>NA</code>s if <code>str</code> is <code>NA</code>.<br></p>
 
     </div>
     <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>The 'stringi' functions only support operations on the
+first, last, or all occurrences of a pattern. <br>
+The <code>stri_locate_ith()</code> function
+allows locating the \(i^{th}\) occurrence of a pattern. <br>
+This allows for several workflows
+for operating on the \(i^{th}\) pattern occurrence. <br><br>
+For extracting the \(i^{th}\) pattern occurrence: <br>
+Locate the the \(i^{th}\) occurrence using <code>stri_locate_ith()</code>,
+and then extract it using, for example, <a href="https://rdrr.io/pkg/stringi/man/stri_sub.html" class="external-link">stri_sub</a>. <br><br>
+For replacing/transforming the \(i^{th}\) pattern occurrence:</p><ol><li><p>Locate the the \(i^{th}\) occurrence using <code>stri_locate_ith()</code>.</p></li>
+<li><p>Extract the occurrence using <a href="https://rdrr.io/pkg/stringi/man/stri_sub.html" class="external-link">stri_sub</a>.</p></li>
+<li><p>Transform or replace the extract sub-strings.</p></li>
+<li><p>Return the transformed/replaced sub-string back,
+using again <a href="https://rdrr.io/pkg/stringi/man/stri_sub.html" class="external-link">stri_sub</a>. <br><br></p></li>
+</ol><p>See also the examples section.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="warning">Warning<a class="anchor" aria-label="anchor" href="#warning"></a></h2>
+    
+
+<p>The <code>capture_groups</code> argument for <code>regex</code> is not (yet) supported! <br>
+If one wishes to capture the \(i^{th}\) occurrence of a group,
+first apply <code>stri_locate_ith()</code> on the entire occurrence without group capture,
+and then get the matched group capture using <a href="https://rdrr.io/pkg/stringi/man/stri_match.html" class="external-link">stri_match</a>. <br>
+See examples below.</p>
+    </div>
+    <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><code><a href="aaa3_tinycodet_strings.html">tinycodet_strings()</a></code></p></div>
     </div>
@@ -200,14 +208,14 @@ and also two <code>NA</code>s if <code>str</code> is <code>NA</code>.<br></p>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#############################################################################</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># practical example with regex &amp; fixed ====</span></span></span>
+<span class="r-in"><span><span class="co"># practical example: transform regex pattern ====</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># input character vector:</span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">13</span><span class="op">]</span>, collapse<span class="op">=</span><span class="st">""</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">14</span><span class="op">:</span><span class="fl">26</span><span class="op">]</span>, collapse<span class="op">=</span><span class="st">""</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "abcdefghijklm" "nopqrstuvwxyz"</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># report ith (second and second-last) vowel locations:</span></span></span>
+<span class="r-in"><span><span class="co"># locate ith (second and second-last) vowel locations:</span></span></span>
 <span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"A|E|I|O|U"</span>, <span class="fl">2</span><span class="op">)</span> <span class="co"># vowels</span></span></span>
 <span class="r-in"><span><span class="va">loc</span> <span class="op">&lt;-</span> <span class="fu">stri_locate_ith</span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="op">-</span><span class="fl">2</span><span class="op">)</span>, regex<span class="op">=</span><span class="va">p</span>, case_insensitive<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">loc</span><span class="op">)</span></span></span>
@@ -216,20 +224,58 @@ and also two <code>NA</code>s if <code>str</code> is <code>NA</code>.<br></p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2,]     2   2</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># extract ith vowels:</span></span></span>
-<span class="r-in"><span><span class="va">extr</span> <span class="op">&lt;-</span> <span class="fu">stringi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stringi/man/stri_sub.html" class="external-link">stri_sub</a></span><span class="op">(</span><span class="va">x</span>, from<span class="op">=</span><span class="va">loc</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">extr</span> <span class="op">&lt;-</span> <span class="fu">stringi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stringi/man/stri_sub.html" class="external-link">stri_sub</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">loc</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">extr</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "e" "o"</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># replace ith vowels with numbers:</span></span></span>
+<span class="r-in"><span><span class="co"># transform &amp; replace ith vowels with numbers:</span></span></span>
 <span class="r-in"><span><span class="va">repl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html" class="external-link">chartr</a></span><span class="op">(</span><span class="st">"aeiou"</span>, <span class="st">"12345"</span>, <span class="va">extr</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">stringi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stringi/man/stri_sub.html" class="external-link">stri_sub_replace</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">loc</span>, replacement<span class="op">=</span><span class="va">repl</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">stringi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stringi/man/stri_sub.html" class="external-link">stri_sub</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">loc</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">repl</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># result (notice ith vowels are now numbers):</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "abcd2fghijklm" "n4pqrstuvwxyz"</span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#############################################################################</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># practical example: group-capture regex pattern ====</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># input character:</span></span></span>
+<span class="r-in"><span><span class="co"># first group: c(breakfast=eggs, breakfast=bacon)</span></span></span>
+<span class="r-in"><span><span class="co"># second group: c(lunch=pizza, lunch=spaghetti)</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'breakfast=eggs;lunch=pizza'</span>,</span></span>
+<span class="r-in"><span>       <span class="st">'breakfast=bacon;lunch=spaghetti'</span>,</span></span>
+<span class="r-in"><span>       <span class="st">'no food here'</span><span class="op">)</span> <span class="co"># no group here</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "breakfast=eggs;lunch=pizza"      "breakfast=bacon;lunch=spaghetti"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "no food here"                   </span>
+<span class="r-in"><span>       </span></span>
+<span class="r-in"><span><span class="co"># locate ith=2nd group:</span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="st">'(\\w+)=(\\w+)'</span></span></span>
+<span class="r-in"><span><span class="va">loc</span> <span class="op">&lt;-</span> <span class="fu">stri_locate_ith</span><span class="op">(</span><span class="va">x</span>, i <span class="op">=</span> <span class="fl">2</span>, regex <span class="op">=</span> <span class="va">p</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">loc</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      start end</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    16  26</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    17  31</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]    NA  NA</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># extract ith=2nd group:</span></span></span>
+<span class="r-in"><span><span class="va">extr</span> <span class="op">&lt;-</span> <span class="fu">stringi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stringi/man/stri_sub.html" class="external-link">stri_sub</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">loc</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">extr</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "lunch=pizza"     "lunch=spaghetti" NA               </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># capture ith=2nd group:</span></span></span>
+<span class="r-in"><span><span class="fu">stringi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stringi/man/stri_match.html" class="external-link">stri_match</a></span><span class="op">(</span><span class="va">extr</span>, regex <span class="op">=</span> <span class="va">p</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      [,1]              [,2]    [,3]       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] "lunch=pizza"     "lunch" "pizza"    </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] "lunch=spaghetti" "lunch" "spaghetti"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] NA                NA      NA         </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#############################################################################</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># practical example with boundaries ====</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># practical example: replace words with boundaries ====</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># input character vector:</span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"good morning and good night"</span>,</span></span>
@@ -249,9 +295,11 @@ and also two <code>NA</code>s if <code>str</code> is <code>NA</code>.<br></p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">extr</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "good"   "ladies"</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># transform and replace words:</span></span></span>
+<span class="r-in"><span><span class="co"># transform and replace words (notice ith words have inverted case):</span></span></span>
 <span class="r-in"><span><span class="va">tf</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html" class="external-link">chartr</a></span><span class="op">(</span><span class="va">extr</span>, old <span class="op">=</span> <span class="st">"a-zA-Z"</span>, new <span class="op">=</span> <span class="st">"A-Za-z"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu">stringi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stringi/man/stri_sub.html" class="external-link">stri_sub_replace</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">loc</span>, replacement<span class="op">=</span><span class="va">tf</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">stringi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stringi/man/stri_sub.html" class="external-link">stri_sub</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">loc</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">tf</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># result:</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "good morning and GOOD night" "hello LADIES and gentlemen" </span>
 <span class="r-in"><span></span></span>

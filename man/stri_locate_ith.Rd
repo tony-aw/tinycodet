@@ -11,14 +11,7 @@
 \usage{
 stri_locate_ith(str, i, ..., regex, fixed, coll, charclass)
 
-stri_locate_ith_regex(
-  str,
-  pattern,
-  i,
-  capture_groups = FALSE,
-  ...,
-  opts_regex = NULL
-)
+stri_locate_ith_regex(str, pattern, i, ..., opts_regex = NULL)
 
 stri_locate_ith_fixed(str, pattern, i, ..., opts_fixed = NULL)
 
@@ -26,7 +19,7 @@ stri_locate_ith_coll(str, pattern, i, ..., opts_collator = NULL)
 
 stri_locate_ith_charclass(str, pattern, i, merge = TRUE, ...)
 
-stri_locate_ith_boundaries(str, i, ..., type = "character")
+stri_locate_ith_boundaries(str, i, ..., opts_brkiter = NULL)
 }
 \arguments{
 \item{str}{a string or character vector.}
@@ -64,32 +57,27 @@ as in \link[stringi]{stri_locate}. \cr
 \ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_coll.html}{\figure{aboutsearch-coll-pink.svg}{options: alt='[COLL]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_coll.html}{about search: coll}} \cr
 \ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_charclass.html}{\figure{aboutsearch-charclass-lightyellow.svg}{options: alt='[CHARCLASS]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_charclass.html}{about search: charclass}} \cr}
 
-\item{capture_groups}{logical,
-indicating whether positions of matches to parenthesized subexpressions should be returned too
-(as capture_groups attribute); \cr
-only for \code{regex} patterns.}
-
-\item{opts_regex, opts_fixed, opts_collator}{named list used to tune up the selected search engine's settings. \cr
+\item{opts_regex, opts_fixed, opts_collator, opts_brkiter}{named list used to tune up the selected search engine's settings. \cr
 see \link[stringi]{stri_opts_regex},
 \link[stringi]{stri_opts_fixed},
-and \link[stringi]{stri_opts_collator}. \cr
-NULL for the defaults.}
+\link[stringi]{stri_opts_collator},
+and \link[stringi]{stri_opts_brkiter} \cr
+NULL for the defaults. \cr
+\ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_regex.html}{\figure{aboutsearch-regex-darkred.svg}{options: alt='[REGEX]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_regex.html}{about search: regex}} \cr
+\ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_fixed.html}{\figure{aboutsearch-fixed-darkgreen.svg}{options: alt='[FIXED]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_fixed.html}{about search: fixed}} \cr
+\ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_coll.html}{\figure{aboutsearch-coll-pink.svg}{options: alt='[COLL]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_coll.html}{about search: coll}} \cr
+\ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_charclass.html}{\figure{aboutsearch-charclass-lightyellow.svg}{options: alt='[CHARCLASS]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_charclass.html}{about search: charclass}} \cr
+\ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_boundaries.html}{\figure{aboutsearch-boundaries-blue.svg}{options: alt='[BOUNDARIES]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_boundaries.html}{about search: boundaries}} \cr}
 
 \item{merge}{logical, indicating if charclass locations should be merged or not. \cr
 \bold{Details:} \cr
 For the \code{charclass} pattern type,
-the \code{stri_locate_ith} function gives the start and end of
+the \code{stri_locate_ith()} function gives the start and end of
 \bold{consecutive} characters by default,
 just like \link[stringi]{stri_locate_all}. \cr
 To give the start and end positions of single characters,
 much like \link[stringi]{stri_locate_first} or \link[stringi]{stri_locate_last},
 set \code{merge = FALSE}.}
-
-\item{type}{single string;
-either the break iterator type,
-one of \code{character}, \code{line_break}, \code{sentence}, \code{word},
-or a custom set of ICU break iteration rules. Defaults to \code{"character"}. \cr
-\ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_boundaries.html}{\figure{aboutsearch-boundaries-blue.svg}{options: alt='[BOUNDARIES]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_boundaries.html}{about search: boundaries}} \cr}
 }
 \value{
 The \code{stri_locate_ith()} function returns an integer matrix with two columns,
@@ -107,34 +95,93 @@ The \code{stri_locate_ith_boundaries()} function
 locates the \eqn{i^{th}} text boundary
 (like character, word, line, or sentence boundaries). \cr
 }
+\details{
+The 'stringi' functions only support operations on the
+first, last, or all occurrences of a pattern. \cr
+The \code{stri_locate_ith()} function
+allows locating the \eqn{i^{th}} occurrence of a pattern. \cr
+This allows for several workflows
+for operating on the \eqn{i^{th}} pattern occurrence. \cr
+\cr
+For extracting the \eqn{i^{th}} pattern occurrence: \cr
+Locate the the \eqn{i^{th}} occurrence using \code{stri_locate_ith()},
+and then extract it using, for example, \link[stringi]{stri_sub}. \cr
+\cr
+For replacing/transforming the \eqn{i^{th}} pattern occurrence:
+\enumerate{
+\item Locate the the \eqn{i^{th}} occurrence using \code{stri_locate_ith()}.
+\item Extract the occurrence using \link[stringi]{stri_sub}.
+\item Transform or replace the extract sub-strings.
+\item Return the transformed/replaced sub-string back,
+using again \link[stringi]{stri_sub}. \cr \cr
+}
+
+See also the examples section.
+}
+\section{Warning}{
+
+The \code{capture_groups} argument for \code{regex} is not (yet) supported! \cr
+If one wishes to capture the \eqn{i^{th}} occurrence of a group,
+first apply \code{stri_locate_ith()} on the entire occurrence without group capture,
+and then get the matched group capture using \link[stringi]{stri_match}. \cr
+See examples below.
+}
+
 \examples{
 
 #############################################################################
 
-# practical example with regex & fixed ====
+# practical example: transform regex pattern ====
 
 # input character vector:
 x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 print(x)
 
-# report ith (second and second-last) vowel locations:
+# locate ith (second and second-last) vowel locations:
 p <- rep("A|E|I|O|U", 2) # vowels
 loc <- stri_locate_ith(x, c(2, -2), regex=p, case_insensitive=TRUE)
 print(loc)
 
 # extract ith vowels:
-extr <- stringi::stri_sub(x, from=loc)
+extr <- stringi::stri_sub(x, loc)
 print(extr)
 
-# replace ith vowels with numbers:
+# transform & replace ith vowels with numbers:
 repl <- chartr("aeiou", "12345", extr)
-x <- stringi::stri_sub_replace(x, loc, replacement=repl)
-print(x)
+stringi::stri_sub(x, loc) <- repl
 
+# result (notice ith vowels are now numbers):
+print(x)
 
 #############################################################################
 
-# practical example with boundaries ====
+
+# practical example: group-capture regex pattern ====
+
+# input character:
+# first group: c(breakfast=eggs, breakfast=bacon)
+# second group: c(lunch=pizza, lunch=spaghetti)
+x <- c('breakfast=eggs;lunch=pizza',
+       'breakfast=bacon;lunch=spaghetti',
+       'no food here') # no group here
+print(x)
+       
+# locate ith=2nd group:
+p <- '(\\\\w+)=(\\\\w+)'
+loc <- stri_locate_ith(x, i = 2, regex = p)
+print(loc)
+
+# extract ith=2nd group:
+extr <- stringi::stri_sub(x, loc)
+print(extr)
+
+# capture ith=2nd group:
+stringi::stri_match(extr, regex = p)
+
+#############################################################################
+
+
+# practical example: replace words with boundaries ====
 
 # input character vector:
 x <- c("good morning and good night",
@@ -149,9 +196,11 @@ print(loc)
 extr <- stringi::stri_sub(x, from=loc)
 print(extr)
 
-# transform and replace words:
+# transform and replace words (notice ith words have inverted case):
 tf <- chartr(extr, old = "a-zA-Z", new = "A-Za-z")
-x <- stringi::stri_sub_replace(x, loc, replacement=tf)
+stringi::stri_sub(x, loc) <- tf
+
+# result:
 print(x)
 
 

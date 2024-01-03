@@ -58,8 +58,8 @@ expect_equal(expected, outcome)
 x <- "1 2 3 4 5 6 7 8 9"
 n <- nchar(x)
 x <- rep(x, nchar(x))
-out1 <- stri_locate_ith_boundaries(x, 1:n)
-out2 <- stri_locate_ith_boundaries(x, -1:-n)
+out1 <- stri_locate_ith_boundaries(x, 1:n, type = "")
+out2 <- stri_locate_ith_boundaries(x, -1:-n, type = "")
 outcome <- cbind(0:16, out1, out2)
 expected <- cbind(0:16, 1:n, 1:n, n:1, n:1)
 colnames(expected) <- c("", "start", "end", "start", "end")
@@ -325,3 +325,15 @@ expect_error(
   stri_locate_ith(x, i, whoops="a|e|i|o|u"),
   pattern = "you have to specify either `regex`, `fixed`, `coll`, `charclass`"
 )
+
+
+# unsupported argument ====
+
+
+# regex, capture groups ====
+x <- 'breakfast=eggs, lunch=pizza, dessert=icecream'
+p <- '(\\w+)=(\\w+)'
+expect_error(
+  stri_locate_ith_regex(x, 1, p, capture_groups = TRUE)
+)
+
