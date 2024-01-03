@@ -84,7 +84,9 @@
 <li>
 <strong>Argument API change:</strong> The <code>s_pattern</code> functions now wrap additional arguments in a list for the user, in case of using vector arguments, preventing potential confusion.</li>
 <li>
-<strong>Argument API change:</strong> There are now also the explicit <code>stri_locate_ith_[regex/fixed/coll/charclass]</code> functions, using the same argument conventions as the rest of ‘stringi’. <strong>Argument API change:</strong> The <code>type</code> argument in <code><a href="../reference/stri_locate_ith.html">stri_locate_ith_boundaries()</a></code> is now not a mandatory argument; one can now also supply it through <code>stri_opts_brikiter()</code>, to keep it more consistent with the rest of ‘stringi’.</li>
+<strong>Argument API change:</strong> There are now also the explicit <code>stri_locate_ith_[regex/fixed/coll/charclass]</code> functions, using the same argument conventions as the rest of ‘stringi’.</li>
+<li>
+<strong>Argument API change:</strong> The <code>type</code> argument in <code><a href="../reference/stri_locate_ith.html">stri_locate_ith_boundaries()</a></code> is now not a mandatory argument; one can now also supply it through <code>stri_opts_brikiter()</code>, to keep it more consistent with the rest of ‘stringi’.</li>
 <li>
 <strong>Tests:</strong> Improved the tests for the <code>s_pattern</code> operators. Added tests for <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> when using argument <code>merge = FALSE</code>. Added more error check tests for <code><a href="../reference/x.import.html">help.import()</a></code>. Added tests for unequal vector sizes for the logic operators. Added tests for empty condition subsets for <code><a href="../reference/transform_if.html">transform_if()</a></code>. Added tests for the new <code>%ss%</code> infix operator.</li>
 <li>
