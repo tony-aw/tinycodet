@@ -17,7 +17,7 @@
 #' `r .mybadge_string("fixed", "darkgreen")` \cr
 #' `r .mybadge_string("coll", "pink")` \cr
 #' `r .mybadge_string("charclass", "lightyellow")` \cr
-#' @param i a number, or a numeric vector of the same length as \code{str}. \cr
+#' @param i an integer, or an integer vector of the same length as \code{str}. \cr
 #' Positive numbers are counting from the left. Negative numbers are counting from the right.
 #' I.e.:
 #' \itemize{

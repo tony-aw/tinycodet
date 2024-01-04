@@ -171,3 +171,109 @@ expect_error(
 )
 
 
+# strfind - positions ====
+# regex
+x <- rep(paste0(0:9, collapse=""), 10)
+print(x)
+p <- s_regex("\\d", case_insensitive = TRUE)
+out1 <- strfind(x, p, 1:10)
+out2 <- strfind(x, p, -1:-10)
+outcome <- cbind(0:9, out1, out2)
+expected <- cbind(0:9, 1:10, 1:10, 10:1, 10:1)
+colnames(expected) <- c("", "start", "end", "start", "end")
+expect_equal(expected, outcome)
+
+# fixed
+x <- rep("aaaaaaaaaa", 10)
+print(x)
+p <- s_fixed("A", case_insensitive = TRUE)
+out1 <- strfind(x, p, 1:10)
+out2 <- strfind(x, p, -1:-10)
+outcome <- cbind(0:9, out1, out2)
+expected <- cbind(0:9, 1:10, 1:10, 10:1, 10:1)
+colnames(expected) <- c("", "start", "end", "start", "end")
+expect_equal(expected, outcome)
+
+# coll
+x <- rep("\u00FD\u00FD\u00FD\u00FD\u00FD\u00FD\u00FD\u00FD\u00FD\u00FD", 10)
+print(x)
+p <- s_coll('Y', strength = 1, locale = 'sk_SK')
+out1 <- strfind(x, p, 1:10)
+out2 <- strfind(x, p, -1:-10)
+outcome <- cbind(0:9, out1, out2)
+expected <- cbind(0:9, 1:10, 1:10, 10:1, 10:1)
+colnames(expected) <- c("", "start", "end", "start", "end")
+expect_equal(expected, outcome)
+
+# charclass, merge = TRUE (default)
+x <- rep("a a a a a a a a a a", 10)
+print(x)
+p <- s_chrcls("[a]")
+out1 <- strfind(x, p, 1:10)
+out2 <- strfind(x, p, -1:-10)
+outcome <- cbind(0:9, out1, out2)
+expected <- cbind(0:9, seq(1, 19, by = 2), seq(1, 19, by = 2), seq(19, 1, by = -2), seq(19, 1, by = -2))
+colnames(expected) <- c("", "start", "end", "start", "end")
+expect_equal(expected, outcome)
+
+# charclass, merge = FALSE
+x <- rep("aaaaaaaaaa", 10)
+print(x)
+p <- s_chrcls("[a]")
+out1 <- strfind(x, p, 1:10, merge = FALSE)
+out2 <- strfind(x, p, -1:-10, merge = FALSE)
+outcome <- cbind(0:9, out1, out2)
+expected <- cbind(0:9, 1:10, 1:10, 10:1, 10:1)
+colnames(expected) <- c("", "start", "end", "start", "end")
+expect_equal(expected, outcome)
+
+# boundaries
+x <- "1 2 3 4 5 6 7 8 9"
+n <- nchar(x)
+x <- rep(x, nchar(x))
+out1 <- stri_locate_ith_boundaries(x, 1:n, type = "")
+out2 <- stri_locate_ith_boundaries(x, -1:-n, type = "")
+outcome <- cbind(0:16, out1, out2)
+expected <- cbind(0:16, 1:n, 1:n, n:1, n:1)
+colnames(expected) <- c("", "start", "end", "start", "end")
+expect_equal(expected, outcome)
+
+
+# strfind - locate all ====
+# regex
+x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+out1 <- strfind(x, s_regex(c("A|E|I|O|U","a|e|i|o|u"), case_insensitive=TRUE), "all")
+out2 <- strfind(x, s_regex(c("A|E|I|O|U","a|e|i|o|u"), case_insensitive=FALSE), "all")
+expect_equal(out1, stringi::stri_locate_all(x, regex = c("A|E|I|O|U","a|e|i|o|u"), case_insensitive=TRUE))
+expect_equal(out2, stringi::stri_locate_all(x, regex = c("A|E|I|O|U","a|e|i|o|u"), case_insensitive=FALSE))
+
+# fixed
+x <- c(
+  paste0(letters[1:13], collapse=""),
+  paste0(letters[14:26], collapse=""),
+  paste0(LETTERS[1:13], collapse=""),
+  paste0(LETTERS[14:26], collapse="")
+)
+print(x)
+out1 <- strfind(x, s_regex(c("ab"), case_insensitive=TRUE), "all")
+out2 <- strfind(x, s_regex(c("ab"), case_insensitive=FALSE), "all")
+expect_equal(out1, stringi::stri_locate_all(x, fixed = c("ab"), case_insensitive=TRUE))
+expect_equal(out2, stringi::stri_locate_all(x, fixed = c("ab"), case_insensitive=FALSE))
+
+# coll
+x <- c('hladn\u00FD', 'hladny')
+out <- strfind(x, s_coll('HLADNY', strength=1, locale='sk_SK'), "all")
+expect_equal(out, stringi::stri_locate_all(x, coll = 'HLADNY', strength=1, locale='sk_SK'))
+
+# charclass, merge = TRUE
+x <- c('stRRRingi','R STRINGI', '123')
+p <- c('\\p{Ll}', '\\p{Lu}', '\\p{Zs}')
+out <- strfind(x, s_chrcls(p), "all")
+expect_equal(out, stringi::stri_locate_all(x, charclass = p))
+
+# charclass, merge = FALSE
+x <- c('stRRRingi','R STRINGI', '123')
+p <- c('\\p{Ll}', '\\p{Lu}', '\\p{Zs}')
+out <- strfind(x, s_chrcls(p), "all", merge = FALSE)
+expect_equal(out, stringi::stri_locate_all(x, charclass = p, merge = FALSE))
+

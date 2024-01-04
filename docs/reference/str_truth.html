@@ -5,17 +5,59 @@ the pattern defined in p is present.
 
 The x %s!{}% p operator
 checks for every string in character vector x if
-the pattern defined in p is NOT present.  
+the pattern defined in p is NOT present. 
 
-For string (in)equality operators, see %s==% from the 'stringi' package."><title>'stringi' Pattern Detection Operators — str_truth • tinycodet</title><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="'stringi' Pattern Detection Operators — str_truth"><meta property="og:description" content="The x %s{}% p operator
+For string (in)equality operators, see %s==% from the 'stringi' package. 
+
+The strfind() method,
+although technically not an operator,
+is meant to complement the string-related infix operators,
+and therefore uses the same s_pattern API as (for example)
+the %s{}% and %s!{}% operators. 
+It functions as follows:
+strfind(..., i = &quot;all&quot;) attempts to find all pattern matches,
+and reports the locations of the findings in a list,
+just like stri_locate_all.
+strfind(..., i = i), where i is a non-zero integer,
+locates the \(i^{th}\) occurrence of a pattern,
+and reports the locations in a matrix,
+just like stri_locate_ith.
+strfind(...) &amp;lt;- value attempts to find all pattern matches,
+and replaces them with the character vector specified in value. 
+This is similar to stri_replace_all,
+except the replacement is done in-place
+(though not by reference, technically speaking).  
+
+"><title>'stringi' Pattern Search Operators, and the strfind Method — str_truth • tinycodet</title><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous"><!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="'stringi' Pattern Search Operators, and the strfind Method — str_truth"><meta property="og:description" content="The x %s{}% p operator
 checks for every string in character vector x if
 the pattern defined in p is present. 
 
 The x %s!{}% p operator
 checks for every string in character vector x if
-the pattern defined in p is NOT present.  
+the pattern defined in p is NOT present. 
 
-For string (in)equality operators, see %s==% from the 'stringi' package."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
+For string (in)equality operators, see %s==% from the 'stringi' package. 
+
+The strfind() method,
+although technically not an operator,
+is meant to complement the string-related infix operators,
+and therefore uses the same s_pattern API as (for example)
+the %s{}% and %s!{}% operators. 
+It functions as follows:
+strfind(..., i = &quot;all&quot;) attempts to find all pattern matches,
+and reports the locations of the findings in a list,
+just like stri_locate_all.
+strfind(..., i = i), where i is a non-zero integer,
+locates the \(i^{th}\) occurrence of a pattern,
+and reports the locations in a matrix,
+just like stri_locate_ith.
+strfind(...) &amp;lt;- value attempts to find all pattern matches,
+and replaces them with the character vector specified in value. 
+This is similar to stri_replace_all,
+except the replacement is done in-place
+(though not by reference, technically speaking).  
+
+"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body>
@@ -73,7 +115,7 @@ For string (in)equality operators, see %s==% from the 'stringi' package."><!-- m
 </nav><div class="container template-reference-topic">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="" class="logo" alt=""><h1>'stringi' Pattern Detection Operators</h1>
+      <img src="" class="logo" alt=""><h1>'stringi' Pattern Search Operators, and the strfind Method</h1>
       <small class="dont-index">Source: <a href="https://github.com/tony-aw/tinycodet/blob/HEAD/R/str_truth.R" class="external-link"><code>R/str_truth.R</code></a></small>
       <div class="d-none name"><code>str_truth.Rd</code></div>
     </div>
@@ -84,15 +126,36 @@ checks for every string in character vector <code>x</code> if
 the pattern defined in <code>p</code> is present. <br><br>
 The <code>x %s!{}% p</code> operator
 checks for every string in character vector <code>x</code> if
-the pattern defined in <code>p</code> is NOT present. <br><br><br>
-For string (in)equality operators, see <a href="https://rdrr.io/pkg/stringi/man/operator_compare.html" class="external-link">%s==%</a> from the 'stringi' package.</p>
-    </div>
+the pattern defined in <code>p</code> is NOT present. <br><br>
+For string (in)equality operators, see <a href="https://rdrr.io/pkg/stringi/man/operator_compare.html" class="external-link">%s==%</a> from the 'stringi' package. <br><br>
+The <code>strfind()</code> method,
+although technically not an operator,
+is meant to complement the string-related infix operators,
+and therefore uses the same <a href="s_pattern.html">s_pattern</a> API as (for example)
+the <code>%s{}% and %s!{}%</code> operators. <br>
+It functions as follows:</p><ul><li><p><code>strfind(..., i = "all")</code> attempts to find all pattern matches,
+and reports the locations of the findings in a list,
+just like <a href="https://rdrr.io/pkg/stringi/man/stri_locate.html" class="external-link">stri_locate_all</a>.</p></li>
+<li><p><code>strfind(..., i = i)</code>, where <code>i</code> is a non-zero integer,
+locates the \(i^{th}\) occurrence of a pattern,
+and reports the locations in a matrix,
+just like <a href="stri_locate_ith.html">stri_locate_ith</a>.</p></li>
+<li><p><code>strfind(...) &lt;- value</code> attempts to find all pattern matches,
+and replaces them with the character vector specified in <code>value</code>. <br>
+This is similar to <a href="https://rdrr.io/pkg/stringi/man/stri_replace.html" class="external-link">stri_replace_all</a>,
+except the replacement is done in-place
+(though not by reference, technically speaking). <br><br></p></li>
+</ul></div>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="va">x</span> <span class="op">%s{}%</span> <span class="va">p</span></span>
 <span></span>
-<span><span class="va">x</span> <span class="op">%s!{}%</span> <span class="va">p</span></span></code></pre></div>
+<span><span class="va">x</span> <span class="op">%s!{}%</span> <span class="va">p</span></span>
+<span></span>
+<span><span class="fu">strfind</span><span class="op">(</span><span class="va">x</span>, <span class="va">p</span>, <span class="va">i</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">strfind</span><span class="op">(</span><span class="va">x</span>, <span class="va">p</span>, <span class="va">...</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">value</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -106,6 +169,23 @@ For string (in)equality operators, see <a href="https://rdrr.io/pkg/stringi/man/
 or else a character vector of the same length as <code>x</code> or length 1
 with regular expressions. <br><a href="https://stringi.gagolewski.com/rapi/about_search_regex.html" class="external-link"><img src="figures/aboutsearch-regex-darkred.svg" alt="[REGEX]"></a> <br><a href="https://stringi.gagolewski.com/rapi/about_search_fixed.html" class="external-link"><img src="figures/aboutsearch-fixed-darkgreen.svg" alt="[FIXED]"></a> <br><a href="https://stringi.gagolewski.com/rapi/about_search_coll.html" class="external-link"><img src="figures/aboutsearch-coll-pink.svg" alt="[COLL]"></a> <br><a href="https://stringi.gagolewski.com/rapi/about_search_charclass.html" class="external-link"><img src="figures/aboutsearch-charclass-lightyellow.svg" alt="[CHARCLASS]"></a> <br></p></dd>
 
+
+<dt>i</dt>
+<dd><p>either one of the following:</p><ul><li><p>if <code>i = "all"</code>, <code>strfind()</code> locates all found pattern occurrences.</p></li>
+<li><p>if <code>i</code> is an integer,
+<code>strfind()</code> locates the \(i^{th}\) pattern occurrences. <br>
+See the <code>i</code> argument in <a href="stri_locate_ith.html">stri_locate_ith</a> for details.</p></li>
+<li><p>for <code>strfind() &lt;- value</code>, <code>i</code> must not be specified.</p></li>
+</ul></dd>
+
+
+<dt>...</dt>
+<dd><p>additional arguments to be passed to the 'stringi' functions. <br><br></p></dd>
+
+
+<dt>value</dt>
+<dd><p>a character vector giving the replacement values.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -114,6 +194,27 @@ with regular expressions. <br><a href="https://stringi.gagolewski.com/rapi/about
 <p>The <code>x %s{}% p</code> and <code>x %s!{}% p</code> operators
 return logical vectors, where <code>TRUE</code> indicates a pattern was found,
 and <code>FALSE</code> indicates a pattern was not found. <br></p>
+
+
+<p><br></p>
+
+
+<p><code>strfind(..., i = "all")</code> returns a list with all found pattern locations. <br></p>
+
+
+<p><br></p>
+
+
+<p><code>strfind(..., i = i)</code>,
+with <code>i</code> being an integer,
+returns a matrix with the \(i^{th}\) occurrences of the patterns. <br></p>
+
+
+<p><br></p>
+
+
+<p><code>strfind(x, p) &lt;- value</code> returns nothing,
+but performs in-place replacement of the found patterns in <code>x</code>. <br></p>
 
 
     </div>
@@ -125,7 +226,7 @@ and <code>FALSE</code> indicates a pattern was not found. <br></p>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># simple pattern ====</span></span></span>
+<span class="r-in"><span><span class="co"># simple example ====</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">13</span><span class="op">]</span>, collapse<span class="op">=</span><span class="st">""</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">14</span><span class="op">:</span><span class="fl">26</span><span class="op">]</span>, collapse<span class="op">=</span><span class="st">""</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
@@ -168,56 +269,58 @@ and <code>FALSE</code> indicates a pattern was not found. <br></p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#############################################################################</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># ignore case pattern ====</span></span></span>
+<span class="r-in"><span><span class="co"># More complex example ====</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">'The quick brown fox jumped over the lazy dog.'</span>, <span class="fl">3</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "The quick brown fox jumped over the lazy dog."</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "The quick brown fox jumped over the lazy dog."</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "The quick brown fox jumped over the lazy dog."</span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'quick'</span>, <span class="st">'brown'</span>, <span class="st">'fox'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">rp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'slow'</span>,  <span class="st">'black'</span>, <span class="st">'bear'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">%s{}%</span> <span class="va">p</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE TRUE TRUE</span>
+<span class="r-in"><span><span class="fu">stringi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stringi/man/stri_sub_all.html" class="external-link">stri_sub_all</a></span><span class="op">(</span><span class="va">x</span>, <span class="fu">strfind</span><span class="op">(</span><span class="va">x</span>, <span class="va">p</span>, <span class="st">"all"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "quick"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "brown"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "fox"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="fu">strfind</span><span class="op">(</span><span class="va">x</span>, <span class="va">p</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">rp</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "The slow brown fox jumped over the lazy dog."  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2] "The quick black fox jumped over the lazy dog." </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "The quick brown bear jumped over the lazy dog."</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">13</span><span class="op">]</span>, collapse<span class="op">=</span><span class="st">""</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">14</span><span class="op">:</span><span class="fl">26</span><span class="op">]</span>, collapse<span class="op">=</span><span class="st">""</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "abcdefghijklm" "nopqrstuvwxyz"</span>
-<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>regex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"A"</span><span class="op">)</span>, case_insensitive<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">x</span> <span class="op">%s{}%</span> <span class="va">p</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  TRUE FALSE</span>
-<span class="r-in"><span><span class="va">x</span> <span class="op">%s!{}%</span> <span class="va">p</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE  TRUE</span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">x</span> <span class="op">%s{}%</span> <span class="va">p</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">x</span> <span class="op">%s!{}%</span> <span class="va">p</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
-<span class="r-in"><span><span class="va">x</span><span class="op">[</span><span class="va">x</span> <span class="op">%s{}%</span> <span class="va">p</span><span class="op">]</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "abcdefghijklm"</span>
-<span class="r-in"><span><span class="va">x</span><span class="op">[</span><span class="va">x</span> <span class="op">%s!{}%</span> <span class="va">p</span><span class="op">]</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "nopqrstuvwxyz"</span>
-<span class="r-in"><span><span class="va">x</span><span class="op">[</span><span class="va">x</span> <span class="op">%s{}%</span> <span class="va">p</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"hello"</span></span></span>
-<span class="r-in"><span><span class="va">x</span><span class="op">[</span><span class="va">x</span> <span class="op">%s!{}%</span> <span class="va">p</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"hello"</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># report ith (second and second-last) vowel locations:</span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="s_pattern.html">s_regex</a></span><span class="op">(</span> <span class="co"># vowels</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"A|E|I|O|U"</span>, <span class="fl">2</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  case_insensitive<span class="op">=</span><span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">loc</span> <span class="op">&lt;-</span> <span class="fu">strfind</span><span class="op">(</span><span class="va">x</span>, <span class="va">p</span>, i <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="op">-</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">loc</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      start end</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]     5   5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]     2   2</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># extract ith vowels:</span></span></span>
+<span class="r-in"><span><span class="va">extr</span> <span class="op">&lt;-</span> <span class="fu">stringi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stringi/man/stri_sub.html" class="external-link">stri_sub</a></span><span class="op">(</span><span class="va">x</span>, from<span class="op">=</span><span class="va">loc</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">extr</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "e" "o"</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># replace ith vowels with numbers:</span></span></span>
+<span class="r-in"><span><span class="va">repl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html" class="external-link">chartr</a></span><span class="op">(</span><span class="st">"aeiou"</span>, <span class="st">"12345"</span>, <span class="va">extr</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">stringi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stringi/man/stri_sub.html" class="external-link">stri_sub</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">loc</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">repl</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "hello" "hello"</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#############################################################################</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># multi-character pattern ====</span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">13</span><span class="op">]</span>, collapse<span class="op">=</span><span class="st">""</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">14</span><span class="op">:</span><span class="fl">26</span><span class="op">]</span>, collapse<span class="op">=</span><span class="st">""</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "abcdefghijklm" "nopqrstuvwxyz"</span>
-<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>regex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"AB"</span>, <span class="fl">2</span><span class="op">)</span>, case_insensitive<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">x</span> <span class="op">%s{}%</span> <span class="va">p</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  TRUE FALSE</span>
-<span class="r-in"><span><span class="va">x</span> <span class="op">%s!{}%</span> <span class="va">p</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE  TRUE</span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">x</span> <span class="op">%s{}%</span> <span class="va">p</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1</span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">x</span> <span class="op">%s!{}%</span> <span class="va">p</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
-<span class="r-in"><span><span class="va">x</span><span class="op">[</span><span class="va">x</span> <span class="op">%s{}%</span> <span class="va">p</span><span class="op">]</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "abcdefghijklm"</span>
-<span class="r-in"><span><span class="va">x</span><span class="op">[</span><span class="va">x</span> <span class="op">%s!{}%</span> <span class="va">p</span><span class="op">]</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "nopqrstuvwxyz"</span>
-<span class="r-in"><span><span class="va">x</span><span class="op">[</span><span class="va">x</span> <span class="op">%s{}%</span> <span class="va">p</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"CD"</span></span></span>
-<span class="r-in"><span><span class="va">x</span><span class="op">[</span><span class="va">x</span> <span class="op">%s!{}%</span> <span class="va">p</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"CD"</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "CD" "CD"</span>
-<span class="r-in"><span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "abcd2fghijklm" "n4pqrstuvwxyz"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

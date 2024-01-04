@@ -27,7 +27,8 @@
 #' * Infix operators for \link[=%s-%]{string arithmetic}.
 #' * Infix operators for \link[=%sget%]{string sub-setting},
 #' which get or remove the first and/or last \code{n} characters from strings.
-#' * Infix operators for \link[=str_truth]{detecting patterns}.
+#' * Infix operators for \link[=str_truth]{detecting patterns},
+#' accompanied by the \link{strfind} method for locating/replacing patterns.
 #'
 #'
 #'

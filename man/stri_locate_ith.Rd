@@ -24,7 +24,7 @@ stri_locate_ith_boundaries(str, i, ..., opts_brkiter = NULL)
 \arguments{
 \item{str}{a string or character vector.}
 
-\item{i}{a number, or a numeric vector of the same length as \code{str}. \cr
+\item{i}{an integer, or an integer vector of the same length as \code{str}. \cr
 Positive numbers are counting from the left. Negative numbers are counting from the right.
 I.e.:
 \itemize{

@@ -13,7 +13,7 @@ in the documentation of the `stri_locate_ith()` function.
 * The `strcut_brk()` function now includes the `tolist` argument to return a list. Moreover, the `n` argument may now also be specified (`n = -1L` by default).
 * Improved safety against malformed condition in the `transform_if()` function.
 * **Added dependency:** 'collapse' is now added as an dependency, for improved speed. No other dependencies are added, and it is not likely more will be added.
-* **New Feature:** Added `%ss%` to the collection of string arithmetic operators. Added tests for this new operator also.
+* **New Feature:** Added `%ss%` to the collection of string arithmetic operators, and added the `strfind()<-` method to the string truth operators. Added tests for these also.
 * **Optimization:** Managed to optimise `stri_locate_ith()` even further. Optimised the 'subset_if' operators a bit more. Also optimised the `%n&%`, and `%=strtype%` operators a bit more.
 * **Argument API change:** The `s_pattern` functions now wrap additional arguments in a list for the user, in case of using vector arguments, preventing potential confusion.
 * **Argument API change:** There are now also the explicit `stri_locate_ith_[regex/fixed/coll/charclass]` functions, using the same argument conventions as the rest of 'stringi'.

@@ -4,11 +4,17 @@
 \alias{str_truth}
 \alias{\%s{}\%}
 \alias{\%s!{}\%}
-\title{'stringi' Pattern Detection Operators}
+\alias{strfind}
+\alias{strfind<-}
+\title{'stringi' Pattern Search Operators, and the strfind Method}
 \usage{
 x \%s{}\% p
 
 x \%s!{}\% p
+
+strfind(x, p, i, ...)
+
+strfind(x, p, ...) <- value
 }
 \arguments{
 \item{x}{a string or character vector.}
@@ -20,11 +26,33 @@ with regular expressions. \cr
 \ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_fixed.html}{\figure{aboutsearch-fixed-darkgreen.svg}{options: alt='[FIXED]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_fixed.html}{about search: fixed}} \cr
 \ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_coll.html}{\figure{aboutsearch-coll-pink.svg}{options: alt='[COLL]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_coll.html}{about search: coll}} \cr
 \ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_charclass.html}{\figure{aboutsearch-charclass-lightyellow.svg}{options: alt='[CHARCLASS]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_charclass.html}{about search: charclass}} \cr}
+
+\item{i}{either one of the following:
+\itemize{
+\item if \code{i = "all"}, \code{strfind()} locates all found pattern occurrences.
+\item if \code{i} is an integer,
+\code{strfind()} locates the \eqn{i^{th}} pattern occurrences. \cr
+See the \code{i} argument in \link{stri_locate_ith} for details.
+\item for \code{strfind() <- value}, \code{i} must not be specified.
+}}
+
+\item{...}{additional arguments to be passed to the 'stringi' functions. \cr \cr}
+
+\item{value}{a character vector giving the replacement values.}
 }
 \value{
 The \code{x \%s{}\% p} and \code{x \%s!{}\% p} operators
 return logical vectors, where \code{TRUE} indicates a pattern was found,
 and \code{FALSE} indicates a pattern was not found. \cr
+\cr
+\code{strfind(..., i = "all")} returns a list with all found pattern locations. \cr
+\cr
+\code{strfind(..., i = i)},
+with \code{i} being an integer,
+returns a matrix with the \eqn{i^{th}} occurrences of the patterns. \cr
+\cr
+\code{strfind(x, p) <- value} returns nothing,
+but performs in-place replacement of the found patterns in \code{x}. \cr
 }
 \description{
 The \code{x \%s{}\% p} operator
@@ -33,13 +61,34 @@ the pattern defined in \code{p} is present. \cr
 \cr
 The \code{x \%s!{}\% p} operator
 checks for every string in character vector \code{x} if
-the pattern defined in \code{p} is NOT present. \cr \cr
+the pattern defined in \code{p} is NOT present. \cr
 \cr
-For string (in)equality operators, see \link[stringi]{\%s==\%} from the 'stringi' package.
+For string (in)equality operators, see \link[stringi]{\%s==\%} from the 'stringi' package. \cr
+\cr
+The \code{strfind()} method,
+although technically not an operator,
+is meant to complement the string-related infix operators,
+and therefore uses the same \link{s_pattern} API as (for example)
+the \code{\%s{}\% and \%s!{}\%} operators. \cr
+It functions as follows:
+\itemize{
+\item \code{strfind(..., i = "all")} attempts to find all pattern matches,
+and reports the locations of the findings in a list,
+just like \link[stringi]{stri_locate_all}.
+\item \code{strfind(..., i = i)}, where \code{i} is a non-zero integer,
+locates the \eqn{i^{th}} occurrence of a pattern,
+and reports the locations in a matrix,
+just like \link{stri_locate_ith}.
+\item \code{strfind(...) <- value} attempts to find all pattern matches,
+and replaces them with the character vector specified in \code{value}. \cr
+This is similar to \link[stringi]{stri_replace_all},
+except the replacement is done in-place
+(though not by reference, technically speaking). \cr \cr
+}
 }
 \examples{
 
-# simple pattern ====
+# simple example ====
 
 x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 print(x)
@@ -67,40 +116,36 @@ print(x)
 
 #############################################################################
 
-# ignore case pattern ====
+# More complex example ====
 
+x <- rep('The quick brown fox jumped over the lazy dog.', 3)
+print(x)
+p <- c('quick', 'brown', 'fox')
+rp <- c('slow',  'black', 'bear')
+x \%s{}\% p
+stringi::stri_sub_all(x, strfind(x, p, "all"))
+strfind(x, p) <- rp
+print(x)
 
 x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 print(x)
-p <- list(regex = c("A", "A"), case_insensitive=TRUE)
-x \%s{}\% p
-x \%s!{}\% p
-which(x \%s{}\% p)
-which(x \%s!{}\% p)
-x[x \%s{}\% p]
-x[x \%s!{}\% p]
-x[x \%s{}\% p] <- "hello"
-x[x \%s!{}\% p] <- "hello"
+
+# report ith (second and second-last) vowel locations:
+p <- s_regex( # vowels
+  rep("A|E|I|O|U", 2),
+  case_insensitive=TRUE
+)
+loc <- strfind(x, p, i = c(2, -2))
+print(loc)
+
+# extract ith vowels:
+extr <- stringi::stri_sub(x, from=loc)
+print(extr)
+
+# replace ith vowels with numbers:
+repl <- chartr("aeiou", "12345", extr)
+stringi::stri_sub(x, loc) <- repl
 print(x)
-
-
-#############################################################################
-
-# multi-character pattern ====
-
-x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
-print(x)
-p <- list(regex = rep("AB", 2), case_insensitive=TRUE)
-x \%s{}\% p
-x \%s!{}\% p
-which(x \%s{}\% p)
-which(x \%s!{}\% p)
-x[x \%s{}\% p]
-x[x \%s!{}\% p]
-x[x \%s{}\% p] <- "CD"
-x[x \%s!{}\% p] <- "CD"
-print(x)
-
 
 
 }
