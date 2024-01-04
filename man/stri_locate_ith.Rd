@@ -46,7 +46,7 @@ and if \code{i <= -3} the first instance will be located. \cr}
 \item{...}{more arguments to be supplied to
 \link[stringi]{stri_locate} or \link[stringi]{stri_locate_all_boundaries}. \cr
 Do not supply the arguments
-\code{omit_no_match}, \code{get_length}, or \code{pattern},
+\code{omit_no_match} or \code{get_length},
 as they are already specified internally.
 Supplying these arguments anyway will result in an error.}
 
@@ -111,7 +111,7 @@ For replacing/transforming the \eqn{i^{th}} pattern occurrence:
 \enumerate{
 \item Locate the the \eqn{i^{th}} occurrence using \code{stri_locate_ith()}.
 \item Extract the occurrence using \link[stringi]{stri_sub}.
-\item Transform or replace the extract sub-strings.
+\item Transform or replace the extracted sub-strings.
 \item Return the transformed/replaced sub-string back,
 using again \link[stringi]{stri_sub}. \cr \cr
 }
@@ -181,7 +181,7 @@ stringi::stri_match(extr, regex = p)
 #############################################################################
 
 
-# practical example: replace words with boundaries ====
+# practical example: replace words using boundaries ====
 
 # input character vector:
 x <- c("good morning and good night",

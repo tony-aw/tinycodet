@@ -66,7 +66,7 @@ x %strim% ss
 
 # String arithmetic
 
-The `tinycodet` package adds 5 string arithmetic operators:
+The `tinycodet` package includes 7 string arithmetic operators (3 of which re-exported from 'stringi'):
 
  - `x %s+% y` concatenates `x` and `y` (exported from 'stringi');
  - `x %s-% p` removes pattern `p` from each string in character vector `x`;
@@ -74,8 +74,7 @@ The `tinycodet` package adds 5 string arithmetic operators:
  - `x %s/% p` counts how often pattern `p` occurs in each string of character vector `x`.
  - `x %s//% brk` counts how often the text boundary specified in list `brk` occurs in each string of character vector `x`.
  - `e1 %s$% e2` provides access to `stri_sprintf`.
- - `x %ss% p` splits the strings in `x` by a delimiter character/pattern defined in `p`,
- and removes `p` in the process.
+ - `x %ss% p` splits the strings in `x` by a delimiter character/pattern defined in `p`, and removes `p` in the process.
  
 I.e.:
 

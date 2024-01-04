@@ -33,7 +33,7 @@ bm.stri_locate_ith <- bench::mark(
   "stringi::(stri_locate_all + stri_count)" = { locate_stringi(str=x, regex = p) },
   min_iterations = 500,
   check = FALSE,
-  filter_gc = TRUE
+  filter_gc = FALSE
 )
 bm.stri_locate_ith
 autoplot(bm.stri_locate_ith)

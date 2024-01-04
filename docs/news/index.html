@@ -67,6 +67,7 @@
 <li>Clarified the usage of <code>merge = FALSE</code> for pattern <code>charclass</code>, in the documentation of the <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> function.</li>
 <li>Clarified in the documentation that the locked objects are not protected from modification by reference.</li>
 <li>Clarified in the documentation of ‘stringi’ pattern-searching infix operators that the <code>p</code> argument can also be a character vector of length 1.</li>
+<li>Clarified in the <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> documentation that one should not pass the <code>capture_groups</code> argument; also clarified how to capture the <code>ith</code> group using <code>stri_locate_ith</code>.</li>
 <li>Removed the redundant <code>stringi::</code> call in the example code for <code><a href="../reference/import_misc.html">import_LL()</a></code>.</li>
 <li>The help file for the <code>s_pattern</code> functions is now actually titled “s_pattern”.</li>
 <li>Cleaned up the internal code here and there.</li>
@@ -74,7 +75,6 @@
 <li>The messages returned by <code><a href="../reference/import_as.html">import_as()</a></code> when aliasing packages is now slightly less verbose: removed the line “Methods work like normally”, and replaced the line “Importing packages …” with “Importing packages and registering methods…”.</li>
 <li>The <code><a href="../reference/strcut.html">strcut_brk()</a></code> function now includes the <code>tolist</code> argument to return a list. Moreover, the <code>n</code> argument may now also be specified (<code>n = -1L</code> by default).</li>
 <li>Improved safety against malformed condition in the <code><a href="../reference/transform_if.html">transform_if()</a></code> function.</li>
-<li>Clarified that <code>capture_groups</code> is not supported (not yet at least) in <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code>.</li>
 <li>
 <strong>Added dependency:</strong> ‘collapse’ is now added as an dependency, for improved speed. No other dependencies are added, and it is not likely more will be added.</li>
 <li>

@@ -38,7 +38,7 @@
 #' @param ... more arguments to be supplied to
 #' \link[stringi]{stri_locate} or \link[stringi]{stri_locate_all_boundaries}. \cr
 #' Do not supply the arguments
-#' \code{omit_no_match}, \code{get_length}, or \code{pattern},
+#' \code{omit_no_match} or \code{get_length},
 #' as they are already specified internally.
 #' Supplying these arguments anyway will result in an error.
 #' @param opts_regex,opts_fixed,opts_collator,opts_brkiter
@@ -80,7 +80,7 @@
 #' 
 #'  1) Locate the the \eqn{i^{th}} occurrence using \code{stri_locate_ith()}.
 #'  2) Extract the occurrence using \link[stringi]{stri_sub}.
-#'  3) Transform or replace the extract sub-strings.
+#'  3) Transform or replace the extracted sub-strings.
 #'  4) Return the transformed/replaced sub-string back,
 #'  using again \link[stringi]{stri_sub}. \cr \cr
 #' 
@@ -161,7 +161,7 @@
 #' #############################################################################
 #'
 #'
-#' # practical example: replace words with boundaries ====
+#' # practical example: replace words using boundaries ====
 #'
 #' # input character vector:
 #' x <- c("good morning and good night",
