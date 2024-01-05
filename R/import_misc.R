@@ -72,7 +72,7 @@
 #' \code{import_int(...)(...)}
 #'
 #'
-#' @seealso [tinycodet_import()]
+#' @seealso \link{tinycodet_import}
 #'
 #'
 #' @examples

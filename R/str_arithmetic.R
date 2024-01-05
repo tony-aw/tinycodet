@@ -56,7 +56,7 @@
 #' returns a matrix of the split strings.
 #'
 #'
-#' @seealso [tinycodet_strings()]
+#' @seealso \link{tinycodet_strings}
 #'
 #'
 #' @examples

@@ -61,5 +61,5 @@ x \%unreal =\% 0 # same as x[is.na(x)|is.nan(x)|is.infinite(x)] <- 0
 print(x)
 }
 \seealso{
-\code{\link[=tinycodet_dry]{tinycodet_dry()}}
+\link{tinycodet_dry}
 }

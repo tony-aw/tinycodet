@@ -141,7 +141,7 @@
 #' To see the special attributes of this alias object, use \link{attr.import}. \cr
 #' To "unimport" the package alias object, simply remove it (i.e. \code{rm(list="alias.")}). \cr
 #'
-#' @seealso [tinycodet_import()]
+#' @seealso \link{tinycodet_import}
 #'
 #'
 #' @examplesIf all(c("data.table", "tidytable") %installed in% .libPaths())

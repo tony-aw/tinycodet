@@ -97,5 +97,5 @@ x \%col~\% mat # randomise shuffle every column independently
 
 }
 \seealso{
-\code{\link[=tinycodet_misc]{tinycodet_misc()}}
+\link{tinycodet_misc}
 }

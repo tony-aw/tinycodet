@@ -113,5 +113,5 @@ import_inops(unexpose = stri.)
 
 }
 \seealso{
-\code{\link[=tinycodet_import]{tinycodet_import()}}, \code{\link[=import_inops.control]{import_inops.control()}}, \code{\link[=report_inops]{report_inops()}}
+\link{tinycodet_import}, \code{\link[=import_inops.control]{import_inops.control()}}, \code{\link[=report_inops]{report_inops()}}
 }

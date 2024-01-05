@@ -30,8 +30,8 @@ or \eqn{i^{th}} text boundary (\link{stri_locate_ith_boundaries}).
 \item Infix operators for \link[=\%s-\%]{string arithmetic}.
 \item Infix operators for \link[=\%sget\%]{string sub-setting},
 which get or remove the first and/or last \code{n} characters from strings.
-\item Infix operators for \link[=str_truth]{detecting patterns},
-accompanied by the \link{strfind} method for locating/replacing patterns.
+\item Infix operators for \link[=str_search]{detecting patterns},
+and \link{strfind} for locating/extracting/replacing found patterns.
 }
 }
 \examples{
@@ -63,5 +63,5 @@ stri_c_mat(sorted, margin = 1, sep = " ")
 Gagolewski M., \bold{stringi}: Fast and portable character string processing in R, \emph{Journal of Statistical Software} 103(2), 2022, 1–59, \doi{doi:10.18637/jss.v103.i02}
 }
 \seealso{
-\code{\link[=tinycodet_help]{tinycodet_help()}}, \code{\link[=s_pattern]{s_pattern()}}
+\link{tinycodet_help}, \link{s_pattern}
 }

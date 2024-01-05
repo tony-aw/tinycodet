@@ -174,5 +174,5 @@ import_as(
 \dontshow{\}) # examplesIf}
 }
 \seealso{
-\code{\link[=tinycodet_import]{tinycodet_import()}}
+\link{tinycodet_import}
 }

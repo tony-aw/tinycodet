@@ -36,7 +36,7 @@
 #' \code{NA}, \code{NaN}, \code{Inf}, and \code{-Inf} elements are replaced with \code{repl}.
 #'
 #'
-#' @seealso [tinycodet_dry()]
+#' @seealso \link{tinycodet_dry}
 #'
 #' @examples
 #' x <- c(-10:9, NA, NA)

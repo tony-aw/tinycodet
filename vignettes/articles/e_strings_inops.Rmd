@@ -90,10 +90,12 @@ The right-side arguments `p`, `y`, and `n` can be a single value, or a vector of
 
 &nbsp;
 
-# String detection operators
+# String search operators
 
 The `x %s{}% p` operator checks for every string in character vector `x` if the pattern defined in `p` is present.
 The `x %s!{}% p operator` checks for every string in character vector `x` if the pattern defined in `p` is NOT present.
+
+The `strfind()<-` method locates, extracts, or replaces found patterns.
 
 Examples:
 

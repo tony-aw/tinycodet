@@ -104,5 +104,5 @@ strcut_brk(test, "sentence", tolist = TRUE)
 
 }
 \seealso{
-\code{\link[=tinycodet_strings]{tinycodet_strings()}}
+\link{tinycodet_strings}
 }

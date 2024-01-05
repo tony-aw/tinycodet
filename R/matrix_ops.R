@@ -48,7 +48,7 @@
 #' A modified matrix.
 #'
 #'
-#' @seealso [tinycodet_misc()]
+#' @seealso \link{tinycodet_misc}
 #'
 #' @examples
 #'

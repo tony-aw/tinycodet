@@ -126,5 +126,5 @@ attr.import(to., which = "conflicts")
 
 }
 \seealso{
-\code{\link[=tinycodet_import]{tinycodet_import()}}
+\link{tinycodet_import}
 }

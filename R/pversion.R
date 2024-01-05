@@ -36,7 +36,7 @@
 #' or not equal (\code{FALSE}). \cr
 #' \cr
 #'
-#' @seealso [tinycodet_import()]
+#' @seealso \link{tinycodet_import}
 #'
 #'
 #' @examplesIf "dplyr" %installed in%  .libPaths()

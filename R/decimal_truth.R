@@ -42,7 +42,7 @@
 #' A logical vector with the same dimensions as \code{x},
 #' indicating the result of the element by element comparison.
 #'
-#' @seealso [tinycodet_safer()]
+#' @seealso \link{tinycodet_safer}
 #'
 #' @examples
 #' x <- c(0.3, 0.6, 0.7)

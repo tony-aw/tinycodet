@@ -35,5 +35,5 @@ mtcars$mpg[mtcars$cyl>6] \%:=\% \(x)x^2 # short
 
 }
 \seealso{
-\code{\link[=tinycodet_help]{tinycodet_help()}}
+\link{tinycodet_help}
 }

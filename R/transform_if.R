@@ -62,7 +62,7 @@
 #' The transformed vector, matrix, or array (attributes are conserved).
 #'
 #'
-#' @seealso [tinycodet_dry()]
+#' @seealso \link{tinycodet_dry}
 #'
 #' @examples
 #' x <- c(-10:9, NA, NA)

@@ -81,5 +81,5 @@ object |> transform_if(object > y, log, \(x)x^2, -z) # same as previous line
 
 }
 \seealso{
-\code{\link[=tinycodet_dry]{tinycodet_dry()}}
+\link{tinycodet_dry}
 }

@@ -25,7 +25,7 @@
 #'
 #' The \code{stri_join_mat()} function, and its aliases, return a vector of strings.
 #'
-#' @seealso [tinycodet_strings()]
+#' @seealso \link{tinycodet_strings}
 #'
 #' @examples
 #'

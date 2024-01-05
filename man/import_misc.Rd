@@ -112,5 +112,5 @@ import_int(
 
 }
 \seealso{
-\code{\link[=tinycodet_import]{tinycodet_import()}}
+\link{tinycodet_import}
 }

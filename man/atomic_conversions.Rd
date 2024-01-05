@@ -70,5 +70,5 @@ is_wholenumber(1:10 + c(0, 0.1))
 
 }
 \seealso{
-\code{\link[=tinycodet_safer]{tinycodet_safer()}}
+\link{tinycodet_safer}
 }

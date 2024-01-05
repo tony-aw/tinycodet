@@ -94,7 +94,7 @@
 #' thus changing this order slightly.
 #'
 #'
-#' @seealso [tinycodet_import()]
+#' @seealso \link{tinycodet_import}
 #'
 #'
 #'

@@ -25,5 +25,5 @@ x \%d==\% y # here it's done correctly
 
 }
 \seealso{
-\code{\link[=tinycodet_help]{tinycodet_help()}}
+\link{tinycodet_help}
 }

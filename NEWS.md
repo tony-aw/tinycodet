@@ -5,6 +5,8 @@ in the documentation of the `stri_locate_ith()` function.
 * Clarified in the documentation that the locked objects are not protected from modification by reference.
 * Clarified in the documentation of 'stringi' pattern-searching infix operators that the `p` argument can also be a character vector of length 1.
 * Clarified in the `stri_locate_ith()` documentation that one should not pass the `capture_groups` argument; also clarified how to capture the `ith` group using `stri_locate_ith`.
+* Normalized the links in the "See Also" sections in the documentation.
+* Renamed the "str_truth" page to "str_search", as that makes a little more sense.
 * Removed the redundant `stringi::` call in the example code for `import_LL()`.
 * The help file for the `s_pattern` functions is now actually titled "s_pattern".
 * Cleaned up the internal code here and there.
@@ -13,7 +15,7 @@ in the documentation of the `stri_locate_ith()` function.
 * The `strcut_brk()` function now includes the `tolist` argument to return a list. Moreover, the `n` argument may now also be specified (`n = -1L` by default).
 * Improved safety against malformed condition in the `transform_if()` function.
 * **Added dependency:** 'collapse' is now added as an dependency, for improved speed. No other dependencies are added, and it is not likely more will be added.
-* **New Feature:** Added `%ss%` to the collection of string arithmetic operators, and added the `strfind()<-` method to the string truth operators. Added tests for these also.
+* **New Features:** Added `%ss%` to the collection of string arithmetic operators, and added the `strfind()<-` method to the string search operators. Added tests for these also.
 * **Optimization:** Managed to optimise `stri_locate_ith()` even further. Optimised the 'subset_if' operators a bit more. Also optimised the `%n&%`, and `%=strtype%` operators a bit more.
 * **Argument API change:** The `s_pattern` functions now wrap additional arguments in a list for the user, in case of using vector arguments, preventing potential confusion.
 * **Argument API change:** There are now also the explicit `stri_locate_ith_[regex/fixed/coll/charclass]` functions, using the same argument conventions as the rest of 'stringi'.

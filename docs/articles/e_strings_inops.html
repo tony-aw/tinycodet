@@ -193,29 +193,31 @@ delimiter character/pattern defined in <code>p</code>, and removes
 <p> </p>
 </div>
 <div class="section level2">
-<h2 id="string-detection-operators">String detection operators<a class="anchor" aria-label="anchor" href="#string-detection-operators"></a>
+<h2 id="string-search-operators">String search operators<a class="anchor" aria-label="anchor" href="#string-search-operators"></a>
 </h2>
 <p>The <code>x %s{}% p</code> operator checks for every string in
 character vector <code>x</code> if the pattern defined in <code>p</code>
 is present. The <code>x %s!{}% p operator</code> checks for every string
 in character vector <code>x</code> if the pattern defined in
 <code>p</code> is NOT present.</p>
+<p>The <code>strfind()&lt;-</code> method locates, extracts, or replaces
+found patterns.</p>
 <p>Examples:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">13</span><span class="op">]</span>, collapse<span class="op">=</span><span class="st">""</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">14</span><span class="op">:</span><span class="fl">26</span><span class="op">]</span>, collapse<span class="op">=</span><span class="st">""</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "abcdefghijklm" "nopqrstuvwxyz"</span></span>
-<span><span class="va">x</span> <span class="op"><a href="../reference/str_truth.html">%s{}%</a></span> <span class="st">"a"</span></span>
+<span><span class="va">x</span> <span class="op"><a href="../reference/str_search.html">%s{}%</a></span> <span class="st">"a"</span></span>
 <span><span class="co">#&gt; [1]  TRUE FALSE</span></span>
-<span><span class="va">x</span> <span class="op"><a href="../reference/str_truth.html">%s!{}%</a></span> <span class="st">"a"</span></span>
+<span><span class="va">x</span> <span class="op"><a href="../reference/str_search.html">%s!{}%</a></span> <span class="st">"a"</span></span>
 <span><span class="co">#&gt; [1] FALSE  TRUE</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">x</span> <span class="op"><a href="../reference/str_truth.html">%s{}%</a></span> <span class="st">"a"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">x</span> <span class="op"><a href="../reference/str_search.html">%s{}%</a></span> <span class="st">"a"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 1</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">x</span> <span class="op"><a href="../reference/str_truth.html">%s!{}%</a></span> <span class="st">"a"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">x</span> <span class="op"><a href="../reference/str_search.html">%s!{}%</a></span> <span class="st">"a"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 2</span></span>
-<span><span class="va">x</span><span class="op">[</span><span class="va">x</span> <span class="op"><a href="../reference/str_truth.html">%s{}%</a></span> <span class="st">"a"</span><span class="op">]</span></span>
+<span><span class="va">x</span><span class="op">[</span><span class="va">x</span> <span class="op"><a href="../reference/str_search.html">%s{}%</a></span> <span class="st">"a"</span><span class="op">]</span></span>
 <span><span class="co">#&gt; [1] "abcdefghijklm"</span></span>
-<span><span class="va">x</span><span class="op">[</span><span class="va">x</span> <span class="op"><a href="../reference/str_truth.html">%s!{}%</a></span> <span class="st">"a"</span><span class="op">]</span></span>
+<span><span class="va">x</span><span class="op">[</span><span class="va">x</span> <span class="op"><a href="../reference/str_search.html">%s!{}%</a></span> <span class="st">"a"</span><span class="op">]</span></span>
 <span><span class="co">#&gt; [1] "nopqrstuvwxyz"</span></span></code></pre></div>
 <p> </p>
 </div>
@@ -276,9 +278,9 @@ interpreted. The list should use the exact same naming convention as
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "abcdefghijklm" "nopqrstuvwxyz"</span></span>
 <span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/s_pattern.html">s_regex</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"A"</span><span class="op">)</span>, case_insensitive<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="va">x</span> <span class="op"><a href="../reference/str_truth.html">%s{}%</a></span> <span class="va">p</span></span>
+<span><span class="va">x</span> <span class="op"><a href="../reference/str_search.html">%s{}%</a></span> <span class="va">p</span></span>
 <span><span class="co">#&gt; [1]  TRUE FALSE</span></span>
-<span><span class="va">x</span> <span class="op"><a href="../reference/str_truth.html">%s!{}%</a></span> <span class="va">p</span></span>
+<span><span class="va">x</span> <span class="op"><a href="../reference/str_search.html">%s!{}%</a></span> <span class="va">p</span></span>
 <span><span class="co">#&gt; [1] FALSE  TRUE</span></span></code></pre></div>
 <p>Examples with Fixed expressions:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
@@ -296,9 +298,9 @@ interpreted. The list should use the exact same naming convention as
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "abcdefghijklm" "nopqrstuvwxyz"</span></span>
 <span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>fixed <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"A"</span><span class="op">)</span>, case_insensitive<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="va">x</span> <span class="op"><a href="../reference/str_truth.html">%s{}%</a></span> <span class="va">p</span></span>
+<span><span class="va">x</span> <span class="op"><a href="../reference/str_search.html">%s{}%</a></span> <span class="va">p</span></span>
 <span><span class="co">#&gt; [1]  TRUE FALSE</span></span>
-<span><span class="va">x</span> <span class="op"><a href="../reference/str_truth.html">%s!{}%</a></span> <span class="va">p</span></span>
+<span><span class="va">x</span> <span class="op"><a href="../reference/str_search.html">%s!{}%</a></span> <span class="va">p</span></span>
 <span><span class="co">#&gt; [1] FALSE  TRUE</span></span></code></pre></div>
 <p>And so on. I’m sure you get the idea.</p>
 <p> </p>

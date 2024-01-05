@@ -13,7 +13,7 @@
 #'
 #'
 #'
-#' @seealso [tinycodet_help()]
+#' @seealso \link{tinycodet_help}
 #'
 #' @examples
 #' x <- c(0.3, 0.6, 0.7)

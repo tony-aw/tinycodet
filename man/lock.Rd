@@ -84,5 +84,5 @@ X[1, ,drop=FALSE]
 
 }
 \seealso{
-\code{\link[=tinycodet_safer]{tinycodet_safer()}}
+\link{tinycodet_safer}
 }

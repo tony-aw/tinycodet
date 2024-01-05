@@ -428,13 +428,15 @@ delimiter character/pattern defined in <code>p</code>, and removes
 <code>x</code>.</p>
 <p> </p>
 </div>
-<div id="string-detection-operators" class="section level1">
-<h1>String detection operators</h1>
+<div id="string-search-operators" class="section level1">
+<h1>String search operators</h1>
 <p>The <code>x %s{}% p</code> operator checks for every string in
 character vector <code>x</code> if the pattern defined in <code>p</code>
 is present. The <code>x %s!{}% p operator</code> checks for every string
 in character vector <code>x</code> if the pattern defined in
 <code>p</code> is NOT present.</p>
+<p>The <code>strfind()&lt;-</code> method locates, extracts, or replaces
+found patterns.</p>
 <p>Examples:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">paste0</span>(letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">13</span>], <span class="at">collapse=</span><span class="st">&quot;&quot;</span>), <span class="fu">paste0</span>(letters[<span class="dv">14</span><span class="sc">:</span><span class="dv">26</span>], <span class="at">collapse=</span><span class="st">&quot;&quot;</span>))</span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">print</span>(x)</span>

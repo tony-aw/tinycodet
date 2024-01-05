@@ -12,7 +12,7 @@
 #'  * The \link[=%:=%]{general in-place (mathematical) modification operator}.
 #'
 #'
-#' @seealso [tinycodet_help()]
+#' @seealso \link{tinycodet_help}
 #'
 #'
 #' @examples

@@ -79,7 +79,7 @@
 #' (like the Global environment, or the environment within a function). \cr
 #' If such infix operators could not be found, this function simply returns \code{NULL}. \cr
 #'
-#' @seealso [tinycodet_import()], [import_inops.control()], [report_inops()]
+#' @seealso \link{tinycodet_import}, [import_inops.control()], [report_inops()]
 #'
 #'
 #' @examples

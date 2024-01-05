@@ -80,5 +80,5 @@ x \%strim\% ss
 
 }
 \seealso{
-\code{\link[=tinycodet_strings]{tinycodet_strings()}}
+\link{tinycodet_strings}
 }

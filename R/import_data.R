@@ -21,7 +21,7 @@
 #' Returns the data directly.
 #' Thus, one can assign the data like so: \code{mydata <- import_data(...)}.
 #'
-#' @seealso [tinycodet_import()]
+#' @seealso \link{tinycodet_import}
 #'
 #'
 #' @examples

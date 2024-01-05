@@ -112,5 +112,5 @@ t(x \%ss\% s_fixed(", ", simplify = NA))
 
 }
 \seealso{
-\code{\link[=tinycodet_strings]{tinycodet_strings()}}
+\link{tinycodet_strings}
 }

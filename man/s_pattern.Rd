@@ -65,7 +65,7 @@ A list with arguments to be passed to the appropriate infix operators.
 }
 \description{
 The \link[=str_arithmetic]{\%s-\%, \%s/\%, \%ss\%} operators,
-as well as the string search operators (\link{str_truth}),
+as well as the string search operators (\link{str_search}),
 perform pattern matching for some purpose,
 where the pattern is given on the right hand side. \cr
 When a character vector or string is given on the right hand side,
@@ -144,5 +144,5 @@ x \%s!{}\% p
 
 }
 \seealso{
-\code{\link[=tinycodet_strings]{tinycodet_strings()}}
+\link{tinycodet_strings}
 }

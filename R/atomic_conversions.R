@@ -29,7 +29,7 @@
 #' @returns
 #' The converted object.
 #'
-#' @seealso [tinycodet_safer()]
+#' @seealso \link{tinycodet_safer}
 #'
 #' @examples
 #' x <- c(rep(0, 2), seq(0, 2.5, by=0.5)) |> matrix(ncol=2)

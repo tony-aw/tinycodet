@@ -279,5 +279,5 @@ stringi::stri_sub(test, from=loc)
 
 }
 \seealso{
-\code{\link[=tinycodet_strings]{tinycodet_strings()}}
+\link{tinycodet_strings}
 }

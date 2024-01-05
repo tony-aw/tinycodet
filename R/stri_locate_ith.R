@@ -104,7 +104,7 @@
 #' and also two \code{NA}s if \code{str} is \code{NA}.\cr
 #' \cr
 #'
-#' @seealso [tinycodet_strings()]
+#' @seealso \link{tinycodet_strings}
 #'
 #'
 #' @examples

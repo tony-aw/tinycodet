@@ -25,7 +25,7 @@
 #' This operator does not return any value: \cr
 #' It is an in-place modifier, and thus modifies the object directly.
 #'
-#' @seealso [tinycodet_dry()]
+#' @seealso \link{tinycodet_dry}
 #'
 #'
 #' @examples

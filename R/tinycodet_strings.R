@@ -27,13 +27,13 @@
 #' * Infix operators for \link[=%s-%]{string arithmetic}.
 #' * Infix operators for \link[=%sget%]{string sub-setting},
 #' which get or remove the first and/or last \code{n} characters from strings.
-#' * Infix operators for \link[=str_truth]{detecting patterns},
-#' accompanied by the \link{strfind} method for locating/replacing patterns.
+#' * Infix operators for \link[=str_search]{detecting patterns},
+#' and \link{strfind} for locating/extracting/replacing found patterns.
 #'
 #'
 #'
 #'
-#' @seealso [tinycodet_help()], [s_pattern()]
+#' @seealso \link{tinycodet_help}, \link{s_pattern}
 #'
 #' @references Gagolewski M., \bold{stringi}: Fast and portable character string processing in R, \emph{Journal of Statistical Software} 103(2), 2022, 1–59, \doi{doi:10.18637/jss.v103.i02}
 #'

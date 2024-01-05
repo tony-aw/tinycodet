@@ -121,5 +121,5 @@ x \%d<=\% y
 x \%d>=\% y
 }
 \seealso{
-\code{\link[=tinycodet_safer]{tinycodet_safer()}}
+\link{tinycodet_safer}
 }

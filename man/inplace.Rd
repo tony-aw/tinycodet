@@ -42,5 +42,5 @@ print(object)
 
 }
 \seealso{
-\code{\link[=tinycodet_dry]{tinycodet_dry()}}
+\link{tinycodet_dry}
 }

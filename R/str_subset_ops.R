@@ -43,7 +43,7 @@
 #' \cr
 #'
 #'
-#' @seealso [tinycodet_strings()]
+#' @seealso \link{tinycodet_strings}
 #'
 #'
 #' @examples

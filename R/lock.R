@@ -66,7 +66,7 @@
 #' The object \code{X} containing \code{A} is created in the current environment,
 #' and this object cannot be changed. It can only be accessed or removed.
 #'
-#' @seealso [tinycodet_safer()]
+#' @seealso \link{tinycodet_safer}
 #'
 #'
 #' @examples

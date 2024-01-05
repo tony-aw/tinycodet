@@ -68,6 +68,8 @@
 <li>Clarified in the documentation that the locked objects are not protected from modification by reference.</li>
 <li>Clarified in the documentation of ‘stringi’ pattern-searching infix operators that the <code>p</code> argument can also be a character vector of length 1.</li>
 <li>Clarified in the <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> documentation that one should not pass the <code>capture_groups</code> argument; also clarified how to capture the <code>ith</code> group using <code>stri_locate_ith</code>.</li>
+<li>Normalized the links in the “See Also” sections in the documentation.</li>
+<li>Renamed the “str_truth” page to “str_search”, as that makes a little more sense.</li>
 <li>Removed the redundant <code>stringi::</code> call in the example code for <code><a href="../reference/import_misc.html">import_LL()</a></code>.</li>
 <li>The help file for the <code>s_pattern</code> functions is now actually titled “s_pattern”.</li>
 <li>Cleaned up the internal code here and there.</li>
@@ -78,7 +80,7 @@
 <li>
 <strong>Added dependency:</strong> ‘collapse’ is now added as an dependency, for improved speed. No other dependencies are added, and it is not likely more will be added.</li>
 <li>
-<strong>New Feature:</strong> Added <code>%ss%</code> to the collection of string arithmetic operators, and added the <code>strfind()&lt;-</code> method to the string truth operators. Added tests for these also.</li>
+<strong>New Features:</strong> Added <code>%ss%</code> to the collection of string arithmetic operators, and added the <code>strfind()&lt;-</code> method to the string search operators. Added tests for these also.</li>
 <li>
 <strong>Optimization:</strong> Managed to optimise <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> even further. Optimised the ‘subset_if’ operators a bit more. Also optimised the <code>%n&amp;%</code>, and <code>%=strtype%</code> operators a bit more.</li>
 <li>

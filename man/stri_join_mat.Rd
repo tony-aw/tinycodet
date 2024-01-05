@@ -94,6 +94,6 @@ stri_paste_mat(sorted, margin = 1) # <- another alias for stri_join_mat
 stri_paste_mat(sorted, margin = 2)
 }
 \seealso{
-\code{\link[=tinycodet_strings]{tinycodet_strings()}}
+\link{tinycodet_strings}
 }
 \concept{join_mat}

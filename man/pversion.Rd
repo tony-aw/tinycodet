@@ -61,5 +61,5 @@ pversion_report()
 \dontshow{\}) # examplesIf}
 }
 \seealso{
-\code{\link[=tinycodet_import]{tinycodet_import()}}
+\link{tinycodet_import}
 }
