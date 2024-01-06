@@ -434,7 +434,16 @@ delimiter character/pattern defined in <code>p</code>, and removes
 character vector <code>x</code> if the pattern defined in <code>p</code>
 is present. The <code>x %s!{}% p operator</code> checks for every string
 in character vector <code>x</code> if the pattern defined in
-<code>p</code> is NOT present.</p>
+<code>p</code> is NOT present. When supplying a list on the right hand
+side (see <code>s_pattern</code>), one can include the list element
+<code>at = &quot;start&quot;</code> or <code>at = &quot;end&quot;</code>:</p>
+<ul>
+<li>Supplying <code>at = &quot;start&quot;</code> will check if the pattern
+appears at the start of a string (see
+<code>stringi::stri_startswith</code>).</li>
+<li>Supplying <code>at = &quot;end&quot;</code> will check if the pattern appears
+at the end of a string (see <code>stringi::stri_endswith</code>).</li>
+</ul>
 <p>The <code>strfind()&lt;-</code> method locates, extracts, or replaces
 found patterns.</p>
 <p>Examples:</p>

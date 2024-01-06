@@ -5,10 +5,19 @@
 #' The \code{x %s{}% p} operator
 #' checks for every string in character vector \code{x} if
 #' the pattern defined in \code{p} is present. \cr
-#' \cr
-#' The \code{x %s!{}% p} operator
-#' checks for every string in character vector \code{x} if
-#' the pattern defined in \code{p} is NOT present. \cr
+#' When supplying a list on the right hand side (see \link{s_pattern}),
+#' one can include the list element \code{at = "start"} or \code{at = "end"}:
+#' 
+#'  * Supplying  \code{at = "start"}
+#'  will check if the pattern appears at the start of a string
+#'  (see \link[stringi]{stri_startswith}).
+#'  * Supplying  \code{at = "end"}
+#'  will check if the pattern appears at the end of a string
+#'  (see \link[stringi]{stri_endswith}). \cr
+#'  
+#' The \code{x %s!{}% p} operator is the same as \code{x %s{}% p},
+#' except it checks for \bold{absence} of the pattern occurrence,
+#' rather then presence. \cr
 #' \cr
 #' For string (in)equality operators, see \link[stringi]{%s==%} from the 'stringi' package. \cr
 #' \cr
@@ -39,7 +48,7 @@
 #' @param x a string or character vector.
 #' @param p either a list with 'stringi' arguments (see \link{s_pattern}),
 #' or else a character vector of the same length as \code{x} or length 1
-#' with regular expressions. \cr
+#' with regular expressions. See also the Details section. \cr
 #' `r .mybadge_string("regex", "darkred")` \cr
 #' `r .mybadge_string("fixed", "darkgreen")` \cr
 #' `r .mybadge_string("coll", "pink")` \cr
@@ -56,6 +65,19 @@
 #' @param ... additional arguments to be passed to the 'stringi' functions. \cr \cr
 #'
 #'
+#' @details
+#' \bold{right-hand side list for the \code{%s{}%} and \code{%s!{}%} operators} \cr
+#' When supplying a list to the right-hand side of the
+#' \code{%s{}%} and \code{%s!{}%} operators,
+#' one can add the argument \code{at}. \cr
+#' If \code{at = "start"},
+#' the operators will check if the pattern is present/absent at the start of the string. \cr
+#' If \code{at = "end"},
+#' the operators will check if the pattern is present/absent at the end of the string. \cr
+#' Unlike \link{stri_startswith} or \link{stri_endswith},
+#' \code{regex} \bold{is} supported by the \code{%s{}%} and \code{%s!{}%} operators. \cr
+#' See examples below. \cr
+#' 
 #'
 #' @returns
 #' The \code{x %s{}% p} and \code{x %s!{}% p} operators
@@ -80,7 +102,7 @@
 #'
 #' @examples
 #'
-#' # simple example ====
+#' # example of %s{}% and %s!{}% ====
 #'
 #' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 #' print(x)
@@ -104,21 +126,42 @@
 #' x[x %s{}% "1"] <- "a"
 #' x[x %s!{}% "1"] <- "a"
 #' print(x)
-#'
-#'
+#' 
 #' #############################################################################
 #' 
-#' # More complex example ====
+#'
+#' # Example of %s{}% and %s!{}% with "at" argument ====
+#'
+#' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""), NA)
+#' p <- s_fixed("abc", at = "start")
+#' x %s{}% p
+#' stringi::stri_startswith(x, fixed = "abc") # same as above
+#' 
+#' p <- s_fixed("xyz", at = "end")
+#' x %s{}% p
+#' stringi::stri_endswith(x, fixed = "xyz") # same as above
+#' 
+#' 
+#' #############################################################################
+#' 
+#' 
+#' # Example of strfind for replace-all ====
 #' 
 #' x <- rep('The quick brown fox jumped over the lazy dog.', 3)
 #' print(x)
 #' p <- c('quick', 'brown', 'fox')
-#' rp <- c('slow',  'black', 'bear')
+#' rp <- c('SLOW',  'BLACK', 'BEAR')
 #' x %s{}% p
 #' strfind(x, p)
 #' strfind(x, p) <- rp
 #' print(x)
 #' 
+#' 
+#' #############################################################################
+#' 
+#' # Example of strfind for replace ith ====
+#' 
+#' # new character vector:
 #' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 #' print(x)
 #'
@@ -138,7 +181,8 @@
 #' repl <- chartr("aeiou", "12345", extr)
 #' stringi::stri_sub(x, loc) <- repl
 #' print(x)
-#'
+#' 
+#' 
 #'
 
 #' @name str_search
@@ -148,10 +192,10 @@ NULL
 #' @export
 `%s{}%` <- function(x, p) {
   if(is.list(p)){
-    return(do.call(stringi::stri_detect, c(list(str = x), p)))
+    return(.str_inop_search_lst(x, p, negate = FALSE, sys.call()))
   }
   if(is.character(p)) {
-    return(stringi::stri_detect(x, regex=p))
+    return(stringi::stri_detect(x, regex = p, negate = FALSE))
   } else {
     stop("right hand side must be a character vector or list")
   }
@@ -162,7 +206,7 @@ NULL
 #' @export
 `%s!{}%` <- function(x, p) {
   if(is.list(p)){
-    return(do.call(stringi::stri_detect, c(list(str = x, negate = TRUE), p)))
+    return(.str_inop_search_lst(x, p, negate = TRUE, sys.call()))
   }
   if(is.character(p)) {
     return(stringi::stri_detect(x, regex = p, negate = TRUE))
@@ -176,42 +220,13 @@ NULL
 #' @export
 strfind <- function(x, p, i = NULL, ...) {
   if(!is.null(i) && is.numeric(i)) {
-    if(is.list(p)){
-      
-      args <- list(str = x, i = i)
-      return(do.call(stri_locate_ith, c(args, p, list(...))))
-      
-    } else if(is.character(p)) {
-      
-      return(stri_locate_ith(
-        str = x, i = i, regex = p, ...
-      ))
-      
-    } else {
-      stop("`p` must be a character vector or list")
-    }
+    return(.strfind_locate_ith(x, p, i, ..., abortcall = sys.call()))
   }
-  else if(!is.null(i) && i == "all") {
-    if(is.list(p)){
-      return(do.call(stringi::stri_locate_all, c(list(str = x), p, list(...))))
-    } else if(is.character(p)) {
-      return(stringi::stri_locate_all(
-        str = x, regex = p, ...
-      ))
-    } else {
-      stop("`p` must be a character vector or list")
-    }
+  else if(!is.null(i) && isTRUE(i == "all")) {
+    return(.strfind_locate_all(x, p, ..., abortcall = sys.call()))
   }
   else if(is.null(i)) {
-    if(is.list(p)){
-      return(do.call(stringi::stri_extract_all, c(list(str = x), p, list(...))))
-    } else if(is.character(p)) {
-      return(stringi::stri_extract_all(
-        str = x, regex = p, ...
-      ))
-    } else {
-      stop("`p` must be a character vector or list")
-    }
+    return(.strfind_extract_all(x, p, ..., abortcall = sys.call()))
   }
   else {
     stop("improper `i` given")
@@ -225,7 +240,7 @@ strfind <- function(x, p, i = NULL, ...) {
   if(is.list(p)){
     
     args <- list(str = x,replacement = value)
-    return(do.call(stringi::stri_replace_all, c(args, p)))
+    return(do.call(stringi::stri_replace_all, c(args, p, list(...))))
     
   } else if(is.character(p)) {
     
@@ -237,3 +252,112 @@ strfind <- function(x, p, i = NULL, ...) {
     stop("`p` must be a character vector or list")
   }
 }
+
+
+#' @keywords internal
+#' @noRd
+.str_inop_search_lst <- function(x, lst, negate, abortcall) {
+  if(isTRUE(lst[["at"]] == "start"))
+  {
+    lst[["at"]] <- NULL
+    return(.str_inop_search_start(x, lst, negate = negate))
+  }
+  else if(isTRUE(lst[["at"]] == "end"))
+  {
+    lst[["at"]] <- NULL
+    return(.str_inop_search_end(x, lst, negate = negate))
+  }
+  else if(!is.null(lst[["at"]]))
+  {
+    stop(simpleError("improper `at` argument given", call = abortcall))
+  }
+  else
+  {
+    return(do.call(stringi::stri_detect, c(list(str = x, negate = negate), lst)))
+  }
+}
+
+
+#' @keywords internal
+#' @noRd
+.str_inop_search_start <- function(x, lst, negate) {
+  if(!is.null(lst[["regex"]])) {
+    pattern <- lst[["regex"]]
+    pattern[pattern == ""] <- NA
+    pattern <- stringi::stri_c("^(", pattern, ")")
+    lst[["regex"]] <- NULL
+    args <- list(str = x, pattern = pattern, negate = negate, max_count = -1)
+    return(do.call(stringi::stri_detect_regex, c(args, lst)))
+  } else {
+    args <- list(str = x, negate = negate, from = 1L)
+    return(do.call(stringi::stri_startswith, c(args, lst)))
+  }
+}
+
+
+#' @keywords internal
+#' @noRd
+.str_inop_search_end <- function(x, lst, negate) {
+  if(!is.null(lst[["regex"]])) {
+    pattern <- lst[["regex"]]
+    pattern[pattern == ""] <- NA
+    pattern <- stringi::stri_c("(", pattern, ")$")
+    lst[["regex"]] <- NULL
+    args <- list(str = x, pattern = pattern, negate = negate, max_count = -1)
+    return(do.call(stringi::stri_detect_regex, c(args, lst)))
+  } else {
+    args <- list(str = x, negate = negate, to = -1L)
+    return(do.call(stringi::stri_endswith, c(args, lst)))
+  }
+}
+
+
+#' @keywords internal
+#' @noRd
+.strfind_locate_ith <- function(x, p, i, ..., abortcall) {
+  if(is.list(p)){
+    
+    args <- list(str = x, i = i)
+    return(do.call(stri_locate_ith, c(args, p, list(...))))
+    
+  } else if(is.character(p)) {
+    
+    return(stri_locate_ith(
+      str = x, i = i, regex = p, ...
+    ))
+    
+  } else {
+    stop(simpleError("`p` must be a character vector or list", call = abortcall))
+  }
+}
+
+
+#' @keywords internal
+#' @noRd
+.strfind_locate_all <- function(x, p, ..., abortcall) {
+  if(is.list(p)){
+    return(do.call(stringi::stri_locate_all, c(list(str = x), p, list(...))))
+  } else if(is.character(p)) {
+    return(stringi::stri_locate_all(
+      str = x, regex = p, ...
+    ))
+  } else {
+    stop(simpleError("`p` must be a character vector or list", call = abortcall))
+  }
+}
+
+
+#' @keywords internal
+#' @noRd
+.strfind_extract_all <- function(x, p, ..., abortcall) {
+  if(is.list(p)){
+    return(do.call(stringi::stri_extract_all, c(list(str = x), p, list(...))))
+  } else if(is.character(p)) {
+    return(stringi::stri_extract_all(
+      str = x, regex = p, ...
+    ))
+  } else {
+    stop(simpleError("`p` must be a character vector or list", call = abortcall))
+  }
+}
+

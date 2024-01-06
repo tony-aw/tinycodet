@@ -74,8 +74,8 @@
 #' @param french,normalization,numeric see \link[stringi]{stri_opts_collator}.
 #' @param uppercase_first,case_level see \link[stringi]{stri_opts_collator}.
 #' @param ... additional arguments not part of the \code{stri_opts} - functions to be passed here. \cr
-#' For example: \code{max_count}
-#'
+#' For example: the \code{at} argument for the \link{str_search} operators.
+#' 
 #'
 #' @returns
 #' A list with arguments to be passed to the appropriate infix operators.
@@ -104,7 +104,14 @@
 #' x %s{}% p
 #' x %s!{}% p
 #'
-#'
+#'x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""), NA)
+#' p <- s_fixed("abc", at = "start")
+#' x %s{}% p
+#' stringi::stri_startswith(x, fixed = "abc") # same as above
+#' 
+#' p <- s_fixed("xyz", at = "end")
+#' x %s{}% p
+#' stringi::stri_endswith(x, fixed = "xyz") # same as above
 
 
 #' @name s_pattern

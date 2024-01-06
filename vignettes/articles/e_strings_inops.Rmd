@@ -94,6 +94,11 @@ The right-side arguments `p`, `y`, and `n` can be a single value, or a vector of
 
 The `x %s{}% p` operator checks for every string in character vector `x` if the pattern defined in `p` is present.
 The `x %s!{}% p operator` checks for every string in character vector `x` if the pattern defined in `p` is NOT present.
+When supplying a list on the right hand side (see `s_pattern`), one can include the list element `at = "start"` or `at = "end"`:
+
+ * Supplying `at = "start"` will check if the pattern appears at the start of a string (see `stringi::stri_startswith`).
+  * Supplying `at = "end"` will check if the pattern appears at the end of a string (see `stringi::stri_endswith`).
+
 
 The `strfind()<-` method locates, extracts, or replaces found patterns.
 

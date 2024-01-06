@@ -50,7 +50,7 @@ s_chrcls(p, ...)
 \item{time_limit, stack_limit}{see \link[stringi]{stri_opts_regex}.}
 
 \item{...}{additional arguments not part of the \code{stri_opts} - functions to be passed here. \cr
-For example: \code{max_count}}
+For example: the \code{at} argument for the \link{str_search} operators.}
 
 \item{overlap}{see \link[stringi]{stri_opts_fixed}.}
 
@@ -141,7 +141,14 @@ p <- s_fixed(c("A", "A"), case_insensitive=TRUE)
 x \%s{}\% p
 x \%s!{}\% p
 
+x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""), NA)
+p <- s_fixed("abc", at = "start")
+x \%s{}\% p
+stringi::stri_startswith(x, fixed = "abc") # same as above
 
+p <- s_fixed("xyz", at = "end")
+x \%s{}\% p
+stringi::stri_endswith(x, fixed = "xyz") # same as above
 }
 \seealso{
 \link{tinycodet_strings}

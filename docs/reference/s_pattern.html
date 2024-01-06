@@ -249,7 +249,7 @@ rather than "<code>stri_</code>", as they are all meant for infix operators only
 
 <dt>...</dt>
 <dd><p>additional arguments not part of the <code>stri_opts</code> - functions to be passed here. <br>
-For example: <code>max_count</code></p></dd>
+For example: the <code>at</code> argument for the <a href="str_search.html">str_search</a> operators.</p></dd>
 
 
 <dt>overlap</dt>
@@ -311,7 +311,18 @@ For example: <code>max_count</code></p></dd>
 <span class="r-in"><span><span class="va">x</span> <span class="op"><a href="str_search.html">%s!{}%</a></span> <span class="va">p</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE  TRUE</span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">13</span><span class="op">]</span>, collapse<span class="op">=</span><span class="st">""</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">14</span><span class="op">:</span><span class="fl">26</span><span class="op">]</span>, collapse<span class="op">=</span><span class="st">""</span><span class="op">)</span>, <span class="cn">NA</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu">s_fixed</span><span class="op">(</span><span class="st">"abc"</span>, at <span class="op">=</span> <span class="st">"start"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op"><a href="str_search.html">%s{}%</a></span> <span class="va">p</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  TRUE FALSE    NA</span>
+<span class="r-in"><span><span class="fu">stringi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stringi/man/stri_startsendswith.html" class="external-link">stri_startswith</a></span><span class="op">(</span><span class="va">x</span>, fixed <span class="op">=</span> <span class="st">"abc"</span><span class="op">)</span> <span class="co"># same as above</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  TRUE FALSE    NA</span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu">s_fixed</span><span class="op">(</span><span class="st">"xyz"</span>, at <span class="op">=</span> <span class="st">"end"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op"><a href="str_search.html">%s{}%</a></span> <span class="va">p</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE  TRUE    NA</span>
+<span class="r-in"><span><span class="fu">stringi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stringi/man/stri_startsendswith.html" class="external-link">stri_endswith</a></span><span class="op">(</span><span class="va">x</span>, fixed <span class="op">=</span> <span class="st">"xyz"</span><span class="op">)</span> <span class="co"># same as above</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE  TRUE    NA</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
