@@ -122,9 +122,12 @@ using again \link[stringi]{stri_sub}. \cr \cr
 See also the examples section. \cr
 \cr
 }
-\section{Warning}{
+\section{Warnings}{
 
-The \code{capture_groups} argument for \code{regex} is not (yet) supported! \cr
+As this function outputs a matrix,
+\code{long vectors} are not supported. \cr
+\cr
+The \code{capture_groups} argument for \code{regex} is not supported. \cr
 If one wishes to capture the \eqn{i^{th}} occurrence of a group,
 first apply \code{stri_locate_ith()} on the entire occurrence without group capture,
 and then get the matched group capture using \link[stringi]{stri_match}. \cr

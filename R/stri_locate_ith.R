@@ -88,13 +88,17 @@
 #' \cr
 #' 
 #' 
-#' @section Warning: 
-#' The \code{capture_groups} argument for \code{regex} is not (yet) supported! \cr
+#' @section Warnings:
+#' As this function outputs a matrix,
+#' \code{long vectors} are not supported. \cr
+#' \cr
+#' The \code{capture_groups} argument for \code{regex} is not supported. \cr
 #' If one wishes to capture the \eqn{i^{th}} occurrence of a group,
 #' first apply \code{stri_locate_ith()} on the entire occurrence without group capture,
 #' and then get the matched group capture using \link[stringi]{stri_match}. \cr
 #' See examples below. \cr
 #' \cr
+#' 
 #' 
 #'
 #'
@@ -303,6 +307,7 @@ stri_locate_ith <- function(
 stri_locate_ith_regex <- function(str, pattern, i, ..., opts_regex = NULL) {
   
   n <- length(str)
+  
   p1 <- stringi::stri_locate_all_regex(
     str = str, pattern = pattern, capture_groups = FALSE,
     omit_no_match = FALSE, get_length = FALSE,
@@ -317,6 +322,7 @@ stri_locate_ith_regex <- function(str, pattern, i, ..., opts_regex = NULL) {
 stri_locate_ith_fixed <- function(str, pattern, i, ..., opts_fixed = NULL) {
   
   n <- length(str)
+  
   p1 <- stringi::stri_locate_all_fixed(
     str = str, pattern = pattern, omit_no_match = FALSE, get_length = FALSE,
     ..., opts_fixed = opts_fixed
@@ -330,6 +336,7 @@ stri_locate_ith_fixed <- function(str, pattern, i, ..., opts_fixed = NULL) {
 stri_locate_ith_coll <- function(str, pattern, i, ..., opts_collator = NULL) {
   
   n <- length(str)
+  
   p1 <- stringi::stri_locate_all_coll(
     str = str, pattern = pattern, omit_no_match = FALSE, get_length = FALSE,
     ..., opts_collator = opts_collator
@@ -343,6 +350,7 @@ stri_locate_ith_coll <- function(str, pattern, i, ..., opts_collator = NULL) {
 stri_locate_ith_charclass <- function(str, pattern, i, merge = TRUE, ...) {
   
   n <- length(str)
+  
   p1 <- stringi::stri_locate_all_charclass(
     str = str, pattern = pattern, merge = merge,
     omit_no_match = FALSE, get_length = FALSE,
@@ -358,6 +366,7 @@ stri_locate_ith_boundaries <- function(
     str, i, ... , opts_brkiter = NULL
 ) {
   n <- length(str)
+  
   p1 <- stringi::stri_locate_all_boundaries(
     str = str,
     omit_no_match = FALSE, get_length = FALSE,
@@ -378,7 +387,7 @@ stri_locate_ith_boundaries <- function(
   }
   
   if(length(p1) == 0) {
-    warning(simpleWarning("empty search not allowed"))
+    warning(simpleWarning("empty search not supported", call = abortcall))
     return(cbind(start = integer(0), end = integer(0)))
   }
   n.matches <- as.integer(lengths(p1) / 2L)

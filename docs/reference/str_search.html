@@ -3,13 +3,13 @@
 checks for every string in character vector x if
 the pattern defined in p is present. 
 When supplying a list on the right hand side (see s_pattern),
-one can include the list element at = &quot;start&quot; or at = &quot;end&quot;:
+one can optionally include the list element at = &quot;start&quot; or at = &quot;end&quot;:
 Supplying  at = &quot;start&quot;
 will check if the pattern appears at the start of a string
-(see stri_startswith).
+(like stri_startswith).
 Supplying  at = &quot;end&quot;
 will check if the pattern appears at the end of a string
-(see stri_endswith). 
+(likestri_endswith). 
 
 
 The x %s!{}% p operator is the same as x %s{}% p,
@@ -21,8 +21,7 @@ For string (in)equality operators, see %s==% from the 'stringi' package.
 The strfind()&amp;lt;- method,
 although technically not an operator,
 is meant to complement the string-related infix operators,
-and therefore uses the same s_pattern API as (for example)
-the %s{}% and %s!{}% operators. 
+and uses the same s_pattern API. 
 It functions as follows:
 strfind() attempts to find all pattern matches,
 and returns the extractions of the findings in a list,
@@ -30,7 +29,7 @@ just like stri_extract_all.
 strfind(..., i = &quot;all&quot;) attempts to find all pattern matches,
 and reports the locations of the findings in a list,
 just like stri_locate_all.
-strfind(..., i = i), where i is a non-zero integer,
+strfind(..., i = i), where i is an integer vector,
 locates the \(i^{th}\) occurrence of a pattern,
 and reports the locations in a matrix,
 just like stri_locate_ith.
@@ -44,13 +43,13 @@ except the replacement is done in-place
 checks for every string in character vector x if
 the pattern defined in p is present. 
 When supplying a list on the right hand side (see s_pattern),
-one can include the list element at = &quot;start&quot; or at = &quot;end&quot;:
+one can optionally include the list element at = &quot;start&quot; or at = &quot;end&quot;:
 Supplying  at = &quot;start&quot;
 will check if the pattern appears at the start of a string
-(see stri_startswith).
+(like stri_startswith).
 Supplying  at = &quot;end&quot;
 will check if the pattern appears at the end of a string
-(see stri_endswith). 
+(likestri_endswith). 
 
 
 The x %s!{}% p operator is the same as x %s{}% p,
@@ -62,8 +61,7 @@ For string (in)equality operators, see %s==% from the 'stringi' package.
 The strfind()&amp;lt;- method,
 although technically not an operator,
 is meant to complement the string-related infix operators,
-and therefore uses the same s_pattern API as (for example)
-the %s{}% and %s!{}% operators. 
+and uses the same s_pattern API. 
 It functions as follows:
 strfind() attempts to find all pattern matches,
 and returns the extractions of the findings in a list,
@@ -71,7 +69,7 @@ just like stri_extract_all.
 strfind(..., i = &quot;all&quot;) attempts to find all pattern matches,
 and reports the locations of the findings in a list,
 just like stri_locate_all.
-strfind(..., i = i), where i is a non-zero integer,
+strfind(..., i = i), where i is an integer vector,
 locates the \(i^{th}\) occurrence of a pattern,
 and reports the locations in a matrix,
 just like stri_locate_ith.
@@ -149,12 +147,12 @@ except the replacement is done in-place
 checks for every string in character vector <code>x</code> if
 the pattern defined in <code>p</code> is present. <br>
 When supplying a list on the right hand side (see <a href="s_pattern.html">s_pattern</a>),
-one can include the list element <code>at = "start"</code> or <code>at = "end"</code>:</p><ul><li><p>Supplying  <code>at = "start"</code>
+one can optionally include the list element <code>at = "start"</code> or <code>at = "end"</code>:</p><ul><li><p>Supplying  <code>at = "start"</code>
 will check if the pattern appears at the start of a string
-(see <a href="https://rdrr.io/pkg/stringi/man/stri_startsendswith.html" class="external-link">stri_startswith</a>).</p></li>
+(like <a href="https://rdrr.io/pkg/stringi/man/stri_startsendswith.html" class="external-link">stri_startswith</a>).</p></li>
 <li><p>Supplying  <code>at = "end"</code>
 will check if the pattern appears at the end of a string
-(see <a href="https://rdrr.io/pkg/stringi/man/stri_startsendswith.html" class="external-link">stri_endswith</a>). <br></p></li>
+(like<a href="https://rdrr.io/pkg/stringi/man/stri_startsendswith.html" class="external-link">stri_endswith</a>). <br></p></li>
 </ul><p>The <code>x %s!{}% p</code> operator is the same as <code>x %s{}% p</code>,
 except it checks for <b>absence</b> of the pattern occurrence,
 rather then presence. <br><br>
@@ -162,15 +160,14 @@ For string (in)equality operators, see <a href="https://rdrr.io/pkg/stringi/man/
 The <code>strfind()&lt;-</code> method,
 although technically not an operator,
 is meant to complement the string-related infix operators,
-and therefore uses the same <a href="s_pattern.html">s_pattern</a> API as (for example)
-the <code>%s{}% and %s!{}%</code> operators. <br>
+and uses the same <a href="s_pattern.html">s_pattern</a> API. <br>
 It functions as follows:</p><ul><li><p><code>strfind()</code> attempts to find all pattern matches,
 and returns the extractions of the findings in a list,
 just like <a href="https://rdrr.io/pkg/stringi/man/stri_extract.html" class="external-link">stri_extract_all</a>.</p></li>
 <li><p><code>strfind(..., i = "all")</code> attempts to find all pattern matches,
 and reports the locations of the findings in a list,
 just like <a href="https://rdrr.io/pkg/stringi/man/stri_locate.html" class="external-link">stri_locate_all</a>.</p></li>
-<li><p><code>strfind(..., i = i)</code>, where <code>i</code> is a non-zero integer,
+<li><p><code>strfind(..., i = i)</code>, where <code>i</code> is an integer vector,
 locates the \(i^{th}\) occurrence of a pattern,
 and reports the locations in a matrix,
 just like <a href="stri_locate_ith.html">stri_locate_ith</a>.</p></li>
@@ -263,7 +260,7 @@ but performs in-place replacement of the found patterns in <code>x</code>. <br><
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p><b>right-hand side list for the <code>%s{}%</code> and <code>%s!{}%</code> operators</b> <br>
+    <p><b>Right-hand Side List for the <code>%s{}%</code> and <code>%s!{}%</code> Operators</b> <br>
 When supplying a list to the right-hand side of the
 <code>%s{}%</code> and <code>%s!{}%</code> operators,
 one can add the argument <code>at</code>. <br>
@@ -271,7 +268,7 @@ If <code>at = "start"</code>,
 the operators will check if the pattern is present/absent at the start of the string. <br>
 If <code>at = "end"</code>,
 the operators will check if the pattern is present/absent at the end of the string. <br>
-Unlike stri_startswith or stri_endswith,
+Unlike <a href="https://rdrr.io/pkg/stringi/man/stri_startsendswith.html" class="external-link">stri_startswith</a> or <a href="https://rdrr.io/pkg/stringi/man/stri_startsendswith.html" class="external-link">stri_endswith</a>,
 <code>regex</code> <b>is</b> supported by the <code>%s{}%</code> and <code>%s!{}%</code> operators. <br>
 See examples below. <br></p>
     </div>

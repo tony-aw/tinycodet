@@ -6,9 +6,9 @@ using namespace Rcpp;
 //' @noRd
 // [[Rcpp::export(.rcpp_alloc_stri_locate_ith)]]
 IntegerMatrix rcpp_alloc_stri_locate_ith(List p1, IntegerVector i) {
-    R_xlen_t n = p1.length();
+    int n = p1.length(); // using regular integer, because maximum nrow/ncol for matrices is approx 2^30 -1 anyway
     IntegerMatrix out(n, 2);
-    for(R_xlen_t j = 0; j < n; ++j) {
+    for(int j = 0; j < n; ++j) {
       IntegerMatrix temp = p1[j];
       IntegerMatrix::Row temprow = temp( i[j], _ );
       IntegerMatrix::Row mainrow = out( j , _ );

@@ -196,10 +196,12 @@ using again <a href="https://rdrr.io/pkg/stringi/man/stri_sub.html" class="exter
 </ol><p>See also the examples section. <br><br></p>
     </div>
     <div class="section level2">
-    <h2 id="warning">Warning<a class="anchor" aria-label="anchor" href="#warning"></a></h2>
+    <h2 id="warnings">Warnings<a class="anchor" aria-label="anchor" href="#warnings"></a></h2>
     
 
-<p>The <code>capture_groups</code> argument for <code>regex</code> is not (yet) supported! <br>
+<p>As this function outputs a matrix,
+<code>long vectors</code> are not supported. <br><br>
+The <code>capture_groups</code> argument for <code>regex</code> is not supported. <br>
 If one wishes to capture the \(i^{th}\) occurrence of a group,
 first apply <code>stri_locate_ith()</code> on the entire occurrence without group capture,
 and then get the matched group capture using <a href="https://rdrr.io/pkg/stringi/man/stri_match.html" class="external-link">stri_match</a>. <br>

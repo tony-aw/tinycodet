@@ -145,92 +145,6 @@ number of characters from the left and right as defined in the matrix
 <p> </p>
 </div>
 <div class="section level2">
-<h2 id="string-arithmetic">String arithmetic<a class="anchor" aria-label="anchor" href="#string-arithmetic"></a>
-</h2>
-<p>The <code>tinycodet</code> package includes 7 string arithmetic
-operators (3 of which re-exported from ‘stringi’):</p>
-<ul>
-<li>
-<code>x %s+% y</code> concatenates <code>x</code> and <code>y</code>
-(exported from ‘stringi’);</li>
-<li>
-<code>x %s-% p</code> removes pattern <code>p</code> from each
-string in character vector <code>x</code>;</li>
-<li>
-<code>x %s*% n</code> repeats each string in character vector
-<code>x</code> for <code>n</code> times (exported from ‘stringi’);</li>
-<li>
-<code>x %s/% p</code> counts how often pattern <code>p</code> occurs
-in each string of character vector <code>x</code>.</li>
-<li>
-<code>x %s//% brk</code> counts how often the text boundary
-specified in list <code>brk</code> occurs in each string of character
-vector <code>x</code>.</li>
-<li>
-<code>e1 %s$% e2</code> provides access to
-<code>stri_sprintf</code>.</li>
-<li>
-<code>x %ss% p</code> splits the strings in <code>x</code> by a
-delimiter character/pattern defined in <code>p</code>, and removes
-<code>p</code> in the process.</li>
-</ul>
-<p>I.e.:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="st">"Hello "</span><span class="op"><a href="https://rdrr.io/pkg/stringi/man/operator_add.html" class="external-link">%s+%</a></span> <span class="st">" world"</span></span>
-<span><span class="co">#&gt; [1] "Hello  world"</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Hello world"</span>, <span class="st">"Goodbye world"</span><span class="op">)</span> <span class="op"><a href="../reference/str_arithmetic.html">%s-%</a></span> <span class="st">" world"</span></span>
-<span><span class="co">#&gt; [1] "Hello"   "Goodbye"</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Ha"</span>, <span class="st">"Ho"</span>, <span class="st">"Hi"</span>, <span class="st">"Hu"</span>, <span class="st">"He"</span>, <span class="st">"Ha"</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/stringi/man/stri_dup.html" class="external-link">%s*%</a></span> <span class="fl">2</span><span class="op">:</span><span class="fl">7</span></span>
-<span><span class="co">#&gt; [1] "HaHa"           "HoHoHo"         "HiHiHiHi"       "HuHuHuHuHu"    </span></span>
-<span><span class="co">#&gt; [5] "HeHeHeHeHeHe"   "HaHaHaHaHaHaHa"</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"hello world &amp; goodbye world"</span>, <span class="st">"world domination!"</span><span class="op">)</span> <span class="op"><a href="../reference/str_arithmetic.html">%s/%</a></span> <span class="st">"world"</span></span>
-<span><span class="co">#&gt; [1] 2 1</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"hello world &amp; goodbye world"</span>, <span class="st">"world domination!"</span><span class="op">)</span> <span class="op"><a href="../reference/str_arithmetic.html">%s//%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"word"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 9 4</span></span></code></pre></div>
-<p>The right-side arguments <code>p</code>, <code>y</code>, and
-<code>n</code> can be a single value, or a vector of the same length as
-<code>x</code>.</p>
-<p> </p>
-</div>
-<div class="section level2">
-<h2 id="string-search-operators">String search operators<a class="anchor" aria-label="anchor" href="#string-search-operators"></a>
-</h2>
-<p>The <code>x %s{}% p</code> operator checks for every string in
-character vector <code>x</code> if the pattern defined in <code>p</code>
-is present. The <code>x %s!{}% p operator</code> checks for every string
-in character vector <code>x</code> if the pattern defined in
-<code>p</code> is NOT present. When supplying a list on the right hand
-side (see <code>s_pattern</code>), one can include the list element
-<code>at = "start"</code> or <code>at = "end"</code>:</p>
-<ul>
-<li>Supplying <code>at = "start"</code> will check if the pattern
-appears at the start of a string (see
-<code><a href="https://rdrr.io/pkg/stringi/man/stri_startsendswith.html" class="external-link">stringi::stri_startswith</a></code>).</li>
-<li>Supplying <code>at = "end"</code> will check if the pattern appears
-at the end of a string (see <code><a href="https://rdrr.io/pkg/stringi/man/stri_startsendswith.html" class="external-link">stringi::stri_endswith</a></code>).</li>
-</ul>
-<p>The <code>strfind()&lt;-</code> method locates, extracts, or replaces
-found patterns.</p>
-<p>Examples:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">13</span><span class="op">]</span>, collapse<span class="op">=</span><span class="st">""</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">14</span><span class="op">:</span><span class="fl">26</span><span class="op">]</span>, collapse<span class="op">=</span><span class="st">""</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "abcdefghijklm" "nopqrstuvwxyz"</span></span>
-<span><span class="va">x</span> <span class="op"><a href="../reference/str_search.html">%s{}%</a></span> <span class="st">"a"</span></span>
-<span><span class="co">#&gt; [1]  TRUE FALSE</span></span>
-<span><span class="va">x</span> <span class="op"><a href="../reference/str_search.html">%s!{}%</a></span> <span class="st">"a"</span></span>
-<span><span class="co">#&gt; [1] FALSE  TRUE</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">x</span> <span class="op"><a href="../reference/str_search.html">%s{}%</a></span> <span class="st">"a"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 1</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">x</span> <span class="op"><a href="../reference/str_search.html">%s!{}%</a></span> <span class="st">"a"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 2</span></span>
-<span><span class="va">x</span><span class="op">[</span><span class="va">x</span> <span class="op"><a href="../reference/str_search.html">%s{}%</a></span> <span class="st">"a"</span><span class="op">]</span></span>
-<span><span class="co">#&gt; [1] "abcdefghijklm"</span></span>
-<span><span class="va">x</span><span class="op">[</span><span class="va">x</span> <span class="op"><a href="../reference/str_search.html">%s!{}%</a></span> <span class="st">"a"</span><span class="op">]</span></span>
-<span><span class="co">#&gt; [1] "nopqrstuvwxyz"</span></span></code></pre></div>
-<p> </p>
-</div>
-<div class="section level2">
 <h2 id="specifying-pattern-search-attributes-in-string-infix-operators">Specifying Pattern search attributes in string infix operators<a class="anchor" aria-label="anchor" href="#specifying-pattern-search-attributes-in-string-infix-operators"></a>
 </h2>
 <p>The <code>x %s-% p</code> and <code>x %s/% p</code> operators, and
@@ -271,47 +185,147 @@ interpreted. The list should use the exact same naming convention as
 <code>list(charclass = p, ... )</code>
 </li>
 </ul>
-<p>Examples with Regular expressions:</p>
+<p>See the next sections for examples.</p>
+<p> </p>
+</div>
+<div class="section level2">
+<h2 id="string-arithmetic">String arithmetic<a class="anchor" aria-label="anchor" href="#string-arithmetic"></a>
+</h2>
+<p>The <code>tinycodet</code> package includes 7 string arithmetic
+operators (3 of which re-exported from ‘stringi’):</p>
+<ul>
+<li>
+<code>x %s+% y</code> concatenates <code>x</code> and <code>y</code>
+(exported from ‘stringi’);</li>
+<li>
+<code>x %s-% p</code> removes pattern <code>p</code> from each
+string in character vector <code>x</code>;</li>
+<li>
+<code>x %s*% n</code> repeats each string in character vector
+<code>x</code> for <code>n</code> times (exported from ‘stringi’);</li>
+<li>
+<code>x %s/% p</code> counts how often pattern <code>p</code> occurs
+in each string of character vector <code>x</code>.</li>
+<li>
+<code>x %s//% brk</code> counts how often the text boundary
+specified in list <code>brk</code> occurs in each string of character
+vector <code>x</code>.</li>
+<li>
+<code>e1 %s$% e2</code> provides access to
+<code>stri_sprintf</code>.</li>
+<li>
+<code>x %ss% p</code> splits the strings in <code>x</code> by a
+delimiter character/pattern defined in <code>p</code>, and removes
+<code>p</code> in the process.</li>
+</ul>
+<p>I.e.:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="st">"Hello "</span><span class="op"><a href="https://rdrr.io/pkg/stringi/man/operator_add.html" class="external-link">%s+%</a></span> <span class="st">" world"</span></span>
+<span><span class="co">#&gt; [1] "Hello  world"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Hello world"</span>, <span class="st">"Goodbye world"</span><span class="op">)</span> <span class="op"><a href="../reference/str_arithmetic.html">%s-%</a></span> <span class="st">" world"</span></span>
+<span><span class="co">#&gt; [1] "Hello"   "Goodbye"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Ha"</span>, <span class="st">"Ho"</span>, <span class="st">"Hi"</span>, <span class="st">"Hu"</span>, <span class="st">"He"</span>, <span class="st">"Ha"</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/stringi/man/stri_dup.html" class="external-link">%s*%</a></span> <span class="fl">2</span><span class="op">:</span><span class="fl">7</span></span>
+<span><span class="co">#&gt; [1] "HaHa"           "HoHoHo"         "HiHiHiHi"       "HuHuHuHuHu"    </span></span>
+<span><span class="co">#&gt; [5] "HeHeHeHeHeHe"   "HaHaHaHaHaHaHa"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"hello World &amp; goodbye world"</span>, <span class="st">"world domination!"</span><span class="op">)</span> <span class="op"><a href="../reference/str_arithmetic.html">%s/%</a></span> <span class="fu"><a href="../reference/s_pattern.html">s_fixed</a></span><span class="op">(</span><span class="st">"world"</span>, case_insensitive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 2 1</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"hello world &amp; goodbye world"</span>, <span class="st">"world domination!"</span><span class="op">)</span> <span class="op"><a href="../reference/str_arithmetic.html">%s//%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"word"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 9 4</span></span></code></pre></div>
+<p>The right-side arguments <code>p</code>, <code>y</code>, and
+<code>n</code> can be a single value, or a vector of the same length as
+<code>x</code>.</p>
+<p> </p>
+</div>
+<div class="section level2">
+<h2 id="string-search-operators">String search operators<a class="anchor" aria-label="anchor" href="#string-search-operators"></a>
+</h2>
+<p>The <code>x %s{}% p</code> operator checks for every string in
+character vector <code>x</code> if the pattern defined in <code>p</code>
+is present. The <code>x %s!{}% p</code> operator checks for every string
+in character vector <code>x</code> if the pattern defined in
+<code>p</code> is NOT present.</p>
+<p>Examples:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">13</span><span class="op">]</span>, collapse<span class="op">=</span><span class="st">""</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">14</span><span class="op">:</span><span class="fl">26</span><span class="op">]</span>, collapse<span class="op">=</span><span class="st">""</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "abcdefghijklm" "nopqrstuvwxyz"</span></span>
+<span><span class="va">x</span> <span class="op"><a href="../reference/str_search.html">%s{}%</a></span> <span class="st">"a"</span></span>
+<span><span class="co">#&gt; [1]  TRUE FALSE</span></span>
+<span><span class="va">x</span> <span class="op"><a href="../reference/str_search.html">%s!{}%</a></span> <span class="st">"a"</span></span>
+<span><span class="co">#&gt; [1] FALSE  TRUE</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">x</span> <span class="op"><a href="../reference/str_search.html">%s{}%</a></span> <span class="st">"a"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 1</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="va">x</span> <span class="op"><a href="../reference/str_search.html">%s!{}%</a></span> <span class="st">"a"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 2</span></span>
+<span><span class="va">x</span><span class="op">[</span><span class="va">x</span> <span class="op"><a href="../reference/str_search.html">%s{}%</a></span> <span class="st">"a"</span><span class="op">]</span></span>
+<span><span class="co">#&gt; [1] "abcdefghijklm"</span></span>
+<span><span class="va">x</span><span class="op">[</span><span class="va">x</span> <span class="op"><a href="../reference/str_search.html">%s!{}%</a></span> <span class="st">"a"</span><span class="op">]</span></span>
+<span><span class="co">#&gt; [1] "nopqrstuvwxyz"</span></span></code></pre></div>
+<p>When supplying a list on the right hand side (see
+<code>s_pattern</code>), one can include the list element
+<code>at = "start"</code> or <code>at = "end"</code>:</p>
+<ul>
+<li>Supplying <code>at = "start"</code> will check if the pattern
+appears at the start of a string (see
+<code><a href="https://rdrr.io/pkg/stringi/man/stri_startsendswith.html" class="external-link">stringi::stri_startswith</a></code>).</li>
+<li>Supplying <code>at = "end"</code> will check if the pattern appears
+at the end of a string (see <code><a href="https://rdrr.io/pkg/stringi/man/stri_startsendswith.html" class="external-link">stringi::stri_endswith</a></code>).</li>
+</ul>
+<p>Examples:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Hello world"</span>, <span class="st">"Goodbye world"</span><span class="op">)</span></span>
-<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>regex<span class="op">=</span><span class="st">" world"</span><span class="op">)</span></span>
-<span><span class="va">x</span> <span class="op"><a href="../reference/str_arithmetic.html">%s-%</a></span> <span class="va">p</span></span>
-<span><span class="co">#&gt; [1] "Hello"   "Goodbye"</span></span>
-<span></span>
-<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Ha"</span>, <span class="st">"Ho"</span>, <span class="st">"Hi"</span>, <span class="st">"Hu"</span>, <span class="st">"He"</span>, <span class="st">"Ha"</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/stringi/man/stri_dup.html" class="external-link">%s*%</a></span> <span class="fl">10</span></span>
-<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/s_pattern.html">s_regex</a></span><span class="op">(</span><span class="st">"Ha"</span><span class="op">)</span></span>
-<span><span class="va">x</span> <span class="op"><a href="../reference/str_arithmetic.html">%s/%</a></span> <span class="va">p</span></span>
-<span><span class="co">#&gt; [1] 10  0  0  0  0 10</span></span>
-<span></span>
-<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">13</span><span class="op">]</span>, collapse<span class="op">=</span><span class="st">""</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">14</span><span class="op">:</span><span class="fl">26</span><span class="op">]</span>, collapse<span class="op">=</span><span class="st">""</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "abcdefghijklm" "nopqrstuvwxyz"</span></span>
-<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/s_pattern.html">s_regex</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"A"</span><span class="op">)</span>, case_insensitive<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<code class="sourceCode R"><span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span>, collapse<span class="op">=</span><span class="st">""</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rev.html" class="external-link">rev</a></span><span class="op">(</span><span class="va">letters</span><span class="op">)</span>, collapse<span class="op">=</span><span class="st">""</span><span class="op">)</span>, <span class="cn">NA</span><span class="op">)</span></span>
+<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/s_pattern.html">s_fixed</a></span><span class="op">(</span><span class="st">"abc"</span>, at <span class="op">=</span> <span class="st">"start"</span><span class="op">)</span></span>
 <span><span class="va">x</span> <span class="op"><a href="../reference/str_search.html">%s{}%</a></span> <span class="va">p</span></span>
-<span><span class="co">#&gt; [1]  TRUE FALSE</span></span>
-<span><span class="va">x</span> <span class="op"><a href="../reference/str_search.html">%s!{}%</a></span> <span class="va">p</span></span>
-<span><span class="co">#&gt; [1] FALSE  TRUE</span></span></code></pre></div>
-<p>Examples with Fixed expressions:</p>
+<span><span class="co">#&gt; [1]  TRUE FALSE    NA</span></span>
+<span><span class="fu">stringi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stringi/man/stri_startsendswith.html" class="external-link">stri_startswith</a></span><span class="op">(</span><span class="va">x</span>, fixed <span class="op">=</span> <span class="st">"abc"</span><span class="op">)</span> <span class="co"># same as above</span></span>
+<span><span class="co">#&gt; [1]  TRUE FALSE    NA</span></span>
+<span></span>
+<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/s_pattern.html">s_fixed</a></span><span class="op">(</span><span class="st">"xyz"</span>, at <span class="op">=</span> <span class="st">"end"</span><span class="op">)</span></span>
+<span><span class="va">x</span> <span class="op"><a href="../reference/str_search.html">%s{}%</a></span> <span class="va">p</span></span>
+<span><span class="co">#&gt; [1]  TRUE FALSE    NA</span></span>
+<span><span class="fu">stringi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stringi/man/stri_startsendswith.html" class="external-link">stri_endswith</a></span><span class="op">(</span><span class="va">x</span>, fixed <span class="op">=</span> <span class="st">"xyz"</span><span class="op">)</span> <span class="co"># same as above</span></span>
+<span><span class="co">#&gt; [1]  TRUE FALSE    NA</span></span>
+<span></span>
+<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/s_pattern.html">s_fixed</a></span><span class="op">(</span><span class="st">"cba"</span>, at <span class="op">=</span> <span class="st">"end"</span><span class="op">)</span></span>
+<span><span class="va">x</span> <span class="op"><a href="../reference/str_search.html">%s{}%</a></span> <span class="va">p</span></span>
+<span><span class="co">#&gt; [1] FALSE  TRUE    NA</span></span>
+<span><span class="fu">stringi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stringi/man/stri_startsendswith.html" class="external-link">stri_endswith</a></span><span class="op">(</span><span class="va">x</span>, fixed <span class="op">=</span> <span class="st">"cba"</span><span class="op">)</span> <span class="co"># same as above</span></span>
+<span><span class="co">#&gt; [1] FALSE  TRUE    NA</span></span>
+<span></span>
+<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/s_pattern.html">s_fixed</a></span><span class="op">(</span><span class="st">"zyx"</span>, at <span class="op">=</span> <span class="st">"start"</span><span class="op">)</span></span>
+<span><span class="va">x</span> <span class="op"><a href="../reference/str_search.html">%s{}%</a></span> <span class="va">p</span></span>
+<span><span class="co">#&gt; [1] FALSE  TRUE    NA</span></span>
+<span><span class="fu">stringi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stringi/man/stri_startsendswith.html" class="external-link">stri_startswith</a></span><span class="op">(</span><span class="va">x</span>, fixed <span class="op">=</span> <span class="st">"zyx"</span><span class="op">)</span> <span class="co"># same as above</span></span>
+<span><span class="co">#&gt; [1] FALSE  TRUE    NA</span></span></code></pre></div>
+<p>The <code>strfind()&lt;-</code> method locates, extracts, or replaces
+found patterns.</p>
+<p>Examples:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Hello world"</span>, <span class="st">"Goodbye world"</span><span class="op">)</span></span>
-<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>fixed<span class="op">=</span><span class="st">" world"</span><span class="op">)</span></span>
-<span><span class="va">x</span> <span class="op"><a href="../reference/str_arithmetic.html">%s-%</a></span> <span class="va">p</span></span>
-<span><span class="co">#&gt; [1] "Hello"   "Goodbye"</span></span>
-<span></span>
-<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Ha"</span>, <span class="st">"Ho"</span>, <span class="st">"Hi"</span>, <span class="st">"Hu"</span>, <span class="st">"He"</span>, <span class="st">"Ha"</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/stringi/man/stri_dup.html" class="external-link">%s*%</a></span> <span class="fl">10</span></span>
-<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>fixed<span class="op">=</span><span class="st">"Ha"</span><span class="op">)</span></span>
-<span><span class="va">x</span> <span class="op"><a href="../reference/str_arithmetic.html">%s/%</a></span> <span class="va">p</span></span>
-<span><span class="co">#&gt; [1] 10  0  0  0  0 10</span></span>
-<span></span>
-<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">13</span><span class="op">]</span>, collapse<span class="op">=</span><span class="st">""</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">14</span><span class="op">:</span><span class="fl">26</span><span class="op">]</span>, collapse<span class="op">=</span><span class="st">""</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">'The quick brown fox jumped over the lazy dog.'</span>, <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "abcdefghijklm" "nopqrstuvwxyz"</span></span>
-<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>fixed <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"A"</span><span class="op">)</span>, case_insensitive<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "The quick brown fox jumped over the lazy dog."</span></span>
+<span><span class="co">#&gt; [2] "The quick brown fox jumped over the lazy dog."</span></span>
+<span><span class="co">#&gt; [3] "The quick brown fox jumped over the lazy dog."</span></span>
+<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'quick'</span>, <span class="st">'brown'</span>, <span class="st">'fox'</span><span class="op">)</span></span>
+<span><span class="va">rp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'SLOW'</span>,  <span class="st">'BLACK'</span>, <span class="st">'BEAR'</span><span class="op">)</span></span>
 <span><span class="va">x</span> <span class="op"><a href="../reference/str_search.html">%s{}%</a></span> <span class="va">p</span></span>
-<span><span class="co">#&gt; [1]  TRUE FALSE</span></span>
-<span><span class="va">x</span> <span class="op"><a href="../reference/str_search.html">%s!{}%</a></span> <span class="va">p</span></span>
-<span><span class="co">#&gt; [1] FALSE  TRUE</span></span></code></pre></div>
-<p>And so on. I’m sure you get the idea.</p>
+<span><span class="co">#&gt; [1] TRUE TRUE TRUE</span></span>
+<span><span class="fu"><a href="../reference/str_search.html">strfind</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">p</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [[1]]</span></span>
+<span><span class="co">#&gt; [1] "quick"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[2]]</span></span>
+<span><span class="co">#&gt; [1] "brown"</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[3]]</span></span>
+<span><span class="co">#&gt; [1] "fox"</span></span>
+<span><span class="fu"><a href="../reference/str_search.html">strfind</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">p</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">rp</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "The SLOW brown fox jumped over the lazy dog."  </span></span>
+<span><span class="co">#&gt; [2] "The quick BLACK fox jumped over the lazy dog." </span></span>
+<span><span class="co">#&gt; [3] "The quick brown BEAR jumped over the lazy dog."</span></span></code></pre></div>
 <p> </p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

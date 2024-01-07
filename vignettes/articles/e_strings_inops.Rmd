@@ -64,60 +64,6 @@ x %strim% ss
 &nbsp; 
 
 
-# String arithmetic
-
-The `tinycodet` package includes 7 string arithmetic operators (3 of which re-exported from 'stringi'):
-
- - `x %s+% y` concatenates `x` and `y` (exported from 'stringi');
- - `x %s-% p` removes pattern `p` from each string in character vector `x`;
- - `x %s*% n` repeats each string in character vector `x` for `n` times (exported from 'stringi');
- - `x %s/% p` counts how often pattern `p` occurs in each string of character vector `x`.
- - `x %s//% brk` counts how often the text boundary specified in list `brk` occurs in each string of character vector `x`.
- - `e1 %s$% e2` provides access to `stri_sprintf`.
- - `x %ss% p` splits the strings in `x` by a delimiter character/pattern defined in `p`, and removes `p` in the process.
- 
-I.e.:
-
-```{r}
-"Hello "%s+% " world"
-c("Hello world", "Goodbye world") %s-% " world"
-c("Ha", "Ho", "Hi", "Hu", "He", "Ha") %s*% 2:7
-c("hello world & goodbye world", "world domination!") %s/% "world"
-c("hello world & goodbye world", "world domination!") %s//% list(type = "word")
-```
-
-The right-side arguments `p`, `y`, and `n` can be a single value, or a vector of the same length as `x`.
-
-&nbsp;
-
-# String search operators
-
-The `x %s{}% p` operator checks for every string in character vector `x` if the pattern defined in `p` is present.
-The `x %s!{}% p operator` checks for every string in character vector `x` if the pattern defined in `p` is NOT present.
-When supplying a list on the right hand side (see `s_pattern`), one can include the list element `at = "start"` or `at = "end"`:
-
- * Supplying `at = "start"` will check if the pattern appears at the start of a string (see `stringi::stri_startswith`).
-  * Supplying `at = "end"` will check if the pattern appears at the end of a string (see `stringi::stri_endswith`).
-
-
-The `strfind()<-` method locates, extracts, or replaces found patterns.
-
-Examples:
-
-```{r}
-x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
-print(x)
-x %s{}% "a"
-x %s!{}% "a"
-which(x %s{}% "a")
-which(x %s!{}% "a")
-x[x %s{}% "a"]
-x[x %s!{}% "a"]
-```
-
-
-&nbsp;
-
 # Specifying Pattern search attributes in string infix operators
 
 The `x %s-% p` and `x %s/% p` operators, and the string detection operators (`%s{}%`, `%s!{}%`) perform pattern matching for various purposes. When a character vector or string is given on the right hand side, this is interpreted as case-sensitive `regex` patterns from `stringi`.
@@ -138,43 +84,104 @@ For convenience, 'tinycodet' adds the following functions:
  - `s_coll(p, ...)` is equivalent to `list(coll = p, ...)`
  - `s_chrcls(p, ...)` is equivalent to `list(charclass = p, ... )`
 
-Examples with Regular expressions:
+
+See the next sections for examples.
+
+&nbsp;
+
+
+# String arithmetic
+
+The `tinycodet` package includes 7 string arithmetic operators (3 of which re-exported from 'stringi'):
+
+ - `x %s+% y` concatenates `x` and `y` (exported from 'stringi');
+ - `x %s-% p` removes pattern `p` from each string in character vector `x`;
+ - `x %s*% n` repeats each string in character vector `x` for `n` times (exported from 'stringi');
+ - `x %s/% p` counts how often pattern `p` occurs in each string of character vector `x`.
+ - `x %s//% brk` counts how often the text boundary specified in list `brk` occurs in each string of character vector `x`.
+ - `e1 %s$% e2` provides access to `stri_sprintf`.
+ - `x %ss% p` splits the strings in `x` by a delimiter character/pattern defined in `p`, and removes `p` in the process.
+ 
+I.e.:
 
 ```{r}
-x <- c("Hello world", "Goodbye world")
-p <- list(regex=" world")
-x %s-% p
-
-x <- c("Ha", "Ho", "Hi", "Hu", "He", "Ha") %s*% 10
-p <- s_regex("Ha")
-x %s/% p
-
-x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
-print(x)
-p <- s_regex(c("A", "A"), case_insensitive=TRUE)
-x %s{}% p
-x %s!{}% p
+"Hello "%s+% " world"
+c("Hello world", "Goodbye world") %s-% " world"
+c("Ha", "Ho", "Hi", "Hu", "He", "Ha") %s*% 2:7
+c("hello World & goodbye world", "world domination!") %s/% s_fixed("world", case_insensitive = TRUE)
+c("hello world & goodbye world", "world domination!") %s//% list(type = "word")
 ```
 
-Examples with Fixed expressions:
+The right-side arguments `p`, `y`, and `n` can be a single value, or a vector of the same length as `x`.
+
+&nbsp;
+
+# String search operators
+
+The `x %s{}% p` operator checks for every string in character vector `x` if the pattern defined in `p` is present.
+The `x %s!{}% p` operator checks for every string in character vector `x` if the pattern defined in `p` is NOT present.
+
+Examples:
 
 ```{r}
-x <- c("Hello world", "Goodbye world")
-p <- list(fixed=" world")
-x %s-% p
-
-x <- c("Ha", "Ho", "Hi", "Hu", "He", "Ha") %s*% 10
-p <- list(fixed="Ha")
-x %s/% p
-
 x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 print(x)
-p <- list(fixed = c("A", "A"), case_insensitive=TRUE)
-x %s{}% p
-x %s!{}% p
+x %s{}% "a"
+x %s!{}% "a"
+which(x %s{}% "a")
+which(x %s!{}% "a")
+x[x %s{}% "a"]
+x[x %s!{}% "a"]
 ```
 
-And so on. I'm sure you get the idea.
+
+When supplying a list on the right hand side (see `s_pattern`), one can include the list element `at = "start"` or `at = "end"`:
+
+ * Supplying `at = "start"` will check if the pattern appears at the start of a string (see `stringi::stri_startswith`).
+ * Supplying `at = "end"` will check if the pattern appears at the end of a string (see `stringi::stri_endswith`).
+
+Examples:
+
+```{r}
+
+x <- c(paste0(letters, collapse=""), paste0(rev(letters), collapse=""), NA)
+p <- s_fixed("abc", at = "start")
+x %s{}% p
+stringi::stri_startswith(x, fixed = "abc") # same as above
+
+p <- s_fixed("xyz", at = "end")
+x %s{}% p
+stringi::stri_endswith(x, fixed = "xyz") # same as above
+
+p <- s_fixed("cba", at = "end")
+x %s{}% p
+stringi::stri_endswith(x, fixed = "cba") # same as above
+
+p <- s_fixed("zyx", at = "start")
+x %s{}% p
+stringi::stri_startswith(x, fixed = "zyx") # same as above
+
+```
+
+
+The `strfind()<-` method locates, extracts, or replaces found patterns.
+
+Examples:
+
+```{r}
+
+x <- rep('The quick brown fox jumped over the lazy dog.', 3)
+print(x)
+p <- c('quick', 'brown', 'fox')
+rp <- c('SLOW',  'BLACK', 'BEAR')
+x %s{}% p
+strfind(x, p)
+strfind(x, p) <- rp
+print(x)
+
+```
+
+
 
 
 &nbsp;

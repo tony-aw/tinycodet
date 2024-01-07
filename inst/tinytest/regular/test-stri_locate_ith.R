@@ -419,12 +419,13 @@ expect_error(
 # empty search ====
 expect_warning(
   stri_locate_ith(character(0), 1, regex = "foo"),
-  pattern = "empty search not allowed"
+  pattern = "empty search not supported"
 )
 expect_warning(
   stri_locate_ith("foo", 1, regex = character(0)),
-  pattern = "empty search not allowed"
+  pattern = "empty search not supported"
 )
+
 
 # regex, capture groups error ====
 x <- 'breakfast=eggs, lunch=pizza, dessert=icecream'
@@ -432,6 +433,7 @@ p <- '(\\w+)=(\\w+)'
 expect_error(
   stri_locate_ith_regex(x, 1, p, capture_groups = TRUE)
 )
+
 
 # try large vector for stri_locate_ith ====
 n <- 1e6

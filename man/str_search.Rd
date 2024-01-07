@@ -64,14 +64,14 @@ The \code{x \%s{}\% p} operator
 checks for every string in character vector \code{x} if
 the pattern defined in \code{p} is present. \cr
 When supplying a list on the right hand side (see \link{s_pattern}),
-one can include the list element \code{at = "start"} or \code{at = "end"}:
+one can optionally include the list element \code{at = "start"} or \code{at = "end"}:
 \itemize{
 \item Supplying  \code{at = "start"}
 will check if the pattern appears at the start of a string
-(see \link[stringi]{stri_startswith}).
+(like \link[stringi]{stri_startswith}).
 \item Supplying  \code{at = "end"}
 will check if the pattern appears at the end of a string
-(see \link[stringi]{stri_endswith}). \cr
+(like\link[stringi]{stri_endswith}). \cr
 }
 
 The \code{x \%s!{}\% p} operator is the same as \code{x \%s{}\% p},
@@ -83,8 +83,7 @@ For string (in)equality operators, see \link[stringi]{\%s==\%} from the 'stringi
 The \code{strfind()<-} method,
 although technically not an operator,
 is meant to complement the string-related infix operators,
-and therefore uses the same \link{s_pattern} API as (for example)
-the \code{\%s{}\% and \%s!{}\%} operators. \cr
+and uses the same \link{s_pattern} API. \cr
 It functions as follows:
 \itemize{
 \item \code{strfind()} attempts to find all pattern matches,
@@ -93,7 +92,7 @@ just like \link[stringi]{stri_extract_all}.
 \item \code{strfind(..., i = "all")} attempts to find all pattern matches,
 and reports the locations of the findings in a list,
 just like \link[stringi]{stri_locate_all}.
-\item \code{strfind(..., i = i)}, where \code{i} is a non-zero integer,
+\item \code{strfind(..., i = i)}, where \code{i} is an integer vector,
 locates the \eqn{i^{th}} occurrence of a pattern,
 and reports the locations in a matrix,
 just like \link{stri_locate_ith}.
@@ -105,7 +104,7 @@ except the replacement is done in-place
 }
 }
 \details{
-\bold{right-hand side list for the \code{\%s{}\%} and \code{\%s!{}\%} operators} \cr
+\bold{Right-hand Side List for the \code{\%s{}\%} and \code{\%s!{}\%} Operators} \cr
 When supplying a list to the right-hand side of the
 \code{\%s{}\%} and \code{\%s!{}\%} operators,
 one can add the argument \code{at}. \cr
@@ -113,7 +112,7 @@ If \code{at = "start"},
 the operators will check if the pattern is present/absent at the start of the string. \cr
 If \code{at = "end"},
 the operators will check if the pattern is present/absent at the end of the string. \cr
-Unlike \link{stri_startswith} or \link{stri_endswith},
+Unlike \link[stringi]{stri_startswith} or \link[stringi]{stri_endswith},
 \code{regex} \bold{is} supported by the \code{\%s{}\%} and \code{\%s!{}\%} operators. \cr
 See examples below. \cr
 }

@@ -14,7 +14,7 @@ in the documentation of the `stri_locate_ith()` function.
 * The messages returned by `import_as()` when aliasing packages is now slightly less verbose: removed the line "Methods work like normally", and replaced the line "Importing packages ..." with "Importing packages and registering methods...".
 * The `strcut_brk()` function now includes the `tolist` argument to return a list. Moreover, the `n` argument may now also be specified (`n = -1L` by default).
 * Improved safety against malformed condition in the `transform_if()` function.
-* `stri_locate_tih()` now gives a warning when an empty string or pattern is given.
+* `stri_locate_ith()` now gives a warning when an empty string or pattern is given.
 * **Internal Re-write:** `stri_locate_ith()` has now been partially re-written, and now includes 'C++' code, making it slightly faster.
 * **Added dependency:** 'Rcpp' is now added as an dependency, due to the aforementioned partial re-write in 'C++'.
 * **New Features:** Added `%ss%` to the collection of string arithmetic operators, and added the `strfind()<-` method to the string search operators. Added tests for these also.
