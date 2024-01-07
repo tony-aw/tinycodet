@@ -14,7 +14,9 @@ in the documentation of the `stri_locate_ith()` function.
 * The messages returned by `import_as()` when aliasing packages is now slightly less verbose: removed the line "Methods work like normally", and replaced the line "Importing packages ..." with "Importing packages and registering methods...".
 * The `strcut_brk()` function now includes the `tolist` argument to return a list. Moreover, the `n` argument may now also be specified (`n = -1L` by default).
 * Improved safety against malformed condition in the `transform_if()` function.
-* **Added dependency:** 'collapse' is now added as an dependency, for improved speed. No other dependencies are added, and it is not likely more will be added.
+* `stri_locate_tih()` now gives a warning when an empty string or pattern is given.
+* **Internal Re-write:** `stri_locate_ith()` has now been partially re-written, and now includes 'C++' code, making it slightly faster.
+* **Added dependency:** 'Rcpp' is now added as an dependency, due to the aforementioned partial re-write in 'C++'.
 * **New Features:** Added `%ss%` to the collection of string arithmetic operators, and added the `strfind()<-` method to the string search operators. Added tests for these also.
 * **Optimization:** Managed to optimise `stri_locate_ith()` even further. Optimised the 'subset_if' operators a bit more. Also optimised the `%n&%`, and `%=strtype%` operators a bit more.
 * **Argument change:** One can now supply the `at` argument in the list of the right-hand side for the `%s{}%` operator. Supplying `at = "start"` will check if the pattern appears at the start of a string. Supplying `at = "end"` will check if the pattern appears at the end of a string.

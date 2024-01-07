@@ -85,6 +85,9 @@ giving the start and end positions of the \eqn{i^{th}} matches,
 two \code{NA}s if no matches are found,
 and also two \code{NA}s if \code{str} is \code{NA}.\cr
 \cr
+If an empty string or empty pattern is supplied,
+a warning is given and a matrix with 0 rows is returned. \cr
+\cr
 }
 \description{
 The \code{stri_locate_ith()} function
@@ -116,7 +119,8 @@ For replacing/transforming the \eqn{i^{th}} pattern occurrence:
 using again \link[stringi]{stri_sub}. \cr \cr
 }
 
-See also the examples section.
+See also the examples section. \cr
+\cr
 }
 \section{Warning}{
 
@@ -124,7 +128,8 @@ The \code{capture_groups} argument for \code{regex} is not (yet) supported! \cr
 If one wishes to capture the \eqn{i^{th}} occurrence of a group,
 first apply \code{stri_locate_ith()} on the entire occurrence without group capture,
 and then get the matched group capture using \link[stringi]{stri_match}. \cr
-See examples below.
+See examples below. \cr
+\cr
 }
 
 \examples{

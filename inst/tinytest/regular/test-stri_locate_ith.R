@@ -2,6 +2,11 @@
 enumerate <- 0 # to count number of tests performed using iterations in loops
 loops <- 0 # to count number of loops
 
+errorfun <- function(tt) {
+  if(isTRUE(tt)) print(tt)
+  if(isFALSE(tt)) stop(print(tt))
+}
+
 
 # positions ====
 # regex
@@ -65,6 +70,90 @@ expected <- cbind(0:16, 1:n, 1:n, n:1, n:1)
 colnames(expected) <- c("", "start", "end", "start", "end")
 expect_equal(expected, outcome)
 
+
+# basic equality checks ====
+
+x <- list(
+  NA,
+  "ABC",
+  "abc",
+  "",
+  character(0)
+)
+pattern <- list(
+  NA,
+  "ab",
+  "AB",
+  "",
+  character(0)
+)
+
+for(iX in 1:length(x)) {
+  for(iP in 1:length(pattern)) {
+    for (iCI in c(TRUE, FALSE)) {
+      cat("iX = ", iX, "; iP = ", iP, "; iCI = ", iCI, "\n")
+      
+      # Sys.sleep(0.1)
+      expect_equal(
+        stri_locate_ith_fixed(x[[iX]], pattern[[iP]], i = 1, case_insensitive = iCI),
+        stringi::stri_locate_first(x[[iX]], fixed = pattern[[iP]], case_insensitive = iCI)
+      ) |> errorfun()
+      print("Done: fixed, first")
+      
+      # Sys.sleep(0.1)
+      expect_equal(
+        stri_locate_ith_fixed(x[[iX]], pattern[[iP]], i = -1, case_insensitive = iCI),
+        stringi::stri_locate_last(x[[iX]], fixed = pattern[[iP]], case_insensitive = iCI)
+      ) |> errorfun()
+      print("Done: fixed, last")
+      
+      # Sys.sleep(0.1)
+      expect_equal(
+        stri_locate_ith_regex(x[[iX]], pattern[[iP]], i = 1, case_insensitive = iCI),
+        stringi::stri_locate_first(x[[iX]], regex = pattern[[iP]], case_insensitive = iCI)
+      ) |> errorfun()
+      print("Done: regex, first")
+      
+      # Sys.sleep(0.1)
+      expect_equal(
+        stri_locate_ith_regex(x[[iX]], pattern[[iP]], i = -1, case_insensitive = iCI),
+        stringi::stri_locate_last(x[[iX]], regex = pattern[[iP]], case_insensitive = iCI)
+      ) |> errorfun()
+      print("Done: regex, last")
+      
+      # Sys.sleep(0.1)
+      expect_equal(
+        stri_locate_ith_coll(x[[iX]], pattern[[iP]], i = 1),
+        stringi::stri_locate_first(x[[iX]], coll = pattern[[iP]])
+      ) |> errorfun()
+      print("Done: coll, first")
+      
+      # Sys.sleep(0.1)
+      expect_equal(
+        stri_locate_ith_coll(x[[iX]], pattern[[iP]], i = -1),
+        stringi::stri_locate_last(x[[iX]], coll = pattern[[iP]])
+      ) |> errorfun()
+      print("Done: coll, last")
+      
+      # Sys.sleep(0.1)
+      expect_equal(
+        stri_locate_ith_charclass(x[[iX]], stringi::stri_c("[", pattern[[iP]], "]"), i = 1, merge = FALSE),
+        stringi::stri_locate_first(x[[iX]], charclass = stringi::stri_c("[", pattern[[iP]], "]"))
+      ) |> errorfun()
+      print("Done: charclass, first")
+      
+      # Sys.sleep(0.1)
+      expect_equal(
+        stri_locate_ith_charclass(x[[iX]], stringi::stri_c("[", pattern[[iP]], "]"), i = -1, merge = FALSE),
+        stringi::stri_locate_last(x[[iX]], charclass = stringi::stri_c("[", pattern[[iP]], "]"))
+      ) |> errorfun()
+      print("Done: charclass, last")
+      
+      enumerate <- enumerate + 8
+      
+    }
+  }
+}
 
 
 # regex ====
@@ -327,13 +416,29 @@ expect_error(
 )
 
 
-# unsupported argument ====
+# empty search ====
+expect_warning(
+  stri_locate_ith(character(0), 1, regex = "foo"),
+  pattern = "empty search not allowed"
+)
+expect_warning(
+  stri_locate_ith("foo", 1, regex = character(0)),
+  pattern = "empty search not allowed"
+)
 
-
-# regex, capture groups ====
+# regex, capture groups error ====
 x <- 'breakfast=eggs, lunch=pizza, dessert=icecream'
 p <- '(\\w+)=(\\w+)'
 expect_error(
   stri_locate_ith_regex(x, 1, p, capture_groups = TRUE)
+)
+
+# try large vector for stri_locate_ith ====
+n <- 1e6
+x <- sapply(1:n, \(x)paste0(sample(1:10), collapse = ""))
+p <- "\\d"
+i <- sample(c(-50:-1, 1:50), replace=TRUE, size = n)
+expect_silent(
+  stri_locate_ith_regex(x, p, i, case_insensitive = TRUE)
 )
 

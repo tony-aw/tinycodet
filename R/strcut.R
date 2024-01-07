@@ -162,7 +162,7 @@ strcut_brk <- function(str, type = "character", tolist = FALSE, n = -1L, ...) {
 #' @keywords internal
 #' @noRd
 .check_loc <- function(loc, cc, abortcall) {
-  if(any(loc[cc] < 1)) {
+  if(.rcpp_any_nonpos(loc[cc])) {
     stop(simpleError("`loc` can only have strictly positive numbers", call = abortcall))
   }
   if(any(loc[,2] < loc[,1])) {

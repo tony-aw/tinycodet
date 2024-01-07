@@ -36,10 +36,10 @@ primarily focuses on 4 aspects:
 4)  Reducing repetitive code.
 
 ‘tinycodet’ adheres to the [tinyverse](https://www.tinyverse.org/)
-philosophy (not to be confused with the tidyverse). It has only two
-dependencies: ‘stringi’ and ‘collapse’. No other dependencies, thus
-avoiding “dependency hell”. Most functions in this R-package are
-vectorized and optimised.
+philosophy (not to be confused with the tidyverse). Besides linking to
+‘Rcpp’, ‘tinycodet’ has only one other dependency: ‘stringi’. No other
+dependencies, thus avoiding “dependency hell”. Most functions in this
+R-package are vectorized and optimised.
 
 Although this is a relatively small R package, I do understand you may
 not want to go through all the articles and help files of ‘tinycodet’

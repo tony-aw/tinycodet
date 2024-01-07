@@ -19,7 +19,7 @@ x <- list(
 )
 pattern <- list(
   NA,
-  "ab",
+  "abc",
   c("ab", "ab"),
   "AB",
   c("AB", "AB"),
@@ -69,6 +69,33 @@ for(iX in 1:length(x)) {
     }
   }
 }
+
+
+x <- c(paste0(letters, collapse=""), paste0(rev(letters), collapse=""), NA)
+p <- s_fixed("abc", at = "start")
+expect_equal(
+  x %s{}% p,
+  stringi::stri_startswith(x, fixed = "abc")
+)
+
+p <- s_fixed("xyz", at = "end")
+expect_equal(
+  x %s{}% p,
+  stringi::stri_endswith(x, fixed = "xyz")
+)
+
+p <- s_fixed("cba", at = "end")
+expect_equal(
+  x %s{}% p,
+  stringi::stri_endswith(x, fixed = "cba")
+)
+
+p <- s_fixed("zyx", at = "start")
+expect_equal(
+  x %s{}% p,
+  stringi::stri_startswith(x, fixed = "zyx")
+)
+
 
 
 # error checks ====

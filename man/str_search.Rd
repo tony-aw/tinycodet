@@ -149,7 +149,7 @@ print(x)
 
 # Example of \%s{}\% and \%s!{}\% with "at" argument ====
 
-x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""), NA)
+x <- c(paste0(letters, collapse=""), paste0(rev(letters), collapse=""), NA)
 p <- s_fixed("abc", at = "start")
 x \%s{}\% p
 stringi::stri_startswith(x, fixed = "abc") # same as above
@@ -157,6 +157,14 @@ stringi::stri_startswith(x, fixed = "abc") # same as above
 p <- s_fixed("xyz", at = "end")
 x \%s{}\% p
 stringi::stri_endswith(x, fixed = "xyz") # same as above
+
+p <- s_fixed("cba", at = "end")
+x \%s{}\% p
+stringi::stri_endswith(x, fixed = "cba") # same as above
+
+p <- s_fixed("zyx", at = "start")
+x \%s{}\% p
+stringi::stri_startswith(x, fixed = "zyx") # same as above
 
 
 #############################################################################

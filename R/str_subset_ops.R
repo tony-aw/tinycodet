@@ -86,7 +86,7 @@ NULL
 `%sget%` <- function(x, ss) {
   ss <- matrix(as.integer(ss), ncol = 2)
   if(isTRUE(anyNA(ss))) { stop("right hand side cannot contain NA") }
-  if(isTRUE(any(ss < 0))) { stop("right hand side cannot contain negative numbers") }
+  if(isTRUE(.rcpp_any_neg(ss))) { stop("right hand side cannot contain negative numbers") }
   n <- stringi::stri_length(x)
   first <- stringi::stri_sub(x, from = 1, to = ss[,1])
   last <-  stringi::stri_sub(x, from = n - ss[,2] + 1, to = n)
@@ -102,7 +102,7 @@ NULL
 `%strim%` <- function(x, ss) {
   ss <- matrix(as.integer(ss), ncol=2)
   if(isTRUE(anyNA(ss))) { stop("right hand side cannot contain NA") }
-  if(isTRUE(any(ss < 0))) { stop("right hand side cannot contain negative numbers") }
+  if(isTRUE(.rcpp_any_neg(ss))) { stop("right hand side cannot contain negative numbers") }
   
   n <- stringi::stri_length(x)
   out <- ifelse(

@@ -32,7 +32,8 @@
 #' 'tinycodet' adheres to the
 #' \href{https://www.tinyverse.org/}{tinyverse}
 #' philosophy.
-#' 'tinycodet' has only two dependencies: 'stingi' and 'collapse'.
+#' Besides linking to 'Rcpp', 'tinycodet' only has one other dependency:
+#' 'stingi'.
 #' No other dependencies, thus avoiding "dependency hell".
 #' Most functions in this R-package are vectorized and optimised. \cr
 #' \cr
@@ -58,4 +59,9 @@
 #' @aliases tinycodet-package
 #' @aliases tinycodet
 #' @aliases tinycodet_help
+#' @useDynLib tinycodet, .registration=TRUE
+#' @importFrom Rcpp evalCpp
+#' @exportPattern "^[[:alpha:]]+"
 NULL
+#> NULL
+#> 

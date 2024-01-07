@@ -63,3 +63,4 @@ expect_error(
   x %strim% ss,
   pattern = "right hand side cannot contain NA"
 )
+

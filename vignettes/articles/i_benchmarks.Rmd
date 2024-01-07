@@ -27,7 +27,7 @@ loadNamespace("ggplot2")
 
 # Introduction
 
-Although the functions in this R package were written R, the functions - especially the string related ones - have been somewhat aggressively optimized. The string related functions, for example, are about in the same order of magnitude in terms of speed as the `stringi` functions they call.
+Although the functions in this R package were written mostly in R (and a little bit in C++), the functions - especially the string related ones - have been somewhat aggressively optimized. The string related functions, for example, are about in the same order of magnitude in terms of speed as the `stringi` functions they call.
 
 
 Here some speed comparisons are given, using the 'bench' package.

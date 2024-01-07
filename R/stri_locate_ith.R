@@ -84,7 +84,8 @@
 #'  4) Return the transformed/replaced sub-string back,
 #'  using again \link[stringi]{stri_sub}. \cr \cr
 #' 
-#' See also the examples section.
+#' See also the examples section. \cr
+#' \cr
 #' 
 #' 
 #' @section Warning: 
@@ -92,8 +93,8 @@
 #' If one wishes to capture the \eqn{i^{th}} occurrence of a group,
 #' first apply \code{stri_locate_ith()} on the entire occurrence without group capture,
 #' and then get the matched group capture using \link[stringi]{stri_match}. \cr
-#' See examples below.
-#' 
+#' See examples below. \cr
+#' \cr
 #' 
 #'
 #'
@@ -102,6 +103,9 @@
 #' giving the start and end positions of the \eqn{i^{th}} matches,
 #' two \code{NA}s if no matches are found,
 #' and also two \code{NA}s if \code{str} is \code{NA}.\cr
+#' \cr
+#' If an empty string or empty pattern is supplied,
+#' a warning is given and a matrix with 0 rows is returned. \cr
 #' \cr
 #'
 #' @seealso \link{tinycodet_strings}
@@ -373,8 +377,12 @@ stri_locate_ith_boundaries <- function(
     stop(simpleError("`i` must be the same length as `str`, or be a length of 1", call = abortcall))
   }
   
-  n.matches <- collapse::vlengths(p1) / 2
-  n.matches <- pmax(n.matches, 1) # if no matches found, n.matches must be 1 so that "match" NA is returned.
+  if(length(p1) == 0) {
+    warning(simpleWarning("empty search not allowed"))
+    return(cbind(start = integer(0), end = integer(0)))
+  }
+  n.matches <- as.integer(lengths(p1) / 2L)
+  # n.matches <- pmax(n.matches, 1) # if no matches found, n.matches must be 1 so that "match" NA is returned.
   neg <- which(i < 0)
   pos <- which(i > 0)
   
@@ -386,9 +394,7 @@ stri_locate_ith_boundaries <- function(
   i[neg] <- pmax(n.matches[neg] - abs(i[neg] + 1), 1)
   i[pos] <- pmin(i[pos], n.matches[pos])
   
-  rowind <- i + c(0, collapse::fcumsum.default(n.matches))[seq_len(n)]
-  mat <- do.call(rbind, p1)
-  mat <- mat[rowind, , drop = FALSE]
+  mat <- .rcpp_alloc_stri_locate_ith(p1, as.integer(i - 1L))
   colnames(mat) <- c("start", "end")
   
   return(mat)

@@ -169,6 +169,13 @@ and also two <code>NA</code>s if <code>str</code> is <code>NA</code>.<br></p>
 <p><br></p>
 
 
+<p>If an empty string or empty pattern is supplied,
+a warning is given and a matrix with 0 rows is returned. <br></p>
+
+
+<p><br></p>
+
+
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -186,7 +193,7 @@ For replacing/transforming the \(i^{th}\) pattern occurrence:</p><ol><li><p>Loca
 <li><p>Transform or replace the extracted sub-strings.</p></li>
 <li><p>Return the transformed/replaced sub-string back,
 using again <a href="https://rdrr.io/pkg/stringi/man/stri_sub.html" class="external-link">stri_sub</a>. <br><br></p></li>
-</ol><p>See also the examples section.</p>
+</ol><p>See also the examples section. <br><br></p>
     </div>
     <div class="section level2">
     <h2 id="warning">Warning<a class="anchor" aria-label="anchor" href="#warning"></a></h2>
@@ -196,7 +203,7 @@ using again <a href="https://rdrr.io/pkg/stringi/man/stri_sub.html" class="exter
 If one wishes to capture the \(i^{th}\) occurrence of a group,
 first apply <code>stri_locate_ith()</code> on the entire occurrence without group capture,
 and then get the matched group capture using <a href="https://rdrr.io/pkg/stringi/man/stri_match.html" class="external-link">stri_match</a>. <br>
-See examples below.</p>
+See examples below. <br><br></p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
