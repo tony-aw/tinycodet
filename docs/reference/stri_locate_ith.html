@@ -184,28 +184,29 @@ first, last, or all occurrences of a pattern. <br>
 The <code>stri_locate_ith()</code> function
 allows locating the \(i^{th}\) occurrence of a pattern. <br>
 This allows for several workflows
-for operating on the \(i^{th}\) pattern occurrence. <br><br>
+for operating on the \(i^{th}\) pattern occurrence. <br>
+See also the examples section. <br><br><b>Extract \(i^{th}\) Occurrence of a Pattern</b> <br>
 For extracting the \(i^{th}\) pattern occurrence: <br>
 Locate the the \(i^{th}\) occurrence using <code>stri_locate_ith()</code>,
-and then extract it using, for example, <a href="https://rdrr.io/pkg/stringi/man/stri_sub.html" class="external-link">stri_sub</a>. <br><br>
+and then extract it using, for example, <a href="https://rdrr.io/pkg/stringi/man/stri_sub.html" class="external-link">stri_sub</a>. <br><br><b>Replace/Transform \(i^{th}\) Occurrence of a Pattern</b> <br>
 For replacing/transforming the \(i^{th}\) pattern occurrence:</p><ol><li><p>Locate the the \(i^{th}\) occurrence using <code>stri_locate_ith()</code>.</p></li>
 <li><p>Extract the occurrence using <a href="https://rdrr.io/pkg/stringi/man/stri_sub.html" class="external-link">stri_sub</a>.</p></li>
 <li><p>Transform or replace the extracted sub-strings.</p></li>
 <li><p>Return the transformed/replaced sub-string back,
 using again <a href="https://rdrr.io/pkg/stringi/man/stri_sub.html" class="external-link">stri_sub</a>. <br><br></p></li>
-</ol><p>See also the examples section. <br><br></p>
-    </div>
+</ol><p><b>Capture Groups of \(i^{th}\) Occurrence of a Pattern</b> <br>
+The <code>capture_groups</code> argument for <code>regex</code> is not supported within <code>stri_locate_ith()</code>. <br>
+To capture the groups of the \(i^{th}\) occurrences:</p><ol><li><p>Use <code>stri_locate_ith()</code> to locate the \(i^{th}\) occurrences without group capture.</p></li>
+<li><p>Extract the occurrence using <a href="https://rdrr.io/pkg/stringi/man/stri_sub.html" class="external-link">stri_sub</a>.</p></li>
+<li><p>Get the matched group capture on the extracted occurrences using <a href="https://rdrr.io/pkg/stringi/man/stri_match.html" class="external-link">stri_match</a>. <br><br></p></li>
+</ol></div>
     <div class="section level2">
-    <h2 id="warnings">Warnings<a class="anchor" aria-label="anchor" href="#warnings"></a></h2>
+    <h2 id="warning">Warning<a class="anchor" aria-label="anchor" href="#warning"></a></h2>
     
 
-<p>As this function outputs a matrix,
-<code>long vectors</code> are not supported. <br><br>
-The <code>capture_groups</code> argument for <code>regex</code> is not supported. <br>
-If one wishes to capture the \(i^{th}\) occurrence of a group,
-first apply <code>stri_locate_ith()</code> on the entire occurrence without group capture,
-and then get the matched group capture using <a href="https://rdrr.io/pkg/stringi/man/stri_match.html" class="external-link">stri_match</a>. <br>
-See examples below. <br><br></p>
+<p>The <code>stri_locate_ith()</code> function
+does not support <code>long vectors</code>,
+i.e. character vectors with more than <code>2^31 - 1</code> strings. <br><br></p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

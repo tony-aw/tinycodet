@@ -1,4 +1,4 @@
-#' Conditional Sub-setting and In-place Replacer of Unreal Values
+#' Conditional Sub-setting and In-place Replacement of Unreal Values
 #'
 #' @description
 #'

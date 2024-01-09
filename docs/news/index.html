@@ -63,40 +63,33 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3.9" id="tinycodet-039-under-development">tinycodet 0.3.9 (Under Development)<a class="anchor" aria-label="anchor" href="#tinycodet-039-under-development"></a></h2>
-<ul><li>Clarified in the documentation that <code>%col~%</code> and <code>%row~%</code> strip attributes (this was not really made clear in the documentation before).</li>
+<ul><li>Clarified in the documentation that <code>%col~%</code> and <code>%row~%</code> strip attributes.</li>
 <li>Clarified the usage of <code>merge = FALSE</code> for pattern <code>charclass</code>, in the documentation of the <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> function.</li>
-<li>Clarified in the documentation that the locked objects are not protected from modification by reference.</li>
-<li>Clarified in the documentation of ‘stringi’ pattern-searching infix operators that the <code>p</code> argument can also be a character vector of length 1.</li>
-<li>Clarified in the <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> documentation that one should not pass the <code>capture_groups</code> argument; also clarified how to capture the <code>ith</code> group using <code>stri_locate_ith</code>.</li>
+<li>Clarified in the documentation that locked objects are not protected from modification by reference.</li>
+<li>Clarified in the documentation of ‘stringi’ pattern searching infix operators that the <code>p</code> argument can also be a character vector of length 1.</li>
+<li>Clarified in the <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> documentation that one should not pass the <code>capture_groups</code> argument; also clarified how to capture the <code>ith</code> group using <code>stri_locate_ith</code>. And clarified that <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> does not support long vectors.</li>
 <li>Normalized the links in the “See Also” sections in the documentation.</li>
 <li>Renamed the “str_truth” page to “str_search”, as that makes a little more sense.</li>
-<li>Removed the redundant <code>stringi::</code> call in the example code for <code><a href="../reference/import_misc.html">import_LL()</a></code>.</li>
+<li>Removed the redundant <code>stringi::</code> piece in the example code for <code><a href="../reference/import_misc.html">import_LL()</a></code>.</li>
 <li>The help file for the <code>s_pattern</code> functions is now actually titled “s_pattern”.</li>
-<li>Cleaned up the internal code here and there.</li>
-<li>The <code><a href="../reference/x.import.html">help.import()</a></code> function now gives an error if neither <code>topic/package</code> nor <code>i/alias</code> is supplied, instead of just silently doing nothing.</li>
 <li>The messages returned by <code><a href="../reference/import_as.html">import_as()</a></code> when aliasing packages is now slightly less verbose: removed the line “Methods work like normally”, and replaced the line “Importing packages …” with “Importing packages and registering methods…”.</li>
 <li>The <code><a href="../reference/strcut.html">strcut_brk()</a></code> function now includes the <code>tolist</code> argument to return a list. Moreover, the <code>n</code> argument may now also be specified (<code>n = -1L</code> by default).</li>
-<li>Improved safety against malformed condition in the <code><a href="../reference/transform_if.html">transform_if()</a></code> function.</li>
 <li>
-<code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> now gives a warning when an empty string or pattern is given.</li>
+<strong>More safety checks:</strong> Improved safety against malformed conditions in the <code><a href="../reference/transform_if.html">transform_if()</a></code> function. <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> now gives a warning when an empty string or pattern is given. The <code><a href="../reference/x.import.html">help.import()</a></code> function now gives an error if neither <code>topic/package</code> nor <code>i/alias</code> is supplied, instead of just silently doing nothing. The %sget% and %strim% operators now give an explicit error message if the arguments do not have proper lengths.</li>
 <li>
-<strong>Internal Re-write:</strong> <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> has now been partially re-written, and now includes ‘C++’ code, making it slightly faster.</li>
+<strong>Internal Re-write:</strong> <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> has now been partially re-written, and now includes ‘C++’ code, making it a bit faster. Also cleaned up the internal code for some other functions here and there.</li>
 <li>
 <strong>Added dependency:</strong> ‘Rcpp’ is now added as an dependency, due to the aforementioned partial re-write in ‘C++’.</li>
 <li>
-<strong>New Features:</strong> Added <code>%ss%</code> to the collection of string arithmetic operators, and added the <code>strfind()&lt;-</code> method to the string search operators. Added tests for these also.</li>
+<strong>New Features:</strong> Added <code>%ss%</code> to the collection of string arithmetic operators, and added the <code>strfind()&lt;-</code> method to the string search operators. One can now supply the <code>at</code> argument in the list of the right-hand side for the <code>%s{}%</code> operator. Supplying <code>at = "start"</code> will check if the pattern appears at the start of a string. Supplying <code>at = "end"</code> will check if the pattern appears at the end of a string.</li>
 <li>
-<strong>Optimization:</strong> Managed to optimise <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> even further. Optimised the ‘subset_if’ operators a bit more. Also optimised the <code>%n&amp;%</code>, and <code>%=strtype%</code> operators a bit more.</li>
-<li>
-<strong>Argument change:</strong> One can now supply the <code>at</code> argument in the list of the right-hand side for the <code>%s{}%</code> operator. Supplying <code>at = "start"</code> will check if the pattern appears at the start of a string. Supplying <code>at = "end"</code> will check if the pattern appears at the end of a string.</li>
+<strong>Optimization:</strong> Managed to optimise <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> even further. Optimised the ‘subset_if’ operators a bit more. Also optimised the <code>%n&amp;%</code>, <code>%sget%</code>, <code>%strim%</code>, and <code>%=strtype%</code> operators a bit more.</li>
 <li>
 <strong>Argument change:</strong> The <code>s_pattern</code> functions now wrap additional arguments in a list for the user, in case of using vector arguments, preventing potential confusion.</li>
 <li>
-<strong>Argument change:</strong> There are now also the explicit <code>stri_locate_ith_[regex/fixed/coll/charclass]</code> functions, using the same argument conventions as the rest of ‘stringi’.</li>
-<li>
 <strong>Argument change:</strong> The <code>type</code> argument in <code><a href="../reference/stri_locate_ith.html">stri_locate_ith_boundaries()</a></code> is now not a mandatory argument; one can now also supply it through <code>stri_opts_brikiter()</code>, to keep it more consistent with the rest of ‘stringi’.</li>
 <li>
-<strong>Tests:</strong> Improved the tests for the <code>s_pattern</code> operators. Added tests for <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> when using argument <code>merge = FALSE</code>. Added more error check tests for <code><a href="../reference/x.import.html">help.import()</a></code>. Added tests for unequal vector sizes for the logic operators. Added tests for empty condition subsets for <code><a href="../reference/transform_if.html">transform_if()</a></code>. Added tests for the new functions <code>%ss%</code> and <code>strtype()&lt;-</code>.</li>
+<strong>Tests:</strong> Improved the tests for the <code>s_pattern</code> operators. Added tests for <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> when using argument <code>merge = FALSE</code>. Added more error check tests for <code><a href="../reference/x.import.html">help.import()</a></code>. Added tests for unequal vector sizes for the logic operators. Added tests for empty condition subsets for <code><a href="../reference/transform_if.html">transform_if()</a></code>. Added tests for the new functionalities introduced in this version. Added tests for malformed ‘stringi’ pattern searches in all relevant functions.</li>
 <li>
 <strong>Bug fix:</strong> There was a small bug where <code><a href="../reference/s_pattern.html">s_coll()</a></code> worked properly when assigned to an object (as usual), but not when called directly (like nested inside a function). This is now fixed.</li>
 </ul></div>

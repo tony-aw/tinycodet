@@ -57,7 +57,7 @@
 #' 'stringi' infix operators start with "\code{%s}",
 #' though they all have an alias starting with "\code{%stri}".
 #' In analogy to that, the above functions start with "\code{s_}"
-#' rather than "\code{stri_}", as they are all meant for infix operators only. \cr
+#' rather than "\code{stri_}", as they are all meant for operators only. \cr
 #'
 #'
 #'

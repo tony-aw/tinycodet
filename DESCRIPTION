@@ -22,7 +22,9 @@ Suggests:
     knitr,
     rmarkdown,
     tinytest,
-    roxygen2
+    roxygen2,
+    collapse,
+    kit
 Depends: 
     R (>= 4.1.0)
 Imports:

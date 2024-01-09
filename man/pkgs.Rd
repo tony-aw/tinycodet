@@ -61,8 +61,8 @@ indicating whether the shared dependencies of the 'tidyverse' should be included
 (\code{TRUE}),
 or not included (\code{FALSE}). \cr
 \bold{Details:} \cr
-'tidyverse' packages tend to have more dependencies than 'tinyverse' and 'fastverse' packages. \cr
-Some of these dependencies are shared across the 'tidyverse'. \cr
+Some of the (often many) dependencies 'tidyverse' packages have
+are shared across the majority of the 'tidyverse'. \cr
 The "official" list of shared dependencies in the 'tidyverse' currently is the following: \cr
 'rlang', 'lifecycle', 'cli', 'glue', and 'withr'.}
 

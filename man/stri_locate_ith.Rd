@@ -105,11 +105,14 @@ The \code{stri_locate_ith()} function
 allows locating the \eqn{i^{th}} occurrence of a pattern. \cr
 This allows for several workflows
 for operating on the \eqn{i^{th}} pattern occurrence. \cr
+See also the examples section. \cr
 \cr
+\bold{Extract \eqn{i^{th}} Occurrence of a Pattern} \cr
 For extracting the \eqn{i^{th}} pattern occurrence: \cr
 Locate the the \eqn{i^{th}} occurrence using \code{stri_locate_ith()},
 and then extract it using, for example, \link[stringi]{stri_sub}. \cr
 \cr
+\bold{Replace/Transform \eqn{i^{th}} Occurrence of a Pattern} \cr
 For replacing/transforming the \eqn{i^{th}} pattern occurrence:
 \enumerate{
 \item Locate the the \eqn{i^{th}} occurrence using \code{stri_locate_ith()}.
@@ -119,19 +122,20 @@ For replacing/transforming the \eqn{i^{th}} pattern occurrence:
 using again \link[stringi]{stri_sub}. \cr \cr
 }
 
-See also the examples section. \cr
-\cr
+\bold{Capture Groups of \eqn{i^{th}} Occurrence of a Pattern} \cr
+The \code{capture_groups} argument for \code{regex} is not supported within \code{stri_locate_ith()}. \cr
+To capture the groups of the \eqn{i^{th}} occurrences:
+\enumerate{
+\item Use \code{stri_locate_ith()} to locate the \eqn{i^{th}} occurrences without group capture.
+\item Extract the occurrence using \link[stringi]{stri_sub}.
+\item Get the matched group capture on the extracted occurrences using \link[stringi]{stri_match}. \cr \cr
 }
-\section{Warnings}{
+}
+\section{Warning}{
 
-As this function outputs a matrix,
-\code{long vectors} are not supported. \cr
-\cr
-The \code{capture_groups} argument for \code{regex} is not supported. \cr
-If one wishes to capture the \eqn{i^{th}} occurrence of a group,
-first apply \code{stri_locate_ith()} on the entire occurrence without group capture,
-and then get the matched group capture using \link[stringi]{stri_match}. \cr
-See examples below. \cr
+The \code{stri_locate_ith()} function
+does not support \code{long vectors},
+i.e. character vectors with more than \code{2^31 - 1} strings. \cr
 \cr
 }
 

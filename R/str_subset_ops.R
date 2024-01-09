@@ -87,13 +87,20 @@ NULL
   ss <- matrix(as.integer(ss), ncol = 2)
   if(isTRUE(anyNA(ss))) { stop("right hand side cannot contain NA") }
   if(isTRUE(.rcpp_any_neg(ss))) { stop("right hand side cannot contain negative numbers") }
+  if(length(ss) != 2 && (length(ss)/2) != length(x)) {
+    stop("`nrow(ss)` must be equal to `length(x)`, or must be a vector of length 2")
+  }
   n <- stringi::stri_length(x)
   first <- stringi::stri_sub(x, from = 1, to = ss[,1])
   last <-  stringi::stri_sub(x, from = n - ss[,2] + 1, to = n)
-  out <- ifelse(
-    rowSums(ss) >= n,
-    x, stringi::stri_c(first, last, sep = "")
-  )
+  
+  out <- character(length(x))
+  test <- rowSums(ss) >= n
+  ind_T <- which(test)
+  ind_F <- which(!test)
+  out[ind_T] <- x[ind_T]
+  out[ind_F] <- stringi::stri_c(first[ind_F], last[ind_F], sep = "")
+  
   return(out)
 }
 
@@ -105,10 +112,18 @@ NULL
   if(isTRUE(.rcpp_any_neg(ss))) { stop("right hand side cannot contain negative numbers") }
   
   n <- stringi::stri_length(x)
-  out <- ifelse(
-    rowSums(ss) >= n,
-    "", stringi::stri_sub(x, from = 1 + ss[,1], to = n - ss[,2])
-  )
+  out <- character(length(x))
+  test <- rowSums(ss) >= n
+  ind_T <- which(test)
+  ind_F <- which(!test)
+  out[ind_T] <- ""
+  if(length(ss) == 2) {
+    out[ind_F] <- stringi::stri_sub(x[ind_F], from = 1 + ss[,1], to = n[ind_F] - ss[,2])
+  } else if((length(ss)/2) == length(x)) {
+    out[ind_F] <- stringi::stri_sub(x[ind_F], from = 1 + ss[ind_F,1], to = n[ind_F] - ss[ind_F,2])
+  } else {
+    stop("`nrow(ss)` must be equal to `length(x)`, or must be a vector of length 2")
+  }
   return(out)
 }
 
