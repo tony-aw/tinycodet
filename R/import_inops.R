@@ -115,22 +115,22 @@ import_inops <- function(
 ) {
 
   # check expose/unexpose:
-  if(!is.null(expose) & !is.null(unexpose)) {
+  if(!is.null(expose) && !is.null(unexpose)) {
     stop("Can only specify either `expose` or `unexpose`, not both")
   }
   if(!is.null(expose)) {
-    if(!is.character(expose) & !is.environment(expose)) {
+    if(!is.character(expose) && !is.environment(expose)) {
       stop("`expose` must be a package name (string) or an alias from `import_as()`")
     }
   }
   if(!is.null(unexpose)) {
-    if(!is.character(unexpose) & !is.environment(unexpose)) {
+    if(!is.character(unexpose) && !is.environment(unexpose)) {
       stop("`unexpose` must be a package name (string) or an alias from `import_as()`")
     }
   }
 
   # check library:
-  if(is.character(expose)|is.character(unexpose)){
+  if(is.character(expose) || is.character(unexpose)){
     .internal_check_lib.loc(lib.loc, sys.call())
   }
 
@@ -364,7 +364,7 @@ import_inops <- function(
   )
   all_conflicting <- sum(check_existing) == length(operators)
 
-  if(sum(check_existing)>0 & !all_conflicting) {
+  if(sum(check_existing) > 0 && !all_conflicting) {
     conflict.txt <- paste0(
       "The following infix operators already exist in the current environment:",
       "\n",
@@ -372,13 +372,13 @@ import_inops <- function(
       "\n"
     )
   }
-  if(sum(check_existing)>0 & all_conflicting) {
+  if(sum(check_existing) > 0 && all_conflicting) {
     conflict.txt <- paste0(
       "ALL prepared infix operators already exist in the current environment",
       "\n"
     )
   }
-  if(isTRUE(overwrite) & sum(check_existing)>0) {
+  if(isTRUE(overwrite) && sum(check_existing) > 0) {
     message(simpleMessage(
       paste0(conflict.txt, "Overwriting existing infix operators...", "\n"),
       abortcall
@@ -388,7 +388,7 @@ import_inops <- function(
       abortcall
     ))
   }
-  if(isFALSE(overwrite) & sum(check_existing)>0) { stop(simpleError(
+  if(isFALSE(overwrite) && sum(check_existing) > 0) { stop(simpleError(
     paste0(conflict.txt, "Function halted"), abortcall
   ))}
 }
@@ -400,7 +400,7 @@ import_inops <- function(
     stop("`nms` must be a character vector")
   }
 
-  if(missing(nms)|missing(pkgs)|missing(env)) {
+  if(missing(nms) || missing(pkgs) || missing(env)) {
     stop("not all arguments given in `.is.tinyinops()`")
   }
   temp.fun <- function(nm, pkgs, env) {
@@ -437,7 +437,7 @@ import_inops <- function(
     }
   }
   checks <- rep_len(FALSE, length(nms))
-  for (i in 1:length(nms)) {
+  for (i in seq_along(nms)) {
     checks[i] <- temp.fun(nms[i], pkgs, env)
   }
   return(checks)

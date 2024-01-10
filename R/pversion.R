@@ -90,7 +90,7 @@ pversion_check4mismatch <- function(pkgs = NULL, lib.loc = .libPaths()) {
         version_loaded = versions_loaded,
         version_lib.loc = versions_lib
       )
-      rownames(tab) <- 1:nrow(tab)
+      rownames(tab) <- seq_len(nrow(tab))
       return(tab)
     }
   }
@@ -129,7 +129,7 @@ pversion_report <- function(pkgs = NULL, lib.loc = .libPaths()) {
       version_lib.loc = versions_lib,
       versions_equal = versions_compare
     )
-    rownames(tab) <- 1:nrow(tab)
+    rownames(tab) <- seq_len(nrow(tab))
     return(tab)
   }
   

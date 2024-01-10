@@ -12,23 +12,23 @@
 #' and are not as comprehensive as R's impressive numerical functions.
 #' The primary R-package that fixes this is 'stringi'. \cr
 #'  \cr
-#' 'stringi' is the fastest and most comprehensive
+#' 'stringi' is arguably the fastest and most comprehensive
 #' string manipulation package available at the time of writing.
 #' Many string related packages fully depend on 'stringi'
-#' ('stringr', for example, is just a wrapper around 'stringi'). \cr
+#' (see its reverse-dependencies on CRAN). \cr
 #' \cr
 #' As string manipulation is so important to programming languages,
 #' 'tinycodet' adds a little bit new functionality to 'stringi':
 #'
 #' * Find  \eqn{i^{th}} pattern occurrence (\link{stri_locate_ith}),
 #' or \eqn{i^{th}} text boundary (\link{stri_locate_ith_boundaries}).
-#' * \link[=stri_join_mat]{Concatenate a character matrix row- or column-wise }.
+#' * \link[=stri_join_mat]{Concatenate a character matrix row- or column-wise}.
 #' * Cut strings with the \link[=strcut_loc]{strcut_-functions}.
 #' * Infix operators for \link[=%s-%]{string arithmetic}.
 #' * Infix operators for \link[=%sget%]{string sub-setting},
 #' which get or remove the first and/or last \code{n} characters from strings.
 #' * Infix operators for \link[=str_search]{detecting patterns},
-#' and \link{strfind} for locating/extracting/replacing found patterns.
+#' and \link[=strfind]{strfind()<-} for locating/extracting/replacing found patterns.
 #'
 #'
 #'

@@ -21,9 +21,9 @@
 #' \cr
 #' For string (in)equality operators, see \link[stringi]{%s==%} from the 'stringi' package. \cr
 #' \cr
-#' The \code{strfind()<-} method,
-#' although technically not an operator,
-#' is meant to complement the string-related infix operators,
+#' \code{strfind()<-}
+#' locates, extracts, or replaces found patterns. \cr
+#' It complements the other string-related operators,
 #' and uses the same \link{s_pattern} API. \cr
 #' It functions as follows:
 #'  * \code{strfind()} attempts to find all pattern matches,

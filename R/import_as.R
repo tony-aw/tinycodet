@@ -169,7 +169,7 @@ import_as <- function(
   
   # Check alias:
   alias_is_formula <- inherits(alias, "formula") && is.call(alias) && alias[[1]] == "~"
-  if(!is.character(alias) & !alias_is_formula) {
+  if(!is.character(alias) && !alias_is_formula) {
     stop("`alias` needs to be either a string or a formula")
   }
   if(alias_is_formula) {
@@ -265,7 +265,7 @@ import_as <- function(
   
   message("Importing packages and registering methods...")
   
-  for (i in 1:length(pkgs)) {
+  for (i in seq_along(pkgs)) {
     
     namespace_current <- .internal_prep_Namespace(pkgs[i], lib.loc, abortcall = sys.call())
     conflicts_df$package[i] <- pkgs[i]
@@ -273,7 +273,7 @@ import_as <- function(
     # versions_df$version_ns[i] <- getNamespaceVersion(pkgs[i])
     # versions_df$version_lib.loc[i] <- utils::packageVersion(pkgs[i], lib.loc)
     
-    if(pkgs[i]==main_package & isTRUE(re_exports)) {
+    if(pkgs[i]==main_package && isTRUE(re_exports)) {
       foreignexports <- .internal_get_foreignexports_ns(main_package, lib.loc, abortcall=sys.call())
       
       namespace_current <- utils::modifyList(
@@ -338,7 +338,7 @@ import_as <- function(
 #' @keywords internal
 #' @noRd
 .is.tinyalias <- function(alias_chr, env) {
-  if(!is.character(alias_chr) | length(alias_chr)!=1) {
+  if(!is.character(alias_chr) || length(alias_chr)!=1) {
     stop("`alias_chr` must be a single string")
   }
   if(!exists(alias_chr, envir = env, inherits = FALSE)) {

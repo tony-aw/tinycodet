@@ -1,10 +1,10 @@
-# tinycodet 0.3.9 (Under Development)
+# tinycodet 0.4.0
 * Clarified in the documentation that `%col~%` and `%row~%` strip attributes.
 * Clarified the usage of `merge = FALSE` for pattern `charclass`,
 in the documentation of the `stri_locate_ith()` function.
 * Clarified in the documentation that locked objects are not protected from modification by reference.
 * Clarified in the documentation of 'stringi' pattern searching infix operators that the `p` argument can also be a character vector of length 1.
-* Clarified in the `stri_locate_ith()` documentation that one should not pass the `capture_groups` argument; also clarified how to capture the `ith` group using `stri_locate_ith`. And clarified that `stri_locate_ith()` does not support long vectors.
+* Clarified in the `stri_locate_ith()` documentation that one should not pass the `capture_groups` argument; also clarified how to capture the `ith` group using `stri_locate_ith()`. And clarified that `stri_locate_ith()` does not support long vectors.
 * Normalized the links in the "See Also" sections in the documentation.
 * Renamed the "str_truth" page to "str_search", as that makes a little more sense.
 * Removed the redundant `stringi::` piece in the example code for `import_LL()`.

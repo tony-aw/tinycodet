@@ -5,9 +5,10 @@
     pkgs, lib.loc, deps_type=c("Depends", "Imports", "LinkingTo")
 ) {
   all_deps <- sapply(
-    pkgs, function(p)pkg_get_deps(p, lib.loc=lib.loc, deps_type=deps_type,
-                                  base=FALSE, recom=FALSE, rstudioapi=FALSE, shared_tidy=FALSE)
-  ) |> unlist() |> unname()
+    pkgs, function(p) pkg_get_deps(
+      p, lib.loc=lib.loc, deps_type=deps_type,
+      base=FALSE, recom=FALSE, rstudioapi=FALSE, shared_tidy=FALSE
+  )) |> unlist() |> unname()
   check <- any(pkgs %in% all_deps)
   return(check)
 }

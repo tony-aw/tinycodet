@@ -47,7 +47,7 @@ for(i in testfiles) {
   if(!grepl("-special", i)) {
     my_env <- new.env()
     source(file.path(getwd(),"regular", i), local = my_env) |> suppressMessages()
-    if("enumerate" %in% names(my_env) & "loops" %in% names(my_env)){
+    if("enumerate" %in% names(my_env) && "loops" %in% names(my_env)){
       print(my_env$enumerate)
       n.iterations <- n.iterations + my_env$enumerate
       n.loops <- n.loops + my_env$loops

@@ -116,7 +116,7 @@ import_LL <- function(
 
 
   # check main_package:
-  if(!is.character(package) | length(package)>1){
+  if(!is.character(package) || length(package) > 1){
     stop("`package` must be a single string")
   }
   .internal_check_pkgs(pkgs=package, lib.loc=lib.loc, abortcall=sys.call())

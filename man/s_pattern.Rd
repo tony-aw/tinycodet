@@ -6,7 +6,7 @@
 \alias{s_fixed}
 \alias{s_coll}
 \alias{s_chrcls}
-\title{Pattern Specifications for String Related Infix Operators}
+\title{Pattern Specifications for String Related Operators}
 \usage{
 s_regex(
   p,
@@ -61,7 +61,7 @@ For example: the \code{at} argument for the \link{str_search} operators.}
 \item{uppercase_first, case_level}{see \link[stringi]{stri_opts_collator}.}
 }
 \value{
-A list with arguments to be passed to the appropriate infix operators.
+A list with arguments to be passed to the appropriate operators.
 }
 \description{
 The \link[=str_arithmetic]{\%s-\%, \%s/\%, \%ss\%} operators,

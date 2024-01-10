@@ -122,7 +122,7 @@ stringi::`%s$%`
 
 #' @rdname str_arithmetic
 #' @export
-`%s-%` <- function (x, p) {
+`%s-%` <- function(x, p) {
   if(is.list(p)){
     return(do.call(stringi::stri_replace_all, c(list(str=x, replacement=""), p)))
   } else if(is.character(p)) {

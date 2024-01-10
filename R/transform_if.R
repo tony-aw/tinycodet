@@ -16,7 +16,8 @@
 #'  function \code{other(x)} is run or scalar \code{other} is returned. \cr
 #' }
 #' 
-#' For a more \code{ifelse}-like function where \code{yes} and \code{no} are vectors,
+#' For a more \code{ifelse}-like function where
+#' \code{yes}, \code{no}, and \code{other} are vectors,
 #' see \code{kit::}\link[kit]{iif}.
 #'
 #' @param x a vector, matrix, or array.

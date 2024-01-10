@@ -1,4 +1,4 @@
-#' Pattern Specifications for String Related Infix Operators
+#' Pattern Specifications for String Related Operators
 #'
 #' @description
 #'
@@ -78,7 +78,7 @@
 #' 
 #'
 #' @returns
-#' A list with arguments to be passed to the appropriate infix operators.
+#' A list with arguments to be passed to the appropriate operators.
 #'
 #' @seealso \link{tinycodet_strings}
 #'

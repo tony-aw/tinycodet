@@ -63,18 +63,18 @@ import_inops.control <- function(
     exclude=NULL, include.only=NULL, overwrite=TRUE, inherits=FALSE
 ) {
   # check exclude and include.only:
-  if(!is.null(exclude) & !is.null(include.only)){
+  if(!is.null(exclude) && !is.null(include.only)){
     stop(
       "canntot specify both `exclude` and `include.only`; specify only one or none"
     )
   }
   if(length(exclude) > 0) {
-    if(!is.character(exclude) | any(!nzchar(exclude)) | anyDuplicated(exclude)) {
+    if(!is.character(exclude) || any(!nzchar(exclude)) || anyDuplicated(exclude)) {
       stop("`exclude` must be a character vector of unique function names")
     }
   }
   if(length(include.only) > 0) {
-    if(!is.character(include.only) | any(!nzchar(include.only)) | anyDuplicated(include.only)) {
+    if(!is.character(include.only) || any(!nzchar(include.only)) || anyDuplicated(include.only)) {
       stop("`include.only` must be a character vector of unique function names")
     }
   }
@@ -93,14 +93,14 @@ import_inops.control <- function(
   }
 
   # check overwrite:
-  if(!isTRUE(overwrite) & !isFALSE(overwrite)) {
+  if(!isTRUE(overwrite) && !isFALSE(overwrite)) {
     stop(
       "`overwrite` must be either `TRUE` or `FALSE`"
     )
   }
 
   # check inherits:
-  if(!isTRUE(inherits) & !isFALSE(inherits)) {
+  if(!isTRUE(inherits) && !isFALSE(inherits)) {
     stop(
       "`inherits` must be either `TRUE` or `FALSE`"
     )

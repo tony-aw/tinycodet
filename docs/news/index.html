@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tinycodet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.9</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -62,12 +62,12 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.3.9" id="tinycodet-039-under-development">tinycodet 0.3.9 (Under Development)<a class="anchor" aria-label="anchor" href="#tinycodet-039-under-development"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.4.0" id="tinycodet-040">tinycodet 0.4.0<a class="anchor" aria-label="anchor" href="#tinycodet-040"></a></h2>
 <ul><li>Clarified in the documentation that <code>%col~%</code> and <code>%row~%</code> strip attributes.</li>
 <li>Clarified the usage of <code>merge = FALSE</code> for pattern <code>charclass</code>, in the documentation of the <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> function.</li>
 <li>Clarified in the documentation that locked objects are not protected from modification by reference.</li>
 <li>Clarified in the documentation of ‘stringi’ pattern searching infix operators that the <code>p</code> argument can also be a character vector of length 1.</li>
-<li>Clarified in the <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> documentation that one should not pass the <code>capture_groups</code> argument; also clarified how to capture the <code>ith</code> group using <code>stri_locate_ith</code>. And clarified that <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> does not support long vectors.</li>
+<li>Clarified in the <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> documentation that one should not pass the <code>capture_groups</code> argument; also clarified how to capture the <code>ith</code> group using <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code>. And clarified that <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> does not support long vectors.</li>
 <li>Normalized the links in the “See Also” sections in the documentation.</li>
 <li>Renamed the “str_truth” page to “str_search”, as that makes a little more sense.</li>
 <li>Removed the redundant <code>stringi::</code> piece in the example code for <code><a href="../reference/import_misc.html">import_LL()</a></code>.</li>
@@ -75,7 +75,7 @@
 <li>The messages returned by <code><a href="../reference/import_as.html">import_as()</a></code> when aliasing packages is now slightly less verbose: removed the line “Methods work like normally”, and replaced the line “Importing packages …” with “Importing packages and registering methods…”.</li>
 <li>The <code><a href="../reference/strcut.html">strcut_brk()</a></code> function now includes the <code>tolist</code> argument to return a list. Moreover, the <code>n</code> argument may now also be specified (<code>n = -1L</code> by default).</li>
 <li>
-<strong>More safety checks:</strong> Improved safety against malformed conditions in the <code><a href="../reference/transform_if.html">transform_if()</a></code> function. <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> now gives a warning when an empty string or pattern is given. The <code><a href="../reference/x.import.html">help.import()</a></code> function now gives an error if neither <code>topic/package</code> nor <code>i/alias</code> is supplied, instead of just silently doing nothing. The %sget% and %strim% operators now give an explicit error message if the arguments do not have proper lengths.</li>
+<strong>More safety checks:</strong> Improved safety against malformed conditions in the <code><a href="../reference/transform_if.html">transform_if()</a></code> function. <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> now gives a warning when an empty string or pattern is given. The <code><a href="../reference/x.import.html">help.import()</a></code> function now gives an error if neither <code>topic/package</code> nor <code>i/alias</code> is supplied, instead of just silently doing nothing. The <code>%sget%</code> and <code>%strim%</code> operators now give an explicit error message if the arguments do not have proper lengths.</li>
 <li>
 <strong>Internal Re-write:</strong> <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> has now been partially re-written, and now includes ‘C++’ code, making it a bit faster. Also cleaned up the internal code for some other functions here and there.</li>
 <li>

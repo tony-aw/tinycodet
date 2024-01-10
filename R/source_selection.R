@@ -122,7 +122,7 @@ source_selection <- function(
       "invalid `", substitute(x), "` argument given"
     )
     if(!is.null(x)) {
-      if(!is.character(x) | length(x)==0) {
+      if(!is.character(x) || length(x) == 0) {
         stop(simpleError(error.txt, call = abortcall))
       }
       if(any(!nzchar(x))) {
@@ -150,14 +150,14 @@ source_selection <- function(
         paste(wrong.select, collapse = ", ")
       )
     }
-    for (i in 1:length(select)) {
+    for (i in seq_along(select)) {
       attr(tempenv[[select[i]]], "env") <- tempenv
       assign(select[[i]], tempenv[[select[i]]], envir = parent.frame(n = 1))
     }
   }
 
   # get patterns:
-  if(!is.null(regex) | !is.null(fixed)) {
+  if(!is.null(regex) || !is.null(fixed)) {
     fun_names <- names(tempenv)[unlist(lapply(tempenv, is.function))]
     methodnames <- .source_getmethodnames(fun_names, regex, fixed)
 

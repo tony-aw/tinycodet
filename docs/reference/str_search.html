@@ -18,9 +18,9 @@ rather then presence.
 
 For string (in)equality operators, see %s==% from the 'stringi' package. 
 
-The strfind()&amp;lt;- method,
-although technically not an operator,
-is meant to complement the string-related infix operators,
+strfind()&amp;lt;-
+locates, extracts, or replaces found patterns. 
+It complements the other string-related operators,
 and uses the same s_pattern API. 
 It functions as follows:
 strfind() attempts to find all pattern matches,
@@ -58,9 +58,9 @@ rather then presence.
 
 For string (in)equality operators, see %s==% from the 'stringi' package. 
 
-The strfind()&amp;lt;- method,
-although technically not an operator,
-is meant to complement the string-related infix operators,
+strfind()&amp;lt;-
+locates, extracts, or replaces found patterns. 
+It complements the other string-related operators,
 and uses the same s_pattern API. 
 It functions as follows:
 strfind() attempts to find all pattern matches,
@@ -90,7 +90,7 @@ except the replacement is done in-place
     
     <a class="navbar-brand me-2" href="../index.html">tinycodet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.9</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -156,10 +156,9 @@ will check if the pattern appears at the end of a string
 </ul><p>The <code>x %s!{}% p</code> operator is the same as <code>x %s{}% p</code>,
 except it checks for <b>absence</b> of the pattern occurrence,
 rather then presence. <br><br>
-For string (in)equality operators, see <a href="https://rdrr.io/pkg/stringi/man/operator_compare.html" class="external-link">%s==%</a> from the 'stringi' package. <br><br>
-The <code>strfind()&lt;-</code> method,
-although technically not an operator,
-is meant to complement the string-related infix operators,
+For string (in)equality operators, see <a href="https://rdrr.io/pkg/stringi/man/operator_compare.html" class="external-link">%s==%</a> from the 'stringi' package. <br><br><code>strfind()&lt;-</code>
+locates, extracts, or replaces found patterns. <br>
+It complements the other string-related operators,
 and uses the same <a href="s_pattern.html">s_pattern</a> API. <br>
 It functions as follows:</p><ul><li><p><code>strfind()</code> attempts to find all pattern matches,
 and returns the extractions of the findings in a list,
