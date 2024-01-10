@@ -24,20 +24,20 @@ with a function \code{f}. \cr
 \cr
 For example this:
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{mtcars$mpg[mtcars$cyl>6] <- mtcars$mpg[mtcars$cyl>6]^2
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{mtcars$mpg[mtcars$cyl > 6] <- mtcars$mpg[mtcars$cyl>6]^2
 }\if{html}{\out{</div>}}
 
 Can now be re-written as:
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{mtcars$mpg\[mtcars$cyl>6\] \%:=\% \\(x)x^2
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{mtcars$mpg\[mtcars$cyl > 6\] \%:=\% \\(x) x^2
 }\if{html}{\out{</div>}}
 }
 \examples{
 set.seed(1)
-object <- matrix(rpois(10, 10), ncol=2)
+object <- matrix(rpois(10, 10), ncol = 2)
 print(object)
 y <- 3
-object \%:=\% \(x) x+y # same as object <- object + y
+object \%:=\% \(x) x + y # same as object <- object + y
 print(object)
 
 }

@@ -40,12 +40,12 @@ exposed by \code{import_inops()}, will be removed from the current environment
 If such infix operators could not be found, this function simply returns \code{NULL}. \cr
 }
 \description{
-\code{import_inops(expose=...)}
+\code{import_inops(expose = ...)}
 exposes infix operators specified
 in a package or an alias object to the current environment
 (like the global environment or the environment within a function). \cr
 \cr
-\code{import_inops(unexpose=...)}
+\code{import_inops(unexpose = ...)}
 "unexposes" (i.e. removes) the infix operators specified
 in a package or an alias object
 from the current environment

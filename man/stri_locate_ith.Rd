@@ -28,13 +28,13 @@ stri_locate_ith_boundaries(str, i, ..., opts_brkiter = NULL)
 Positive numbers are counting from the left. Negative numbers are counting from the right.
 I.e.:
 \itemize{
-\item \code{stri_locate_ith(str, i=1, ...)} \cr
+\item \code{stri_locate_ith(str, i = 1, ...)} \cr
 gives the position (range) of the first occurrence of a pattern.
-\item \code{stri_locate_ith(str, i=-1, ...)} \cr
+\item \code{stri_locate_ith(str, i = -1, ...)} \cr
 gives the position (range) of the last occurrence of a pattern.
-\item \code{stri_locate_ith(str, i=2, ...)}\cr
+\item \code{stri_locate_ith(str, i = 2, ...)}\cr
 gives the position (range) of the second occurrence of a pattern.
-\item \code{stri_locate_ith(str, i=-2, ...)} \cr
+\item \code{stri_locate_ith(str, i = -2, ...)} \cr
 gives the position (range) of the second-last occurrence of a pattern.
 }
 If \code{abs(i)} is larger than the number of instances,
@@ -146,12 +146,12 @@ i.e. character vectors with more than \code{2^31 - 1} strings. \cr
 # practical example: transform regex pattern ====
 
 # input character vector:
-x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+x <- c(paste0(letters[1:13], collapse = ""), paste0(letters[14:26], collapse = ""))
 print(x)
 
 # locate ith (second and second-last) vowel locations:
 p <- rep("A|E|I|O|U", 2) # vowels
-loc <- stri_locate_ith(x, c(2, -2), regex=p, case_insensitive=TRUE)
+loc <- stri_locate_ith(x, c(2, -2), regex = p, case_insensitive = TRUE)
 print(loc)
 
 # extract ith vowels:
@@ -232,10 +232,10 @@ out <- stri_locate_ith(x, 1:10, regex = as.character(1:10))
 cbind(1:10, out)
 
 
-x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse = ""))
 print(x)
 p <- rep("a|e|i|o|u",2)
-out <- stri_locate_ith(x, c(-1, 1), regex=p)
+out <- stri_locate_ith(x, c(-1, 1), regex = p)
 print(out)
 substr(x, out[,1], out[,2])
 
@@ -245,10 +245,10 @@ substr(x, out[,1], out[,2])
 # ignore case pattern ====
 
 
-x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+x <- c(paste0(letters[1:13], collapse = ""), paste0(letters[14:26], collapse = ""))
 print(x)
 p <- rep("A|E|I|O|U", 2)
-out <- stri_locate_ith(x, c(1, -1), regex=p, case_insensitive=TRUE)
+out <- stri_locate_ith(x, c(1, -1), regex = p, case_insensitive = TRUE)
 substr(x, out[,1], out[,2])
 
 
@@ -256,11 +256,11 @@ substr(x, out[,1], out[,2])
 
 # multi-character pattern ====
 
-x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+x <- c(paste0(letters[1:13], collapse = ""), paste0(letters[14:26], collapse = ""))
 print(x)
 # multi-character pattern:
 p <- rep("AB", 2)
-out <- stri_locate_ith(x, c(1, -1), regex=p, case_insensitive=TRUE)
+out <- stri_locate_ith(x, c(1, -1), regex = p, case_insensitive = TRUE)
 print(out)
 substr(x, out[,1], out[,2])
 
@@ -271,10 +271,10 @@ substr(x, out[,1], out[,2])
 # Replacement transformation using stringi ====
 
 x <- c("hello world", "goodbye world")
-loc <- stri_locate_ith(x, c(1, -1), regex="a|e|i|o|u")
-extr <- stringi::stri_sub(x, from=loc)
+loc <- stri_locate_ith(x, c(1, -1), regex = "a|e|i|o|u")
+extr <- stringi::stri_sub(x, from = loc)
 repl <- chartr(extr, old = "a-zA-Z", new = "A-Za-z")
-stringi::stri_sub_replace(x, loc, replacement=repl)
+stringi::stri_sub_replace(x, loc, replacement = repl)
 
 
 #############################################################################
@@ -287,7 +287,7 @@ paste0("The\u00a0above-mentioned    features are very useful. ",
       "good morning, good evening, and good night"
       )
 loc <- stri_locate_ith_boundaries(test, i = c(1, -1), type = "word")
-stringi::stri_sub(test, from=loc)
+stringi::stri_sub(test, from = loc)
 
 }
 \seealso{

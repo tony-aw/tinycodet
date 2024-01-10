@@ -8,13 +8,13 @@
 #' For example this:
 #'
 #' ```{r echo=TRUE, eval = FALSE}
-#' mtcars$mpg[mtcars$cyl>6] <- mtcars$mpg[mtcars$cyl>6]^2
+#' mtcars$mpg[mtcars$cyl > 6] <- mtcars$mpg[mtcars$cyl>6]^2
 #' ```
 #'
 #' Can now be re-written as:
 #'
 #' ```{r echo=TRUE, eval = FALSE}
-#' mtcars$mpg\[mtcars$cyl>6\] %:=% \(x)x^2
+#' mtcars$mpg\[mtcars$cyl > 6\] %:=% \(x) x^2
 #' ```
 #'
 #' @param x a variable.
@@ -30,10 +30,10 @@
 #'
 #' @examples
 #' set.seed(1)
-#' object <- matrix(rpois(10, 10), ncol=2)
+#' object <- matrix(rpois(10, 10), ncol = 2)
 #' print(object)
 #' y <- 3
-#' object %:=% \(x) x+y # same as object <- object + y
+#' object %:=% \(x) x + y # same as object <- object + y
 #' print(object)
 #'
 

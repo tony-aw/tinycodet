@@ -28,7 +28,7 @@
 #' like so:
 #'
 #' ```{r echo = TRUE, eval = FALSE}
-#' library(packagename, include.only = pkg_lsf("packagename", type="inops"))
+#' library(packagename, include.only = pkg_lsf("packagename", type = "inops"))
 #' ```
 #'
 #'

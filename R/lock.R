@@ -45,7 +45,7 @@
 #' I.e.:
 #'
 #' ```{r, eval = FALSE, echo = TRUE}
-#' x %<-c% (2+2)
+#' x %<-c% (2 + 2)
 #' ```
 #' 
 #' Note that the \code{lock_TF()} function and \code{%s<-c%} operator
@@ -72,7 +72,7 @@
 #' @examples
 #'
 #' lock_TF()
-#' X %<-c% data.frame(x=3, y=2) # this data.frame cannot be changed. Only accessed or removed.
+#' X %<-c% data.frame(x = 3, y = 2) # this data.frame cannot be changed. Only accessed or removed.
 #' X[1, ,drop=FALSE]
 #'
 #'

@@ -112,7 +112,7 @@ One handy use for this function is to, for example,
 globally attach all infix operators from a package using \code{library},
 like so:
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{library(packagename, include.only = pkg_lsf("packagename", type="inops"))
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{library(packagename, include.only = pkg_lsf("packagename", type = "inops"))
 }\if{html}{\out{</div>}}
 }
 \details{

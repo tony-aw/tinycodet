@@ -45,9 +45,9 @@
 #' @details
 #' Be careful with coercion! For example the following code:
 #'
-#' ```{r echo=TRUE, eval = FALSE}
+#' ```{r echo = TRUE, eval = FALSE}
 #' x <- c("a", "b")
-#' transform_if(x, \(x)x=="a", as.numeric, as.logical)
+#' transform_if(x, \(x) x == "a", as.numeric, as.logical)
 #' ```
 #' returns:
 #'
@@ -67,14 +67,14 @@
 #'
 #' @examples
 #' x <- c(-10:9, NA, NA)
-#' object <- matrix(x, ncol=2)
+#' object <- matrix(x, ncol = 2)
 #' attr(object, "helloworld") <- "helloworld"
 #' print(object)
 #' y <- 0
 #' z <- 1000
 #'
-#' object |> transform_if(\(x)x>y, log, \(x)x^2, \(x)-z)
-#' object |> transform_if(object > y, log, \(x)x^2, -z) # same as previous line
+#' object |> transform_if(\(x) x > y, log, \(x) x^2, \(x) -z)
+#' object |> transform_if(object > y, log, \(x) x^2, -z) # same as previous line
 #'
 
 

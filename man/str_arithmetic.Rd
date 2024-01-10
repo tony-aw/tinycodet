@@ -93,14 +93,15 @@ paste0("The\u00a0above-mentioned    features are very useful. ",
 test \%s//\% list(type = "character")
 
 
-x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+x <- c(paste0(letters[1:13], collapse = ""),
+       paste0(letters[14:26], collapse = ""))
 print(x)
 y <- "a"
 # pattern that ignores case:
-p <- list(regex=rep("A|E|I|O|U", 2), case_insensitive = TRUE)
+p <- list(regex = rep("A|E|I|O|U", 2), case_insensitive = TRUE)
 n <- c(2, 3)
 
-x \%s+\% y # =paste0(x,y)
+x \%s+\% y # = paste0(x,y)
 x \%s-\% p # remove all vowels from x
 x \%s*\% n
 x \%s/\% p # count how often vowels appears in each string of vector x.

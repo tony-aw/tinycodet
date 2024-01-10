@@ -58,7 +58,7 @@ see \code{kit::}\link[kit]{iif}.
 Be careful with coercion! For example the following code:
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{x <- c("a", "b")
-transform_if(x, \\(x)x=="a", as.numeric, as.logical)
+transform_if(x, \\(x) x == "a", as.numeric, as.logical)
 }\if{html}{\out{</div>}}
 
 returns:
@@ -71,14 +71,14 @@ due to the same character vector being given 2 incompatible classes. \cr
 }
 \examples{
 x <- c(-10:9, NA, NA)
-object <- matrix(x, ncol=2)
+object <- matrix(x, ncol = 2)
 attr(object, "helloworld") <- "helloworld"
 print(object)
 y <- 0
 z <- 1000
 
-object |> transform_if(\(x)x>y, log, \(x)x^2, \(x)-z)
-object |> transform_if(object > y, log, \(x)x^2, -z) # same as previous line
+object |> transform_if(\(x) x > y, log, \(x) x^2, \(x) -z)
+object |> transform_if(object > y, log, \(x) x^2, -z) # same as previous line
 
 }
 \seealso{

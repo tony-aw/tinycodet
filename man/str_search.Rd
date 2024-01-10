@@ -120,7 +120,8 @@ See examples below. \cr
 
 # example of \%s{}\% and \%s!{}\% ====
 
-x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+x <- c(paste0(letters[1:13], collapse = ""),
+       paste0(letters[14:26], collapse = ""))
 print(x)
 x \%s{}\% "a"
 x \%s!{}\% "a"
@@ -132,7 +133,8 @@ x[x \%s{}\% "a"] <- 1
 x[x \%s!{}\% "a"] <- 1
 print(x)
 
-x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+x <- c(paste0(letters[1:13], collapse = ""),
+       paste0(letters[14:26], collapse = ""))
 x \%s{}\% "1"
 x \%s!{}\% "1"
 which(x \%s{}\% "1")
@@ -148,7 +150,8 @@ print(x)
 
 # Example of \%s{}\% and \%s!{}\% with "at" argument ====
 
-x <- c(paste0(letters, collapse=""), paste0(rev(letters), collapse=""), NA)
+x <- c(paste0(letters, collapse = ""),
+       paste0(rev(letters), collapse = ""), NA)
 p <- s_fixed("abc", at = "start")
 x \%s{}\% p
 stringi::stri_startswith(x, fixed = "abc") # same as above
@@ -186,13 +189,14 @@ print(x)
 # Example of strfind for replace ith ====
 
 # new character vector:
-x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+x <- c(paste0(letters[1:13], collapse = ""),
+       paste0(letters[14:26], collapse = ""))
 print(x)
 
 # report ith (second and second-last) vowel locations:
 p <- s_regex( # vowels
   rep("A|E|I|O|U", 2),
-  case_insensitive=TRUE
+  case_insensitive = TRUE
 )
 loc <- strfind(x, p, i = c(2, -2))
 print(loc)

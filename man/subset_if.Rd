@@ -46,7 +46,7 @@ with replacement value \code{repl}. \cr
 Thus, \cr
 \code{x \%unreal =\% repl}, \cr
 is the same as, \cr
-\code{x[is.na(x)|is.nan(x)|is.infinite(x)] <- repl} \cr
+\code{x[is.na(x) | is.nan(x) | is.infinite(x)] <- repl} \cr
 }
 \examples{
 x <- c(-10:9, NA, NA)

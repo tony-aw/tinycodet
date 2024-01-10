@@ -12,10 +12,10 @@ one can also supply a list to specify exactly how the pattern should be interpre
 The list should use the exact same argument convention as 'stringi'. 
 
 For example:
-list(regex=p, case_insensitive=FALSE, ...)
-list(fixed=p, ...)
-list(coll=p, ...)
-list(charclass=p, ...)
+list(regex = p, case_insensitive = FALSE, ...)
+list(fixed = p, ...)
+list(coll = p, ...)
+list(charclass = p, ...)
 
 
 All arguments in the list are simply passed to the
@@ -25,7 +25,7 @@ x %s/% p
 
 counts how often regular expression specified in character vector
 p occurs in x, whereas the following,
-x %s/% list(fixed=p, case_insensitive=TRUE)
+x %s/% list(fixed = p, case_insensitive = TRUE)
 
 will do the same,
 except it uses fixed (i.e. literal) expression,
@@ -60,10 +60,10 @@ one can also supply a list to specify exactly how the pattern should be interpre
 The list should use the exact same argument convention as 'stringi'. 
 
 For example:
-list(regex=p, case_insensitive=FALSE, ...)
-list(fixed=p, ...)
-list(coll=p, ...)
-list(charclass=p, ...)
+list(regex = p, case_insensitive = FALSE, ...)
+list(fixed = p, ...)
+list(coll = p, ...)
+list(charclass = p, ...)
 
 
 All arguments in the list are simply passed to the
@@ -73,7 +73,7 @@ x %s/% p
 
 counts how often regular expression specified in character vector
 p occurs in x, whereas the following,
-x %s/% list(fixed=p, case_insensitive=TRUE)
+x %s/% list(fixed = p, case_insensitive = TRUE)
 
 will do the same,
 except it uses fixed (i.e. literal) expression,
@@ -169,17 +169,17 @@ this is interpreted as case-sensitive
 Instead of giving a string or character vector of regex patterns,
 one can also supply a list to specify exactly how the pattern should be interpreted.
 The list should use the exact same argument convention as 'stringi'. <br><br>
-For example:</p><ul><li><p><code>list(regex=p, case_insensitive=FALSE, ...)</code></p></li>
-<li><p><code>list(fixed=p, ...)</code></p></li>
-<li><p><code>list(coll=p, ...)</code></p></li>
-<li><p><code>list(charclass=p, ...)</code></p></li>
+For example:</p><ul><li><p><code>list(regex = p, case_insensitive = FALSE, ...)</code></p></li>
+<li><p><code>list(fixed = p, ...)</code></p></li>
+<li><p><code>list(coll = p, ...)</code></p></li>
+<li><p><code>list(charclass = p, ...)</code></p></li>
 </ul><p>All arguments in the list are simply passed to the
 appropriate functions in 'stringi'. <br>
 For example:</p>
 <p></p><div class="sourceCode r"><pre><code><span><span class="va">x</span> <span class="op"><a href="../reference/str_arithmetic.html">%s/%</a></span> <span class="va">p</span></span></code></pre><p></p></div>
 <p>counts how often regular expression specified in character vector
 <code>p</code> occurs in <code>x</code>, whereas the following,</p>
-<p></p><div class="sourceCode r"><pre><code><span><span class="va">x</span> <span class="op"><a href="../reference/str_arithmetic.html">%s/%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>fixed<span class="op">=</span><span class="va">p</span>, case_insensitive<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre><p></p></div>
+<p></p><div class="sourceCode r"><pre><code><span><span class="va">x</span> <span class="op"><a href="../reference/str_arithmetic.html">%s/%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>fixed <span class="op">=</span> <span class="va">p</span>, case_insensitive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre><p></p></div>
 <p>will do the same,
 except it uses fixed (i.e. literal) expression,
 and it does not distinguish between upper case and lower case characters. <br><br>
@@ -281,14 +281,16 @@ For example: the <code>at</code> argument for the <a href="str_search.html">str_
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">13</span><span class="op">]</span>, collapse<span class="op">=</span><span class="st">""</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">14</span><span class="op">:</span><span class="fl">26</span><span class="op">]</span>, collapse<span class="op">=</span><span class="st">""</span><span class="op">)</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">13</span><span class="op">]</span>, collapse <span class="op">=</span> <span class="st">""</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>       <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">14</span><span class="op">:</span><span class="fl">26</span><span class="op">]</span>, collapse <span class="op">=</span> <span class="st">""</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "abcdefghijklm" "nopqrstuvwxyz"</span>
-<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"a|e|i|o|u"</span>, <span class="fl">2</span><span class="op">)</span> <span class="co"># same as p &lt;- list(regex=rep("a|e|i|o|u", 2))</span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"a|e|i|o|u"</span>, <span class="fl">2</span><span class="op">)</span> <span class="co"># same as p &lt;- list(regex = rep("a|e|i|o|u", 2))</span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op"><a href="str_arithmetic.html">%s/%</a></span> <span class="va">p</span> <span class="co"># count how often vowels appear in each string of vector x.</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3 2</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">13</span><span class="op">]</span>, collapse<span class="op">=</span><span class="st">""</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">14</span><span class="op">:</span><span class="fl">26</span><span class="op">]</span>, collapse<span class="op">=</span><span class="st">""</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">13</span><span class="op">]</span>, collapse <span class="op">=</span> <span class="st">""</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>       <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">14</span><span class="op">:</span><span class="fl">26</span><span class="op">]</span>, collapse <span class="op">=</span> <span class="st">""</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "abcdefghijklm" "nopqrstuvwxyz"</span>
 <span class="r-in"><span><span class="va">x</span> <span class="op"><a href="str_arithmetic.html">%s/%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>regex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"A|E|I|O|U"</span>, <span class="fl">2</span><span class="op">)</span>, case_insensitive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
@@ -297,21 +299,23 @@ For example: the <code>at</code> argument for the <a href="str_search.html">str_
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3 2</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">13</span><span class="op">]</span>, collapse<span class="op">=</span><span class="st">""</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">14</span><span class="op">:</span><span class="fl">26</span><span class="op">]</span>, collapse<span class="op">=</span><span class="st">""</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">13</span><span class="op">]</span>, collapse <span class="op">=</span> <span class="st">""</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>       <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">14</span><span class="op">:</span><span class="fl">26</span><span class="op">]</span>, collapse <span class="op">=</span> <span class="st">""</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "abcdefghijklm" "nopqrstuvwxyz"</span>
-<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>fixed <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"A"</span><span class="op">)</span>, case_insensitive<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>fixed <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"A"</span><span class="op">)</span>, case_insensitive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op"><a href="str_search.html">%s{}%</a></span> <span class="va">p</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  TRUE FALSE</span>
 <span class="r-in"><span><span class="va">x</span> <span class="op"><a href="str_search.html">%s!{}%</a></span> <span class="va">p</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE  TRUE</span>
-<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu">s_fixed</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"A"</span><span class="op">)</span>, case_insensitive<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu">s_fixed</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"A"</span><span class="op">)</span>, case_insensitive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op"><a href="str_search.html">%s{}%</a></span> <span class="va">p</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  TRUE FALSE</span>
 <span class="r-in"><span><span class="va">x</span> <span class="op"><a href="str_search.html">%s!{}%</a></span> <span class="va">p</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE  TRUE</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">13</span><span class="op">]</span>, collapse<span class="op">=</span><span class="st">""</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">14</span><span class="op">:</span><span class="fl">26</span><span class="op">]</span>, collapse<span class="op">=</span><span class="st">""</span><span class="op">)</span>, <span class="cn">NA</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">13</span><span class="op">]</span>, collapse <span class="op">=</span> <span class="st">""</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>      <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">14</span><span class="op">:</span><span class="fl">26</span><span class="op">]</span>, collapse <span class="op">=</span> <span class="st">""</span><span class="op">)</span>, <span class="cn">NA</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu">s_fixed</span><span class="op">(</span><span class="st">"abc"</span>, at <span class="op">=</span> <span class="st">"start"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op"><a href="str_search.html">%s{}%</a></span> <span class="va">p</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1]  TRUE FALSE    NA</span>

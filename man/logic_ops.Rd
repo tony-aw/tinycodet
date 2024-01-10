@@ -90,8 +90,8 @@ I.e. the string "5.0" can be converted to the the actual number \code{5.0}.
 x <- c(TRUE, FALSE, TRUE, FALSE, NA, NaN, Inf, -Inf, TRUE, FALSE)
 y <- c(FALSE, TRUE, TRUE, FALSE, rep(NA, 6))
 outcome <- data.frame(
-  x=x, y=y,
-  "x \%xor\% y"=x \%xor\% y, "x \%n&\% y" = x \%n&\% y, "x \%?=\% y" = x \%?=\% y,
+  x = x, y = y,
+  "x \%xor\% y" = x \%xor\% y, "x \%n&\% y" = x \%n&\% y, "x \%?=\% y" = x \%?=\% y,
   check.names = FALSE
 )
 print(outcome)

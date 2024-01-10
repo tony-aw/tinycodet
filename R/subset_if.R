@@ -15,7 +15,7 @@
 #' Thus, \cr
 #' \code{x %unreal =% repl}, \cr
 #' is the same as, \cr
-#' \code{x[is.na(x)|is.nan(x)|is.infinite(x)] <- repl} \cr
+#' \code{x[is.na(x) | is.nan(x) | is.infinite(x)] <- repl} \cr
 #'
 #' @param x a vector, matrix, or array.
 #' @param cond a (possibly anonymous) function that returns a \code{logical} vector

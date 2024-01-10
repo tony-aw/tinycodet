@@ -14,7 +14,7 @@
 #' \cr
 #'
 #' @param x a character vector.
-#' @param ss a vector of length 2, or a matrix with 2 columns with \code{nrow(ss)==length(x)}.
+#' @param ss a vector of length 2, or a matrix with 2 columns with \code{nrow(ss) == length(x)}.
 #' The object \code{ss} should consist entirely of non-negative and non-missing integers,
 #' or be coerce-able to such integers.
 #' (thus negative integers, and missing values are not allowed; decimal numbers will be converted to integers). \cr
@@ -48,22 +48,26 @@
 #'
 #' @examples
 #'
-#' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+#' x <- c(paste0(letters[1:13], collapse = ""),
+#'        paste0(letters[14:26], collapse = ""))
 #' print(x)
 #' ss <- c(2,3)
 #' x %sget% ss
 #'
-#' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+#' x <- c(paste0(letters[1:13], collapse = ""),
+#'        paste0(letters[14:26], collapse = ""))
 #' print(x)
 #' ss <- c(1,0)
 #' x %sget% ss
 #'
-#' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+#' x <- c(paste0(letters[1:13], collapse = ""),
+#'        paste0(letters[14:26], collapse = ""))
 #' print(x)
 #' ss <- c(2,3)
 #' x %strim% ss
 #'
-#' x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+#' x <- c(paste0(letters[1:13], collapse = ""),
+#'        paste0(letters[14:26], collapse = ""))
 #' print(x)
 #' ss <- c(1,0)
 #' x %strim% ss
