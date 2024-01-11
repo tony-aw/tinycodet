@@ -72,10 +72,11 @@ see \link{strcut_brk} and \link{strcut_loc}.
 \examples{
 
 
-x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
+x <- c(paste0(letters[1:13], collapse = ""),
+       paste0(letters[14:26], collapse = ""))
 print(x)
 y <- c("a", "b")
-p <- rep("a|e|i|o|u", 2) # same as p <- list(regex=rep("a|e|i|o|u", 2))
+p <- rep("a|e|i|o|u", 2) # same as p <- list(regex = rep("a|e|i|o|u", 2))
 n <- c(3, 2)
 
 x \%s+\% y # = paste0(x,y)

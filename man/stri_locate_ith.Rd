@@ -232,7 +232,8 @@ out <- stri_locate_ith(x, 1:10, regex = as.character(1:10))
 cbind(1:10, out)
 
 
-x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse = ""))
+x <- c(paste0(letters[1:13], collapse=""),
+       paste0(letters[14:26], collapse = ""))
 print(x)
 p <- rep("a|e|i|o|u",2)
 out <- stri_locate_ith(x, c(-1, 1), regex = p)
@@ -245,7 +246,8 @@ substr(x, out[,1], out[,2])
 # ignore case pattern ====
 
 
-x <- c(paste0(letters[1:13], collapse = ""), paste0(letters[14:26], collapse = ""))
+x <- c(paste0(letters[1:13], collapse = ""),
+       paste0(letters[14:26], collapse = ""))
 print(x)
 p <- rep("A|E|I|O|U", 2)
 out <- stri_locate_ith(x, c(1, -1), regex = p, case_insensitive = TRUE)
@@ -256,7 +258,8 @@ substr(x, out[,1], out[,2])
 
 # multi-character pattern ====
 
-x <- c(paste0(letters[1:13], collapse = ""), paste0(letters[14:26], collapse = ""))
+x <- c(paste0(letters[1:13], collapse = ""),
+       paste0(letters[14:26], collapse = ""))
 print(x)
 # multi-character pattern:
 p <- rep("AB", 2)

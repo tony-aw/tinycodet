@@ -12,7 +12,7 @@ Description: Adds some functions to help in your coding etiquette.
     with the benefits of attaching a package.
     3) Extending the string manipulation capabilities of the 'stringi' R package.
     4) Reducing repetitive code.
-    Besides linking to 'Rcpp', 'tinycodet' has only one dependency, namely 'stringi'.
+    Besides linking to 'Rcpp', 'tinycodet' has only one other dependency, namely 'stringi'.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LinkingTo: Rcpp

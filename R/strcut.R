@@ -72,7 +72,7 @@
 #'
 #' @examples
 #'
-#' x <- rep(paste0(1:10, collapse=""), 10)
+#' x <- rep(paste0(1:10, collapse = ""), 10)
 #' print(x)
 #' loc <- stri_locate_ith(x, 1:10, fixed = as.character(1:10))
 #' strcut_loc(x, loc)

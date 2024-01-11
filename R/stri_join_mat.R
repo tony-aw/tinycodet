@@ -45,7 +45,8 @@
 #' #############################################################################
 #' # sorting characters in strings ====
 #'
-#' x <- c(paste(sample(letters), collapse = ""), paste(sample(letters), collapse = ""))
+#' x <- c(paste(sample(letters), collapse = ""),
+#'        paste(sample(letters), collapse = ""))
 #' print(x)
 #' mat <- strcut_brk(x)
 #' rank <- stringi::stri_rank(as.vector(mat)) |>  matrix(ncol=ncol(mat))
@@ -74,7 +75,8 @@
 #'
 #' # randomly shuffling sentences ====
 #'
-#' x <- c("Hello, who are you? Oh, really?! Cool!", "I don't care. But I really don't.")
+#' x <- c("Hello, who are you? Oh, really?! Cool!",
+#'        "I don't care. But I really don't.")
 #' print(x)
 #' mat <- strcut_brk(x, "sentence")
 #' rank <- sample(1:length(mat)) |> matrix(ncol = ncol(mat))

@@ -73,7 +73,7 @@ x \%col~\% -x # reverse-sort elements of every column independently
 
 x <- matrix(sample(1:25), nrow = 5)
 print(x)
-mat <- sample(seq_along(x)) |> matrix(ncol = ncol(x)) # matrix of non-repeating random integers
+mat <- sample(seq_along(x)) |> matrix(ncol = ncol(x))
 x \%row~\% mat # randomly shuffle every row independently
 x \%col~\% mat # randomise shuffle every column independently
 
@@ -89,7 +89,7 @@ x \%col~\% -mat # reverse-sort elements of every column independently
 
 x <- matrix(sample(letters, 25), nrow = 5)
 print(x)
-mat <- sample(seq_along(x)) |> matrix(ncol = ncol(x)) # matrix of non-repeating random integers
+mat <- sample(seq_along(x)) |> matrix(ncol = ncol(x))
 x \%row~\% mat # randomly shuffle every row independently
 x \%col~\% mat # randomise shuffle every column independently
 
