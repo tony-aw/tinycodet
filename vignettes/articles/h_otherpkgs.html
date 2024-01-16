@@ -372,7 +372,7 @@ something similar; so be mindful of that.</p>
 package provides somewhat similar capabilities to the
 <code>tinycodet</code> import management system, but they are still
 quite different. The <code>tinycodet</code>’ import system focuses more
-on loading a main package + its re-exports + (reverse) dependencies
+on importing a main package + its re-exports + (reverse) dependencies
 under a alias, and exposing infix operators from a package to the
 current environment. The <a href="https://github.com/rticulate/import">import</a> package does not
 really provide this functionality directly (as far as I know). Strictly
@@ -385,19 +385,20 @@ package. Where <a href="https://github.com/rticulate/import">import</a>
 is primarily a package import, <a href="https://github.com/klmr/box">box</a> is primarily for sourcing
 user-defined scripts as modules, though it can also import packages.
 Like <a href="https://github.com/rticulate/import">import</a>, it does
-not support loading multiple packages (or modules) under the same alias.
-It is compatible with <code>tinycodet</code>’ package import system; one
-can use <a href="https://github.com/klmr/box">box</a> for handling
-user-defined scripts, and <code>tinycodet</code> for handling
+not support importing multiple packages (or modules) under the same
+alias. It is compatible with <code>tinycodet</code>’ package import
+system; one can use <a href="https://github.com/klmr/box">box</a> for
+handling user-defined scripts, and <code>tinycodet</code> for handling
 packages.</p>
 <p> </p>
 </div>
 <div id="renv" class="section level2">
 <h2>Renv</h2>
 <p>When using the <a href="https://github.com/rstudio/renv">renv</a> R
-package, note that it only registers packages loads using plain
-<code>library()</code> or <code>require()</code> calls. Anything
-different from that, even things like
+package, note that it only registers packages that are attached using
+plain <code>library()</code> or <code>require()</code> calls. Anything
+different from that, whether it be loading (for example <code>::</code>
+or <code>loadNamespace()</code>), importing, or even things like
 <code>for(... in ...)library(...)</code> or
 <code>if(...)library(...)</code>, will by default NOT be understood by
 <a href="https://github.com/rstudio/renv">renv</a>. Therefore, if using
