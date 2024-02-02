@@ -9,7 +9,8 @@
 <title>String related infix operators • tinycodet</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<script src="../deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><link href="../deps/Roboto_Serif-0.4.7/font.css" rel="stylesheet">
+<!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="String related infix operators">
 <meta property="og:description" content="tinycodet">
@@ -26,7 +27,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tinycodet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -96,6 +97,101 @@
 <span><span class="co">#&gt; Run `?tinycodet::tinycodet` to open the introduction help page of 'tinycodet'.</span></span></code></pre></div>
 <p> </p>
 <div class="section level2">
+<h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
+</h2>
+<p>‘tinycodet’ adds 3 sets of string-related operators.</p>
+<p>First, sub-setting operators:</p>
+<ul>
+<li>
+<code>x %sget% ss</code>: returns the first <code>n1</code> and last
+<code>n2</code> characters from each string in character vector
+<code>x</code>.</li>
+<li>
+<code>x %strim% ss</code> trims away first <code>n1</code> and last
+<code>n2</code> characters from each string in character vector
+<code>x</code>.</li>
+</ul>
+<p>Second, ‘stringi’ already has the <code>%s+%</code>,
+<code>%s*%</code>, and <code>%s$%</code> operators, and ‘tinycodet’ adds
+some additional string arithmetic operators to complete the set:</p>
+<ul>
+<li>
+<code>x %s-% p</code> removes pattern <code>p</code> from each
+string in character vector <code>x</code>;</li>
+<li>
+<code>x %s/% p</code> counts how often pattern <code>p</code> occurs
+in each string of character vector <code>x</code>.</li>
+<li>
+<code>x %s//% brk</code> counts how often the text boundary
+specified in list <code>brk</code> occurs in each string of character
+vector <code>x</code>.</li>
+<li>
+<code>x %ss% p</code> splits the strings in <code>x</code> by a
+delimiter character/pattern defined in <code>p</code>, and removes
+<code>p</code> in the process.</li>
+</ul>
+<p>And finally, string search operators:</p>
+<ul>
+<li>
+<code>x %s{}% p</code> operator checks for every string in character
+vector <code>x</code> if the pattern defined in <code>p</code> is
+present. Can also be used to check if the strings specifically start or
+end with pattern <code>p</code>.</li>
+<li>
+<code>x %s!{}% p</code> operator checks for every string in
+character vector <code>x</code> if the pattern defined in <code>p</code>
+is <strong>not</strong> present. Can also be used to check if the
+strings specifically <strong>does not</strong> start or end with pattern
+<code>p</code>.</li>
+<li>
+<code>strfind()&lt;-</code> locates, extracts, or replaces found
+patterns.</li>
+</ul>
+<p> </p>
+<p>The <code>x %s-% p</code> and <code>x %s/% p</code> operators, and
+the string detection operators (<code>%s{}%</code>, <code>%s!{}%</code>,
+<code>strfind()&lt;-</code>) perform pattern matching for various
+purposes. When a character vector or string is given on the right hand
+side, this is interpreted as case-sensitive <code>regex</code> patterns
+from <code>stringi</code>.</p>
+<p>But, of course, sometimes one wants to change this. For example, one
+may want it to be case insensitive. Or perhaps one wants to use fixed
+expressions, or something else.</p>
+<p>Instead of giving a string or character vector of regex patterns, one
+can also supply a list to the right-hand side, to specify exactly how
+the pattern should be interpreted. The list should use the exact same
+naming convention as <code>stringi</code>. For example:</p>
+<ul>
+<li><code>list(regex=p, case_insensitive=FALSE, ...)</code></li>
+<li><code>list(fixed=p, ...)</code></li>
+<li><code>list(coll=p, ...)</code></li>
+<li><code>list(charclass=p, ...)</code></li>
+</ul>
+<p>For convenience, ‘tinycodet’ adds the following functions for this
+purpose:</p>
+<ul>
+<li>
+<code>s_regex(p, ...)</code> is equivalent to
+<code>list(regex = p, ...)</code>
+</li>
+<li>
+<code>s_fixed(p, ...)</code> is equivalent to
+<code>list(fixed = p, ...)</code>
+</li>
+<li>
+<code>s_coll(p, ...)</code> is equivalent to
+<code>list(coll = p, ...)</code>
+</li>
+<li>
+<code>s_chrcls(p, ...)</code> is equivalent to
+<code>list(charclass = p, ... )</code>
+</li>
+</ul>
+<p>The next sections will give more details on the given overview.</p>
+<p> </p>
+<p> </p>
+</div>
+<div class="section level2">
 <h2 id="string-subsetting-operators">String subsetting operators<a class="anchor" aria-label="anchor" href="#string-subsetting-operators"></a>
 </h2>
 <p>The <code>x %sget% ss</code> operator returns a subset of each string
@@ -145,50 +241,6 @@ number of characters from the left and right as defined in the matrix
 <p> </p>
 </div>
 <div class="section level2">
-<h2 id="specifying-pattern-search-attributes-in-string-infix-operators">Specifying Pattern search attributes in string infix operators<a class="anchor" aria-label="anchor" href="#specifying-pattern-search-attributes-in-string-infix-operators"></a>
-</h2>
-<p>The <code>x %s-% p</code> and <code>x %s/% p</code> operators, and
-the string detection operators (<code>%s{}%</code>, <code>%s!{}%</code>)
-perform pattern matching for various purposes. When a character vector
-or string is given on the right hand side, this is interpreted as
-case-sensitive <code>regex</code> patterns from
-<code>stringi</code>.</p>
-<p>But, of course, sometimes one wants to change this. For example, one
-may want it to be case insensitive. Or perhaps one wants to use fixed
-expressions, or something else.</p>
-<p>Instead of giving a string or character vector of regex patterns, one
-can also supply a list to specify exactly how the pattern should be
-interpreted. The list should use the exact same naming convention as
-<code>stringi</code>. For example:</p>
-<ul>
-<li><code>list(regex=p, case_insensitive=FALSE, ...)</code></li>
-<li><code>list(fixed=p, ...)</code></li>
-<li><code>list(coll=p, ...)</code></li>
-<li><code>list(charclass=p, ...)</code></li>
-</ul>
-<p>For convenience, ‘tinycodet’ adds the following functions:</p>
-<ul>
-<li>
-<code>s_regex(p, ...)</code> is equivalent to
-<code>list(regex = p, ...)</code>
-</li>
-<li>
-<code>s_fixed(p, ...)</code> is equivalent to
-<code>list(fixed = p, ...)</code>
-</li>
-<li>
-<code>s_coll(p, ...)</code> is equivalent to
-<code>list(coll = p, ...)</code>
-</li>
-<li>
-<code>s_chrcls(p, ...)</code> is equivalent to
-<code>list(charclass = p, ... )</code>
-</li>
-</ul>
-<p>See the next sections for examples.</p>
-<p> </p>
-</div>
-<div class="section level2">
 <h2 id="string-arithmetic">String arithmetic<a class="anchor" aria-label="anchor" href="#string-arithmetic"></a>
 </h2>
 <p>The <code>tinycodet</code> package includes 7 string arithmetic
@@ -211,8 +263,8 @@ in each string of character vector <code>x</code>.</li>
 specified in list <code>brk</code> occurs in each string of character
 vector <code>x</code>.</li>
 <li>
-<code>e1 %s$% e2</code> provides access to
-<code>stri_sprintf</code>.</li>
+<code>e1 %s$% e2</code> provides access to <code>stri_sprintf</code>
+(exported from ‘stringi’);</li>
 <li>
 <code>x %ss% p</code> splits the strings in <code>x</code> by a
 delimiter character/pattern defined in <code>p</code>, and removes
@@ -224,6 +276,8 @@ delimiter character/pattern defined in <code>p</code>, and removes
 <span><span class="co">#&gt; [1] "Hello  world"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Hello world"</span>, <span class="st">"Goodbye world"</span><span class="op">)</span> <span class="op"><a href="../reference/str_arithmetic.html">%s-%</a></span> <span class="st">" world"</span></span>
 <span><span class="co">#&gt; [1] "Hello"   "Goodbye"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Hello world"</span>, <span class="st">"Goodbye world"</span><span class="op">)</span> <span class="op"><a href="../reference/str_arithmetic.html">%s-%</a></span> <span class="fu"><a href="../reference/s_pattern.html">s_fixed</a></span><span class="op">(</span><span class="st">" world"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "Hello"   "Goodbye"</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Ha"</span>, <span class="st">"Ho"</span>, <span class="st">"Hi"</span>, <span class="st">"Hu"</span>, <span class="st">"He"</span>, <span class="st">"Ha"</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/stringi/man/stri_dup.html" class="external-link">%s*%</a></span> <span class="fl">2</span><span class="op">:</span><span class="fl">7</span></span>
 <span><span class="co">#&gt; [1] "HaHa"           "HoHoHo"         "HiHiHiHi"       "HuHuHuHuHu"    </span></span>
 <span><span class="co">#&gt; [5] "HeHeHeHeHeHe"   "HaHaHaHaHaHaHa"</span></span>
@@ -231,9 +285,10 @@ delimiter character/pattern defined in <code>p</code>, and removes
 <span><span class="co">#&gt; [1] 2 1</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"hello world &amp; goodbye world"</span>, <span class="st">"world domination!"</span><span class="op">)</span> <span class="op"><a href="../reference/str_arithmetic.html">%s//%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"word"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 9 4</span></span></code></pre></div>
-<p>The right-side arguments <code>p</code>, <code>y</code>, and
-<code>n</code> can be a single value, or a vector of the same length as
-<code>x</code>.</p>
+<p>The right-side arguments <code>y</code>, and <code>n</code> can be a
+single value, or a vector of the same length as <code>x</code>. The
+right-side argument <code>p</code> can be string or character vector, or
+a list as described in the Overview section.</p>
 <p> </p>
 </div>
 <div class="section level2">
@@ -261,8 +316,8 @@ in character vector <code>x</code> if the pattern defined in
 <span><span class="co">#&gt; [1] "abcdefghijklm"</span></span>
 <span><span class="va">x</span><span class="op">[</span><span class="va">x</span> <span class="op"><a href="../reference/str_search.html">%s!{}%</a></span> <span class="st">"a"</span><span class="op">]</span></span>
 <span><span class="co">#&gt; [1] "nopqrstuvwxyz"</span></span></code></pre></div>
-<p>When supplying a list on the right hand side (see
-<code>s_pattern</code>), one can include the list element
+<p>When supplying a list on the right hand side (see the Overview
+section above), one can include the list element
 <code>at = "start"</code> or <code>at = "end"</code>:</p>
 <ul>
 <li>Supplying <code>at = "start"</code> will check if the pattern
@@ -298,8 +353,10 @@ at the end of a string (see <code><a href="https://rdrr.io/pkg/stringi/man/stri_
 <span><span class="co">#&gt; [1] FALSE  TRUE    NA</span></span>
 <span><span class="fu">stringi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stringi/man/stri_startsendswith.html" class="external-link">stri_startswith</a></span><span class="op">(</span><span class="va">x</span>, fixed <span class="op">=</span> <span class="st">"zyx"</span><span class="op">)</span> <span class="co"># same as above</span></span>
 <span><span class="co">#&gt; [1] FALSE  TRUE    NA</span></span></code></pre></div>
-<p>The <code>strfind()&lt;-</code> method locates, extracts, or replaces
-found patterns.</p>
+<p><code>strfind()&lt;-</code> locates, extracts, or replaces found
+patterns. Like the other operators, the argument <code>p</code> can be a
+string or character vector, or a list as described in the Overview
+section above.</p>
 <p>Examples:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
@@ -308,7 +365,7 @@ found patterns.</p>
 <span><span class="co">#&gt; [1] "The quick brown fox jumped over the lazy dog."</span></span>
 <span><span class="co">#&gt; [2] "The quick brown fox jumped over the lazy dog."</span></span>
 <span><span class="co">#&gt; [3] "The quick brown fox jumped over the lazy dog."</span></span>
-<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'quick'</span>, <span class="st">'brown'</span>, <span class="st">'fox'</span><span class="op">)</span></span>
+<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/s_pattern.html">s_fixed</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'quick'</span>, <span class="st">'brown'</span>, <span class="st">'fox'</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">rp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'SLOW'</span>,  <span class="st">'BLACK'</span>, <span class="st">'BEAR'</span><span class="op">)</span></span>
 <span><span class="va">x</span> <span class="op"><a href="../reference/str_search.html">%s{}%</a></span> <span class="va">p</span></span>
 <span><span class="co">#&gt; [1] TRUE TRUE TRUE</span></span>

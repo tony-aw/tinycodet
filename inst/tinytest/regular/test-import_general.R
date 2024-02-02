@@ -1,4 +1,12 @@
 
+# set-up ====
+enumerate <- 0 # to count number of tests performed using iterations in loops
+loops <- 0 # to count number of loops
+errorfun <- function(tt) {
+  if(isTRUE(tt)) print(tt)
+  if(isFALSE(tt)) stop(print(tt))
+}
+
 
 # package not installed ====
 expect_error(
@@ -28,11 +36,9 @@ expect_error(
 
 
 # package misspelled ====
-errorfun <- function(tt) {
-  if(isTRUE(tt)) print(tt)
-  if(isFALSE(tt)) stop(print(tt))
-}
+
 pattern <- "You have misspelled the following"
+loops <- loops + 1
 for(i in c("", "!@#$%^&*()")) {
   expect_error(
     import_as(~stri., i),
@@ -54,6 +60,7 @@ for(i in c("", "!@#$%^&*()")) {
     pversion_report(i),
     pattern = pattern
   )  |> errorfun()
+  enumerate <- enumerate + 5
 }
 expect_error(
   import_int(`!@#$%^&*()` ~ foo),
@@ -68,6 +75,7 @@ basepkgs <- c(
   "translations", "utils"
 )
 pattern <- 'The following "packages" are base/core R, which is not allowed:'
+loops <- loops + 1
 for(i in basepkgs) {
   expect_error(
     import_as(~stri., i),
@@ -86,6 +94,7 @@ for(i in basepkgs) {
     import_int(form),
     pattern = pattern
   )  |> errorfun()
+  enumerate <- enumerate + 4
 }
 
 
@@ -94,6 +103,7 @@ metapkgs <- c(
   "tidyverse", "fastverse", "tinyverse"
 )
 pattern <- "The following packages are known meta-verse packages, which is not allowed:"
+loops <- loops + 1
 for(i in metapkgs) {
   expect_error(
     import_as(~stri., i),
@@ -120,6 +130,7 @@ for(i in metapkgs) {
     pversion_report(i),
     pattern = pattern
   )  |> errorfun()
+  enumerate <- enumerate + 6
 }
 
 

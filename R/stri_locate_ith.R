@@ -30,8 +30,8 @@
 #'  \item \code{stri_locate_ith(str, i = -2, ...)} \cr
 #' gives the position (range) of the second-last occurrence of a pattern.
 #' }
-#' If \code{abs(i)} is larger than the number of instances,
-#' the first (if \code{i < 0}) or last (if \code{i > 0}) instance will be given. \cr
+#' If \code{abs(i)} is larger than the number of pattern occurrences \code{n},
+#' the first (if \code{i < -n}) or last (if \code{i > n}) instance will be given. \cr
 #' For example: suppose a string has \code{3} instances of some pattern; \cr
 #' then if \code{i >= 3} the third instance will be located, \cr
 #' and if \code{i <= -3} the first instance will be located. \cr
@@ -388,6 +388,7 @@ stri_locate_ith_boundaries <- function(
 #' @noRd
 .stri_locate_ith_internal <- function(p1, i, n, abortcall) {
   
+  # `i` must have length `n`, as the value of `i` will change as `n.matches` changes
   if(length(i) == 1) i <- rep.int(i, n)
   if(length(i) != n) {
     stop(simpleError("`i` must be the same length as `str`, or be a length of 1", call = abortcall))

@@ -9,13 +9,79 @@
 
 #' @keywords internal
 #' @noRd
-.rcpp_any_nonpos <- function(indx) {
-    .Call(`_tinycodet_rcpp_any_nonpos`, indx)
+.rcpp_ntt_eq_dbl_00 <- function(x, y, tol, equal) {
+    .Call(`_tinycodet_rcpp_ntt_eq_dbl_00`, x, y, tol, equal)
 }
 
 #' @keywords internal
 #' @noRd
-.rcpp_any_neg <- function(indx) {
-    .Call(`_tinycodet_rcpp_any_neg`, indx)
+.rcpp_ntt_eq_dbl_01 <- function(x, y, tol, equal) {
+    .Call(`_tinycodet_rcpp_ntt_eq_dbl_01`, x, y, tol, equal)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_ntt_eq_dbl_10 <- function(x, y, tol, equal) {
+    .Call(`_tinycodet_rcpp_ntt_eq_dbl_10`, x, y, tol, equal)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_ntt_eq_int_00 <- function(x, y, equal) {
+    .Call(`_tinycodet_rcpp_ntt_eq_int_00`, x, y, equal)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_ntt_eq_int_01 <- function(x, y, equal) {
+    .Call(`_tinycodet_rcpp_ntt_eq_int_01`, x, y, equal)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_ntt_eq_int_10 <- function(x, y, equal) {
+    .Call(`_tinycodet_rcpp_ntt_eq_int_10`, x, y, equal)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_any_badloc <- function(lower, upper) {
+    .Call(`_tinycodet_rcpp_any_badloc`, lower, upper)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_ntt_in_dbl_00 <- function(x, lowerb, upperb, tol) {
+    .Call(`_tinycodet_rcpp_ntt_in_dbl_00`, x, lowerb, upperb, tol)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_ntt_in_dbl_01 <- function(x, lowerb, upperb, tol) {
+    .Call(`_tinycodet_rcpp_ntt_in_dbl_01`, x, lowerb, upperb, tol)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_ntt_in_dbl_10 <- function(x, lowerb, upperb, tol) {
+    .Call(`_tinycodet_rcpp_ntt_in_dbl_10`, x, lowerb, upperb, tol)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_ntt_in_int_00 <- function(x, lowerb, upperb) {
+    .Call(`_tinycodet_rcpp_ntt_in_int_00`, x, lowerb, upperb)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_ntt_in_int_01 <- function(x, lowerb, upperb) {
+    .Call(`_tinycodet_rcpp_ntt_in_int_01`, x, lowerb, upperb)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_ntt_in_int_10 <- function(x, lowerb, upperb) {
+    .Call(`_tinycodet_rcpp_ntt_in_int_10`, x, lowerb, upperb)
 }
 

@@ -1,5 +1,35 @@
+
 library(tinycodet)
 library(ggplot2)
+
+
+n <- 5e6
+x <- rnorm(n)
+y <- rnorm(n)
+tol <- sqrt(.Machine$double.eps)
+bm.equal <- bench::mark(
+  "base `x == y`" = x == y,
+  "base `abs(x - y) < tol`" = abs(x - y) < tol,
+  "tinycodet `x %d==% y`" = x %d==% y,
+  min_iterations = 500
+)
+bm.equal
+ggplot2::autoplot(bm.equal)
+save(bm.equal, file = "bm.equal.RData")
+
+n <- 5e6
+x <- rnorm(n)
+y <- rnorm(n)
+tol <- sqrt(.Machine$double.eps)
+bm.unequal <- bench::mark(
+  "base `x != y`" = x != y,
+  "base `abs(x - y) >= tol`" = abs(x - y) >= tol,
+  "tinycodet `x %d!=% y`" = x %d!=% y,
+  min_iterations = 500
+)
+bm.unequal
+ggplot2::autoplot(bm.unequal)
+save(bm.unequal, file = "bm.unequal.RData")
 
 n <- 1e5
 x <- rep("hello", n)

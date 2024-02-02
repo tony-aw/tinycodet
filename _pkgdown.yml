@@ -1,6 +1,7 @@
 template:
   bootstrap: 5
   bslib:
+    base_font: {google: "Roboto Serif"}
     bg: "#FCF5E5"
     fg: "#000000"
     font_scale: 1.25

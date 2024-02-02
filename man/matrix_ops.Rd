@@ -30,6 +30,11 @@ The \code{x \%col~\% mat} operator re-orders the elements of every column,
 each column ordered independently from the other columns, of matrix \code{x},
 according to the ordering ranks given in matrix \code{mat}. \cr
 \cr
+In short one can say: \cr
+\itemize{
+\item \code{x \%row~\% x} is a much faster version of \code{apply(x, 1, sort)}
+\item \code{x \%col~\% x} is a much faster version of \code{apply(x, 2, sort)} \cr \cr
+}
 }
 \details{
 If matrix \code{x} is a numeric matrix,
@@ -57,7 +62,8 @@ where the shuffling order in each column is independent from the shuffling order
 Re-ordering/sorting every row/column of a matrix with these operators
 is generally faster than doing so through loops or apply-like functions. \cr
 \cr
-Note that these operators strip all attributes except dimensions.
+Note that these operators strip all attributes except dimensions. \cr
+\cr
 }
 \examples{
 

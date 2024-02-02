@@ -9,6 +9,7 @@ patterns <- c('R.', '[[:alpha:]]*?', '[a-zC1]', '( R|RE)', 'sTrInG')
 
 out_divide <- out_min <- out_ss <- list()
 expected_divide <- expected_min <- expected_ss <- list()
+loops <- loops + 1
 for(p in patterns) {
   expected_divide[[p]] <-  x.regex %s/% p
   out_divide[[p]] <- stringi::stri_count_regex(x.regex, p)
@@ -16,6 +17,7 @@ for(p in patterns) {
   out_min[[p]] <- stringi::stri_replace_all_regex(x.regex, p, "")
   expected_ss[[p]] <-  x.regex %ss% p
   out_ss[[p]] <- stringi::stri_split_regex(x.regex, p)
+  enumerate <- enumerate + 3
 }
 expect_equal(out_divide, expected_divide)
 expect_equal(out_min, expected_min)
@@ -24,6 +26,7 @@ expect_equal(out_ss, expected_ss)
 
 out_divide <- out_min <- out_ss <- list()
 expected_divide <- expected_min <- expected_ss <- list()
+loops <- loops + 1
 for(p in patterns) {
   expected_divide[[p]] <-  x.regex %s/% s_regex(p, case_insensitive = TRUE)
   out_divide[[p]] <- stringi::stri_count_regex(x.regex, p, case_insensitive = TRUE)
@@ -101,7 +104,7 @@ for(i in 1:length(x.list)) {
     out2[[k]] <- suppressWarnings(x.list[[i]] %s-% s_coll(p.list[[j]]))
     expect3[[k]] <- suppressWarnings(stringi::stri_split_coll(x.list[[i]], p.list[[j]]))
     out3[[k]] <- suppressWarnings(x.list[[i]] %ss% s_coll(p.list[[j]]))
-    enumerate <- enumerate + 2
+    enumerate <- enumerate + 3
 
   }
 }

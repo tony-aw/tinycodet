@@ -67,6 +67,13 @@ expect_error(
 )
 
 x <- c("hello", "goodbye")
+loc <- 1:3
+expect_error(
+  strcut_loc(x, loc),
+  pattern = "`loc` has wrong length or dimensions"
+)
+
+x <- c("hello", "goodbye")
 loc <- cbind(c(2, 2), c(1, 1))
 expect_error(
   strcut_loc(x, loc),

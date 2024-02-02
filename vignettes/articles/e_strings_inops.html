@@ -343,6 +343,83 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(tinycodet)</span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co">#&gt; Run `?tinycodet::tinycodet` to open the introduction help page of &#39;tinycodet&#39;.</span></span></code></pre></div>
 <p> </p>
+<div id="overview" class="section level1">
+<h1>Overview</h1>
+<p>‘tinycodet’ adds 3 sets of string-related operators.</p>
+<p>First, sub-setting operators:</p>
+<ul>
+<li><code>x %sget% ss</code>: returns the first <code>n1</code> and last
+<code>n2</code> characters from each string in character vector
+<code>x</code>.</li>
+<li><code>x %strim% ss</code> trims away first <code>n1</code> and last
+<code>n2</code> characters from each string in character vector
+<code>x</code>.</li>
+</ul>
+<p>Second, ‘stringi’ already has the <code>%s+%</code>,
+<code>%s*%</code>, and <code>%s$%</code> operators, and ‘tinycodet’ adds
+some additional string arithmetic operators to complete the set:</p>
+<ul>
+<li><code>x %s-% p</code> removes pattern <code>p</code> from each
+string in character vector <code>x</code>;</li>
+<li><code>x %s/% p</code> counts how often pattern <code>p</code> occurs
+in each string of character vector <code>x</code>.</li>
+<li><code>x %s//% brk</code> counts how often the text boundary
+specified in list <code>brk</code> occurs in each string of character
+vector <code>x</code>.</li>
+<li><code>x %ss% p</code> splits the strings in <code>x</code> by a
+delimiter character/pattern defined in <code>p</code>, and removes
+<code>p</code> in the process.</li>
+</ul>
+<p>And finally, string search operators:</p>
+<ul>
+<li><code>x %s{}% p</code> operator checks for every string in character
+vector <code>x</code> if the pattern defined in <code>p</code> is
+present. Can also be used to check if the strings specifically start or
+end with pattern <code>p</code>.</li>
+<li><code>x %s!{}% p</code> operator checks for every string in
+character vector <code>x</code> if the pattern defined in <code>p</code>
+is <strong>not</strong> present. Can also be used to check if the
+strings specifically <strong>does not</strong> start or end with pattern
+<code>p</code>.</li>
+<li><code>strfind()&lt;-</code> locates, extracts, or replaces found
+patterns.</li>
+</ul>
+<p> </p>
+<p>The <code>x %s-% p</code> and <code>x %s/% p</code> operators, and
+the string detection operators (<code>%s{}%</code>, <code>%s!{}%</code>,
+<code>strfind()&lt;-</code>) perform pattern matching for various
+purposes. When a character vector or string is given on the right hand
+side, this is interpreted as case-sensitive <code>regex</code> patterns
+from <code>stringi</code>.</p>
+<p>But, of course, sometimes one wants to change this. For example, one
+may want it to be case insensitive. Or perhaps one wants to use fixed
+expressions, or something else.</p>
+<p>Instead of giving a string or character vector of regex patterns, one
+can also supply a list to the right-hand side, to specify exactly how
+the pattern should be interpreted. The list should use the exact same
+naming convention as <code>stringi</code>. For example:</p>
+<ul>
+<li><code>list(regex=p, case_insensitive=FALSE, ...)</code></li>
+<li><code>list(fixed=p, ...)</code></li>
+<li><code>list(coll=p, ...)</code></li>
+<li><code>list(charclass=p, ...)</code></li>
+</ul>
+<p>For convenience, ‘tinycodet’ adds the following functions for this
+purpose:</p>
+<ul>
+<li><code>s_regex(p, ...)</code> is equivalent to
+<code>list(regex = p, ...)</code></li>
+<li><code>s_fixed(p, ...)</code> is equivalent to
+<code>list(fixed = p, ...)</code></li>
+<li><code>s_coll(p, ...)</code> is equivalent to
+<code>list(coll = p, ...)</code></li>
+<li><code>s_chrcls(p, ...)</code> is equivalent to
+<code>list(charclass = p, ... )</code></li>
+</ul>
+<p>The next sections will give more details on the given overview.</p>
+<p> </p>
+<p> </p>
+</div>
 <div id="string-subsetting-operators" class="section level1">
 <h1>String subsetting operators</h1>
 <p>The <code>x %sget% ss</code> operator returns a subset of each string
@@ -389,41 +466,6 @@ number of characters from the left and right as defined in the matrix
 <span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co">#&gt; [1] &quot;bcdefghijklm&quot; &quot;opqrstuvwxyz&quot;</span></span></code></pre></div>
 <p> </p>
 </div>
-<div id="specifying-pattern-search-attributes-in-string-infix-operators" class="section level1">
-<h1>Specifying Pattern search attributes in string infix operators</h1>
-<p>The <code>x %s-% p</code> and <code>x %s/% p</code> operators, and
-the string detection operators (<code>%s{}%</code>, <code>%s!{}%</code>)
-perform pattern matching for various purposes. When a character vector
-or string is given on the right hand side, this is interpreted as
-case-sensitive <code>regex</code> patterns from
-<code>stringi</code>.</p>
-<p>But, of course, sometimes one wants to change this. For example, one
-may want it to be case insensitive. Or perhaps one wants to use fixed
-expressions, or something else.</p>
-<p>Instead of giving a string or character vector of regex patterns, one
-can also supply a list to specify exactly how the pattern should be
-interpreted. The list should use the exact same naming convention as
-<code>stringi</code>. For example:</p>
-<ul>
-<li><code>list(regex=p, case_insensitive=FALSE, ...)</code></li>
-<li><code>list(fixed=p, ...)</code></li>
-<li><code>list(coll=p, ...)</code></li>
-<li><code>list(charclass=p, ...)</code></li>
-</ul>
-<p>For convenience, ‘tinycodet’ adds the following functions:</p>
-<ul>
-<li><code>s_regex(p, ...)</code> is equivalent to
-<code>list(regex = p, ...)</code></li>
-<li><code>s_fixed(p, ...)</code> is equivalent to
-<code>list(fixed = p, ...)</code></li>
-<li><code>s_coll(p, ...)</code> is equivalent to
-<code>list(coll = p, ...)</code></li>
-<li><code>s_chrcls(p, ...)</code> is equivalent to
-<code>list(charclass = p, ... )</code></li>
-</ul>
-<p>See the next sections for examples.</p>
-<p> </p>
-</div>
 <div id="string-arithmetic" class="section level1">
 <h1>String arithmetic</h1>
 <p>The <code>tinycodet</code> package includes 7 string arithmetic
@@ -440,8 +482,8 @@ in each string of character vector <code>x</code>.</li>
 <li><code>x %s//% brk</code> counts how often the text boundary
 specified in list <code>brk</code> occurs in each string of character
 vector <code>x</code>.</li>
-<li><code>e1 %s$% e2</code> provides access to
-<code>stri_sprintf</code>.</li>
+<li><code>e1 %s$% e2</code> provides access to <code>stri_sprintf</code>
+(exported from ‘stringi’);</li>
 <li><code>x %ss% p</code> splits the strings in <code>x</code> by a
 delimiter character/pattern defined in <code>p</code>, and removes
 <code>p</code> in the process.</li>
@@ -451,16 +493,19 @@ delimiter character/pattern defined in <code>p</code>, and removes
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Hello  world&quot;</span></span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="fu">c</span>(<span class="st">&quot;Hello world&quot;</span>, <span class="st">&quot;Goodbye world&quot;</span>) <span class="sc">%s-%</span> <span class="st">&quot; world&quot;</span></span>
 <span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Hello&quot;   &quot;Goodbye&quot;</span></span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="fu">c</span>(<span class="st">&quot;Ha&quot;</span>, <span class="st">&quot;Ho&quot;</span>, <span class="st">&quot;Hi&quot;</span>, <span class="st">&quot;Hu&quot;</span>, <span class="st">&quot;He&quot;</span>, <span class="st">&quot;Ha&quot;</span>) <span class="sc">%s*%</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">7</span></span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; [1] &quot;HaHa&quot;           &quot;HoHoHo&quot;         &quot;HiHiHiHi&quot;       &quot;HuHuHuHuHu&quot;    </span></span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; [5] &quot;HeHeHeHeHeHe&quot;   &quot;HaHaHaHaHaHaHa&quot;</span></span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="fu">c</span>(<span class="st">&quot;hello World &amp; goodbye world&quot;</span>, <span class="st">&quot;world domination!&quot;</span>) <span class="sc">%s/%</span> <span class="fu">s_fixed</span>(<span class="st">&quot;world&quot;</span>, <span class="at">case_insensitive =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt; [1] 2 1</span></span>
-<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="fu">c</span>(<span class="st">&quot;hello world &amp; goodbye world&quot;</span>, <span class="st">&quot;world domination!&quot;</span>) <span class="sc">%s//%</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">&quot;word&quot;</span>)</span>
-<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt; [1] 9 4</span></span></code></pre></div>
-<p>The right-side arguments <code>p</code>, <code>y</code>, and
-<code>n</code> can be a single value, or a vector of the same length as
-<code>x</code>.</p>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="fu">c</span>(<span class="st">&quot;Hello world&quot;</span>, <span class="st">&quot;Goodbye world&quot;</span>) <span class="sc">%s-%</span> <span class="fu">s_fixed</span>(<span class="st">&quot; world&quot;</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Hello&quot;   &quot;Goodbye&quot;</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="fu">c</span>(<span class="st">&quot;Ha&quot;</span>, <span class="st">&quot;Ho&quot;</span>, <span class="st">&quot;Hi&quot;</span>, <span class="st">&quot;Hu&quot;</span>, <span class="st">&quot;He&quot;</span>, <span class="st">&quot;Ha&quot;</span>) <span class="sc">%s*%</span> <span class="dv">2</span><span class="sc">:</span><span class="dv">7</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; [1] &quot;HaHa&quot;           &quot;HoHoHo&quot;         &quot;HiHiHiHi&quot;       &quot;HuHuHuHuHu&quot;    </span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt; [5] &quot;HeHeHeHeHeHe&quot;   &quot;HaHaHaHaHaHaHa&quot;</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="fu">c</span>(<span class="st">&quot;hello World &amp; goodbye world&quot;</span>, <span class="st">&quot;world domination!&quot;</span>) <span class="sc">%s/%</span> <span class="fu">s_fixed</span>(<span class="st">&quot;world&quot;</span>, <span class="at">case_insensitive =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt; [1] 2 1</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="fu">c</span>(<span class="st">&quot;hello world &amp; goodbye world&quot;</span>, <span class="st">&quot;world domination!&quot;</span>) <span class="sc">%s//%</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">&quot;word&quot;</span>)</span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co">#&gt; [1] 9 4</span></span></code></pre></div>
+<p>The right-side arguments <code>y</code>, and <code>n</code> can be a
+single value, or a vector of the same length as <code>x</code>. The
+right-side argument <code>p</code> can be string or character vector, or
+a list as described in the Overview section.</p>
 <p> </p>
 </div>
 <div id="string-search-operators" class="section level1">
@@ -486,8 +531,8 @@ in character vector <code>x</code> if the pattern defined in
 <span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt; [1] &quot;abcdefghijklm&quot;</span></span>
 <span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>x[x <span class="sc">%s!{}%</span> <span class="st">&quot;a&quot;</span>]</span>
 <span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt; [1] &quot;nopqrstuvwxyz&quot;</span></span></code></pre></div>
-<p>When supplying a list on the right hand side (see
-<code>s_pattern</code>), one can include the list element
+<p>When supplying a list on the right hand side (see the Overview
+section above), one can include the list element
 <code>at = &quot;start&quot;</code> or <code>at = &quot;end&quot;</code>:</p>
 <ul>
 <li>Supplying <code>at = &quot;start&quot;</code> will check if the pattern
@@ -522,8 +567,10 @@ at the end of a string (see <code>stringi::stri_endswith</code>).</li>
 <span id="cb6-23"><a href="#cb6-23" tabindex="-1"></a><span class="co">#&gt; [1] FALSE  TRUE    NA</span></span>
 <span id="cb6-24"><a href="#cb6-24" tabindex="-1"></a>stringi<span class="sc">::</span><span class="fu">stri_startswith</span>(x, <span class="at">fixed =</span> <span class="st">&quot;zyx&quot;</span>) <span class="co"># same as above</span></span>
 <span id="cb6-25"><a href="#cb6-25" tabindex="-1"></a><span class="co">#&gt; [1] FALSE  TRUE    NA</span></span></code></pre></div>
-<p>The <code>strfind()&lt;-</code> method locates, extracts, or replaces
-found patterns.</p>
+<p><code>strfind()&lt;-</code> locates, extracts, or replaces found
+patterns. Like the other operators, the argument <code>p</code> can be a
+string or character vector, or a list as described in the Overview
+section above.</p>
 <p>Examples:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a></span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="st">&#39;The quick brown fox jumped over the lazy dog.&#39;</span>, <span class="dv">3</span>)</span>
@@ -531,7 +578,7 @@ found patterns.</p>
 <span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">#&gt; [1] &quot;The quick brown fox jumped over the lazy dog.&quot;</span></span>
 <span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#&gt; [2] &quot;The quick brown fox jumped over the lazy dog.&quot;</span></span>
 <span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt; [3] &quot;The quick brown fox jumped over the lazy dog.&quot;</span></span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;quick&#39;</span>, <span class="st">&#39;brown&#39;</span>, <span class="st">&#39;fox&#39;</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">s_fixed</span>(<span class="fu">c</span>(<span class="st">&#39;quick&#39;</span>, <span class="st">&#39;brown&#39;</span>, <span class="st">&#39;fox&#39;</span>))</span>
 <span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>rp <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;SLOW&#39;</span>,  <span class="st">&#39;BLACK&#39;</span>, <span class="st">&#39;BEAR&#39;</span>)</span>
 <span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>x <span class="sc">%s{}%</span> p</span>
 <span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co">#&gt; [1] TRUE TRUE TRUE</span></span>

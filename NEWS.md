@@ -1,3 +1,12 @@
+# tinycodet 0.4.1 (Under Development)
+* The decimal (in)equality testing operators now no longer preserve attributes, saving computation time. Only dimensions are preserved, in cases where it makes sense.
+* The `%d{}%` and `%d!{}%` operators now also perform tolerance checks on the boundaries themselves.
+* Re-written the decimal (in)equality testing operators in 'C++' via 'Rcpp', for speed improvement. Now these operators are actually faster than their base equivalents for numeric type `double`, despite performing more complex maths.
+* Provided additional clarification in the help file for the `%row%` and `%col~%` operators.
+* Some of the internal code has been re-written in 'C' and 'C++'.
+* Added more tests for the decimal (in)equality testing operators.
+
+
 # tinycodet 0.4.0
 * Clarified in the documentation that `%col~%` and `%row~%` strip attributes.
 * Clarified the usage of `merge = FALSE` for pattern `charclass`,

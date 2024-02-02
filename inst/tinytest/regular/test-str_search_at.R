@@ -27,6 +27,7 @@ pattern <- list(
   character(0)
 )
 
+loops <- loops + 1
 for(iX in 1:length(x)) {
   for(iP in 1:length(pattern)) {
     for (iCI in c(TRUE, FALSE)) {

@@ -24,6 +24,58 @@ library(tinycodet)
 
 &nbsp;
 
+# Overview
+
+'tinycodet' adds 3 sets of string-related operators.
+
+First, sub-setting operators:
+
+ - `x %sget% ss`: returns the first `n1` and last `n2` characters from each string in character vector `x`.
+ - `x %strim% ss` trims away first `n1` and last `n2` characters from each string in character vector `x`.
+
+
+Second, 'stringi' already has the `%s+%`, `%s*%`, and `%s$%` operators, and 'tinycodet' adds some additional string arithmetic operators to complete the set:
+
+ - `x %s-% p` removes pattern `p` from each string in character vector `x`;
+ - `x %s/% p` counts how often pattern `p` occurs in each string of character vector `x`.
+ - `x %s//% brk` counts how often the text boundary specified in list `brk` occurs in each string of character vector `x`.
+ - `x %ss% p` splits the strings in `x` by a delimiter character/pattern defined in `p`, and removes `p` in the process.
+
+
+And finally, string search operators:
+
+ - `x %s{}% p` operator checks for every string in character vector `x` if the pattern defined in `p` is present. Can also be used to check if the strings specifically start or end with pattern `p`.
+ - `x %s!{}% p` operator checks for every string in character vector `x` if the pattern defined in `p` is **not** present. Can also be used to check if the strings specifically **does not** start or end with pattern `p`.
+ - `strfind()<-` locates, extracts, or replaces found patterns.
+ 
+&nbsp;
+
+The `x %s-% p` and `x %s/% p` operators, and the string detection operators (`%s{}%`, `%s!{}%`, `strfind()<-`) perform pattern matching for various purposes. When a character vector or string is given on the right hand side, this is interpreted as case-sensitive `regex` patterns from `stringi`.
+
+But, of course, sometimes one wants to change this. For example, one may want it to be case insensitive. Or perhaps one wants to use fixed expressions, or something else.
+
+Instead of giving a string or character vector of regex patterns, one can also supply a list to the right-hand side, to specify exactly how the pattern should be interpreted. The list should use the exact same naming convention as `stringi`. For example:
+
+ - `list(regex=p, case_insensitive=FALSE, ...)`
+ - `list(fixed=p, ...)`
+ - `list(coll=p, ...)`
+ - `list(charclass=p, ...)`
+
+For convenience, 'tinycodet' adds the following functions for this purpose:
+
+ - `s_regex(p, ...)` is equivalent to `list(regex = p, ...)`
+ - `s_fixed(p, ...)` is equivalent to `list(fixed = p, ...)`
+ - `s_coll(p, ...)` is equivalent to `list(coll = p, ...)`
+ - `s_chrcls(p, ...)` is equivalent to `list(charclass = p, ... )`
+
+
+The next sections will give more details on the given overview.
+
+
+&nbsp;
+
+&nbsp;
+
 
 # String subsetting operators
 
@@ -61,31 +113,6 @@ x %strim% ss
 ```
 
 
-&nbsp; 
-
-
-# Specifying Pattern search attributes in string infix operators
-
-The `x %s-% p` and `x %s/% p` operators, and the string detection operators (`%s{}%`, `%s!{}%`) perform pattern matching for various purposes. When a character vector or string is given on the right hand side, this is interpreted as case-sensitive `regex` patterns from `stringi`.
-
-But, of course, sometimes one wants to change this. For example, one may want it to be case insensitive. Or perhaps one wants to use fixed expressions, or something else.
-
-Instead of giving a string or character vector of regex patterns, one can also supply a list to specify exactly how the pattern should be interpreted. The list should use the exact same naming convention as `stringi`. For example:
-
- - `list(regex=p, case_insensitive=FALSE, ...)`
- - `list(fixed=p, ...)`
- - `list(coll=p, ...)`
- - `list(charclass=p, ...)`
-
-For convenience, 'tinycodet' adds the following functions:
-
- - `s_regex(p, ...)` is equivalent to `list(regex = p, ...)`
- - `s_fixed(p, ...)` is equivalent to `list(fixed = p, ...)`
- - `s_coll(p, ...)` is equivalent to `list(coll = p, ...)`
- - `s_chrcls(p, ...)` is equivalent to `list(charclass = p, ... )`
-
-
-See the next sections for examples.
 
 &nbsp;
 
@@ -99,7 +126,7 @@ The `tinycodet` package includes 7 string arithmetic operators (3 of which re-ex
  - `x %s*% n` repeats each string in character vector `x` for `n` times (exported from 'stringi');
  - `x %s/% p` counts how often pattern `p` occurs in each string of character vector `x`.
  - `x %s//% brk` counts how often the text boundary specified in list `brk` occurs in each string of character vector `x`.
- - `e1 %s$% e2` provides access to `stri_sprintf`.
+ - `e1 %s$% e2` provides access to `stri_sprintf` (exported from 'stringi');
  - `x %ss% p` splits the strings in `x` by a delimiter character/pattern defined in `p`, and removes `p` in the process.
  
 I.e.:
@@ -107,12 +134,14 @@ I.e.:
 ```{r}
 "Hello "%s+% " world"
 c("Hello world", "Goodbye world") %s-% " world"
+c("Hello world", "Goodbye world") %s-% s_fixed(" world")
 c("Ha", "Ho", "Hi", "Hu", "He", "Ha") %s*% 2:7
 c("hello World & goodbye world", "world domination!") %s/% s_fixed("world", case_insensitive = TRUE)
 c("hello world & goodbye world", "world domination!") %s//% list(type = "word")
 ```
 
-The right-side arguments `p`, `y`, and `n` can be a single value, or a vector of the same length as `x`.
+The right-side arguments `y`, and `n` can be a single value, or a vector of the same length as `x`.
+The right-side argument `p` can be string or character vector, or a list as described in the Overview section.
 
 &nbsp;
 
@@ -135,7 +164,7 @@ x[x %s!{}% "a"]
 ```
 
 
-When supplying a list on the right hand side (see `s_pattern`), one can include the list element `at = "start"` or `at = "end"`:
+When supplying a list on the right hand side (see the Overview section above), one can include the list element `at = "start"` or `at = "end"`:
 
  * Supplying `at = "start"` will check if the pattern appears at the start of a string (see `stringi::stri_startswith`).
  * Supplying `at = "end"` will check if the pattern appears at the end of a string (see `stringi::stri_endswith`).
@@ -164,7 +193,7 @@ stringi::stri_startswith(x, fixed = "zyx") # same as above
 ```
 
 
-The `strfind()<-` method locates, extracts, or replaces found patterns.
+`strfind()<-` locates, extracts, or replaces found patterns. Like the other operators, the argument `p` can be a string or character vector, or a list as described in the Overview section above.
 
 Examples:
 
@@ -172,7 +201,7 @@ Examples:
 
 x <- rep('The quick brown fox jumped over the lazy dog.', 3)
 print(x)
-p <- c('quick', 'brown', 'fox')
+p <- s_fixed(c('quick', 'brown', 'fox'))
 rp <- c('SLOW',  'BLACK', 'BEAR')
 x %s{}% p
 strfind(x, p)

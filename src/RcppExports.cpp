@@ -22,33 +22,201 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// rcpp_any_nonpos
-bool rcpp_any_nonpos(IntegerVector indx);
-RcppExport SEXP _tinycodet_rcpp_any_nonpos(SEXP indxSEXP) {
+// rcpp_ntt_eq_dbl_00
+LogicalVector rcpp_ntt_eq_dbl_00(NumericVector x, NumericVector y, double tol, bool equal);
+RcppExport SEXP _tinycodet_rcpp_ntt_eq_dbl_00(SEXP xSEXP, SEXP ySEXP, SEXP tolSEXP, SEXP equalSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< IntegerVector >::type indx(indxSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_any_nonpos(indx));
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
+    Rcpp::traits::input_parameter< double >::type tol(tolSEXP);
+    Rcpp::traits::input_parameter< bool >::type equal(equalSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_ntt_eq_dbl_00(x, y, tol, equal));
     return rcpp_result_gen;
 END_RCPP
 }
-// rcpp_any_neg
-bool rcpp_any_neg(IntegerVector indx);
-RcppExport SEXP _tinycodet_rcpp_any_neg(SEXP indxSEXP) {
+// rcpp_ntt_eq_dbl_01
+LogicalVector rcpp_ntt_eq_dbl_01(NumericVector x, double y, double tol, bool equal);
+RcppExport SEXP _tinycodet_rcpp_ntt_eq_dbl_01(SEXP xSEXP, SEXP ySEXP, SEXP tolSEXP, SEXP equalSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< IntegerVector >::type indx(indxSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_any_neg(indx));
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< double >::type y(ySEXP);
+    Rcpp::traits::input_parameter< double >::type tol(tolSEXP);
+    Rcpp::traits::input_parameter< bool >::type equal(equalSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_ntt_eq_dbl_01(x, y, tol, equal));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_ntt_eq_dbl_10
+LogicalVector rcpp_ntt_eq_dbl_10(double x, NumericVector y, double tol, bool equal);
+RcppExport SEXP _tinycodet_rcpp_ntt_eq_dbl_10(SEXP xSEXP, SEXP ySEXP, SEXP tolSEXP, SEXP equalSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type y(ySEXP);
+    Rcpp::traits::input_parameter< double >::type tol(tolSEXP);
+    Rcpp::traits::input_parameter< bool >::type equal(equalSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_ntt_eq_dbl_10(x, y, tol, equal));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_ntt_eq_int_00
+LogicalVector rcpp_ntt_eq_int_00(IntegerVector x, IntegerVector y, bool equal);
+RcppExport SEXP _tinycodet_rcpp_ntt_eq_int_00(SEXP xSEXP, SEXP ySEXP, SEXP equalSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< IntegerVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type y(ySEXP);
+    Rcpp::traits::input_parameter< bool >::type equal(equalSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_ntt_eq_int_00(x, y, equal));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_ntt_eq_int_01
+LogicalVector rcpp_ntt_eq_int_01(IntegerVector x, int y, bool equal);
+RcppExport SEXP _tinycodet_rcpp_ntt_eq_int_01(SEXP xSEXP, SEXP ySEXP, SEXP equalSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< IntegerVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< int >::type y(ySEXP);
+    Rcpp::traits::input_parameter< bool >::type equal(equalSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_ntt_eq_int_01(x, y, equal));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_ntt_eq_int_10
+LogicalVector rcpp_ntt_eq_int_10(int x, IntegerVector y, bool equal);
+RcppExport SEXP _tinycodet_rcpp_ntt_eq_int_10(SEXP xSEXP, SEXP ySEXP, SEXP equalSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type x(xSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type y(ySEXP);
+    Rcpp::traits::input_parameter< bool >::type equal(equalSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_ntt_eq_int_10(x, y, equal));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_any_badloc
+bool rcpp_any_badloc(IntegerVector lower, IntegerVector upper);
+RcppExport SEXP _tinycodet_rcpp_any_badloc(SEXP lowerSEXP, SEXP upperSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< IntegerVector >::type lower(lowerSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type upper(upperSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_any_badloc(lower, upper));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_ntt_in_dbl_00
+LogicalVector rcpp_ntt_in_dbl_00(NumericVector x, NumericVector lowerb, NumericVector upperb, double tol);
+RcppExport SEXP _tinycodet_rcpp_ntt_in_dbl_00(SEXP xSEXP, SEXP lowerbSEXP, SEXP upperbSEXP, SEXP tolSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type lowerb(lowerbSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type upperb(upperbSEXP);
+    Rcpp::traits::input_parameter< double >::type tol(tolSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_ntt_in_dbl_00(x, lowerb, upperb, tol));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_ntt_in_dbl_01
+LogicalVector rcpp_ntt_in_dbl_01(NumericVector x, double lowerb, double upperb, double tol);
+RcppExport SEXP _tinycodet_rcpp_ntt_in_dbl_01(SEXP xSEXP, SEXP lowerbSEXP, SEXP upperbSEXP, SEXP tolSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< double >::type lowerb(lowerbSEXP);
+    Rcpp::traits::input_parameter< double >::type upperb(upperbSEXP);
+    Rcpp::traits::input_parameter< double >::type tol(tolSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_ntt_in_dbl_01(x, lowerb, upperb, tol));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_ntt_in_dbl_10
+LogicalVector rcpp_ntt_in_dbl_10(double x, NumericVector lowerb, NumericVector upperb, double tol);
+RcppExport SEXP _tinycodet_rcpp_ntt_in_dbl_10(SEXP xSEXP, SEXP lowerbSEXP, SEXP upperbSEXP, SEXP tolSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< double >::type x(xSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type lowerb(lowerbSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type upperb(upperbSEXP);
+    Rcpp::traits::input_parameter< double >::type tol(tolSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_ntt_in_dbl_10(x, lowerb, upperb, tol));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_ntt_in_int_00
+LogicalVector rcpp_ntt_in_int_00(IntegerVector x, IntegerVector lowerb, IntegerVector upperb);
+RcppExport SEXP _tinycodet_rcpp_ntt_in_int_00(SEXP xSEXP, SEXP lowerbSEXP, SEXP upperbSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< IntegerVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type lowerb(lowerbSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type upperb(upperbSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_ntt_in_int_00(x, lowerb, upperb));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_ntt_in_int_01
+LogicalVector rcpp_ntt_in_int_01(IntegerVector x, int lowerb, int upperb);
+RcppExport SEXP _tinycodet_rcpp_ntt_in_int_01(SEXP xSEXP, SEXP lowerbSEXP, SEXP upperbSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< IntegerVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< int >::type lowerb(lowerbSEXP);
+    Rcpp::traits::input_parameter< int >::type upperb(upperbSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_ntt_in_int_01(x, lowerb, upperb));
+    return rcpp_result_gen;
+END_RCPP
+}
+// rcpp_ntt_in_int_10
+LogicalVector rcpp_ntt_in_int_10(int x, IntegerVector lowerb, IntegerVector upperb);
+RcppExport SEXP _tinycodet_rcpp_ntt_in_int_10(SEXP xSEXP, SEXP lowerbSEXP, SEXP upperbSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type x(xSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type lowerb(lowerbSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type upperb(upperbSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_ntt_in_int_10(x, lowerb, upperb));
     return rcpp_result_gen;
 END_RCPP
 }
 
+RcppExport SEXP C_any_neg(void *);
+RcppExport SEXP C_any_nonpos(void *);
+
 static const R_CallMethodDef CallEntries[] = {
     {"_tinycodet_rcpp_alloc_stri_locate_ith", (DL_FUNC) &_tinycodet_rcpp_alloc_stri_locate_ith, 2},
-    {"_tinycodet_rcpp_any_nonpos", (DL_FUNC) &_tinycodet_rcpp_any_nonpos, 1},
-    {"_tinycodet_rcpp_any_neg", (DL_FUNC) &_tinycodet_rcpp_any_neg, 1},
+    {"_tinycodet_rcpp_ntt_eq_dbl_00", (DL_FUNC) &_tinycodet_rcpp_ntt_eq_dbl_00, 4},
+    {"_tinycodet_rcpp_ntt_eq_dbl_01", (DL_FUNC) &_tinycodet_rcpp_ntt_eq_dbl_01, 4},
+    {"_tinycodet_rcpp_ntt_eq_dbl_10", (DL_FUNC) &_tinycodet_rcpp_ntt_eq_dbl_10, 4},
+    {"_tinycodet_rcpp_ntt_eq_int_00", (DL_FUNC) &_tinycodet_rcpp_ntt_eq_int_00, 3},
+    {"_tinycodet_rcpp_ntt_eq_int_01", (DL_FUNC) &_tinycodet_rcpp_ntt_eq_int_01, 3},
+    {"_tinycodet_rcpp_ntt_eq_int_10", (DL_FUNC) &_tinycodet_rcpp_ntt_eq_int_10, 3},
+    {"_tinycodet_rcpp_any_badloc", (DL_FUNC) &_tinycodet_rcpp_any_badloc, 2},
+    {"_tinycodet_rcpp_ntt_in_dbl_00", (DL_FUNC) &_tinycodet_rcpp_ntt_in_dbl_00, 4},
+    {"_tinycodet_rcpp_ntt_in_dbl_01", (DL_FUNC) &_tinycodet_rcpp_ntt_in_dbl_01, 4},
+    {"_tinycodet_rcpp_ntt_in_dbl_10", (DL_FUNC) &_tinycodet_rcpp_ntt_in_dbl_10, 4},
+    {"_tinycodet_rcpp_ntt_in_int_00", (DL_FUNC) &_tinycodet_rcpp_ntt_in_int_00, 3},
+    {"_tinycodet_rcpp_ntt_in_int_01", (DL_FUNC) &_tinycodet_rcpp_ntt_in_int_01, 3},
+    {"_tinycodet_rcpp_ntt_in_int_10", (DL_FUNC) &_tinycodet_rcpp_ntt_in_int_10, 3},
+    {"C_any_neg",    (DL_FUNC) &C_any_neg,    1},
+    {"C_any_nonpos", (DL_FUNC) &C_any_nonpos, 1},
     {NULL, NULL, 0}
 };
 

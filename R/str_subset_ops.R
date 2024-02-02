@@ -88,12 +88,7 @@ NULL
 #' @rdname str_subset_ops
 #' @export
 `%sget%` <- function(x, ss) {
-  ss <- matrix(as.integer(ss), ncol = 2)
-  if(isTRUE(anyNA(ss))) { stop("right hand side cannot contain NA") }
-  if(isTRUE(.rcpp_any_neg(ss))) { stop("right hand side cannot contain negative numbers") }
-  if(length(ss) != 2 && (length(ss)/2) != length(x)) {
-    stop("`nrow(ss)` must be equal to `length(x)`, or must be a vector of length 2")
-  }
+  ss <- .ss_check(ss, x, sys.call())
   n <- stringi::stri_length(x)
   first <- stringi::stri_sub(x, from = 1, to = ss[,1])
   last <-  stringi::stri_sub(x, from = n - ss[,2] + 1, to = n)
@@ -111,9 +106,7 @@ NULL
 #' @rdname str_subset_ops
 #' @export
 `%strim%` <- function(x, ss) {
-  ss <- matrix(as.integer(ss), ncol=2)
-  if(isTRUE(anyNA(ss))) { stop("right hand side cannot contain NA") }
-  if(isTRUE(.rcpp_any_neg(ss))) { stop("right hand side cannot contain negative numbers") }
+  ss <- .ss_check(ss, x, sys.call())
   
   n <- stringi::stri_length(x)
   out <- character(length(x))
@@ -123,11 +116,42 @@ NULL
   out[ind_T] <- ""
   if(length(ss) == 2) {
     out[ind_F] <- stringi::stri_sub(x[ind_F], from = 1 + ss[,1], to = n[ind_F] - ss[,2])
-  } else if((length(ss)/2) == length(x)) {
-    out[ind_F] <- stringi::stri_sub(x[ind_F], from = 1 + ss[ind_F,1], to = n[ind_F] - ss[ind_F,2])
   } else {
-    stop("`nrow(ss)` must be equal to `length(x)`, or must be a vector of length 2")
+    out[ind_F] <- stringi::stri_sub(x[ind_F], from = 1 + ss[ind_F,1], to = n[ind_F] - ss[ind_F,2])
   }
   return(out)
 }
 
+
+#' @keywords internal
+#' @noRd
+.ss_check <- function(ss, x, abortcall) {
+  if(!is.numeric(ss)) { stop(simpleError(
+    "right hand side must be an integer vector or matrix", call = abortcall
+  ))}
+  if(!is.integer(ss)) ss <- as_int(ss)
+  if(!is.matrix(ss)) {
+    if(length(ss) == 2) {
+      ss <- matrix(ss, ncol = 2)
+    } else { stop(simpleError(
+      "right hand side has wrong length or dimensions", call = abortcall
+    ))}
+  }
+  if(ncol(ss) != 2) {
+    stop(simpleError(
+      "right hand side has wrong length or dimensions", call = abortcall
+    ))
+  }
+  if(nrow(ss) != length(x) && nrow(ss) != 1) {
+    stop(simpleError(
+      "right hand side has wrong length or dimensions", call = abortcall
+    ))
+  }
+  if(anyNA(ss)) { stop(simpleError(
+    "right hand side cannot contain NA", call = abortcall
+  )) }
+  if(.C_any_neg(ss)) { stop(simpleError(
+    "right hand side cannot contain negative numbers", call = abortcall
+  )) }
+  return(ss)
+}

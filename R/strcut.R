@@ -98,7 +98,9 @@
 #' @export
 strcut_loc <- function(str, loc) {
   # Error handling:
-  loc <- matrix(loc, ncol=2)
+  
+  loc <- .check_loc1(loc, sys.call())
+  
   cc <- !is.na(str) & stats::complete.cases(loc)
   nstr <- length(str)
   nloc <- nrow(loc)
@@ -107,7 +109,7 @@ strcut_loc <- function(str, loc) {
   }
   nloc <- nrow(loc)
   if(nloc != nstr) {
-    stop("`nrow(loc)` must equal to `length(str)` or 1")
+    stop("`loc` has wrong length or dimensions")
   }
   if(all(!cc)) {
     repNA <- rep_len(NA, nstr)
@@ -121,10 +123,10 @@ strcut_loc <- function(str, loc) {
   # FUNCTION:
   x <- str[cc]
   loc <- loc[cc, , drop=FALSE] # new
+  .check_loc2(loc, sys.call())
 
   nx <- length(x)
   nc <- stringi::stri_length(x)
-  loc <- .check_loc(loc, cc, abortcall = sys.call())
 
   prepart <- mainpart <- postpart <- character(nstr) # not nx
   prepart[cc] <- .substr_prepart(x, loc, nx)
@@ -161,14 +163,31 @@ strcut_brk <- function(str, type = "character", tolist = FALSE, n = -1L, ...) {
 
 #' @keywords internal
 #' @noRd
-.check_loc <- function(loc, cc, abortcall) {
-  if(.rcpp_any_nonpos(loc[cc])) {
+.check_loc1 <- function(loc, abortcall) {
+  if(!is.matrix(loc)) {
+    if(length(loc) == 2) {
+      loc <- matrix(loc, ncol = 2)
+    }
+    else {stop(simpleError(
+      "`loc` has wrong length or dimensions", call = abortcall
+    ))}
+  }
+  if(ncol(loc) != 2) {
+    stop(simpleError(
+      "`loc` has wrong length or dimensions", call = abortcall
+    ))
+  }
+  
+  return(loc)
+}
+
+.check_loc2 <- function(loc, abortcall) {
+  if(.C_any_nonpos(as.integer(loc))) {
     stop(simpleError("`loc` can only have strictly positive numbers", call = abortcall))
   }
-  if(any(loc[,2] < loc[,1])) {
+  if(.rcpp_any_badloc(loc[,1], loc[,2])) {
     stop(simpleError("`loc[, 2] < loc[, 1]`", call = abortcall))
   }
-  return(loc)
 }
 
 
