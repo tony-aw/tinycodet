@@ -2,7 +2,6 @@
 #include <Rdefines.h>
 #include <R_ext/Error.h>
 
-// Inspired by collapse::anyv, though this function works differently
 
 SEXP C_any_nonpos ( SEXP x ) {
   int n = length(x);
