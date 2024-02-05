@@ -31,6 +31,39 @@ bm.unequal
 ggplot2::autoplot(bm.unequal)
 save(bm.unequal, file = "bm.unequal.RData")
 
+
+n <- 5e6
+x <- rnorm(n)
+y <- rnorm(n)
+bnd <- cbind(x - abs(y), x + abs(y))
+bm.greater <- bench::mark(
+  "base (no tol check) `x > y`" = x > y,
+  "tinycodet (with tol check) `x %d>% y`" = x %d>% y,
+  "base (no tol check) `x >= y`" = x >= y,
+  "tinycodet (with tol check) `x %d>=% y`" = x %d>=% y,
+  check = FALSE,
+  min_iterations = 500
+)
+bm.greater
+ggplot2::autoplot(bm.greater)
+save(bm.greater, file = "bm.greater.RData")
+
+n <- 5e6
+x <- rnorm(n)
+y <- rnorm(n)
+bnd <- cbind(x - abs(y), x + abs(y))
+bm.smaller <- bench::mark(
+  "base (no tol check) `x < y`" = x < y,
+  "tinycodet (with tol check) `x %d<% y`" = x %d<% y,
+  "base (no tol check) `x <= y`" = x <= y,
+  "tinycodet (with tol check) `x %d<=% y`" = x %d<=% y,
+  check = FALSE,
+  min_iterations = 500
+)
+bm.smaller
+ggplot2::autoplot(bm.smaller)
+save(bm.smaller, file = "bm.smaller.RData")
+
 n <- 1e5
 x <- rep("hello", n)
 i <- sample(1:3, n, replace = TRUE)

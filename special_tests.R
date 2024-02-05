@@ -114,6 +114,10 @@ expect_true(
   utils::compareVersion(check$version_loaded, check$version_lib.loc) == 1
 )
 
+unloadNamespace("boot")
+remove.packages("boot", lib = templib)
+
 dir2remove <- file.path(templib, list.files(templib)) |> normalizePath()
+file.remove(dir2remove)
 unlink(dir2remove, recursive = TRUE, force = TRUE)
 expect_false(any(file.exists(dir2remove)))

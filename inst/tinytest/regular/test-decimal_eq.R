@@ -99,7 +99,7 @@ expect_equal(x %d<=% y, !(x %d>% y))
 expect_equal(x %d>=% y, !(x %d<% y))
 
 
-# dimension retention ====
+# dimension preservation, but other attributes dropped ====
 x <- c(
   c(0.3, 0.6, 0.7),
   c(0.3, 0.6, 0.7) + eps, 
@@ -111,7 +111,9 @@ y <- c(
   c(0.1*3, 0.1*6, 0.1*7) + eps
 )
 x <- matrix(x, ncol = 3)
+colnames(x) <- sample(letters, 3)
 y <- matrix(y, ncol = 3)
+colnames(y) <- sample(letters, 3)
 equal <- c(rep(TRUE, 3), rep(FALSE, 6)) |> matrix(ncol = 3)
 smaller <- c(rep(FALSE, 6), rep(TRUE, 3)) |> matrix(ncol = 3)
 bigger <- c(rep(FALSE, 3), rep(TRUE, 3), rep(FALSE, 3)) |> matrix(ncol = 3)
@@ -133,6 +135,55 @@ y <- c(
   c(0.1*3, 0.1*6, 0.1*7) + eps
 )
 x <- matrix(x, ncol = 3)
+colnames(x) <- sample(letters, 3)
+y <- matrix(y, ncol = 3)
+equal <- c(rep(TRUE, 3), rep(FALSE, 6)) |> matrix(ncol = 3)
+smaller <- c(rep(FALSE, 6), rep(TRUE, 3)) |> matrix(ncol = 3)
+bigger <- c(rep(FALSE, 3), rep(TRUE, 3), rep(FALSE, 3)) |> matrix(ncol = 3)
+expect_equal(x %d==% y, equal)
+expect_equal(x %d<=% y, equal | smaller)
+expect_equal(x %d>=% y, equal | bigger)
+expect_equal(x %d!=% y, !equal)
+expect_equal(x %d<% y, !equal & smaller)
+expect_equal(x %d>% y, !equal & bigger)
+
+
+x <- c(
+  c(0.3, 0.6, 0.7),
+  c(0.3, 0.6, 0.7) + eps, 
+  c(0.3, 0.6, 0.7) - eps
+)
+y <- c(
+  c(0.1*3, 0.1*6, 0.1*7),
+  c(0.1*3, 0.1*6, 0.1*7) - eps,
+  c(0.1*3, 0.1*6, 0.1*7) + eps
+)
+x <- matrix(x, ncol = 3)
+y <- matrix(y, ncol = 3)
+colnames(y) <- sample(letters, 3)
+equal <- c(rep(TRUE, 3), rep(FALSE, 6)) |> matrix(ncol = 3)
+smaller <- c(rep(FALSE, 6), rep(TRUE, 3)) |> matrix(ncol = 3)
+bigger <- c(rep(FALSE, 3), rep(TRUE, 3), rep(FALSE, 3)) |> matrix(ncol = 3)
+expect_equal(x %d==% y, equal)
+expect_equal(x %d<=% y, equal | smaller)
+expect_equal(x %d>=% y, equal | bigger)
+expect_equal(x %d!=% y, !equal)
+expect_equal(x %d<% y, !equal & smaller)
+expect_equal(x %d>% y, !equal & bigger)
+
+x <- c(
+  c(0.3, 0.6, 0.7),
+  c(0.3, 0.6, 0.7) + eps, 
+  c(0.3, 0.6, 0.7) - eps
+)
+y <- c(
+  c(0.1*3, 0.1*6, 0.1*7),
+  c(0.1*3, 0.1*6, 0.1*7) - eps,
+  c(0.1*3, 0.1*6, 0.1*7) + eps
+)
+x <- matrix(x, ncol = 3)
+colnames(x) <- sample(letters, 3)
+names(y) <- sample(letters, 9)
 equal <- c(rep(TRUE, 3), rep(FALSE, 6))
 smaller <- c(rep(FALSE, 6), rep(TRUE, 3))
 bigger <- c(rep(FALSE, 3), rep(TRUE, 3), rep(FALSE, 3))
@@ -154,6 +205,8 @@ y <- c(
   c(0.1*3, 0.1*6, 0.1*7) + eps
 )
 y <- matrix(y, ncol = 3)
+colnames(y) <- sample(letters, 3)
+names(x) <- sample(letters, 9)
 equal <- c(rep(TRUE, 3), rep(FALSE, 6))
 smaller <- c(rep(FALSE, 6), rep(TRUE, 3))
 bigger <- c(rep(FALSE, 3), rep(TRUE, 3), rep(FALSE, 3))
@@ -163,6 +216,7 @@ expect_equal(x %d>=% y, equal | bigger)
 expect_equal(x %d!=% y, !equal)
 expect_equal(x %d<% y, !equal & smaller)
 expect_equal(x %d>% y, !equal & bigger)
+
 
 
 # errors ====

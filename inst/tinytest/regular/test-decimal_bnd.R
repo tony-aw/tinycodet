@@ -54,8 +54,9 @@ for(i in seq_along(x)) {
 }
 
 
-# dimension preservation ====
+# dimension preservation, but other attributes dropped ====
 x <- rep(c(0.3, -0.6, 0.7), 3)
+names(x) <- sample(letters, 9)
 lower <- x - c(rep(eps, 3), rep(- eps, 3), rep(eps, 3))
 upper <- x + eps
 bnd <- cbind(lower, upper)
@@ -64,6 +65,7 @@ expect_equal(x %d{}% bnd, iswithin)
 expect_equal(x %d!{}% bnd, !iswithin)
 
 x <- rep(c(0.3, -0.6, 0.7), 3) |> matrix(ncol = 3)
+colnames(x) <- sample(letters, 3)
 lower <- as.vector(x) - c(rep(eps, 3), rep(- eps, 3), rep(eps, 3))
 upper <- as.vector(x) + eps
 bnd <- cbind(lower, upper)
@@ -73,7 +75,7 @@ expect_equal(x %d!{}% bnd, !iswithin)
 
 
 # boundary tolerance checks ====
-# (lower bound higher than upper bound, but within tolerance)
+# (lower bound higher than upper bound, but within tolerance, so no error)
 x <- rnorm(10)
 expect_silent(x %d{}% c(eps/2, 0))
 expect_silent(x %d{}% cbind(eps/2, 0))

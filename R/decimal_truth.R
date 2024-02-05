@@ -25,11 +25,6 @@
 #'  4) The \code{%d...%} operators use a much simpler implementation
 #'  and always return a simple, attribute-free, logical vector. \cr
 #'  Only dimensions are preserved, when it makes sense. \cr
-#'  The \code{%d...%} operators are also a bit
-#'  faster and memory efficient than their base equivalents,
-#'  at least for decimal numbers,
-#'  despite performing more computationally expensive maths;
-#'  for integers, the speed is about the same as the base operators.
 #' 
 #' Thus these operators provide safer decimal number (in)equality tests. \cr
 #' \cr
@@ -123,7 +118,7 @@ NULL
 #' @export
 `%d<%` <- function(x, y) {
 
-  out <- .decimal_equal(x, y, sqrt(.Machine$double.eps), FALSE, sys.call()) & (x < y)
+  out <- .decimal_smaller(x, y, sqrt(.Machine$double.eps), FALSE, sys.call())
   out <- .decimal_setattr(out, x, y)
   return(out)
   
@@ -133,7 +128,7 @@ NULL
 #' @export
 `%d>%` <- function(x, y) {
 
-  out <- .decimal_equal(x, y, sqrt(.Machine$double.eps), FALSE, sys.call()) & (x > y)
+  out <- .decimal_greater(x, y, sqrt(.Machine$double.eps), FALSE, sys.call())
   out <- .decimal_setattr(out, x, y)
   return(out)
 }
@@ -142,7 +137,7 @@ NULL
 #' @export
 `%d<=%` <- function(x, y) {
 
-  out <- .decimal_equal(x, y, sqrt(.Machine$double.eps), TRUE, sys.call()) | (x <= y)
+  out <- .decimal_smaller(x, y, sqrt(.Machine$double.eps), TRUE, sys.call())
   out <- .decimal_setattr(out, x, y)
   return(out)
 }
@@ -151,7 +146,7 @@ NULL
 #' @export
 `%d>=%` <- function(x, y) {
 
-  out <- .decimal_equal(x, y, sqrt(.Machine$double.eps), TRUE, sys.call()) | (x >= y)
+  out <- .decimal_greater(x, y, sqrt(.Machine$double.eps), TRUE, sys.call())
   out <- .decimal_setattr(out, x, y)
   return(out)
 }
@@ -200,6 +195,56 @@ NULL
 
 #' @keywords internal
 #' @noRd
+.decimal_greater <- function(x, y, tol, equal, abortcall) {
+  if(!is.numeric(x) || !is.numeric(y)) {
+    stop(simpleError("both sides must be numeric", call = abortcall))
+  }
+  lenx <- length(x)
+  leny <- length(y)
+  is_int <- is.integer(x) && is.integer(y)
+  if(lenx == leny) {
+    if(is_int) return(.rcpp_ntt_greater_int_00(x, y, equal))
+    return(.rcpp_ntt_greater_dbl_00(x, y, tol, equal))
+  }
+  else if(lenx == 1) {
+    if(is_int) return(.rcpp_ntt_greater_int_10(x, y, equal))
+    return(.rcpp_ntt_greater_dbl_10(x, y, tol, equal))
+  }
+  else if(leny == 1) {
+    if(is_int) return(.rcpp_ntt_greater_int_01(x, y, equal))
+    return(.rcpp_ntt_greater_dbl_01(x, y, tol, equal))
+  }
+  else stop(simpleError("vector recycling not supported", call = abortcall))
+}
+
+
+#' @keywords internal
+#' @noRd
+.decimal_smaller <- function(x, y, tol, equal, abortcall) {
+  if(!is.numeric(x) || !is.numeric(y)) {
+    stop(simpleError("both sides must be numeric", call = abortcall))
+  }
+  lenx <- length(x)
+  leny <- length(y)
+  is_int <- is.integer(x) && is.integer(y)
+  if(lenx == leny) {
+    if(is_int) return(.rcpp_ntt_smaller_int_00(x, y, equal))
+    return(.rcpp_ntt_smaller_dbl_00(x, y, tol, equal))
+  }
+  else if(lenx == 1) {
+    if(is_int) return(.rcpp_ntt_smaller_int_10(x, y, equal))
+    return(.rcpp_ntt_smaller_dbl_10(x, y, tol, equal))
+  }
+  else if(leny == 1) {
+    if(is_int) return(.rcpp_ntt_smaller_int_01(x, y, equal))
+    return(.rcpp_ntt_smaller_dbl_01(x, y, tol, equal))
+  }
+  else stop(simpleError("vector recycling not supported", call = abortcall))
+}
+
+
+#' @keywords internal
+#' @noRd
 .decimal_between <- function(x, bnd, tol, abortcall) {
   if(!is.numeric(x) || !is.numeric(bnd)) {
     stop(simpleError("both sides must be numeric", call = abortcall))
@@ -217,16 +262,16 @@ NULL
   lenbnd <- nrow(bnd)
   is_int <- is.integer(x) && is.integer(bnd)
   if(lenx == lenbnd) {
-    if(is_int) return(.rcpp_ntt_in_int_00(x, bnd[,1], bnd[,2]))
-    return(.rcpp_ntt_in_dbl_00(x, bnd[,1], bnd[,2], sqrt(.Machine$double.eps)))
+    if(is_int) return(.rcpp_ntt_between_int_00(x, bnd[,1], bnd[,2]))
+    return(.rcpp_ntt_between_dbl_00(x, bnd[,1], bnd[,2], sqrt(.Machine$double.eps)))
   }
   else if(lenx == 1) {
-    if(is_int) return(.rcpp_ntt_in_int_10(x, bnd[,1], bnd[,2]))
-    return(.rcpp_ntt_in_dbl_10(x, bnd[,1], bnd[,2], sqrt(.Machine$double.eps)))
+    if(is_int) return(.rcpp_ntt_between_int_10(x, bnd[,1], bnd[,2]))
+    return(.rcpp_ntt_between_dbl_10(x, bnd[,1], bnd[,2], sqrt(.Machine$double.eps)))
   }
   else if(lenbnd == 1) {
-    if(is_int) return(.rcpp_ntt_in_int_01(x, bnd[1], bnd[2]))
-    return(.rcpp_ntt_in_dbl_01(x, bnd[1], bnd[2], sqrt(.Machine$double.eps)))
+    if(is_int) return(.rcpp_ntt_between_int_01(x, bnd[1], bnd[2]))
+    return(.rcpp_ntt_between_dbl_01(x, bnd[1], bnd[2], sqrt(.Machine$double.eps)))
   }
   else stop(simpleError("vector recycling not supported", call = abortcall))
 }
@@ -236,8 +281,8 @@ NULL
 #' @noRd
 .decimal_setattr <- function(out, x, y) {
   
+  # first null, as null comparisons don't always work properly
   if(is.null(dim(x)) || is.null(dim(y))) {
-    dim(out) <- NULL
     return(out)
   }
   
@@ -246,6 +291,7 @@ NULL
     return(out)
   }
   
+  # if dim(x) and dim(y) are different, no attribute retention:
   return(out)
   
 }

@@ -22,11 +22,6 @@ except for simple scalar recycling.
 The %d...% operators use a much simpler implementation
 and always return a simple, attribute-free, logical vector. 
 Only dimensions are preserved, when it makes sense. 
-The %d...% operators are also a bit
-faster and memory efficient than their base equivalents,
-at least for decimal numbers,
-despite performing more computationally expensive maths;
-for integers, the speed is about the same as the base operators.
 
 
 Thus these operators provide safer decimal number (in)equality tests. 
@@ -60,11 +55,6 @@ except for simple scalar recycling.
 The %d...% operators use a much simpler implementation
 and always return a simple, attribute-free, logical vector. 
 Only dimensions are preserved, when it makes sense. 
-The %d...% operators are also a bit
-faster and memory efficient than their base equivalents,
-at least for decimal numbers,
-despite performing more computationally expensive maths;
-for integers, the speed is about the same as the base operators.
 
 
 Thus these operators provide safer decimal number (in)equality tests. 
@@ -159,12 +149,7 @@ For character equality testing, see <a href="https://rdrr.io/pkg/stringi/man/ope
 except for simple scalar recycling.</p></li>
 <li><p>The <code>%d...%</code> operators use a much simpler implementation
 and always return a simple, attribute-free, logical vector. <br>
-Only dimensions are preserved, when it makes sense. <br>
-The <code>%d...%</code> operators are also a bit
-faster and memory efficient than their base equivalents,
-at least for decimal numbers,
-despite performing more computationally expensive maths;
-for integers, the speed is about the same as the base operators.</p></li>
+Only dimensions are preserved, when it makes sense. <br></p></li>
 </ol><p>Thus these operators provide safer decimal number (in)equality tests. <br><br>
 There are also the <code>x %d{}% bnd</code> and <code>x %d!{}% bnd</code> operators,
 where <code>bnd</code> is a vector of length 2 or a 2-column matrix

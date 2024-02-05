@@ -4,8 +4,8 @@ using namespace Rcpp;
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_ntt_in_dbl_00)]]
-LogicalVector rcpp_ntt_in_dbl_00(
+// [[Rcpp::export(.rcpp_ntt_between_dbl_00)]]
+LogicalVector rcpp_ntt_between_dbl_00(
   NumericVector x, NumericVector lowerb, NumericVector upperb, double tol
 ) {
   R_xlen_t n =x.length();
@@ -23,8 +23,8 @@ LogicalVector rcpp_ntt_in_dbl_00(
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_ntt_in_dbl_01)]]
-LogicalVector rcpp_ntt_in_dbl_01(
+// [[Rcpp::export(.rcpp_ntt_between_dbl_01)]]
+LogicalVector rcpp_ntt_between_dbl_01(
   NumericVector x, double lowerb, double upperb, double tol
 ) {
   R_xlen_t n =x.length();
@@ -42,8 +42,8 @@ LogicalVector rcpp_ntt_in_dbl_01(
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_ntt_in_dbl_10)]]
-LogicalVector rcpp_ntt_in_dbl_10(
+// [[Rcpp::export(.rcpp_ntt_between_dbl_10)]]
+LogicalVector rcpp_ntt_between_dbl_10(
   double x, NumericVector lowerb, NumericVector upperb, double tol
 ) {
   R_xlen_t n =upperb.length();
@@ -61,8 +61,8 @@ LogicalVector rcpp_ntt_in_dbl_10(
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_ntt_in_int_00)]]
-LogicalVector rcpp_ntt_in_int_00(
+// [[Rcpp::export(.rcpp_ntt_between_int_00)]]
+LogicalVector rcpp_ntt_between_int_00(
   IntegerVector x, IntegerVector lowerb, IntegerVector upperb
 ) {
   R_xlen_t n =x.length();
@@ -79,8 +79,8 @@ LogicalVector rcpp_ntt_in_int_00(
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_ntt_in_int_01)]]
-LogicalVector rcpp_ntt_in_int_01(
+// [[Rcpp::export(.rcpp_ntt_between_int_01)]]
+LogicalVector rcpp_ntt_between_int_01(
   IntegerVector x, int lowerb, int upperb
 ) {
   R_xlen_t n =x.length();
@@ -97,8 +97,8 @@ LogicalVector rcpp_ntt_in_int_01(
 
 //' @keywords internal
 //' @noRd
-// [[Rcpp::export(.rcpp_ntt_in_int_10)]]
-LogicalVector rcpp_ntt_in_int_10(
+// [[Rcpp::export(.rcpp_ntt_between_int_10)]]
+LogicalVector rcpp_ntt_between_int_10(
   int x, IntegerVector lowerb, IntegerVector upperb
 ) {
   R_xlen_t n =lowerb.length();

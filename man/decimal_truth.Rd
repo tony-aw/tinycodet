@@ -75,11 +75,6 @@ except for simple scalar recycling.
 \item The \code{\%d...\%} operators use a much simpler implementation
 and always return a simple, attribute-free, logical vector. \cr
 Only dimensions are preserved, when it makes sense. \cr
-The \code{\%d...\%} operators are also a bit
-faster and memory efficient than their base equivalents,
-at least for decimal numbers,
-despite performing more computationally expensive maths;
-for integers, the speed is about the same as the base operators.
 }
 
 Thus these operators provide safer decimal number (in)equality tests. \cr
