@@ -5,7 +5,7 @@
 \alias{help.import}
 \alias{is.tinyimport}
 \alias{attr.import}
-\title{Helper functions for the tinycodet package import system}
+\title{Helper Functions for the 'tinycodet' Package Import System}
 \usage{
 help.import(..., i, alias)
 

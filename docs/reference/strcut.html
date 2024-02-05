@@ -128,10 +128,12 @@ giving the location range of the middle part.</p></li>
 
 
 <dt>type</dt>
-<dd><p>single string;
-either the break iterator type,
-one of <code>character</code>, <code>line_break</code>, <code>sentence</code>, <code>word</code>,
-or a custom set of ICU break iteration rules. <br><a href="https://stringi.gagolewski.com/rapi/about_search_boundaries.html" class="external-link"><img src="figures/aboutsearch-boundaries-blue.svg" alt="[BOUNDARIES]"></a> <br></p></dd>
+<dd><p>either one of the following:</p><ul><li><p>a single string giving the break iterator type
+(i.e. <code>"character"</code>, <code>"line_break"</code>, <code>"sentence"</code>, <code>"word"</code>,
+or a custom set of ICU break iteration rules).</p></li>
+<li><p>a list with break iteration options,
+like a list produced by <code>stringi::</code><a href="https://rdrr.io/pkg/stringi/man/stri_opts_brkiter.html" class="external-link">stri_opts_brkiter</a>.</p></li>
+</ul><p><a href="https://stringi.gagolewski.com/rapi/about_search_boundaries.html" class="external-link"><img src="figures/aboutsearch-boundaries-blue.svg" alt="[BOUNDARIES]"></a> <br></p></dd>
 
 
 <dt>tolist</dt>
@@ -151,7 +153,7 @@ or a matrix (<code>FALSE</code>, default).</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>For the <code>strcut_loc()</code> function: <br></p>
+<p>For <code>strcut_loc()</code>: <br></p>
 
 
 <p>A character matrix with <code>length(str)</code> rows and 3 columns,
@@ -161,14 +163,29 @@ or <code>NA</code> if <code>loc[i,]</code> contains <code>NA</code>;</p></li>
 or the uncut string if <code>loc[i,]</code> contains <code>NA</code>;</p></li>
 <li><p>the third and last column contains the sub-string <b>after</b> <code>loc[i,]</code>,
 or <code>NA</code> if <code>loc[i,]</code> contains <code>NA</code>. <br><br></p></li>
-</ul><p>For the <code>strcut_brk()</code> function: <br></p>
+</ul><p>For <code>strcut_brk(..., tolist = FALSE)</code>: <br></p>
 
 
 <p>A character matrix with <code>length(str)</code> rows and
 a number of columns equal to the maximum number of pieces <code>str</code> was cut in. <br></p>
 
 
-<p>Empty places are filled with <code>NA</code>.</p>
+<p>Empty places are filled with <code>NA</code>. <br></p>
+
+
+<p><br></p>
+
+
+<p>For <code>strcut_brk(..., tolist = TRUE)</code>: <br></p>
+
+
+<p>A list with <code>length(str)</code> elements,
+where each element is a character vector containing the cut string. <br></p>
+
+
+<p><br></p>
+
+
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -318,6 +335,14 @@ Moreover, the <code>strcut_</code> - functions return a matrix by default. <br><
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3] "123 456 789"                                      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">brk</span> <span class="op">&lt;-</span> <span class="fu">stringi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stringi/man/stri_opts_brkiter.html" class="external-link">stri_opts_brkiter</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  type <span class="op">=</span> <span class="st">"line"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">strcut_brk</span><span class="op">(</span><span class="va">test</span>, <span class="va">brk</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      [,1]         [,2]            [,3]        [,4]   [,5]    [,6]      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] "The above-" "mentioned    " "features " "are " "very " "useful. "</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      [,7]     [,8]     [,9]     [,10]     [,11]  [,12]    [,13]  [,14]  [,15]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] "Spam, " "spam, " "eggs, " "bacon, " "and " "spam. " "123 " "456 " "789"</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

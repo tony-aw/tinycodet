@@ -2,7 +2,7 @@
 % Please edit documentation in R/transform_if.R
 \name{transform_if}
 \alias{transform_if}
-\title{The transform_if function}
+\title{transform_if: Conditional Sub-set Transformation of Atomic objects}
 \usage{
 transform_if(x, cond, yes = function(x) x, no = function(x) x, other = NA)
 }

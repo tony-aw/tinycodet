@@ -20,10 +20,15 @@ giving the location range of the middle part.
 \item a vector of length 2, giving the location range of the middle part.
 }}
 
-\item{type}{single string;
-either the break iterator type,
-one of \code{character}, \code{line_break}, \code{sentence}, \code{word},
-or a custom set of ICU break iteration rules. \cr
+\item{type}{either one of the following:
+\itemize{
+\item a single string giving the break iterator type
+(i.e. \code{"character"}, \code{"line_break"}, \code{"sentence"}, \code{"word"},
+or a custom set of ICU break iteration rules).
+\item a list with break iteration options,
+like a list produced by \code{stringi::}\link[stringi]{stri_opts_brkiter}.
+}
+
 \ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_boundaries.html}{\figure{aboutsearch-boundaries-blue.svg}{options: alt='[BOUNDARIES]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_boundaries.html}{about search: boundaries}} \cr}
 
 \item{tolist}{logical, indicating if \code{strcut_brk} should return a list (\code{TRUE}),
@@ -34,7 +39,7 @@ or a matrix (\code{FALSE}, default).}
 \item{...}{additional arguments to be passed to \link[stringi]{stri_split_boundaries}.}
 }
 \value{
-For the \code{strcut_loc()} function: \cr
+For \code{strcut_loc()}: \cr
 A character matrix with \code{length(str)} rows and 3 columns,
 where for every row \code{i} it holds the following:
 \itemize{
@@ -43,14 +48,18 @@ or \code{NA} if \code{loc[i,]} contains \code{NA};
 \item the second column contains the sub_string at \code{loc[i,]},
 or the uncut string if \code{loc[i,]} contains \code{NA};
 \item the third and last column contains the sub-string \bold{after} \code{loc[i,]},
-or \code{NA} if \code{loc[i,]} contains \code{NA}. \cr
-\cr
+or \code{NA} if \code{loc[i,]} contains \code{NA}. \cr \cr
 }
 
-For the \code{strcut_brk()} function: \cr
+For \code{strcut_brk(..., tolist = FALSE)}: \cr
 A character matrix with \code{length(str)} rows and
 a number of columns equal to the maximum number of pieces \code{str} was cut in. \cr
-Empty places are filled with \code{NA}.
+Empty places are filled with \code{NA}. \cr
+\cr
+For \code{strcut_brk(..., tolist = TRUE)}: \cr
+A list with \code{length(str)} elements,
+where each element is a character vector containing the cut string. \cr
+\cr
 }
 \description{
 The \code{strcut_loc()} function
@@ -102,6 +111,10 @@ strcut_brk(test, "line", tolist = TRUE)
 strcut_brk(test, "word", tolist = TRUE)
 strcut_brk(test, "sentence", tolist = TRUE)
 
+brk <- stringi::stri_opts_brkiter(
+  type = "line"
+)
+strcut_brk(test, brk)
 }
 \seealso{
 \link{tinycodet_strings}

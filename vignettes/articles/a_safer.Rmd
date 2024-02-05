@@ -32,7 +32,7 @@ except for 4 aspects:
  For example: `0.1*7 == 0.7` returns `FALSE`, even though they are equal, due to the way decimal numbers are stored in programming languages like 'R' and 'Python'. But `0.1*7 %d==% 0.7` returns `TRUE`.
 
  2) Only numeric input is allowed, so characters are not coerced to numbers.
- I.e. `1 < "a"` gives TRUE, whereas 1 %d<% "a" gives an error.
+ I.e. `1 < "a"` gives `TRUE` , whereas `1 %d<% "a"` gives an error.
  For character equality testing, see %s==% from the 'stringi' package.
 
  3) These operators do not support vector re-cycling, except for simple scalar recycling.

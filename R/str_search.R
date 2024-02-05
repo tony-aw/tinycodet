@@ -13,55 +13,76 @@
 #'  (like \link[stringi]{stri_startswith}).
 #'  * Supplying  \code{at = "end"}
 #'  will check if the pattern appears at the end of a string
-#'  (like\link[stringi]{stri_endswith}). \cr
+#'  (like \link[stringi]{stri_endswith}). \cr
 #'  
 #' The \code{x %s!{}% p} operator is the same as \code{x %s{}% p},
-#' except it checks for \bold{absence} of the pattern occurrence,
-#' rather then presence. \cr
+#' except it checks for \bold{absence} of the pattern,
+#' rather than presence. \cr
 #' \cr
-#' For string (in)equality operators, see \link[stringi]{%s==%} from the 'stringi' package. \cr
+#' For string (in)equality operators,
+#' see \link[stringi]{%s==%} from the 'stringi' package. \cr
 #' \cr
 #' \code{strfind()<-}
 #' locates, extracts, or replaces found patterns. \cr
 #' It complements the other string-related operators,
 #' and uses the same \link{s_pattern} API. \cr
 #' It functions as follows:
-#'  * \code{strfind()} attempts to find all pattern matches,
+#'  * \code{strfind()} finds all pattern matches,
 #' and returns the extractions of the findings in a list,
 #' just like \link[stringi]{stri_extract_all}.
-#'  * \code{strfind(..., i = "all")} attempts to find all pattern matches,
+#'  * \code{strfind(..., i = "all")} finds all pattern matches,
 #' and reports the locations of the findings in a list,
 #' just like \link[stringi]{stri_locate_all}.
 #'  * \code{strfind(..., i = i)}, where \code{i} is an integer vector,
 #' locates the \eqn{i^{th}} occurrence of a pattern,
 #' and reports the locations in a matrix,
 #' just like \link{stri_locate_ith}.
-#'  * \code{strfind(...) <- value} attempts to find all pattern matches,
-#' and replaces them with the character vector specified in \code{value}. \cr
+#'  * \code{strfind() <- value} finds pattern matches in variable `x`,
+#' replaces the pattern matches with the character vector specified in \code{value},
+#' and assigns the transformed character vector back to `x`. \cr
 #' This is similar to \link[stringi]{stri_replace_all},
-#' except the replacement is done in-place
-#' (though not by reference, technically speaking). \cr \cr
+#' except the replacement is done in-place. \cr \cr
 #' 
 #'
 #'
-#' @param x a string or character vector.
+#' @param x a string or character vector. \cr
+#' For `strfind()<-`,
+#' `x` must obviously be the variable containing the character vector/string,
+#' since `strfind()<-` performs assignment in-place. \cr
 #' @param p either a list with 'stringi' arguments (see \link{s_pattern}),
-#' or else a character vector of the same length as \code{x} or length 1
-#' with regular expressions. See also the Details section. \cr
+#' or else a character vector with regular expressions. \cr
+#' See also the Details section. \cr
 #' `r .mybadge_string("regex", "darkred")` \cr
 #' `r .mybadge_string("fixed", "darkgreen")` \cr
 #' `r .mybadge_string("coll", "pink")` \cr
 #' `r .mybadge_string("charclass", "lightyellow")` \cr
-#' @param i either one of the following:
+#' @param value a character vector giving the replacement values.
+#' @param i either one of the following can be given for `i`:
 #'  * if \code{i} is not given or \code{NULL}, 
 #'  \code{strfind()} extracts all found pattern occurrences.
 #'  * if \code{i = "all"}, \code{strfind()} locates all found pattern occurrences.
 #'  * if \code{i} is an integer,
 #'  \code{strfind()} locates the \eqn{i^{th}} pattern occurrences. \cr
 #'  See the `i` argument in \link{stri_locate_ith} for details.
-#'  * for \code{strfind() <- value}, `i` must not be specified.
-#' @param value a character vector giving the replacement values.
-#' @param ... additional arguments to be passed to the 'stringi' functions. \cr \cr
+#'
+#' For \code{strfind() <- value}, `i` must not be specified.
+#' @param rt use `rt` to specify the Replacement Type that `strfind()<-` should perform. \cr
+#' Either one of the following can be given for `rt`: 
+#'  * if `rt` is not given, `NULL` or `"vec"`,
+#'  `strfind()<-` performs regular, vectorized replacement of \bold{all} occurrences.
+#'  * if `rt = "dict"`,
+#'  `strfind()<-` performs dictionary replacement of \bold{all} occurrences. \cr
+#'  * if `rt = "first"`,
+#'  `strfind()<-` replaces only the first occurrences.
+#'  * if `rt = "last"`,
+#'  `strfind()<-` replaces only the last occurrences.
+#' 
+#' Note: `rt = "first"` and `rt = "last"` only exist for convenience;
+#' for more specific locational replacement,
+#' use \link{stri_locate_ith} or `strfind(..., i)` with numeric `i`
+#' (see the Examples section). \cr
+#' For \code{strfind()}, `rt` must not be specified.
+#' @param ... additional arguments to be specified.
 #'
 #'
 #' @details
@@ -76,7 +97,44 @@
 #' Unlike \link[stringi]{stri_startswith} or \link[stringi]{stri_endswith},
 #' \code{regex} \bold{is} supported by the \code{%s{}%} and \code{%s!{}%} operators. \cr
 #' See examples below. \cr
+#' \cr
+#'
+#' \bold{Vectorized Replacement vs Dictionary Replacement} \cr
+#' - Vectorized replacement: \cr
+#' `x`, `p`, and `rp` are of the same length
+#' (or recycled to become the same length). \cr
+#' \bold{All} occurrences of pattern `p[j]` in `x[j]` is replaced with `rp[j]`,
+#' for every `j`.
+#'  - Dictionary replacement: \cr
+#'  `p` and `rp` are of the same length,
+#' and their length is independent of the length of `x`. \cr
+#' For every single string in `x`,
+#' all occurrences of pattern `p[1]` are replaced with `rp[1]`, \cr
+#' all occurrences of pattern `p[2]` are replaced with `rp[2]`, 
+#' etc. \cr
 #' 
+#' Notice that for single replacement, i.e. `rt = "first"` or `rt = "last"`,
+#' it makes no sense to distinguish between vectorized or dictionary replacement,
+#' since then only a single occurrence is being replaced per string. \cr
+#' See examples below. \cr \cr
+#' 
+#' 
+#' @section Warning:
+#' `strfind()<-` performs in-place replacement. \cr
+#' Therefore, the character vector or string to perform replacement on,
+#' must already exist as a variable. \cr
+#' So take for example the following code:
+#' 
+#' ```
+#' strfind("hello", p = "e") <- "a" # this obviously does not work
+#' 
+#' y <- "hello"
+#' strfind(y, p = "e") <- "a" # this works fine
+#' 
+#' ```
+#' In the above code, the first `strfind()<-` call does not work,
+#' because the string needs to exist as a variable. \cr
+#'
 #'
 #' @returns
 #' The \code{x %s{}% p} and \code{x %s!{}% p} operators
@@ -92,8 +150,10 @@
 #' giving the start and end positions of the \eqn{i^{th}} matches,
 #' two NAs if no matches are found, and also two `NA`s if str is `NA`. \cr
 #' \cr
-#' \code{strfind(x, p) <- value} returns nothing,
-#' but performs in-place replacement of the found patterns in `x`. \cr
+#' \code{strfind() <- value} returns nothing,
+#' but performs in-place replacement
+#' (but not by reference, technically speaking)
+#' of the found patterns in variable `x`. \cr \cr
 #'
 #'
 #' @seealso \link{tinycodet_strings}
@@ -155,21 +215,7 @@
 #' #############################################################################
 #' 
 #' 
-#' # Example of strfind for replace-all ====
-#' 
-#' x <- rep('The quick brown fox jumped over the lazy dog.', 3)
-#' print(x)
-#' p <- c('quick', 'brown', 'fox')
-#' rp <- c('SLOW',  'BLACK', 'BEAR')
-#' x %s{}% p
-#' strfind(x, p)
-#' strfind(x, p) <- rp
-#' print(x)
-#' 
-#' 
-#' #############################################################################
-#' 
-#' # Example of strfind for replace ith ====
+#' # Example of transforming ith occurrence ====
 #' 
 #' # new character vector:
 #' x <- c(paste0(letters[1:13], collapse = ""),
@@ -189,9 +235,61 @@
 #' print(extr)
 #'
 #' # replace ith vowels with numbers:
-#' repl <- chartr("aeiou", "12345", extr)
+#' repl <- chartr("aeiou", "12345", extr) # transformation
 #' stringi::stri_sub(x, loc) <- repl
 #' print(x)
+#' 
+#' 
+#' #############################################################################
+#' 
+#' 
+#' # Example of strfind for regular vectorized replacement ====
+#' 
+#' x <- rep('The quick brown fox jumped over the lazy dog.', 3)
+#' print(x)
+#' p <- c('quick', 'brown', 'fox')
+#' rp <- c('SLOW',  'BLACK', 'BEAR')
+#' x %s{}% p
+#' strfind(x, p)
+#' strfind(x, p) <- rp
+#' print(x)
+#' 
+#' #############################################################################
+#' 
+#' 
+#' # Example of strfind for dictionary replacement ====
+#' 
+#' x <- rep('The quick brown fox jumped over the lazy dog.', 3)
+#' print(x)
+#' p <- c('quick', 'brown', 'fox')
+#' rp <- c('SLOW',  'BLACK', 'BEAR')
+#' # thus dictionary is:
+#' # quick => SLOW; brown => BLACK; fox => BEAR
+#' strfind(x, p, rt = "dict") <- rp
+#' print(x)
+#' 
+#' 
+#' #############################################################################
+#' 
+#' 
+#' # Example of strfind for first and last replacement ====
+#' 
+#' x <- rep('The quick brown fox jumped over the lazy dog.', 3)
+#' print(x)
+#' p <- s_fixed("the", case_insensitive = TRUE)
+#' rp <- "One"
+#' strfind(x, p, rt = "first") <- rp
+#' print(x)
+#' 
+#' x <- rep('The quick brown fox jumped over the lazy dog.', 3)
+#' print(x)
+#' p <- s_fixed("the", case_insensitive = TRUE)
+#' rp <- "Some Other"
+#' strfind(x, p, rt = "last") <- rp
+#' print(x)
+#' 
+#' 
+#' 
 #' 
 #' 
 #'
@@ -205,9 +303,10 @@ NULL
   if(is.list(p)){
     return(.str_inop_search_lst(x, p, negate = FALSE, sys.call()))
   }
-  if(is.character(p)) {
+  else if(is.character(p)) {
     return(stringi::stri_detect(x, regex = p, negate = FALSE))
-  } else {
+  }
+  else {
     stop("right hand side must be a character vector or list")
   }
 }
@@ -219,9 +318,10 @@ NULL
   if(is.list(p)){
     return(.str_inop_search_lst(x, p, negate = TRUE, sys.call()))
   }
-  if(is.character(p)) {
+  else if(is.character(p)) {
     return(stringi::stri_detect(x, regex = p, negate = TRUE))
-  } else {
+  }
+  else {
     stop("right hand side must be a character vector or list")
   }
 }
@@ -229,15 +329,19 @@ NULL
 
 #' @rdname str_search
 #' @export
-strfind <- function(x, p, i = NULL, ...) {
-  if(!is.null(i) && is.numeric(i)) {
+strfind <- function(x, p, ..., i, rt) {
+  
+  if(missing(i)) i <- NULL
+  if(!missing(rt)) warning("`rt` ignored in `strfind()`")
+  
+  if(is.null(i)) {
+    return(.strfind_extract_all(x, p, ..., abortcall = sys.call()))
+  }
+  else if(is.numeric(i)) {
     return(.strfind_locate_ith(x, p, i, ..., abortcall = sys.call()))
   }
-  else if(!is.null(i) && isTRUE(i == "all")) {
+  else if(length(i==1) && i == "all") {
     return(.strfind_locate_all(x, p, ..., abortcall = sys.call()))
-  }
-  else if(is.null(i)) {
-    return(.strfind_extract_all(x, p, ..., abortcall = sys.call()))
   }
   else {
     stop("improper `i` given")
@@ -247,19 +351,60 @@ strfind <- function(x, p, i = NULL, ...) {
 
 #' @rdname str_search
 #' @export
-`strfind<-` <- function(x, p, ..., value) {
-  if(is.list(p)){
-    
-    args <- list(str = x,replacement = value)
-    return(do.call(stringi::stri_replace_all, c(args, p, list(...))))
-    
-  } else if(is.character(p)) {
-    
-    return(stringi::stri_replace_all(
-      str = x, replacement = value, regex = p, ...
-    ))
-    
-  } else {
+`strfind<-` <- function(x, p, ..., i, rt, value) {
+  
+  if(!missing(i)) warning("`i` ignored in `strfind() <-`")
+  if(missing(rt)) rt <- NULL
+  
+  if(!is.atomic(value)) {
+    stop("right-hand side must be a vector")
+  }
+  
+  if(is.list(p))
+    {
+    if(is.null(rt) || isTRUE(rt == "vec")) {
+      args <- list(str = x, replacement = value, vectorize_all = TRUE)
+      return(do.call(stringi::stri_replace_all, c(args, p, list(...))))
+    }
+    else if(rt == "dict") {
+      args <- list(str = x, replacement = value, vectorize_all = FALSE)
+      return(do.call(stringi::stri_replace_all, c(args, p, list(...))))
+    }
+    else if(rt == "first") {
+      args <- list(str = x, replacement = value)
+      return(do.call(stringi::stri_replace_first, c(args, p, list(...))))
+    }
+    else if(rt == "last") {
+      args <- list(str = x, replacement = value)
+      return(do.call(stringi::stri_replace_last, c(args, p, list(...))))
+    }
+    else {stop("unknown `rt` given")}
+  }
+  else if(is.character(p))
+    {
+    if(is.null(rt) || isTRUE(rt =="vec")) {
+      return(stringi::stri_replace_all_regex(
+        x, p, replacement = value, vectorize_all = TRUE, ...
+      ))
+    }
+    else if(rt == "dict") {
+      return(stringi::stri_replace_all_regex(
+        x, p, replacement = value, vectorize_all = FALSE, ...
+      ))
+    }
+    else if(rt == "first") {
+      return(stringi::stri_replace_first_regex(
+        x, p, replacement = value, ...
+      ))
+    }
+    else if(rt == "last") {
+      return(stringi::stri_replace_last_regex(
+        x, p, replacement = value, ...
+      ))
+    }
+    else {stop("unknown `rt` given")}
+  }
+  else {
     stop("`p` must be a character vector or list")
   }
 }
@@ -268,22 +413,21 @@ strfind <- function(x, p, i = NULL, ...) {
 #' @keywords internal
 #' @noRd
 .str_inop_search_lst <- function(x, lst, negate, abortcall) {
-  if(isTRUE(lst[["at"]] == "start"))
-  {
-    lst[["at"]] <- NULL
-    return(.str_inop_search_start(x, lst, negate = negate))
+  at <- lst[["at"]]
+  lst[["at"]] <- NULL
+  
+  if(!is.null(at)) {
+    if(at == "start") {
+      return(.str_inop_search_start(x, lst, negate = negate))
+    }
+    else if(at == "end") {
+      return(.str_inop_search_end(x, lst, negate = negate))
+    }
+    else {
+      stop(simpleError("improper `at` argument given", call = abortcall))
+    }
   }
-  else if(isTRUE(lst[["at"]] == "end"))
-  {
-    lst[["at"]] <- NULL
-    return(.str_inop_search_end(x, lst, negate = negate))
-  }
-  else if(!is.null(lst[["at"]]))
-  {
-    stop(simpleError("improper `at` argument given", call = abortcall))
-  }
-  else
-  {
+  else {
     return(do.call(stringi::stri_detect, c(list(str = x, negate = negate), lst)))
   }
 }
@@ -292,14 +436,18 @@ strfind <- function(x, p, i = NULL, ...) {
 #' @keywords internal
 #' @noRd
 .str_inop_search_start <- function(x, lst, negate) {
-  if(!is.null(lst[["regex"]])) {
-    pattern <- lst[["regex"]]
-    pattern[pattern == ""] <- NA
-    pattern <- stringi::stri_c("^(", pattern, ")")
-    lst[["regex"]] <- NULL
-    args <- list(str = x, pattern = pattern, negate = negate, max_count = -1)
+  
+  regexpattern <- lst[["regex"]]
+  lst[["regex"]] <- NULL
+  
+  if(!is.null(regexpattern)) {
+    regexpattern[regexpattern == ""] <- NA
+    regexpattern <- stringi::stri_c("^(", regexpattern, ")")
+    
+    args <- list(str = x, pattern = regexpattern, negate = negate, max_count = -1)
     return(do.call(stringi::stri_detect_regex, c(args, lst)))
-  } else {
+  }
+  else {
     args <- list(str = x, negate = negate, from = 1L)
     return(do.call(stringi::stri_startswith, c(args, lst)))
   }
@@ -309,14 +457,17 @@ strfind <- function(x, p, i = NULL, ...) {
 #' @keywords internal
 #' @noRd
 .str_inop_search_end <- function(x, lst, negate) {
-  if(!is.null(lst[["regex"]])) {
-    pattern <- lst[["regex"]]
-    pattern[pattern == ""] <- NA
-    pattern <- stringi::stri_c("(", pattern, ")$")
-    lst[["regex"]] <- NULL
-    args <- list(str = x, pattern = pattern, negate = negate, max_count = -1)
+  
+  regexpattern <- lst[["regex"]]
+  lst[["regex"]] <- NULL
+  
+  if(!is.null(regexpattern)) {
+    regexpattern[regexpattern == ""] <- NA
+    regexpattern <- stringi::stri_c("(", regexpattern, ")$")
+    args <- list(str = x, pattern = regexpattern, negate = negate, max_count = -1)
     return(do.call(stringi::stri_detect_regex, c(args, lst)))
-  } else {
+  }
+  else {
     args <- list(str = x, negate = negate, to = -1L)
     return(do.call(stringi::stri_endswith, c(args, lst)))
   }
@@ -348,11 +499,13 @@ strfind <- function(x, p, i = NULL, ...) {
 .strfind_locate_all <- function(x, p, ..., abortcall) {
   if(is.list(p)){
     return(do.call(stringi::stri_locate_all, c(list(str = x), p, list(...))))
-  } else if(is.character(p)) {
+  }
+  else if(is.character(p)) {
     return(stringi::stri_locate_all(
       str = x, regex = p, ...
     ))
-  } else {
+  }
+  else {
     stop(simpleError("`p` must be a character vector or list", call = abortcall))
   }
 }
@@ -363,12 +516,13 @@ strfind <- function(x, p, i = NULL, ...) {
 .strfind_extract_all <- function(x, p, ..., abortcall) {
   if(is.list(p)){
     return(do.call(stringi::stri_extract_all, c(list(str = x), p, list(...))))
-  } else if(is.character(p)) {
+  }
+  else if(is.character(p)) {
     return(stringi::stri_extract_all(
       str = x, regex = p, ...
     ))
-  } else {
+  }
+  else {
     stop(simpleError("`p` must be a character vector or list", call = abortcall))
   }
 }
-

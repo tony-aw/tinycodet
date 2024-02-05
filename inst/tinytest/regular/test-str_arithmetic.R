@@ -208,7 +208,7 @@ expect_equal(
 expect_error(test %s//% list(type = "chr"))
 
 
-# error checks ===
+# error checks ====
 expect_error(
   x %s-% 1,
   pattern = "right hand side must be a character vector or list"

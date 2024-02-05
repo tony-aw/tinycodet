@@ -12,22 +12,27 @@ x \%s{}\% p
 
 x \%s!{}\% p
 
-strfind(x, p, i = NULL, ...)
+strfind(x, p, ..., i, rt)
 
-strfind(x, p, ...) <- value
+strfind(x, p, ..., i, rt) <- value
 }
 \arguments{
-\item{x}{a string or character vector.}
+\item{x}{a string or character vector. \cr
+For \verb{strfind()<-},
+\code{x} must obviously be the variable containing the character vector/string,
+since \verb{strfind()<-} performs assignment in-place. \cr}
 
 \item{p}{either a list with 'stringi' arguments (see \link{s_pattern}),
-or else a character vector of the same length as \code{x} or length 1
-with regular expressions. See also the Details section. \cr
+or else a character vector with regular expressions. \cr
+See also the Details section. \cr
 \ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_regex.html}{\figure{aboutsearch-regex-darkred.svg}{options: alt='[REGEX]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_regex.html}{about search: regex}} \cr
 \ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_fixed.html}{\figure{aboutsearch-fixed-darkgreen.svg}{options: alt='[FIXED]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_fixed.html}{about search: fixed}} \cr
 \ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_coll.html}{\figure{aboutsearch-coll-pink.svg}{options: alt='[COLL]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_coll.html}{about search: coll}} \cr
 \ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_charclass.html}{\figure{aboutsearch-charclass-lightyellow.svg}{options: alt='[CHARCLASS]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_charclass.html}{about search: charclass}} \cr}
 
-\item{i}{either one of the following:
+\item{...}{additional arguments to be specified.}
+
+\item{i}{either one of the following can be given for \code{i}:
 \itemize{
 \item if \code{i} is not given or \code{NULL},
 \code{strfind()} extracts all found pattern occurrences.
@@ -35,10 +40,28 @@ with regular expressions. See also the Details section. \cr
 \item if \code{i} is an integer,
 \code{strfind()} locates the \eqn{i^{th}} pattern occurrences. \cr
 See the \code{i} argument in \link{stri_locate_ith} for details.
-\item for \code{strfind() <- value}, \code{i} must not be specified.
-}}
+}
 
-\item{...}{additional arguments to be passed to the 'stringi' functions. \cr \cr}
+For \code{strfind() <- value}, \code{i} must not be specified.}
+
+\item{rt}{use \code{rt} to specify the Replacement Type that \verb{strfind()<-} should perform. \cr
+Either one of the following can be given for \code{rt}:
+\itemize{
+\item if \code{rt} is not given, \code{NULL} or \code{"vec"},
+\verb{strfind()<-} performs regular, vectorized replacement of \bold{all} occurrences.
+\item if \code{rt = "dict"},
+\verb{strfind()<-} performs dictionary replacement of \bold{all} occurrences. \cr
+\item if \code{rt = "first"},
+\verb{strfind()<-} replaces only the first occurrences.
+\item if \code{rt = "last"},
+\verb{strfind()<-} replaces only the last occurrences.
+}
+
+Note: \code{rt = "first"} and \code{rt = "last"} only exist for convenience;
+for more specific locational replacement,
+use \link{stri_locate_ith} or \code{strfind(..., i)} with numeric \code{i}
+(see the Examples section). \cr
+For \code{strfind()}, \code{rt} must not be specified.}
 
 \item{value}{a character vector giving the replacement values.}
 }
@@ -56,8 +79,10 @@ returns an integer matrix with two columns,
 giving the start and end positions of the \eqn{i^{th}} matches,
 two NAs if no matches are found, and also two \code{NA}s if str is \code{NA}. \cr
 \cr
-\code{strfind(x, p) <- value} returns nothing,
-but performs in-place replacement of the found patterns in \code{x}. \cr
+\code{strfind() <- value} returns nothing,
+but performs in-place replacement
+(but not by reference, technically speaking)
+of the found patterns in variable \code{x}. \cr \cr
 }
 \description{
 The \code{x \%s{}\% p} operator
@@ -71,14 +96,15 @@ will check if the pattern appears at the start of a string
 (like \link[stringi]{stri_startswith}).
 \item Supplying  \code{at = "end"}
 will check if the pattern appears at the end of a string
-(like\link[stringi]{stri_endswith}). \cr
+(like \link[stringi]{stri_endswith}). \cr
 }
 
 The \code{x \%s!{}\% p} operator is the same as \code{x \%s{}\% p},
-except it checks for \bold{absence} of the pattern occurrence,
-rather then presence. \cr
+except it checks for \bold{absence} of the pattern,
+rather than presence. \cr
 \cr
-For string (in)equality operators, see \link[stringi]{\%s==\%} from the 'stringi' package. \cr
+For string (in)equality operators,
+see \link[stringi]{\%s==\%} from the 'stringi' package. \cr
 \cr
 \code{strfind()<-}
 locates, extracts, or replaces found patterns. \cr
@@ -86,21 +112,21 @@ It complements the other string-related operators,
 and uses the same \link{s_pattern} API. \cr
 It functions as follows:
 \itemize{
-\item \code{strfind()} attempts to find all pattern matches,
+\item \code{strfind()} finds all pattern matches,
 and returns the extractions of the findings in a list,
 just like \link[stringi]{stri_extract_all}.
-\item \code{strfind(..., i = "all")} attempts to find all pattern matches,
+\item \code{strfind(..., i = "all")} finds all pattern matches,
 and reports the locations of the findings in a list,
 just like \link[stringi]{stri_locate_all}.
 \item \code{strfind(..., i = i)}, where \code{i} is an integer vector,
 locates the \eqn{i^{th}} occurrence of a pattern,
 and reports the locations in a matrix,
 just like \link{stri_locate_ith}.
-\item \code{strfind(...) <- value} attempts to find all pattern matches,
-and replaces them with the character vector specified in \code{value}. \cr
+\item \code{strfind() <- value} finds pattern matches in variable \code{x},
+replaces the pattern matches with the character vector specified in \code{value},
+and assigns the transformed character vector back to \code{x}. \cr
 This is similar to \link[stringi]{stri_replace_all},
-except the replacement is done in-place
-(though not by reference, technically speaking). \cr \cr
+except the replacement is done in-place. \cr \cr
 }
 }
 \details{
@@ -115,7 +141,47 @@ the operators will check if the pattern is present/absent at the end of the stri
 Unlike \link[stringi]{stri_startswith} or \link[stringi]{stri_endswith},
 \code{regex} \bold{is} supported by the \code{\%s{}\%} and \code{\%s!{}\%} operators. \cr
 See examples below. \cr
+\cr
+
+\bold{Vectorized Replacement vs Dictionary Replacement} \cr
+\itemize{
+\item Vectorized replacement: \cr
+\code{x}, \code{p}, and \code{rp} are of the same length
+(or recycled to become the same length). \cr
+\bold{All} occurrences of pattern \code{p[j]} in \code{x[j]} is replaced with \code{rp[j]},
+for every \code{j}.
+\item Dictionary replacement: \cr
+\code{p} and \code{rp} are of the same length,
+and their length is independent of the length of \code{x}. \cr
+For every single string in \code{x},
+all occurrences of pattern \code{p[1]} are replaced with \code{rp[1]}, \cr
+all occurrences of pattern \code{p[2]} are replaced with \code{rp[2]},
+etc. \cr
 }
+
+Notice that for single replacement, i.e. \code{rt = "first"} or \code{rt = "last"},
+it makes no sense to distinguish between vectorized or dictionary replacement,
+since then only a single occurrence is being replaced per string. \cr
+See examples below. \cr \cr
+}
+\section{Warning}{
+
+\verb{strfind()<-} performs in-place replacement. \cr
+Therefore, the character vector or string to perform replacement on,
+must already exist as a variable. \cr
+So take for example the following code:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{strfind("hello", p = "e") <- "a" # this obviously does not work
+
+y <- "hello"
+strfind(y, p = "e") <- "a" # this works fine
+
+}\if{html}{\out{</div>}}
+
+In the above code, the first \verb{strfind()<-} call does not work,
+because the string needs to exist as a variable. \cr
+}
+
 \examples{
 
 # example of \%s{}\% and \%s!{}\% ====
@@ -172,21 +238,7 @@ stringi::stri_startswith(x, fixed = "zyx") # same as above
 #############################################################################
 
 
-# Example of strfind for replace-all ====
-
-x <- rep('The quick brown fox jumped over the lazy dog.', 3)
-print(x)
-p <- c('quick', 'brown', 'fox')
-rp <- c('SLOW',  'BLACK', 'BEAR')
-x \%s{}\% p
-strfind(x, p)
-strfind(x, p) <- rp
-print(x)
-
-
-#############################################################################
-
-# Example of strfind for replace ith ====
+# Example of transforming ith occurrence ====
 
 # new character vector:
 x <- c(paste0(letters[1:13], collapse = ""),
@@ -206,9 +258,61 @@ extr <- stringi::stri_sub(x, from = loc)
 print(extr)
 
 # replace ith vowels with numbers:
-repl <- chartr("aeiou", "12345", extr)
+repl <- chartr("aeiou", "12345", extr) # transformation
 stringi::stri_sub(x, loc) <- repl
 print(x)
+
+
+#############################################################################
+
+
+# Example of strfind for regular vectorized replacement ====
+
+x <- rep('The quick brown fox jumped over the lazy dog.', 3)
+print(x)
+p <- c('quick', 'brown', 'fox')
+rp <- c('SLOW',  'BLACK', 'BEAR')
+x \%s{}\% p
+strfind(x, p)
+strfind(x, p) <- rp
+print(x)
+
+#############################################################################
+
+
+# Example of strfind for dictionary replacement ====
+
+x <- rep('The quick brown fox jumped over the lazy dog.', 3)
+print(x)
+p <- c('quick', 'brown', 'fox')
+rp <- c('SLOW',  'BLACK', 'BEAR')
+# thus dictionary is:
+# quick => SLOW; brown => BLACK; fox => BEAR
+strfind(x, p, rt = "dict") <- rp
+print(x)
+
+
+#############################################################################
+
+
+# Example of strfind for first and last replacement ====
+
+x <- rep('The quick brown fox jumped over the lazy dog.', 3)
+print(x)
+p <- s_fixed("the", case_insensitive = TRUE)
+rp <- "One"
+strfind(x, p, rt = "first") <- rp
+print(x)
+
+x <- rep('The quick brown fox jumped over the lazy dog.', 3)
+print(x)
+p <- s_fixed("the", case_insensitive = TRUE)
+rp <- "Some Other"
+strfind(x, p, rt = "last") <- rp
+print(x)
+
+
+
 
 
 

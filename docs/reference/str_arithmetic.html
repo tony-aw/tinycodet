@@ -156,13 +156,12 @@ see <a href="strcut.html">strcut_brk</a> and <a href="strcut.html">strcut_loc</a
 
 <dt>p</dt>
 <dd><p>either a list with 'stringi' arguments (see <a href="s_pattern.html">s_pattern</a>),
-or else a character vector of the same length as <code>x</code> or length 1
-with regular expressions. <br><a href="https://stringi.gagolewski.com/rapi/about_search_regex.html" class="external-link"><img src="figures/aboutsearch-regex-darkred.svg" alt="[REGEX]"></a> <br><a href="https://stringi.gagolewski.com/rapi/about_search_fixed.html" class="external-link"><img src="figures/aboutsearch-fixed-darkgreen.svg" alt="[FIXED]"></a> <br><a href="https://stringi.gagolewski.com/rapi/about_search_coll.html" class="external-link"><img src="figures/aboutsearch-coll-pink.svg" alt="[COLL]"></a> <br><a href="https://stringi.gagolewski.com/rapi/about_search_charclass.html" class="external-link"><img src="figures/aboutsearch-charclass-lightyellow.svg" alt="[CHARCLASS]"></a> <br></p></dd>
+or else a character vector with regular expressions. <br><a href="https://stringi.gagolewski.com/rapi/about_search_regex.html" class="external-link"><img src="figures/aboutsearch-regex-darkred.svg" alt="[REGEX]"></a> <br><a href="https://stringi.gagolewski.com/rapi/about_search_fixed.html" class="external-link"><img src="figures/aboutsearch-fixed-darkgreen.svg" alt="[FIXED]"></a> <br><a href="https://stringi.gagolewski.com/rapi/about_search_coll.html" class="external-link"><img src="figures/aboutsearch-coll-pink.svg" alt="[COLL]"></a> <br><a href="https://stringi.gagolewski.com/rapi/about_search_charclass.html" class="external-link"><img src="figures/aboutsearch-charclass-lightyellow.svg" alt="[CHARCLASS]"></a> <br></p></dd>
 
 
 <dt>brk</dt>
-<dd><p>a list with arguments to be send to <a href="https://rdrr.io/pkg/stringi/man/stri_count_boundaries.html" class="external-link">stri_count_boundaries</a>. <br>
-see also <a href="https://rdrr.io/pkg/stringi/man/stri_opts_brkiter.html" class="external-link">stri_opts_brkiter</a>. <br><a href="https://stringi.gagolewski.com/rapi/about_search_boundaries.html" class="external-link"><img src="figures/aboutsearch-boundaries-blue.svg" alt="[BOUNDARIES]"></a> <br></p></dd>
+<dd><p>a list with break iteration options,
+like a list produced by <code>stringi::</code><a href="https://rdrr.io/pkg/stringi/man/stri_opts_brkiter.html" class="external-link">stri_opts_brkiter</a>. <br><a href="https://stringi.gagolewski.com/rapi/about_search_boundaries.html" class="external-link"><img src="figures/aboutsearch-boundaries-blue.svg" alt="[BOUNDARIES]"></a> <br></p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -176,8 +175,10 @@ return a character vector of the same length as <code>x</code>. <br></p>
 <p>The <code>%s/%</code> and <code>%s//%</code> both return an integer vector of the same length as <code>x</code>. <br></p>
 
 
-<p>The <code>%s$%</code> operator returns a character vector.
-The <code>%ss%</code> operator returns a list of the split strings - or,
+<p>The <code>%s$%</code> operator returns a character vector. <br></p>
+
+
+<p>The <code>%ss%</code> operator returns a list of the split strings - or,
 if <code>simplify = TRUE</code> / <code>simplify = NA</code>,
 returns a matrix of the split strings.</p>
     </div>

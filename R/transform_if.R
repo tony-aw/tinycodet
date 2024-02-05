@@ -1,4 +1,4 @@
-#' The transform_if function
+#' transform_if: Conditional Sub-set Transformation of Atomic objects
 #'
 #' @description
 #'

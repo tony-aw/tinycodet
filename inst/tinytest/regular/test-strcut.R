@@ -132,6 +132,48 @@ expect_equal(
   stringi::stri_split_boundaries(test, type="character", simplify = NA)
 )
 
+test <- c(
+  paste0("The\u00a0above-mentioned    features are very useful. ",
+         "Spam, spam, eggs, bacon, and spam. 123 456 789"),
+  "good morning, good evening, and good night"
+)
+expect_equal(
+  strcut_brk(test, type = stringi::stri_opts_brkiter(type = "character")),
+  stringi::stri_split_boundaries(test, type="character", simplify = NA)
+)
+expect_equal(
+  strcut_brk(test, type = stringi::stri_opts_brkiter(type = "line")),
+  stringi::stri_split_boundaries(test, type="line_break", simplify = NA)
+)
+expect_equal(
+  strcut_brk(test, type = stringi::stri_opts_brkiter(type = "line")),
+  stringi::stri_split_boundaries(test, type="line_break", simplify = NA)
+)
+expect_equal(
+  strcut_brk(test, type = stringi::stri_opts_brkiter(type = "word")),
+  stringi::stri_split_boundaries(test, type="word", simplify = NA)
+)
+expect_equal(
+  strcut_brk(test, type = stringi::stri_opts_brkiter(type = "word", skip_word_none=TRUE)),
+  stringi::stri_split_boundaries(test, type="word", simplify = NA, skip_word_none=TRUE)
+)
+expect_equal(
+  strcut_brk(test, type = stringi::stri_opts_brkiter(type = "word", skip_word_none=TRUE, skip_word_letter=TRUE)),
+  stringi::stri_split_boundaries(test, type="word", simplify = NA, skip_word_none=TRUE, skip_word_letter=TRUE)
+)
+expect_equal(
+  strcut_brk(test, type = stringi::stri_opts_brkiter(type = "word", skip_word_none=FALSE, skip_word_letter=TRUE)),
+  stringi::stri_split_boundaries(test, type="word", simplify = NA, skip_word_none=FALSE, skip_word_letter=TRUE)
+)
+expect_equal(
+  strcut_brk(test, type = stringi::stri_opts_brkiter(type = "sentence")),
+  stringi::stri_split_boundaries(test, type="sentence", simplify = NA)
+)
+expect_equal(
+  strcut_brk(test, type = stringi::stri_opts_brkiter(type = "sentence", skip_sentence_sep=TRUE)),
+  stringi::stri_split_boundaries(test, type="sentence", simplify = NA, skip_sentence_sep=TRUE)
+)
+
 
 # test strcut_brk - list ====
 test <- c(
@@ -180,6 +222,48 @@ expect_equal(
   stringi::stri_split_boundaries(test, type="sentence", simplify = FALSE, skip_sentence_sep=TRUE)
 )
 
+test <- c(
+  paste0("The\u00a0above-mentioned    features are very useful. ",
+         "Spam, spam, eggs, bacon, and spam. 123 456 789"),
+  "good morning, good evening, and good night"
+)
+expect_equal(
+  strcut_brk(test, type = stringi::stri_opts_brkiter(type = "character"), tolist = TRUE),
+  stringi::stri_split_boundaries(test, type="character", simplify = FALSE)
+)
+expect_equal(
+  strcut_brk(test, type = stringi::stri_opts_brkiter(type = "line"), tolist = TRUE),
+  stringi::stri_split_boundaries(test, type="line_break", simplify = FALSE)
+)
+expect_equal(
+  strcut_brk(test, type = stringi::stri_opts_brkiter(type = "line"), tolist = TRUE),
+  stringi::stri_split_boundaries(test, type="line_break", simplify = FALSE)
+)
+expect_equal(
+  strcut_brk(test, type = stringi::stri_opts_brkiter(type = "word"), tolist = TRUE),
+  stringi::stri_split_boundaries(test, type="word", simplify = FALSE)
+)
+expect_equal(
+  strcut_brk(test, type = stringi::stri_opts_brkiter(type = "word", skip_word_none=TRUE), tolist = TRUE),
+  stringi::stri_split_boundaries(test, type="word", simplify = FALSE, skip_word_none=TRUE)
+)
+expect_equal(
+  strcut_brk(test, type = stringi::stri_opts_brkiter(type = "word", skip_word_none=TRUE, skip_word_letter=TRUE), tolist = TRUE),
+  stringi::stri_split_boundaries(test, type="word", simplify = FALSE, skip_word_none=TRUE, skip_word_letter=TRUE)
+)
+expect_equal(
+  strcut_brk(test, type = stringi::stri_opts_brkiter(type = "word", skip_word_none=FALSE, skip_word_letter=TRUE), tolist = TRUE),
+  stringi::stri_split_boundaries(test, type="word", simplify = FALSE, skip_word_none=FALSE, skip_word_letter=TRUE)
+)
+expect_equal(
+  strcut_brk(test, type = stringi::stri_opts_brkiter(type = "sentence"), tolist = TRUE),
+  stringi::stri_split_boundaries(test, type="sentence", simplify = FALSE)
+)
+expect_equal(
+  strcut_brk(test, type = stringi::stri_opts_brkiter(type = "sentence", skip_sentence_sep=TRUE), tolist = TRUE),
+  stringi::stri_split_boundaries(test, type="sentence", simplify = FALSE, skip_sentence_sep=TRUE)
+)
+
 
 # strcut_brk - error checks ====
 expect_error(
@@ -194,10 +278,6 @@ expect_error(
 expect_error(
   strcut_brk(test, "chr", simplify = NA),
   pattern = "\"simplify\" matched by multiple actual arguments"
-)
-expect_error(
-  strcut_brk(test, c("character", "word")),
-  pattern = "`type` must be a single string"
 )
 expect_error(
   strcut_brk(test, tolist = NA),

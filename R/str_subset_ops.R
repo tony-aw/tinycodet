@@ -129,7 +129,11 @@ NULL
   if(!is.numeric(ss)) { stop(simpleError(
     "right hand side must be an integer vector or matrix", call = abortcall
   ))}
-  if(!is.integer(ss)) ss <- as_int(ss)
+  if(!is.integer(ss)) {
+    ss.dim <- dim(ss)
+    ss <- as.integer(ss)
+    dim(ss) <- ss.dim
+  }
   if(!is.matrix(ss)) {
     if(length(ss) == 2) {
       ss <- matrix(ss, ncol = 2)

@@ -33,14 +33,13 @@
 #'
 #' @param x a string or character vector.
 #' @param p either a list with 'stringi' arguments (see \link{s_pattern}),
-#' or else a character vector of the same length as \code{x} or length 1
-#' with regular expressions. \cr
+#' or else a character vector with regular expressions. \cr
 #' `r .mybadge_string("regex", "darkred")` \cr
 #' `r .mybadge_string("fixed", "darkgreen")` \cr
 #' `r .mybadge_string("coll", "pink")` \cr
 #' `r .mybadge_string("charclass", "lightyellow")` \cr
-#' @param brk a list with arguments to be send to \link[stringi]{stri_count_boundaries}. \cr
-#' see also \link[stringi]{stri_opts_brkiter}. \cr
+#' @param brk a list with break iteration options,
+#'  like a list produced by \code{stringi::}\link[stringi]{stri_opts_brkiter}. \cr
 #' `r .mybadge_string("boundaries", "blue")` \cr
 #'
 #'
@@ -50,7 +49,7 @@
 #' The \code{%s+%}, \code{%s-%}, and \code{%s*%} operators
 #' return a character vector of the same length as \code{x}. \cr
 #' The \code{%s/%} and \code{%s//%} both return an integer vector of the same length as \code{x}. \cr
-#' The \code{%s$%} operator returns a character vector.
+#' The \code{%s$%} operator returns a character vector. \cr
 #' The \code{%ss%} operator returns a list of the split strings - or,
 #' if \code{simplify = TRUE} / \code{simplify = NA},
 #' returns a matrix of the split strings.
@@ -149,7 +148,7 @@ stringi::`%s$%`
 #' @rdname str_arithmetic
 #' @export
 `%s//%` <- function(x, brk) {
-  return(do.call(stringi::stri_count_boundaries, c(list(str=x), brk)))
+  return(stringi::stri_count_boundaries(str = x, opts_brkiter = brk))
 }
 
 

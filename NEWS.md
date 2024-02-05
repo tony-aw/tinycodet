@@ -1,10 +1,11 @@
 # tinycodet 0.4.1 (Under Development)
-* The decimal (in)equality testing operators now no longer preserve attributes, saving computation time. Only dimensions are preserved, in cases where it makes sense.
+* Added an explanation in the string overview help page, regarding the usage of vector recycling.
 * The `%d{}%` and `%d!{}%` operators now also perform tolerance checks on the boundaries themselves.
-* Re-written the decimal (in)equality testing operators in 'C++' via 'Rcpp', for speed improvement. Now these operators are actually faster than their base equivalents for numeric type `double`, despite performing more complex maths.
+* The decimal (in)equality testing operators now no longer preserve attributes, saving computation time. Only dimensions are preserved, in cases where it makes sense.
 * Provided additional clarification in the help file for the `%row%` and `%col~%` operators.
-* Some of the internal code has been re-written in 'C' and 'C++'.
-* Added more tests for the decimal (in)equality testing operators.
+* **Internal Re-write:** Re-written the decimal (in)equality testing operators in 'C++' via 'Rcpp', for speed improvement. Now these operators are actually faster than their base equivalents for numeric type `double`, despite performing more complex maths. Some of the other internal code has also been re-written in 'C' and 'C++'.
+* **Argument change:** Added the `rt` argument to `strfind()<-`, and moved the `i` and `rt` arguments more to the end of the functions. The `type` argument in `strcut_brk()` can now also directly accept a list produced by `stringi::stri_opts_brkiter()`.
+* **Tests:** Added more tests for the decimal (in)equality testing operators, and the new functionality added in this version.
 
 
 # tinycodet 0.4.0

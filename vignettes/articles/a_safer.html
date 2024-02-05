@@ -359,9 +359,9 @@ be equal. For example: <code>0.1*7 == 0.7</code> returns
 numbers are stored in programming languages like ‘R’ and ‘Python’. But
 <code>0.1*7 %d==% 0.7</code> returns <code>TRUE</code>.</p></li>
 <li><p>Only numeric input is allowed, so characters are not coerced to
-numbers. I.e. <code>1 &lt; &quot;a&quot;</code> gives TRUE, whereas 1 %d&lt;% “a”
-gives an error. For character equality testing, see %s==% from the
-‘stringi’ package.</p></li>
+numbers. I.e. <code>1 &lt; &quot;a&quot;</code> gives <code>TRUE</code> , whereas
+<code>1 %d&lt;% &quot;a&quot;</code> gives an error. For character equality
+testing, see %s==% from the ‘stringi’ package.</p></li>
 <li><p>These operators do not support vector re-cycling, except for
 simple scalar recycling.</p></li>
 <li><p>The <code>%d...%</code> operators use a much simpler

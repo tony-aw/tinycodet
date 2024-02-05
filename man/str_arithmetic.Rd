@@ -20,22 +20,21 @@ x \%ss\% p
 \item{x}{a string or character vector.}
 
 \item{p}{either a list with 'stringi' arguments (see \link{s_pattern}),
-or else a character vector of the same length as \code{x} or length 1
-with regular expressions. \cr
+or else a character vector with regular expressions. \cr
 \ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_regex.html}{\figure{aboutsearch-regex-darkred.svg}{options: alt='[REGEX]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_regex.html}{about search: regex}} \cr
 \ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_fixed.html}{\figure{aboutsearch-fixed-darkgreen.svg}{options: alt='[FIXED]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_fixed.html}{about search: fixed}} \cr
 \ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_coll.html}{\figure{aboutsearch-coll-pink.svg}{options: alt='[COLL]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_coll.html}{about search: coll}} \cr
 \ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_charclass.html}{\figure{aboutsearch-charclass-lightyellow.svg}{options: alt='[CHARCLASS]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_charclass.html}{about search: charclass}} \cr}
 
-\item{brk}{a list with arguments to be send to \link[stringi]{stri_count_boundaries}. \cr
-see also \link[stringi]{stri_opts_brkiter}. \cr
+\item{brk}{a list with break iteration options,
+like a list produced by \code{stringi::}\link[stringi]{stri_opts_brkiter}. \cr
 \ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_boundaries.html}{\figure{aboutsearch-boundaries-blue.svg}{options: alt='[BOUNDARIES]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_boundaries.html}{about search: boundaries}} \cr}
 }
 \value{
 The \code{\%s+\%}, \code{\%s-\%}, and \code{\%s*\%} operators
 return a character vector of the same length as \code{x}. \cr
 The \code{\%s/\%} and \code{\%s//\%} both return an integer vector of the same length as \code{x}. \cr
-The \code{\%s$\%} operator returns a character vector.
+The \code{\%s$\%} operator returns a character vector. \cr
 The \code{\%ss\%} operator returns a list of the split strings - or,
 if \code{simplify = TRUE} / \code{simplify = NA},
 returns a matrix of the split strings.

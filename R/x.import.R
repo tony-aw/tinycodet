@@ -1,4 +1,4 @@
-#' Helper functions for the tinycodet package import system
+#' Helper Functions for the 'tinycodet' Package Import System
 #'
 #' @description
 #' The \code{help.import()} function
