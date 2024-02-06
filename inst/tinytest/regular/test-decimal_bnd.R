@@ -77,14 +77,30 @@ expect_equal(x %d!{}% bnd, !iswithin)
 # boundary tolerance checks ====
 # (lower bound higher than upper bound, but within tolerance, so no error)
 x <- rnorm(10)
-expect_silent(x %d{}% c(eps/2, 0))
-expect_silent(x %d{}% cbind(eps/2, 0))
-expect_silent(x %d{}% cbind(eps * seq(0.1, 0.9), 0))
+expect_silent(x %d{}% c(tol*0.9, 0))
+expect_silent(x %d{}% cbind(tol*0.9, 0))
+expect_silent(x %d{}% cbind(tol * seq(0.1, 0.9), 0))
 
 x <- x[1]
-expect_silent(x %d{}% c(eps/2, 0))
-expect_silent(x %d{}% cbind(eps/2, 0))
-expect_silent(x %d{}% cbind(eps * seq(0.1, 0.9), 0))
+expect_silent(x %d{}% c(tol*0.9, 0))
+expect_silent(x %d{}% cbind(tol*0.9, 0))
+expect_silent(x %d{}% cbind(tol * seq(0.1, 0.9), 0))
+
+
+# internal error avoidance ====
+x <- as.integer(1:10)
+lower <- x - 1L
+upper <- x + 1L
+expect_silent(
+  tinycodet:::.rcpp_ntt_between_dbl_00(x, lower, upper, sqrt(.Machine$double.eps))
+)
+expect_silent(
+  tinycodet:::.rcpp_ntt_between_dbl_01(x, lower[1], upper[1], sqrt(.Machine$double.eps))
+)
+expect_silent(
+  tinycodet:::.rcpp_ntt_between_dbl_10(x[1], lower, upper, sqrt(.Machine$double.eps))
+)
+
 
 
 # errors ====

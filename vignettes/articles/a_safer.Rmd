@@ -39,7 +39,6 @@ except for 4 aspects:
 
  4) The `%d...%` operators use a much simpler implementation and always return a simple, attribute-free, logical vector.
  Only dimensions are preserved, when it makes sense.
- The `%d...%` operators are also a bit faster and memory efficient than their base equivalents, at least for decimal numbers, despite performing more computationally expensive maths; for integers, the speed is about the same as the base operators.
 
 
 Thus these provide safer decimal number (in)equality operators.

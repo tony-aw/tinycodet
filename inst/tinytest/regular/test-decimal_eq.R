@@ -218,6 +218,40 @@ expect_equal(x %d<% y, !equal & smaller)
 expect_equal(x %d>% y, !equal & bigger)
 
 
+# internal error avoidance ====
+x <- as.integer(1:10)
+y <- as.integer(1:10)
+expect_silent(
+  tinycodet:::.rcpp_ntt_eq_dbl_00(x, y, sqrt(.Machine$double.eps), TRUE)
+)
+expect_silent(
+  tinycodet:::.rcpp_ntt_eq_dbl_01(x, y[1], sqrt(.Machine$double.eps), TRUE)
+)
+expect_silent(
+  tinycodet:::.rcpp_ntt_eq_dbl_10(x[1], y, sqrt(.Machine$double.eps), TRUE)
+)
+
+expect_silent(
+  tinycodet:::.rcpp_ntt_greater_dbl_00(x, y, sqrt(.Machine$double.eps), TRUE)
+)
+expect_silent(
+  tinycodet:::.rcpp_ntt_greater_dbl_01(x, y[1], sqrt(.Machine$double.eps), TRUE)
+)
+expect_silent(
+  tinycodet:::.rcpp_ntt_greater_dbl_10(x[1], y, sqrt(.Machine$double.eps), TRUE)
+)
+
+expect_silent(
+  tinycodet:::.rcpp_ntt_smaller_dbl_00(x, y, sqrt(.Machine$double.eps), TRUE)
+)
+expect_silent(
+  tinycodet:::.rcpp_ntt_smaller_dbl_01(x, y[1], sqrt(.Machine$double.eps), TRUE)
+)
+expect_silent(
+  tinycodet:::.rcpp_ntt_smaller_dbl_10(x[1], y, sqrt(.Machine$double.eps), TRUE)
+)
+
+
 
 # errors ====
 x <- c(0.3, 0.6, 0.7)

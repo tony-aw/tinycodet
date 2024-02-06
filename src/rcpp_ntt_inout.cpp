@@ -11,7 +11,7 @@ LogicalVector rcpp_ntt_between_dbl_00(
   R_xlen_t n =x.length();
   LogicalVector out(n);
   for(R_xlen_t i =0; i < n; ++i) {
-    if((lowerb[i] - upperb[i]) > tol) {
+    if((lowerb[i] - upperb[i]) >= tol) {
       stop("lower bound must not be higher than upper bound");
     }
     out[i] = (x[i] >= lowerb[i] && x[i] <= upperb[i]) || (fabs(x[i] - lowerb[i]) < tol) || (fabs(x[i] - upperb[i]) < tol);
@@ -29,7 +29,7 @@ LogicalVector rcpp_ntt_between_dbl_01(
 ) {
   R_xlen_t n =x.length();
   LogicalVector out(n);
-  if((lowerb - upperb) > tol) {
+  if((lowerb - upperb) >= tol) {
       stop("lower bound must not be higher than upper bound");
   }
   for(R_xlen_t i =0; i < n; ++i) {
@@ -49,7 +49,7 @@ LogicalVector rcpp_ntt_between_dbl_10(
   R_xlen_t n =upperb.length();
   LogicalVector out(n);
   for(R_xlen_t i =0; i < n; ++i) {
-    if((lowerb[i] - upperb[i]) > tol) {
+    if((lowerb[i] - upperb[i]) >= tol) {
       stop("lower bound must not be higher than upper bound");
     }
     out[i] = (x >= lowerb[i] && x <= upperb[i]) || (fabs(x - lowerb[i]) < tol) || (fabs(x - upperb[i]) < tol);
@@ -68,7 +68,7 @@ LogicalVector rcpp_ntt_between_int_00(
   R_xlen_t n =x.length();
   LogicalVector out(n);
   for(R_xlen_t i =0; i < n; ++i) {
-    if(lowerb[i] > upperb[i]) { 
+    if(lowerb[i] >= upperb[i]) { 
       stop("lower bound must not be higher than upper bound");
     }
     out[i] = (x[i] >= lowerb[i] && x[i] <= upperb[i]);
@@ -85,7 +85,7 @@ LogicalVector rcpp_ntt_between_int_01(
 ) {
   R_xlen_t n =x.length();
   LogicalVector out(n);
-  if(lowerb > upperb) {
+  if(lowerb >= upperb) {
       stop("lower bound must not be higher than upper bound");
   }
   for(R_xlen_t i =0; i < n; ++i) {
@@ -104,7 +104,7 @@ LogicalVector rcpp_ntt_between_int_10(
   R_xlen_t n =lowerb.length();
   LogicalVector out(n);
   for(R_xlen_t i =0; i < n; ++i) {
-    if(lowerb[i] > upperb[i]) { 
+    if(lowerb[i] >= upperb[i]) { 
       stop("lower bound must not be higher than upper bound");
     }
     out[i] = (x >= lowerb[i] && x <= upperb[i]);
