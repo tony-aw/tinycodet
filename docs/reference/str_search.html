@@ -296,14 +296,14 @@ the operators will check if the pattern is present/absent at the end of the stri
 Unlike <a href="https://rdrr.io/pkg/stringi/man/stri_startsendswith.html" class="external-link">stri_startswith</a> or <a href="https://rdrr.io/pkg/stringi/man/stri_startsendswith.html" class="external-link">stri_endswith</a>,
 <code>regex</code> <b>is</b> supported by the <code>%s{}%</code> and <code>%s!{}%</code> operators. <br>
 See examples below. <br><br></p>
-<p><b>Vectorized Replacement vs Dictionary Replacement</b> <br></p><ul><li><p>Vectorized replacement: <br><code>x</code>, <code>p</code>, and <code>rp</code> are of the same length
-(or recycled to become the same length). <br><b>All</b> occurrences of pattern <code>p[j]</code> in <code>x[j]</code> is replaced with <code>rp[j]</code>,
+<p><b>Vectorized Replacement vs Dictionary Replacement</b> <br></p><ul><li><p>Vectorized replacement: <br><code>x</code>, <code>p</code>, and <code>value</code> are of the same length
+(or recycled to become the same length). <br><b>All</b> occurrences of pattern <code>p[j]</code> in <code>x[j]</code> is replaced with <code>value[j]</code>,
 for every <code>j</code>.</p></li>
-<li><p>Dictionary replacement: <br><code>p</code> and <code>rp</code> are of the same length,
+<li><p>Dictionary replacement: <br><code>p</code> and <code>value</code> are of the same length,
 and their length is independent of the length of <code>x</code>. <br>
 For every single string in <code>x</code>,
-all occurrences of pattern <code>p[1]</code> are replaced with <code>rp[1]</code>, <br>
-all occurrences of pattern <code>p[2]</code> are replaced with <code>rp[2]</code>,
+all occurrences of pattern <code>p[1]</code> are replaced with <code>value[1]</code>, <br>
+all occurrences of pattern <code>p[2]</code> are replaced with <code>value[2]</code>,
 etc. <br></p></li>
 </ul><p>Notice that for single replacement, i.e. <code>rt = "first"</code> or <code>rt = "last"</code>,
 it makes no sense to distinguish between vectorized or dictionary replacement,

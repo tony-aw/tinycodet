@@ -146,16 +146,16 @@ See examples below. \cr
 \bold{Vectorized Replacement vs Dictionary Replacement} \cr
 \itemize{
 \item Vectorized replacement: \cr
-\code{x}, \code{p}, and \code{rp} are of the same length
+\code{x}, \code{p}, and \code{value} are of the same length
 (or recycled to become the same length). \cr
-\bold{All} occurrences of pattern \code{p[j]} in \code{x[j]} is replaced with \code{rp[j]},
+\bold{All} occurrences of pattern \code{p[j]} in \code{x[j]} is replaced with \code{value[j]},
 for every \code{j}.
 \item Dictionary replacement: \cr
-\code{p} and \code{rp} are of the same length,
+\code{p} and \code{value} are of the same length,
 and their length is independent of the length of \code{x}. \cr
 For every single string in \code{x},
-all occurrences of pattern \code{p[1]} are replaced with \code{rp[1]}, \cr
-all occurrences of pattern \code{p[2]} are replaced with \code{rp[2]},
+all occurrences of pattern \code{p[1]} are replaced with \code{value[1]}, \cr
+all occurrences of pattern \code{p[2]} are replaced with \code{value[2]},
 etc. \cr
 }
 

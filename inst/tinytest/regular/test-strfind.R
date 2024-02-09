@@ -581,8 +581,8 @@ expect_warning(strfind(x, p, i = "all") <- "a")
 x <- "hello"
 p <- "a|e|i|o|u"
 expect_error(strfind(x, p, i = "bah"))
-expect_error(strfind(x, p, t = "bah") <- "a")
-expect_error(strfind(x, p, t = "bah") <- list(~ a + b))
+expect_error(strfind(x, p, rt = "bah") <- "a")
+expect_error(strfind(x, p, rt = "bah") <- list(~ a + b))
 
 expect_error(
   strfind(x, 1),
@@ -601,15 +601,15 @@ expect_error(
   pattern = "`p` must be a character vector or list"
 )
 expect_error(
-  strfind(x, 1, v = "dict") <- "a",
+  strfind(x, 1, rt = "dict") <- "a",
   pattern = "`p` must be a character vector or list"
 )
 expect_error(
-  strfind(x, 1, v = "first") <- "a",
+  strfind(x, 1, rt = "first") <- "a",
   pattern = "`p` must be a character vector or list"
 )
 expect_error(
-  strfind(x, 1, v = "last") <- "a",
+  strfind(x, 1, rt = "last") <- "a",
   pattern = "`p` must be a character vector or list"
 )
 

@@ -61,7 +61,6 @@
 #' @aliases tinycodet_help
 #' @useDynLib tinycodet, .registration=TRUE
 #' @importFrom Rcpp evalCpp
-#' @exportPattern "^[[:alpha:]]+"
 NULL
 #> NULL
 #> 

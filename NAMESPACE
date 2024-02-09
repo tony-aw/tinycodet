@@ -73,8 +73,6 @@ export(stri_locate_ith_fixed)
 export(stri_locate_ith_regex)
 export(stri_paste_mat)
 export(transform_if)
-
-
 importFrom(Rcpp,evalCpp)
 importFrom(stringi,"%s$%")
 importFrom(stringi,"%s*%")

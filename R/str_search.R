@@ -101,16 +101,16 @@
 #'
 #' \bold{Vectorized Replacement vs Dictionary Replacement} \cr
 #' - Vectorized replacement: \cr
-#' `x`, `p`, and `rp` are of the same length
+#' `x`, `p`, and `value` are of the same length
 #' (or recycled to become the same length). \cr
-#' \bold{All} occurrences of pattern `p[j]` in `x[j]` is replaced with `rp[j]`,
+#' \bold{All} occurrences of pattern `p[j]` in `x[j]` is replaced with `value[j]`,
 #' for every `j`.
 #'  - Dictionary replacement: \cr
-#'  `p` and `rp` are of the same length,
+#'  `p` and `value` are of the same length,
 #' and their length is independent of the length of `x`. \cr
 #' For every single string in `x`,
-#' all occurrences of pattern `p[1]` are replaced with `rp[1]`, \cr
-#' all occurrences of pattern `p[2]` are replaced with `rp[2]`, 
+#' all occurrences of pattern `p[1]` are replaced with `value[1]`, \cr
+#' all occurrences of pattern `p[2]` are replaced with `value[2]`, 
 #' etc. \cr
 #' 
 #' Notice that for single replacement, i.e. `rt = "first"` or `rt = "last"`,
