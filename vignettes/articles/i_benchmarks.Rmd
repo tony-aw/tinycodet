@@ -35,51 +35,6 @@ Here some speed comparisons are given, using the 'bench' package.
 &nbsp;
 
 
-# Decimal number (in)equality testing operators (from version 0.4.1)
-
-```{r eval = FALSE}
-n <- 5e6
-x <- rnorm(n)
-y <- rnorm(n)
-tol <- sqrt(.Machine$double.eps)
-bm.equal <- bench::mark(
-  "base `x == y`" = x == y,
-  "base `abs(x - y) < tol`" = abs(x - y) < tol,
-  "tinycodet `x %d==% y`" = x %d==% y,
-  min_iterations = 500
-)
-ggplot2::autoplot(bm.equal)
-```
-
-
-```{r echo = FALSE, fig.width = 8}
-load("bm.equal.RData")
-ggplot2::autoplot(bm.equal)
-```
-
-
-```{r eval = FALSE}
-n <- 5e6
-x <- rnorm(n)
-y <- rnorm(n)
-tol <- sqrt(.Machine$double.eps)
-bm.unequal <- bench::mark(
-  "base `x != y`" = x != y,
-  "base `abs(x - y) >= tol`" = abs(x - y) >= tol,
-  "tinycodet `x %d!=% y`" = x %d!=% y,
-  min_iterations = 500
-)
-ggplot2::autoplot(bm.unequal)
-```
-
-
-```{r echo = FALSE, fig.width = 8}
-load("bm.unequal.RData")
-ggplot2::autoplot(bm.unequal)
-```
-
-&nbsp;
-
 # stri_locate_ith
 
 ```{r eval = FALSE}

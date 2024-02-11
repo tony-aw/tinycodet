@@ -286,13 +286,24 @@ produced the alias object in question:</p>
 <span><span class="co">#&gt; NULL</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $lib.loc</span></span>
-<span><span class="co">#&gt; [1] "C:/Users/Tony/AppData/Local/Temp/Rtmp4ikSa5/temp_libpath38902bfc406"</span></span>
-<span><span class="co">#&gt; [2] "D:/Programs/R-4.3.2/library"                                        </span></span>
+<span><span class="co">#&gt; [1] "C:/Users/Tony/AppData/Local/Temp/RtmpwjUxMr/temp_libpath109444c60876"</span></span>
+<span><span class="co">#&gt; [2] "D:/Programs/R-4.3.2/library"                                         </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $import_order</span></span>
 <span><span class="co">#&gt; [1] "dependencies" "main_package" "extensions"</span></span></code></pre></div>
 <p>The help file on <code><a href="../reference/x.import.html">attr.import()</a></code> provides more details on
 each of these options.</p>
+<p> </p>
+</div>
+<div class="section level2">
+<h2 id="check-for-package-versions-mismatch">Check for package versions mismatch<a class="anchor" aria-label="anchor" href="#check-for-package-versions-mismatch"></a>
+</h2>
+<p>The <code><a href="../reference/pversion.html">pversion_check4mismatch()</a></code> function checks if there
+is any mismatch between the currently loaded packages and the packages
+in the specified library path.</p>
+<p>The <code><a href="../reference/pversion.html">pversion_report()</a></code> function gives a table of all
+specified packages, with their loaded and installed versions, regardless
+if there is a mismatch or not.</p>
 <p> </p>
 </div>
 <div class="section level2">

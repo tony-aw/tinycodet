@@ -112,42 +112,9 @@ the <code>stringi</code> functions they call.</p>
 <p> </p>
 </div>
 <div class="section level2">
-<h2 id="decimal-number-inequality-testing-operators-from-version-0-4-1">Decimal number (in)equality testing operators (from version
-0.4.1)<a class="anchor" aria-label="anchor" href="#decimal-number-inequality-testing-operators-from-version-0-4-1"></a>
-</h2>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">5e6</span></span>
-<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span></span>
-<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span></span>
-<span><span class="va">tol</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">.Machine</span><span class="op">$</span><span class="va">double.eps</span><span class="op">)</span></span>
-<span><span class="va">bm.equal</span> <span class="op">&lt;-</span> <span class="fu">bench</span><span class="fu">::</span><span class="fu"><a href="http://bench.r-lib.org/reference/mark.html" class="external-link">mark</a></span><span class="op">(</span></span>
-<span>  <span class="st">"base `x == y`"</span> <span class="op">=</span> <span class="va">x</span> <span class="op">==</span> <span class="va">y</span>,</span>
-<span>  <span class="st">"base `abs(x - y) &lt; tol`"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">x</span> <span class="op">-</span> <span class="va">y</span><span class="op">)</span> <span class="op">&lt;</span> <span class="va">tol</span>,</span>
-<span>  <span class="st">"tinycodet `x %d==% y`"</span> <span class="op">=</span> <span class="va">x</span> <span class="op"><a href="../reference/decimal_truth.html">%d==%</a></span> <span class="va">y</span>,</span>
-<span>  min_iterations <span class="op">=</span> <span class="fl">500</span></span>
-<span><span class="op">)</span></span>
-<span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">bm.equal</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">#&gt; Loading required namespace: tidyr</span></span></code></pre>
-<p><img src="i_benchmarks_files/figure-html/unnamed-chunk-3-1.png" width="768"></p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">5e6</span></span>
-<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span></span>
-<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span></span>
-<span><span class="va">tol</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">.Machine</span><span class="op">$</span><span class="va">double.eps</span><span class="op">)</span></span>
-<span><span class="va">bm.unequal</span> <span class="op">&lt;-</span> <span class="fu">bench</span><span class="fu">::</span><span class="fu"><a href="http://bench.r-lib.org/reference/mark.html" class="external-link">mark</a></span><span class="op">(</span></span>
-<span>  <span class="st">"base `x != y`"</span> <span class="op">=</span> <span class="va">x</span> <span class="op">!=</span> <span class="va">y</span>,</span>
-<span>  <span class="st">"base `abs(x - y) &gt;= tol`"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">x</span> <span class="op">-</span> <span class="va">y</span><span class="op">)</span> <span class="op">&gt;=</span> <span class="va">tol</span>,</span>
-<span>  <span class="st">"tinycodet `x %d!=% y`"</span> <span class="op">=</span> <span class="va">x</span> <span class="op"><a href="../reference/decimal_truth.html">%d!=%</a></span> <span class="va">y</span>,</span>
-<span>  min_iterations <span class="op">=</span> <span class="fl">500</span></span>
-<span><span class="op">)</span></span>
-<span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">bm.unequal</span><span class="op">)</span></span></code></pre></div>
-<p><img src="i_benchmarks_files/figure-html/unnamed-chunk-5-1.png" width="768"></p>
-<p> </p>
-</div>
-<div class="section level2">
 <h2 id="stri_locate_ith">stri_locate_ith<a class="anchor" aria-label="anchor" href="#stri_locate_ith"></a>
 </h2>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">1e5</span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">50</span>, collapse <span class="op">=</span> <span class="st">""</span><span class="op">)</span>, <span class="va">n</span><span class="op">)</span></span>
 <span><span class="va">p</span> <span class="op">&lt;-</span> <span class="st">"\\d"</span></span>
@@ -164,13 +131,14 @@ the <code>stringi</code> functions they call.</p>
 <span>  filter_gc <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">bm.stri_locate_ith</span><span class="op">)</span></span></code></pre></div>
-<p><img src="i_benchmarks_files/figure-html/unnamed-chunk-7-1.png" width="768"></p>
+<pre><code><span><span class="co">#&gt; Loading required namespace: tidyr</span></span></code></pre>
+<p><img src="i_benchmarks_files/figure-html/unnamed-chunk-3-1.png" width="768"></p>
 <p> </p>
 </div>
 <div class="section level2">
 <h2 id="strcut">strcut<a class="anchor" aria-label="anchor" href="#strcut"></a>
 </h2>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">1e5</span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"hello"</span>, <span class="va">n</span><span class="op">)</span></span>
 <span><span class="va">i</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, <span class="va">n</span>, replace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
@@ -186,13 +154,13 @@ the <code>stringi</code> functions they call.</p>
 <span>  filter_gc <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">bm.strcut</span><span class="op">)</span></span></code></pre></div>
-<p><img src="i_benchmarks_files/figure-html/unnamed-chunk-9-1.png" width="768"></p>
+<p><img src="i_benchmarks_files/figure-html/unnamed-chunk-5-1.png" width="768"></p>
 <p> </p>
 </div>
 <div class="section level2">
 <h2 id="rowcolumn-wise-re-ordering">Row/column-wise re-ordering<a class="anchor" aria-label="anchor" href="#rowcolumn-wise-re-ordering"></a>
 </h2>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="fl">1e3</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span>, ncol <span class="op">=</span> <span class="fl">1e3</span><span class="op">)</span></span>
 <span><span class="va">bm.matorder</span> <span class="op">&lt;-</span> <span class="fu">bench</span><span class="fu">::</span><span class="fu"><a href="http://bench.r-lib.org/reference/mark.html" class="external-link">mark</a></span><span class="op">(</span></span>
 <span>  tinycodet <span class="op">=</span> <span class="op">{</span><span class="va">mat</span> <span class="op"><a href="../reference/matrix_ops.html">%row~%</a></span> <span class="va">mat</span>; <span class="va">mat</span> <span class="op"><a href="../reference/matrix_ops.html">%col~%</a></span> <span class="va">mat</span><span class="op">}</span>,</span>
@@ -200,7 +168,7 @@ the <code>stringi</code> functions they call.</p>
 <span>  min_iterations <span class="op">=</span> <span class="fl">1000</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">bm.matorder</span><span class="op">)</span></span></code></pre></div>
-<p><img src="i_benchmarks_files/figure-html/unnamed-chunk-11-1.png" width="768"></p>
+<p><img src="i_benchmarks_files/figure-html/unnamed-chunk-7-1.png" width="768"></p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

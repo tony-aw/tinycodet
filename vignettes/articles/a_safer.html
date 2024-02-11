@@ -348,7 +348,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <code>%d==%, %d!=% %d&lt;%, %d&gt;%, %d&lt;=%, %d&gt;=%</code>
 (in)equality operators, which perform safer decimal number truth
 testing. They are virtually equivalent to the regular (in)equality
-operators, <code>==, !=, &lt;, &gt;, &lt;=, &gt;=</code>, except for 4
+operators, <code>==, !=, &lt;, &gt;, &lt;=, &gt;=</code>, except for 2
 aspects:</p>
 <ol style="list-style-type: decimal">
 <li><p>The <code>%d...%</code> operators assume that if the absolute
@@ -362,11 +362,6 @@ numbers are stored in programming languages like ‘R’ and ‘Python’. But
 numbers. I.e. <code>1 &lt; &quot;a&quot;</code> gives <code>TRUE</code> , whereas
 <code>1 %d&lt;% &quot;a&quot;</code> gives an error. For character equality
 testing, see %s==% from the ‘stringi’ package.</p></li>
-<li><p>These operators do not support vector re-cycling, except for
-simple scalar recycling.</p></li>
-<li><p>The <code>%d...%</code> operators use a much simpler
-implementation and always return a simple, attribute-free, logical
-vector. Only dimensions are preserved, when it makes sense.</p></li>
 </ol>
 <p>Thus these provide safer decimal number (in)equality operators.</p>
 <p>Some examples:</p>

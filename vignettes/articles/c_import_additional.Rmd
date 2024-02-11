@@ -145,6 +145,14 @@ The help file on `attr.import()` provides more details on each of these options.
 &nbsp;
 
 
+# Check for package versions mismatch
+
+The `pversion_check4mismatch()` function checks if there is any mismatch between the currently loaded packages and the packages in the specified library path.
+
+The `pversion_report()` function gives a table of all specified packages, with their loaded and installed versions, regardless if there is a mismatch or not.
+
+&nbsp;
+
 # help.import
 
 The `help.import()` function gets the help file for a function `i` (or topic string `i`), even if the function is inside an alias object, or if the function is an unattached function (like exposed infix operators).

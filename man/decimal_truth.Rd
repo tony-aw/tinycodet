@@ -31,34 +31,25 @@ x \%d!{}\% bnd
 \arguments{
 \item{x, y}{numeric vectors, matrices, or arrays.}
 
-\item{bnd}{a vector of length 2, a matrix with 2 columns and 1 row,
-or a matrix with 2 columns where \code{nrow(bnd)==length(x)}. \cr
+\item{bnd}{either a vector of length 2, or a matrix with 2 columns and 1 row,
+or else a matrix with 2 columns where \code{nrow(bnd)==length(x)}
+(or can be recycled to be \code{nrow(bnd)==length(x)}). \cr
 The first element/column of \code{bnd} gives the lower bound of the closed interval; \cr
-The second element/column of \code{bnd} gives the upper bound of the closed interval. \cr
-NOTE: The lower bound \bold{must} be lower than the upper bound,
-otherwise an error is produced. \cr}
+The second element/column of \code{bnd} gives the upper bound of the closed interval. \cr}
 }
 \value{
-The decimal truth operators all return a logical vector,
-indicating the result of the element by element comparison. \cr
-\cr
-For the \code{\%d{}\%} and \code{\%d!{}\%} operators,
-the produced logical vector has the same dimensions as \code{x}.\cr
-\cr
-For the other decimal truth operators, the following holds: \cr
-If both \code{x} and \code{y} have the same dimensions,
-the produced logical vector shares the same dimensions. \cr
-Otherwise, dimensions are dropped. \cr
+A logical vector with the same dimensions as \code{x},
+indicating the result of the element by element comparison.
 }
 \description{
 The \code{\%d==\%, \%d!=\% \%d<\%, \%d>\%, \%d<=\%, \%d>=\%} (in)equality operators
 perform decimal (class "double") number truth testing. \cr
 They are virtually equivalent to the regular (in)equality operators, \cr
 \code{==, !=, <, >, <=, >=}, \cr
-except for 4 aspects:
+except for 2 aspects:
 \enumerate{
-\item The \code{\%d...\%} operators assume that
-if the absolute difference between any two numbers
+\item The decimal number (in)equality operators assume that
+if the absolute difference between any 2 numbers
 \code{x} and \code{y}
 is smaller than the Machine tolerance,
 \code{sqrt(.Machine$double.eps)},
@@ -70,18 +61,13 @@ But \code{0.1*7 \%d==\% 0.7} returns \code{TRUE}.
 \item Only numeric input is allowed, so characters are not coerced to numbers. \cr
 I.e. \code{1 < "a"} gives \code{TRUE}, whereas \code{1 \%d<\% "a"} gives an error. \cr
 For character equality testing, see \link[stringi]{\%s==\%} from the 'stringi' package.
-\item These operators do not support vector re-cycling,
-except for simple scalar recycling.
-\item The \code{\%d...\%} operators use a much simpler implementation
-and always return a simple, attribute-free, logical vector. \cr
-Only dimensions are preserved, when it makes sense. \cr
 }
 
 Thus these operators provide safer decimal number (in)equality tests. \cr
 \cr
 There are also the \code{x \%d{}\% bnd} and \code{x \%d!{}\% bnd} operators,
-where \code{bnd} is a vector of length 2 or a 2-column matrix
-(\code{nrow(bnd)==length(x)} or \code{nrow(bnd)==1}). \cr
+where \code{bnd} is a vector of length 2,
+or a 2-column matrix (\code{nrow(bnd)==length(x)} or \code{nrow(bnd)==1}). \cr
 The \code{x \%d{}\% bnd} operator checks if \code{x}
 is within the closed interval with bounds defined by \code{bnd}. \cr
 The \code{x \%d!{}\% bnd} operator checks if \code{x}
@@ -89,7 +75,7 @@ is outside the closed interval with bounds defined by \code{bnd}. \cr
 }
 \examples{
 x <- c(0.3, 0.6, 0.7)
-y <- c(0.1 * 3, 0.1 * 6, 0.1 * 7)
+y <- c(0.1*3, 0.1*6, 0.1*7)
 print(x); print(y)
 x == y # gives FALSE, but should be TRUE
 x!= y # gives TRUE, should be FALSE
@@ -103,14 +89,13 @@ x \%d<=\% y # correct
 x \%d>=\% y # correct
 
 x <- c(0.3, 0.6, 0.7)
-eps <- sqrt(.Machine$double.eps) * 2
-bnd <- cbind(x - c(eps, -eps, eps), x + c(eps, eps, eps))
+bnd <- cbind(x-0.1, x+0.1)
 x \%d{}\% bnd
 x \%d!{}\% bnd
 
 # These operators work for integers also:
 x <- 1L:5L
-y <- x + c(0L, 1L, -1L, 1L, -1L)
+y <- 1L:5L
 x \%d==\% y
 x \%d!=\% y
 x \%d<\% y
@@ -118,7 +103,23 @@ x \%d>\% y
 x \%d<=\% y
 x \%d>=\% y
 
+x <- 1L:5L
+y <- x+1
+x \%d==\% y
+x \%d!=\% y
+x \%d<\% y
+x \%d>\% y
+x \%d<=\% y
+x \%d>=\% y
 
+x <- 1L:5L
+y <- x-1
+x \%d==\% y
+x \%d!=\% y
+x \%d<\% y
+x \%d>\% y
+x \%d<=\% y
+x \%d>=\% y
 }
 \seealso{
 \link{tinycodet_safer}
