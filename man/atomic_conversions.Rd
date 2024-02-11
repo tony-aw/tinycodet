@@ -6,7 +6,6 @@
 \alias{as_int}
 \alias{as_dbl}
 \alias{as_chr}
-\alias{is_wholenumber}
 \title{Atomic Type Casting Without Stripping Attributes}
 \usage{
 as_bool(x, ...)
@@ -16,16 +15,12 @@ as_int(x, ...)
 as_dbl(x, ...)
 
 as_chr(x, ...)
-
-is_wholenumber(x, tol = sqrt(.Machine$double.eps))
 }
 \arguments{
 \item{x}{vector, matrix, array
 (or a similar object where all elements share the same type).}
 
 \item{...}{further arguments passed to or from other methods.}
-
-\item{tol}{numeric, giving the tolerance.}
 }
 \value{
 The converted object.
@@ -49,8 +44,6 @@ The functions are as follows: \cr
 \item \code{as_dbl()}: converts object to atomic type \code{double} (AKA decimal numbers).
 \item \code{as_chr()}: converts object to atomic type \code{character}.
 }
-
-Moreover, the function \code{is_wholenumber()} is added, to safely test for whole numbers.
 }
 \examples{
 x <- c(rep(0, 2), seq(0, 2.5, by=0.5)) |> matrix(ncol=2)
@@ -64,8 +57,7 @@ as_int(x)
 as_dbl(x)
 as_chr(x)
 
-# is_wholenumber:
-is_wholenumber(1:10 + c(0, 0.1))
+
 
 
 }

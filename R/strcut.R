@@ -205,6 +205,10 @@ strcut_brk <- function(str, type = "character", tolist = FALSE, n = -1L, ...) {
 }
 
 .check_loc2 <- function(loc, abortcall) {
+  
+  # Note: when `loc` is passed here, NAs have already been removed
+  # Therefore, no need to check for NAs
+  
   if(.C_any_nonpos(as.integer(loc))) {
     stop(simpleError("`loc` can only have strictly positive numbers", call = abortcall))
   }

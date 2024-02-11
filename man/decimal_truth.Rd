@@ -10,6 +10,7 @@
 \alias{\%d>=\%}
 \alias{\%d{}\%}
 \alias{\%d!{}\%}
+\alias{is_wholenumber}
 \title{Safer Decimal Number (In)Equality Testing Operators}
 \usage{
 x \%d==\% y
@@ -27,6 +28,8 @@ x \%d>=\% y
 x \%d{}\% bnd
 
 x \%d!{}\% bnd
+
+is_wholenumber(x, tol = sqrt(.Machine$double.eps))
 }
 \arguments{
 \item{x, y}{numeric vectors, matrices, or arrays.}
@@ -36,6 +39,8 @@ or else a matrix with 2 columns where \code{nrow(bnd)==length(x)}
 (or can be recycled to be \code{nrow(bnd)==length(x)}). \cr
 The first element/column of \code{bnd} gives the lower bound of the closed interval; \cr
 The second element/column of \code{bnd} gives the upper bound of the closed interval. \cr}
+
+\item{tol}{a single, strictly positive number close to zero, giving the tolerance.}
 }
 \value{
 A logical vector with the same dimensions as \code{x},
@@ -72,6 +77,8 @@ The \code{x \%d{}\% bnd} operator checks if \code{x}
 is within the closed interval with bounds defined by \code{bnd}. \cr
 The \code{x \%d!{}\% bnd} operator checks if \code{x}
 is outside the closed interval with bounds defined by \code{bnd}. \cr
+\cr
+Moreover, the function \code{is_wholenumber()} is added, to safely test for whole numbers.
 }
 \examples{
 x <- c(0.3, 0.6, 0.7)
@@ -120,6 +127,11 @@ x \%d<\% y
 x \%d>\% y
 x \%d<=\% y
 x \%d>=\% y
+
+# is_wholenumber:
+is_wholenumber(1:10 + c(0, 0.1))
+
+
 }
 \seealso{
 \link{tinycodet_safer}

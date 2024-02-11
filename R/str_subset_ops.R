@@ -153,7 +153,7 @@ NULL
   }
   if(anyNA(ss)) { stop(simpleError(
     "right hand side cannot contain NA", call = abortcall
-  )) }
+  )) } # checking for NAs BEFORE passing to .C_any_neg().
   if(.C_any_neg(ss)) { stop(simpleError(
     "right hand side cannot contain negative numbers", call = abortcall
   )) }

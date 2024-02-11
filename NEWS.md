@@ -1,8 +1,9 @@
-# tinycodet 0.4.1 (Under Development; Note: reverted back some changes)
+# tinycodet 0.4.1 (Under Development)
 * Added an explanation in the string overview help page, regarding the usage of vector recycling.
 * Provided additional clarification in the help file for the `%row%` and `%col~%` operators.
-* Simplified the code of the decimal (in)equality testing operators.
+* Simplified the internal code of the decimal (in)equality testing operators.
 * Added a few more tests.
+* Moved `is_wholenumber()` to the decimal truth testing section.
 * **Argument change:** Added the `rt` argument to `strfind()<-`, and moved the `i` and `rt` arguments more to the end of the functions. The `type` argument in `strcut_brk()` can now also directly accept a list produced by `stringi::stri_opts_brkiter()`.
 
 

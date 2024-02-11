@@ -30,6 +30,8 @@
 #' is within the closed interval with bounds defined by \code{bnd}. \cr
 #' The \code{x %d!{}% bnd} operator checks if \code{x}
 #' is outside the closed interval with bounds defined by \code{bnd}. \cr
+#' \cr
+#' Moreover, the function \code{is_wholenumber()} is added, to safely test for whole numbers.
 #'
 #' @param x,y numeric vectors, matrices, or arrays.
 #' @param bnd either a vector of length 2, or a matrix with 2 columns and 1 row,
@@ -37,7 +39,7 @@
 #' (or can be recycled to be \code{nrow(bnd)==length(x)}). \cr
 #' The first element/column of \code{bnd} gives the lower bound of the closed interval; \cr
 #' The second element/column of \code{bnd} gives the upper bound of the closed interval. \cr
-#'
+#' @param tol a single, strictly positive number close to zero, giving the tolerance.
 #'
 #' @returns
 #' A logical vector with the same dimensions as \code{x},
@@ -92,6 +94,11 @@
 #' x %d>% y
 #' x %d<=% y
 #' x %d>=% y
+#' 
+#' # is_wholenumber:
+#' is_wholenumber(1:10 + c(0, 0.1))
+#' 
+#' 
 
 #' @name decimal_truth
 NULL
@@ -170,4 +177,17 @@ NULL
     stop("`bnd[, 2] < bnd[, 1]`")
   }
   return(x %d<% bnd[,1] | x %d>% bnd[,2])
+}
+
+
+#' @rdname decimal_truth
+#' @export
+is_wholenumber <- function(x, tol = sqrt(.Machine$double.eps)) {
+  if(!is.numeric(tol) || length(tol) != 1) {
+    stop("`tol` must be a single, strictly positive number close to 0")
+  }
+  if(tol >= 1 || tol <= 0) {
+    stop("`tol` must be a single, strictly positive number close to 0")
+  }
+  return(abs(x - round(x)) < tol)
 }

@@ -19,11 +19,9 @@
 #'  * \code{as_dbl()}: converts object to atomic type \code{double} (AKA decimal numbers).
 #'  * \code{as_chr()}: converts object to atomic type \code{character}.
 #'
-#' Moreover, the function \code{is_wholenumber()} is added, to safely test for whole numbers.
 #'
 #' @param x vector, matrix, array
 #' (or a similar object where all elements share the same type).
-#' @param tol numeric, giving the tolerance.
 #' @param ... further arguments passed to or from other methods.
 #'
 #' @returns
@@ -43,8 +41,7 @@
 #' as_dbl(x)
 #' as_chr(x)
 #'
-#' # is_wholenumber:
-#' is_wholenumber(1:10 + c(0, 0.1))
+#' 
 #'
 #'
 
@@ -91,11 +88,3 @@ as_chr <- function(x, ...) {
   return(out)
 }
 
-#' @rdname atomic_conversions
-#' @export
-is_wholenumber <- function(x, tol = sqrt(.Machine$double.eps)) {
-  if(!is.numeric(tol)) {
-    stop("`tol` must be numeric")
-  }
-  return(abs(x - round(x)) < tol)
-}
