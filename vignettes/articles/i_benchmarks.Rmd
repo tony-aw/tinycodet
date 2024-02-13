@@ -27,7 +27,7 @@ loadNamespace("ggplot2")
 
 # Introduction
 
-Although the functions in this R package were written mostly in R (and a little bit in C++), the functions - especially the string related ones - have been well optimized. The string related functions, for example, are about in the same order of magnitude in terms of speed as the `stringi` functions they call.
+Although the functions in this R package were written mostly in 'R' (and a little bit in 'C' and 'C++'), the functions - especially the string related ones - have been well optimized. The string related functions, for example, are about in the same order of magnitude in terms of speed as the `stringi` functions they call.
 
 
 Here some speed comparisons are given, using the 'bench' package.
@@ -94,11 +94,11 @@ ggplot2::autoplot(bm.strcut)
 # Row/column-wise re-ordering
 
 ```{r eval = FALSE}
-mat <- matrix(1:(1e3)^2, ncol = 1e3)
+mat <- matrix(sample(1:1e6), ncol = 1e3)
 bm.matorder <- bench::mark(
   tinycodet = {mat %row~% mat; mat %col~% mat},
-  Rfast = {Rfast::rowSort(mat); Rfast::colSort(mat)},
-  min_iterations = 1000
+  apply = {apply(mat, 1, sort); apply(mat, 2, sort)},
+  min_iterations = 250
 )
 ggplot2::autoplot(bm.matorder)
 ```

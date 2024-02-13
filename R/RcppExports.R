@@ -9,7 +9,7 @@
 
 #' @keywords internal
 #' @noRd
-.rcpp_any_badloc <- function(lower, upper) {
-    .Call(`_tinycodet_rcpp_any_badloc`, lower, upper)
+.rcpp_anybad_loc <- function(lower, upper) {
+    .Call(`_tinycodet_rcpp_anybad_loc`, lower, upper)
 }
 

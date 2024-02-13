@@ -22,15 +22,15 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// rcpp_any_badloc
-bool rcpp_any_badloc(IntegerVector lower, IntegerVector upper);
-RcppExport SEXP _tinycodet_rcpp_any_badloc(SEXP lowerSEXP, SEXP upperSEXP) {
+// rcpp_anybad_loc
+bool rcpp_anybad_loc(IntegerVector lower, IntegerVector upper);
+RcppExport SEXP _tinycodet_rcpp_anybad_loc(SEXP lowerSEXP, SEXP upperSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< IntegerVector >::type lower(lowerSEXP);
     Rcpp::traits::input_parameter< IntegerVector >::type upper(upperSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_any_badloc(lower, upper));
+    rcpp_result_gen = Rcpp::wrap(rcpp_anybad_loc(lower, upper));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -40,7 +40,7 @@ RcppExport SEXP C_any_nonpos(void *);
 
 static const R_CallMethodDef CallEntries[] = {
     {"_tinycodet_rcpp_alloc_stri_locate_ith", (DL_FUNC) &_tinycodet_rcpp_alloc_stri_locate_ith, 2},
-    {"_tinycodet_rcpp_any_badloc", (DL_FUNC) &_tinycodet_rcpp_any_badloc, 2},
+    {"_tinycodet_rcpp_anybad_loc", (DL_FUNC) &_tinycodet_rcpp_anybad_loc, 2},
     {"C_any_neg",    (DL_FUNC) &C_any_neg,    1},
     {"C_any_nonpos", (DL_FUNC) &C_any_nonpos, 1},
     {NULL, NULL, 0}

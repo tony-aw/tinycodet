@@ -2,7 +2,7 @@
 #'
 #' @description
 #' The \code{%d==%, %d!=% %d<%, %d>%, %d<=%, %d>=%} (in)equality operators
-#' perform decimal (class "double") number truth testing. \cr
+#' perform decimal (type "double") number truth testing. \cr
 #' They are virtually equivalent to the regular (in)equality operators, \cr
 #' \code{==, !=, <, >, <=, >=}, \cr
 #' except for 2 aspects:
@@ -147,15 +147,16 @@ NULL
 #' @export
 `%d{}%` <- function(x, bnd) {
   if(!is.matrix(bnd)) {
-    if(length(bnd) == 2) {
-      bnd <- matrix(bnd, ncol = 2)
+    if(length(bnd) == 2L) {
+      bnd <- matrix(bnd, ncol = 2L)
     } else {
       stop(
         "`bnd` must be a matrix with 2 columns or vector with 2 elements"
       )
     }
   }
-  if(any(bnd[,2] < bnd[,1])) {
+  # NAs must be ignored
+  if(any(bnd[,2] < bnd[,1], na.rm = TRUE)) {
     stop("`bnd[, 2] < bnd[, 1]`")
   }
   return(x %d>=% bnd[,1] & x %d<=% bnd[,2])
@@ -165,15 +166,16 @@ NULL
 #' @export
 `%d!{}%` <- function(x, bnd) {
   if(!is.matrix(bnd)) {
-    if(length(bnd) == 2) {
-      bnd <- matrix(bnd, ncol = 2)
+    if(length(bnd) == 2L) {
+      bnd <- matrix(bnd, ncol = 2L)
     } else {
       stop(
         "`bnd` must be a matrix with 2 columns or vector with 2 elements"
       )
     }
   }
-  if(any(bnd[,2] < bnd[,1])) {
+  # NAs must be ignored
+  if(any(bnd[,2] < bnd[,1], na.rm = TRUE)) {
     stop("`bnd[, 2] < bnd[, 1]`")
   }
   return(x %d<% bnd[,1] | x %d>% bnd[,2])
@@ -183,7 +185,7 @@ NULL
 #' @rdname decimal_truth
 #' @export
 is_wholenumber <- function(x, tol = sqrt(.Machine$double.eps)) {
-  if(!is.numeric(tol) || length(tol) != 1) {
+  if(!is.numeric(tol) || length(tol) != 1L) {
     stop("`tol` must be a single, strictly positive number close to 0")
   }
   if(tol >= 1 || tol <= 0) {

@@ -42,11 +42,11 @@ autoplot(bm.stri_locate_ith)
 save(bm.stri_locate_ith, file = "bm.stri_locate_ith.RData")
 
 
-mat <- matrix(1:(1e3)^2, ncol = 1e3)
+mat <- matrix(sample(1:1e6), ncol = 1e3)
 bm.matorder <- bench::mark(
   tinycodet = {mat %row~% mat; mat %col~% mat},
-  Rfast = {Rfast::rowSort(mat); Rfast::colSort(mat)},
-  min_iterations = 1000
+  apply = {apply(mat, 1, sort); apply(mat, 2, sort)},
+  min_iterations = 250
 )
 bm.matorder
 autoplot(bm.matorder)

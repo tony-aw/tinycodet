@@ -103,11 +103,11 @@
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>Although the functions in this R package were written mostly in R
-(and a little bit in C++), the functions - especially the string related
-ones - have been well optimized. The string related functions, for
-example, are about in the same order of magnitude in terms of speed as
-the <code>stringi</code> functions they call.</p>
+<p>Although the functions in this R package were written mostly in ‘R’
+(and a little bit in ‘C’ and ‘C++’), the functions - especially the
+string related ones - have been well optimized. The string related
+functions, for example, are about in the same order of magnitude in
+terms of speed as the <code>stringi</code> functions they call.</p>
 <p>Here some speed comparisons are given, using the ‘bench’ package.</p>
 <p> </p>
 </div>
@@ -161,11 +161,11 @@ the <code>stringi</code> functions they call.</p>
 <h2 id="rowcolumn-wise-re-ordering">Row/column-wise re-ordering<a class="anchor" aria-label="anchor" href="#rowcolumn-wise-re-ordering"></a>
 </h2>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="fl">1e3</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span>, ncol <span class="op">=</span> <span class="fl">1e3</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">1e6</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">1e3</span><span class="op">)</span></span>
 <span><span class="va">bm.matorder</span> <span class="op">&lt;-</span> <span class="fu">bench</span><span class="fu">::</span><span class="fu"><a href="http://bench.r-lib.org/reference/mark.html" class="external-link">mark</a></span><span class="op">(</span></span>
 <span>  tinycodet <span class="op">=</span> <span class="op">{</span><span class="va">mat</span> <span class="op"><a href="../reference/matrix_ops.html">%row~%</a></span> <span class="va">mat</span>; <span class="va">mat</span> <span class="op"><a href="../reference/matrix_ops.html">%col~%</a></span> <span class="va">mat</span><span class="op">}</span>,</span>
-<span>  Rfast <span class="op">=</span> <span class="op">{</span><span class="fu">Rfast</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Rfast/man/sort_mat.html" class="external-link">rowSort</a></span><span class="op">(</span><span class="va">mat</span><span class="op">)</span>; <span class="fu">Rfast</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Rfast/man/sort_mat.html" class="external-link">colSort</a></span><span class="op">(</span><span class="va">mat</span><span class="op">)</span><span class="op">}</span>,</span>
-<span>  min_iterations <span class="op">=</span> <span class="fl">1000</span></span>
+<span>  apply <span class="op">=</span> <span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">mat</span>, <span class="fl">1</span>, <span class="va">sort</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">mat</span>, <span class="fl">2</span>, <span class="va">sort</span><span class="op">)</span><span class="op">}</span>,</span>
+<span>  min_iterations <span class="op">=</span> <span class="fl">250</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">bm.matorder</span><span class="op">)</span></span></code></pre></div>
 <p><img src="i_benchmarks_files/figure-html/unnamed-chunk-7-1.png" width="768"></p>

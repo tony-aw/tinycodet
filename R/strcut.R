@@ -212,7 +212,7 @@ strcut_brk <- function(str, type = "character", tolist = FALSE, n = -1L, ...) {
   if(.C_any_nonpos(as.integer(loc))) {
     stop(simpleError("`loc` can only have strictly positive numbers", call = abortcall))
   }
-  if(.rcpp_any_badloc(loc[,1], loc[,2])) {
+  if(.rcpp_anybad_loc(loc[,1], loc[,2])) {
     stop(simpleError("`loc[, 2] < loc[, 1]`", call = abortcall))
   }
 }

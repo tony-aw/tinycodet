@@ -11,9 +11,9 @@
 #' each column ordered independently from the other columns, of matrix \code{x},
 #' according to the ordering ranks given in matrix \code{mat}. \cr
 #' \cr
-#' In short one can say: \cr
-#'  - \code{x %row~% x} is a much faster version of \code{apply(x, 1, sort)}
-#'  - \code{x %col~% x} is a much faster version of \code{apply(x, 2, sort)} \cr \cr
+#' If \code{mat == x}, the following can be stated: \cr
+#' \code{x %row~% x} is a faster version of \code{apply(x, 1, sort)}, \cr
+#' and \code{x %col~% x} is a faster version of \code{apply(x, 2, sort)}. \cr \cr
 #'
 #'
 #' @param x a matrix

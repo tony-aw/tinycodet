@@ -48,7 +48,7 @@ indicating the result of the element by element comparison.
 }
 \description{
 The \code{\%d==\%, \%d!=\% \%d<\%, \%d>\%, \%d<=\%, \%d>=\%} (in)equality operators
-perform decimal (class "double") number truth testing. \cr
+perform decimal (type "double") number truth testing. \cr
 They are virtually equivalent to the regular (in)equality operators, \cr
 \code{==, !=, <, >, <=, >=}, \cr
 except for 2 aspects:
