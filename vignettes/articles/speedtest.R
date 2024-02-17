@@ -43,11 +43,21 @@ save(bm.stri_locate_ith, file = "bm.stri_locate_ith.RData")
 
 
 mat <- matrix(sample(1:1e6), ncol = 1e3)
-bm.matorder <- bench::mark(
-  tinycodet = {mat %row~% mat; mat %col~% mat},
-  apply = {apply(mat, 1, sort); apply(mat, 2, sort)},
+bm.roworder <- bench::mark(
+  tinycodet = mat %row~% mat,
+  "base R" = do.call(rbind, apply(mat, 1, sort, simplify = FALSE)),
   min_iterations = 250
 )
-bm.matorder
-autoplot(bm.matorder)
-save(bm.matorder, file = "bm.matorder.RData")
+bm.roworder
+ggplot2::autoplot(bm.roworder)
+save(bm.roworder, file = "bm.roworder.RData")
+
+
+bm.colorder <- bench::mark(
+  tinycodet = mat %col~% mat,
+  "base R" = do.call(cbind, apply(mat, 2, sort, simplify = FALSE)),
+  min_iterations = 250
+)
+bm.colorder
+ggplot2::autoplot(bm.colorder)
+save(bm.colorder, file = "bm.colorder.RData")

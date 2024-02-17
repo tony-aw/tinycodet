@@ -84,7 +84,7 @@ If matrix `x` is not numeric, sorting using `x %row~% x` and `x %col~% x` is sti
 
 If `mat` is a matrix of non-repeating random integers (i.e. `sample(1:length(x), replace=FALSE)`), `x %row~% mat` will randomly shuffle the elements of every row, where the shuffling order in each row is independent from the shuffling order in the other rows. Similarly, `x %col~% mat` will randomly shuffle the elements of every column, where the shuffling order in each column is independent from the shuffling order in the other columns.
 
-Re-ordering/sorting every row/column of a matrix with these operators is generally faster than doing so through loops or apply-like functions.
+Re-ordering/sorting every row/column of a matrix with these operators is generally faster than doing so through loops.
 
 &nbsp;
 

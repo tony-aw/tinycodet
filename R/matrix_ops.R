@@ -9,12 +9,8 @@
 #' \cr
 #' The \code{x %col~% mat} operator re-orders the elements of every column,
 #' each column ordered independently from the other columns, of matrix \code{x},
-#' according to the ordering ranks given in matrix \code{mat}. \cr
-#' \cr
-#' If \code{mat == x}, the following can be stated: \cr
-#' \code{x %row~% x} is a faster version of \code{apply(x, 1, sort)}, \cr
-#' and \code{x %col~% x} is a faster version of \code{apply(x, 2, sort)}. \cr \cr
-#'
+#' according to the ordering ranks given in matrix \code{mat}. \cr \cr
+#' 
 #'
 #' @param x a matrix
 #' @param mat a matrix with the same dimensions as \code{x},
@@ -71,7 +67,7 @@
 #' print(x)
 #' mat <- sample(seq_along(x)) |> matrix(ncol = ncol(x))
 #' x %row~% mat # randomly shuffle every row independently
-#' x %col~% mat # randomise shuffle every column independently
+#' x %col~% mat # randomly shuffle every column independently
 #'
 #' # character matrix ====
 #'

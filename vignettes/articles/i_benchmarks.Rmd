@@ -89,22 +89,39 @@ load("bm.strcut.RData")
 ggplot2::autoplot(bm.strcut)
 ```
 
+
 &nbsp;
 
-# Row/column-wise re-ordering
+# Row/columns-wise re-ordering
+
 
 ```{r eval = FALSE}
 mat <- matrix(sample(1:1e6), ncol = 1e3)
-bm.matorder <- bench::mark(
-  tinycodet = {mat %row~% mat; mat %col~% mat},
-  apply = {apply(mat, 1, sort); apply(mat, 2, sort)},
+bm.roworder <- bench::mark(
+  tinycodet = mat %row~% mat,
+  "base R" = do.call(rbind, apply(mat, 1, sort, simplify = FALSE)),
   min_iterations = 250
 )
-ggplot2::autoplot(bm.matorder)
+ggplot2::autoplot(bm.roworder)
 ```
 
 ```{r echo = FALSE, fig.width=8}
-load("bm.matorder.RData")
-ggplot2::autoplot(bm.matorder)
+load("bm.roworder.RData")
+ggplot2::autoplot(bm.roworder)
+```
+
+
+```{r eval = FALSE}
+bm.colorder <- bench::mark(
+  tinycodet = mat %col~% mat,
+  "base R" = do.call(cbind, apply(mat, 2, sort, simplify = FALSE)),
+  min_iterations = 250
+)
+ggplot2::autoplot(bm.colorder)
+```
+
+```{r echo = FALSE, fig.width=8}
+load("bm.colorder.RData")
+ggplot2::autoplot(bm.colorder)
 ```
 

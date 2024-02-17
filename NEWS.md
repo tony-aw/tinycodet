@@ -1,4 +1,4 @@
-# tinycodet 0.4.1 (Under Development)
+# tinycodet 0.4.1
 * Added an explanation in the string overview help page, regarding the usage of vector recycling.
 * Provided additional clarification in the help file for the `%row%` and `%col~%` operators.
 * Simplified the internal code of the decimal (in)equality testing operators.
