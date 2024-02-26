@@ -389,6 +389,7 @@ stri_locate_ith_boundaries <- function(
 .stri_locate_ith_internal <- function(p1, i, n, abortcall) {
   
   # `i` must have length `n`, as the value of `i` will change as `n.matches` changes
+  i <- as.integer(i)
   if(length(i) == 1) i <- rep.int(i, n)
   if(length(i) != n) {
     stop(simpleError("`i` must be the same length as `str`, or be a length of 1", call = abortcall))
@@ -398,7 +399,7 @@ stri_locate_ith_boundaries <- function(
     warning(simpleWarning("empty search not supported", call = abortcall))
     return(cbind(start = integer(0), end = integer(0)))
   }
-  n.matches <- as.integer(lengths(p1) / 2L)
+  n.matches <- lengths(p1) / 2L
   # n.matches <- pmax(n.matches, 1) # if no matches found, n.matches must be 1 so that "match" NA is returned.
   neg <- which(i < 0)
   pos <- which(i > 0)
@@ -408,10 +409,10 @@ stri_locate_ith_boundaries <- function(
     stop(simpleError("`i` is not allowed to be zero or NA", call = abortcall))
   }
   
-  i[neg] <- pmax(n.matches[neg] - abs(i[neg] + 1), 1)
-  i[pos] <- pmin(i[pos], n.matches[pos])
+  i[neg] <- .rcpp_convert_neg_i(n.matches[neg], i[neg])
+  i[pos] <- .rcpp_convert_pos_i(n.matches[pos], i[pos])
   
-  mat <- .rcpp_alloc_stri_locate_ith(p1, as.integer(i - 1L))
+  mat <- .rcpp_alloc_stri_locate_ith(p1, i - 1L)
   colnames(mat) <- c("start", "end")
   
   return(mat)

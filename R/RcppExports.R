@@ -3,13 +3,25 @@
 
 #' @keywords internal
 #' @noRd
-.rcpp_alloc_stri_locate_ith <- function(p1, i) {
-    .Call(`_tinycodet_rcpp_alloc_stri_locate_ith`, p1, i)
+.rcpp_anybad_loc <- function(lower, upper) {
+    .Call(`_tinycodet_rcpp_anybad_loc`, lower, upper)
 }
 
 #' @keywords internal
 #' @noRd
-.rcpp_anybad_loc <- function(lower, upper) {
-    .Call(`_tinycodet_rcpp_anybad_loc`, lower, upper)
+.rcpp_convert_neg_i <- function(n_matches, i) {
+    .Call(`_tinycodet_rcpp_convert_neg_i`, n_matches, i)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_convert_pos_i <- function(n_matches, i) {
+    .Call(`_tinycodet_rcpp_convert_pos_i`, n_matches, i)
+}
+
+#' @keywords internal
+#' @noRd
+.rcpp_alloc_stri_locate_ith <- function(p1, i) {
+    .Call(`_tinycodet_rcpp_alloc_stri_locate_ith`, p1, i)
 }
 

@@ -80,3 +80,4 @@ expect_error(1 %d<% "a")
 expect_error(1 %d>% "a")
 expect_error(1 %d{}% "a")
 expect_error(1 %d!{}% "a")
+

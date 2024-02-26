@@ -1,3 +1,8 @@
+# tinycodet 0.4.5 (Under Development)
+* Slight speed improvement of `stri_locate_ith()`.
+* **New Features**: Added the following functions to the "safer functionality" category: `form()`, `aes_pro()`, `with_pro()`, and `safer_partialmatch()`. Naturally, added tests for these new functions.
+
+
 # tinycodet 0.4.1
 * Added an explanation in the string overview help page, regarding the usage of vector recycling.
 * Provided additional clarification in the help file for the `%row%` and `%col~%` operators.

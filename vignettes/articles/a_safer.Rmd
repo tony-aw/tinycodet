@@ -124,4 +124,105 @@ The `X %<-c% A` operator creates a `constant` `X` with assignment `A`. Constants
 &nbsp;
 
 
+# form()
+## (new in version 0.4.5; under development)
+
+When creating a formula with the tilde (` ⁠~` ⁠) operator, and storing a formula in a variable to be used later, the environment is captured by the formula.
+Therefore, any object in the captured environment might not be freed from the memory, potentially creating some memory leak.
+
+
+The `form()` function is a convenience function, to quickly create and return/store a formula more safely, by having no default environment, and allowing the user to specify the environment explicitly.
+
+It can also quickly convert a single string to a formula, again allowing for explicit environment specification, and having no environment by default.
+
+```{r}
+# see also http://adv-r.had.co.nz/memory.html
+
+
+f1 <- function() {
+  foo <- c(letters, LETTERS)
+  return(10)
+}
+x1 <- f1()
+environment(x1) |> as.list() # empty, since no formula is used inside f1(), so safe
+
+
+f2 <- function() {
+  foo <- c(letters, LETTERS)
+  out <- a ~ b
+  return(out)
+}
+x2 <- f2()
+environment(x2) |> as.list() # NOT safe: contains all objects from f2()
+exists("foo", envir = environment(x2)) # = TRUE: "foo" still exists!
+environment(x2)$foo # can still access it; probably won't be removed by gc()
+
+
+f3 <- function() {
+  foo <- c(letters, LETTERS)
+  return(form(a ~ b))
+}
+x3 <- f3()
+environment(x3) |> as.list() # empty, since form() is used, so safe
+
+
+f4 <- function() {
+  foo <- c(letters, LETTERS)
+  return(form("a ~ b"))
+}
+x4 <- f4()
+environment(x4) |> as.list() # empty, since form() is used, so safe
+
+```
+
+
+&nbsp;
+
+# with_pro and aes_pro
+## (new in version 0.4.5; under development)
+
+'tinycodet' provides standard-evaluated versions of the common quoting functions `with()` and `ggplot2::aes()`: `with_pro()` and `aes_pro()`, respectively.
+
+```{r fig.width = 8}
+
+requireNamespace("ggplot2")
+
+
+d <- import_data("ggplot2", "mpg")
+
+# mutate data:
+myform <- form(~ displ + cyl + cty + hwy)
+d$mysum <- with_pro(d, myform)
+summary(d)
+
+# plotting data:
+x <- form("cty")
+y <- form(~ sqrt(hwy))
+color <- form(~ drv)
+
+ggplot2::ggplot(d, aes_pro(x, y, color = color)) +
+  ggplot2::geom_point()
+
+
+```
+
+&nbsp;
+
+# Safer Partial Matching
+## (new in version 0.4.5; under development)
+
+The `safer_partialmatch()`  forces 'R' to give a warning when partial matching occurs when using the dollar ($) operator, or when other forms of partial matching occurs. It simply calls the following:
+
+```{r echo = TRUE, eval = FALSE}
+
+options(
+   warnPartialMatchDollar = TRUE,
+   warnPartialMatchArgs = TRUE,
+   warnPartialMatchAttr = TRUE
+ )
+
+```
+
+
+&nbsp;
 

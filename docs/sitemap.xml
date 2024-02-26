@@ -4,36 +4,6 @@
     <loc>https://tony-aw.github.io/tinycodet/404.html</loc>
   </url>
   <url>
-    <loc>https://tony-aw.github.io/tinycodet/articles/articles/a_safer.html</loc>
-  </url>
-  <url>
-    <loc>https://tony-aw.github.io/tinycodet/articles/articles/b_import_main.html</loc>
-  </url>
-  <url>
-    <loc>https://tony-aw.github.io/tinycodet/articles/articles/c_import_additional.html</loc>
-  </url>
-  <url>
-    <loc>https://tony-aw.github.io/tinycodet/articles/articles/d_strings_functions.html</loc>
-  </url>
-  <url>
-    <loc>https://tony-aw.github.io/tinycodet/articles/articles/e_strings_inops.html</loc>
-  </url>
-  <url>
-    <loc>https://tony-aw.github.io/tinycodet/articles/articles/f_DRY.html</loc>
-  </url>
-  <url>
-    <loc>https://tony-aw.github.io/tinycodet/articles/articles/g_misc.html</loc>
-  </url>
-  <url>
-    <loc>https://tony-aw.github.io/tinycodet/articles/articles/h_otherpkgs.html</loc>
-  </url>
-  <url>
-    <loc>https://tony-aw.github.io/tinycodet/articles/articles/i_benchmarks.html</loc>
-  </url>
-  <url>
-    <loc>https://tony-aw.github.io/tinycodet/articles/articles/tinycodet.html</loc>
-  </url>
-  <url>
     <loc>https://tony-aw.github.io/tinycodet/articles/a_safer.html</loc>
   </url>
   <url>
@@ -106,6 +76,9 @@
     <loc>https://tony-aw.github.io/tinycodet/reference/decimal_truth.html</loc>
   </url>
   <url>
+    <loc>https://tony-aw.github.io/tinycodet/reference/form.html</loc>
+  </url>
+  <url>
     <loc>https://tony-aw.github.io/tinycodet/reference/import_as.html</loc>
   </url>
   <url>
@@ -139,6 +112,9 @@
     <loc>https://tony-aw.github.io/tinycodet/reference/pkgs.html</loc>
   </url>
   <url>
+    <loc>https://tony-aw.github.io/tinycodet/reference/pro.html</loc>
+  </url>
+  <url>
     <loc>https://tony-aw.github.io/tinycodet/reference/pversion.html</loc>
   </url>
   <url>
@@ -146,6 +122,9 @@
   </url>
   <url>
     <loc>https://tony-aw.github.io/tinycodet/reference/report_inops.html</loc>
+  </url>
+  <url>
+    <loc>https://tony-aw.github.io/tinycodet/reference/safer_partialmatch.html</loc>
   </url>
   <url>
     <loc>https://tony-aw.github.io/tinycodet/reference/source_selection.html</loc>

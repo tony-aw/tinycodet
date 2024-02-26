@@ -1,7 +1,7 @@
 
 library(tinycodet)
 library(ggplot2)
-
+loadNamespace("bench")
 
 n <- 1e5
 x <- rep("hello", n)
@@ -33,11 +33,11 @@ locate_stringi <- function(...) {
 bm.stri_locate_ith <- bench::mark(
   "stri_locate_ith" = { stri_locate_ith_regex(x, p, i) },
   "stringi::(stri_locate_all + stri_count)" = { locate_stringi(str=x, regex = p) },
-  min_iterations = 500,
+  min_iterations = 200,
   check = FALSE,
   filter_gc = FALSE
 )
-bm.stri_locate_ith
+summary(bm.stri_locate_ith)
 autoplot(bm.stri_locate_ith)
 save(bm.stri_locate_ith, file = "bm.stri_locate_ith.RData")
 

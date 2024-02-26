@@ -40,8 +40,8 @@
 #'  * \code{strfind() <- value} finds pattern matches in variable `x`,
 #' replaces the pattern matches with the character vector specified in \code{value},
 #' and assigns the transformed character vector back to `x`. \cr
-#' This is similar to \link[stringi]{stri_replace_all},
-#' except the replacement is done in-place. \cr \cr
+#' This is somewhat similar to \link[stringi]{stri_replace},
+#' though the replacement is done in-place. \cr \cr
 #' 
 #'
 #'

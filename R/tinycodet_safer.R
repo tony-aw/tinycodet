@@ -7,8 +7,12 @@
 #'  * \link[=%d==%]{Safer decimal (in)equality testing}.
 #'  * \link[=as_int]{Atomic type casting without stripping attributes}.
 #'  * The \link{lock_TF} function to
-#'  set and lock \code{T} and \code{F} to \code{TRUE} and \code{FALSE}.
+#'  set and lock \code{T} and \code{F} to \code{TRUE} and \code{FALSE},
+#'  respectively.
 #'  * The \link{%<-c%} operator to assign locked constants.
+#'  * \link{form} to construct a formula with safer environment specification.
+#'  * \link[=aes_pro]{Standard evaluated versions of some common quoting functions}.
+#'  * \link{safer_partialmatch} to set safer dollar, arguments, and attribute matching. \cr \cr
 #'
 #'
 #'

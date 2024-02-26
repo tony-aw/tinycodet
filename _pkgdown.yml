@@ -29,6 +29,10 @@ reference:
   - '`atomic_conversions`'
   - '`decimal_truth`'
   - '`lock`'
+  - '`form`'
+  - '`with_pro`'
+  - '`aes_pro`'
+  - '`safer_partialmatch`'
 - title: Import System
   contents:
   - '`import_as`'

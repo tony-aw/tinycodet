@@ -64,6 +64,6 @@ print(testcount_total)
 
 # test / function ratio ====
 nfuns <- length(getNamespaceExports(loadNamespace("tinycodet")))
-testcount_total / nfuns # about 48 tests per function on average
+testcount_total / nfuns # about 78 tests per function on average
 
 
