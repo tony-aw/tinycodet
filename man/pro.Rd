@@ -43,7 +43,6 @@ The \code{aes_pro()} function is the standard evaluated alternative to
 Due to the way \code{aes_pro()} is programmed,
 it should work even if the tidy evaluation technique
 changes in 'ggplot2'. \cr
-It should also work in older and newer versions of 'ggplot2'. \cr
 To support functions in combinations with references of the variables,
 the input used here are formula inputs, rather than character inputs. \cr
 See the Examples section below. \cr \cr
@@ -75,7 +74,7 @@ This is due to evaluating the expression 'aplot' as a quoted expression,
 instead of evaluating the contents (i.e. string or formula) of the variable.
 In other words: Non-Standard Evaluation. \cr
 \cr
-A standard evaluated expression works better. \cr
+Regular Standard Evaluation does not have the above problem. \cr
 Standard evaluation in 'R' is not limited to atomic objects like character vectors;
 formulas can also be used.
 }

@@ -12,7 +12,7 @@ IntegerVector rcpp_convert_neg_i(IntegerVector n_matches, IntegerVector i) {
   int res = 0;
   
   for(int j = 0; j < n; ++j) {
-    res = n_matches[j] - fabs(i[j] + 1);
+    res = n_matches[j] - abs(i[j] + 1);
     if(res < 1) {
       out[j] = 1;
     } else {

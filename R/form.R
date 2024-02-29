@@ -23,15 +23,17 @@
 #'  If a string is given that does not contain a tilde ( `~` ),
 #'  a tilde is prepended to the string before converting it to a formula. \cr
 #' * a literal formula. \cr
-#' Note that if a literal formula, it must actually be a literal formula,
-#' \bold{not} a variable that contains a variable,
+#' Note that if a literal formula is given,
+#' it must actually be a literal formula,
+#' \bold{not} a variable that contains a formula,
 #' as that would defeat the whole point of the `form()` function. \cr
 #' @param env \link[base]{environment} of the formula. \cr
 #' Defaults to `NULL`. \cr \cr
 #'
 #'
 #' @returns
-#' A formula with the specified environment link, or with no environment.
+#' A formula with no environment,
+#' or a formula with the specified environment. \cr \cr
 #'
 #' @seealso \link{tinycodet_safer}, \link{aes_pro}, \link{with_pro}
 #'
@@ -80,7 +82,7 @@
 #' f3 <- function() {
 #'   foo <- c(letters, LETTERS)
 #'   out <- form(a ~ b)
-#'   return(form)
+#'   return(out)
 #' }
 #' x3 <- f3()
 #' environment(x3) |> as.list() # empty, since form() is used, so safe
@@ -89,7 +91,7 @@
 #' f4 <- function() {
 #'   foo <- c(letters, LETTERS)
 #'   out <- form("a ~ b")
-#'   return()
+#'   return(out)
 #' }
 #' x4 <- f4()
 #' environment(x4) |> as.list() # empty, since form() is used, so safe
