@@ -135,6 +135,8 @@ The `form()` function is a convenience function, to quickly create and return/st
 
 It can also quickly convert a single string to a formula, again allowing for explicit environment specification, and having no environment by default.
 
+See the benchmark article for a demonstration of the memory leak.
+
 ```{r}
 # see also http://adv-r.had.co.nz/memory.html
 
@@ -160,7 +162,8 @@ environment(x2)$foo # can still access it; probably won't be removed by gc()
 
 f3 <- function() {
   foo <- c(letters, LETTERS)
-  return(form(a ~ b))
+  out <- form(a ~ b)
+  return(out)
 }
 x3 <- f3()
 environment(x3) |> as.list() # empty, since form() is used, so safe
@@ -168,7 +171,8 @@ environment(x3) |> as.list() # empty, since form() is used, so safe
 
 f4 <- function() {
   foo <- c(letters, LETTERS)
-  return(form("a ~ b"))
+  out <- form("a ~ b")
+  return(out)
 }
 x4 <- f4()
 environment(x4) |> as.list() # empty, since form() is used, so safe

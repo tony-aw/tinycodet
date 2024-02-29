@@ -1,7 +1,7 @@
-#' Standard Evaluated Versions of Some Common Quoting Functions
+#' Standard Evaluated Versions of Some Common Expression-Evaluation Functions
 #'
 #' @description
-#' Standard-evaluated versions of the common quoting functions
+#' Standard-evaluated versions of the expression-evaluation functions
 #' \link[base]{with} and \code{ggplot2::}\link[ggplot2]{aes}. \cr
 #' \cr
 #' These alternative functions are more programmatically friendly: \cr

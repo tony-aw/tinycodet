@@ -3,7 +3,7 @@
 \name{with_pro}
 \alias{with_pro}
 \alias{aes_pro}
-\title{Standard Evaluated Versions of Some Common Quoting Functions}
+\title{Standard Evaluated Versions of Some Common Expression-Evaluation Functions}
 \usage{
 with_pro(data, form)
 
@@ -24,7 +24,7 @@ For \code{with_pro()}: see \link[base]{with}. \cr
 For \code{aes_pro()}: see \link[ggplot2]{aes}. \cr \cr
 }
 \description{
-Standard-evaluated versions of the common quoting functions
+Standard-evaluated versions of the expression-evaluation functions
 \link[base]{with} and \code{ggplot2::}\link[ggplot2]{aes}. \cr
 \cr
 These alternative functions are more programmatically friendly: \cr

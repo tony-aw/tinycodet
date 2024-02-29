@@ -1,7 +1,7 @@
 #' Set safer dollar, arguments, and attribute matching
 #'
 #' @description
-#' This function simply calls the following:
+#' The \code{safer_partialmatch} function simply calls the following:
 #' 
 #' ```{r eval = FALSE}
 #' options(
@@ -13,14 +13,17 @@
 #' ```
 #' 
 #' Thus it forces 'R' to give a warning when partial matching occurs when using
-#' the dollar (\link{$}) operator, or when other forms of partial matching occurs.
+#' the dollar (\link{$}) operator, or when other forms of partial matching occurs. \cr
+#' The \code{safer_partialmatch} is intended for when running R interactively
+#' (see \link[base]{interactive}). \cr \cr
 #'
 #'
 #' 
 #' 
 #'
 #' @return
-#' Sets the options. Returns nothing. Best used interactively.
+#' Sets the options. Returns nothing. \cr
+#' 
 #'
 #'
 #' @seealso \link{tinycodet_safer}

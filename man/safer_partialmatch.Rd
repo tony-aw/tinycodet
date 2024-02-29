@@ -7,10 +7,10 @@
 safer_partialmatch()
 }
 \value{
-Sets the options. Returns nothing. Best used interactively.
+Sets the options. Returns nothing. \cr
 }
 \description{
-This function simply calls the following:
+The \code{safer_partialmatch} function simply calls the following:
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{options(
    warnPartialMatchDollar = TRUE,
@@ -21,7 +21,9 @@ This function simply calls the following:
 }\if{html}{\out{</div>}}
 
 Thus it forces 'R' to give a warning when partial matching occurs when using
-the dollar (\link{$}) operator, or when other forms of partial matching occurs.
+the dollar (\link{$}) operator, or when other forms of partial matching occurs. \cr
+The \code{safer_partialmatch} is intended for when running R interactively
+(see \link[base]{interactive}). \cr \cr
 }
 \examples{
 \dontshow{if (interactive()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}

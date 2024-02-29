@@ -11,7 +11,8 @@
 #'  respectively.
 #'  * The \link{%<-c%} operator to assign locked constants.
 #'  * \link{form} to construct a formula with safer environment specification.
-#'  * \link[=aes_pro]{Standard evaluated versions of some common quoting functions}.
+#'  * Standard evaluated versions of some common expression-evaluation functions: \cr
+#'   \link{with_pro} and \link{aes_pro}.
 #'  * \link{safer_partialmatch} to set safer dollar, arguments, and attribute matching. \cr \cr
 #'
 #'

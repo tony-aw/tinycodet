@@ -31,9 +31,9 @@ locate_stringi <- function(...) {
   stringi::stri_count(...)
 }
 bm.stri_locate_ith <- bench::mark(
-  "stri_locate_ith" = { stri_locate_ith_regex(x, p, i) },
-  "stringi::(stri_locate_all + stri_count)" = { locate_stringi(str=x, regex = p) },
-  min_iterations = 200,
+  "stri_locate_ith" = stri_locate_ith_regex(x, p, i),
+  "stringi::(stri_locate_all + stri_count)" = stringi::stri_locate_all(x, regex = p),
+  min_iterations = 500,
   check = FALSE,
   filter_gc = FALSE
 )

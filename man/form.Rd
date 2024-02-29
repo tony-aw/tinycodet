@@ -85,7 +85,8 @@ environment(x2)$foo # can still access it; probably won't be removed by gc()
 
 f3 <- function() {
   foo <- c(letters, LETTERS)
-  return(form(a ~ b))
+  out <- form(a ~ b)
+  return(form)
 }
 x3 <- f3()
 environment(x3) |> as.list() # empty, since form() is used, so safe
@@ -93,7 +94,8 @@ environment(x3) |> as.list() # empty, since form() is used, so safe
 
 f4 <- function() {
   foo <- c(letters, LETTERS)
-  return(form("a ~ b"))
+  out <- form("a ~ b")
+  return()
 }
 x4 <- f4()
 environment(x4) |> as.list() # empty, since form() is used, so safe

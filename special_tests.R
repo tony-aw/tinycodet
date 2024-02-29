@@ -2,6 +2,11 @@
 library(tinycodet)
 library(tinytest)
 
+# safer_partialmatch ====
+safer_partialmatch()
+expect_warning(
+  iris$Sepal.Len
+)
 
 # import_as ====
 import_as(~ dpr., "dplyr", re_exports = TRUE)
