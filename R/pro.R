@@ -143,7 +143,6 @@ aes_pro <- function(...) {
   
   # evaluating:
   txt <- paste0("ggplot2::aes(", args, ")")
-  message(txt)
   eval(parse(text=txt), envir = parent.frame(n = 1))
 }
 
