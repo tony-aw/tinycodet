@@ -1,8 +1,10 @@
 #' Standard Evaluated Versions of Some Common Expression-Evaluation Functions
 #'
 #' @description
-#' Standard-evaluated versions of the expression-evaluation functions
-#' \link[base]{with} and \code{ggplot2::}\link[ggplot2]{aes}. \cr
+#' The \code{with_pro()} and \code{aes_pro()} functions
+#' are standard-evaluated versions of the expression-evaluation functions
+#' \link[base]{with} and \code{ggplot2::}\link[ggplot2]{aes},
+#' respectively. \cr
 #' \cr
 #' These alternative functions are more programmatically friendly: \cr
 #' They use proper standard evaluation,
@@ -16,7 +18,7 @@
 #' 
 #'
 #'
-#' @param ... arguments to be passed to \link[ggplot2]{aes},
+#' @param ... arguments to be passed to \code{ggplot2::}\link[ggplot2]{aes},
 #' but given as one-sided formulas.
 #' @param data a list, environment, or data.frame.
 #' @param form a one-sided formula giving the expression to evaluate in \code{with_pro}. \cr
@@ -33,7 +35,7 @@
 #' it should work even if the tidy evaluation technique
 #' changes in 'ggplot2'. \cr
 #' To support functions in combinations with references of the variables,
-#' the input used here are formula inputs, rather than character inputs. \cr
+#' the input used here are formula inputs, rather than string inputs. \cr
 #' See the Examples section below. \cr \cr
 #'
 #'
@@ -41,7 +43,7 @@
 #' The `with_pro()` function, like the original \link[base]{with} function,
 #' is made for primarily for convenience. \cr
 #' When using modelling or graphics functions with an explicit \code{data} argument
-#' (and typically using \link[stats]{formula}),
+#' (and typically using \link[stats]{formula}s),
 #' it is typically preferred to use the \code{data} argument of that function,
 #' rather than to use either \cr
 #' \code{with(data, ...)} or \code{with_pro(data, ...)}. \cr \cr
@@ -51,7 +53,7 @@
 #' @section Non-Standard Evaluation:
 #' 
 #' Non-Standard Evaluation (sometimes abbreviated as "NSE"),
-#' is quite controversial. \cr
+#' is somewhat controversial. \cr
 #' Consider the following example:
 #'
 #' ```{r echo=TRUE, eval = FALSE}
@@ -75,7 +77,7 @@
 #'
 #' @return
 #' For `with_pro()`: see \link[base]{with}. \cr
-#' For `aes_pro()`: see \link[ggplot2]{aes}. \cr \cr
+#' For `aes_pro()`: see \code{ggplot2::}\link[ggplot2]{aes}. \cr \cr
 #'
 #'
 #' @examplesIf requireNamespace("ggplot2")

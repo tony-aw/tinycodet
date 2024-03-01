@@ -7,7 +7,7 @@ any object in the captured environment might not be freed from the memory,
 potentially creating some memory leak
 (see also the Examples section below). 
 
-The form function is a convenience function,
+The form() function is a convenience function,
 to quickly create and return/store a formula more safely,
 by having no default environment,
 and allowing the user to specify the environment explicitly. 
@@ -21,7 +21,7 @@ any object in the captured environment might not be freed from the memory,
 potentially creating some memory leak
 (see also the Examples section below). 
 
-The form function is a convenience function,
+The form() function is a convenience function,
 to quickly create and return/store a formula more safely,
 by having no default environment,
 and allowing the user to specify the environment explicitly. 
@@ -98,7 +98,7 @@ Therefore,
 any object in the captured environment might not be freed from the memory,
 potentially creating some memory leak
 (see also the Examples section below). <br><br>
-The <code>form</code> function is a convenience function,
+The <code>form()</code> function is a convenience function,
 to quickly create and return/store a formula more safely,
 by having no default environment,
 and allowing the user to specify the environment explicitly. <br>
@@ -177,7 +177,7 @@ or a formula with the specified environment. <br></p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)            y  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.0027148   -0.0003004  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  -0.0004223   -0.0020341  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
@@ -206,7 +206,7 @@ or a formula with the specified environment. <br></p>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/environment.html" class="external-link">environment</a></span><span class="op">(</span><span class="va">x2</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># NOT safe: contains all objects from f2()</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $out</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> a ~ b</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x000001fe49177ea0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x00000200773f7f48&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $foo</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s"</span>

@@ -2,13 +2,9 @@
 
 0 errors | 0 warnings | 0 notes
 
-## This is a re-submission of the 'tinycodet' package, updating it to version 0.4.1.
+## This is a re-submission of the 'tinycodet' package, updating it to version 0.4.5.
 
 Change log:
 
-* Added an explanation in the string overview help page, regarding the usage of vector recycling.
-* Provided additional clarification in the help file for the `%row%` and `%col~%` operators.
-* Simplified the internal code of the decimal (in)equality testing operators.
-* Added a few more tests.
-* Moved `is_wholenumber()` to the decimal truth testing section.
-* **Argument change:** Added the `rt` argument to `strfind()<-`, and moved the `i` and `rt` arguments more to the end of the functions. The `type` argument in `strcut_brk()` can now also directly accept a list produced by `stringi::stri_opts_brkiter()`.
+* Slight speed improvement of `stri_locate_ith()`.
+* **New Features**: Added the following functions to the "safer functionality" category: `form()`, `aes_pro()`, `with_pro()`, and `safer_partialmatch()`. Naturally, added tests for these new functions.

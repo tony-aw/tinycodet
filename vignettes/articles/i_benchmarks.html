@@ -458,8 +458,8 @@ attached to it, thus has no memory leak.</p>
 <span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>}</span>
 <span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="fu">gc</span>()</span>
 <span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co">#&gt;           used (Mb) gc trigger  (Mb) max used  (Mb)</span></span>
-<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co">#&gt; Ncells 1277698 68.3    2605021 139.2  2605021 139.2</span></span>
-<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co">#&gt; Vcells 6262127 47.8   10146329  77.5  7798206  59.5</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co">#&gt; Ncells 1277698 68.3    2605045 139.2  2605045 139.2</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co">#&gt; Vcells 6262127 47.8   10146329  77.5  7798113  59.5</span></span>
 <span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>start_mem <span class="ot">&lt;-</span> <span class="fu">mem_used</span>()</span>
 <span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>start_time <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">Sys.time</span>())</span>
 <span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="fu">loopfun</span>()</span>
@@ -474,8 +474,8 @@ attached to it, thus has no memory leak.</p>
 <span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a>end_time <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">Sys.time</span>())</span>
 <span id="cb8-22"><a href="#cb8-22" tabindex="-1"></a><span class="fu">gc</span>()</span>
 <span id="cb8-23"><a href="#cb8-23" tabindex="-1"></a><span class="co">#&gt;           used (Mb) gc trigger  (Mb) max used  (Mb)</span></span>
-<span id="cb8-24"><a href="#cb8-24" tabindex="-1"></a><span class="co">#&gt; Ncells 1278571 68.3    2605021 139.2  2605021 139.2</span></span>
-<span id="cb8-25"><a href="#cb8-25" tabindex="-1"></a><span class="co">#&gt; Vcells 6264586 47.8   12255594  93.6  7798206  59.5</span></span>
+<span id="cb8-24"><a href="#cb8-24" tabindex="-1"></a><span class="co">#&gt; Ncells 1278571 68.3    2605045 139.2  2605045 139.2</span></span>
+<span id="cb8-25"><a href="#cb8-25" tabindex="-1"></a><span class="co">#&gt; Vcells 6264586 47.8   12255594  93.6  7798113  59.5</span></span>
 <span id="cb8-26"><a href="#cb8-26" tabindex="-1"></a>end_mem <span class="ot">&lt;-</span> <span class="fu">mem_used</span>()</span>
 <span id="cb8-27"><a href="#cb8-27" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Elapsed time:&quot;</span>, <span class="fu">round</span>(end_time <span class="sc">-</span> start_time, <span class="dv">1</span>), <span class="st">&quot;seconds</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
 <span id="cb8-28"><a href="#cb8-28" tabindex="-1"></a><span class="co">#&gt; Elapsed time: 0.7 seconds</span></span>
@@ -492,8 +492,8 @@ attached to it, thus has no memory leak.</p>
 <span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>}</span>
 <span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="fu">gc</span>()</span>
 <span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co">#&gt;           used (Mb) gc trigger  (Mb) max used  (Mb)</span></span>
-<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co">#&gt; Ncells 1278630 68.3    2605021 139.2  2605021 139.2</span></span>
-<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="co">#&gt; Vcells 6265665 47.9   12255594  93.6  7798206  59.5</span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co">#&gt; Ncells 1278630 68.3    2605045 139.2  2605045 139.2</span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="co">#&gt; Vcells 6265665 47.9   12255594  93.6  7798113  59.5</span></span>
 <span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>start_mem <span class="ot">&lt;-</span> <span class="fu">mem_used</span>()</span>
 <span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a>start_time <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">Sys.time</span>())</span>
 <span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="fu">loopfun</span>()</span>
@@ -508,7 +508,7 @@ attached to it, thus has no memory leak.</p>
 <span id="cb9-21"><a href="#cb9-21" tabindex="-1"></a>end_time <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">Sys.time</span>())</span>
 <span id="cb9-22"><a href="#cb9-22" tabindex="-1"></a><span class="fu">gc</span>()</span>
 <span id="cb9-23"><a href="#cb9-23" tabindex="-1"></a><span class="co">#&gt;            used  (Mb) gc trigger  (Mb) max used  (Mb)</span></span>
-<span id="cb9-24"><a href="#cb9-24" tabindex="-1"></a><span class="co">#&gt; Ncells  1278704  68.3    2605021 139.2  2605021 139.2</span></span>
+<span id="cb9-24"><a href="#cb9-24" tabindex="-1"></a><span class="co">#&gt; Ncells  1278704  68.3    2605045 139.2  2605045 139.2</span></span>
 <span id="cb9-25"><a href="#cb9-25" tabindex="-1"></a><span class="co">#&gt; Vcells 14265782 108.9   25842636 197.2 14286873 109.1</span></span>
 <span id="cb9-26"><a href="#cb9-26" tabindex="-1"></a>end_mem <span class="ot">&lt;-</span> <span class="fu">mem_used</span>()</span>
 <span id="cb9-27"><a href="#cb9-27" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Elapsed time:&quot;</span>, <span class="fu">round</span>(end_time <span class="sc">-</span> start_time, <span class="dv">1</span>), <span class="st">&quot;seconds</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>

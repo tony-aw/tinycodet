@@ -13,8 +13,10 @@
 #' ```
 #' 
 #' Thus it forces 'R' to give a warning when partial matching occurs when using
-#' the dollar (\link{$}) operator, or when other forms of partial matching occurs. \cr
-#' The \code{safer_partialmatch} is intended for when running R interactively
+#' the dollar (\link{$}) operator,
+#' or when other forms of partial matching occurs. \cr
+#' The \code{safer_partialmatch} function
+#' is intended for when running R interactively
 #' (see \link[base]{interactive}). \cr \cr
 #'
 #'

@@ -35,7 +35,7 @@ any object in the captured environment might not be freed from the memory,
 potentially creating some memory leak
 (see also the Examples section below). \cr
 \cr
-The \code{form} function is a convenience function,
+The \code{form()} function is a convenience function,
 to quickly create and return/store a formula more safely,
 by having no default environment,
 and allowing the user to specify the environment explicitly. \cr

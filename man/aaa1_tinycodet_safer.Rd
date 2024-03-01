@@ -17,7 +17,8 @@ respectively.
 \item \link{form} to construct a formula with safer environment specification.
 \item Standard evaluated versions of some common expression-evaluation functions: \cr
 \link{with_pro} and \link{aes_pro}.
-\item \link{safer_partialmatch} to set safer dollar, arguments, and attribute matching. \cr \cr
+\item \link{safer_partialmatch} to set options for
+safer dollar, arguments, and attribute matching. \cr \cr
 }
 }
 \examples{

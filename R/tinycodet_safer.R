@@ -13,7 +13,8 @@
 #'  * \link{form} to construct a formula with safer environment specification.
 #'  * Standard evaluated versions of some common expression-evaluation functions: \cr
 #'   \link{with_pro} and \link{aes_pro}.
-#'  * \link{safer_partialmatch} to set safer dollar, arguments, and attribute matching. \cr \cr
+#'  * \link{safer_partialmatch} to set options for
+#'  safer dollar, arguments, and attribute matching. \cr \cr
 #'
 #'
 #'
