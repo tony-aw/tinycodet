@@ -16,6 +16,22 @@ expect_null(
 )
 
 
+# string equals formula input ====
+expect_equal(
+  form("x"),
+  form(~x)
+)
+expect_equal(
+  form("x"),
+  form(~x)
+)
+mystring <- "x"
+expect_equal(
+  form(mystring),
+  form(~x)
+)
+
+
 # functional usage check - literal formula input, env = NULL ====
 mydata <- data.frame(
   y = rpois(1e4, 10),
@@ -74,6 +90,14 @@ if(requireNamespace("nlme")) {
     coef(summary(fm1)),
     coef(summary(fm2))
   )
+}
+if(requireNamespace("ggplot2")) {
+  myform <- form(~ a)
+  expect_equal(
+    ggplot2::facet_wrap(myform),
+    ggplot2::facet_wrap(~ a)
+  )
+  
 }
 
 
@@ -145,6 +169,15 @@ if(requireNamespace("nlme")) {
     coef(summary(fm2))
   )
 }
+if(requireNamespace("ggplot2")) {
+  mystring <- "a"
+  myform <- form(mystring)
+  expect_equal(
+    ggplot2::facet_wrap(myform),
+    ggplot2::facet_wrap(~ a)
+  )
+  
+}
 
 
 # functional usage check - literal formula input, env = baseenv ====
@@ -206,7 +239,13 @@ if(requireNamespace("nlme")) {
     coef(summary(fm2))
   )
 }
-
+if(requireNamespace("ggplot2")) {
+  myform <- form(~ a, env = baseenv())
+  expect_equal(
+    ggplot2::facet_wrap(myform),
+    ggplot2::facet_wrap(~ a)
+  )
+}
 
 # functional usage check - string variable input, env = baseenv ====
 mydata <- data.frame(
@@ -276,7 +315,14 @@ if(requireNamespace("nlme")) {
     coef(summary(fm2))
   )
 }
-
+if(requireNamespace("ggplot2")) {
+  mystring <- "a"
+  myform <- form(mystring, env = baseenv())
+  expect_equal(
+    ggplot2::facet_wrap(myform),
+    ggplot2::facet_wrap(~ a)
+  )
+}
 
 # string to formula check ====
 myform <- ~ a

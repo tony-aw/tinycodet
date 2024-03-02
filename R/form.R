@@ -10,10 +10,10 @@
 #' (see also the Examples section below). \cr
 #' \cr
 #' The \code{form()} function is a convenience function,
-#' to quickly create and return/store a formula more safely,
+#' to create and return/store a formula more safely,
 #' by having no default environment,
 #' and allowing the user to specify the environment explicitly. \cr
-#' It can also quickly convert a single string to a formula,
+#' It can also convert a single string to a formula,
 #' again allowing for explicit environment specification,
 #' and having no environment by default. \cr \cr
 #' 

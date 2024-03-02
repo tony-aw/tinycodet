@@ -1,4 +1,4 @@
-# tinycodet 0.4.5 (Under Development)
+# tinycodet 0.4.5
 * Slight speed improvement of `stri_locate_ith()`.
 * **New Features**: Added the following functions to the "safer functionality" category: `form()`, `aes_pro()`, `with_pro()`, and `safer_partialmatch()`. Naturally, added tests for these new functions.
 
