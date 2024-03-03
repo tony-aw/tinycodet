@@ -262,9 +262,6 @@ operator to create said constant.</p>
 <div class="section level2">
 <h2 id="form">form()<a class="anchor" aria-label="anchor" href="#form"></a>
 </h2>
-<div class="section level3">
-<h3 id="new-in-version-0-4-5-under-development">(new in version 0.4.5; under development)<a class="anchor" aria-label="anchor" href="#new-in-version-0-4-5-under-development"></a>
-</h3>
 <p>When creating a formula with the tilde (<code>⁠~</code> ⁠) operator,
 and storing a formula in a variable to be used later, the environment is
 captured by the formula. Therefore, any object in the captured
@@ -300,7 +297,7 @@ environment by default.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/environment.html" class="external-link">environment</a></span><span class="op">(</span><span class="va">x2</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># NOT safe: contains all objects from f2()</span></span>
 <span><span class="co">#&gt; $out</span></span>
 <span><span class="co">#&gt; a ~ b</span></span>
-<span><span class="co">#&gt; &lt;environment: 0x0000011ceb5bf220&gt;</span></span>
+<span><span class="co">#&gt; &lt;environment: 0x0000022d25121170&gt;</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $foo</span></span>
 <span><span class="co">#&gt;  [1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s"</span></span>
@@ -334,13 +331,9 @@ environment by default.</p>
 <span><span class="co">#&gt; list()</span></span></code></pre></div>
 <p> </p>
 </div>
-</div>
 <div class="section level2">
 <h2 id="with_pro-and-aes_pro">with_pro and aes_pro<a class="anchor" aria-label="anchor" href="#with_pro-and-aes_pro"></a>
 </h2>
-<div class="section level3">
-<h3 id="new-in-version-0-4-5-under-development-1">(new in version 0.4.5; under development)<a class="anchor" aria-label="anchor" href="#new-in-version-0-4-5-under-development-1"></a>
-</h3>
 <p>‘tinycodet’ provides standard-evaluated versions of the common
 quoting functions <code><a href="https://rdrr.io/r/base/with.html" class="external-link">with()</a></code> and <code><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">ggplot2::aes()</a></code>:
 <code><a href="../reference/pro.html">with_pro()</a></code> and <code><a href="../reference/pro.html">aes_pro()</a></code>, respectively.</p>
@@ -388,13 +381,9 @@ quoting functions <code><a href="https://rdrr.io/r/base/with.html" class="extern
 <p><img src="a_safer_files/figure-html/unnamed-chunk-6-1.png" width="768"></p>
 <p> </p>
 </div>
-</div>
 <div class="section level2">
 <h2 id="safer-partial-matching">Safer Partial Matching<a class="anchor" aria-label="anchor" href="#safer-partial-matching"></a>
 </h2>
-<div class="section level3">
-<h3 id="new-in-version-0-4-5-under-development-2">(new in version 0.4.5; under development)<a class="anchor" aria-label="anchor" href="#new-in-version-0-4-5-under-development-2"></a>
-</h3>
 <p>The <code><a href="../reference/safer_partialmatch.html">safer_partialmatch()</a></code> forces ‘R’ to give a warning
 when partial matching occurs when using the dollar ($) operator, or when
 other forms of partial matching occurs. It simply calls the
@@ -407,7 +396,6 @@ following:</p>
 <span>   warnPartialMatchAttr <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span> <span class="op">)</span></span></code></pre></div>
 <p> </p>
-</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

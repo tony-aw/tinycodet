@@ -45,7 +45,7 @@ The [import](https://github.com/rticulate/import) R package provides somewhat si
 
 &nbsp;
 
-There is also the [box](https://github.com/klmr/box) package. Where [import](https://github.com/rticulate/import) is primarily a package import, [box](https://github.com/klmr/box) is primarily for sourcing user-defined scripts as modules, though it can also import packages. Like [import](https://github.com/rticulate/import), it does not support importing multiple packages (or modules) under the same alias. It is compatible with `tinycodet`' package import system; one can use [box](https://github.com/klmr/box) for handling user-defined scripts, and `tinycodet` for handling packages.
+There is also the [box](https://github.com/klmr/box) package. Where [import](https://github.com/rticulate/import) is primarily for importing packages, [box](https://github.com/klmr/box) is primarily for sourcing user-defined scripts as modules, though it can also import packages. Like [import](https://github.com/rticulate/import), [box](https://github.com/klmr/box) does not support importing multiple packages (or modules) under the same alias. It is compatible with `tinycodet`'s package import system; one can use [box](https://github.com/klmr/box) for handling user-defined scripts, and `tinycodet` for handling packages.
 
 &nbsp;
 

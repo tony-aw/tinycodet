@@ -125,7 +125,6 @@ The `X %<-c% A` operator creates a `constant` `X` with assignment `A`. Constants
 
 
 # form()
-## (new in version 0.4.5; under development)
 
 When creating a formula with the tilde (` ⁠~` ⁠) operator, and storing a formula in a variable to be used later, the environment is captured by the formula.
 Therefore, any object in the captured environment might not be freed from the memory, potentially creating some memory leak.
@@ -183,7 +182,6 @@ environment(x4) |> as.list() # empty, since form() is used, so safe
 &nbsp;
 
 # with_pro and aes_pro
-## (new in version 0.4.5; under development)
 
 'tinycodet' provides standard-evaluated versions of the common quoting functions `with()` and `ggplot2::aes()`: `with_pro()` and `aes_pro()`, respectively.
 
@@ -213,7 +211,6 @@ ggplot2::ggplot(d, aes_pro(x, y, color = color)) +
 &nbsp;
 
 # Safer Partial Matching
-## (new in version 0.4.5; under development)
 
 The `safer_partialmatch()`  forces 'R' to give a warning when partial matching occurs when using the dollar ($) operator, or when other forms of partial matching occurs. It simply calls the following:
 

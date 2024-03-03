@@ -341,7 +341,8 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(tinycodet)</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co">#&gt; Run `?tinycodet::tinycodet` to open the introduction help page of &#39;tinycodet&#39;.</span></span></code></pre></div>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co">#&gt; Warning: package &#39;tinycodet&#39; was built under R version 4.3.3</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co">#&gt; Run `?tinycodet::tinycodet` to open the introduction help page of &#39;tinycodet&#39;.</span></span></code></pre></div>
 <p> </p>
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
@@ -382,14 +383,12 @@ use both implementations of the import system, if you wish.</p>
 <p> </p>
 <p>There is also the <a href="https://github.com/klmr/box">box</a>
 package. Where <a href="https://github.com/rticulate/import">import</a>
-is primarily a package import, <a href="https://github.com/klmr/box">box</a> is primarily for sourcing
+is primarily for importing packages, <a href="https://github.com/klmr/box">box</a> is primarily for sourcing
 user-defined scripts as modules, though it can also import packages.
-Like <a href="https://github.com/rticulate/import">import</a>, it does
-not support importing multiple packages (or modules) under the same
-alias. It is compatible with <code>tinycodet</code>’ package import
-system; one can use <a href="https://github.com/klmr/box">box</a> for
-handling user-defined scripts, and <code>tinycodet</code> for handling
-packages.</p>
+Like <a href="https://github.com/rticulate/import">import</a>, <a href="https://github.com/klmr/box">box</a> does not support importing
+multiple packages (or modules) under the same alias. It is compatible
+with <code>tinycodet</code>’s package import system; one can use <a href="https://github.com/klmr/box">box</a> for handling user-defined
+scripts, and <code>tinycodet</code> for handling packages.</p>
 <p> </p>
 </div>
 <div id="renv" class="section level2">
