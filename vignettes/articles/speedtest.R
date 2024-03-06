@@ -41,11 +41,22 @@ summary(bm.stri_locate_ith)
 autoplot(bm.stri_locate_ith)
 save(bm.stri_locate_ith, file = "bm.stri_locate_ith.RData")
 
+tempfun <- function(x, margin) {
+  if(margin == 1) {
+    for(i in 1:nrow(x)) x[i,] <- sort(x[i,])
+    return(x)
+  }
+  if(margin == 2) {
+    for(i in 1:ncol(x)) x[,i] <- sort(x[,i])
+    return(x)
+  }
+}
 
-mat <- matrix(sample(1:1e6), ncol = 1e3)
+n <- 2e3
+mat <- matrix(sample(seq_len(n^2)), ncol = n)
 bm.roworder <- bench::mark(
   tinycodet = mat %row~% mat,
-  "base R" = do.call(rbind, apply(mat, 1, sort, simplify = FALSE)),
+  "base R" = tempfun(mat, 1),
   min_iterations = 250
 )
 bm.roworder
@@ -55,7 +66,7 @@ save(bm.roworder, file = "bm.roworder.RData")
 
 bm.colorder <- bench::mark(
   tinycodet = mat %col~% mat,
-  "base R" = do.call(cbind, apply(mat, 2, sort, simplify = FALSE)),
+  "base R" = tempfun(mat, 2),
   min_iterations = 250
 )
 bm.colorder

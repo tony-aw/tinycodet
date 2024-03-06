@@ -22,6 +22,7 @@
 #' * a literal single string, or a variable containing a single string. \cr
 #'  If a string is given that does not contain a tilde ( `~` ),
 #'  a tilde is prepended to the string before converting it to a formula. \cr
+#'  Do not forget to surrounded special names with back-ticks.
 #' * a literal formula. \cr
 #' Note that if a literal formula is given,
 #' it must actually be a literal formula,

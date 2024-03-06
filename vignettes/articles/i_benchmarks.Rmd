@@ -94,12 +94,26 @@ ggplot2::autoplot(bm.strcut)
 
 # Row/columns-wise re-ordering
 
+```{r}
+tempfun <- function(x, margin) {
+  if(margin == 1) {
+    for(i in 1:nrow(x)) x[i,] <- sort(x[i,])
+    return(x)
+  }
+  if(margin == 2) {
+    for(i in 1:ncol(x)) x[,i] <- sort(x[,i])
+    return(x)
+  }
+}
+```
+
+
 
 ```{r eval = FALSE}
-mat <- matrix(sample(1:1e6), ncol = 1e3)
+mat <- matrix(sample(seq_len(n^2)), ncol = n)
 bm.roworder <- bench::mark(
   tinycodet = mat %row~% mat,
-  "base R" = do.call(rbind, apply(mat, 1, sort, simplify = FALSE)),
+  "base R" = tempfun(mat, 1),
   min_iterations = 250
 )
 ggplot2::autoplot(bm.roworder)
@@ -114,7 +128,7 @@ ggplot2::autoplot(bm.roworder)
 ```{r eval = FALSE}
 bm.colorder <- bench::mark(
   tinycodet = mat %col~% mat,
-  "base R" = do.call(cbind, apply(mat, 2, sort, simplify = FALSE)),
+  "base R" = tempfun(mat, 2),
   min_iterations = 250
 )
 ggplot2::autoplot(bm.colorder)
