@@ -341,12 +341,11 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(tinycodet)</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co">#&gt; Warning: package &#39;tinycodet&#39; was built under R version 4.3.3</span></span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co">#&gt; Run `?tinycodet::tinycodet` to open the introduction help page of &#39;tinycodet&#39;.</span></span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">loadNamespace</span>(<span class="st">&quot;bench&quot;</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co">#&gt; &lt;environment: namespace:bench&gt;</span></span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="fu">loadNamespace</span>(<span class="st">&quot;ggplot2&quot;</span>)</span>
-<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co">#&gt; &lt;environment: namespace:ggplot2&gt;</span></span></code></pre></div>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co">#&gt; Run `?tinycodet::tinycodet` to open the introduction help page of &#39;tinycodet&#39;.</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="fu">loadNamespace</span>(<span class="st">&quot;bench&quot;</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co">#&gt; &lt;environment: namespace:bench&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="fu">loadNamespace</span>(<span class="st">&quot;ggplot2&quot;</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="co">#&gt; &lt;environment: namespace:ggplot2&gt;</span></span></code></pre></div>
 <p> </p>
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
@@ -372,8 +371,8 @@ terms of speed as the <code>stringi</code> functions they call.</p>
 <span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>  <span class="st">&quot;stri_locate_ith&quot;</span> <span class="ot">=</span> { <span class="fu">stri_locate_ith_regex</span>(x, p, i) },</span>
 <span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>  <span class="st">&quot;stringi::(stri_locate_all + stri_count)&quot;</span> <span class="ot">=</span> { <span class="fu">locate_stringi</span>(<span class="at">str=</span>x, <span class="at">regex =</span> p) },</span>
 <span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>  <span class="at">min_iterations =</span> <span class="dv">500</span>,</span>
-<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>  <span class="at">check =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a>  <span class="at">filter_gc =</span> <span class="cn">FALSE</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a>  <span class="at">filter_gc =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a>  <span class="at">check =</span> <span class="cn">FALSE</span></span>
 <span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a>)</span>
 <span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">autoplot</span>(bm.stri_locate_ith)</span></code></pre></div>
 <pre><code>#&gt; Loading required namespace: tidyr</code></pre>
@@ -469,8 +468,8 @@ attached to it, thus has no memory leak.</p>
 <span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>}</span>
 <span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="fu">gc</span>()</span>
 <span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co">#&gt;            used (Mb) gc trigger  (Mb) max used  (Mb)</span></span>
-<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co">#&gt; Ncells  1296544 69.3    2613260 139.6  2613260 139.6</span></span>
-<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="co">#&gt; Vcells 12454557 95.1   20330513 155.2 13316387 101.6</span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co">#&gt; Ncells  1294794 69.2    2605138 139.2  2605138 139.2</span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="co">#&gt; Vcells 12450460 95.0   20324612 155.1 13297421 101.5</span></span>
 <span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>start_mem <span class="ot">&lt;-</span> <span class="fu">mem_used</span>()</span>
 <span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a>start_time <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">Sys.time</span>())</span>
 <span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="fu">loopfun</span>()</span>
@@ -485,11 +484,11 @@ attached to it, thus has no memory leak.</p>
 <span id="cb9-21"><a href="#cb9-21" tabindex="-1"></a>end_time <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">Sys.time</span>())</span>
 <span id="cb9-22"><a href="#cb9-22" tabindex="-1"></a><span class="fu">gc</span>()</span>
 <span id="cb9-23"><a href="#cb9-23" tabindex="-1"></a><span class="co">#&gt;            used (Mb) gc trigger  (Mb) max used  (Mb)</span></span>
-<span id="cb9-24"><a href="#cb9-24" tabindex="-1"></a><span class="co">#&gt; Ncells  1297411 69.3    2613260 139.6  2613260 139.6</span></span>
-<span id="cb9-25"><a href="#cb9-25" tabindex="-1"></a><span class="co">#&gt; Vcells 12457006 95.1   20330513 155.2 13478323 102.9</span></span>
+<span id="cb9-24"><a href="#cb9-24" tabindex="-1"></a><span class="co">#&gt; Ncells  1295661 69.2    2605138 139.2  2605138 139.2</span></span>
+<span id="cb9-25"><a href="#cb9-25" tabindex="-1"></a><span class="co">#&gt; Vcells 12452909 95.1   20324612 155.1 13474226 102.9</span></span>
 <span id="cb9-26"><a href="#cb9-26" tabindex="-1"></a>end_mem <span class="ot">&lt;-</span> <span class="fu">mem_used</span>()</span>
 <span id="cb9-27"><a href="#cb9-27" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Elapsed time:&quot;</span>, <span class="fu">round</span>(end_time <span class="sc">-</span> start_time, <span class="dv">1</span>), <span class="st">&quot;seconds</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb9-28"><a href="#cb9-28" tabindex="-1"></a><span class="co">#&gt; Elapsed time: 0.7 seconds</span></span>
+<span id="cb9-28"><a href="#cb9-28" tabindex="-1"></a><span class="co">#&gt; Elapsed time: 0.9 seconds</span></span>
 <span id="cb9-29"><a href="#cb9-29" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Memory leaked: </span><span class="sc">\n</span><span class="st">&quot;</span>); <span class="fu">print</span>(end_mem <span class="sc">-</span> start_mem)</span>
 <span id="cb9-30"><a href="#cb9-30" tabindex="-1"></a><span class="co">#&gt; Memory leaked:</span></span>
 <span id="cb9-31"><a href="#cb9-31" tabindex="-1"></a><span class="co">#&gt; 68 kB</span></span>
@@ -503,8 +502,8 @@ attached to it, thus has no memory leak.</p>
 <span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>}</span>
 <span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="fu">gc</span>()</span>
 <span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co">#&gt;            used (Mb) gc trigger  (Mb) max used  (Mb)</span></span>
-<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="co">#&gt; Ncells  1297470 69.3    2613260 139.6  2613260 139.6</span></span>
-<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co">#&gt; Vcells 12458093 95.1   20330513 155.2 13478323 102.9</span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="co">#&gt; Ncells  1295720 69.2    2605138 139.2  2605138 139.2</span></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a><span class="co">#&gt; Vcells 12453996 95.1   20324612 155.1 13474226 102.9</span></span>
 <span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a>start_mem <span class="ot">&lt;-</span> <span class="fu">mem_used</span>()</span>
 <span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a>start_time <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">Sys.time</span>())</span>
 <span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="fu">loopfun</span>()</span>
@@ -519,11 +518,11 @@ attached to it, thus has no memory leak.</p>
 <span id="cb10-21"><a href="#cb10-21" tabindex="-1"></a>end_time <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">Sys.time</span>())</span>
 <span id="cb10-22"><a href="#cb10-22" tabindex="-1"></a><span class="fu">gc</span>()</span>
 <span id="cb10-23"><a href="#cb10-23" tabindex="-1"></a><span class="co">#&gt;            used  (Mb) gc trigger  (Mb) max used  (Mb)</span></span>
-<span id="cb10-24"><a href="#cb10-24" tabindex="-1"></a><span class="co">#&gt; Ncells  1297544  69.3    2613260 139.6  2613260 139.6</span></span>
-<span id="cb10-25"><a href="#cb10-25" tabindex="-1"></a><span class="co">#&gt; Vcells 20458204 156.1   35422325 270.3 20479295 156.3</span></span>
+<span id="cb10-24"><a href="#cb10-24" tabindex="-1"></a><span class="co">#&gt; Ncells  1295794  69.3    2605138 139.2  2605138 139.2</span></span>
+<span id="cb10-25"><a href="#cb10-25" tabindex="-1"></a><span class="co">#&gt; Vcells 20454107 156.1   35412128 270.2 20475198 156.3</span></span>
 <span id="cb10-26"><a href="#cb10-26" tabindex="-1"></a>end_mem <span class="ot">&lt;-</span> <span class="fu">mem_used</span>()</span>
 <span id="cb10-27"><a href="#cb10-27" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Elapsed time:&quot;</span>, <span class="fu">round</span>(end_time <span class="sc">-</span> start_time, <span class="dv">1</span>), <span class="st">&quot;seconds</span><span class="sc">\n</span><span class="st">&quot;</span>)</span>
-<span id="cb10-28"><a href="#cb10-28" tabindex="-1"></a><span class="co">#&gt; Elapsed time: 0.7 seconds</span></span>
+<span id="cb10-28"><a href="#cb10-28" tabindex="-1"></a><span class="co">#&gt; Elapsed time: 0.9 seconds</span></span>
 <span id="cb10-29"><a href="#cb10-29" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">&quot;Memory leaked: </span><span class="sc">\n</span><span class="st">&quot;</span>); <span class="fu">print</span>(end_mem <span class="sc">-</span> start_mem)</span>
 <span id="cb10-30"><a href="#cb10-30" tabindex="-1"></a><span class="co">#&gt; Memory leaked:</span></span>
 <span id="cb10-31"><a href="#cb10-31" tabindex="-1"></a><span class="co">#&gt; 64 MB</span></span>

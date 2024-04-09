@@ -24,8 +24,11 @@ stri_locate_ith_boundaries(str, i, ..., opts_brkiter = NULL)
 \arguments{
 \item{str}{a string or character vector.}
 
-\item{i}{an integer, or an integer vector of the same length as \code{str}. \cr
-Positive numbers are counting from the left. Negative numbers are counting from the right.
+\item{i}{an integer scalar,
+or an integer vector of appropriate length
+(vector recycling is not supported). \cr
+Positive numbers count occurrences from the left/beginning of the strings. \cr
+Negative numbers count occurrences from the right/end of the strings. \cr
 I.e.:
 \itemize{
 \item \code{stri_locate_ith(str, i = 1, ...)} \cr
@@ -61,7 +64,7 @@ as in \link[stringi]{stri_locate}. \cr
 see \link[stringi]{stri_opts_regex},
 \link[stringi]{stri_opts_fixed},
 \link[stringi]{stri_opts_collator},
-and \link[stringi]{stri_opts_brkiter} \cr
+and \link[stringi]{stri_opts_brkiter}. \cr
 NULL for the defaults. \cr
 \ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_regex.html}{\figure{aboutsearch-regex-darkred.svg}{options: alt='[REGEX]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_regex.html}{about search: regex}} \cr
 \ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_fixed.html}{\figure{aboutsearch-fixed-darkgreen.svg}{options: alt='[FIXED]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_fixed.html}{about search: fixed}} \cr
@@ -224,6 +227,9 @@ extr <- stringi::stri_sub(x, from=loc)
 repl <- chartr(extr, old = "a-zA-Z", new = "A-Za-z")
 stringi::stri_sub_replace(x, loc, replacement=repl)
 
+
+#############################################################################
+
 # simple pattern ====
 
 x <- rep(paste0(1:10, collapse=""), 10)
@@ -291,6 +297,7 @@ paste0("The\u00a0above-mentioned    features are very useful. ",
       )
 loc <- stri_locate_ith_boundaries(test, i = c(1, -1), type = "word")
 stringi::stri_sub(test, from = loc)
+
 
 }
 \seealso{

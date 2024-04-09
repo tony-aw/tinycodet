@@ -12,6 +12,7 @@ form(f, env = NULL)
 \item a literal single string, or a variable containing a single string. \cr
 If a string is given that does not contain a tilde ( \code{~} ),
 a tilde is prepended to the string before converting it to a formula. \cr
+Do not forget to surrounded special names with back-ticks.
 \item a literal formula. \cr
 Note that if a literal formula is given,
 it must actually be a literal formula,

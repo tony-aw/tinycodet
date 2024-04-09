@@ -14,7 +14,7 @@
 #' Can now be re-written as:
 #'
 #' ```{r echo=TRUE, eval = FALSE}
-#' mtcars$mpg\[mtcars$cyl > 6\] %:=% \(x) x^2
+#' mtcars$mpg[mtcars$cyl > 6] %:=% \(x) x^2
 #' ```
 #'
 #' @param x a variable.

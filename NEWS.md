@@ -1,3 +1,12 @@
+# tinycodet 0.4.6 (Under Development)
+* Added the options "first" and "last" to argument `i` of `strfind()<-`.
+* Tweaked the error messages of `strfind()<-` to be a bit more informative.
+* Slight speed and memory improvement for `stri_locate_ith()`. Also relaxed the length restriction on argument `i` a little bit.
+* Improved the documentation here and there.
+* Tweaked description text.
+* Added more tests.
+
+
 # tinycodet 0.4.5
 * Slight speed improvement of `stri_locate_ith()`.
 * **New Features**: Added the following functions to the "safer functionality" category: `form()`, `aes_pro()`, `with_pro()`, and `safer_partialmatch()`. Naturally, added tests for these new functions.

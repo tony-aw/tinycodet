@@ -17,8 +17,11 @@
 #' `r .mybadge_string("fixed", "darkgreen")` \cr
 #' `r .mybadge_string("coll", "pink")` \cr
 #' `r .mybadge_string("charclass", "lightyellow")` \cr
-#' @param i an integer, or an integer vector of the same length as \code{str}. \cr
-#' Positive numbers are counting from the left. Negative numbers are counting from the right.
+#' @param i an integer scalar,
+#' or an integer vector of appropriate length
+#' (vector recycling is not supported). \cr
+#' Positive numbers count occurrences from the left/beginning of the strings. \cr
+#' Negative numbers count occurrences from the right/end of the strings. \cr
 #' I.e.:
 #' \itemize{
 #'  \item \code{stri_locate_ith(str, i = 1, ...)} \cr
@@ -46,7 +49,7 @@
 #' see \link[stringi]{stri_opts_regex},
 #' \link[stringi]{stri_opts_fixed},
 #' \link[stringi]{stri_opts_collator},
-#' and \link[stringi]{stri_opts_brkiter} \cr
+#' and \link[stringi]{stri_opts_brkiter}. \cr
 #' NULL for the defaults. \cr
 #' `r .mybadge_string("regex", "darkred")` \cr
 #' `r .mybadge_string("fixed", "darkgreen")` \cr
@@ -119,158 +122,7 @@
 #' @seealso \link{tinycodet_strings}
 #'
 #'
-#' @examples
-#'
-#' #############################################################################
-#'
-#' # practical example: transform regex pattern ====
-#'
-#' # input character vector:
-#' x <- c(paste0(letters[1:13], collapse = ""), paste0(letters[14:26], collapse = ""))
-#' print(x)
-#'
-#' # locate ith (second and second-last) vowel locations:
-#' p <- rep("A|E|I|O|U", 2) # vowels
-#' loc <- stri_locate_ith(x, c(2, -2), regex = p, case_insensitive = TRUE)
-#' print(loc)
-#'
-#' # extract ith vowels:
-#' extr <- stringi::stri_sub(x, loc)
-#' print(extr)
-#'
-#' # transform & replace ith vowels with numbers:
-#' repl <- chartr("aeiou", "12345", extr)
-#' stringi::stri_sub(x, loc) <- repl
-#' 
-#' # result (notice ith vowels are now numbers):
-#' print(x)
-#'
-#' #############################################################################
-#'
-#'
-#' # practical example: group-capture regex pattern ====
-#' 
-#' # input character:
-#' # first group: c(breakfast=eggs, breakfast=bacon)
-#' # second group: c(lunch=pizza, lunch=spaghetti)
-#' x <- c('breakfast=eggs;lunch=pizza',
-#'        'breakfast=bacon;lunch=spaghetti',
-#'        'no food here') # no group here
-#' print(x)
-#'        
-#' # locate ith=2nd group:
-#' p <- '(\\w+)=(\\w+)'
-#' loc <- stri_locate_ith(x, i = 2, regex = p)
-#' print(loc)
-#' 
-#' # extract ith=2nd group:
-#' extr <- stringi::stri_sub(x, loc)
-#' print(extr)
-#' 
-#' # capture ith=2nd group:
-#' stringi::stri_match(extr, regex = p)
-#' 
-#' #############################################################################
-#'
-#'
-#' # practical example: replace words using boundaries ====
-#'
-#' # input character vector:
-#' x <- c("good morning and good night",
-#' "hello ladies and gentlemen")
-#' print(x)
-#'
-#' # report ith word locations:
-#' loc <- stri_locate_ith_boundaries(x, c(-3, 3), type = "word")
-#' print(loc)
-#'
-#' # extract ith words:
-#' extr <- stringi::stri_sub(x, from=loc)
-#' print(extr)
-#'
-#' # transform and replace words (notice ith words have inverted case):
-#' tf <- chartr(extr, old = "a-zA-Z", new = "A-Za-z")
-#' stringi::stri_sub(x, loc) <- tf
-#' 
-#' # result:
-#' print(x)
-#'
-#'
-#' #############################################################################
-#'
-#' # find pattern ====
-#'
-#' extr <- stringi::stri_sub(x, from=loc)
-#' repl <- chartr(extr, old = "a-zA-Z", new = "A-Za-z")
-#' stringi::stri_sub_replace(x, loc, replacement=repl)
-#'
-#' # simple pattern ====
-#'
-#' x <- rep(paste0(1:10, collapse=""), 10)
-#' print(x)
-#' out <- stri_locate_ith(x, 1:10, regex = as.character(1:10))
-#' cbind(1:10, out)
-#'
-#'
-#' x <- c(paste0(letters[1:13], collapse=""),
-#'        paste0(letters[14:26], collapse = ""))
-#' print(x)
-#' p <- rep("a|e|i|o|u",2)
-#' out <- stri_locate_ith(x, c(-1, 1), regex = p)
-#' print(out)
-#' substr(x, out[,1], out[,2])
-#'
-#'
-#' #############################################################################
-#'
-#' # ignore case pattern ====
-#'
-#'
-#' x <- c(paste0(letters[1:13], collapse = ""),
-#'        paste0(letters[14:26], collapse = ""))
-#' print(x)
-#' p <- rep("A|E|I|O|U", 2)
-#' out <- stri_locate_ith(x, c(1, -1), regex = p, case_insensitive = TRUE)
-#' substr(x, out[,1], out[,2])
-#'
-#'
-#' #############################################################################
-#'
-#' # multi-character pattern ====
-#'
-#' x <- c(paste0(letters[1:13], collapse = ""),
-#'        paste0(letters[14:26], collapse = ""))
-#' print(x)
-#' # multi-character pattern:
-#' p <- rep("AB", 2)
-#' out <- stri_locate_ith(x, c(1, -1), regex = p, case_insensitive = TRUE)
-#' print(out)
-#' substr(x, out[,1], out[,2])
-#'
-#'
-#'
-#' #############################################################################
-#'
-#' # Replacement transformation using stringi ====
-#'
-#' x <- c("hello world", "goodbye world")
-#' loc <- stri_locate_ith(x, c(1, -1), regex = "a|e|i|o|u")
-#' extr <- stringi::stri_sub(x, from = loc)
-#' repl <- chartr(extr, old = "a-zA-Z", new = "A-Za-z")
-#' stringi::stri_sub_replace(x, loc, replacement = repl)
-#'
-#'
-#' #############################################################################
-#'
-#' # Boundaries ====
-#'
-#' test <- c(
-#' paste0("The\u00a0above-mentioned    features are very useful. ",
-#'       "Spam, spam, eggs, bacon, and spam. 123 456 789"),
-#'       "good morning, good evening, and good night"
-#'       )
-#' loc <- stri_locate_ith_boundaries(test, i = c(1, -1), type = "word")
-#' stringi::stri_sub(test, from = loc)
+#' @example inst/examples/stri_locate_ith.R
 #'
 
 
@@ -313,28 +165,24 @@ stri_locate_ith <- function(
 #' @export
 stri_locate_ith_regex <- function(str, pattern, i, ..., opts_regex = NULL) {
   
-  n <- length(str)
-  
   p1 <- stringi::stri_locate_all_regex(
     str = str, pattern = pattern, capture_groups = FALSE,
     omit_no_match = FALSE, get_length = FALSE,
     ..., opts_regex = opts_regex
   )
-  return(.stri_locate_ith_internal(p1, i, n, sys.call()))
+  return(.stri_locate_ith_internal(p1, i, sys.call()))
 }
 
 
 #' @rdname stri_locate_ith
 #' @export
 stri_locate_ith_fixed <- function(str, pattern, i, ..., opts_fixed = NULL) {
-  
-  n <- length(str)
-  
+
   p1 <- stringi::stri_locate_all_fixed(
     str = str, pattern = pattern, omit_no_match = FALSE, get_length = FALSE,
     ..., opts_fixed = opts_fixed
   )
-  return(.stri_locate_ith_internal(p1, i, n, sys.call()))
+  return(.stri_locate_ith_internal(p1, i, sys.call()))
 }
 
 
@@ -342,13 +190,11 @@ stri_locate_ith_fixed <- function(str, pattern, i, ..., opts_fixed = NULL) {
 #' @export
 stri_locate_ith_coll <- function(str, pattern, i, ..., opts_collator = NULL) {
   
-  n <- length(str)
-  
   p1 <- stringi::stri_locate_all_coll(
     str = str, pattern = pattern, omit_no_match = FALSE, get_length = FALSE,
     ..., opts_collator = opts_collator
   )
-  return(.stri_locate_ith_internal(p1, i, n, sys.call()))
+  return(.stri_locate_ith_internal(p1, i, sys.call()))
 }
 
 
@@ -356,14 +202,12 @@ stri_locate_ith_coll <- function(str, pattern, i, ..., opts_collator = NULL) {
 #' @export
 stri_locate_ith_charclass <- function(str, pattern, i, merge = TRUE, ...) {
   
-  n <- length(str)
-  
   p1 <- stringi::stri_locate_all_charclass(
     str = str, pattern = pattern, merge = merge,
     omit_no_match = FALSE, get_length = FALSE,
     ...
   )
-  return(.stri_locate_ith_internal(p1, i, n, sys.call()))
+  return(.stri_locate_ith_internal(p1, i, sys.call()))
 }
 
 
@@ -372,45 +216,43 @@ stri_locate_ith_charclass <- function(str, pattern, i, merge = TRUE, ...) {
 stri_locate_ith_boundaries <- function(
     str, i, ... , opts_brkiter = NULL
 ) {
-  n <- length(str)
   
   p1 <- stringi::stri_locate_all_boundaries(
     str = str,
     omit_no_match = FALSE, get_length = FALSE,
     ..., opts_brkiter = opts_brkiter
   )
-  return(.stri_locate_ith_internal(p1, i, n, sys.call()))
+  return(.stri_locate_ith_internal(p1, i, sys.call()))
   
 }
 
 
 #' @keywords internal
 #' @noRd
-.stri_locate_ith_internal <- function(p1, i, n, abortcall) {
+.stri_locate_ith_internal <- function(p1, i, abortcall) {
   
-  # `i` must have length `n`, as the value of `i` will change as `n.matches` changes
-  i <- as.integer(i)
-  if(length(i) == 1) i <- rep.int(i, n)
-  if(length(i) != n) {
-    stop(simpleError("`i` must be the same length as `str`, or be a length of 1", call = abortcall))
-  }
-  
-  if(length(p1) == 0) {
+  n <- length(p1)
+  n.matches <- lengths(p1) / 2L
+  if(n == 0) {
     warning(simpleWarning("empty search not supported", call = abortcall))
     return(cbind(start = integer(0), end = integer(0)))
   }
-  n.matches <- lengths(p1) / 2L
-  # n.matches <- pmax(n.matches, 1) # if no matches found, n.matches must be 1 so that "match" NA is returned.
-  neg <- which(i < 0)
-  pos <- which(i > 0)
   
-  bad_i <- length(i) != (length(neg) + length(pos))
-  if(bad_i){
-    stop(simpleError("`i` is not allowed to be zero or NA", call = abortcall))
+  # `i` must have length `n`, as the value of `i` will change as `n.matches` changes
+  i <- as.integer(i)
+  n.i <- length(i)
+  if(n.i == 1L) {
+    if(is.na(i)||is.infinite(i)) {
+      stop("`i` is not allowed to be zero or NA")
+    }
+    i <- .rcpp_convert_i1(n.matches, i)
   }
-  
-  i[neg] <- .rcpp_convert_neg_i(n.matches[neg], i[neg])
-  i[pos] <- .rcpp_convert_pos_i(n.matches[pos], i[pos])
+  else if(n.i == n) {
+    i <- .rcpp_convert_i0(n.matches, i)
+  }
+  else {
+    stop(simpleError("recycling of vector `i` not allowed", call = abortcall))
+  }
   
   mat <- .rcpp_alloc_stri_locate_ith(p1, i - 1L)
   colnames(mat) <- c("start", "end")

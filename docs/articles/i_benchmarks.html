@@ -27,7 +27,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tinycodet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -127,8 +127,8 @@ terms of speed as the <code>stringi</code> functions they call.</p>
 <span>  <span class="st">"stri_locate_ith"</span> <span class="op">=</span> <span class="op">{</span> <span class="fu"><a href="../reference/stri_locate_ith.html">stri_locate_ith_regex</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">p</span>, <span class="va">i</span><span class="op">)</span> <span class="op">}</span>,</span>
 <span>  <span class="st">"stringi::(stri_locate_all + stri_count)"</span> <span class="op">=</span> <span class="op">{</span> <span class="fu">locate_stringi</span><span class="op">(</span>str<span class="op">=</span><span class="va">x</span>, regex <span class="op">=</span> <span class="va">p</span><span class="op">)</span> <span class="op">}</span>,</span>
 <span>  min_iterations <span class="op">=</span> <span class="fl">500</span>,</span>
-<span>  check <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  filter_gc <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  filter_gc <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  check <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span>
 <span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">bm.stri_locate_ith</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">#&gt; Loading required namespace: tidyr</span></span></code></pre>
@@ -232,9 +232,9 @@ attached to it, thus has no memory leak.</p>
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/gc.html" class="external-link">gc</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt;            used (Mb) gc trigger  (Mb) max used (Mb)</span></span>
-<span><span class="co">#&gt; Ncells  1416201 75.7    2864142 153.0  2864142  153</span></span>
-<span><span class="co">#&gt; Vcells 12629351 96.4   20587102 157.1 13625493  104</span></span>
+<span><span class="co">#&gt;            used (Mb) gc trigger  (Mb) max used  (Mb)</span></span>
+<span><span class="co">#&gt; Ncells  1416997 75.7    2872910 153.5  2872910 153.5</span></span>
+<span><span class="co">#&gt; Vcells 12630609 96.4   20588914 157.1 13628471 104.0</span></span>
 <span><span class="va">start_mem</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/pryr/man/mem_used.html" class="external-link">mem_used</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">start_time</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu">loopfun</span><span class="op">(</span><span class="op">)</span></span>
@@ -249,8 +249,8 @@ attached to it, thus has no memory leak.</p>
 <span><span class="va">end_time</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/gc.html" class="external-link">gc</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt;            used (Mb) gc trigger  (Mb) max used  (Mb)</span></span>
-<span><span class="co">#&gt; Ncells  1417225 75.7    2864142 153.0  2864142 153.0</span></span>
-<span><span class="co">#&gt; Vcells 12632141 96.4   20587102 157.1 13653438 104.2</span></span>
+<span><span class="co">#&gt; Ncells  1418021 75.8    2872910 153.5  2872910 153.5</span></span>
+<span><span class="co">#&gt; Vcells 12633399 96.4   20588914 157.1 13654696 104.2</span></span>
 <span><span class="va">end_mem</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/pryr/man/mem_used.html" class="external-link">mem_used</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Elapsed time:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">end_time</span> <span class="op">-</span> <span class="va">start_time</span>, <span class="fl">1</span><span class="op">)</span>, <span class="st">"seconds\n"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Elapsed time: 0.8 seconds</span></span>
@@ -268,8 +268,8 @@ attached to it, thus has no memory leak.</p>
 <span><span class="op">}</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/gc.html" class="external-link">gc</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt;            used (Mb) gc trigger  (Mb) max used  (Mb)</span></span>
-<span><span class="co">#&gt; Ncells  1417284 75.7    2864142 153.0  2864142 153.0</span></span>
-<span><span class="co">#&gt; Vcells 12633228 96.4   20587102 157.1 13653438 104.2</span></span>
+<span><span class="co">#&gt; Ncells  1418080 75.8    2872910 153.5  2872910 153.5</span></span>
+<span><span class="co">#&gt; Vcells 12634486 96.4   20588914 157.1 13654696 104.2</span></span>
 <span><span class="va">start_mem</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/pryr/man/mem_used.html" class="external-link">mem_used</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">start_time</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu">loopfun</span><span class="op">(</span><span class="op">)</span></span>
@@ -284,8 +284,8 @@ attached to it, thus has no memory leak.</p>
 <span><span class="va">end_time</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/gc.html" class="external-link">gc</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="co">#&gt;            used  (Mb) gc trigger  (Mb) max used  (Mb)</span></span>
-<span><span class="co">#&gt; Ncells  1417358  75.7    2864142 153.0  2864142 153.0</span></span>
-<span><span class="co">#&gt; Vcells 20633339 157.5   35865711 273.7 20654410 157.6</span></span>
+<span><span class="co">#&gt; Ncells  1418154  75.8    2872910 153.5  2872910 153.5</span></span>
+<span><span class="co">#&gt; Vcells 20634597 157.5   35868842 273.7 20655668 157.6</span></span>
 <span><span class="va">end_mem</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/pryr/man/mem_used.html" class="external-link">mem_used</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Elapsed time:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">end_time</span> <span class="op">-</span> <span class="va">start_time</span>, <span class="fl">1</span><span class="op">)</span>, <span class="st">"seconds\n"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Elapsed time: 0.8 seconds</span></span>

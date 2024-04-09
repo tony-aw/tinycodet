@@ -50,8 +50,8 @@ bm.stri_locate_ith <- bench::mark(
   "stri_locate_ith" = { stri_locate_ith_regex(x, p, i) },
   "stringi::(stri_locate_all + stri_count)" = { locate_stringi(str=x, regex = p) },
   min_iterations = 500,
-  check = FALSE,
-  filter_gc = FALSE
+  filter_gc = FALSE,
+  check = FALSE
 )
 ggplot2::autoplot(bm.stri_locate_ith)
 ```
@@ -138,6 +138,8 @@ ggplot2::autoplot(bm.colorder)
 load("bm.colorder.RData")
 ggplot2::autoplot(bm.colorder)
 ```
+
+
 
 &nbsp;
 

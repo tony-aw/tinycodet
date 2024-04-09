@@ -94,6 +94,7 @@ sorted <- mat \%row~\% rank
 sorted[is.na(sorted)] <- ""
 stri_paste_mat(sorted, margin = 1) # <- another alias for stri_join_mat
 stri_paste_mat(sorted, margin = 2)
+
 }
 \seealso{
 \link{tinycodet_strings}

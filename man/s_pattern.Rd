@@ -67,8 +67,8 @@ A list with arguments to be passed to the appropriate operators.
 The \link[=str_arithmetic]{\%s-\%, \%s/\%, \%ss\%} operators,
 as well as the string search operators (\link{str_search}),
 perform pattern matching for some purpose,
-where the pattern is given on the right hand side. \cr
-When a character vector or string is given on the right hand side,
+where the pattern is given in the second argument (\code{p}). \cr
+When a character vector or string is given as the second argument (\code{p}),
 this is interpreted as case-sensitive
 \code{regex} patterns from 'stringi'. \cr
 \cr
@@ -121,6 +121,8 @@ In analogy to that, the above functions start with "\code{s_}"
 rather than "\code{stri_}", as they are all meant for operators only. \cr
 }
 \examples{
+
+
 x <- c(paste0(letters[1:13], collapse = ""),
        paste0(letters[14:26], collapse = ""))
 print(x)
@@ -153,6 +155,7 @@ stringi::stri_startswith(x, fixed = "abc") # same as above
 p <- s_fixed("xyz", at = "end")
 x \%s{}\% p
 stringi::stri_endswith(x, fixed = "xyz") # same as above
+
 }
 \seealso{
 \link{tinycodet_strings}

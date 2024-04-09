@@ -12,7 +12,10 @@ Welcome to the 'tinycodet' introduction help page! \cr
 'tinycodet' adds some functions to help in your coding etiquette. \cr
 It primarily focuses on 4 aspects: \cr
 \cr
-(1) Safer decimal (in)equality testing, safer atomic conversions, and other functions for safer coding; \cr
+(1) Safer decimal (in)equality testing,
+safer atomic typecasting,
+standard-evaluated alternatives to \code{with()} and \code{aes()},
+and other functions for safer coding; \cr
 see \link{tinycodet_safer}. \cr
 \cr
 (2) A new package import system,

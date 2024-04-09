@@ -22,7 +22,7 @@ locates the \(i^{th}\) text boundary
     
     <a class="navbar-brand me-2" href="../index.html">tinycodet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -105,8 +105,11 @@ locates the \(i^{th}\) text boundary
 
 
 <dt>i</dt>
-<dd><p>an integer, or an integer vector of the same length as <code>str</code>. <br>
-Positive numbers are counting from the left. Negative numbers are counting from the right.
+<dd><p>an integer scalar,
+or an integer vector of appropriate length
+(vector recycling is not supported). <br>
+Positive numbers count occurrences from the left/beginning of the strings. <br>
+Negative numbers count occurrences from the right/end of the strings. <br>
 I.e.:</p><ul><li><p><code>stri_locate_ith(str, i = 1, ...)</code> <br>
 gives the position (range) of the first occurrence of a pattern.</p></li>
 <li><p><code>stri_locate_ith(str, i = -1, ...)</code> <br>
@@ -141,7 +144,7 @@ as in <a href="https://rdrr.io/pkg/stringi/man/stri_locate.html" class="external
 see <a href="https://rdrr.io/pkg/stringi/man/stri_opts_regex.html" class="external-link">stri_opts_regex</a>,
 <a href="https://rdrr.io/pkg/stringi/man/stri_opts_fixed.html" class="external-link">stri_opts_fixed</a>,
 <a href="https://rdrr.io/pkg/stringi/man/stri_opts_collator.html" class="external-link">stri_opts_collator</a>,
-and <a href="https://rdrr.io/pkg/stringi/man/stri_opts_brkiter.html" class="external-link">stri_opts_brkiter</a> <br>
+and <a href="https://rdrr.io/pkg/stringi/man/stri_opts_brkiter.html" class="external-link">stri_opts_brkiter</a>. <br>
 NULL for the defaults. <br><a href="https://stringi.gagolewski.com/rapi/about_search_regex.html" class="external-link"><img src="figures/aboutsearch-regex-darkred.svg" alt="[REGEX]"></a> <br><a href="https://stringi.gagolewski.com/rapi/about_search_fixed.html" class="external-link"><img src="figures/aboutsearch-fixed-darkgreen.svg" alt="[FIXED]"></a> <br><a href="https://stringi.gagolewski.com/rapi/about_search_coll.html" class="external-link"><img src="figures/aboutsearch-coll-pink.svg" alt="[COLL]"></a> <br><a href="https://stringi.gagolewski.com/rapi/about_search_charclass.html" class="external-link"><img src="figures/aboutsearch-charclass-lightyellow.svg" alt="[CHARCLASS]"></a> <br><a href="https://stringi.gagolewski.com/rapi/about_search_boundaries.html" class="external-link"><img src="figures/aboutsearch-boundaries-blue.svg" alt="[BOUNDARIES]"></a> <br></p></dd>
 
 
@@ -323,6 +326,9 @@ do not support <code>long vectors</code>
 <span class="r-in"><span><span class="fu">stringi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stringi/man/stri_sub.html" class="external-link">stri_sub_replace</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">loc</span>, replacement<span class="op">=</span><span class="va">repl</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "good morning and good night" "hello ladies and gentlemen" </span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#############################################################################</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># simple pattern ====</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, collapse<span class="op">=</span><span class="st">""</span><span class="op">)</span>, <span class="fl">10</span><span class="op">)</span></span></span>
@@ -417,6 +423,7 @@ do not support <code>long vectors</code>
 <span class="r-in"><span><span class="va">loc</span> <span class="op">&lt;-</span> <span class="fu">stri_locate_ith_boundaries</span><span class="op">(</span><span class="va">test</span>, i <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">1</span><span class="op">)</span>, type <span class="op">=</span> <span class="st">"word"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">stringi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stringi/man/stri_sub.html" class="external-link">stri_sub</a></span><span class="op">(</span><span class="va">test</span>, from <span class="op">=</span> <span class="va">loc</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "The"   "night"</span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

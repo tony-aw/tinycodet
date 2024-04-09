@@ -27,7 +27,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tinycodet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -99,8 +99,9 @@
 <p>The <code>tinycodet</code> R-package adds some functions to help in
 your coding etiquette. It primarily focuses on 4 aspects:</p>
 <ol style="list-style-type: decimal">
-<li>Safer decimal (in)equality testing, safer atomic conversions, and
-other functions for safer coding.</li>
+<li>Safer decimal (in)equality testing, safer atomic typecasting,
+standard-evaluated alternatives to <code><a href="https://rdrr.io/r/base/with.html" class="external-link">with()</a></code> and
+<code>aes()</code>, and other functions for safer coding.</li>
 <li>A new package import system, that attempts to combine the benefits
 of using a package without attaching, with the benefits of attaching a
 package.</li>
@@ -118,19 +119,28 @@ package.</p>
 <div class="section level2">
 <h2 id="safer-functionality">Safer functionality<a class="anchor" aria-label="anchor" href="#safer-functionality"></a>
 </h2>
-<p>In base R, <code>(0.1*3) == 0.3</code> gives <code>FALSE</code>, due
+<p>‘tinycodet’ adds some functions to help in coding more safely:</p>
+<ul>
+<li>In base R, <code>(0.1*3) == 0.3</code> gives <code>FALSE</code>, due
 to the way decimal numbers are stored in programming languages like R
 and Python. <code>tinycodet</code> adds safer truth testing operators,
-that give correct results.</p>
-<p>The atomic type casting functions (i.e. <code><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character()</a></code>,
+that give correct results.</li>
+<li>The atomic type casting functions (i.e. <code><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character()</a></code>,
 <code><a href="https://rdrr.io/r/base/logical.html" class="external-link">as.logical()</a></code>, etc.) strip away attributes.
 <code>tinycodet</code> adds safer type casting functions that do not
-strip away attributes.</p>
-<p>One can re-assign the values <code>T</code> and <code>F</code>. One
+strip away attributes - except the class attribute.</li>
+<li>
+<code><a href="../reference/pro.html">with_pro()</a></code> and <code><a href="../reference/pro.html">aes_pro()</a></code> are
+standard-evaluated alternatives to <code><a href="https://rdrr.io/r/base/with.html" class="external-link">base::with()</a></code> and
+<code><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">ggplot2::aes()</a></code>. These use formulas as input (see also the
+<code><a href="../reference/form.html">form()</a></code> function for constructing formula’s without memory
+leakage).</li>
+<li>One can re-assign the values <code>T</code> and <code>F</code>. One
 can even run <code>T &lt;- FALSE</code> and <code>F &lt;- TRUE</code>!.
 <code>tinycodet</code> adds the <code><a href="../reference/lock.html">lock_TF()</a></code> function that
 forces <code>T</code> to stay <code>TRUE</code> and <code>F</code> to
-stay <code>FALSE</code>.</p>
+stay <code>FALSE</code>.</li>
+</ul>
 <p>One example with the <code>%d==%</code> operator:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.3</span>, <span class="fl">0.6</span>, <span class="fl">0.7</span><span class="op">)</span></span>

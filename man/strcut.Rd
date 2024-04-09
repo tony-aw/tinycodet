@@ -91,6 +91,7 @@ Moreover, the \code{strcut_} - functions return a matrix by default. \cr
 }
 \examples{
 
+
 x <- rep(paste0(1:10, collapse = ""), 10)
 print(x)
 loc <- stri_locate_ith(x, 1:10, fixed = as.character(1:10))
@@ -115,6 +116,7 @@ brk <- stringi::stri_opts_brkiter(
   type = "line"
 )
 strcut_brk(test, brk)
+
 }
 \seealso{
 \link{tinycodet_strings}

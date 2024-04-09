@@ -70,7 +70,6 @@ see \link{strcut_brk} and \link{strcut_loc}.
 }
 \examples{
 
-
 x <- c(paste0(letters[1:13], collapse = ""),
        paste0(letters[14:26], collapse = ""))
 print(x)

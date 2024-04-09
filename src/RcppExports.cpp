@@ -22,27 +22,27 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// rcpp_convert_neg_i
-IntegerVector rcpp_convert_neg_i(IntegerVector n_matches, IntegerVector i);
-RcppExport SEXP _tinycodet_rcpp_convert_neg_i(SEXP n_matchesSEXP, SEXP iSEXP) {
+// rcpp_convert_i0
+IntegerVector rcpp_convert_i0(IntegerVector n_matches, IntegerVector i);
+RcppExport SEXP _tinycodet_rcpp_convert_i0(SEXP n_matchesSEXP, SEXP iSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< IntegerVector >::type n_matches(n_matchesSEXP);
     Rcpp::traits::input_parameter< IntegerVector >::type i(iSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_convert_neg_i(n_matches, i));
+    rcpp_result_gen = Rcpp::wrap(rcpp_convert_i0(n_matches, i));
     return rcpp_result_gen;
 END_RCPP
 }
-// rcpp_convert_pos_i
-IntegerVector rcpp_convert_pos_i(IntegerVector n_matches, IntegerVector i);
-RcppExport SEXP _tinycodet_rcpp_convert_pos_i(SEXP n_matchesSEXP, SEXP iSEXP) {
+// rcpp_convert_i1
+IntegerVector rcpp_convert_i1(IntegerVector n_matches, int i);
+RcppExport SEXP _tinycodet_rcpp_convert_i1(SEXP n_matchesSEXP, SEXP iSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< IntegerVector >::type n_matches(n_matchesSEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type i(iSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_convert_pos_i(n_matches, i));
+    Rcpp::traits::input_parameter< int >::type i(iSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_convert_i1(n_matches, i));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -64,8 +64,8 @@ RcppExport SEXP C_any_nonpos(void *);
 
 static const R_CallMethodDef CallEntries[] = {
     {"_tinycodet_rcpp_anybad_loc", (DL_FUNC) &_tinycodet_rcpp_anybad_loc, 2},
-    {"_tinycodet_rcpp_convert_neg_i", (DL_FUNC) &_tinycodet_rcpp_convert_neg_i, 2},
-    {"_tinycodet_rcpp_convert_pos_i", (DL_FUNC) &_tinycodet_rcpp_convert_pos_i, 2},
+    {"_tinycodet_rcpp_convert_i0", (DL_FUNC) &_tinycodet_rcpp_convert_i0, 2},
+    {"_tinycodet_rcpp_convert_i1", (DL_FUNC) &_tinycodet_rcpp_convert_i1, 2},
     {"_tinycodet_rcpp_alloc_stri_locate_ith", (DL_FUNC) &_tinycodet_rcpp_alloc_stri_locate_ith, 2},
     {"C_any_neg",    (DL_FUNC) &C_any_neg,    1},
     {"C_any_nonpos", (DL_FUNC) &C_any_nonpos, 1},

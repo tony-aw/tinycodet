@@ -146,39 +146,36 @@ NULL
 #' @rdname decimal_truth
 #' @export
 `%d{}%` <- function(x, bnd) {
-  if(!is.matrix(bnd)) {
-    if(length(bnd) == 2L) {
-      bnd <- matrix(bnd, ncol = 2L)
-    } else {
-      stop(
-        "`bnd` must be a matrix with 2 columns or vector with 2 elements"
-      )
-    }
-  }
-  # NAs must be ignored
-  if(any(bnd[,2] < bnd[,1], na.rm = TRUE)) {
-    stop("`bnd[, 2] < bnd[, 1]`")
-  }
+  bnd <- .decimal_bnd(bnd, sys.call())
   return(x %d>=% bnd[,1] & x %d<=% bnd[,2])
 }
 
 #' @rdname decimal_truth
 #' @export
 `%d!{}%` <- function(x, bnd) {
+  bnd <- .decimal_bnd(bnd, sys.call())
+  return(x %d<% bnd[,1] | x %d>% bnd[,2])
+}
+
+
+#' @keywords internal
+#' @noRd
+.decimal_bnd <- function(bnd, abortcall) {
   if(!is.matrix(bnd)) {
     if(length(bnd) == 2L) {
       bnd <- matrix(bnd, ncol = 2L)
     } else {
-      stop(
-        "`bnd` must be a matrix with 2 columns or vector with 2 elements"
-      )
+      stop(simpleError(
+        "`bnd` must be a matrix with 2 columns or vector with 2 elements",
+        call = abortcall
+      ))
     }
   }
   # NAs must be ignored
   if(any(bnd[,2] < bnd[,1], na.rm = TRUE)) {
-    stop("`bnd[, 2] < bnd[, 1]`")
+    stop(simpleError("`bnd[, 2] < bnd[, 1]`", call = abortcall))
   }
-  return(x %d<% bnd[,1] | x %d>% bnd[,2])
+  return(bnd)
 }
 
 

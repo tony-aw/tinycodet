@@ -345,8 +345,9 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <p>The <code>tinycodet</code> R-package adds some functions to help in
 your coding etiquette. It primarily focuses on 4 aspects:</p>
 <ol style="list-style-type: decimal">
-<li>Safer decimal (in)equality testing, safer atomic conversions, and
-other functions for safer coding.</li>
+<li>Safer decimal (in)equality testing, safer atomic typecasting,
+standard-evaluated alternatives to <code>with()</code> and
+<code>aes()</code>, and other functions for safer coding.</li>
 <li>A new package import system, that attempts to combine the benefits
 of using a package without attaching, with the benefits of attaching a
 package.</li>
@@ -363,19 +364,27 @@ package.</p>
 </div>
 <div id="safer-functionality" class="section level1">
 <h1>Safer functionality</h1>
-<p>In base R, <code>(0.1*3) == 0.3</code> gives <code>FALSE</code>, due
+<p>‘tinycodet’ adds some functions to help in coding more safely:</p>
+<ul>
+<li>In base R, <code>(0.1*3) == 0.3</code> gives <code>FALSE</code>, due
 to the way decimal numbers are stored in programming languages like R
 and Python. <code>tinycodet</code> adds safer truth testing operators,
-that give correct results.</p>
-<p>The atomic type casting functions (i.e. <code>as.character()</code>,
+that give correct results.</li>
+<li>The atomic type casting functions (i.e. <code>as.character()</code>,
 <code>as.logical()</code>, etc.) strip away attributes.
 <code>tinycodet</code> adds safer type casting functions that do not
-strip away attributes.</p>
-<p>One can re-assign the values <code>T</code> and <code>F</code>. One
+strip away attributes - except the class attribute.</li>
+<li><code>with_pro()</code> and <code>aes_pro()</code> are
+standard-evaluated alternatives to <code>base::with()</code> and
+<code>ggplot2::aes()</code>. These use formulas as input (see also the
+<code>form()</code> function for constructing formula’s without memory
+leakage).</li>
+<li>One can re-assign the values <code>T</code> and <code>F</code>. One
 can even run <code>T &lt;- FALSE</code> and <code>F &lt;- TRUE</code>!.
 <code>tinycodet</code> adds the <code>lock_TF()</code> function that
 forces <code>T</code> to stay <code>TRUE</code> and <code>F</code> to
-stay <code>FALSE</code>.</p>
+stay <code>FALSE</code>.</li>
+</ul>
 <p>One example with the <code>%d==%</code> operator:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.3</span>, <span class="fl">0.6</span>, <span class="fl">0.7</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.1</span><span class="sc">*</span><span class="dv">3</span>, <span class="fl">0.1</span><span class="sc">*</span><span class="dv">6</span>, <span class="fl">0.1</span><span class="sc">*</span><span class="dv">7</span>)</span>

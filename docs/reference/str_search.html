@@ -27,9 +27,10 @@ It functions as follows:
 strfind() finds all pattern matches,
 and returns the extractions of the findings in a list,
 just like stri_extract_all.
-strfind(..., i = &quot;all&quot;) finds all pattern matches,
-and reports the locations of the findings in a list,
-just like stri_locate_all.
+strfind(..., i = i),
+where i is the string &quot;all&quot;, &quot;first&quot;, or &quot;last&quot;,
+finds all, first, or last pattern matches, respectively,
+like stri_locate.
 strfind(..., i = i), where i is an integer vector,
 locates the \(i^{th}\) occurrence of a pattern,
 and reports the locations in a matrix,
@@ -68,9 +69,10 @@ It functions as follows:
 strfind() finds all pattern matches,
 and returns the extractions of the findings in a list,
 just like stri_extract_all.
-strfind(..., i = &quot;all&quot;) finds all pattern matches,
-and reports the locations of the findings in a list,
-just like stri_locate_all.
+strfind(..., i = i),
+where i is the string &quot;all&quot;, &quot;first&quot;, or &quot;last&quot;,
+finds all, first, or last pattern matches, respectively,
+like stri_locate.
 strfind(..., i = i), where i is an integer vector,
 locates the \(i^{th}\) occurrence of a pattern,
 and reports the locations in a matrix,
@@ -92,7 +94,7 @@ though the replacement is done in-place.
     
     <a class="navbar-brand me-2" href="../index.html">tinycodet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.5</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.6</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -166,9 +168,10 @@ and uses the same <a href="s_pattern.html">s_pattern</a> API. <br>
 It functions as follows:</p><ul><li><p><code>strfind()</code> finds all pattern matches,
 and returns the extractions of the findings in a list,
 just like <a href="https://rdrr.io/pkg/stringi/man/stri_extract.html" class="external-link">stri_extract_all</a>.</p></li>
-<li><p><code>strfind(..., i = "all")</code> finds all pattern matches,
-and reports the locations of the findings in a list,
-just like <a href="https://rdrr.io/pkg/stringi/man/stri_locate.html" class="external-link">stri_locate_all</a>.</p></li>
+<li><p><code>strfind(..., i = i)</code>,
+where <code>i</code> is the string "all", "first", or "last",
+finds all, first, or last pattern matches, respectively,
+like <a href="https://rdrr.io/pkg/stringi/man/stri_locate.html" class="external-link">stri_locate</a>.</p></li>
 <li><p><code>strfind(..., i = i)</code>, where <code>i</code> is an integer vector,
 locates the \(i^{th}\) occurrence of a pattern,
 and reports the locations in a matrix,
@@ -213,7 +216,9 @@ See also the Details section. <br><a href="https://stringi.gagolewski.com/rapi/a
 <dt>i</dt>
 <dd><p>either one of the following can be given for <code>i</code>:</p><ul><li><p>if <code>i</code> is not given or <code>NULL</code>,
 <code>strfind()</code> extracts all found pattern occurrences.</p></li>
-<li><p>if <code>i = "all"</code>, <code>strfind()</code> locates all found pattern occurrences.</p></li>
+<li><p>if <code>i</code> is the string "all", "first", or "last",
+<code>strfind()</code> locates all, the first, or last found pattern occurrences,
+respectively.</p></li>
 <li><p>if <code>i</code> is an integer,
 <code>strfind()</code> locates the \(i^{th}\) pattern occurrences. <br>
 See the <code>i</code> argument in <a href="stri_locate_ith.html">stri_locate_ith</a> for details.</p></li>
@@ -245,28 +250,49 @@ For <code>strfind()</code>, <code>rt</code> must not be specified.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>The <code>x %s{}% p</code> and <code>x %s!{}% p</code> operators
-return logical vectors. <br></p>
+<p>For the <code>x %s{}% p</code> and <code>x %s!{}% p</code> operators: <br></p>
+
+
+<p>Return logical vectors. <br></p>
 
 
 <p><br></p>
 
 
-<p><code>strfind()</code> returns a list with extractions of all found patterns. <br></p>
+<p>For <code>strfind()</code>: <br></p>
+
+
+<p>Returns a list with extractions of all found patterns. <br></p>
 
 
 <p><br></p>
 
 
-<p><code>strfind(..., i = "all")</code> returns a list with all found pattern locations. <br></p>
+<p>For <code>strfind(..., i = "all")</code>: <br></p>
+
+
+<p>Returns a list with all found pattern locations. <br></p>
 
 
 <p><br></p>
 
 
-<p><code>strfind(..., i = i)</code>,
-with <code>i</code> being an integer,
-returns an integer matrix with two columns,
+<p>For <code>strind(..., i = "first")</code> and <code>strind(..., i = "last")</code>: <br></p>
+
+
+<p>Return an integer matrix with two columns,
+giving the start and end positions of the first or the last matches,
+respectively,
+and two <code>NA</code>s if they are not found. <br></p>
+
+
+<p><br></p>
+
+
+<p>For <code>strfind(..., i = i)</code> with integer vector <code>i</code>: <br></p>
+
+
+<p>Returns an integer matrix with two columns,
 giving the start and end positions of the \(i^{th}\) matches,
 two NAs if no matches are found, and also two <code>NA</code>s if str is <code>NA</code>. <br></p>
 
@@ -274,9 +300,12 @@ two NAs if no matches are found, and also two <code>NA</code>s if str is <code>N
 <p><br></p>
 
 
-<p><code>strfind() &lt;- value</code> returns nothing,
+<p>For <code>strfind() &lt;- value</code>: <br></p>
+
+
+<p>Returns nothing,
 but performs in-place replacement
-(but not by reference, technically speaking)
+(using R's default in-place semantics)
 of the found patterns in variable <code>x</code>. <br></p>
 <p></p>
 <p><br></p>
@@ -311,10 +340,8 @@ since then only a single occurrence is being replaced per string. <br>
 See examples below. <br><br></p>
     </div>
     <div class="section level2">
-    <h2 id="warning">Warning<a class="anchor" aria-label="anchor" href="#warning"></a></h2>
-    
-
-<p><code>strfind()&lt;-</code> performs in-place replacement. <br>
+    <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
+    <p><code>strfind()&lt;-</code> performs in-place replacement. <br>
 Therefore, the character vector or string to perform replacement on,
 must already exist as a variable. <br>
 So take for example the following code:</p>
@@ -324,7 +351,7 @@ So take for example the following code:</p>
 <span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="fu">strfind</span>(y, <span class="at">p =</span> <span class="st">"e"</span>) <span class="ot">&lt;-</span> <span class="st">"a"</span> <span class="co"># this works fine</span></span>
 <span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a></span></code></pre><p></p></div>
 <p>In the above code, the first <code>strfind()&lt;-</code> call does not work,
-because the string needs to exist as a variable. <br></p>
+because the string needs to exist as a variable. <br><br></p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -406,6 +433,196 @@ because the string needs to exist as a variable. <br></p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE  TRUE    NA</span>
 <span class="r-in"><span><span class="fu">stringi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stringi/man/stri_startsendswith.html" class="external-link">stri_startswith</a></span><span class="op">(</span><span class="va">x</span>, fixed <span class="op">=</span> <span class="st">"zyx"</span><span class="op">)</span> <span class="co"># same as above</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE  TRUE    NA</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#############################################################################</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Example of locating with strfind ====</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="st">"stringi"</span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="s_pattern.html">s_fixed</a></span><span class="op">(</span><span class="st">"i"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">strfind</span><span class="op">(</span><span class="va">x</span>, <span class="va">p</span>, i <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      start end</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]     4   4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]     7   7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="co"># equivalent to:</span></span></span>
+<span class="r-in"><span><span class="fu">stringi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stringi/man/stri_locate.html" class="external-link">stri_locate_all</a></span><span class="op">(</span><span class="st">"stringi"</span>, fixed <span class="op">=</span> <span class="st">"i"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      start end</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]     4   4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]     7   7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="st">"hladn\u00FD"</span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="s_pattern.html">s_coll</a></span><span class="op">(</span><span class="st">"HLADNY"</span>, strength <span class="op">=</span> <span class="fl">1</span>, locale <span class="op">=</span> <span class="st">"sk_SK"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">strfind</span><span class="op">(</span><span class="va">x</span>, <span class="va">p</span>, i <span class="op">=</span> <span class="st">"first"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      start end</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]     1   6</span>
+<span class="r-in"><span><span class="co"># equivalent to:</span></span></span>
+<span class="r-in"><span><span class="fu">stringi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stringi/man/stri_locate.html" class="external-link">stri_locate_first_coll</a></span><span class="op">(</span><span class="st">'hladn\u00FD'</span>, <span class="st">'HLADNY'</span>, strength<span class="op">=</span><span class="fl">1</span>, locale<span class="op">=</span><span class="st">'sk_SK'</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      start end</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]     1   6</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="st">"hladn\u00FD"</span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="s_pattern.html">s_coll</a></span><span class="op">(</span><span class="st">"HLADNY"</span>, strength <span class="op">=</span> <span class="fl">1</span>, locale <span class="op">=</span> <span class="st">"sk_SK"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">strfind</span><span class="op">(</span><span class="va">x</span>, <span class="va">p</span>, i <span class="op">=</span> <span class="st">"last"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      start end</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]     1   6</span>
+<span class="r-in"><span><span class="co"># equivalent to:</span></span></span>
+<span class="r-in"><span><span class="fu">stringi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stringi/man/stri_locate.html" class="external-link">stri_locate_last_coll</a></span><span class="op">(</span><span class="st">'hladn\u00FD'</span>, <span class="st">'HLADNY'</span>, strength<span class="op">=</span><span class="fl">1</span>, locale<span class="op">=</span><span class="st">'sk_SK'</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      start end</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]     1   6</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'breakfast=eggs;lunch=pizza'</span>, <span class="st">'breakfast=spam'</span>, <span class="st">'no food here'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="s_pattern.html">s_regex</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="st">'(?&lt;when&gt;\\w+)=(?&lt;what&gt;\\w+)'</span>,</span></span>
+<span class="r-in"><span>  capture_groups <span class="op">=</span> <span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">strfind</span><span class="op">(</span><span class="va">x</span>, <span class="va">p</span>, i <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      start end</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]     1  14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    16  26</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"capture_groups")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"capture_groups")$when</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      start end</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]     1   9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    16  20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"capture_groups")$what</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      start end</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    11  14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    22  26</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      start end</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]     1  14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"capture_groups")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"capture_groups")$when</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      start end</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]     1   9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"capture_groups")$what</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      start end</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    11  14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      start end</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    NA  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"capture_groups")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"capture_groups")$when</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      start end</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    NA  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"capture_groups")$what</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      start end</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    NA  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="co"># equivalent to:</span></span></span>
+<span class="r-in"><span><span class="fu">stringi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stringi/man/stri_locate.html" class="external-link">stri_locate_all_regex</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'breakfast=eggs;lunch=pizza'</span>, <span class="st">'breakfast=spam'</span>, <span class="st">'no food here'</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="st">'(?&lt;when&gt;\\w+)=(?&lt;what&gt;\\w+)'</span>,</span></span>
+<span class="r-in"><span>  capture_groups<span class="op">=</span><span class="cn">TRUE</span></span></span>
+<span class="r-in"><span><span class="op">)</span>  <span class="co"># named capture groups</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      start end</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]     1  14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    16  26</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"capture_groups")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"capture_groups")$when</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      start end</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]     1   9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    16  20</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"capture_groups")$what</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      start end</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    11  14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]    22  26</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      start end</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]     1  14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"capture_groups")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"capture_groups")$when</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      start end</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]     1   9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"capture_groups")$what</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      start end</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    11  14</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[3]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      start end</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    NA  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"capture_groups")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"capture_groups")$when</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      start end</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    NA  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"capture_groups")$what</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      start end</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]    NA  NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="st">"abababa"</span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="s_pattern.html">s_fixed</a></span><span class="op">(</span><span class="st">"ABA"</span>, case_insensitive <span class="op">=</span> <span class="cn">TRUE</span>, overlap <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">strfind</span><span class="op">(</span><span class="va">x</span>, <span class="va">p</span>, i <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      start end</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]     1   3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]     3   5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]     5   7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="co"># equivalent to:</span></span></span>
+<span class="r-in"><span><span class="fu">stringi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stringi/man/stri_locate.html" class="external-link">stri_locate_all_fixed</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"ABA"</span>, case_insensitive<span class="op">=</span><span class="cn">TRUE</span>, overlap<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      start end</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]     1   3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]     3   5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]     5   7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="st">"ababa"</span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="s_pattern.html">s_fixed</a></span><span class="op">(</span><span class="st">"aba"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">strfind</span><span class="op">(</span><span class="va">x</span>, <span class="va">p</span>, i <span class="op">=</span> <span class="st">"first"</span><span class="op">)</span>; <span class="fu">strfind</span><span class="op">(</span><span class="va">x</span>, <span class="va">p</span>, i <span class="op">=</span> <span class="st">"last"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      start end</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]     1   3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      start end</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]     3   5</span>
+<span class="r-in"><span><span class="co"># equivalent to:</span></span></span>
+<span class="r-in"><span><span class="fu">stringi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stringi/man/stri_locate.html" class="external-link">stri_locate_first_fixed</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"aba"</span><span class="op">)</span>; <span class="fu">stringi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stringi/man/stri_locate.html" class="external-link">stri_locate_last_fixed</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"aba"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      start end</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]     1   3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      start end</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]     3   5</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="st">"abababa"</span></span></span>
+<span class="r-in"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="st">"aba"</span></span></span>
+<span class="r-in"><span><span class="fu">strfind</span><span class="op">(</span><span class="va">x</span>, <span class="va">p</span>, i <span class="op">=</span> <span class="st">"first"</span><span class="op">)</span>; <span class="fu">strfind</span><span class="op">(</span><span class="va">x</span>, <span class="va">p</span>, i <span class="op">=</span> <span class="st">"last"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      start end</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]     1   3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      start end</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]     5   7</span>
+<span class="r-in"><span><span class="co"># equivalent to:</span></span></span>
+<span class="r-in"><span><span class="fu">stringi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stringi/man/stri_locate.html" class="external-link">stri_locate_first_regex</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"aba"</span><span class="op">)</span>; <span class="fu">stringi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stringi/man/stri_locate.html" class="external-link">stri_locate_last_regex</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"aba"</span><span class="op">)</span> </span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      start end</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]     1   3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      start end</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]     5   7</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#############################################################################</span></span></span>
@@ -523,8 +740,6 @@ because the string needs to exist as a variable. <br></p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "The quick brown fox jumped over Some Other lazy dog."</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [2] "The quick brown fox jumped over Some Other lazy dog."</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [3] "The quick brown fox jumped over Some Other lazy dog."</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>

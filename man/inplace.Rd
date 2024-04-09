@@ -29,7 +29,7 @@ For example this:
 
 Can now be re-written as:
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{mtcars$mpg\[mtcars$cyl > 6\] \%:=\% \\(x) x^2
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{mtcars$mpg[mtcars$cyl > 6] \%:=\% \\(x) x^2
 }\if{html}{\out{</div>}}
 }
 \examples{

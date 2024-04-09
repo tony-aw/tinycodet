@@ -256,11 +256,7 @@ import_as <- function(
     package = character(length(pkgs)),
     winning_conflicts = character(length(pkgs))
   )
-  # versions_df <- data.frame(
-  #   package = character(length(pkgs)),
-  #   version_ns = character(length(pkgs)),
-  #   version_lib.loc = character(length(pkgs))
-  # )
+ 
   namespaces <- list()
   
   message("Importing packages and registering methods...")
@@ -269,11 +265,9 @@ import_as <- function(
     
     namespace_current <- .internal_prep_Namespace(pkgs[i], lib.loc, abortcall = sys.call())
     conflicts_df$package[i] <- pkgs[i]
-    # versions_df$package[i] <- pkgs[i]
-    # versions_df$version_ns[i] <- getNamespaceVersion(pkgs[i])
-    # versions_df$version_lib.loc[i] <- utils::packageVersion(pkgs[i], lib.loc)
     
-    if(pkgs[i]==main_package && isTRUE(re_exports)) {
+    
+    if(pkgs[i] == main_package && isTRUE(re_exports)) {
       foreignexports <- .internal_get_foreignexports_ns(main_package, lib.loc, abortcall=sys.call())
       
       namespace_current <- utils::modifyList(
@@ -317,7 +311,6 @@ import_as <- function(
   out$.__attributes__. <- list(
     pkgs = pkgs,
     conflicts = .format_conflicts_df(conflicts_df),
-    # versions = versions_df,
     args = args,
     ordered_object_names = ordered_object_names,
     tinyimport = "tinyimport"
@@ -427,7 +420,7 @@ import_as <- function(
     return(FALSE)
   }
   check_import_order <- all(
-    sort(import_order) ==sort(c("dependencies", "main_package", "extensions"))
+    sort(import_order) == sort(c("dependencies", "main_package", "extensions"))
   )
   if(!isTRUE(check_import_order)) {
     return(FALSE)

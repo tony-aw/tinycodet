@@ -47,7 +47,7 @@
 #' (like in \code{strcut_loc} and \link[=str_subset_ops]{string sub-setting operators}) 
 #' will generally not be recycled. \cr
 #' Second, the \code{i} argument in \link{stri_locate_ith} does not support vector recycling. \cr
-#' Scalar recycling is virtually always supported.
+#' Scalar recycling is virtually always supported. \cr \cr
 #' 
 #'
 #' @seealso \link{tinycodet_help}, \link{s_pattern}
