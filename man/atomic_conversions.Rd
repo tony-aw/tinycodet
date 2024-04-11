@@ -6,6 +6,8 @@
 \alias{as_int}
 \alias{as_dbl}
 \alias{as_chr}
+\alias{as_cplx}
+\alias{as_raw}
 \title{Atomic Type Casting Without Stripping Attributes}
 \usage{
 as_bool(x, ...)
@@ -15,6 +17,10 @@ as_int(x, ...)
 as_dbl(x, ...)
 
 as_chr(x, ...)
+
+as_cplx(x, ...)
+
+as_raw(x, ...)
 }
 \arguments{
 \item{x}{vector, matrix, array
@@ -27,8 +33,9 @@ The converted object.
 }
 \description{
 Atomic type casting in R is generally performed using the functions
-\link[base]{as.logical}, \link[base]{as.integer}, \link[base]{as.double},
-\link[base]{as.character}. \cr
+\link[base]{as.logical}, \link[base]{as.integer},
+\link[base]{as.double}, \link[base]{as.character},
+\link[base]{as.complex}, and \link[base]{as.raw}. \cr
 \cr
 Converting an object between atomic types using these functions
 strips the object of its attributes,
@@ -43,6 +50,8 @@ The functions are as follows: \cr
 \item \code{as_int()}: converts object to atomic type \code{integer}.
 \item \code{as_dbl()}: converts object to atomic type \code{double} (AKA decimal numbers).
 \item \code{as_chr()}: converts object to atomic type \code{character}.
+\item \code{as_cplx()}: converts object to atomic type \code{complex}.
+\item \code{as_raw()}:converts object to atomic type \code{raw}.
 }
 }
 \examples{

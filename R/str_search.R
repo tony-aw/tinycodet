@@ -128,7 +128,7 @@
 #' must already exist as a variable. \cr
 #' So take for example the following code:
 #' 
-#' ```
+#' ```{r eval = FALSE, echo = TRUE}
 #' strfind("hello", p = "e") <- "a" # this obviously does not work
 #' 
 #' y <- "hello"
@@ -302,6 +302,9 @@ strfind <- function(x, p, ..., i, rt) {
   if(!is.atomic(value)) {
     stop("right-hand side must be atomic")
   }
+  if(length(rt) > 1 || !is.atomic(rt)) {
+    stop("improper `rt` given")
+  }
   
   if(is.list(p))
     {
@@ -321,7 +324,7 @@ strfind <- function(x, p, ..., i, rt) {
       args <- list(str = x, replacement = value)
       return(do.call(stringi::stri_replace_last, c(args, p, list(...))))
     }
-    else {stop("unknown `rt` given")}
+    else {stop("improper `rt` given")}
   }
   else if(is.character(p))
     {
@@ -345,7 +348,7 @@ strfind <- function(x, p, ..., i, rt) {
         x, p, replacement = value, ...
       ))
     }
-    else {stop("unknown `rt` given")}
+    else {stop("improper `rt` given")}
   }
   else {
     stop("`p` must be a character vector or list")
@@ -353,54 +356,3 @@ strfind <- function(x, p, ..., i, rt) {
 }
 
 
-#' @keywords internal
-#' @noRd
-.strfind_locate_mode <- function(x, p, mode, ..., abortcall) {
-  if(is.list(p)){
-    return(do.call(stringi::stri_locate, c(list(str = x, mode = mode), p, list(...))))
-  }
-  else if(is.character(p)) {
-    return(stringi::stri_locate(
-      str = x, regex = p, mode = mode, ...
-    ))
-  }
-  else {
-    stop(simpleError("`p` must be a character vector or list", call = abortcall))
-  }
-}
-
-#' @keywords internal
-#' @noRd
-.strfind_locate_ith <- function(x, p, i, ..., abortcall) {
-  if(is.list(p)){
-    
-    args <- list(str = x, i = i)
-    return(do.call(stri_locate_ith, c(args, p, list(...))))
-    
-  } else if(is.character(p)) {
-    
-    return(stri_locate_ith_regex(
-      str = x, pattern = p, i = i,  ...
-    ))
-    
-  } else {
-    stop(simpleError("`p` must be a character vector or list", call = abortcall))
-  }
-}
-
-
-#' @keywords internal
-#' @noRd
-.strfind_extract_all <- function(x, p, ..., abortcall) {
-  if(is.list(p)){
-    return(do.call(stringi::stri_extract_all, c(list(str = x), p, list(...))))
-  }
-  else if(is.character(p)) {
-    return(stringi::stri_extract_all_regex(
-      str = x, pattern = p, ...
-    ))
-  }
-  else {
-    stop(simpleError("`p` must be a character vector or list", call = abortcall))
-  }
-}

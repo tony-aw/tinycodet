@@ -181,7 +181,7 @@ Therefore, the character vector or string to perform replacement on,
 must already exist as a variable. \cr
 So take for example the following code:
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{strfind("hello", p = "e") <- "a" # this obviously does not work
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{strfind("hello", p = "e") <- "a" # this obviously does not work
 
 y <- "hello"
 strfind(y, p = "e") <- "a" # this works fine

@@ -283,7 +283,7 @@ import_inops <- function(
     return(NULL)
   }
 
-  if(isTRUE(length(operators)>0)) {
+  if(isTRUE(length(operators) > 0)) {
     .internal_check_conflicting_inops(
       operators, overwrite, inherits, envir=env, abortcall=abortcall
     )
@@ -316,14 +316,14 @@ import_inops <- function(
 
   # get functions
   all.funs <- mget(utils::lsf.str(envir = env), envir = env, inherits = FALSE)
-  if(length(all.funs)==0) {
+  if(length(all.funs) == 0) {
     message("No infix operators from `import_inops()` to delete")
     return(NULL)
   }
 
   # get infix operators
   all.ops <- all.funs[grep("%|:=", names(all.funs), value = TRUE)]
-  if(length(all.ops)==0) {
+  if(length(all.ops) == 0) {
     message("No infix operators from `import_inops()` to delete")
     return(NULL)
   }
@@ -331,14 +331,14 @@ import_inops <- function(
   # get tinyimport objects from selected packages
   checks <- .is.tinyinops(names(all.ops), delete, env)
   tinyops <- all.ops[checks]
-  if(length(tinyops)==0) {
+  if(length(tinyops) == 0) {
     message("No infix operators from selected packages to delete")
     return(NULL)
   }
 
   # get tinyinops from selected packages
   tinyops <- tinyops[sapply(tinyops, FUN = \(x).internal_get_packagename(x) %in% delete)]
-  if(length(tinyops)==0) {
+  if(length(tinyops) == 0) {
     message("No infix operators from selected packages to delete")
     return(NULL)
   }
@@ -381,16 +381,18 @@ import_inops <- function(
   if(isTRUE(overwrite) && sum(check_existing) > 0) {
     message(simpleMessage(
       paste0(conflict.txt, "Overwriting existing infix operators...", "\n"),
-      abortcall
+      call = abortcall
     ))
     warning(simpleWarning(
       paste0(conflict.txt, "Attempted overwrite existing infix operators", "\n"),
-      abortcall
+      call = abortcall
     ))
   }
-  if(isFALSE(overwrite) && sum(check_existing) > 0) { stop(simpleError(
-    paste0(conflict.txt, "Function halted"), abortcall
-  ))}
+  if(isFALSE(overwrite) && sum(check_existing) > 0) {
+    stop(simpleError(
+      paste0(conflict.txt, "Function halted"), call = abortcall
+    ))
+  }
 }
 
 #' @keywords internal

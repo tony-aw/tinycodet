@@ -2,8 +2,9 @@
 #'
 #' @description
 #' Atomic type casting in R is generally performed using the functions
-#' \link[base]{as.logical}, \link[base]{as.integer}, \link[base]{as.double},
-#' \link[base]{as.character}. \cr
+#' \link[base]{as.logical}, \link[base]{as.integer},
+#' \link[base]{as.double}, \link[base]{as.character},
+#' \link[base]{as.complex}, and \link[base]{as.raw}. \cr
 #' \cr
 #' Converting an object between atomic types using these functions
 #' strips the object of its attributes,
@@ -18,6 +19,8 @@
 #'  * \code{as_int()}: converts object to atomic type \code{integer}.
 #'  * \code{as_dbl()}: converts object to atomic type \code{double} (AKA decimal numbers).
 #'  * \code{as_chr()}: converts object to atomic type \code{character}.
+#'  * \code{as_cplx()}: converts object to atomic type \code{complex}.
+#'  * \code{as_raw()}:converts object to atomic type \code{raw}.
 #'
 #'
 #' @param x vector, matrix, array
@@ -48,6 +51,7 @@
 #' @name atomic_conversions
 NULL
 
+
 #' @rdname atomic_conversions
 #' @export
 as_bool <- function(x, ...) {
@@ -57,6 +61,7 @@ as_bool <- function(x, ...) {
   attributes(out) <- temp.attr
   return(out)
 }
+
 
 #' @rdname atomic_conversions
 #' @export
@@ -68,6 +73,7 @@ as_int <- function(x, ...) {
   return(out)
 }
 
+
 #' @rdname atomic_conversions
 #' @export
 as_dbl <- function(x, ...) {
@@ -77,6 +83,7 @@ as_dbl <- function(x, ...) {
   attributes(out) <- temp.attr
   return(out)
 }
+
 
 #' @rdname atomic_conversions
 #' @export
@@ -88,3 +95,24 @@ as_chr <- function(x, ...) {
   return(out)
 }
 
+
+#' @rdname atomic_conversions
+#' @export
+as_cplx <- function(x, ...) {
+  temp.attr <- attributes(x)
+  temp.attr[["class"]] <- NULL
+  out <- as.complex(x, ...)
+  attributes(out) <- temp.attr
+  return(out)
+}
+
+
+#' @rdname atomic_conversions
+#' @export
+as_raw <- function(x, ...) {
+  temp.attr <- attributes(x)
+  temp.attr[["class"]] <- NULL
+  out <- as.raw(x, ...)
+  attributes(out) <- temp.attr
+  return(out)
+}

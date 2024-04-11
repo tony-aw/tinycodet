@@ -134,14 +134,12 @@ To capture the groups of the \eqn{i^{th}} occurrences:
 \item Get the matched group capture on the extracted occurrences using \link[stringi]{stri_match}. \cr \cr
 }
 }
-\section{Warning}{
-
+\note{
 The \code{stri_locate_ith}-functions
 do not support \code{long vectors}
 (i.e. character vectors with more than \code{2^31 - 1} strings). \cr
 \cr
 }
-
 \examples{
 
 #############################################################################

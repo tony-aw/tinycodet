@@ -101,7 +101,7 @@
 #' 
 #' 
 #' 
-#' @section Warning:
+#' @note
 #' The \code{stri_locate_ith}-functions
 #' do not support \code{long vectors}
 #' (i.e. character vectors with more than \code{2^31 - 1} strings). \cr

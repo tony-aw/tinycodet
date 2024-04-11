@@ -19,15 +19,23 @@ expect_warning(strfind(x, p, i = "all") <- "a")
 # errors ====
 x <- "hello"
 p <- "a|e|i|o|u"
-expect_error(strfind(x, p, i = "bah"))
+expect_error(
+  strfind(x, p, i = "bah"),
+  pattern = "improper `i` given",
+)
 expect_error(
   strfind(x, p, i = letters),
   pattern = "improper `i` given",
   fixed = TRUE
 )
 expect_error(
-  strfind(x, p, rt = "bah") <- "a",
-  pattern = "unknown `rt` given",
+  strfind(x, p, rt = letters) <- "a",
+  pattern = "improper `rt` given",
+  fixed = TRUE
+)
+expect_error(
+  strfind(x, p, rt = "foo") <- "a",
+  pattern = "improper `rt` given",
   fixed = TRUE
 )
 expect_error(
@@ -43,6 +51,14 @@ expect_error(
 )
 expect_error(
   strfind(x, 1, i = "all"),
+  pattern = "`p` must be a character vector or list"
+)
+expect_error(
+  strfind(x, 1, i = "first"),
+  pattern = "`p` must be a character vector or list"
+)
+expect_error(
+  strfind(x, 1, i = "last"),
   pattern = "`p` must be a character vector or list"
 )
 expect_error(
