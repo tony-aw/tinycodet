@@ -7,6 +7,7 @@ R/tinycodet_misc.R -linguist-documentation
 R/tinycodetWrappers.R -linguist-documentation
 R/bin.R -linguist-documentation
 R/meta_functions.R -linguist-documentation
+R/zzz.R -linguist-documentation
 docs/** linguist-documentation
 vignettes/** linguist-documentation
 man/** linguist-documentation
