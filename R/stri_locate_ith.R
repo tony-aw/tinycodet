@@ -241,13 +241,12 @@ stri_locate_ith_boundaries <- function(
 .stri_locate_ith_internal <- function(p1, i, abortcall) {
   
   n <- length(p1)
-  n.matches <- lengths(p1) / 2L
   if(n == 0) {
-    warning(simpleWarning("empty search not supported", call = abortcall))
+    warning(simpleWarning("empty search patterns are not supported", call = abortcall))
     return(cbind(start = integer(0), end = integer(0)))
   }
+  n.matches <- .rcpp_n_matches(p1)
   
-  # `i` must have length `n`, as the value of `i` will change as `n.matches` changes
   i <- as.integer(i)
   n.i <- length(i)
   if(n.i == 1L) {

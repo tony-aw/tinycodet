@@ -458,11 +458,11 @@ expect_error(
 # empty search ====
 expect_warning(
   stri_locate_ith(character(0), 1, regex = "foo"),
-  pattern = "empty search not supported"
+  pattern = "empty search patterns are not supported"
 )
 expect_warning(
   stri_locate_ith("foo", 1, regex = character(0)),
-  pattern = "empty search not supported"
+  pattern = "empty search patterns are not supported"
 )
 
 

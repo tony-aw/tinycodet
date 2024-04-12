@@ -2,6 +2,21 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
+
+//' @keywords internal
+//' @noRd
+// [[Rcpp::export(.rcpp_n_matches)]]
+Rcpp::IntegerVector rcpp_n_matches( List lst ) {
+  R_xlen_t n = lst.size();
+  Rcpp::IntegerVector res( n );
+  
+  for(R_xlen_t i = 0; i < n; i++ ) {
+    res[i] = Rf_length( lst[i] ) / 2;
+  }
+  return res;
+}
+
+
 //' @keywords internal
 //' @noRd
 // [[Rcpp::export(.rcpp_convert_i0)]]
