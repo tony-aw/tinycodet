@@ -32,7 +32,7 @@ locate_stringi <- function(...) {
 }
 bm.stri_locate_ith <- bench::mark(
   "stri_locate_ith" = stri_locate_ith_regex(x, p, i),
-  "stringi::(stri_locate_all + stri_count)" = stringi::stri_locate_all(x, regex = p),
+  "stringi::(stri_locate_all + stri_count)" = locate_stringi(x, regex = p),
   min_iterations = 500,
   check = FALSE,
   filter_gc = FALSE
@@ -40,6 +40,9 @@ bm.stri_locate_ith <- bench::mark(
 summary(bm.stri_locate_ith)
 autoplot(bm.stri_locate_ith)
 save(bm.stri_locate_ith, file = "bm.stri_locate_ith.RData")
+
+
+
 
 tempfun <- function(x, margin) {
   if(margin == 1) {

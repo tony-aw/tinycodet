@@ -205,9 +205,17 @@ To capture the groups of the \(i^{th}\) occurrences:</p><ol><li><p>Use <code>str
 </ol></div>
     <div class="section level2">
     <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
-    <p>The <code>stri_locate_ith</code>-functions
+    <p><b>Long Vectors</b> <br>
+The <code>stri_locate_ith</code>-functions
 do not support <code>long vectors</code>
-(i.e. character vectors with more than <code>2^31 - 1</code> strings). <br><br></p>
+(i.e. character vectors with more than <code>2^31 - 1</code> strings). <br><br><b>Locate ith vs Locate First/Last</b> <br><code>stri_locate_ith()</code> can be used for finding any \(i^{th}\) pattern match,
+not just the first or last match;
+it can also be used to interchangeably finding the first and last matches. <br>
+Moreover, unlike the <code>stri_locate_first_*</code> and <code>stri_locate_last_*</code> functions,
+<code>stri_locate_ith()</code> supports <code>merge = TRUE</code> for pattern type <code>charclass</code>. <br>
+However, it is important to note that for finding only the first or only the last matches,
+<a href="https://rdrr.io/pkg/stringi/man/stri_locate.html" class="external-link">stri_locate_first</a> and <a href="https://rdrr.io/pkg/stringi/man/stri_locate.html" class="external-link">stri_locate_last</a>
+are much more efficient than <code>stri_locate_ith()</code>. <br><br></p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

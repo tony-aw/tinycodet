@@ -36,9 +36,8 @@ See also the Details section. \cr
 \itemize{
 \item if \code{i} is not given or \code{NULL},
 \code{strfind()} extracts all found pattern occurrences.
-\item if \code{i} is the string "all", "first", or "last",
-\code{strfind()} locates all, the first, or last found pattern occurrences,
-respectively.
+\item if \code{i} is the string "all",
+\code{strfind()} locates all found pattern occurrences.
 \item if \code{i} is an integer,
 \code{strfind()} locates the \eqn{i^{th}} pattern occurrences. \cr
 See the \code{i} argument in \link{stri_locate_ith} for details.
@@ -76,12 +75,6 @@ Returns a list with extractions of all found patterns. \cr
 \cr
 For \code{strfind(..., i = "all")}: \cr
 Returns a list with all found pattern locations. \cr
-\cr
-For \code{strind(..., i = "first")} and \code{strind(..., i = "last")}: \cr
-Return an integer matrix with two columns,
-giving the start and end positions of the first or the last matches,
-respectively,
-and two \code{NA}s if they are not found. \cr
 \cr
 For \code{strfind(..., i = i)} with integer vector \code{i}: \cr
 Returns an integer matrix with two columns,
@@ -125,10 +118,9 @@ It functions as follows:
 \item \code{strfind()} finds all pattern matches,
 and returns the extractions of the findings in a list,
 just like \link[stringi]{stri_extract_all}.
-\item \code{strfind(..., i = i)},
-where \code{i} is the string "all", "first", or "last",
-finds all, first, or last pattern matches, respectively,
-like \link[stringi]{stri_locate}.
+\item \code{strfind(..., i = "all" )},
+finds all pattern matches
+like \link[stringi]{stri_locate_all}.
 \item \code{strfind(..., i = i)}, where \code{i} is an integer vector,
 locates the \eqn{i^{th}} occurrence of a pattern,
 and reports the locations in a matrix,
@@ -173,7 +165,8 @@ etc. \cr
 Notice that for single replacement, i.e. \code{rt = "first"} or \code{rt = "last"},
 it makes no sense to distinguish between vectorized or dictionary replacement,
 since then only a single occurrence is being replaced per string. \cr
-See examples below. \cr \cr
+See examples below. \cr
+\cr
 }
 \note{
 \verb{strfind()<-} performs in-place replacement. \cr
@@ -243,65 +236,6 @@ p <- s_fixed("zyx", at = "start")
 x \%s{}\% p
 stringi::stri_startswith(x, fixed = "zyx") # same as above
 
-
-#############################################################################
-
-# Example of locating with strfind ====
-
-x <- "stringi"
-p <- s_fixed("i")
-strfind(x, p, i = "all")
-# equivalent to:
-stringi::stri_locate_all("stringi", fixed = "i")
-
-
-x <- "hladn\u00FD"
-p <- s_coll("HLADNY", strength = 1, locale = "sk_SK")
-strfind(x, p, i = "first")
-# equivalent to:
-stringi::stri_locate_first_coll('hladn\u00FD', 'HLADNY', strength=1, locale='sk_SK')
-
-
-x <- "hladn\u00FD"
-p <- s_coll("HLADNY", strength = 1, locale = "sk_SK")
-strfind(x, p, i = "last")
-# equivalent to:
-stringi::stri_locate_last_coll('hladn\u00FD', 'HLADNY', strength=1, locale='sk_SK')
-
-
-x <- c('breakfast=eggs;lunch=pizza', 'breakfast=spam', 'no food here')
-p <- s_regex(
-  '(?<when>\\\\w+)=(?<what>\\\\w+)',
-  capture_groups = TRUE
-)
-strfind(x, p, i = "all")
-# equivalent to:
-stringi::stri_locate_all_regex(
-  c('breakfast=eggs;lunch=pizza', 'breakfast=spam', 'no food here'),
-  '(?<when>\\\\w+)=(?<what>\\\\w+)',
-  capture_groups=TRUE
-)  # named capture groups
-
-
-x <- "abababa"
-p <- s_fixed("ABA", case_insensitive = TRUE, overlap = TRUE)
-strfind(x, p, i = "all")
-# equivalent to:
-stringi::stri_locate_all_fixed(x, "ABA", case_insensitive=TRUE, overlap=TRUE)
-
-
-x <- "ababa"
-p <- s_fixed("aba")
-strfind(x, p, i = "first"); strfind(x, p, i = "last")
-# equivalent to:
-stringi::stri_locate_first_fixed(x, "aba"); stringi::stri_locate_last_fixed(x, "aba")
-
-
-x <- "abababa"
-p <- "aba"
-strfind(x, p, i = "first"); strfind(x, p, i = "last")
-# equivalent to:
-stringi::stri_locate_first_regex(x, "aba"); stringi::stri_locate_last_regex(x, "aba") 
 
 
 #############################################################################

@@ -30,10 +30,9 @@
 #'  * \code{strfind()} finds all pattern matches,
 #' and returns the extractions of the findings in a list,
 #' just like \link[stringi]{stri_extract_all}.
-#'  * \code{strfind(..., i = i)},
-#'  where \code{i} is the string "all", "first", or "last",
-#'  finds all, first, or last pattern matches, respectively,
-#'  like \link[stringi]{stri_locate}.
+#'  * \code{strfind(..., i = "all" )},
+#'  finds all pattern matches
+#'  like \link[stringi]{stri_locate_all}.
 #'  * \code{strfind(..., i = i)}, where \code{i} is an integer vector,
 #' locates the \eqn{i^{th}} occurrence of a pattern,
 #' and reports the locations in a matrix,
@@ -61,9 +60,8 @@
 #' @param i either one of the following can be given for `i`:
 #'  * if \code{i} is not given or \code{NULL}, 
 #'  \code{strfind()} extracts all found pattern occurrences.
-#'  * if \code{i} is the string "all", "first", or "last",
-#'  \code{strfind()} locates all, the first, or last found pattern occurrences,
-#'  respectively.
+#'  * if \code{i} is the string "all",
+#'  \code{strfind()} locates all found pattern occurrences.
 #'  * if \code{i} is an integer,
 #'  \code{strfind()} locates the \eqn{i^{th}} pattern occurrences. \cr
 #'  See the `i` argument in \link{stri_locate_ith} for details.
@@ -119,7 +117,8 @@
 #' Notice that for single replacement, i.e. `rt = "first"` or `rt = "last"`,
 #' it makes no sense to distinguish between vectorized or dictionary replacement,
 #' since then only a single occurrence is being replaced per string. \cr
-#' See examples below. \cr \cr
+#' See examples below. \cr
+#' \cr
 #' 
 #' 
 #' @note
@@ -148,12 +147,6 @@
 #' \cr
 #' For \code{strfind(..., i = "all")}: \cr
 #' Returns a list with all found pattern locations. \cr
-#' \cr
-#' For \code{strind(..., i = "first")} and \code{strind(..., i = "last")}: \cr
-#' Return an integer matrix with two columns,
-#' giving the start and end positions of the first or the last matches,
-#' respectively,
-#' and two `NA`s if they are not found. \cr
 #' \cr
 #' For \code{strfind(..., i = i)} with integer vector `i`: \cr
 #' Returns an integer matrix with two columns,
@@ -283,8 +276,8 @@ strfind <- function(x, p, ..., i, rt) {
   else if(is.numeric(i)) {
     return(.strfind_locate_ith(x, p, i, ..., abortcall = sys.call()))
   }
-  else if(length(i) == 1 && is.character(i)) {
-    return(.strfind_locate_mode(x, p, i, ..., abortcall = sys.call()))
+  else if(length(i) == 1 && is.character(i) && i == "all") {
+    return(.strfind_locate_all(x, p, ..., abortcall = sys.call()))
   }
   else {
     stop("improper `i` given")

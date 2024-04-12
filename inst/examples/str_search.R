@@ -50,65 +50,6 @@ x %s{}% p
 stringi::stri_startswith(x, fixed = "zyx") # same as above
 
 
-#############################################################################
-
-# Example of locating with strfind ====
-
-x <- "stringi"
-p <- s_fixed("i")
-strfind(x, p, i = "all")
-# equivalent to:
-stringi::stri_locate_all("stringi", fixed = "i")
-
-
-x <- "hladn\u00FD"
-p <- s_coll("HLADNY", strength = 1, locale = "sk_SK")
-strfind(x, p, i = "first")
-# equivalent to:
-stringi::stri_locate_first_coll('hladn\u00FD', 'HLADNY', strength=1, locale='sk_SK')
-
-
-x <- "hladn\u00FD"
-p <- s_coll("HLADNY", strength = 1, locale = "sk_SK")
-strfind(x, p, i = "last")
-# equivalent to:
-stringi::stri_locate_last_coll('hladn\u00FD', 'HLADNY', strength=1, locale='sk_SK')
-
-
-x <- c('breakfast=eggs;lunch=pizza', 'breakfast=spam', 'no food here')
-p <- s_regex(
-  '(?<when>\\w+)=(?<what>\\w+)',
-  capture_groups = TRUE
-)
-strfind(x, p, i = "all")
-# equivalent to:
-stringi::stri_locate_all_regex(
-  c('breakfast=eggs;lunch=pizza', 'breakfast=spam', 'no food here'),
-  '(?<when>\\w+)=(?<what>\\w+)',
-  capture_groups=TRUE
-)  # named capture groups
-
-
-x <- "abababa"
-p <- s_fixed("ABA", case_insensitive = TRUE, overlap = TRUE)
-strfind(x, p, i = "all")
-# equivalent to:
-stringi::stri_locate_all_fixed(x, "ABA", case_insensitive=TRUE, overlap=TRUE)
-
-
-x <- "ababa"
-p <- s_fixed("aba")
-strfind(x, p, i = "first"); strfind(x, p, i = "last")
-# equivalent to:
-stringi::stri_locate_first_fixed(x, "aba"); stringi::stri_locate_last_fixed(x, "aba")
-
-
-x <- "abababa"
-p <- "aba"
-strfind(x, p, i = "first"); strfind(x, p, i = "last")
-# equivalent to:
-stringi::stri_locate_first_regex(x, "aba"); stringi::stri_locate_last_regex(x, "aba") 
-
 
 #############################################################################
 

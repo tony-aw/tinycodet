@@ -54,14 +54,6 @@ expect_error(
   pattern = "`p` must be a character vector or list"
 )
 expect_error(
-  strfind(x, 1, i = "first"),
-  pattern = "`p` must be a character vector or list"
-)
-expect_error(
-  strfind(x, 1, i = "last"),
-  pattern = "`p` must be a character vector or list"
-)
-expect_error(
   strfind(x, 1, i = -2),
   pattern = "`p` must be a character vector or list"
 )

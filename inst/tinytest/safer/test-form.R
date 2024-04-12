@@ -33,6 +33,11 @@ expect_equal(
 
 
 # functional usage check - literal formula input, env = NULL ====
+myform <- form(~ stri.)
+expect_equal(
+  import_as(~ stri., "stringi"),
+  import_as(myform, "stringi")
+)
 mydata <- data.frame(
   y = rpois(1e4, 10),
   x1 = rnorm(1e4),
@@ -102,6 +107,11 @@ if(requireNamespace("ggplot2")) {
 
 
 # functional usage check - string variable input, env = NULL ====
+myform <- form("stri.")
+expect_equal(
+  import_as(~ stri., "stringi"),
+  import_as(myform, "stringi")
+)
 mydata <- data.frame(
   y = rpois(1e4, 10),
   x1 = rnorm(1e4),
@@ -181,6 +191,11 @@ if(requireNamespace("ggplot2")) {
 
 
 # functional usage check - literal formula input, env = baseenv ====
+myform <- form(~ stri., env = baseenv())
+expect_equal(
+  import_as(~ stri., "stringi"),
+  import_as(myform, "stringi")
+)
 mydata <- data.frame(
   y = rpois(1e4, 10),
   x1 = rnorm(1e4),
@@ -248,6 +263,11 @@ if(requireNamespace("ggplot2")) {
 }
 
 # functional usage check - string variable input, env = baseenv ====
+myform <- form("stri.", env = baseenv())
+expect_equal(
+  import_as(~ stri., "stringi"),
+  import_as(myform, "stringi")
+)
 mydata <- data.frame(
   y = rpois(1e4, 10),
   x1 = rnorm(1e4),
