@@ -12,7 +12,7 @@
 #'
 #' @param str a string or character vector.
 #' @param pattern,regex,fixed,coll,charclass a character vector of search patterns,
-#' as in \link[stringi]{stri_locate}. \cr
+#' as in \link[stringi]{stri_locate_all}. \cr
 #' `r .mybadge_string("regex", "darkred")` \cr
 #' `r .mybadge_string("fixed", "darkgreen")` \cr
 #' `r .mybadge_string("coll", "pink")` \cr
@@ -39,7 +39,7 @@
 #' then if \code{i >= 3} the third instance will be located, \cr
 #' and if \code{i <= -3} the first instance will be located. \cr
 #' @param ... more arguments to be supplied to
-#' \link[stringi]{stri_locate} or \link[stringi]{stri_locate_all_boundaries}. \cr
+#' \link[stringi]{stri_locate_all} or \link[stringi]{stri_locate_all_boundaries}. \cr
 #' Do not supply the arguments
 #' \code{omit_no_match} or \code{get_length},
 #' as they are already specified internally.

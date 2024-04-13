@@ -39,7 +39,7 @@
 #' `r .mybadge_string("coll", "pink")` \cr
 #' `r .mybadge_string("charclass", "lightyellow")` \cr
 #' @param brk a list with break iteration options,
-#'  like a list produced by \code{stringi::}\link[stringi]{stri_opts_brkiter}. \cr
+#'  like a list produced by \link[stringi]{stri_opts_brkiter}. \cr
 #' `r .mybadge_string("boundaries", "blue")` \cr
 #'
 #'

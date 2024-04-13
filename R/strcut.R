@@ -31,7 +31,7 @@
 #'  (i.e. \code{"character"}, \code{"line_break"}, \code{"sentence"}, \code{"word"},
 #'  or a custom set of ICU break iteration rules).
 #'  - a list with break iteration options,
-#'  like a list produced by \code{stringi::}\link[stringi]{stri_opts_brkiter}.
+#'  like a list produced by \link[stringi]{stri_opts_brkiter}.
 #' 
 #' `r .mybadge_string("boundaries", "blue")` \cr
 #' 

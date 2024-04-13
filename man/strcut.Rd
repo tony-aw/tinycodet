@@ -26,7 +26,7 @@ giving the location range of the middle part.
 (i.e. \code{"character"}, \code{"line_break"}, \code{"sentence"}, \code{"word"},
 or a custom set of ICU break iteration rules).
 \item a list with break iteration options,
-like a list produced by \code{stringi::}\link[stringi]{stri_opts_brkiter}.
+like a list produced by \link[stringi]{stri_opts_brkiter}.
 }
 
 \ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_boundaries.html}{\figure{aboutsearch-boundaries-blue.svg}{options: alt='[BOUNDARIES]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_boundaries.html}{about search: boundaries}} \cr}

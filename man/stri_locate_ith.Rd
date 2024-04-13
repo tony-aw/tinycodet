@@ -47,14 +47,14 @@ then if \code{i >= 3} the third instance will be located, \cr
 and if \code{i <= -3} the first instance will be located. \cr}
 
 \item{...}{more arguments to be supplied to
-\link[stringi]{stri_locate} or \link[stringi]{stri_locate_all_boundaries}. \cr
+\link[stringi]{stri_locate_all} or \link[stringi]{stri_locate_all_boundaries}. \cr
 Do not supply the arguments
 \code{omit_no_match} or \code{get_length},
 as they are already specified internally.
 Supplying these arguments anyway will result in an error.}
 
 \item{pattern, regex, fixed, coll, charclass}{a character vector of search patterns,
-as in \link[stringi]{stri_locate}. \cr
+as in \link[stringi]{stri_locate_all}. \cr
 \ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_regex.html}{\figure{aboutsearch-regex-darkred.svg}{options: alt='[REGEX]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_regex.html}{about search: regex}} \cr
 \ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_fixed.html}{\figure{aboutsearch-fixed-darkgreen.svg}{options: alt='[FIXED]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_fixed.html}{about search: fixed}} \cr
 \ifelse{html}{\href{https://stringi.gagolewski.com/rapi/about_search_coll.html}{\figure{aboutsearch-coll-pink.svg}{options: alt='[COLL]'}}}{\href{https://stringi.gagolewski.com/rapi/about_search_coll.html}{about search: coll}} \cr
