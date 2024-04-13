@@ -295,7 +295,7 @@ strfind <- function(x, p, ..., i, rt) {
   if(!is.atomic(value)) {
     stop("right-hand side must be atomic")
   }
-  if(length(rt) > 1 || !is.atomic(rt)) {
+  if(length(rt) > 1) {
     stop("improper `rt` given")
   }
   

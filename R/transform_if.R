@@ -92,13 +92,13 @@ transform_if <- function(
   }
 
   # check transformations:
-  if(!isTRUE(is.function(yes) || is.atomic(yes) && length(yes) == 1)) {
+  if(!isTRUE(is.function(yes) || (is.atomic(yes) && length(yes) == 1))) {
     stop("improper `yes` given")
   }
-  if(!isTRUE(is.function(no) || is.atomic(no) && length(no) == 1)) {
+  if(!isTRUE(is.function(no) || (is.atomic(no) && length(no) == 1))) {
     stop("improper `no` given")
   }
-  if(!isTRUE(is.function(other) || is.atomic(other) && length(other) == 1)) {
+  if(!isTRUE(is.function(other) || (is.atomic(other) && length(other) == 1))) {
     stop("improper `other` given")
   }
 

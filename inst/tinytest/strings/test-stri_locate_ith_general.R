@@ -488,7 +488,7 @@ expect_error(.rcpp_convert_i(n.matches, rep(-Inf, length(n.matches))))
 
 
 # recycling checks ====
-# Note: ALL stri_locate_ith calls eventually go to stri_locate_ith_internal(),
+# Note: ALL stri_locate_ith calls eventually go to .stri_locate_ith_internal(),
 # and that's where the recycling takes place.
 
 x <- rep(paste0(0:9, collapse = ""), 10)
