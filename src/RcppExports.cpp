@@ -70,8 +70,8 @@ BEGIN_RCPP
 END_RCPP
 }
 
-RcppExport SEXP C_any_neg(void *);
-RcppExport SEXP C_any_nonpos(void *);
+RcppExport SEXP C_any_neg(SEXP);
+RcppExport SEXP C_any_nonpos(SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
     {"_tinycodet_rcpp_anybad_loc", (DL_FUNC) &_tinycodet_rcpp_anybad_loc, 2},
