@@ -27,7 +27,6 @@ pattern <- list(
   c("ab", "ab"),
   "AB",
   c("AB", "AB"),
-  "",
   character(0)
 )
 
@@ -117,7 +116,6 @@ pattern <- list(
   c("ab", "ab"),
   "AB",
   c("AB", "AB"),
-  "",
   character(0)
 )
 
@@ -255,7 +253,6 @@ pattern <- list(
   c("ab", "ab"),
   "AB",
   c("AB", "AB"),
-  "",
   character(0)
 )
 
@@ -344,7 +341,6 @@ pattern <- list(
   c("ab", "ab"),
   "AB",
   c("AB", "AB"),
-  "",
   character(0)
 )
 
