@@ -1,4 +1,4 @@
-# tinycodet 0.4.6 (Under Development)
+# tinycodet 0.4.6
 * Tweaked the error messages of `strfind()<-` to be a bit more informative.
 * Slight speed and memory improvement for `stri_locate_ith()`. Also relaxed the length restriction on argument `i` a little bit.
 * Added `as_cplx()` and `as_raw()` to the atomic typecasting functions.
