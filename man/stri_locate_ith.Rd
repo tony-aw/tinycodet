@@ -146,9 +146,9 @@ not just the first or last match;
 it can also be used to interchangeably finding the first and last matches. \cr
 Moreover, unlike the \verb{stri_locate_first_*} and \verb{stri_locate_last_*} functions,
 \code{stri_locate_ith()} supports \code{merge = TRUE} for pattern type \code{charclass}. \cr
-However, it is important to note that for finding only the first or only the last matches,
+For finding only the first or only the last matches,
 \link[stringi]{stri_locate_first} and \link[stringi]{stri_locate_last}
-are much more efficient than \code{stri_locate_ith()}. \cr \cr
+are more efficient than \code{stri_locate_ith()}. \cr \cr
 }
 \examples{
 

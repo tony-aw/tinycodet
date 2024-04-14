@@ -112,9 +112,9 @@
 #' it can also be used to interchangeably finding the first and last matches. \cr
 #' Moreover, unlike the `stri_locate_first_*` and `stri_locate_last_*` functions,
 #' `stri_locate_ith()` supports `merge = TRUE` for pattern type `charclass`. \cr
-#' However, it is important to note that for finding only the first or only the last matches,
+#' For finding only the first or only the last matches,
 #' \link[stringi]{stri_locate_first} and \link[stringi]{stri_locate_last}
-#' are much more efficient than `stri_locate_ith()`. \cr \cr
+#' are more efficient than `stri_locate_ith()`. \cr \cr
 #' 
 #'
 #'
