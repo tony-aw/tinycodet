@@ -150,6 +150,7 @@ import_LL <- function(
     if(isTRUE(check_existence)) {
       rm(list = sel, envir = parent.frame(n = 1))
     }
+    class(ns[[sel]]) <- c(class(ns[[sel]]), "tinyimport")
     assign(sel, ns[[sel]], envir = parent.frame(n = 1))
     lockBinding(as.character(sel), env = parent.frame(n = 1))
   }
@@ -202,18 +203,16 @@ import_int <- function(form, lib.loc = .libPaths()) {
   if(!exists(as.character(nm), envir = env, inherits = FALSE)) {
     return(FALSE)
   }
-  check <- bindingIsLocked(as.character(nm), env = env)
-  if(!check){
-    return(check)
+  if(!isTRUE(bindingIsLocked(as.character(nm), env = env))) {
+    return(FALSE)
   }
   obj <- get(as.character(nm), envir = env)
-  check <- isTRUE(is.function(obj))
-  if(!check) {
-    return(check)
+  if(!is.function(obj)) {
+    return(FALSE)
   }
-  check_class <- isTRUE(all(class(obj) %in% c("function", "tinyimport")))
+  check_class <- isTRUE(all(c("function", "tinyimport") %in% class(obj)))
   if(!check_class) {
-    return(check_class)
+    return(FALSE)
   }
   package_name <- .internal_get_packagename(obj)
   if(is.null(package_name)){
@@ -224,11 +223,14 @@ import_int <- function(form, lib.loc = .libPaths()) {
   if(!check) {
     return(FALSE)
   }
-  check <- isTRUE(as.character(attr(obj, "function_name")) == nm)
-  if(check) {
-    return(TRUE)
+  function_name <- attr(obj, "function_name")
+  if(is.null(function_name) || !is.character(function_name)) {
+    return(FALSE)
   }
-  return(FALSE)
+  if(function_name != nm) {
+    return(FALSE)
+  }
+  return(TRUE)
 }
 
 

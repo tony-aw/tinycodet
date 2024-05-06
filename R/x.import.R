@@ -27,7 +27,7 @@
 #' @param ... further arguments to be passed to \link[utils]{help}.
 #' @param which The attributes to list. If \code{NULL}, all attributes will be returned. \cr
 #' Possibilities: "pkgs", "conflicts", "args", and "ordered_object_names".
-#' @param x the object/function to be tested.
+#' @param x an existing object (i.e. an assigned variable or a locked constant) to be tested.
 #'
 #' @details
 #' For \code{help.import(...)}: \cr
@@ -180,6 +180,11 @@ help.import <- function(..., i, alias) {
 #' @rdname x.import
 #' @export
 is.tinyimport <- function(x) {
+  
+  if(!is.symbol(substitute(x))) {
+    stop("only assigned objects (variables/constants) can be checked")
+  }
+  
   x_chr <- as.character(substitute(x))
   myenv <- parent.frame(n = 1)
 

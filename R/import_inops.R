@@ -238,7 +238,12 @@ import_inops <- function(
   checks <- rep_len(FALSE, length(nms))
   for (i in seq_along(nms)) {
     nms.current <- nms[i]
-    checks[i] <- .is.tinyinop(nms.current, env) && attr(env[[nms.current]], "package") %in% pkgs
+    package_name <- attr(env[[nms.current]], "package")
+    if(is.null(package_name) || !is.character(package_name)) {
+      checks[i] <- FALSE
+    } else {
+      checks[i] <- .is.tinyinop(nms.current, env) && package_name %in% pkgs
+    }
   }
   return(checks)
 }
@@ -258,7 +263,7 @@ import_inops <- function(
   if(any(!checks)) {
     return(FALSE)
   }
-  check_class <- isTRUE(all(class(obj) %in% c("function", "tinyimport")))
+  check_class <- isTRUE(all( c("function", "tinyimport") %in% class(obj)))
   if(!check_class) {
     return(FALSE)
   }

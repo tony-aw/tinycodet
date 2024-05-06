@@ -359,7 +359,7 @@ import_as <- function(
   obj <- get(as.character(alias_chr), envir = env)
   checks <- c(
     is.environment(obj),
-    all(class(obj) %in% c("environment", "tinyimport"))
+    all(c("environment", "tinyimport") %in% class(obj))
   )
   if(any(!checks)) {
     return(FALSE)
