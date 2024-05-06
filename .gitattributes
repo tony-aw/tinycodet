@@ -13,3 +13,4 @@ vignettes/** linguist-documentation
 man/** linguist-documentation
 fake_packages/** linguist-vendored
 inst/** linguist-vendored
+bin/** linguist-vendored

@@ -1,9 +1,10 @@
 ^tinycodet\.Rproj$
 ^\.Rproj\.user$
 ^tests_special
-^tests_manual
+^tests_interactive
 ^vignettes
 ^docs
+^bin
 ^_pkgdown
 ^backups
 ^linguist

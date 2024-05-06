@@ -408,9 +408,8 @@ package:</p>
 the current environment as follows:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/import_inops.html">import_inops</a></span><span class="op">(</span>unexpose <span class="op">=</span> <span class="st">"data.table"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; checking for infix operators exposed to the current environment by `import_inops()` ...</span></span>
 <span><span class="co">#&gt; Removing the following infix operators:</span></span>
-<span><span class="co">#&gt; %between%, %chin%, %flike%, %ilike%, %inrange%, %like%, %notin%, %plike%, :=</span></span>
+<span><span class="co">#&gt; %between%, %like%, %ilike%, %chin%, %flike%, %inrange%, %plike%, :=, %notin%</span></span>
 <span><span class="co">#&gt; Done</span></span></code></pre></div>
 <p> </p>
 <p>The <code><a href="../reference/import_inops.html">import_inops()</a></code> function has the <code>exclude</code>
@@ -436,7 +435,6 @@ present in the current environment or loaded namespaces.</p>
 <span><span class="co">#&gt; Placing infix operators in current environment...</span></span>
 <span><span class="co">#&gt; Done</span></span>
 <span><span class="fu"><a href="../reference/import_inops.html">import_inops</a></span><span class="op">(</span>unexpose <span class="op">=</span> <span class="st">"data.table"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; checking for infix operators exposed to the current environment by `import_inops()` ...</span></span>
 <span><span class="co">#&gt; Removing the following infix operators:</span></span>
 <span><span class="co">#&gt; :=</span></span>
 <span><span class="co">#&gt; Done</span></span></code></pre></div>

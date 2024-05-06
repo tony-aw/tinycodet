@@ -150,7 +150,6 @@ import_LL <- function(
     if(isTRUE(check_existence)) {
       rm(list = sel, envir = parent.frame(n = 1))
     }
-    class(ns[[sel]]) <- c(class(ns[[sel]]), "tinyimport")
     assign(sel, ns[[sel]], envir = parent.frame(n = 1))
     lockBinding(as.character(sel), env = parent.frame(n = 1))
   }

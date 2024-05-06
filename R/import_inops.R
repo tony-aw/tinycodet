@@ -173,8 +173,6 @@ import_inops <- function(
       if(length(unexpose)>1) {
         stop("`unexpose` must be a package name (string) or an alias from `import_as()`")
       }
-      .internal_check_forbidden_pkgs(pkgs = unexpose, lib.loc = lib.loc, pkgs_txt = "packages", abortcall=sys.call())
-      .internal_check_pkgs(pkgs = unexpose, lib.loc = lib.loc, pkgs_txt = "packages", abortcall=sys.call())
       .import_inops_unexpose_package(unexpose, lib.loc, parent.frame(n = 1), sys.call())
     }
   }

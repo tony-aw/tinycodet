@@ -287,11 +287,6 @@ import_as <- function(
         namespace_current,
         foreignexports
       )
-      # Tmethods <- .internal_get_Tmethods(main_package, lib.loc, abortcall = sys.call())
-      # namespace_current <- utils::modifyList(
-      #   namespace_current,
-      #   Tmethods
-      # )
       
       conflicts_df$package[i] <- paste0(pkgs[i], " + re-exports")
       
@@ -300,13 +295,16 @@ import_as <- function(
     export_names_current <- names(namespace_current)
     
     export_names_intersection <- intersect(export_names_current, export_names_all)
-    if(length(export_names_intersection)>0) {
+    
+    if(length(export_names_intersection) > 0) {
       conflicts_df$winning_conflicts[i] <- paste0(export_names_intersection, collapse = ", ")
     }
+    
     export_names_allconflicts <- c(export_names_allconflicts, export_names_intersection)
     export_names_all <- c(export_names_all, export_names_current)
     namespaces <- utils::modifyList(namespaces, namespace_current)
   }
+  
   
   # make attributes:
   ordered_object_names <- names(namespaces)

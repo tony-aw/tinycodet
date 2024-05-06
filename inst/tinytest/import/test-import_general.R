@@ -9,29 +9,34 @@ errorfun <- function(tt) {
 
 
 # package not installed ====
+pattern <- "The following packages are not installed"
 expect_error(
   import_as(~stri., "stringi", lib.loc="foo"),
-  pattern = "The following packages are not installed"
+  pattern = pattern
 )
 expect_error(
   import_inops("stringi", lib.loc="foo"),
-  pattern = "The following packages are not installed"
+  pattern = pattern
+)
+expect_error(
+  import_inops(unexpose = "stringi", lib.loc="foo"),
+  pattern = pattern
 )
 expect_error(
   import_LL("stringi", lib.loc="foo", selection = "foo"),
-  pattern = "The following packages are not installed"
+  pattern = pattern
 )
 expect_error(
   import_int(stringi ~ foo, lib.loc="foo"),
-  pattern = "The following packages are not installed"
+  pattern = pattern
 )
 expect_error(
   pversion_check4mismatch("foo", lib.loc="foo"),
-  pattern = "The following packages are not installed"
+  pattern = pattern
 )
 expect_error(
   pversion_report("foo", lib.loc="foo"),
-  pattern = "The following packages are not installed"
+  pattern = pattern
 )
 
 
@@ -46,6 +51,10 @@ for(i in c("", "!@#$%^&*()")) {
   ) |> errorfun()
   expect_error(
     import_inops(i),
+    pattern = pattern
+  )  |> errorfun()
+  expect_error(
+    import_inops(unexpose = i),
     pattern = pattern
   )  |> errorfun()
   expect_error(
@@ -86,6 +95,10 @@ for(i in basepkgs) {
     pattern = pattern
   )  |> errorfun()
   expect_error(
+    import_inops(unexpose = i),
+    pattern = pattern
+  )  |> errorfun()
+  expect_error(
     import_LL(i, "foo"),
     pattern = pattern
   )  |> errorfun()
@@ -111,6 +124,10 @@ for(i in metapkgs) {
   ) |> errorfun()
   expect_error(
     import_inops(i),
+    pattern = pattern
+  )  |> errorfun()
+  expect_error(
+    import_inops(unexpose = i),
     pattern = pattern
   )  |> errorfun()
   expect_error(
@@ -141,6 +158,10 @@ expect_error(
 )
 expect_error(
   import_inops("stringi", lib.loc=mean),
+  pattern = "`lib.loc` must be a character vector with at least one library path"
+)
+expect_error(
+  import_inops(unexpose = "stringi", lib.loc=mean),
   pattern = "`lib.loc` must be a character vector with at least one library path"
 )
 expect_error(

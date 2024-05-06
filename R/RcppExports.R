@@ -15,12 +15,6 @@
 
 #' @keywords internal
 #' @noRd
-.rcpp_Tmethods <- function(ns, nms, pkgs) {
-    .Call(`_tinycodet_rcpp_Tmethods`, ns, nms, pkgs)
-}
-
-#' @keywords internal
-#' @noRd
 .rcpp_n_matches <- function(lst) {
     .Call(`_tinycodet_rcpp_n_matches`, lst)
 }

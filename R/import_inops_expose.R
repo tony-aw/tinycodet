@@ -70,7 +70,6 @@
     if(isTRUE(check_existence)) {
       rm(list = op, envir = env)
     }
-    class(ns[[op]]) <- c("function", "tinyimport")
     assign(op, ns[[op]], envir = env)
     
   }

@@ -637,10 +637,9 @@ package:</p>
 <p>And similarly one can remove the exposed infix operators again from
 the current environment as follows:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="at">unexpose =</span> <span class="st">&quot;data.table&quot;</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="co">#&gt; checking for infix operators exposed to the current environment by `import_inops()` ...</span></span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co">#&gt; Removing the following infix operators:</span></span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="co">#&gt; %between%, %chin%, %flike%, %ilike%, %inrange%, %like%, %notin%, %plike%, :=</span></span>
-<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="co">#&gt; Done</span></span></code></pre></div>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="co">#&gt; Removing the following infix operators:</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co">#&gt; %between%, %like%, %ilike%, %chin%, %flike%, %inrange%, %plike%, :=, %notin%</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="co">#&gt; Done</span></span></code></pre></div>
 <p> </p>
 <p>The <code>import_inops()</code> function has the <code>exclude</code>
 and <code>include.only</code> arguments to specify exactly which infix
@@ -664,10 +663,9 @@ present in the current environment or loaded namespaces.</p>
 <span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="co">#&gt; Placing infix operators in current environment...</span></span>
 <span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
 <span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="at">unexpose =</span> <span class="st">&quot;data.table&quot;</span>)</span>
-<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="co">#&gt; checking for infix operators exposed to the current environment by `import_inops()` ...</span></span>
-<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a><span class="co">#&gt; Removing the following infix operators:</span></span>
-<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a><span class="co">#&gt; :=</span></span>
-<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a><span class="co">#&gt; Done</span></span></code></pre></div>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a><span class="co">#&gt; Removing the following infix operators:</span></span>
+<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a><span class="co">#&gt; :=</span></span>
+<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a><span class="co">#&gt; Done</span></span></code></pre></div>
 <p> </p>
 <p>If the user would rather attach the infix operators to the (global)
 namespace, <code>tinycodet</code> provides the <code>pkg_lsf()</code>
