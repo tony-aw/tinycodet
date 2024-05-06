@@ -69,6 +69,25 @@ expect_equal(
 )
 
 
+# unexpose infix operators in alias but only user-defined in environment ====
+temp.fun <- function() {
+  `%s+%` <- stringi::`%s+%`
+  import_inops(
+    unexpose = "tinycodetfakepkg2", lib.loc = lib.loc1
+  )
+  ls()
+}
+
+expect_message(
+  temp.fun(),
+  pattern = "No infix operators to unexpose",
+  fixed = TRUE
+)
+expect_equal(
+  temp.fun(),
+  "%s+%"
+)
+
 
 # clean-up ====
 # dir2remove <- file.path(to.dir, list.files(to.dir)) |> normalizePath()

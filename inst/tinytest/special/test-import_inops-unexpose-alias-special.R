@@ -68,7 +68,6 @@ temp.fun <- function() {
   ls()
 }
 
-
 expect_message(
   temp.fun(),
   pattern = "No infix operators to unexpose",
@@ -77,6 +76,27 @@ expect_message(
 expect_equal(
   temp.fun(),
   "to2."
+)
+
+
+# unexpose infix operators in alias but only user-defined in environment ====
+temp.fun <- function() {
+  import_as(~ to2., "tinycodetfakepkg2", lib.loc = lib.loc1)
+  `%s+%` <- stringi::`%s+%`
+  import_inops(
+    unexpose = to2.
+  )
+  ls()
+}
+
+expect_message(
+  temp.fun(),
+  pattern = "No infix operators to unexpose",
+  fixed = TRUE
+)
+expect_equal(
+  temp.fun(),
+  sort(c("%s+%", "to2."))
 )
 
 
