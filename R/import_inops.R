@@ -263,14 +263,14 @@ import_inops <- function(
     return(FALSE)
   }
   package_name <- attr(obj, "package")
-  if(!is.character(package_name)){
+  if(is.null(package_name) || !is.character(package_name)) {
     return(FALSE)
   }
   if(package_name == "base") {
     return(FALSE)
   }
-  function_name <- as.character(attr(obj, "function_name"))
-  if(!is.character(function_name)){
+  function_name <- attr(obj, "function_name")
+  if(is.null(function_name) || !is.character(function_name)){
     return(FALSE)
   }
   if(function_name != nm) {

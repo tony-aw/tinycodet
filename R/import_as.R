@@ -376,7 +376,7 @@ import_as <- function(
     return(FALSE)
   }
   check_args <- c(
-    isTRUE(is.character(args$main_package)) & isTRUE(length(args$main_package)==1),
+    isTRUE(is.character(args$main_package)) & isTRUE(length(args$main_package) == 1),
     isTRUE(args$re_exports) | isFALSE(args$re_exports),
     isTRUE(is.character(args$dependencies) | is.null(args$dependencies)),
     isTRUE(is.character(args$extensions) | is.null(args$extensions)),
