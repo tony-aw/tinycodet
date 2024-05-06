@@ -36,6 +36,18 @@ temp.fun <- function() {
 expect_equal(temp.fun(), "stri.")
 
 
+
+# test import_inops - returning NULL value ====
+import_as(~ stri., "stringi")
+expect_equal(
+  import_inops(unexpose = stri.),
+  NULL
+)
+expect_silent(
+  import_inops(unexpose = stri.)
+)
+
+
 # test import_inops() - functional functions ====
 temp.fun <- function(){
   import_as(~stri., "stringi")
@@ -103,5 +115,5 @@ temp.fun <- function() {
 }
 expect_warning(
   temp.fun(),
-  pattern = "ALL prepared infix operators already exist in the current environment"
+  pattern = "ALL infix operators already exist in the current environment"
 )

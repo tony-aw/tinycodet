@@ -38,7 +38,16 @@ expect_error(
 )
 
 
-# help.import ====
+# help.import - errors ====
+# NOTE: non-error checks are performed in a separate script, and these checks are performed manually.
+expect_error(
+  help.import(i = letters),
+  pattern = "`i` must be a function or a single string"
+)
+expect_error(
+  help.import(i = ~ a),
+  pattern = "`i` must be a function or a single string"
+)
 expect_error(
   help.import(package = "stringi", alias = stri.),
   pattern = "you cannot provide both `package`/`topic` AND `i`/`alias`"
@@ -48,12 +57,17 @@ expect_error(
   pattern = "you cannot provide both `package`/`topic` AND `i`/`alias`"
 )
 expect_error(
-  help.import("deparse"),
-  pattern = "must specify at least `package`/`topic` OR `i`/`alias`"
-)
-expect_error(
   help.import(i = "string"),
   pattern = "if `i` is specified as a string, `alias` must also be supplied"
+)
+expect_error(
+  help.import(i = "stri_c", alias = as.list(stri.)),
+  pattern = "`alias` must be a package alias object"
+)
+stri2 <- loadNamespace("stringi")
+expect_error(
+  help.import(i = "stri_c", alias = stri2),
+  pattern = "`alias` must be a package alias object"
 )
 
 
@@ -66,6 +80,38 @@ tempfun <- function() {
   return(is.tinyimport(`%stri===%`))
 }
 expect_true(tempfun())
+
+tempfun <- function() {
+  import_inops(expose = "stringi")
+  return(tinycodet:::.is.tinyinop("%stri===%", environment()))
+}
+expect_true(tempfun())
+
+tempfun <- function() {
+  import_as(~ stri., "stringi")
+  import_inops(expose = stri.)
+  return(is.tinyimport(`%stri===%`))
+}
+expect_true(tempfun())
+
+tempfun <- function() {
+  import_as(~ stri., "stringi")
+  import_inops(expose = stri.)
+  return(tinycodet:::.is.tinyinop("%stri===%", environment()))
+}
+expect_true(tempfun())
+
+tempfun <- function() {
+  `%stri===%` <- stringi::`%stri===%`
+  return(is.tinyimport(`%stri===%`))
+}
+expect_false(tempfun())
+
+tempfun <- function() {
+  `%stri===%` <- stringi::`%stri===%`
+  return(tinycodet:::.is.tinyinop("%stri===%", environment()))
+}
+expect_false(tempfun())
 
 tempfun <- function() {
   import_LL("stringi", "stri_detect")

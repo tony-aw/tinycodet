@@ -11,7 +11,8 @@ import_int(form, lib.loc = .libPaths())
 }
 \arguments{
 \item{package}{a single string,
-giving the name of the package to take functions from.}
+giving the name of the package to take functions from. \cr
+Core R (i.e. "base", "stats", etc.) is not allowed.}
 
 \item{selection}{a character vector of function names
 (both regular functions and infix operators). \cr
@@ -25,7 +26,8 @@ See also \link[base]{loadNamespace}.}
 \item{form}{a two-sided formula, with one term on each side. \cr
 The term on the left hand side should give a single package name. \cr
 The term on the right hand side should give a single internal function. \cr
-Example: \code{package_name ~ function_name} \cr}
+Example: \code{package_name ~ function_name} \cr
+Core R (i.e. "base", "stats", etc.) is not allowed.}
 }
 \value{
 For \code{import_LL()}: \cr

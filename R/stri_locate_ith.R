@@ -106,15 +106,8 @@
 #' do not support \code{long vectors}
 #' (i.e. character vectors with more than \code{2^31 - 1} strings). \cr
 #' \cr
-#' \bold{Locate ith vs Locate First/Last} \cr
-#' `stri_locate_ith()` can be used for finding any \eqn{i^{th}} pattern match,
-#' not just the first or last match;
-#' it can also be used to interchangeably finding the first and last matches. \cr
-#' Moreover, unlike the `stri_locate_first_*` and `stri_locate_last_*` functions,
-#' `stri_locate_ith()` supports `merge = TRUE` for pattern type `charclass`. \cr
-#' For finding only the first or only the last matches,
-#' \link[stringi]{stri_locate_first} and \link[stringi]{stri_locate_last}
-#' are more efficient than `stri_locate_ith()`. \cr \cr
+#' \bold{Performance} \cr
+#' The performance of `stri_locate_ith()` is close to that of \link[stringi]{stri_locate_all}. \cr \cr
 #' 
 #'
 #'
@@ -262,7 +255,7 @@ stri_locate_ith_boundaries <- function(
     stop(simpleError("recycling of vector `i` not allowed", call = abortcall))
   }
   
-  mat <- .rcpp_alloc_stri_locate_ith(p1, i - 1L)
+  mat <- .rcpp_alloc_stri_locate_ith(p1, n.matches, i - 1L)
   colnames(mat) <- c("start", "end")
   
   return(mat)

@@ -38,7 +38,7 @@ instead of making it ambiguous.
     
     <a class="navbar-brand me-2" href="../index.html">tinycodet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.9</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -115,7 +115,8 @@ instead of making it ambiguous. <br><br></p></li>
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>package</dt>
 <dd><p>a single string,
-giving the name of the package to take functions from.</p></dd>
+giving the name of the package to take functions from. <br>
+Core R (i.e. "base", "stats", etc.) is not allowed.</p></dd>
 
 
 <dt>selection</dt>
@@ -135,7 +136,8 @@ See also <a href="https://rdrr.io/r/base/ns-load.html" class="external-link">loa
 <dd><p>a two-sided formula, with one term on each side. <br>
 The term on the left hand side should give a single package name. <br>
 The term on the right hand side should give a single internal function. <br>
-Example: <code>package_name ~ function_name</code> <br></p></dd>
+Example: <code>package_name ~ function_name</code> <br>
+Core R (i.e. "base", "stats", etc.) is not allowed.</p></dd>
 
 </dl></div>
     <div class="section level2">

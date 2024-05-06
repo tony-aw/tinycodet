@@ -16,7 +16,8 @@
 #' This name can be given either as a single string (i.e. \code{"alias."}),
 #' or as a one-sided formula with a single term (i.e. \code{~ alias.}).
 #' @param main_package a single string,
-#' giving the name of the main package to import under the given alias.
+#' giving the name of the main package to import under the given alias. \cr
+#' Core R (i.e. "base", "stats", etc.) is not allowed.
 #' @param re_exports \code{TRUE} or \code{FALSE}.
 #'  * If \code{re_exports = TRUE} the re-exports from the \code{main_package}
 #'  are added to the alias together with the main package.
@@ -29,10 +30,12 @@
 #' \code{main_package} to be imported also under the alias. \cr
 #' Defaults to \code{NULL}, which means no dependencies are imported under the alias. \cr
 #' See \link{pkg_get_deps} to quickly get dependencies from a package. \cr
+#' Core R (i.e. "base", "stats", etc.) is not allowed.
 #' @param extensions an optional character vector,
 #' giving the names of the extensions of the
 #' \code{main_package} to be imported also under the alias. \cr
 #' Defaults to \code{NULL}, which means no extensions are imported under the alias. \cr
+#' Core R (i.e. "base", "stats", etc.) is not allowed.
 #' @param import_order the character vector \cr
 #' \code{c("dependencies", "main_package", "extensions")}, \cr
 #' or some re-ordering of this character vector,
@@ -49,7 +52,8 @@
 #' \bold{Expanded Definitions of Some Arguments} \cr
 #'
 #'  * "Re-exports" are functions that are defined in the dependencies of the
-#'  \code{main_package}, but are re-exported in the namespace of the \code{main_package}.
+#'  \code{main_package}, but are re-exported in the namespace of the \code{main_package}. \cr
+#'  Unlike the `Dependencies` argument, functions from core R are included in re-exports.
 #'  * "Dependencies" are here defined as any R-package appearing in the
 #'  "Depends", "Imports", or "LinkingTo" fields of the Description file of the
 #'  \code{main_package}. So no recursive dependencies.
@@ -201,7 +205,13 @@ import_as <- function(
   if(length(main_package) != 1 || !is.character(main_package)){
     stop("`main_package` must be a single string")
   }
-  .internal_check_pkgs(pkgs=main_package, lib.loc=lib.loc, abortcall=sys.call())
+  .internal_check_forbidden_pkgs(
+    pkgs = main_package, lib.loc = lib.loc, abortcall = sys.call()
+  )
+  .internal_check_pkgs(
+    pkgs = main_package, lib.loc = lib.loc, abortcall = sys.call()
+  )
+  
   
   # check re-exports:
   if(!isTRUE(re_exports) && !isFALSE(re_exports)) {
@@ -226,7 +236,9 @@ import_as <- function(
     if(!is.character(dependencies) || length(dependencies) == 0) { 
       stop("`dependencies` must be a character vector")
     }
-    .internal_check_dependencies(main_package, dependencies, lib.loc, abortcall=sys.call())
+    .internal_check_forbidden_pkgs(dependencies, lib.loc = lib.loc, abortcall = sys.call())
+    .internal_check_dependencies(main_package, dependencies, lib.loc, abortcall = sys.call())
+    
   }
   
   
@@ -235,7 +247,9 @@ import_as <- function(
     if(!is.character(extensions) || length(extensions) == 0) { 
       stop("`extensions` must be a character vector")
     }
+    .internal_check_forbidden_pkgs(extensions, lib.loc = lib.loc, abortcall = sys.call())
     .internal_check_extends(main_package, extensions, lib.loc, abortcall=sys.call())
+    
   }
   
   
@@ -268,12 +282,17 @@ import_as <- function(
     
     
     if(pkgs[i] == main_package && isTRUE(re_exports)) {
-      foreignexports <- .internal_get_foreignexports_ns(main_package, lib.loc, abortcall=sys.call())
-      
+      foreignexports <- .internal_get_foreignexports_ns(main_package, lib.loc, abortcall = sys.call())
       namespace_current <- utils::modifyList(
         namespace_current,
         foreignexports
       )
+      # Tmethods <- .internal_get_Tmethods(main_package, lib.loc, abortcall = sys.call())
+      # namespace_current <- utils::modifyList(
+      #   namespace_current,
+      #   Tmethods
+      # )
+      
       conflicts_df$package[i] <- paste0(pkgs[i], " + re-exports")
       
     }
@@ -339,8 +358,8 @@ import_as <- function(
   }
   obj <- get(as.character(alias_chr), envir = env)
   checks <- c(
-    isTRUE(is.environment(obj)),
-    isTRUE(all(class(obj) %in% c("environment", "tinyimport")))
+    is.environment(obj),
+    all(class(obj) %in% c("environment", "tinyimport"))
   )
   if(any(!checks)) {
     return(FALSE)
@@ -366,6 +385,17 @@ import_as <- function(
   if(any(!check_args)) {
     return(FALSE)
   }
+  pkgs <- obj$.__attributes__.$pkgs
+  check_args <- c(
+    args$main_package != pkgs$main_package,
+    c(args$main_package) %in% .internal_list_coreR(),
+    args$dependencies %in% .internal_list_coreR(),
+    args$extensions %in% .internal_list_coreR()
+  )
+  if(any(check_args)) {
+    return(FALSE)
+  }
+  
   pkgs <- list(
     dependencies=args$dependencies, main_package=args$main_package, extensions=args$extensions
   )

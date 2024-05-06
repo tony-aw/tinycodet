@@ -100,12 +100,11 @@ import_as(
 p3 <- c(
   "fun_overwritten", "%opover%",
   "fun11",
-  "fun31", "fun32", "%op31%", "%op32%"
+  "fun31", "fun32", "%op31%", "%op32%", "acf"
 )
 out <- setdiff(names(p3.), ".__attributes__.") |> sort()
 expect_equal(out,  sort(p3))
 expect_true(p3.$.__attributes__.$args$re_exports)
-expect_false("acf" %in% names(p3.)) # expect base packages to be NOT re-exported
 expect_equal(
   import_as(~ p3., "tinycodetfakepkg3", re_exports = FALSE, dependencies = "tinycodetfakepkg1", lib.loc = lib.loc1),
   import_as(~ p3., "tinycodetfakepkg1", re_exports = FALSE, extensions = "tinycodetfakepkg3", lib.loc = lib.loc1),
@@ -123,7 +122,7 @@ p3 <- c(
   "fun_overwritten", "%opover%",
   "fun11", "fun12", "%op11%", "%op12%",
   "fun21", "fun22", "%op21%", "%op22%",
-  "fun31", "fun32", "%op31%", "%op32%"
+  "fun31", "fun32", "%op31%", "%op32%", "acf"
 )
 out <- setdiff(names(p3.), ".__attributes__.") |> sort()
 

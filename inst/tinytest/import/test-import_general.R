@@ -163,3 +163,4 @@ expect_error(
   pversion_check4mismatch("stringi", lib.loc = mean),
   pattern = "`lib.loc` must be a character vector with at least one library path"
 )
+

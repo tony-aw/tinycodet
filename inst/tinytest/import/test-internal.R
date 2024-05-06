@@ -30,7 +30,7 @@ expect_equal(
 )
 
 expect_error(
-  tinycodet:::.internal_check_pkgs(c("tidyverse", "fastverse", "tinyverse"), lib.loc1, abortcall = sys.call()),
+  tinycodet:::.internal_check_forbidden_pkgs(c("tidyverse", "fastverse", "tinyverse"), lib.loc1, abortcall = sys.call()),
   pattern = paste0(
     "The following packages are known meta-verse packages, which is not allowed:",
     "\n",

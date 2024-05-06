@@ -1,6 +1,7 @@
 ^tinycodet\.Rproj$
 ^\.Rproj\.user$
-^special_tests
+^tests_special
+^tests_manual
 ^vignettes
 ^docs
 ^_pkgdown

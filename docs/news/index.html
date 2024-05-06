@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tinycodet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.9</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -62,9 +62,27 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.4.9" id="tinycodet-049-under-development">tinycodet 0.4.9 (Under Development)<a class="anchor" aria-label="anchor" href="#tinycodet-049-under-development"></a></h2>
+<ul><li>
+<strong>Feature Improvement:</strong> <code><a href="../reference/x.import.html">help.import()</a></code> now directly evaluates the arguments under <code><a href="https://rdrr.io/r/utils/help.html" class="external-link">help()</a></code> if both arguments <code>i</code> and <code>alias</code> are missing.</li>
+<li>
+<strong>Feature Improvement:</strong> re_exports in <code><a href="../reference/import_as.html">import_as()</a></code> can now include functions from core R if necessary, except ‘base’.</li>
+<li>
+<strong>Performance Improvement:</strong> Replaced some of the internal code in the import system with ‘C++’ code via ‘Rcpp’ for some performance improvement.</li>
+<li>
+<strong>Bug fix:</strong> Fixed a (small) bug, where <code><a href="../reference/x.import.html">help.import()</a></code> sometimes gave an unnecessary error, when searching topics of un-exported objects or non-functions via an alias object instead of searching functions directly.</li>
+<li>
+<strong>Bug fix:</strong> Fixed a (small) bug where <code><a href="../reference/x.import.html">is.tinyimport()</a></code> would sometimes not recognise an exposed infix operator as a actual ‘tinyimport’ object.</li>
+<li>
+<code><a href="../reference/x.import.html">help.import()</a></code> can now also be called without any arguments, just like the original <code><a href="https://rdrr.io/r/utils/help.html" class="external-link">help()</a></code> function.</li>
+<li>Cleaned up the internal code of the import system a bit.</li>
+<li>Added the current year to the LICENSE file.</li>
+</ul></div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4.6" id="tinycodet-046">tinycodet 0.4.6<a class="anchor" aria-label="anchor" href="#tinycodet-046"></a></h2><p class="text-muted">CRAN release: 2024-04-14</p>
-<ul><li>Tweaked the error messages of <code>strfind()&lt;-</code> to be a bit more informative.</li>
-<li>Slight speed and memory improvement for <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code>. Also relaxed the length restriction on argument <code>i</code> a little bit.</li>
+<ul><li>
+<strong>Feature improvement:</strong> Relaxed the length restriction on argument <code>i</code> in <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code>. Also improved the performance of <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code>.</li>
+<li>Tweaked the error messages of <code>strfind()&lt;-</code> to be a bit more informative.</li>
 <li>Added <code><a href="../reference/atomic_conversions.html">as_cplx()</a></code> and <code><a href="../reference/atomic_conversions.html">as_raw()</a></code> to the atomic typecasting functions.</li>
 <li>Improved the documentation here and there.</li>
 <li>Tweaked description text.</li>

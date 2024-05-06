@@ -91,14 +91,13 @@ IntegerVector rcpp_convert_i1(IntegerVector n_matches, int i) {
 //' @keywords internal
 //' @noRd
 // [[Rcpp::export(.rcpp_alloc_stri_locate_ith)]]
-IntegerMatrix rcpp_alloc_stri_locate_ith(List p1, IntegerVector i) {
-    int n = p1.length(); // using regular integer, because maximum nrow/ncol for matrices is approx 2^30 -1 anyway
-    IntegerMatrix out(n, 2);
-    for(int j = 0; j < n; ++j) {
-      IntegerMatrix temp = p1[j];
-      IntegerMatrix::Row temprow = temp( i[j], _ );
-      IntegerMatrix::Row mainrow = out( j , _ );
-      mainrow = temprow;
-    }
-    return  out;
+IntegerMatrix rcpp_alloc_stri_locate_ith(List p1, IntegerVector n_matches, IntegerVector i) {
+  int n = Rf_length(p1); // using regular integer, because maximum nrow/ncol for matrices is approx 2^30 -1 anyway
+  IntegerMatrix out(n, 2);
+  for(int j = 0; j < n; ++j) {
+    IntegerVector temp = p1[j];
+    out(j, 0) = temp[i[j]];
+    out(j, 1) = temp[i[j] + n_matches[j]];
+  }
+  return  out;
 }

@@ -47,6 +47,20 @@ temp.fun <- function(){
   import_inops(unexpose = "stringi")
   ls()
 }
+expect_equal(
+  temp.fun(),
+  character(0)
+)
+
+
+# test import_inops - returning NULL value ====
+expect_equal(
+  import_inops(unexpose = "stringi"),
+  NULL
+)
+expect_silent(
+  import_inops(unexpose = "stringi")
+)
 
 
 # package error handling ====
@@ -116,6 +130,6 @@ temp.fun <- function(){
 }
 expect_warning(
   temp.fun(),
-  pattern = "ALL prepared infix operators already exist in the current environment"
+  pattern = "ALL infix operators already exist in the current environment"
 )
 

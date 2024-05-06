@@ -69,6 +69,7 @@ pversion_check4mismatch <- function(pkgs = NULL, lib.loc = .libPaths()) {
     stop("`pkgs` must a non-empty character vector")
   }
   pkgs <- pkgs[!pkgs %in% .internal_list_coreR()]
+  .internal_check_forbidden_pkgs(pkgs, lib.loc, abortcall = sys.call())
   .internal_check_pkgs(pkgs, lib.loc, abortcall = sys.call())
   
   
@@ -111,6 +112,7 @@ pversion_report <- function(pkgs = NULL, lib.loc = .libPaths()) {
     stop("`pkgs` must a non-empty character vector")
   }
   pkgs <- pkgs[!pkgs %in% .internal_list_coreR()]
+  .internal_check_forbidden_pkgs(pkgs, lib.loc, abortcall = sys.call())
   .internal_check_pkgs(pkgs, lib.loc, abortcall = sys.call())
   
   

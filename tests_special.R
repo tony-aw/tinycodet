@@ -68,10 +68,7 @@ expect_error(
   attr.import(mr., "foo"),
   pattern = "unknown `which` given"
 )
-help.import(i = `%>%`)
-help.import(i = mr.$multiply_by)
-help.import(i = "%>%", alias=mr.)
-help.import(i = "add", alias=mr.)
+
 
 
 # .internal_list_* ====
@@ -118,6 +115,20 @@ expect_warning(
 )
 
 
+# Tmethods checks ====
+import_as(~ rg., "Rgraphviz")
+rg2 <- new.env()
+import::into(.into = rg2, .from = "Rgraphviz", .all = TRUE)
+rg1 <- as.list(rg., all.names = FALSE, sorted = TRUE)
+rg2 <- as.list(rg2, all.names = FALSE, sorted = TRUE)
+expect_equal(
+  names(rg1), names(rg2)
+)
+expect_equal(
+  sapply(rg1, is.null), sapply(rg2, is.null)
+)
+
+
 # pversion checks ====
 loadNamespace("boot")
 templib <- tempdir()
@@ -136,6 +147,8 @@ expect_true(
   utils::compareVersion(check$version_loaded, check$version_lib.loc) == 1
 )
 
+
+# remove temp folder
 unloadNamespace("boot")
 remove.packages("boot", lib = templib)
 

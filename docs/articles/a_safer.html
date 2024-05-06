@@ -27,7 +27,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tinycodet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.9</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -274,7 +274,8 @@ explicitly.</p>
 <p>It can also quickly convert a single string to a formula, again
 allowing for explicit environment specification, and having no
 environment by default.</p>
-<p>See the benchmark article for a demonstration of the memory leak.</p>
+<p>See the benchmark article (<a href="https://tony-aw.github.io/tinycodet/articles/a_safer.html#form" class="uri">https://tony-aw.github.io/tinycodet/articles/a_safer.html#form</a>)
+for a demonstration of the memory leak.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># see also http://adv-r.had.co.nz/memory.html</span></span>
 <span></span>
@@ -297,7 +298,7 @@ environment by default.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/environment.html" class="external-link">environment</a></span><span class="op">(</span><span class="va">x2</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># NOT safe: contains all objects from f2()</span></span>
 <span><span class="co">#&gt; $out</span></span>
 <span><span class="co">#&gt; a ~ b</span></span>
-<span><span class="co">#&gt; &lt;environment: 0x000001b72106bcd0&gt;</span></span>
+<span><span class="co">#&gt; &lt;environment: 0x000001d01c1a87a8&gt;</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $foo</span></span>
 <span><span class="co">#&gt;  [1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s"</span></span>

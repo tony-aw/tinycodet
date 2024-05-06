@@ -21,7 +21,8 @@ This name can be given either as a single string (i.e. \code{"alias."}),
 or as a one-sided formula with a single term (i.e. \code{~ alias.}).}
 
 \item{main_package}{a single string,
-giving the name of the main package to import under the given alias.}
+giving the name of the main package to import under the given alias. \cr
+Core R (i.e. "base", "stats", etc.) is not allowed.}
 
 \item{re_exports}{\code{TRUE} or \code{FALSE}.
 \itemize{
@@ -37,12 +38,14 @@ by specifying them in the \code{dependencies} argument.
 giving the names of the dependencies of the
 \code{main_package} to be imported also under the alias. \cr
 Defaults to \code{NULL}, which means no dependencies are imported under the alias. \cr
-See \link{pkg_get_deps} to quickly get dependencies from a package. \cr}
+See \link{pkg_get_deps} to quickly get dependencies from a package. \cr
+Core R (i.e. "base", "stats", etc.) is not allowed.}
 
 \item{extensions}{an optional character vector,
 giving the names of the extensions of the
 \code{main_package} to be imported also under the alias. \cr
-Defaults to \code{NULL}, which means no extensions are imported under the alias. \cr}
+Defaults to \code{NULL}, which means no extensions are imported under the alias. \cr
+Core R (i.e. "base", "stats", etc.) is not allowed.}
 
 \item{lib.loc}{character vector specifying library search path
 (the location of R library trees to search through). \cr
@@ -83,7 +86,8 @@ will be placed in the current environment
 \bold{Expanded Definitions of Some Arguments} \cr
 \itemize{
 \item "Re-exports" are functions that are defined in the dependencies of the
-\code{main_package}, but are re-exported in the namespace of the \code{main_package}.
+\code{main_package}, but are re-exported in the namespace of the \code{main_package}. \cr
+Unlike the \code{Dependencies} argument, functions from core R are included in re-exports.
 \item "Dependencies" are here defined as any R-package appearing in the
 "Depends", "Imports", or "LinkingTo" fields of the Description file of the
 \code{main_package}. So no recursive dependencies.

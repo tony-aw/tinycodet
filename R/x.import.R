@@ -91,7 +91,7 @@
 #' For conflicting objects, the last imported ones are used for the ordering. \cr
 #' Note that if argument \code{re_exports} is \code{TRUE},
 #' re-exported functions are imported when the main package is imported,
-#' thus changing this order slightly.
+#' thus changing this order slightly. \cr \cr
 #'
 #'
 #' @seealso \link{tinycodet_import}
@@ -122,73 +122,59 @@ NULL
 #' @export
 help.import <- function(..., i, alias) {
 
-  # check arguments:
+  # directly go to base help if applicable:
+  if(missing(i) && missing(alias)) {
+    return(utils::help(...))
+  }
+  
+  # check arguments for help.import:
   lst <- list(...)
-  args_base <- any(names(lst) %in% c("package", "topic"))
+  lst_has_base_args <- any(c(
+    names(lst) == character(0),
+    any(names(lst) %in% c("topic", "package")),
+    sum(nzchar(names(lst))) < length(lst)
+  ))
+  args_base <- length(lst) > 0 && lst_has_base_args
   args_import <- !missing(i) || !missing(alias)
   if(args_base && args_import) {
     stop("you cannot provide both `package`/`topic` AND `i`/`alias`")
   }
-  if(!args_base && !args_import) {
-    stop("must specify at least `package`/`topic` OR `i`/`alias`")
-  }
   if(!missing(alias)) {
     if(!is.environment(alias)) {
-      stop("`alias` must be an alias object")
+      stop("`alias` must be a package alias object")
     }
+    if(!.is.tinyalias(as.character(substitute(alias)), parent.frame(n = 1))) {
+      stop("`alias` must be a package alias object")
+    } 
   }
-  if(!missing(i)) {
-    if(isFALSE(is.character(i)) && isFALSE(is.function(i))) {
-      stop("`i` must be a function or string")
+  i_is_string <- is.character(i) && length(i) == 1
+  if(!i_is_string && !is.function(i)) {
+    stop("`i` must be a function or a single string")
+  }
+ 
+  
+  # help.import:
+  if(is.function(i)) { # start i is a function
+    return(.internal_help.import.tempfun(i, ..., abortcall = sys.call()))
+  } # end i is a function
+  
+  
+  if(i_is_string) { # start i is a character
+    if(missing(alias)) {
+      stop("if `i` is specified as a string, `alias` must also be supplied")
     }
-  }
-
-  if(args_base) {
-    return(utils::help(...))
-  }
-
-
-  temp.fun <- function(f) {
-    fun_name <- attr(f, "function_name")
-    if(is.null(fun_name)) {
-      stop(
-        "no function name attribute found",
-        "\n",
-        "are you sure the function comes from `tinycodet::import_as()` or `tinycodet::import_inops()`?")
+    
+    if(i %in% names(alias)) {
+      i <- alias[[i]]
+      return(.internal_help.import.tempfun(i, ..., abortcall = sys.call()))
+    } else {
+      pkgs <- unlist(alias$.__attributes__.$pkgs) |> unique()
+      return(utils::help(topic = (i), package = (pkgs), ...))
     }
-    package <- .internal_get_packagename(f)
-    return(utils::help(fun_name, package = (package), ...))
-  }
-
-  if(!missing(i)) { # start i
-
-    if(is.function(i)) { # start i is a function
-      return(temp.fun(i))
-    } # end i is a function
-
-
-    if(is.character(i)) { # start i is a character
-      if(missing(alias)) {
-         stop("if `i` is specified as a string, `alias` must also be supplied")
-      }
-
-      if(i %in% names(alias)) {
-        i <- alias[[i]]
-        return(temp.fun(i))
-      }
-
-      if(!i %in% names(alias)) {
-        pkgs <- c(
-          eapply(alias, FUN=\(x)getNamespaceName(environment(x))) |> unlist(),
-          eapply(alias, FUN=\(x)attr(x, "package")) |> unlist()
-        ) |> unique()
-        return(utils::help(topic = (i), package = (pkgs), ...))
-      }
-
-    } # end i is a character
-
-  } # end i
+    
+  } # end i is a character
 }
+
 
 
 #' @rdname x.import
@@ -197,39 +183,8 @@ is.tinyimport <- function(x) {
   x_chr <- as.character(substitute(x))
   myenv <- parent.frame(n = 1)
 
-  temp.fun <- function(nm, env) {
-    if(!exists(as.character(nm), envir = env, inherits = FALSE)) {
-      return(FALSE)
-    }
-    obj <- get(as.character(nm), envir = env)
-    checks <- c(
-      isTRUE(is.function(obj)),
-      isTRUE(grepl("%|:=", nm))
-    )
-    if(any(!checks)) {
-      return(FALSE)
-    }
-    check_class <- isTRUE(all(class(obj) %in% c("function", "tinyimport")))
-    if(!check_class) {
-      return(FALSE)
-    }
-    package_name <- .internal_get_packagename(obj)
-    if(is.null(package_name)){
-      return(FALSE)
-    }
-    pkgs_core <- .internal_list_coreR()
-    check <- isFALSE(package_name %in% pkgs_core)
-    if(any(!check)) {
-      return(FALSE)
-    }
-    check <- isTRUE(as.character(attr(obj, "function_name")) == nm)
-    if(check) {
-      return(TRUE)
-    }
-    return(FALSE)
-  }
 
-  out <- .is.tinyalias(x_chr, myenv) | temp.fun(x_chr, myenv) | .is.tinyLL(x_chr, myenv)
+  out <- .is.tinyalias(x_chr, myenv) | .is.tinyinop(x_chr, myenv) | .is.tinyLL(x_chr, myenv)
   return(out)
 }
 

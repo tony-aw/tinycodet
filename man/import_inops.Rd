@@ -10,7 +10,7 @@ import_inops(expose = NULL, unexpose = NULL, lib.loc = .libPaths(), ...)
 \item{expose, unexpose}{either one of the following:
 \itemize{
 \item an alias object as produced by the \link{import_as} function.
-\item a string giving the package name.
+\item a string giving the package name. Core R (i.e. "base", "stats", etc.) is not allowed.
 }}
 
 \item{lib.loc}{character vector specifying library search path

@@ -38,7 +38,7 @@ will be removed from the current environment;
     
     <a class="navbar-brand me-2" href="../index.html">tinycodet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.9</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -114,7 +114,7 @@ will be removed from the current environment;
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>expose, unexpose</dt>
 <dd><p>either one of the following:</p><ul><li><p>an alias object as produced by the <a href="import_as.html">import_as</a> function.</p></li>
-<li><p>a string giving the package name.</p></li>
+<li><p>a string giving the package name. Core R (i.e. "base", "stats", etc.) is not allowed.</p></li>
 </ul></dd>
 
 
@@ -212,7 +212,8 @@ Only infix operators exposed by the 'tinycodet' import system will be removed.</
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Placing infix operators in current environment...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Done</span>
 <span class="r-in"><span><span class="fu">import_inops</span><span class="op">(</span>unexpose <span class="op">=</span> <span class="va">stri.</span><span class="op">)</span> <span class="co"># unexposed infix operators from current environment</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> unexposing infix operators...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Removing the following infix operators:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> %s&gt;=%, %stri&lt;%, %s===%, %s==%, %stri*%, %stri===%, %stri&gt;%, %s&lt;=%, %stri+%, %s$%, %stri!=%, %stri&gt;=%, %stri&lt;=%, %s!==%, %stri$%, %s&lt;%, %stri==%, %s!=%, %s*%, %stri!==%, %s&gt;%, %s+%</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Done</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
@@ -246,14 +247,16 @@ Only infix operators exposed by the 'tinycodet' import system will be removed.</
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Placing infix operators in current environment...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Done</span>
 <span class="r-in"><span><span class="fu">import_inops</span><span class="op">(</span>unexpose <span class="op">=</span> <span class="va">stri.</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> unexposing infix operators...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Removing the following infix operators:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> %s==%</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Done</span>
 <span class="r-in"><span><span class="fu">import_inops</span><span class="op">(</span>expose <span class="op">=</span> <span class="va">stri.</span>, overwrite <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Checking for conflicting infix operators in the current environment...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Placing infix operators in current environment...</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Done</span>
 <span class="r-in"><span><span class="fu">import_inops</span><span class="op">(</span>unexpose <span class="op">=</span> <span class="va">stri.</span><span class="op">)</span></span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> unexposing infix operators...</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Removing the following infix operators:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> %s&gt;=%, %stri&lt;%, %s===%, %s==%, %stri*%, %stri===%, %stri&gt;%, %s&lt;=%, %stri+%, %s$%, %stri!=%, %stri&gt;=%, %stri&lt;=%, %s!==%, %stri$%, %s&lt;%, %stri==%, %s!=%, %s*%, %stri!==%, %s&gt;%, %s+%</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Done</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>

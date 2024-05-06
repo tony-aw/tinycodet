@@ -71,7 +71,7 @@ expect_equal(
 )
 
 tempfun <- function(x, form) {
-  with_pro(x, myform)
+  with_pro(x, form)
 }
 
 x <- data.frame(a = 1:10, `1st` = 11:20, `TRUE` = 21:30, check.names = FALSE)

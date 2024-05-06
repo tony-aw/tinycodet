@@ -19,7 +19,8 @@
 #'
 #'
 #' @param package a single string,
-#' giving the name of the package to take functions from.
+#' giving the name of the package to take functions from. \cr
+#' Core R (i.e. "base", "stats", etc.) is not allowed.
 #' @param selection a character vector of function names
 #' (both regular functions and infix operators). \cr
 #' Internal functions or re-exported functions are not supported.
@@ -27,6 +28,7 @@
 #' The term on the left hand side should give a single package name. \cr
 #' The term on the right hand side should give a single internal function. \cr
 #' Example: \code{package_name ~ function_name} \cr
+#' Core R (i.e. "base", "stats", etc.) is not allowed.
 #' @param lib.loc character vector specifying library search path
 #' (the location of R library trees to search through). \cr
 #' The \code{lib.loc} argument would usually be \code{.libPaths()}. \cr
@@ -119,8 +121,8 @@ import_LL <- function(
   if(!is.character(package) || length(package) > 1){
     stop("`package` must be a single string")
   }
-  .internal_check_pkgs(pkgs=package, lib.loc=lib.loc, abortcall=sys.call())
-  
+  .internal_check_forbidden_pkgs(pkgs = package, lib.loc = lib.loc, abortcall = sys.call())
+  .internal_check_pkgs(pkgs = package, lib.loc = lib.loc, abortcall = sys.call())
   
   # check selection:
   checks <- c(
@@ -182,6 +184,7 @@ import_int <- function(form, lib.loc = .libPaths()) {
   .internal_check_lib.loc(lib.loc, sys.call())
 
   # check & get package:
+  .internal_check_forbidden_pkgs(package, lib.loc, abortcall = sys.call())
   .internal_check_pkgs(package, lib.loc, abortcall = sys.call())
   ns <- .get_internals(package, lib.loc, abortcall = sys.call())
   

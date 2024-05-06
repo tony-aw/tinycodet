@@ -19,7 +19,7 @@
 #'
 #' @param expose,unexpose either one of the following:
 #'  * an alias object as produced by the \link{import_as} function.
-#'  * a string giving the package name.
+#'  * a string giving the package name. Core R (i.e. "base", "stats", etc.) is not allowed.
 #' @param lib.loc character vector specifying library search path
 #' (the location of R library trees to search through). \cr
 #' Only used when supplying a string to
@@ -138,61 +138,27 @@ import_inops <- function(
   # expose:
   if(!is.null(expose)) {
     # check additional arguments:
-    lst <- import_inops.control(...) # checks are done in here
-    exclude <- lst$exclude
-    include.only <- lst$include.only
-    overwrite <- lst$overwrite
-    inherits <- lst$inherits
-
+    lst_opts <- import_inops.control(...) # checks are done in here
+    
     if(is.environment(expose)) {
       if(!.is.tinyalias(as.character(substitute(expose)), parent.frame(n = 1))) {
         stop("The given environment is not an alias from `import_as()`")
       }
-      pkgs <- c(
-        expose$.__attributes__.$re_exports.pkgs,
-        expose$.__attributes__.$pkgs$packages_order
-      ) |> unique()
-      funs <- names(expose)[eapply(expose, is.function)|>unlist()]
-      inops <- funs[stringi::stri_detect(funs, regex="%|:=")]
-      if(length(inops)==0) {
-        message("no infix operators in this alias")
-        return(NULL)
-      }
-      inops <- .import_exclude_include(inops, exclude, include.only, abortcall = sys.call())
-      if(length(inops)==0) {
-        message("no infix operators to expose")
-        return(NULL)
-      }
-      if(length(inops) > 0) {
-        .internal_check_conflicting_inops(
-          inops, overwrite, inherits, envir=parent.frame(n = 1), abortcall=sys.call()
-        )
-        message(
-          "Placing infix operators in current environment..."
-        )
-        for(i in inops) {
-          check_existence <- .is.tinyLL(i, env = parent.frame(n = 1))
-          if(isTRUE(check_existence)) {
-            rm(list = i, envir = parent.frame(n = 1))
-          }
-          assign(i, expose[[i]], envir = parent.frame(n = 1))
-        }
-        message("Done")
-      }
+      .import_inops_expose_alias(
+        expose, parent.frame(n = 1), lst_opts, abortcall = sys.call()
+      )
     }
-
+    
     if(is.character(expose)) {
       if(length(expose)>1) {
         stop("`expose` must be a package name (string) or an alias from `import_as()`")
       }
       
-      .import_inops_main(
-        expose, lib.loc = lib.loc,
-        env=parent.frame(n = 1), abortcall = sys.call(),
-        ...
+      .import_inops_expose_package(
+        expose, lib.loc, parent.frame(n = 1), lst_opts, abortcall = sys.call()
       )
     }
-
+    
   }
 
   # unexpose:
@@ -201,159 +167,21 @@ import_inops <- function(
       if(!.is.tinyalias(as.character(substitute(unexpose)), parent.frame(n = 1))) {
         stop("The given environment is not an alias from `import_as()`")
       }
-      pkgs <- c(
-        unexpose$.__attributes__.$re_exports.pkgs,
-        unexpose$.__attributes__.$pkgs$packages_order
-      ) |> unique()
-      funs <- names(unexpose)[eapply(unexpose, is.function)|>unlist()]
-      inops <- funs[stringi::stri_detect(funs, regex="%|:=")]
-      if(length(inops)==0) {
-        message("no infix operators in this alias")
-        return(NULL)
-      }
-      inops <- intersect(inops, utils::lsf.str(envir = parent.frame(n = 1)))
-      if(length(inops)==0) {
-        message("no infix operators to unexpose")
-        return(NULL)
-      }
-      inops.get <- mget(inops, envir = parent.frame(n = 1), inherits = FALSE)
-      checks <- .is.tinyinops(names(inops.get), pkgs, parent.frame(n = 1))
-      inops.get <- inops.get[checks]
-      if(length(inops.get)==0) {
-        message("No infix operators from alias to unexpose")
-        return(NULL)
-      }
-      message("unexposing infix operators...")
-      for(i in names(inops.get)) rm(list=i, envir = parent.frame(n = 1))
-      message("Done")
+      .import_inops_unexpose_alias(unexpose, parent.frame(n = 1), sys.call())
     }
-  }
     if(is.character(unexpose)) {
       if(length(unexpose)>1) {
         stop("`unexpose` must be a package name (string) or an alias from `import_as()`")
       }
-      .internal_check_pkgs(pkgs=unexpose, lib.loc=lib.loc, pkgs_txt = "packages", abortcall=sys.call())
-      .import_inops_delete(
-        unexpose, lib.loc = lib.loc,
-        env=parent.frame(n = 1), abortcall = sys.call()
-      )
+      .internal_check_forbidden_pkgs(pkgs = unexpose, lib.loc = lib.loc, pkgs_txt = "packages", abortcall=sys.call())
+      .internal_check_pkgs(pkgs = unexpose, lib.loc = lib.loc, pkgs_txt = "packages", abortcall=sys.call())
+      .import_inops_unexpose_package(unexpose, lib.loc, parent.frame(n = 1), sys.call())
     }
-}
-
-
-#' @keywords internal
-#' @noRd
-.import_inops_main <- function(
-    package, lib.loc, env, abortcall, ...
-){
-  
-  
-  # check library:
-  .internal_check_lib.loc(lib.loc, abortcall)
-  
-  
-  # check package
-  .internal_check_pkgs(
-    pkgs=package, lib.loc=lib.loc, pkgs_txt = "packages", abortcall=sys.call()
-  )
-
-  # check additional arguments:
-  lst <- import_inops.control(...) # checks are done in here
-  exclude <- lst$exclude
-  include.only <- lst$include.only
-  overwrite <- lst$overwrite
-  inherits <- lst$inherits
-
-  # FUNCTION:
-  ns <- .internal_prep_Namespace(package, lib.loc, abortcall = sys.call())
-  
-  
-  export_names <-  grep("%|:=", names(ns), value=TRUE)
-
-  if(length(export_names)==0){
-    message("no infix operators in this package")
-    return(NULL)
-  }
-
-  operators <- grep("%|:=", names(ns), value=TRUE)
-  operators <- .import_exclude_include(operators, exclude, include.only, abortcall = sys.call())
-
-  if(isTRUE(length(operators)==0)){
-    message("No infix operators to expose...")
-    return(NULL)
-  }
-
-  if(isTRUE(length(operators) > 0)) {
-    .internal_check_conflicting_inops(
-      operators, overwrite, inherits, envir=env, abortcall=abortcall
-    )
-
-    message(
-      "Placing infix operators in current environment..."
-    )
-    for(op in operators){
-      check_existence <- .is.tinyLL(op, env = env)
-      if(isTRUE(check_existence)) {
-        rm(list = op, envir = env)
-      }
-      class(ns[[op]]) <- c("function", "tinyimport")
-      assign(op, ns[[op]], envir = env)
-
-    }
-    message("Done")
-
   }
 }
 
 
-#' @keywords internal
-#' @noRd
-.import_inops_delete <- function(delete, lib.loc, env, abortcall) {
-  message(
-    "checking for infix operators exposed to the current environment by `import_inops()` ..."
-  )
 
-
-  # get functions
-  all.funs <- mget(utils::lsf.str(envir = env), envir = env, inherits = FALSE)
-  if(length(all.funs) == 0) {
-    message("No infix operators from `import_inops()` to delete")
-    return(NULL)
-  }
-
-  # get infix operators
-  all.ops <- all.funs[grep("%|:=", names(all.funs), value = TRUE)]
-  if(length(all.ops) == 0) {
-    message("No infix operators from `import_inops()` to delete")
-    return(NULL)
-  }
-
-  # get tinyimport objects from selected packages
-  checks <- .is.tinyinops(names(all.ops), delete, env)
-  tinyops <- all.ops[checks]
-  if(length(tinyops) == 0) {
-    message("No infix operators from selected packages to delete")
-    return(NULL)
-  }
-
-  # get tinyinops from selected packages
-  tinyops <- tinyops[sapply(tinyops, FUN = \(x).internal_get_packagename(x) %in% delete)]
-  if(length(tinyops) == 0) {
-    message("No infix operators from selected packages to delete")
-    return(NULL)
-  }
-
-  # MAIN FUNCTION:
-  tinyops <- names(tinyops)
-  message(paste0(
-    "Removing the following infix operators:",
-    "\n",
-    paste0(tinyops, collapse = ", ")
-  ))
-  for(i in tinyops) rm(list=i, envir = env)
-  message("Done")
-
-}
 
 #' @keywords internal
 #' @noRd
@@ -374,7 +202,7 @@ import_inops <- function(
   }
   if(sum(check_existing) > 0 && all_conflicting) {
     conflict.txt <- paste0(
-      "ALL prepared infix operators already exist in the current environment",
+      "ALL infix operators already exist in the current environment",
       "\n"
     )
   }
@@ -395,6 +223,7 @@ import_inops <- function(
   }
 }
 
+
 #' @keywords internal
 #' @noRd
 .is.tinyinops <- function(nms, pkgs, env) {
@@ -405,44 +234,47 @@ import_inops <- function(
   if(missing(nms) || missing(pkgs) || missing(env)) {
     stop("not all arguments given in `.is.tinyinops()`")
   }
-  temp.fun <- function(nm, pkgs, env) {
-    if(!exists(as.character(nm), envir = env, inherits = FALSE)) {
-      return(FALSE)
-    }
-    obj <- get(as.character(nm), envir = env)
-    checks <- c(
-      isTRUE(is.function(obj)),
-      isTRUE(grepl("%|:=", nm))
-    )
-    if(any(!checks)) {
-      return(FALSE)
-    }
-    check_class <- isTRUE(all(class(obj) %in% c("function", "tinyimport")))
-    if(!check_class) {
-      return(FALSE)
-    }
-    package_name <- .internal_get_packagename(obj)
-    if(is.null(package_name)){
-      return(FALSE)
-    }
-    pkgs_core <- .internal_list_coreR()
-    checks <- c(
-      isTRUE(package_name %in% pkgs),
-      isFALSE(package_name %in% pkgs_core)
-    )
-    if(any(!checks)) {
-      return(FALSE)
-    }
-    check <- isTRUE(as.character(attr(obj, "function_name")) == nm) # was nms[i]
-    if(check) {
-      return(TRUE)
-    }
-  }
+  
   checks <- rep_len(FALSE, length(nms))
   for (i in seq_along(nms)) {
-    checks[i] <- temp.fun(nms[i], pkgs, env)
+    nms.current <- nms[i]
+    checks[i] <- .is.tinyinop(nms.current, env) && attr(env[[nms.current]], "package") %in% pkgs
   }
   return(checks)
 }
 
 
+#' @keywords internal
+#' @noRd
+.is.tinyinop <- function(nm, env) {
+  if(!exists(as.character(nm), envir = env, inherits = FALSE)) {
+    return(FALSE)
+  }
+  obj <- get(as.character(nm), envir = env)
+  checks <- c(
+    isTRUE(is.function(obj)),
+    isTRUE(grepl("%|:=", nm))
+  )
+  if(any(!checks)) {
+    return(FALSE)
+  }
+  check_class <- isTRUE(all(class(obj) %in% c("function", "tinyimport")))
+  if(!check_class) {
+    return(FALSE)
+  }
+  package_name <- attr(obj, "package")
+  if(!is.character(package_name)){
+    return(FALSE)
+  }
+  if(package_name == "base") {
+    return(FALSE)
+  }
+  function_name <- as.character(attr(obj, "function_name"))
+  if(!is.character(function_name)){
+    return(FALSE)
+  }
+  if(function_name != nm) {
+    return(FALSE)
+  } 
+  return(TRUE)
+}

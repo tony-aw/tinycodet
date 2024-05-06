@@ -134,7 +134,7 @@ The `form()` function is a convenience function, to quickly create and return/st
 
 It can also quickly convert a single string to a formula, again allowing for explicit environment specification, and having no environment by default.
 
-See the benchmark article for a demonstration of the memory leak.
+See the benchmark article (https://tony-aw.github.io/tinycodet/articles/a_safer.html#form) for a demonstration of the memory leak.
 
 ```{r}
 # see also http://adv-r.had.co.nz/memory.html

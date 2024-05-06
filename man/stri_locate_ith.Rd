@@ -140,15 +140,8 @@ The \code{stri_locate_ith}-functions
 do not support \code{long vectors}
 (i.e. character vectors with more than \code{2^31 - 1} strings). \cr
 \cr
-\bold{Locate ith vs Locate First/Last} \cr
-\code{stri_locate_ith()} can be used for finding any \eqn{i^{th}} pattern match,
-not just the first or last match;
-it can also be used to interchangeably finding the first and last matches. \cr
-Moreover, unlike the \verb{stri_locate_first_*} and \verb{stri_locate_last_*} functions,
-\code{stri_locate_ith()} supports \code{merge = TRUE} for pattern type \code{charclass}. \cr
-For finding only the first or only the last matches,
-\link[stringi]{stri_locate_first} and \link[stringi]{stri_locate_last}
-are more efficient than \code{stri_locate_ith()}. \cr \cr
+\bold{Performance} \cr
+The performance of \code{stri_locate_ith()} is close to that of \link[stringi]{stri_locate_all}. \cr \cr
 }
 \examples{
 

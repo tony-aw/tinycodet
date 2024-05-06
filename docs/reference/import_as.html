@@ -24,7 +24,7 @@ will be placed in the current environment
     
     <a class="navbar-brand me-2" href="../index.html">tinycodet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.9</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -111,7 +111,8 @@ or as a one-sided formula with a single term (i.e. <code>~ alias.</code>).</p></
 
 <dt>main_package</dt>
 <dd><p>a single string,
-giving the name of the main package to import under the given alias.</p></dd>
+giving the name of the main package to import under the given alias. <br>
+Core R (i.e. "base", "stats", etc.) is not allowed.</p></dd>
 
 
 <dt>re_exports</dt>
@@ -129,14 +130,16 @@ by specifying them in the <code>dependencies</code> argument.</p></li>
 giving the names of the dependencies of the
 <code>main_package</code> to be imported also under the alias. <br>
 Defaults to <code>NULL</code>, which means no dependencies are imported under the alias. <br>
-See <a href="pkgs.html">pkg_get_deps</a> to quickly get dependencies from a package. <br></p></dd>
+See <a href="pkgs.html">pkg_get_deps</a> to quickly get dependencies from a package. <br>
+Core R (i.e. "base", "stats", etc.) is not allowed.</p></dd>
 
 
 <dt>extensions</dt>
 <dd><p>an optional character vector,
 giving the names of the extensions of the
 <code>main_package</code> to be imported also under the alias. <br>
-Defaults to <code>NULL</code>, which means no extensions are imported under the alias. <br></p></dd>
+Defaults to <code>NULL</code>, which means no extensions are imported under the alias. <br>
+Core R (i.e. "base", "stats", etc.) is not allowed.</p></dd>
 
 
 <dt>lib.loc</dt>
@@ -191,7 +194,8 @@ will contain the exported functions from the specified package(s). <br></p>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p><b>Expanded Definitions of Some Arguments</b> <br></p><ul><li><p>"Re-exports" are functions that are defined in the dependencies of the
-<code>main_package</code>, but are re-exported in the namespace of the <code>main_package</code>.</p></li>
+<code>main_package</code>, but are re-exported in the namespace of the <code>main_package</code>. <br>
+Unlike the <code>Dependencies</code> argument, functions from core R are included in re-exports.</p></li>
 <li><p>"Dependencies" are here defined as any R-package appearing in the
 "Depends", "Imports", or "LinkingTo" fields of the Description file of the
 <code>main_package</code>. So no recursive dependencies.</p></li>

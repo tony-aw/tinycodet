@@ -107,7 +107,7 @@ temp.fun <- function() {
 }
 expect_error(
   temp.fun(),
-  pattern = "ALL prepared infix operators already exist in the current environment"
+  pattern = "ALL infix operators already exist in the current environment"
 )
 
 temp.fun <- function() {
@@ -117,7 +117,7 @@ temp.fun <- function() {
 }
 expect_error(
   temp.fun(),
-  pattern = "ALL prepared infix operators already exist in the current environment"
+  pattern = "ALL infix operators already exist in the current environment"
 )
 
 temp.fun <- function() {
@@ -247,7 +247,7 @@ temp.fun <- function(){
 }
 expect_error(
   temp.fun(),
-  pattern = "ALL prepared infix operators already exist in the current environment"
+  pattern = "ALL infix operators already exist in the current environment"
 )
 
 temp.fun <- function(){
@@ -257,7 +257,7 @@ temp.fun <- function(){
 }
 expect_error(
   temp.fun(),
-  pattern = "ALL prepared infix operators already exist in the current environment"
+  pattern = "ALL infix operators already exist in the current environment"
 )
 
 temp.fun <- function() {
