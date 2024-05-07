@@ -5,7 +5,6 @@
 #' introduces a few functions:
 #'
 #'  * \link[=%d==%]{Safer decimal (in)equality testing}.
-#'  * \link[=as_int]{Atomic type casting without stripping attributes}.
 #'  * The \link{lock_TF} function to
 #'  set and lock \code{T} and \code{F} to \code{TRUE} and \code{FALSE},
 #'  respectively.

@@ -26,9 +26,8 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 ‘tinycodet’ adds some functions to help in your coding etiquette. It
 primarily focuses on 4 aspects:
 
-1)  Safer decimal (in)equality testing, safer atomic typecasting,
-    standard-evaluated alternatives to `with()` and `aes()`, and other
-    functions for safer coding.
+1)  Safer decimal (in)equality testing, standard-evaluated alternatives
+    to `with()` and `aes()`, and other functions for safer coding.
 2)  A new package import system, that attempts to combine the benefits
     of using a package without attaching, with the benefits of attaching
     a package.

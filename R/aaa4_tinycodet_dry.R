@@ -8,6 +8,7 @@
 #'
 #'
 #'  * The \link{transform_if} function
+#'  * \link[=as_int]{Atomic type casting without stripping attributes}.
 #'  * The \link[=%unreal =%]{subset_if operators and the in-place unreal modifier operator}.
 #'  * The \link[=%:=%]{general in-place (mathematical) modification operator}.
 #'

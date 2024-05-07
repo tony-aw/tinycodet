@@ -410,72 +410,6 @@ bounds defined by <code>bnd</code>.</p>
 <span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt; [1] FALSE FALSE FALSE</span></span></code></pre></div>
 <p> </p>
 </div>
-<div id="safer-atomic-type-casting" class="section level1">
-<h1>Safer atomic type casting</h1>
-<p>Atomic type casting in R is generally performed using the functions
-<code>as.logical()</code>, <code>as.integer()</code>,
-<code>as.double()</code>, <code>as.character()</code>.</p>
-<p>These functions have the annoying property that they strip
-attributes. I’ve taken the liberty of creating more convenient atomic
-conversion functions:</p>
-<ul>
-<li><code>as_bool()</code>: same as <code>as.logical()</code>, but with
-attributes preserved.</li>
-<li><code>as_int()</code>: same as <code>as.integer()</code>, but with
-attributes preserved.</li>
-<li><code>as_dbl()</code>: same as <code>as.double()</code>
-(i.e. convert to real numbers), but with attributes preserved.</li>
-<li><code>as_chr()</code>: same as <code>as.character()</code>, but with
-attributes preserved.</li>
-</ul>
-<p>All attributes except the “class” attribute are preserved.</p>
-<p>Examples:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>, <span class="dv">2</span>), <span class="fu">seq</span>(<span class="dv">0</span>, <span class="fl">2.5</span>, <span class="at">by=</span><span class="fl">0.5</span>)) <span class="sc">|&gt;</span> <span class="fu">matrix</span>(<span class="at">ncol=</span><span class="dv">2</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">colnames</span>(x) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;one&quot;</span>, <span class="st">&quot;two&quot;</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="fu">attr</span>(x, <span class="st">&quot;test&quot;</span>) <span class="ot">&lt;-</span> <span class="st">&quot;test&quot;</span></span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="fu">print</span>(x)</span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt;      one two</span></span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; [1,] 0.0 1.0</span></span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; [2,] 0.0 1.5</span></span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; [3,] 0.0 2.0</span></span>
-<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt; [4,] 0.5 2.5</span></span>
-<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;test&quot;)</span></span>
-<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt; [1] &quot;test&quot;</span></span>
-<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a></span>
-<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="fu">as_bool</span>(x)</span>
-<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt;        one  two</span></span>
-<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt; [1,] FALSE TRUE</span></span>
-<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co">#&gt; [2,] FALSE TRUE</span></span>
-<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co">#&gt; [3,] FALSE TRUE</span></span>
-<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="co">#&gt; [4,]  TRUE TRUE</span></span>
-<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;test&quot;)</span></span>
-<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="co">#&gt; [1] &quot;test&quot;</span></span>
-<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="fu">as_int</span>(x)</span>
-<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a><span class="co">#&gt;      one two</span></span>
-<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a><span class="co">#&gt; [1,]   0   1</span></span>
-<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a><span class="co">#&gt; [2,]   0   1</span></span>
-<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a><span class="co">#&gt; [3,]   0   2</span></span>
-<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a><span class="co">#&gt; [4,]   0   2</span></span>
-<span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;test&quot;)</span></span>
-<span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a><span class="co">#&gt; [1] &quot;test&quot;</span></span>
-<span id="cb4-29"><a href="#cb4-29" tabindex="-1"></a><span class="fu">as_dbl</span>(x)</span>
-<span id="cb4-30"><a href="#cb4-30" tabindex="-1"></a><span class="co">#&gt;      one two</span></span>
-<span id="cb4-31"><a href="#cb4-31" tabindex="-1"></a><span class="co">#&gt; [1,] 0.0 1.0</span></span>
-<span id="cb4-32"><a href="#cb4-32" tabindex="-1"></a><span class="co">#&gt; [2,] 0.0 1.5</span></span>
-<span id="cb4-33"><a href="#cb4-33" tabindex="-1"></a><span class="co">#&gt; [3,] 0.0 2.0</span></span>
-<span id="cb4-34"><a href="#cb4-34" tabindex="-1"></a><span class="co">#&gt; [4,] 0.5 2.5</span></span>
-<span id="cb4-35"><a href="#cb4-35" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;test&quot;)</span></span>
-<span id="cb4-36"><a href="#cb4-36" tabindex="-1"></a><span class="co">#&gt; [1] &quot;test&quot;</span></span>
-<span id="cb4-37"><a href="#cb4-37" tabindex="-1"></a><span class="fu">as_chr</span>(x)</span>
-<span id="cb4-38"><a href="#cb4-38" tabindex="-1"></a><span class="co">#&gt;      one   two  </span></span>
-<span id="cb4-39"><a href="#cb4-39" tabindex="-1"></a><span class="co">#&gt; [1,] &quot;0&quot;   &quot;1&quot;  </span></span>
-<span id="cb4-40"><a href="#cb4-40" tabindex="-1"></a><span class="co">#&gt; [2,] &quot;0&quot;   &quot;1.5&quot;</span></span>
-<span id="cb4-41"><a href="#cb4-41" tabindex="-1"></a><span class="co">#&gt; [3,] &quot;0&quot;   &quot;2&quot;  </span></span>
-<span id="cb4-42"><a href="#cb4-42" tabindex="-1"></a><span class="co">#&gt; [4,] &quot;0.5&quot; &quot;2.5&quot;</span></span>
-<span id="cb4-43"><a href="#cb4-43" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;test&quot;)</span></span>
-<span id="cb4-44"><a href="#cb4-44" tabindex="-1"></a><span class="co">#&gt; [1] &quot;test&quot;</span></span></code></pre></div>
-<p> </p>
-</div>
 <div id="locked-constants" class="section level1">
 <h1>Locked constants</h1>
 <p>One can re-assign the values <code>T</code> and <code>F</code>. One
@@ -512,59 +446,59 @@ allowing for explicit environment specification, and having no
 environment by default.</p>
 <p>See the benchmark article (<a href="https://tony-aw.github.io/tinycodet/articles/a_safer.html#form" class="uri">https://tony-aw.github.io/tinycodet/articles/a_safer.html#form</a>)
 for a demonstration of the memory leak.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># see also http://adv-r.had.co.nz/memory.html</span></span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>f1 <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  foo <span class="ot">&lt;-</span> <span class="fu">c</span>(letters, LETTERS)</span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>  <span class="fu">return</span>(<span class="dv">10</span>)</span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>}</span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">f1</span>()</span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="fu">environment</span>(x1) <span class="sc">|&gt;</span> <span class="fu">as.list</span>() <span class="co"># empty, since no formula is used inside f1(), so safe</span></span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt; list()</span></span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a></span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a></span>
-<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>f2 <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
-<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>  foo <span class="ot">&lt;-</span> <span class="fu">c</span>(letters, LETTERS)</span>
-<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>  out <span class="ot">&lt;-</span> a <span class="sc">~</span> b</span>
-<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>  <span class="fu">return</span>(out)</span>
-<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a>}</span>
-<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">f2</span>()</span>
-<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a><span class="fu">environment</span>(x2) <span class="sc">|&gt;</span> <span class="fu">as.list</span>() <span class="co"># NOT safe: contains all objects from f2()</span></span>
-<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="co">#&gt; $out</span></span>
-<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a><span class="co">#&gt; a ~ b</span></span>
-<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a><span class="co">#&gt; &lt;environment: 0x000002db96bca8c0&gt;</span></span>
-<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a><span class="co">#&gt; $foo</span></span>
-<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot; &quot;f&quot; &quot;g&quot; &quot;h&quot; &quot;i&quot; &quot;j&quot; &quot;k&quot; &quot;l&quot; &quot;m&quot; &quot;n&quot; &quot;o&quot; &quot;p&quot; &quot;q&quot; &quot;r&quot; &quot;s&quot;</span></span>
-<span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a><span class="co">#&gt; [20] &quot;t&quot; &quot;u&quot; &quot;v&quot; &quot;w&quot; &quot;x&quot; &quot;y&quot; &quot;z&quot; &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;E&quot; &quot;F&quot; &quot;G&quot; &quot;H&quot; &quot;I&quot; &quot;J&quot; &quot;K&quot; &quot;L&quot;</span></span>
-<span id="cb5-27"><a href="#cb5-27" tabindex="-1"></a><span class="co">#&gt; [39] &quot;M&quot; &quot;N&quot; &quot;O&quot; &quot;P&quot; &quot;Q&quot; &quot;R&quot; &quot;S&quot; &quot;T&quot; &quot;U&quot; &quot;V&quot; &quot;W&quot; &quot;X&quot; &quot;Y&quot; &quot;Z&quot;</span></span>
-<span id="cb5-28"><a href="#cb5-28" tabindex="-1"></a><span class="fu">exists</span>(<span class="st">&quot;foo&quot;</span>, <span class="at">envir =</span> <span class="fu">environment</span>(x2)) <span class="co"># = TRUE: &quot;foo&quot; still exists!</span></span>
-<span id="cb5-29"><a href="#cb5-29" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
-<span id="cb5-30"><a href="#cb5-30" tabindex="-1"></a><span class="fu">environment</span>(x2)<span class="sc">$</span>foo <span class="co"># can still access it; probably won&#39;t be removed by gc()</span></span>
-<span id="cb5-31"><a href="#cb5-31" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot; &quot;f&quot; &quot;g&quot; &quot;h&quot; &quot;i&quot; &quot;j&quot; &quot;k&quot; &quot;l&quot; &quot;m&quot; &quot;n&quot; &quot;o&quot; &quot;p&quot; &quot;q&quot; &quot;r&quot; &quot;s&quot;</span></span>
-<span id="cb5-32"><a href="#cb5-32" tabindex="-1"></a><span class="co">#&gt; [20] &quot;t&quot; &quot;u&quot; &quot;v&quot; &quot;w&quot; &quot;x&quot; &quot;y&quot; &quot;z&quot; &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;E&quot; &quot;F&quot; &quot;G&quot; &quot;H&quot; &quot;I&quot; &quot;J&quot; &quot;K&quot; &quot;L&quot;</span></span>
-<span id="cb5-33"><a href="#cb5-33" tabindex="-1"></a><span class="co">#&gt; [39] &quot;M&quot; &quot;N&quot; &quot;O&quot; &quot;P&quot; &quot;Q&quot; &quot;R&quot; &quot;S&quot; &quot;T&quot; &quot;U&quot; &quot;V&quot; &quot;W&quot; &quot;X&quot; &quot;Y&quot; &quot;Z&quot;</span></span>
-<span id="cb5-34"><a href="#cb5-34" tabindex="-1"></a></span>
-<span id="cb5-35"><a href="#cb5-35" tabindex="-1"></a></span>
-<span id="cb5-36"><a href="#cb5-36" tabindex="-1"></a>f3 <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
-<span id="cb5-37"><a href="#cb5-37" tabindex="-1"></a>  foo <span class="ot">&lt;-</span> <span class="fu">c</span>(letters, LETTERS)</span>
-<span id="cb5-38"><a href="#cb5-38" tabindex="-1"></a>  out <span class="ot">&lt;-</span> <span class="fu">form</span>(a <span class="sc">~</span> b)</span>
-<span id="cb5-39"><a href="#cb5-39" tabindex="-1"></a>  <span class="fu">return</span>(out)</span>
-<span id="cb5-40"><a href="#cb5-40" tabindex="-1"></a>}</span>
-<span id="cb5-41"><a href="#cb5-41" tabindex="-1"></a>x3 <span class="ot">&lt;-</span> <span class="fu">f3</span>()</span>
-<span id="cb5-42"><a href="#cb5-42" tabindex="-1"></a><span class="fu">environment</span>(x3) <span class="sc">|&gt;</span> <span class="fu">as.list</span>() <span class="co"># empty, since form() is used, so safe</span></span>
-<span id="cb5-43"><a href="#cb5-43" tabindex="-1"></a><span class="co">#&gt; list()</span></span>
-<span id="cb5-44"><a href="#cb5-44" tabindex="-1"></a></span>
-<span id="cb5-45"><a href="#cb5-45" tabindex="-1"></a></span>
-<span id="cb5-46"><a href="#cb5-46" tabindex="-1"></a>f4 <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
-<span id="cb5-47"><a href="#cb5-47" tabindex="-1"></a>  foo <span class="ot">&lt;-</span> <span class="fu">c</span>(letters, LETTERS)</span>
-<span id="cb5-48"><a href="#cb5-48" tabindex="-1"></a>  out <span class="ot">&lt;-</span> <span class="fu">form</span>(<span class="st">&quot;a ~ b&quot;</span>)</span>
-<span id="cb5-49"><a href="#cb5-49" tabindex="-1"></a>  <span class="fu">return</span>(out)</span>
-<span id="cb5-50"><a href="#cb5-50" tabindex="-1"></a>}</span>
-<span id="cb5-51"><a href="#cb5-51" tabindex="-1"></a>x4 <span class="ot">&lt;-</span> <span class="fu">f4</span>()</span>
-<span id="cb5-52"><a href="#cb5-52" tabindex="-1"></a><span class="fu">environment</span>(x4) <span class="sc">|&gt;</span> <span class="fu">as.list</span>() <span class="co"># empty, since form() is used, so safe</span></span>
-<span id="cb5-53"><a href="#cb5-53" tabindex="-1"></a><span class="co">#&gt; list()</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># see also http://adv-r.had.co.nz/memory.html</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>f1 <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  foo <span class="ot">&lt;-</span> <span class="fu">c</span>(letters, LETTERS)</span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  <span class="fu">return</span>(<span class="dv">10</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>}</span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>x1 <span class="ot">&lt;-</span> <span class="fu">f1</span>()</span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="fu">environment</span>(x1) <span class="sc">|&gt;</span> <span class="fu">as.list</span>() <span class="co"># empty, since no formula is used inside f1(), so safe</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt; list()</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a>f2 <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a>  foo <span class="ot">&lt;-</span> <span class="fu">c</span>(letters, LETTERS)</span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a>  out <span class="ot">&lt;-</span> a <span class="sc">~</span> b</span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a>  <span class="fu">return</span>(out)</span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a>}</span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a>x2 <span class="ot">&lt;-</span> <span class="fu">f2</span>()</span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="fu">environment</span>(x2) <span class="sc">|&gt;</span> <span class="fu">as.list</span>() <span class="co"># NOT safe: contains all objects from f2()</span></span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="co">#&gt; $out</span></span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="co">#&gt; a ~ b</span></span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a><span class="co">#&gt; &lt;environment: 0x00000183306fc3c8&gt;</span></span>
+<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a><span class="co">#&gt; $foo</span></span>
+<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot; &quot;f&quot; &quot;g&quot; &quot;h&quot; &quot;i&quot; &quot;j&quot; &quot;k&quot; &quot;l&quot; &quot;m&quot; &quot;n&quot; &quot;o&quot; &quot;p&quot; &quot;q&quot; &quot;r&quot; &quot;s&quot;</span></span>
+<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a><span class="co">#&gt; [20] &quot;t&quot; &quot;u&quot; &quot;v&quot; &quot;w&quot; &quot;x&quot; &quot;y&quot; &quot;z&quot; &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;E&quot; &quot;F&quot; &quot;G&quot; &quot;H&quot; &quot;I&quot; &quot;J&quot; &quot;K&quot; &quot;L&quot;</span></span>
+<span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a><span class="co">#&gt; [39] &quot;M&quot; &quot;N&quot; &quot;O&quot; &quot;P&quot; &quot;Q&quot; &quot;R&quot; &quot;S&quot; &quot;T&quot; &quot;U&quot; &quot;V&quot; &quot;W&quot; &quot;X&quot; &quot;Y&quot; &quot;Z&quot;</span></span>
+<span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a><span class="fu">exists</span>(<span class="st">&quot;foo&quot;</span>, <span class="at">envir =</span> <span class="fu">environment</span>(x2)) <span class="co"># = TRUE: &quot;foo&quot; still exists!</span></span>
+<span id="cb4-29"><a href="#cb4-29" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
+<span id="cb4-30"><a href="#cb4-30" tabindex="-1"></a><span class="fu">environment</span>(x2)<span class="sc">$</span>foo <span class="co"># can still access it; probably won&#39;t be removed by gc()</span></span>
+<span id="cb4-31"><a href="#cb4-31" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot; &quot;f&quot; &quot;g&quot; &quot;h&quot; &quot;i&quot; &quot;j&quot; &quot;k&quot; &quot;l&quot; &quot;m&quot; &quot;n&quot; &quot;o&quot; &quot;p&quot; &quot;q&quot; &quot;r&quot; &quot;s&quot;</span></span>
+<span id="cb4-32"><a href="#cb4-32" tabindex="-1"></a><span class="co">#&gt; [20] &quot;t&quot; &quot;u&quot; &quot;v&quot; &quot;w&quot; &quot;x&quot; &quot;y&quot; &quot;z&quot; &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;E&quot; &quot;F&quot; &quot;G&quot; &quot;H&quot; &quot;I&quot; &quot;J&quot; &quot;K&quot; &quot;L&quot;</span></span>
+<span id="cb4-33"><a href="#cb4-33" tabindex="-1"></a><span class="co">#&gt; [39] &quot;M&quot; &quot;N&quot; &quot;O&quot; &quot;P&quot; &quot;Q&quot; &quot;R&quot; &quot;S&quot; &quot;T&quot; &quot;U&quot; &quot;V&quot; &quot;W&quot; &quot;X&quot; &quot;Y&quot; &quot;Z&quot;</span></span>
+<span id="cb4-34"><a href="#cb4-34" tabindex="-1"></a></span>
+<span id="cb4-35"><a href="#cb4-35" tabindex="-1"></a></span>
+<span id="cb4-36"><a href="#cb4-36" tabindex="-1"></a>f3 <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb4-37"><a href="#cb4-37" tabindex="-1"></a>  foo <span class="ot">&lt;-</span> <span class="fu">c</span>(letters, LETTERS)</span>
+<span id="cb4-38"><a href="#cb4-38" tabindex="-1"></a>  out <span class="ot">&lt;-</span> <span class="fu">form</span>(a <span class="sc">~</span> b)</span>
+<span id="cb4-39"><a href="#cb4-39" tabindex="-1"></a>  <span class="fu">return</span>(out)</span>
+<span id="cb4-40"><a href="#cb4-40" tabindex="-1"></a>}</span>
+<span id="cb4-41"><a href="#cb4-41" tabindex="-1"></a>x3 <span class="ot">&lt;-</span> <span class="fu">f3</span>()</span>
+<span id="cb4-42"><a href="#cb4-42" tabindex="-1"></a><span class="fu">environment</span>(x3) <span class="sc">|&gt;</span> <span class="fu">as.list</span>() <span class="co"># empty, since form() is used, so safe</span></span>
+<span id="cb4-43"><a href="#cb4-43" tabindex="-1"></a><span class="co">#&gt; list()</span></span>
+<span id="cb4-44"><a href="#cb4-44" tabindex="-1"></a></span>
+<span id="cb4-45"><a href="#cb4-45" tabindex="-1"></a></span>
+<span id="cb4-46"><a href="#cb4-46" tabindex="-1"></a>f4 <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb4-47"><a href="#cb4-47" tabindex="-1"></a>  foo <span class="ot">&lt;-</span> <span class="fu">c</span>(letters, LETTERS)</span>
+<span id="cb4-48"><a href="#cb4-48" tabindex="-1"></a>  out <span class="ot">&lt;-</span> <span class="fu">form</span>(<span class="st">&quot;a ~ b&quot;</span>)</span>
+<span id="cb4-49"><a href="#cb4-49" tabindex="-1"></a>  <span class="fu">return</span>(out)</span>
+<span id="cb4-50"><a href="#cb4-50" tabindex="-1"></a>}</span>
+<span id="cb4-51"><a href="#cb4-51" tabindex="-1"></a>x4 <span class="ot">&lt;-</span> <span class="fu">f4</span>()</span>
+<span id="cb4-52"><a href="#cb4-52" tabindex="-1"></a><span class="fu">environment</span>(x4) <span class="sc">|&gt;</span> <span class="fu">as.list</span>() <span class="co"># empty, since form() is used, so safe</span></span>
+<span id="cb4-53"><a href="#cb4-53" tabindex="-1"></a><span class="co">#&gt; list()</span></span></code></pre></div>
 <p> </p>
 </div>
 <div id="with_pro-and-aes_pro" class="section level1">
@@ -572,46 +506,46 @@ for a demonstration of the memory leak.</p>
 <p>‘tinycodet’ provides standard-evaluated versions of the common
 quoting functions <code>with()</code> and <code>ggplot2::aes()</code>:
 <code>with_pro()</code> and <code>aes_pro()</code>, respectively.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a></span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">requireNamespace</span>(<span class="st">&quot;ggplot2&quot;</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#&gt; Loading required namespace: ggplot2</span></span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">import_data</span>(<span class="st">&quot;ggplot2&quot;</span>, <span class="st">&quot;mpg&quot;</span>)</span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co"># mutate data:</span></span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>myform <span class="ot">&lt;-</span> <span class="fu">form</span>(<span class="sc">~</span> displ <span class="sc">+</span> cyl <span class="sc">+</span> cty <span class="sc">+</span> hwy)</span>
-<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>d<span class="sc">$</span>mysum <span class="ot">&lt;-</span> <span class="fu">with_pro</span>(d, myform)</span>
-<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="fu">summary</span>(d)</span>
-<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a><span class="co">#&gt;  manufacturer          model               displ            year     </span></span>
-<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="co">#&gt;  Length:234         Length:234         Min.   :1.600   Min.   :1999  </span></span>
-<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="co">#&gt;  Class :character   Class :character   1st Qu.:2.400   1st Qu.:1999  </span></span>
-<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a><span class="co">#&gt;  Mode  :character   Mode  :character   Median :3.300   Median :2004  </span></span>
-<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a><span class="co">#&gt;                                        Mean   :3.472   Mean   :2004  </span></span>
-<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a><span class="co">#&gt;                                        3rd Qu.:4.600   3rd Qu.:2008  </span></span>
-<span id="cb6-18"><a href="#cb6-18" tabindex="-1"></a><span class="co">#&gt;                                        Max.   :7.000   Max.   :2008  </span></span>
-<span id="cb6-19"><a href="#cb6-19" tabindex="-1"></a><span class="co">#&gt;       cyl           trans               drv                 cty       </span></span>
-<span id="cb6-20"><a href="#cb6-20" tabindex="-1"></a><span class="co">#&gt;  Min.   :4.000   Length:234         Length:234         Min.   : 9.00  </span></span>
-<span id="cb6-21"><a href="#cb6-21" tabindex="-1"></a><span class="co">#&gt;  1st Qu.:4.000   Class :character   Class :character   1st Qu.:14.00  </span></span>
-<span id="cb6-22"><a href="#cb6-22" tabindex="-1"></a><span class="co">#&gt;  Median :6.000   Mode  :character   Mode  :character   Median :17.00  </span></span>
-<span id="cb6-23"><a href="#cb6-23" tabindex="-1"></a><span class="co">#&gt;  Mean   :5.889                                         Mean   :16.86  </span></span>
-<span id="cb6-24"><a href="#cb6-24" tabindex="-1"></a><span class="co">#&gt;  3rd Qu.:8.000                                         3rd Qu.:19.00  </span></span>
-<span id="cb6-25"><a href="#cb6-25" tabindex="-1"></a><span class="co">#&gt;  Max.   :8.000                                         Max.   :35.00  </span></span>
-<span id="cb6-26"><a href="#cb6-26" tabindex="-1"></a><span class="co">#&gt;       hwy             fl               class               mysum      </span></span>
-<span id="cb6-27"><a href="#cb6-27" tabindex="-1"></a><span class="co">#&gt;  Min.   :12.00   Length:234         Length:234         Min.   :33.70  </span></span>
-<span id="cb6-28"><a href="#cb6-28" tabindex="-1"></a><span class="co">#&gt;  1st Qu.:18.00   Class :character   Class :character   1st Qu.:43.10  </span></span>
-<span id="cb6-29"><a href="#cb6-29" tabindex="-1"></a><span class="co">#&gt;  Median :24.00   Mode  :character   Mode  :character   Median :50.15  </span></span>
-<span id="cb6-30"><a href="#cb6-30" tabindex="-1"></a><span class="co">#&gt;  Mean   :23.44                                         Mean   :49.66  </span></span>
-<span id="cb6-31"><a href="#cb6-31" tabindex="-1"></a><span class="co">#&gt;  3rd Qu.:27.00                                         3rd Qu.:54.08  </span></span>
-<span id="cb6-32"><a href="#cb6-32" tabindex="-1"></a><span class="co">#&gt;  Max.   :44.00                                         Max.   :84.90</span></span>
-<span id="cb6-33"><a href="#cb6-33" tabindex="-1"></a></span>
-<span id="cb6-34"><a href="#cb6-34" tabindex="-1"></a><span class="co"># plotting data:</span></span>
-<span id="cb6-35"><a href="#cb6-35" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">form</span>(<span class="st">&quot;cty&quot;</span>)</span>
-<span id="cb6-36"><a href="#cb6-36" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">form</span>(<span class="sc">~</span> <span class="fu">sqrt</span>(hwy))</span>
-<span id="cb6-37"><a href="#cb6-37" tabindex="-1"></a>color <span class="ot">&lt;-</span> <span class="fu">form</span>(<span class="sc">~</span> drv)</span>
-<span id="cb6-38"><a href="#cb6-38" tabindex="-1"></a></span>
-<span id="cb6-39"><a href="#cb6-39" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(d, <span class="fu">aes_pro</span>(x, y, <span class="at">color =</span> color)) <span class="sc">+</span></span>
-<span id="cb6-40"><a href="#cb6-40" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_point</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">requireNamespace</span>(<span class="st">&quot;ggplot2&quot;</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co">#&gt; Loading required namespace: ggplot2</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">import_data</span>(<span class="st">&quot;ggplot2&quot;</span>, <span class="st">&quot;mpg&quot;</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co"># mutate data:</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>myform <span class="ot">&lt;-</span> <span class="fu">form</span>(<span class="sc">~</span> displ <span class="sc">+</span> cyl <span class="sc">+</span> cty <span class="sc">+</span> hwy)</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>d<span class="sc">$</span>mysum <span class="ot">&lt;-</span> <span class="fu">with_pro</span>(d, myform)</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="fu">summary</span>(d)</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt;  manufacturer          model               displ            year     </span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt;  Length:234         Length:234         Min.   :1.600   Min.   :1999  </span></span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt;  Class :character   Class :character   1st Qu.:2.400   1st Qu.:1999  </span></span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt;  Mode  :character   Mode  :character   Median :3.300   Median :2004  </span></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#&gt;                                        Mean   :3.472   Mean   :2004  </span></span>
+<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co">#&gt;                                        3rd Qu.:4.600   3rd Qu.:2008  </span></span>
+<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="co">#&gt;                                        Max.   :7.000   Max.   :2008  </span></span>
+<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a><span class="co">#&gt;       cyl           trans               drv                 cty       </span></span>
+<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="co">#&gt;  Min.   :4.000   Length:234         Length:234         Min.   : 9.00  </span></span>
+<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a><span class="co">#&gt;  1st Qu.:4.000   Class :character   Class :character   1st Qu.:14.00  </span></span>
+<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a><span class="co">#&gt;  Median :6.000   Mode  :character   Mode  :character   Median :17.00  </span></span>
+<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a><span class="co">#&gt;  Mean   :5.889                                         Mean   :16.86  </span></span>
+<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a><span class="co">#&gt;  3rd Qu.:8.000                                         3rd Qu.:19.00  </span></span>
+<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a><span class="co">#&gt;  Max.   :8.000                                         Max.   :35.00  </span></span>
+<span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a><span class="co">#&gt;       hwy             fl               class               mysum      </span></span>
+<span id="cb5-27"><a href="#cb5-27" tabindex="-1"></a><span class="co">#&gt;  Min.   :12.00   Length:234         Length:234         Min.   :33.70  </span></span>
+<span id="cb5-28"><a href="#cb5-28" tabindex="-1"></a><span class="co">#&gt;  1st Qu.:18.00   Class :character   Class :character   1st Qu.:43.10  </span></span>
+<span id="cb5-29"><a href="#cb5-29" tabindex="-1"></a><span class="co">#&gt;  Median :24.00   Mode  :character   Mode  :character   Median :50.15  </span></span>
+<span id="cb5-30"><a href="#cb5-30" tabindex="-1"></a><span class="co">#&gt;  Mean   :23.44                                         Mean   :49.66  </span></span>
+<span id="cb5-31"><a href="#cb5-31" tabindex="-1"></a><span class="co">#&gt;  3rd Qu.:27.00                                         3rd Qu.:54.08  </span></span>
+<span id="cb5-32"><a href="#cb5-32" tabindex="-1"></a><span class="co">#&gt;  Max.   :44.00                                         Max.   :84.90</span></span>
+<span id="cb5-33"><a href="#cb5-33" tabindex="-1"></a></span>
+<span id="cb5-34"><a href="#cb5-34" tabindex="-1"></a><span class="co"># plotting data:</span></span>
+<span id="cb5-35"><a href="#cb5-35" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">form</span>(<span class="st">&quot;cty&quot;</span>)</span>
+<span id="cb5-36"><a href="#cb5-36" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">form</span>(<span class="sc">~</span> <span class="fu">sqrt</span>(hwy))</span>
+<span id="cb5-37"><a href="#cb5-37" tabindex="-1"></a>color <span class="ot">&lt;-</span> <span class="fu">form</span>(<span class="sc">~</span> drv)</span>
+<span id="cb5-38"><a href="#cb5-38" tabindex="-1"></a></span>
+<span id="cb5-39"><a href="#cb5-39" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(d, <span class="fu">aes_pro</span>(x, y, <span class="at">color =</span> color)) <span class="sc">+</span></span>
+<span id="cb5-40"><a href="#cb5-40" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">geom_point</span>()</span></code></pre></div>
 <p><img src="data:image/png;base64,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" /><!-- --></p>
 <p> </p>
 </div>
@@ -621,12 +555,12 @@ quoting functions <code>with()</code> and <code>ggplot2::aes()</code>:
 when partial matching occurs when using the dollar ($) operator, or when
 other forms of partial matching occurs. It simply calls the
 following:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a></span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="fu">options</span>(</span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>   <span class="at">warnPartialMatchDollar =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>   <span class="at">warnPartialMatchArgs =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>   <span class="at">warnPartialMatchAttr =</span> <span class="cn">TRUE</span></span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a> )</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">options</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>   <span class="at">warnPartialMatchDollar =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>   <span class="at">warnPartialMatchArgs =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>   <span class="at">warnPartialMatchAttr =</span> <span class="cn">TRUE</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a> )</span></code></pre></div>
 <p> </p>
 </div>
 

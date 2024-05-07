@@ -26,7 +26,6 @@ reference:
   - '`tinycodet_misc`'
 - title: Safer Functionality
   contents:
-  - '`atomic_conversions`'
   - '`decimal_truth`'
   - '`lock`'
   - '`form`'
@@ -54,9 +53,10 @@ reference:
   - '`s_pattern`'
 - title: Don't Repeat Yourself
   contents:
+  - '`transform_if`'
+  - '`atomic_conversions`'
   - '`inplace`'
   - '`subset_if`'
-  - '`transform_if`'
 - title: Miscellaneous Functions
   contents:
   - '`logic_ops`'

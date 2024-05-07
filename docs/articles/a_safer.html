@@ -167,78 +167,6 @@ bounds defined by <code>bnd</code>.</p>
 <p> </p>
 </div>
 <div class="section level2">
-<h2 id="safer-atomic-type-casting">Safer atomic type casting<a class="anchor" aria-label="anchor" href="#safer-atomic-type-casting"></a>
-</h2>
-<p>Atomic type casting in R is generally performed using the functions
-<code><a href="https://rdrr.io/r/base/logical.html" class="external-link">as.logical()</a></code>, <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer()</a></code>,
-<code><a href="https://rdrr.io/r/base/double.html" class="external-link">as.double()</a></code>, <code><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character()</a></code>.</p>
-<p>These functions have the annoying property that they strip
-attributes. I’ve taken the liberty of creating more convenient atomic
-conversion functions:</p>
-<ul>
-<li>
-<code><a href="../reference/atomic_conversions.html">as_bool()</a></code>: same as <code><a href="https://rdrr.io/r/base/logical.html" class="external-link">as.logical()</a></code>, but with
-attributes preserved.</li>
-<li>
-<code><a href="../reference/atomic_conversions.html">as_int()</a></code>: same as <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer()</a></code>, but with
-attributes preserved.</li>
-<li>
-<code><a href="../reference/atomic_conversions.html">as_dbl()</a></code>: same as <code><a href="https://rdrr.io/r/base/double.html" class="external-link">as.double()</a></code>
-(i.e. convert to real numbers), but with attributes preserved.</li>
-<li>
-<code><a href="../reference/atomic_conversions.html">as_chr()</a></code>: same as <code><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character()</a></code>, but with
-attributes preserved.</li>
-</ul>
-<p>All attributes except the “class” attribute are preserved.</p>
-<p>Examples:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2.5</span>, by<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>ncol<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"one"</span>, <span class="st">"two"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"test"</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"test"</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span><span class="co">#&gt;      one two</span></span>
-<span><span class="co">#&gt; [1,] 0.0 1.0</span></span>
-<span><span class="co">#&gt; [2,] 0.0 1.5</span></span>
-<span><span class="co">#&gt; [3,] 0.0 2.0</span></span>
-<span><span class="co">#&gt; [4,] 0.5 2.5</span></span>
-<span><span class="co">#&gt; attr(,"test")</span></span>
-<span><span class="co">#&gt; [1] "test"</span></span>
-<span></span>
-<span><span class="fu"><a href="../reference/atomic_conversions.html">as_bool</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span><span class="co">#&gt;        one  two</span></span>
-<span><span class="co">#&gt; [1,] FALSE TRUE</span></span>
-<span><span class="co">#&gt; [2,] FALSE TRUE</span></span>
-<span><span class="co">#&gt; [3,] FALSE TRUE</span></span>
-<span><span class="co">#&gt; [4,]  TRUE TRUE</span></span>
-<span><span class="co">#&gt; attr(,"test")</span></span>
-<span><span class="co">#&gt; [1] "test"</span></span>
-<span><span class="fu"><a href="../reference/atomic_conversions.html">as_int</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span><span class="co">#&gt;      one two</span></span>
-<span><span class="co">#&gt; [1,]   0   1</span></span>
-<span><span class="co">#&gt; [2,]   0   1</span></span>
-<span><span class="co">#&gt; [3,]   0   2</span></span>
-<span><span class="co">#&gt; [4,]   0   2</span></span>
-<span><span class="co">#&gt; attr(,"test")</span></span>
-<span><span class="co">#&gt; [1] "test"</span></span>
-<span><span class="fu"><a href="../reference/atomic_conversions.html">as_dbl</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span><span class="co">#&gt;      one two</span></span>
-<span><span class="co">#&gt; [1,] 0.0 1.0</span></span>
-<span><span class="co">#&gt; [2,] 0.0 1.5</span></span>
-<span><span class="co">#&gt; [3,] 0.0 2.0</span></span>
-<span><span class="co">#&gt; [4,] 0.5 2.5</span></span>
-<span><span class="co">#&gt; attr(,"test")</span></span>
-<span><span class="co">#&gt; [1] "test"</span></span>
-<span><span class="fu"><a href="../reference/atomic_conversions.html">as_chr</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span><span class="co">#&gt;      one   two  </span></span>
-<span><span class="co">#&gt; [1,] "0"   "1"  </span></span>
-<span><span class="co">#&gt; [2,] "0"   "1.5"</span></span>
-<span><span class="co">#&gt; [3,] "0"   "2"  </span></span>
-<span><span class="co">#&gt; [4,] "0.5" "2.5"</span></span>
-<span><span class="co">#&gt; attr(,"test")</span></span>
-<span><span class="co">#&gt; [1] "test"</span></span></code></pre></div>
-<p> </p>
-</div>
-<div class="section level2">
 <h2 id="locked-constants">Locked constants<a class="anchor" aria-label="anchor" href="#locked-constants"></a>
 </h2>
 <p>One can re-assign the values <code>T</code> and <code>F</code>. One
@@ -276,7 +204,7 @@ allowing for explicit environment specification, and having no
 environment by default.</p>
 <p>See the benchmark article (<a href="https://tony-aw.github.io/tinycodet/articles/a_safer.html#form" class="uri">https://tony-aw.github.io/tinycodet/articles/a_safer.html#form</a>)
 for a demonstration of the memory leak.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># see also http://adv-r.had.co.nz/memory.html</span></span>
 <span></span>
 <span></span>
@@ -298,7 +226,7 @@ for a demonstration of the memory leak.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/environment.html" class="external-link">environment</a></span><span class="op">(</span><span class="va">x2</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">as.list</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># NOT safe: contains all objects from f2()</span></span>
 <span><span class="co">#&gt; $out</span></span>
 <span><span class="co">#&gt; a ~ b</span></span>
-<span><span class="co">#&gt; &lt;environment: 0x000002081c8566d8&gt;</span></span>
+<span><span class="co">#&gt; &lt;environment: 0x000001c0201e8fa0&gt;</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $foo</span></span>
 <span><span class="co">#&gt;  [1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s"</span></span>
@@ -338,7 +266,7 @@ for a demonstration of the memory leak.</p>
 <p>‘tinycodet’ provides standard-evaluated versions of the common
 quoting functions <code><a href="https://rdrr.io/r/base/with.html" class="external-link">with()</a></code> and <code><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">ggplot2::aes()</a></code>:
 <code><a href="../reference/pro.html">with_pro()</a></code> and <code><a href="../reference/pro.html">aes_pro()</a></code>, respectively.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"ggplot2"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Loading required namespace: ggplot2</span></span>
@@ -379,7 +307,7 @@ quoting functions <code><a href="https://rdrr.io/r/base/with.html" class="extern
 <span></span>
 <span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">d</span>, <span class="fu"><a href="../reference/pro.html">aes_pro</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, color <span class="op">=</span> <span class="va">color</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="a_safer_files/figure-html/unnamed-chunk-6-1.png" width="768"></p>
+<p><img src="a_safer_files/figure-html/unnamed-chunk-5-1.png" width="768"></p>
 <p> </p>
 </div>
 <div class="section level2">
@@ -389,7 +317,7 @@ quoting functions <code><a href="https://rdrr.io/r/base/with.html" class="extern
 when partial matching occurs when using the dollar ($) operator, or when
 other forms of partial matching occurs. It simply calls the
 following:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span></span>
 <span>   warnPartialMatchDollar <span class="op">=</span> <span class="cn">TRUE</span>,</span>

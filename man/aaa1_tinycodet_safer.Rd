@@ -9,7 +9,6 @@ To help make your code safer, the 'tinycodet' R-package
 introduces a few functions:
 \itemize{
 \item \link[=\%d==\%]{Safer decimal (in)equality testing}.
-\item \link[=as_int]{Atomic type casting without stripping attributes}.
 \item The \link{lock_TF} function to
 set and lock \code{T} and \code{F} to \code{TRUE} and \code{FALSE},
 respectively.

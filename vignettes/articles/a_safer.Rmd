@@ -78,36 +78,6 @@ x %d!{}% bnd
 ```
 
 
-&nbsp;
-
-# Safer atomic type casting
-
-Atomic type casting in R is generally performed using the functions `as.logical()`, `as.integer()`, `as.double()`, `as.character()`.
-
-These functions have the annoying property that they strip attributes. I've taken the liberty of creating more convenient atomic conversion functions:
-
- - `as_bool()`: same as `as.logical()`, but with attributes preserved.
- - `as_int()`: same as `as.integer()`, but with attributes preserved.
- - `as_dbl()`: same as `as.double()` (i.e. convert to real numbers), but with attributes preserved.
- - `as_chr()`: same as `as.character()`, but with attributes preserved.
- 
-All attributes except the "class" attribute are preserved.
-
-Examples:
-
-```{r}
-x <- c(rep(0, 2), seq(0, 2.5, by=0.5)) |> matrix(ncol=2)
-colnames(x) <- c("one", "two")
-attr(x, "test") <- "test"
-print(x)
-
-as_bool(x)
-as_int(x)
-as_dbl(x)
-as_chr(x)
-```
-
-
 
 &nbsp;
 

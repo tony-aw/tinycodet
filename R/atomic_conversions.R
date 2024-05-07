@@ -30,7 +30,7 @@
 #' @returns
 #' The converted object.
 #'
-#' @seealso \link{tinycodet_safer}
+#' @seealso \link{tinycodet_dry}
 #'
 #' @examples
 #' x <- c(rep(0, 2), seq(0, 2.5, by=0.5)) |> matrix(ncol=2)

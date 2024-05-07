@@ -7,7 +7,6 @@ Authors@R: person("Tony", "Wilkes", role = c("aut", "cre", "cph"),
 Description: Adds some functions to help in your coding etiquette.
     'tinycodet' primarily focuses on 4 aspects.
     1) Safer decimal (in)equality testing,
-    safer atomic typecasting,
     standard-evaluated alternatives to with() and aes(),
     and other functions for safer coding.
     2) A new package import system,

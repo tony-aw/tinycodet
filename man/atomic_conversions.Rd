@@ -71,5 +71,5 @@ as_chr(x)
 
 }
 \seealso{
-\link{tinycodet_safer}
+\link{tinycodet_dry}
 }

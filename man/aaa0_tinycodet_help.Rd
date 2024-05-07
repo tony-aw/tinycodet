@@ -13,7 +13,6 @@ Welcome to the 'tinycodet' introduction help page! \cr
 It primarily focuses on 4 aspects: \cr
 \cr
 (1) Safer decimal (in)equality testing,
-safer atomic typecasting,
 standard-evaluated alternatives to \code{with()} and \code{aes()},
 and other functions for safer coding; \cr
 see \link{tinycodet_safer}. \cr

@@ -181,6 +181,87 @@ warnings/errors and more compact) as:</p>
 <p> </p>
 </div>
 <div class="section level2">
+<h2 id="atomic-type-casting-without-stripping-attributes">Atomic type casting without stripping attributes<a class="anchor" aria-label="anchor" href="#atomic-type-casting-without-stripping-attributes"></a>
+</h2>
+<p>Atomic type casting in R is generally performed using the functions
+<code><a href="https://rdrr.io/r/base/logical.html" class="external-link">as.logical()</a></code>, <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer()</a></code>,
+<code><a href="https://rdrr.io/r/base/double.html" class="external-link">as.double()</a></code>, <code><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character()</a></code>.</p>
+<p>These functions have the annoying property that they strip
+attributes. If you wish to convert a variable <code>x</code> whilst
+keeping the attributes, one must first safe the attributes of
+<code>x</code> before conversion, convert <code>x</code>, and then
+re-assign the attributes. ‘tinycodet’ adds functions that can do this
+for you, saving repititive code:</p>
+<ul>
+<li>
+<code><a href="../reference/atomic_conversions.html">as_bool()</a></code>: same as <code><a href="https://rdrr.io/r/base/logical.html" class="external-link">as.logical()</a></code>, but with
+attributes preserved.</li>
+<li>
+<code><a href="../reference/atomic_conversions.html">as_int()</a></code>: same as <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer()</a></code>, but with
+attributes preserved.</li>
+<li>
+<code><a href="../reference/atomic_conversions.html">as_dbl()</a></code>: same as <code><a href="https://rdrr.io/r/base/double.html" class="external-link">as.double()</a></code>
+(i.e. convert to real numbers), but with attributes preserved.</li>
+<li>
+<code><a href="../reference/atomic_conversions.html">as_chr()</a></code>: same as <code><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character()</a></code>, but with
+attributes preserved.</li>
+<li>
+<code><a href="../reference/atomic_conversions.html">as_cplx()</a></code>: same as <code><a href="https://rdrr.io/r/base/complex.html" class="external-link">as.complex()</a></code>, but with
+attributes preserved.</li>
+<li>
+<code><a href="../reference/atomic_conversions.html">as_raw()</a></code>: same as <code><a href="https://rdrr.io/r/base/raw.html" class="external-link">as.raw()</a></code>, but with
+attributes preserved.</li>
+</ul>
+<p>All attributes except the “class” attribute are preserved.</p>
+<p>Examples:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2.5</span>, by<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>ncol<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"one"</span>, <span class="st">"two"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"test"</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"test"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="co">#&gt;      one two</span></span>
+<span><span class="co">#&gt; [1,] 0.0 1.0</span></span>
+<span><span class="co">#&gt; [2,] 0.0 1.5</span></span>
+<span><span class="co">#&gt; [3,] 0.0 2.0</span></span>
+<span><span class="co">#&gt; [4,] 0.5 2.5</span></span>
+<span><span class="co">#&gt; attr(,"test")</span></span>
+<span><span class="co">#&gt; [1] "test"</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/atomic_conversions.html">as_bool</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="co">#&gt;        one  two</span></span>
+<span><span class="co">#&gt; [1,] FALSE TRUE</span></span>
+<span><span class="co">#&gt; [2,] FALSE TRUE</span></span>
+<span><span class="co">#&gt; [3,] FALSE TRUE</span></span>
+<span><span class="co">#&gt; [4,]  TRUE TRUE</span></span>
+<span><span class="co">#&gt; attr(,"test")</span></span>
+<span><span class="co">#&gt; [1] "test"</span></span>
+<span><span class="fu"><a href="../reference/atomic_conversions.html">as_int</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="co">#&gt;      one two</span></span>
+<span><span class="co">#&gt; [1,]   0   1</span></span>
+<span><span class="co">#&gt; [2,]   0   1</span></span>
+<span><span class="co">#&gt; [3,]   0   2</span></span>
+<span><span class="co">#&gt; [4,]   0   2</span></span>
+<span><span class="co">#&gt; attr(,"test")</span></span>
+<span><span class="co">#&gt; [1] "test"</span></span>
+<span><span class="fu"><a href="../reference/atomic_conversions.html">as_dbl</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="co">#&gt;      one two</span></span>
+<span><span class="co">#&gt; [1,] 0.0 1.0</span></span>
+<span><span class="co">#&gt; [2,] 0.0 1.5</span></span>
+<span><span class="co">#&gt; [3,] 0.0 2.0</span></span>
+<span><span class="co">#&gt; [4,] 0.5 2.5</span></span>
+<span><span class="co">#&gt; attr(,"test")</span></span>
+<span><span class="co">#&gt; [1] "test"</span></span>
+<span><span class="fu"><a href="../reference/atomic_conversions.html">as_chr</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="co">#&gt;      one   two  </span></span>
+<span><span class="co">#&gt; [1,] "0"   "1"  </span></span>
+<span><span class="co">#&gt; [2,] "0"   "1.5"</span></span>
+<span><span class="co">#&gt; [3,] "0"   "2"  </span></span>
+<span><span class="co">#&gt; [4,] "0.5" "2.5"</span></span>
+<span><span class="co">#&gt; attr(,"test")</span></span>
+<span><span class="co">#&gt; [1] "test"</span></span></code></pre></div>
+<p> </p>
+</div>
+<div class="section level2">
 <h2 id="subset-if-and-unreal-replacement">Subset if and unreal replacement<a class="anchor" aria-label="anchor" href="#subset-if-and-unreal-replacement"></a>
 </h2>
 <p>The <code>tinycodet</code> package adds 2 “subset_if” operators:</p>
@@ -193,7 +274,7 @@ vector/matrix/array <code>x</code>, for which the result of
 <code>cond(x)</code> returns <code>FALSE</code>.</p></li>
 </ul>
 <p>For example:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">object_with_very_long_name</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="op">-</span><span class="fl">10</span><span class="op">:</span><span class="fl">9</span>, ncol<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">object_with_very_long_name</span><span class="op">)</span></span>
 <span><span class="co">#&gt;       [,1] [,2]</span></span>
@@ -225,7 +306,7 @@ vector/matrix/array <code>x</code>, for which the result of
 <p>This R package includes a general in-place modifying infix
 operator.</p>
 <p>Consider the following line of code:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtcars</span><span class="op">$</span><span class="va">mpg</span><span class="op">[</span><span class="va">mtcars</span><span class="op">$</span><span class="va">cyl</span><span class="op">&gt;</span><span class="fl">6</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">mtcars</span><span class="op">$</span><span class="va">mpg</span><span class="op">[</span><span class="va">mtcars</span><span class="op">$</span><span class="va">cyl</span><span class="op">&gt;</span><span class="fl">6</span><span class="op">]</span><span class="op">^</span><span class="fl">2</span></span></code></pre></div>
 <p>The same expression, <code>mtcars$mpg[mtcars$cyl&gt;6]</code>, is
 written twice, making this code rather long and cumbersome, even though
@@ -235,7 +316,7 @@ general in-place (mathematical) modifier, through the
 <code>x %:=% f</code> operator.</p>
 <p>With <code>tinycodet</code> one can now make this more compact (more
 “tiny”, if you will) as follows:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mtcars</span><span class="op">$</span><span class="va">mpg</span><span class="op">[</span><span class="va">mtcars</span><span class="op">$</span><span class="va">cyl</span><span class="op">&gt;</span><span class="fl">6</span><span class="op">]</span> <span class="op"><a href="../reference/inplace.html">%:=%</a></span> \<span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="va">x</span><span class="op">^</span><span class="fl">2</span></span></code></pre></div>
 <p> </p>
 </div>

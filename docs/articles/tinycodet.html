@@ -99,9 +99,9 @@
 <p>The <code>tinycodet</code> R-package adds some functions to help in
 your coding etiquette. It primarily focuses on 4 aspects:</p>
 <ol style="list-style-type: decimal">
-<li>Safer decimal (in)equality testing, safer atomic typecasting,
-standard-evaluated alternatives to <code><a href="https://rdrr.io/r/base/with.html" class="external-link">with()</a></code> and
-<code>aes()</code>, and other functions for safer coding.</li>
+<li>Safer decimal (in)equality testing, standard-evaluated alternatives
+to <code><a href="https://rdrr.io/r/base/with.html" class="external-link">with()</a></code> and <code>aes()</code>, and other functions for
+safer coding.</li>
 <li>A new package import system, that attempts to combine the benefits
 of using a package without attaching, with the benefits of attaching a
 package.</li>
@@ -125,10 +125,6 @@ package.</p>
 to the way decimal numbers are stored in programming languages like R
 and Python. <code>tinycodet</code> adds safer truth testing operators,
 that give correct results.</li>
-<li>The atomic type casting functions (i.e. <code><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character()</a></code>,
-<code><a href="https://rdrr.io/r/base/logical.html" class="external-link">as.logical()</a></code>, etc.) strip away attributes.
-<code>tinycodet</code> adds safer type casting functions that do not
-strip away attributes - except the class attribute.</li>
 <li>
 <code><a href="../reference/pro.html">with_pro()</a></code> and <code><a href="../reference/pro.html">aes_pro()</a></code> are
 standard-evaluated alternatives to <code><a href="https://rdrr.io/r/base/with.html" class="external-link">base::with()</a></code> and
@@ -411,8 +407,7 @@ out the package yourself.</p>
 <li>
 <a href="https://tony-aw.github.io/tinycodet/articles/a_safer.html">Safer
 functionality</a>: Describes the safer decimal (in)equality testing
-operators, safer atomic conversion functions, and other functions for
-safer coding.</li>
+operators, and other functions for safer/stricter coding.</li>
 <li>
 <a href="https://tony-aw.github.io/tinycodet/articles/b_import_main.html">Import
 system - main functions</a>: Description of the main functions of the

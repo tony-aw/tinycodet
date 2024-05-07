@@ -2,7 +2,7 @@
 % Please edit documentation in R/safer_match.R
 \name{safer_partialmatch}
 \alias{safer_partialmatch}
-\title{Set safer dollar, arguments, and attribute matching}
+\title{Set Safer Dollar, Arguments, and Attribute Matching}
 \usage{
 safer_partialmatch()
 }

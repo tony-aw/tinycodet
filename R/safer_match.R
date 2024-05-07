@@ -1,4 +1,4 @@
-#' Set safer dollar, arguments, and attribute matching
+#' Set Safer Dollar, Arguments, and Attribute Matching
 #'
 #' @description
 #' The \code{safer_partialmatch()} function simply calls the following:
