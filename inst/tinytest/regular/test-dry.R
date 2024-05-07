@@ -20,15 +20,15 @@ expect_equal(
 
 # transform_if works on empty condition subsets ====
 expect_equal(
-  transform_if(1:10, \(x) x > 1000, 2, 3, -1), # all YES & NA empty
+  transform_if(1:10, \(x) x > 1000, 2, 3, -1), # condition completely FALSE
   rep(3, 10)
 )
 expect_equal(
-  transform_if(1:10, \(x) x %in% 1:10, 2, 3, -1), # all NO & NA empty 
+  transform_if(1:10, \(x) x %in% 1:10, 2, 3, -1), # condition completely TRUE
   rep(2, 10)
 )
 expect_equal(
-  transform_if(rep(NA, 10), \(x) x == 1, 2, 3, -1), # all YES & NO empty 
+  transform_if(rep(NA, 10), \(x) x == 1, 2, 3, -1), # condition completely NA
   rep(-1, 10)
 )
 expect_equal(
