@@ -2,6 +2,7 @@
 library(tinycodet)
 library(tinytest)
 
+
 # safer_partialmatch ====
 safer_partialmatch()
 expect_warning(
@@ -79,6 +80,10 @@ cbind(checks, tinycodet:::.internal_list_knownmeta()) |> print()
 
 
 # empty packages checks ====
+if(!require(spam64)) {
+  install.packages("spam64")
+}
+
 expect_warning(
   tinycodet:::.internal_prep_Namespace("spam64", .libPaths(), sys.call()),
   pattern = "the package `spam64` has no exported functions"
@@ -101,6 +106,16 @@ expect_warning(
 
 
 # Tmethods checks ====
+if (!require("BiocManager", quietly = TRUE)) {
+  install.packages("BiocManager")
+}
+if(!require("Rgraphviz")) {
+  BiocManager::install("Rgraphviz")
+}
+if(!require(import)) {
+  install.packages("import")
+}
+
 import_as(~ rg., "Rgraphviz")
 rg2 <- new.env()
 import::into(.into = rg2, .from = "Rgraphviz", .all = TRUE)

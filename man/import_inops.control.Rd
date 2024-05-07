@@ -37,8 +37,7 @@ and the function is halted.
 \item{inherits}{logical. \cr
 When exposing infix operators,
 \link{import_inops}
-checks if infix operators with the same name are already present in the current environment,
-and uses the \code{overwrite} argument to determine whether to overwrite existing operators or not. \cr
+checks if infix operators with the same names are already present in the current environment. \cr
 If \code{inherits = FALSE},
 only the current environment is checked for existing operators. \cr
 If \code{inherits = TRUE},

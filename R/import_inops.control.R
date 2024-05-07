@@ -25,8 +25,7 @@
 #' @param inherits logical. \cr
 #' When exposing infix operators,
 #' \link{import_inops}
-#' checks if infix operators with the same name are already present in the current environment,
-#' and uses the `overwrite` argument to determine whether to overwrite existing operators or not. \cr
+#' checks if infix operators with the same names are already present in the current environment. \cr
 #' If `inherits = FALSE`,
 #' only the current environment is checked for existing operators. \cr
 #' If `inherits = TRUE`, 

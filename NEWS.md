@@ -1,4 +1,4 @@
-# tinycodet 0.5.0 (Under Development)
+# tinycodet 0.5.0
 * **Feature Improvement:** `help.import()` now directly evaluates the arguments under `help()` if both arguments `i` and `alias` are missing.
 * **Feature Improvement:** re_exports in `import_as()` can now include functions from core R if necessary, except 'base'.
 * **Performance Improvement:** Replaced some of the internal code in the import system with 'C++' code via 'Rcpp' for some performance improvement.
