@@ -1,0 +1,114 @@
+---
+title: "Untitled"
+output: html_document
+date: "2024-05-07"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+
+&nbsp;
+
+# form() memory leak
+
+```{r eval=TRUE}
+library(pryr)
+loopfun <- function() {
+  for (i in 1:8) {
+    cat(i, ": ", sep = "")
+    print(mem_used())
+    
+    fun_name <- paste0("fun_", i)
+    obj_name <- paste0("obj_", i)
+    
+    assign(
+      fun_name,
+      f2,
+      envir = parent.frame(n = 1)
+    )
+    assign(
+      obj_name,
+      eval(parse(text = paste0(fun_name, "()"))),
+      envir = parent.frame(n = 1)
+    )
+    rm(list = fun_name, envir = parent.frame(n = 1))
+  }
+}
+```
+
+
+When creating a formula with the tilde (` ⁠~` ⁠) operator, and storing a formula in a variable to be used later, the environment is captured by the formula.
+Therefore, any object in the captured environment might not be freed from the memory, potentially creating some memory leak.
+
+The `form()` function by default has no environment attached to it, thus has no memory leak.
+
+First a demonstration of the absence of memory leak with the `form()` function
+(code inspired by https://r-lib.github.io/fastmap/#memory-leak-examples):
+
+```{r eval=TRUE}
+f2 <- function() {
+  x <- rnorm(1e6)
+  out <- form(a ~ b)
+  return(out)
+}
+gc()
+start_mem <- mem_used()
+start_time <- as.numeric(Sys.time())
+loopfun()
+end_time <- as.numeric(Sys.time())
+gc()
+end_mem <- mem_used()
+cat("Elapsed time:", round(end_time - start_time, 1), "seconds\n")
+cat("Memory leaked: \n"); print(end_mem - start_mem)
+rm(list = "f2")
+```
+
+
+Second, a demonstration of using a regular formula (code inspired by https://r-lib.github.io/fastmap/#memory-leak-examples):
+
+```{r eval=TRUE}
+f2 <- function() {
+  x <- rnorm(1e6)
+  out <- a ~ b
+  return(out)
+}
+gc()
+start_mem <- mem_used()
+start_time <- as.numeric(Sys.time())
+loopfun()
+end_time <- as.numeric(Sys.time())
+gc()
+end_mem <- mem_used()
+cat("Elapsed time:", round(end_time - start_time, 1), "seconds\n")
+cat("Memory leaked: \n"); print(end_mem - start_mem)
+rm(list = "f2")
+```
+
+&nbsp;
+
+Thus, clearly using a regular formula (the last chunk) has memory leakage, whereas the `form()` function does not have leakage.
+
+

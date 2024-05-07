@@ -14,7 +14,7 @@ aes_pro(...)
 
 \item{form}{a one-sided formula giving the expression to evaluate in \code{with_pro}. \cr
 If the formula has an environment,
-that environment is used to find any variables not present in \code{data}.}
+that environment is used to find any variables or objects not present in \code{data}.}
 
 \item{...}{arguments to be passed to \code{ggplot2::}\link[ggplot2]{aes},
 but given as one-sided formulas.}
@@ -34,10 +34,7 @@ They use proper standard evaluation,
 through the usage of one-sided formulas,
 instead of non-standard evaluation,
 tidy evaluation,
-or similar programmatically unfriendly evaluations. \cr
-\cr
-For creating formulas without capturing environments,
-see \link{form}. \cr \cr
+or similar programmatically unfriendly evaluations. \cr \cr
 }
 \details{
 The \code{aes_pro()} function is the standard evaluated alternative to
@@ -106,5 +103,5 @@ ggplot2::ggplot(d, aes_pro(x, y, color = color)) +
 \dontshow{\}) # examplesIf}
 }
 \seealso{
-\link{tinycodet_safer}, \link{form}
+\link{tinycodet_safer}
 }

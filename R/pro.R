@@ -11,10 +11,7 @@
 #' through the usage of one-sided formulas,
 #' instead of non-standard evaluation,
 #' tidy evaluation,
-#' or similar programmatically unfriendly evaluations. \cr
-#' \cr
-#' For creating formulas without capturing environments,
-#' see \link{form}. \cr \cr
+#' or similar programmatically unfriendly evaluations. \cr \cr
 #' 
 #'
 #'
@@ -23,7 +20,7 @@
 #' @param data a list, environment, or data.frame.
 #' @param form a one-sided formula giving the expression to evaluate in \code{with_pro}. \cr
 #' If the formula has an environment,
-#' that environment is used to find any variables not present in `data`.
+#' that environment is used to find any variables or objects not present in `data`.
 #' 
 #'
 #'
@@ -73,7 +70,7 @@
 #' 
 #' 
 #'
-#' @seealso \link{tinycodet_safer}, \link{form}
+#' @seealso \link{tinycodet_safer}
 #'
 #' @return
 #' For `with_pro()`: see \link[base]{with}. \cr

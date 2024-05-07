@@ -34,9 +34,6 @@
 #' as that would defeat the whole point of the `form()` function. \cr
 #' @param env The formula environment. \cr
 #' Use either `NULL`, or the environment the formula depends on. \cr
-#' For example: \cr
-#' If the formula depends on functions defined in the current environment,
-#' one must specify `env  = environment()`. \cr
 #' Defaults to `NULL`. \cr \cr
 #'
 #'

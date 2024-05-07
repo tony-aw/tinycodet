@@ -27,7 +27,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tinycodet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.4.9</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -188,115 +188,6 @@ terms of speed as the <code>stringi</code> functions they call.</p>
 <span><span class="op">)</span></span>
 <span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot</a></span><span class="op">(</span><span class="va">bm.colorder</span><span class="op">)</span></span></code></pre></div>
 <p><img src="i_benchmarks_files/figure-html/unnamed-chunk-10-1.png" width="768"></p>
-<p> </p>
-</div>
-<div class="section level2">
-<h2 id="form-memory-leak">form() memory leak<a class="anchor" aria-label="anchor" href="#form-memory-leak"></a>
-</h2>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hadley/pryr" class="external-link">pryr</a></span><span class="op">)</span></span>
-<span><span class="va">loopfun</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="kw">for</span> <span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">8</span><span class="op">)</span> <span class="op">{</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">i</span>, <span class="st">": "</span>, sep <span class="op">=</span> <span class="st">""</span><span class="op">)</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/pryr/man/mem_used.html" class="external-link">mem_used</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span>    </span>
-<span>    <span class="va">fun_name</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"fun_"</span>, <span class="va">i</span><span class="op">)</span></span>
-<span>    <span class="va">obj_name</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"obj_"</span>, <span class="va">i</span><span class="op">)</span></span>
-<span>    </span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/assign.html" class="external-link">assign</a></span><span class="op">(</span></span>
-<span>      <span class="va">fun_name</span>,</span>
-<span>      <span class="va">f2</span>,</span>
-<span>      envir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sys.parent.html" class="external-link">parent.frame</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
-<span>    <span class="op">)</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/assign.html" class="external-link">assign</a></span><span class="op">(</span></span>
-<span>      <span class="va">obj_name</span>,</span>
-<span>      <span class="fu"><a href="https://rdrr.io/r/base/eval.html" class="external-link">eval</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/parse.html" class="external-link">parse</a></span><span class="op">(</span>text <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">fun_name</span>, <span class="st">"()"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
-<span>      envir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sys.parent.html" class="external-link">parent.frame</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
-<span>    <span class="op">)</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="va">fun_name</span>, envir <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sys.parent.html" class="external-link">parent.frame</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="op">}</span></span>
-<span><span class="op">}</span></span></code></pre></div>
-<p>When creating a formula with the tilde (<code>⁠~</code> ⁠) operator,
-and storing a formula in a variable to be used later, the environment is
-captured by the formula. Therefore, any object in the captured
-environment might not be freed from the memory, potentially creating
-some memory leak.</p>
-<p>The <code><a href="../reference/form.html">form()</a></code> function by default has no environment
-attached to it, thus has no memory leak.</p>
-<p>First a demonstration of the absence of memory leak with the
-<code><a href="../reference/form.html">form()</a></code> function (code inspired by <a href="https://r-lib.github.io/fastmap/#memory-leak-examples" class="external-link uri">https://r-lib.github.io/fastmap/#memory-leak-examples</a>):</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">f2</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1e6</span><span class="op">)</span></span>
-<span>  <span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/form.html">form</a></span><span class="op">(</span><span class="va">a</span> <span class="op">~</span> <span class="va">b</span><span class="op">)</span></span>
-<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span></span>
-<span><span class="op">}</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/gc.html" class="external-link">gc</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt;            used (Mb) gc trigger  (Mb) max used  (Mb)</span></span>
-<span><span class="co">#&gt; Ncells  1440400 77.0    2906192 155.3  2906192 155.3</span></span>
-<span><span class="co">#&gt; Vcells 12662814 96.7   20630476 157.4 13317045 101.7</span></span>
-<span><span class="va">start_mem</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/pryr/man/mem_used.html" class="external-link">mem_used</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="va">start_time</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu">loopfun</span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; 1: 182 MB</span></span>
-<span><span class="co">#&gt; 2: 182 MB</span></span>
-<span><span class="co">#&gt; 3: 182 MB</span></span>
-<span><span class="co">#&gt; 4: 182 MB</span></span>
-<span><span class="co">#&gt; 5: 182 MB</span></span>
-<span><span class="co">#&gt; 6: 182 MB</span></span>
-<span><span class="co">#&gt; 7: 182 MB</span></span>
-<span><span class="co">#&gt; 8: 182 MB</span></span>
-<span><span class="va">end_time</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/gc.html" class="external-link">gc</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt;            used (Mb) gc trigger  (Mb) max used  (Mb)</span></span>
-<span><span class="co">#&gt; Ncells  1441399 77.0    2906192 155.3  2906192 155.3</span></span>
-<span><span class="co">#&gt; Vcells 12665252 96.7   20630476 157.4 13686657 104.5</span></span>
-<span><span class="va">end_mem</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/pryr/man/mem_used.html" class="external-link">mem_used</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Elapsed time:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">end_time</span> <span class="op">-</span> <span class="va">start_time</span>, <span class="fl">1</span><span class="op">)</span>, <span class="st">"seconds\n"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Elapsed time: 0.8 seconds</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Memory leaked: \n"</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">end_mem</span> <span class="op">-</span> <span class="va">start_mem</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Memory leaked:</span></span>
-<span><span class="co">#&gt; 75.3 kB</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="st">"f2"</span><span class="op">)</span></span></code></pre></div>
-<p>Second, a demonstration of using a regular formula (code inspired by
-<a href="https://r-lib.github.io/fastmap/#memory-leak-examples" class="external-link uri">https://r-lib.github.io/fastmap/#memory-leak-examples</a>):</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">f2</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">1e6</span><span class="op">)</span></span>
-<span>  <span class="va">out</span> <span class="op">&lt;-</span> <span class="va">a</span> <span class="op">~</span> <span class="va">b</span></span>
-<span>  <span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">out</span><span class="op">)</span></span>
-<span><span class="op">}</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/gc.html" class="external-link">gc</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt;            used (Mb) gc trigger  (Mb) max used  (Mb)</span></span>
-<span><span class="co">#&gt; Ncells  1441458 77.0    2906192 155.3  2906192 155.3</span></span>
-<span><span class="co">#&gt; Vcells 12666339 96.7   20630476 157.4 13686657 104.5</span></span>
-<span><span class="va">start_mem</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/pryr/man/mem_used.html" class="external-link">mem_used</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="va">start_time</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu">loopfun</span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; 1: 182 MB</span></span>
-<span><span class="co">#&gt; 2: 190 MB</span></span>
-<span><span class="co">#&gt; 3: 198 MB</span></span>
-<span><span class="co">#&gt; 4: 206 MB</span></span>
-<span><span class="co">#&gt; 5: 214 MB</span></span>
-<span><span class="co">#&gt; 6: 222 MB</span></span>
-<span><span class="co">#&gt; 7: 230 MB</span></span>
-<span><span class="co">#&gt; 8: 238 MB</span></span>
-<span><span class="va">end_time</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/gc.html" class="external-link">gc</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt;            used  (Mb) gc trigger  (Mb) max used  (Mb)</span></span>
-<span><span class="co">#&gt; Ncells  1441532  77.0    2906192 155.3  2906192 155.3</span></span>
-<span><span class="co">#&gt; Vcells 20666450 157.7   35940662 274.3 20687629 157.9</span></span>
-<span><span class="va">end_mem</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/pryr/man/mem_used.html" class="external-link">mem_used</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Elapsed time:"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">end_time</span> <span class="op">-</span> <span class="va">start_time</span>, <span class="fl">1</span><span class="op">)</span>, <span class="st">"seconds\n"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Elapsed time: 0.8 seconds</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="st">"Memory leaked: \n"</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">end_mem</span> <span class="op">-</span> <span class="va">start_mem</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Memory leaked:</span></span>
-<span><span class="co">#&gt; 64 MB</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="st">"f2"</span><span class="op">)</span></span></code></pre></div>
-<p> </p>
-<p>Thus, clearly using a regular formula (the last chunk) has memory
-leakage, whereas the <code><a href="../reference/form.html">form()</a></code> function does not have
-leakage.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
