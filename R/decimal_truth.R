@@ -171,7 +171,6 @@ NULL
       ))
     }
   }
-  # NAs must be ignored
   if(any(bnd[,2] < bnd[,1], na.rm = TRUE)) {
     stop(simpleError("`bnd[, 2] < bnd[, 1]`", call = abortcall))
   }

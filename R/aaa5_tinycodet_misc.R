@@ -7,7 +7,10 @@
 #'  * \link[=%xor%]{Infix logical operators} for exclusive-or, not-and, not-in, number-type, and string-type.
 #'  * \link[=%row~%]{Infix operators for row- and column-wise re-ordering of matrices}.
 #'  * \link[=report_inops]{Report infix operators present in the current environment, or a specified environment.}
-#'  * \link{source_selection} to source only selected objects.
+#'  * \link{form}: a convenience function,
+#'  to be used in the rare cases where one needs a formula without environment.
+#'  * \link{source_selection} to source only selected objects. \cr \cr
+#'  
 #'
 #'
 #'

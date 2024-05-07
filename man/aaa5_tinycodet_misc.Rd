@@ -10,7 +10,9 @@ Some additional functions provided by the 'tinycodet' R-package:
 \item \link[=\%xor\%]{Infix logical operators} for exclusive-or, not-and, not-in, number-type, and string-type.
 \item \link[=\%row~\%]{Infix operators for row- and column-wise re-ordering of matrices}.
 \item \link[=report_inops]{Report infix operators present in the current environment, or a specified environment.}
-\item \link{source_selection} to source only selected objects.
+\item \link{form}: a convenience function,
+to be used in the rare cases where one needs a formula without environment.
+\item \link{source_selection} to source only selected objects. \cr \cr
 }
 }
 \seealso{

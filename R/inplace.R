@@ -23,7 +23,7 @@
 #'
 #' @returns
 #' This operator does not return any value: \cr
-#' It is an in-place modifier, and thus modifies the object directly.
+#' It is an in-place modifier, and thus modifies the object directly. \cr \cr
 #'
 #' @seealso \link{tinycodet_dry}
 #'

@@ -87,14 +87,14 @@
 #' d <- import_data("ggplot2", "mpg")
 #'
 #' # mutate data:
-#' myform <- form(~ displ + cyl + cty + hwy)
+#' myform <- ~ displ + cyl + cty + hwy
 #' d$mysum <- with_pro(d, myform)
 #' summary(d)
 #'
 #' # plotting data:
-#' x <- form("cty")
-#' y <- form(~ sqrt(hwy))
-#' color <- form(~ drv)
+#' x <- ~ cty
+#' y <- ~ sqrt(hwy)
+#' color <- ~ drv
 #'
 #' ggplot2::ggplot(d, aes_pro(x, y, color = color)) +
 #'   ggplot2::geom_point()

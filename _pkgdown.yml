@@ -28,7 +28,6 @@ reference:
   contents:
   - '`decimal_truth`'
   - '`lock`'
-  - '`form`'
   - '`with_pro`'
   - '`aes_pro`'
   - '`safer_partialmatch`'
@@ -62,4 +61,5 @@ reference:
   - '`logic_ops`'
   - '`matrix_ops`'
   - '`report_inops`'
+  - '`form`'
   - '`source_selection`'

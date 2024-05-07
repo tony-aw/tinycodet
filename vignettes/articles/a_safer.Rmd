@@ -91,63 +91,6 @@ One can re-assign the values `T` and `F`. One can even run something like `T <- 
 The `X %<-c% A` operator creates a `constant` `X` with assignment `A`. Constants cannot be changed, only accessed or removed. So if you have a piece of code that requires some unchangeable constant, use this operator to create said constant.
 
 
-&nbsp;
-
-
-# form()
-
-When creating a formula with the tilde (` ⁠~` ⁠) operator, and storing a formula in a variable to be used later, the environment is captured by the formula.
-Therefore, any object in the captured environment might not be freed from the memory, potentially creating some memory leak.
-
-
-The `form()` function is a convenience function, to quickly create and return/store a formula more safely, by having no default environment, and allowing the user to specify the environment explicitly.
-
-It can also quickly convert a single string to a formula, again allowing for explicit environment specification, and having no environment by default.
-
-See the benchmark article (https://tony-aw.github.io/tinycodet/articles/a_safer.html#form) for a demonstration of the memory leak.
-
-```{r}
-# see also http://adv-r.had.co.nz/memory.html
-
-
-f1 <- function() {
-  foo <- c(letters, LETTERS)
-  return(10)
-}
-x1 <- f1()
-environment(x1) |> as.list() # empty, since no formula is used inside f1(), so safe
-
-
-f2 <- function() {
-  foo <- c(letters, LETTERS)
-  out <- a ~ b
-  return(out)
-}
-x2 <- f2()
-environment(x2) |> as.list() # NOT safe: contains all objects from f2()
-exists("foo", envir = environment(x2)) # = TRUE: "foo" still exists!
-environment(x2)$foo # can still access it; probably won't be removed by gc()
-
-
-f3 <- function() {
-  foo <- c(letters, LETTERS)
-  out <- form(a ~ b)
-  return(out)
-}
-x3 <- f3()
-environment(x3) |> as.list() # empty, since form() is used, so safe
-
-
-f4 <- function() {
-  foo <- c(letters, LETTERS)
-  out <- form("a ~ b")
-  return(out)
-}
-x4 <- f4()
-environment(x4) |> as.list() # empty, since form() is used, so safe
-
-```
-
 
 &nbsp;
 
@@ -163,14 +106,14 @@ requireNamespace("ggplot2")
 d <- import_data("ggplot2", "mpg")
 
 # mutate data:
-myform <- form(~ displ + cyl + cty + hwy)
+myform <- ~ displ + cyl + cty + hwy
 d$mysum <- with_pro(d, myform)
 summary(d)
 
 # plotting data:
-x <- form("cty")
-y <- form(~ sqrt(hwy))
-color <- form(~ drv)
+x <- ~ cty
+y <- ~ sqrt(hwy)
+color <- ~ drv
 
 ggplot2::ggplot(d, aes_pro(x, y, color = color)) +
   ggplot2::geom_point()

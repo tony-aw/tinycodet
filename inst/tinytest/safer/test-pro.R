@@ -57,14 +57,14 @@ if(requireNamespace("ggplot2")) {
 
 # with_pro ====
 x <- data.frame(a = 1:10, `1st` = 11:20, `TRUE` = 21:30, check.names = FALSE)
-myform <- form(~  a^2 + `1st`^2 + `TRUE`^2)
+myform <- ~  a^2 + `1st`^2 + `TRUE`^2
 expect_equal(
   with(x,  a^2 + `1st`^2 + `TRUE`^2),
   with_pro(x, myform)
 )
 
 y <- 2
-myform <- form(~ a^y, env = environment())
+myform <- ~ a^y
 expect_equal(
   with(x, a^y),
   with_pro(x, myform)
@@ -75,14 +75,14 @@ tempfun <- function(x, form) {
 }
 
 x <- data.frame(a = 1:10, `1st` = 11:20, `TRUE` = 21:30, check.names = FALSE)
-myform <- form(~  a^2 + `1st`^2 + `TRUE`^2)
+myform <- ~  a^2 + `1st`^2 + `TRUE`^2
 expect_equal(
   with(x,   a^2 + `1st`^2 + `TRUE`^2),
   tempfun(x, myform)
 )
 
 y <- 2
-myform <- form(~ a^y, env = environment())
+myform <- ~ a^y
 expect_equal(
   with(x, a^y),
   tempfun(x, myform)
@@ -91,7 +91,7 @@ expect_equal(
 
 # with_pro - errors ====
 x <- data.frame(a = 1:10, b = 11:20)
-myform <- form(~  a^2 + b^2)
+myform <- ~  a^2 + b^2
 expect_error(
   with_pro(x, ~ c^2),
   pattern = "unknown variable(s) given",

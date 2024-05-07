@@ -3,9 +3,10 @@
 * **Feature Improvement:** re_exports in `import_as()` can now include functions from core R if necessary, except 'base'.
 * **Performance Improvement:** Replaced some of the internal code in the import system with 'C++' code via 'Rcpp' for some performance improvement.
 * **Bug fix:** Fixed a (small) bug, where `help.import()` sometimes gave an unnecessary error, when searching topics of un-exported objects or non-functions via an alias object instead of searching functions directly.
+* Clarified the (admittedly rare) use-case of `form()`.
 * Added the current year to the LICENSE file.
 * `help.import()` can now also be called without any arguments, just like the original `help()` function.
-* Moved the atomic type casting functions to the "DRY" category.
+* Moved the atomic type casting functions and the `form()` function away from the "safer" category, as they arguably do not belong there.
 * Cleaned up the internal code of the import system a bit. 
 
 

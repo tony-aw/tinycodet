@@ -16,6 +16,18 @@ expect_null(
 )
 
 
+# non-empty environment checks ====
+myfun <- function() {
+  foo <- letters
+  return(form(a ~ b, environment()))
+}
+x <- myfun()
+expect_equal(
+  environment(x) |> as.list(),
+  list(foo = letters)
+)
+
+
 # string equals formula input ====
 expect_equal(
   form("x"),

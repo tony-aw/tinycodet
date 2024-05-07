@@ -15,7 +15,7 @@ The function must take one argument only.}
 }
 \value{
 This operator does not return any value: \cr
-It is an in-place modifier, and thus modifies the object directly.
+It is an in-place modifier, and thus modifies the object directly. \cr \cr
 }
 \description{
 The \code{x \%:=\% f} operator performs

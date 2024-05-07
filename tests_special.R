@@ -9,21 +9,6 @@ expect_warning(
 )
 
 
-# form + ggh4x ====
-if(requireNamespace("ggh4x")) {
-  myform <- form(~ Nester + Species)
-  expect_equal(
-    ggh4x::facet_nested(~ Nester + Species),
-    ggh4x::facet_nested(myform)
-  )
-  
-  myform <- form(~ Nester + Species, env = baseenv())
-  expect_equal(
-    ggh4x::facet_nested(~ Nester + Species),
-    ggh4x::facet_nested(myform)
-  )
-}
-
 
 # import_as ====
 import_as(~ dpr., "dplyr", re_exports = TRUE)

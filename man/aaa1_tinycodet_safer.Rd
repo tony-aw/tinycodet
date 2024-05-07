@@ -13,7 +13,6 @@ introduces a few functions:
 set and lock \code{T} and \code{F} to \code{TRUE} and \code{FALSE},
 respectively.
 \item The \link{\%<-c\%} operator to assign locked constants.
-\item \link{form} to construct a formula with safer environment specification.
 \item Standard evaluated versions of some common expression-evaluation functions: \cr
 \link{with_pro} and \link{aes_pro}.
 \item \link{safer_partialmatch} to set options for

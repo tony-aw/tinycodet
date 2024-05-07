@@ -1,18 +1,22 @@
-#' Construct Formula With Safer Environment Specification
+#' Construct Formula Without A Default Environment
 #'
 #' @description
-#' When creating a formula with the tilde ( `~ `) operator,
-#' and storing a formula in a variable to be used later,
-#' the environment is captured by the formula. \cr
-#' Therefore,
-#' any object in the captured environment might not be freed from the memory,
-#' potentially creating some memory leak
+#' Creating a formula variable captures the environment. \cr
+#' This is usually fine and intended. \cr
+#' \cr
+#' However, in some rare situations,
+#' one might not want to capture the environment. \cr
+#' For example: \cr
+#' When using a function to construct a formula,
+#' the captured environment inside the function might not be freed from the memory,
+#' thus potentially creating some memory leak
 #' (see also the Examples section below). \cr
 #' \cr
 #' The \code{form()} function is a convenience function,
-#' to create and return/store a formula more safely,
+#' to be used in such situations. \cr
+#' The \code{form()} function prevents memory leakage,
 #' by having no default environment,
-#' and allowing the user to specify the environment explicitly. \cr
+#' and allowing the user to specify the environment explicitly only when the user needs it. \cr
 #' It can also convert a single string to a formula,
 #' again allowing for explicit environment specification,
 #' and having no environment by default. \cr \cr
@@ -28,36 +32,30 @@
 #' it must actually be a literal formula,
 #' \bold{not} a variable that contains a formula,
 #' as that would defeat the whole point of the `form()` function. \cr
-#' @param env \link[base]{environment} of the formula. \cr
+#' @param env The formula environment. \cr
+#' Use either `NULL`, or the environment the formula depends on. \cr
+#' For example: \cr
+#' If the formula depends on functions defined in the current environment,
+#' one must specify `env  = environment()`. \cr
 #' Defaults to `NULL`. \cr \cr
+#'
+#'
+#' @note
+#' The use-case for `form()` is not very common. \cr
+#' In the majority of cases, using a regular formula is fine. \cr
+#' Use `form()` in situation where,
+#' for example,
+#' one constructs a formula via a function. \cr \cr
 #'
 #'
 #' @returns
 #' A formula with no environment,
 #' or a formula with the specified environment. \cr \cr
 #'
-#' @seealso \link{tinycodet_safer}, \link{aes_pro}, \link{with_pro}
+#' @seealso \link{tinycodet_misc}
 #'
 #' @examples
 #' 
-#' # basic examples ====
-#' 
-#' (myform <- form(a ~ b))
-#' (myform2 <- form("a ~ b"))
-#' mystring <- "a ~ b"
-#' (myform3 <- form(mystring))
-#' form("a")
-#' 
-#' myform <- form(x ~ y)
-#' environment(myform) # NULL
-#' mydata <- data.frame(x = rnorm(1e5), y = rnorm(1e5))
-#' lm(myform, data = mydata)
-#' 
-#' 
-#' #############################################################################
-#' 
-#' 
-#' # showcasing environment capture ====
 #' # see also http://adv-r.had.co.nz/memory.html
 #' 
 #' 
@@ -76,7 +74,7 @@
 #' }
 #' x2 <- f2()
 #' environment(x2) |> as.list() # NOT safe: contains all objects from f2()
-#' exists("foo", envir = environment(x2)) # = TRUE: "foo" still exists!
+#' exists("foo", envir = environment(x2)) # = TRUE: "foo" still exists
 #' environment(x2)$foo # can still access it; probably won't be removed by gc()
 #' 
 #' 
