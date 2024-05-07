@@ -31,7 +31,7 @@
 #' See also \link[base]{loadNamespace}.
 #' @param ... additional arguments,
 #' only relevant if the \code{expose} argument is used. \cr
-#' See \link{import_inops.control}.
+#' See \link{import_inops.control}. \cr \cr
 #'
 #'
 #' @details
@@ -55,7 +55,7 @@
 #' Exposing infix operators to the current environment,
 #' using the \code{import_inops()} function,
 #' allows one to use infix operators without using cumbersome code,
-#'and without having to attach the infix operators globally. \cr
+#' and without having to attach the infix operators globally. \cr
 #' \cr
 #' \cr
 #' \bold{Other Details} \cr
@@ -64,7 +64,7 @@
 #' When using \code{import_inops()} to remove infix operators from the current environment,
 #' it will use the attributes of those operators to determine if the infix operator came from
 #' the 'tinycodet' import system or not.
-#' Only infix operators exposed by the 'tinycodet' import system will be removed.
+#' Only infix operators exposed by the 'tinycodet' import system will be removed. \cr \cr
 #'
 #'
 #' @returns
@@ -77,7 +77,8 @@
 #' The infix operators specified in the given package or alias,
 #' exposed by \code{import_inops()}, will be removed from the current environment
 #' (like the Global environment, or the environment within a function). \cr
-#' If such infix operators could not be found, this function simply returns \code{NULL}. \cr
+#' If such infix operators could not be found, this function simply returns \code{NULL}. \cr \cr
+#' 
 #'
 #' @seealso \link{tinycodet_import}, [import_inops.control()], [report_inops()]
 #'

@@ -25,7 +25,7 @@ See also \link[base]{loadNamespace}.}
 
 \item{...}{additional arguments,
 only relevant if the \code{expose} argument is used. \cr
-See \link{import_inops.control}.}
+See \link{import_inops.control}. \cr \cr}
 }
 \value{
 If using argument \code{expose}: \cr
@@ -37,7 +37,7 @@ If using argument \code{unexpose}: \cr
 The infix operators specified in the given package or alias,
 exposed by \code{import_inops()}, will be removed from the current environment
 (like the Global environment, or the environment within a function). \cr
-If such infix operators could not be found, this function simply returns \code{NULL}. \cr
+If such infix operators could not be found, this function simply returns \code{NULL}. \cr \cr
 }
 \description{
 \code{import_inops(expose = ...)}
@@ -84,7 +84,7 @@ The \code{import_inops()} function does not support overloading base/core R oper
 When using \code{import_inops()} to remove infix operators from the current environment,
 it will use the attributes of those operators to determine if the infix operator came from
 the 'tinycodet' import system or not.
-Only infix operators exposed by the 'tinycodet' import system will be removed.
+Only infix operators exposed by the 'tinycodet' import system will be removed. \cr \cr
 }
 \examples{
 

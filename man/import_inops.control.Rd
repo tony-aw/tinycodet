@@ -34,15 +34,22 @@ when the to be exposed operators already exist in the current environment,
 and the function is halted.
 }}
 
-\item{inherits}{logical; indicating whether
+\item{inherits}{logical. \cr
+When exposing infix operators,
+\link{import_inops}
+checks if infix operators with the same name are already present in the current environment,
+and uses the \code{overwrite} argument to determine whether to overwrite existing operators or not. \cr
+If \code{inherits = FALSE},
+only the current environment is checked for existing operators. \cr
+If \code{inherits = TRUE},
 enclosed environments,
-especially package namespaces,
-should also be taken into account (\code{TRUE}), or not (\code{FALSE}). \cr
+most notably package namespaces,
+are also checked for existing operators. \cr
 Defaults to \code{FALSE}. \cr
 See also \link[base]{exists}. \cr}
 }
 \value{
-This function is used internally in the \link{import_inops} function.
+This function is used internally in the \link{import_inops} function. \cr \cr
 }
 \description{
 Additional arguments to control exposing infix operators in the \link{import_inops} function.

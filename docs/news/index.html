@@ -62,7 +62,7 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.5.0" id="tinycodet-050">tinycodet 0.5.0<a class="anchor" aria-label="anchor" href="#tinycodet-050"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.5.0" id="tinycodet-050-under-development">tinycodet 0.5.0 (Under Development)<a class="anchor" aria-label="anchor" href="#tinycodet-050-under-development"></a></h2>
 <ul><li>
 <strong>Feature Improvement:</strong> <code><a href="../reference/x.import.html">help.import()</a></code> now directly evaluates the arguments under <code><a href="https://rdrr.io/r/utils/help.html" class="external-link">help()</a></code> if both arguments <code>i</code> and <code>alias</code> are missing.</li>
 <li>
@@ -72,7 +72,11 @@
 <li>
 <strong>Bug fix:</strong> Fixed a (small) bug, where <code><a href="../reference/x.import.html">help.import()</a></code> sometimes gave an unnecessary error, when searching topics of un-exported objects or non-functions via an alias object instead of searching functions directly.</li>
 <li>
+<strong>Bug fix:</strong> Fixed a (small) bug where class names were sometimes inconsistently assigned to functions and infix operators exposed by the ‘tinycodet’ import system.</li>
+<li>
 <strong>Removed Feature:</strong> Removed the <code>form()</code> function, as its use-case is a bit too rare to justify having a whole function for it (with all the tests and maintenance that come with it). I rarely remove functions; this is an exception.</li>
+<li>Fixed some mistakes in the documentation.</li>
+<li>Added more tests.</li>
 <li>
 <code><a href="../reference/x.import.html">help.import()</a></code> can now also be called without any arguments, just like the original <code><a href="https://rdrr.io/r/utils/help.html" class="external-link">help()</a></code> function.</li>
 <li>Moved the atomic type casting functions to the “DRY” category.</li>

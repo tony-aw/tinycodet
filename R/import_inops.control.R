@@ -22,10 +22,17 @@
 #'  when the to be exposed operators already exist in the current environment,
 #'  and the function is halted.
 #' }
-#' @param inherits logical; indicating whether
+#' @param inherits logical. \cr
+#' When exposing infix operators,
+#' \link{import_inops}
+#' checks if infix operators with the same name are already present in the current environment,
+#' and uses the `overwrite` argument to determine whether to overwrite existing operators or not. \cr
+#' If `inherits = FALSE`,
+#' only the current environment is checked for existing operators. \cr
+#' If `inherits = TRUE`, 
 #' enclosed environments,
-#' especially package namespaces,
-#' should also be taken into account (\code{TRUE}), or not (\code{FALSE}). \cr
+#' most notably package namespaces,
+#' are also checked for existing operators. \cr
 #' Defaults to \code{FALSE}. \cr
 #' See also \link[base]{exists}. \cr
 #'
@@ -37,7 +44,7 @@
 #'
 #'
 #' @returns
-#' This function is used internally in the \link{import_inops} function.
+#' This function is used internally in the \link{import_inops} function. \cr \cr
 #'
 #' @seealso [import_inops()], [tinycodet_import()]
 #'
@@ -60,7 +67,7 @@
 #' @rdname import_inops.control
 #' @export
 import_inops.control <- function(
-    exclude=NULL, include.only=NULL, overwrite=TRUE, inherits=FALSE
+    exclude = NULL, include.only = NULL, overwrite = TRUE, inherits = FALSE
 ) {
   # check exclude and include.only:
   if(!is.null(exclude) && !is.null(include.only)){
@@ -81,13 +88,13 @@ import_inops.control <- function(
 
   if(!is.null(exclude)) {
     exclude_ops <- exclude[exclude %s{}% "%|:="]
-    if(length(exclude_ops)==0) {
+    if(length(exclude_ops) == 0L) {
       stop("`exclude` must be names of infix operators")
     }
   }
   if(!is.null(include.only)) {
     include.only_ops <- include.only[include.only %s{}% "%|:="]
-    if(length(include.only_ops)==0) {
+    if(length(include.only_ops) == 0L) {
       stop("`include.only` must be names of infix operators")
     }
   }

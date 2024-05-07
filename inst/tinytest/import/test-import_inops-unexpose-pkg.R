@@ -1,13 +1,4 @@
 
-# test import_inops - deleting ====
-temp.fun <- function(){
-  import_inops("stringi")
-  import_inops(unexpose="stringi")
-  ls()
-}
-expect_equal(temp.fun(), character(0))
-
-
 # test import_inops() - deleting inops ====
 temp.fun <- function(){
   suppressWarnings(import_inops("stringi"))

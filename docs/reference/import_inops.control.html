@@ -105,10 +105,17 @@ and the function is halted.</p></li>
 
 
 <dt>inherits</dt>
-<dd><p>logical; indicating whether
+<dd><p>logical. <br>
+When exposing infix operators,
+<a href="import_inops.html">import_inops</a>
+checks if infix operators with the same name are already present in the current environment,
+and uses the <code>overwrite</code> argument to determine whether to overwrite existing operators or not. <br>
+If <code>inherits = FALSE</code>,
+only the current environment is checked for existing operators. <br>
+If <code>inherits = TRUE</code>,
 enclosed environments,
-especially package namespaces,
-should also be taken into account (<code>TRUE</code>), or not (<code>FALSE</code>). <br>
+most notably package namespaces,
+are also checked for existing operators. <br>
 Defaults to <code>FALSE</code>. <br>
 See also <a href="https://rdrr.io/r/base/exists.html" class="external-link">exists</a>. <br></p></dd>
 
@@ -117,7 +124,11 @@ See also <a href="https://rdrr.io/r/base/exists.html" class="external-link">exis
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>This function is used internally in the <a href="import_inops.html">import_inops</a> function.</p>
+<p>This function is used internally in the <a href="import_inops.html">import_inops</a> function. <br></p>
+<p></p>
+<p><br></p>
+
+
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
