@@ -4,7 +4,6 @@
 * **Performance Improvement:** Replaced some of the internal code in the import system with 'C++' code via 'Rcpp' for some performance improvement.
 * **Bug fix:** Fixed a (small) bug, where `help.import()` sometimes gave an unnecessary error, when searching topics of un-exported objects or non-functions via an alias object instead of searching functions directly.
 * **Removed Feature:** Removed the `form()` function, as it's use-case is a bit too rare to justify a having a whole function for it (with all the tests and maintenance that come with it). I rarely remove functions; this is an exception.
-* Clarified the (admittedly rare) use-case of `form()`.
 * Added the current year to the LICENSE file.
 * `help.import()` can now also be called without any arguments, just like the original `help()` function.
 * Moved the atomic type casting functions to the "DRY" category.
