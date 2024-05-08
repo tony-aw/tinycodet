@@ -14,7 +14,7 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 [![](https://img.shields.io/badge/ORCID-0000--0001--9498--8379-green.svg)](https://orcid.org/0000-0001-9498-8379)
 [![](https://img.shields.io/badge/github--pages-tony--aw.github.io/tinycodet-purple.svg)](https://tony-aw.github.io/tinycodet/)
 [![](https://www.r-pkg.org/badges/version/tinycodet)](https://cran.r-project.org/package=tinycodet)
-[![Dependencies](https://tinyverse.netlify.com/badge/tinycodet)](https://cran.r-project.org/package=tinycodet)
+[![Dependencies](https://tinyverse.netlify.app/badge/tinycodet)](https://cran.r-project.org/package=tinycodet)
 <!-- badges: end -->
 
 <!-- [![](man/figures/tinycodet.svg)](https://github.com/tony-aw/tinycodet/) -->
