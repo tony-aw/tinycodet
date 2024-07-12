@@ -108,7 +108,6 @@ and this naming scheme does not conflict with core R, nor with most other packag
 \cr
 Of course, if one wishes to use a package (like
 'stringi') \bold{only} within a specific environment,
-like only inside a function,
 it becomes advantageous to still import the package using the 'tinycodet' import system.
 In that case the \link{import_LL} function would be most applicable. \cr
 \cr \cr

@@ -4,10 +4,31 @@
 
 
 SEXP C_any_neg ( SEXP x ) {
-  int n = length(x);
-  const int *px = INTEGER(x);
-  for(int i = 0; i != n; ++i) { 
-    if(px[i] < 0) return ScalarLogical(1);
-  }
-  return ScalarLogical(0);
+
+R_xlen_t n = xlength(x);
+switch(TYPEOF(x)) {
+  case INTSXP:
+    {
+      const int *px = INTEGER(x);
+      for(R_xlen_t i = 0; i != n; ++i) { 
+        if(px[i] < 0) return ScalarLogical(1);
+      }
+      return ScalarLogical(0);
+      break;
+    }
+  
+  
+  case REALSXP: 
+    {
+      const double *px = REAL(x);
+      for(R_xlen_t i = 0; i != n; ++i) { 
+        if(px[i] < 0) return ScalarLogical(1);
+      }
+      return ScalarLogical(0);
+      break;
+    }
+  default: error("unsupported type");
+}
+return(R_NilValue);
+
 }

@@ -7,6 +7,7 @@ d <- expand.grid(
 )
 NA_expectations <- ifelse(is.na(d$x)|is.na(d$lower)|is.na(d$upper), NA, TRUE)
 
+
 # decimal number boundaries (bnd = matrix) ====
 x <- rep(c(0.3, -0.6, 0.7), 3)
 lower <- x - c(rep(eps, 3), rep(- eps, 3), rep(eps, 3))

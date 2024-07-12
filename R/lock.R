@@ -21,9 +21,8 @@
 #' @param A any kind of object to be assigned to \code{X}.
 #' @param env an optional environment to give,
 #' determining in which environment \code{T} and \code{F} should be locked. \cr
-#' When not specified, the current environment
-#' (like the global environment, or the environment within a function)
-#' is used. \cr
+#' When not specified,
+#' the current environment is used. \cr
 #'
 #' @details
 #' Note that following statement

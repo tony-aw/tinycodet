@@ -81,6 +81,10 @@ cuts every string into individual text breaks
 \cr
 }
 \details{
+The \code{strcut_} functions provide a short and concise way to cut strings into pieces,
+without removing the delimiters,
+which is an operation that lies at the core of virtually all boundaries-operations in 'stringi'. \cr
+\cr
 The main difference between the \code{strcut_} - functions
 and \link[stringi]{stri_split} /  \link[base]{strsplit},
 is that the latter generally removes the delimiter patterns in a string when cutting,

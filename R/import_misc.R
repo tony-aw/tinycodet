@@ -5,8 +5,7 @@
 #' The \code{import_LL()} function
 #' places specific functions from a package in the current environment,
 #' and also locks (see \link[base]{lockBinding}) the specified functions to prevent modification. \cr
-#' The primary use-case for this function is for exposing functions inside a local environment,
-#' like the environment within a function. \cr
+#' The primary use-case for this function is for exposing functions inside a local environment. \cr
 #' \cr
 #' The \code{import_int()} function
 #' directly returns an internal function from a package. \cr
@@ -60,8 +59,7 @@
 #'
 #' @returns
 #' For \code{import_LL()}: \cr
-#' The specified functions will be placed in the current environment
-#' (like the global environment, or the environment within a function),
+#' The specified functions will be placed in the current environment,
 #' and locked. \cr
 #' To unexpose or overwrite the functions, simply remove them; i.e.: \cr
 #' \code{rm(list=c("some_function1", "some_function2")}). \cr
@@ -164,7 +162,7 @@ import_int <- function(form, lib.loc = .libPaths()) {
 
 
   # check form:
-  check_form <- inherits(form, "formula") && is.call(form) && form[[1]] == "~"
+  check_form <- .internal_is_formula(form)
   if(!check_form) {
     stop("`form` must be a formula")
   }

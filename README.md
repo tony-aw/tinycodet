@@ -17,8 +17,6 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 [![Dependencies](https://tinyverse.netlify.app/badge/tinycodet)](https://cran.r-project.org/package=tinycodet)
 <!-- badges: end -->
 
-<!-- [![](man/figures/tinycodet.svg)](https://github.com/tony-aw/tinycodet/) -->
-
  
 
 ## Overview

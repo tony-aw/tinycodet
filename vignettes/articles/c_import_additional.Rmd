@@ -36,7 +36,7 @@ Beside the main `import_` functions (`import_as()`, `import_inops()`, and `impor
 &nbsp;
 
 The `import_LL()` function places specific functions from a package in the current environment, and also locks the specified functions to prevent modification.
-The primary use-case for this function is for exposing functions inside a local environment, like the environment within a function. ("LL" stands for "Local & Locked".)
+The primary use-case for this function is for exposing functions inside a local environment. ("LL" stands for "Local & Locked".)
 
 Example:
 

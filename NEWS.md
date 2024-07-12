@@ -1,10 +1,21 @@
+# tinycodet 0.5.1 (Under Development)
+* **Behaviour change:** `pkgs %installed in% lib.loc` will now return `FALSE` when core 'R' `pkgs` are not in `lib.loc`, in contrast to `find.package()`.
+* **Behaviour change:** All decimal truth testing operators now always give `NA` when `Inf` is compared with `Inf`, or when `-Inf` is compared to `-Inf`.
+* Streamlined the internal code of the decimal truth testing operators.
+* Added `%s><%` and `%s<>%` as aliases for `%sget%` and `%strim%`, respectively.
+* Removed some superfluous text in the import system documentation.
+* Re-written one 'C++' script to pure 'C' code.
+* Some of the internal 'C' code now support long vectors, when appropriate.
+* Small speed improvement in some of the internal code.
+
+
 # tinycodet 0.5.0
 * **Feature Improvement:** `help.import()` now directly evaluates the arguments under `help()` if both arguments `i` and `alias` are missing.
 * **Feature Improvement:** re_exports in `import_as()` can now include functions from core R if necessary, except 'base'.
 * **Performance Improvement:** Replaced some of the internal code in the import system with 'C++' code via 'Rcpp' for some performance improvement.
 * **Bug fix:** Fixed a (small) bug, where `help.import()` sometimes gave an unnecessary error, when searching topics of un-exported objects or non-functions via an alias object instead of searching functions directly.
 * **Bug fix:** Fixed a (small) bug where class names were sometimes inconsistently assigned to functions and infix operators exposed by the 'tinycodet' import system.
-* **Removed Feature:** Removed the `form()` function, as its use-case is a bit too rare to justify having a whole function for it (with all the tests and maintenance that come with it). I rarely remove functions; this is an exception.
+* **Removed Feature:** Removed the `form()` function, as its use-case is too rare to justify having a whole function for it (with all the tests and maintenance that come with it). I rarely remove functions; this is an exception.
 * Fixed some mistakes in the documentation.
 * Added more tests.
 * `help.import()` can now also be called without any arguments, just like the original `help()` function.

@@ -606,8 +606,7 @@ example this:</p>
 <p>is very cumbersome.</p>
 <p>Therefore, <code>tinycodet</code> also adds the
 <code>import_inops()</code> function, which exposes the infix operators.
-The infix operators are exposed to the current environment (like the
-global environment, or the environment within a function), but does not
+The infix operators are exposed to the current environment, but does not
 attach the functions to the namespace.</p>
 <p>For example, to expose the infix operators in the alias object from
 before to the current environment, one can do the following:</p>
@@ -721,9 +720,9 @@ scheme (virtually all ‘stringi’ functions start with “stri_”), and this
 naming scheme does not conflict with core R, nor with most other
 packages.</p>
 <p>Of course, if one wishes to use ‘stringi’ only within a specific
-environment, like only inside a function, it becomes advantageous to
-import ‘stringi’ using the ‘tinycodet’ import system. In that case the
-<code>import_LL()</code> function would be most applicable.</p>
+environment, it becomes advantageous to import ‘stringi’ using the
+‘tinycodet’ import system. In that case the <code>import_LL()</code>
+function would be most applicable.</p>
 <p> </p>
 </div>
 <div id="function-attributes" class="section level1">

@@ -27,7 +27,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tinycodet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -373,8 +373,7 @@ example this:</p>
 <p>is very cumbersome.</p>
 <p>Therefore, <code>tinycodet</code> also adds the
 <code><a href="../reference/import_inops.html">import_inops()</a></code> function, which exposes the infix operators.
-The infix operators are exposed to the current environment (like the
-global environment, or the environment within a function), but does not
+The infix operators are exposed to the current environment, but does not
 attach the functions to the namespace.</p>
 <p>For example, to expose the infix operators in the alias object from
 before to the current environment, one can do the following:</p>
@@ -497,9 +496,9 @@ scheme (virtually all ‘stringi’ functions start with “stri_”), and this
 naming scheme does not conflict with core R, nor with most other
 packages.</p>
 <p>Of course, if one wishes to use ‘stringi’ only within a specific
-environment, like only inside a function, it becomes advantageous to
-import ‘stringi’ using the ‘tinycodet’ import system. In that case the
-<code><a href="../reference/import_misc.html">import_LL()</a></code> function would be most applicable.</p>
+environment, it becomes advantageous to import ‘stringi’ using the
+‘tinycodet’ import system. In that case the <code><a href="../reference/import_misc.html">import_LL()</a></code>
+function would be most applicable.</p>
 <p> </p>
 </div>
 <div class="section level2">

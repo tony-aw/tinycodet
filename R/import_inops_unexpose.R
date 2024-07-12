@@ -6,7 +6,7 @@
   # get infix operators in alias
   pkgs <- unlist(unexpose$.__attributes__.$pkgs) |> unique()
   funs <- names(unexpose)[eapply(unexpose, is.function) |> unlist()]
-  inops <- funs[stringi::stri_detect(funs, regex = "%|:=")]
+  inops <- .internal_grep_inops(funs, 2)
   if(length(inops) == 0) {
     message("No infix operators in this alias object")
     return(NULL)
@@ -31,7 +31,7 @@
   # get infix operators in package:
   ns <- .internal_prep_Namespace(delete, lib.loc, abortcall)
   funs <- names(ns)[vapply(ns, is.function, logical(1)) |> unlist()]
-  inops <- funs[stringi::stri_detect(funs, regex = "%|:=")]
+  inops <- .internal_grep_inops(funs, type = 2)
   if(length(inops) == 0) {
     message("No infix operators in this package")
     return(NULL)

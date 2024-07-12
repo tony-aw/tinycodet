@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tinycodet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -62,6 +62,19 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.5.1" id="tinycodet-051-under-development">tinycodet 0.5.1 (Under Development)<a class="anchor" aria-label="anchor" href="#tinycodet-051-under-development"></a></h2>
+<ul><li>
+<strong>Behaviour change:</strong> <code>pkgs %installed in% lib.loc</code> will now return <code>FALSE</code> when core ‘R’ <code>pkgs</code> are not in <code>lib.loc</code>, in contrast to <code><a href="https://rdrr.io/r/base/find.package.html" class="external-link">find.package()</a></code>.</li>
+<li>
+<strong>Behaviour change:</strong> All decimal truth testing operators now always give <code>NA</code> when <code>Inf</code> is compared with <code>Inf</code>, or when <code>-Inf</code> is compared to <code>-Inf</code>.</li>
+<li>Streamlined the internal code of the decimal truth testing operators.</li>
+<li>Added <code>%s&gt;&lt;%</code> and <code>%s&lt;&gt;%</code> as aliases for <code>%sget%</code> and <code>%strim%</code>, respectively.</li>
+<li>Removed some superfluous text in the import system documentation.</li>
+<li>Re-written one ‘C++’ script to pure ‘C’ code.</li>
+<li>Some of the internal ‘C’ code now support long vectors, when appropriate.</li>
+<li>Small speed improvement in some of the internal code.</li>
+</ul></div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.5.0" id="tinycodet-050">tinycodet 0.5.0<a class="anchor" aria-label="anchor" href="#tinycodet-050"></a></h2><p class="text-muted">CRAN release: 2024-05-07</p>
 <ul><li>
 <strong>Feature Improvement:</strong> <code><a href="../reference/x.import.html">help.import()</a></code> now directly evaluates the arguments under <code><a href="https://rdrr.io/r/utils/help.html" class="external-link">help()</a></code> if both arguments <code>i</code> and <code>alias</code> are missing.</li>
@@ -74,7 +87,7 @@
 <li>
 <strong>Bug fix:</strong> Fixed a (small) bug where class names were sometimes inconsistently assigned to functions and infix operators exposed by the ‘tinycodet’ import system.</li>
 <li>
-<strong>Removed Feature:</strong> Removed the <code>form()</code> function, as its use-case is a bit too rare to justify having a whole function for it (with all the tests and maintenance that come with it). I rarely remove functions; this is an exception.</li>
+<strong>Removed Feature:</strong> Removed the <code>form()</code> function, as its use-case is too rare to justify having a whole function for it (with all the tests and maintenance that come with it). I rarely remove functions; this is an exception.</li>
 <li>Fixed some mistakes in the documentation.</li>
 <li>Added more tests.</li>
 <li>

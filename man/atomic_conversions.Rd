@@ -65,10 +65,8 @@ as_bool(x)
 as_int(x)
 as_dbl(x)
 as_chr(x)
-
-
-
-
+as_cplx(x)
+as_raw(x)
 }
 \seealso{
 \link{tinycodet_dry}

@@ -6,7 +6,7 @@ using namespace Rcpp;
 //' @keywords internal
 //' @noRd
 // [[Rcpp::export(.rcpp_n_matches)]]
-Rcpp::IntegerVector rcpp_n_matches( List lst ) {
+Rcpp::IntegerVector rcpp_n_matches( const List lst ) {
   R_xlen_t n = lst.size();
   Rcpp::IntegerVector res( n );
   
@@ -20,7 +20,7 @@ Rcpp::IntegerVector rcpp_n_matches( List lst ) {
 //' @keywords internal
 //' @noRd
 // [[Rcpp::export(.rcpp_convert_i0)]]
-IntegerVector rcpp_convert_i0(IntegerVector n_matches, IntegerVector i) {
+IntegerVector rcpp_convert_i0(const IntegerVector n_matches, const IntegerVector i) {
   int n = i.length();
   IntegerVector out(n);
   int res = 0;
@@ -55,7 +55,7 @@ IntegerVector rcpp_convert_i0(IntegerVector n_matches, IntegerVector i) {
 //' @keywords internal
 //' @noRd
 // [[Rcpp::export(.rcpp_convert_i1)]]
-IntegerVector rcpp_convert_i1(IntegerVector n_matches, int i) {
+IntegerVector rcpp_convert_i1(const IntegerVector n_matches, const int i) {
   int n = n_matches.length();
   IntegerVector out(n);
   
@@ -91,7 +91,7 @@ IntegerVector rcpp_convert_i1(IntegerVector n_matches, int i) {
 //' @keywords internal
 //' @noRd
 // [[Rcpp::export(.rcpp_alloc_stri_locate_ith)]]
-IntegerMatrix rcpp_alloc_stri_locate_ith(List p1, IntegerVector n_matches, IntegerVector i) {
+IntegerMatrix rcpp_alloc_stri_locate_ith(const List p1, const IntegerVector n_matches, const IntegerVector i) {
   int n = Rf_length(p1); // using regular integer, because maximum nrow/ncol for matrices is approx 2^30 -1 anyway
   IntegerMatrix out(n, 2);
   for(int j = 0; j < n; ++j) {

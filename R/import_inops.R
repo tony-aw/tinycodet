@@ -3,19 +3,24 @@
 #' @description
 #' \code{import_inops(expose = ...)}
 #' exposes infix operators specified
-#' in a package or an alias object to the current environment
-#' (like the global environment or the environment within a function). \cr
+#' in a package or an alias object to the current environment. \cr
 #' \cr
 #' \code{import_inops(unexpose = ...)}
 #' "unexposes" (i.e. removes) the infix operators specified
 #' in a package or an alias object
-#' from the current environment
-#' (like the global environment or the environment within a function). \cr
+#' from the current environment. \cr
 #' Note that in this case only infix operators exposed by
 #' the 'tinycodet' import system
 #' will be removed from the current environment;
-#' "regular" (i.e. user-specified) infix operators will not be touched. \cr
+#' "regular" (i.e. user-defined) infix operators will not be touched. \cr
 #' \cr
+#' To attach all infix operators from a package to the global namespace,
+#' one can use the \link{pkg_lsf} function like so: 
+#' 
+#' ```{r echo = TRUE, eval = FALSE}
+#' y <- pkg_lsf("packagename", type = "inops")
+#' library(packagename, include.only = y)
+#' ```
 #'
 #' @param expose,unexpose either one of the following:
 #'  * an alias object as produced by the \link{import_as} function.
@@ -70,13 +75,11 @@
 #' @returns
 #' If using argument \code{expose}: \cr
 #' The infix operators specified in the given package or alias will be placed
-#' in the current environment
-#' (like the Global environment, or the environment within a function). \cr
+#' in the current environment. \cr
 #' \cr
 #' If using argument \code{unexpose}: \cr
 #' The infix operators specified in the given package or alias,
-#' exposed by \code{import_inops()}, will be removed from the current environment
-#' (like the Global environment, or the environment within a function). \cr
+#' exposed by \code{import_inops()}, will be removed from the current environment. \cr
 #' If such infix operators could not be found, this function simply returns \code{NULL}. \cr \cr
 #' 
 #'
@@ -257,7 +260,7 @@ import_inops <- function(
   obj <- get(as.character(nm), envir = env)
   checks <- c(
     isTRUE(is.function(obj)),
-    isTRUE(grepl("%|:=", nm))
+    isTRUE(.internal_grep_inops(nm, type = 0))
   )
   if(any(!checks)) {
     return(FALSE)

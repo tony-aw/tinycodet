@@ -87,7 +87,8 @@ Returns a character vector of exported function names in the specified package.
 }
 \description{
 The \code{pkgs \%installed in\% lib.loc} operator
-checks if one or more packages (\code{pkgs}) exist
+calls \link{find.package}
+to check if one or more packages (\code{pkgs}) exist
 in a library location (\code{lib.loc}), without loading the packages. \cr
 The syntax of this operator forces the user to make it
 syntactically explicit
@@ -112,7 +113,8 @@ One handy use for this function is to, for example,
 globally attach all infix operators from a package using \code{library},
 like so:
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{library(packagename, include.only = pkg_lsf("packagename", type = "inops"))
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{y <- pkg_lsf("packagename", type = "inops")
+library(packagename, include.only = y)
 }\if{html}{\out{</div>}}
 }
 \details{

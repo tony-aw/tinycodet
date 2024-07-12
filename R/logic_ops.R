@@ -115,7 +115,7 @@ NULL
 #' @rdname logic_ops
 #' @export
 `%out%` <- function(x, y) {
-  return(!x %in% y)
+  return(!(x %in% y))
 }
 
 #' @rdname logic_ops
@@ -140,10 +140,10 @@ NULL
     "unreal" = check.unreal,
     "~0" = ifelse(check.unreal, FALSE, abs(n) < sqrt(.Machine$double.eps)),
     "B" = ifelse(check.unreal, FALSE, n %in% c(0, 1)),
-    "prop" = ifelse(check.unreal, FALSE, n >= 0 & n <= 1),
-    "I" = ifelse(check.unreal, FALSE, n==round(n)),
-    "odd" = ifelse(check.unreal, FALSE, n==round(n) & !(n/2 == round(n/2))),
-    "even" = ifelse(check.unreal, FALSE, n==round(n) & (n/2 == round(n/2))),
+    "prop" = ifelse(check.unreal, FALSE, n >= 0L & n <= 1L),
+    "I" = ifelse(check.unreal, FALSE, n == round(n)),
+    "odd" = ifelse(check.unreal, FALSE, n == round(n) & !((n / 2L) == round(n / 2L))),
+    "even" = ifelse(check.unreal, FALSE, n == round(n) & ((n / 2L) == round(n / 2L))),
     "R" = !check.unreal
   ))
 }
@@ -165,14 +165,16 @@ NULL
       check.unreal, FALSE, s.clean==""
     ),
     "unreal" = ifelse(
-      check.unreal, TRUE, s.clean=="NA"|s.clean=="NaN"|s.clean=="Inf"|s.clean=="-Inf"
+      check.unreal,
+      TRUE,
+      s.clean == "NA" | s.clean == "NaN" | s.clean == "Inf" | s.clean == "-Inf"
     ),
     "numeric" = ifelse(
       check.unreal, FALSE, suppressWarnings(!is.na(as.numeric(s.clean)))
     ),
     "special" = ifelse(
       check.unreal, FALSE,
-      (nchar(s.clean) == nchar(stringi::stri_replace_all_regex(s.clean, "[[:alnum:]]", ""))) & (nchar(s.clean) > 0)
+      (nchar(s.clean) == nchar(stringi::stri_replace_all_regex(s.clean, "[[:alnum:]]", ""))) & (nchar(s.clean) > 0L)
     )
   ))
 }

@@ -3,15 +3,13 @@
 #' @description
 #' The \code{report_inops()} function
 #' returns a data.frame listing the infix operators defined
-#' in the current environment
-#' (like the global environment, or the environment within a function),
+#' in the current environment,
 #' or a user specified environment.
 #' It also reports from which packages the infix operators came from.
 #'
 #' @param env an optional environment to give,
 #' where the function should look for infix operators. \cr
 #' When not specified, the current environment
-#' (like the global environment, or the environment within a function)
 #' is used. \cr
 #'
 #'
@@ -48,7 +46,7 @@ report_inops <- function(env) {
   if(length(lst.funs)==0) {
     return(NULL)
   }
-  lst.inops <- grep("%|:=", lst.funs, value = TRUE)
+  lst.inops <- .internal_grep_inops(lst.funs, type = 2)
   n <- length(lst.inops)
   if(n==0) {
     return(NULL)

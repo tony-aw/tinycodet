@@ -64,8 +64,7 @@ with the name as specified in the \code{alias} argument,
 will be created. \cr
 This object, referred to as the "(package) alias object",
 will contain the exported functions from the specified package(s). \cr
-The alias object will be placed in the current environment
-(like the global environment, or the environment within a function). \cr
+The alias object will be placed in the current environment. \cr
 \cr
 To use, for example, function "some_function()" from alias "alias.", use: \cr
 \code{alias.$some_function()} \cr
@@ -79,8 +78,7 @@ and optionally also its re-exports, dependencies, and extensions,
 all under the same alias.
 The specified alias,
 containing the exported functions from the specified packages,
-will be placed in the current environment
-(like the global environment, or the environment within a function). \cr
+will be placed in the current environment. \cr
 }
 \details{
 \bold{Expanded Definitions of Some Arguments} \cr

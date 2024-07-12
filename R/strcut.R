@@ -41,6 +41,10 @@
 #' @param ... additional arguments to be passed to \link[stringi]{stri_split_boundaries}.
 #'
 #' @details
+#' The `strcut_` functions provide a short and concise way to cut strings into pieces,
+#' without removing the delimiters,
+#' which is an operation that lies at the core of virtually all boundaries-operations in 'stringi'. \cr
+#' \cr
 #' The main difference between the \code{strcut_} - functions
 #' and \link[stringi]{stri_split} /  \link[base]{strsplit},
 #' is that the latter generally removes the delimiter patterns in a string when cutting,
@@ -108,7 +112,7 @@ strcut_loc <- function(str, loc) {
 
   # FUNCTION:
   x <- str[cc]
-  loc <- loc[cc, , drop=FALSE] # new
+  loc <- loc[cc, , drop = FALSE] # new
   .check_loc2(loc, sys.call())
 
   nx <- length(x)
@@ -190,7 +194,7 @@ strcut_brk <- function(str, type = "character", tolist = FALSE, n = -1L, ...) {
   if(.C_any_nonpos(as.integer(loc))) {
     stop(simpleError("`loc` can only have strictly positive numbers", call = abortcall))
   }
-  if(.rcpp_anybad_loc(loc[,1], loc[,2])) {
+  if(.C_any_badloc(as.integer(loc[,1]), as.integer(loc[,2]))) {
     stop(simpleError("`loc[, 2] < loc[, 1]`", call = abortcall))
   }
 }
@@ -200,12 +204,12 @@ strcut_brk <- function(str, type = "character", tolist = FALSE, n = -1L, ...) {
 #' @noRd
 .substr_prepart <- function(x, loc, nx) {
   out <- character(nx)
-  ind <- loc[, 1] == 1
+  ind <- loc[, 1] == 1L
   out[ind] <- ""
   ind2 <- which(!ind)
-  if(length(ind2) > 0) {
+  if(length(ind2) > 0L) {
     out[ind2] <- stringi::stri_sub(
-      x[ind2], from = 1, to = loc[ind2 ,1] - 1
+      x[ind2], from = 1L, to = loc[ind2, 1] - 1L
     )
   }
   return(out)
@@ -215,12 +219,12 @@ strcut_brk <- function(str, type = "character", tolist = FALSE, n = -1L, ...) {
 #' @noRd
 .substr_postpart <- function(x, loc, nx, nc) {
   out <- character(nx)
-  ind <- loc[,2] >= nc
+  ind <- loc[, 2] >= nc
   out[ind] <- ""
   ind2 <- which(!ind)
-  if(length(ind2) > 0) {
+  if(length(ind2) > 0L) {
     out[ind2] <- stringi::stri_sub(
-      x[ind2], from = loc[ind2, 2] + 1, to = nc[ind2]
+      x[ind2], from = loc[ind2, 2] + 1L, to = nc[ind2]
     )
   }
   return(out)

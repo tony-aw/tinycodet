@@ -6,8 +6,7 @@
   
   
   funs <- names(expose)[eapply(expose, is.function) |> unlist()]
-  inops <- funs[stringi::stri_detect(funs, regex = "%|:=")]
-  
+  inops <- .internal_grep_inops(funs, 2)
   ns <- as.list(expose, all.names = TRUE, sorted = TRUE)
   
   .import_inops_expose(ns, inops, lst_opts, env, abortcall)
@@ -31,7 +30,7 @@
 
   # FUNCTION:
   ns <- .internal_prep_Namespace(package, lib.loc, abortcall = sys.call())
-  operators <-  grep("%|:=", names(ns), value = TRUE)
+  operators <- .internal_grep_inops(names(ns), type = 2)
 
   .import_inops_expose(ns, operators, lst_opts, env, abortcall)
 

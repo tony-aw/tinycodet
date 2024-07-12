@@ -10,7 +10,6 @@ report_inops(env)
 \item{env}{an optional environment to give,
 where the function should look for infix operators. \cr
 When not specified, the current environment
-(like the global environment, or the environment within a function)
 is used. \cr}
 }
 \value{
@@ -22,8 +21,7 @@ or NA if it did not come from a package.
 \description{
 The \code{report_inops()} function
 returns a data.frame listing the infix operators defined
-in the current environment
-(like the global environment, or the environment within a function),
+in the current environment,
 or a user specified environment.
 It also reports from which packages the infix operators came from.
 }

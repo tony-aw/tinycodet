@@ -27,7 +27,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tinycodet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -116,9 +116,8 @@ before reading this article.</p>
 <p>The <code><a href="../reference/import_misc.html">import_LL()</a></code> function places specific functions from
 a package in the current environment, and also locks the specified
 functions to prevent modification. The primary use-case for this
-function is for exposing functions inside a local environment, like the
-environment within a function. (“LL” stands for “Local &amp;
-Locked”.)</p>
+function is for exposing functions inside a local environment. (“LL”
+stands for “Local &amp; Locked”.)</p>
 <p>Example:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
@@ -286,8 +285,8 @@ produced the alias object in question:</p>
 <span><span class="co">#&gt; NULL</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $lib.loc</span></span>
-<span><span class="co">#&gt; [1] "C:/Users/Tony/AppData/Local/Temp/RtmpSeP6tc/temp_libpath486854454fe5"</span></span>
-<span><span class="co">#&gt; [2] "D:/Programs/R-4.4.0/library"                                         </span></span>
+<span><span class="co">#&gt; [1] "C:/Users/Tony/AppData/Local/Temp/RtmpakTtkW/temp_libpath4ce82901498"</span></span>
+<span><span class="co">#&gt; [2] "D:/Programs/R-4.4.0/library"                                        </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $import_order</span></span>
 <span><span class="co">#&gt; [1] "dependencies" "main_package" "extensions"</span></span></code></pre></div>

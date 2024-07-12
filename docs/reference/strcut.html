@@ -40,7 +40,7 @@ cuts every string into individual text breaks
     
     <a class="navbar-brand me-2" href="../index.html">tinycodet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -189,7 +189,10 @@ where each element is a character vector containing the cut string. <br></p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>The main difference between the <code>strcut_</code> - functions
+    <p>The <code>strcut_</code> functions provide a short and concise way to cut strings into pieces,
+without removing the delimiters,
+which is an operation that lies at the core of virtually all boundaries-operations in 'stringi'. <br><br>
+The main difference between the <code>strcut_</code> - functions
 and <a href="https://rdrr.io/pkg/stringi/man/stri_split.html" class="external-link">stri_split</a> /  <a href="https://rdrr.io/r/base/strsplit.html" class="external-link">strsplit</a>,
 is that the latter generally removes the delimiter patterns in a string when cutting,
 while the <code>strcut_</code>-functions do not attempt to remove parts of the string by default,

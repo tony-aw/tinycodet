@@ -10,6 +10,12 @@ expect_warning(
 )
 
 
+# %installed in% ====
+expect_equal(
+  c("tinycodet", "foo") %installed in% .libPaths(),
+  setNames(c(TRUE, FALSE), c("tinycodet", "foo"))
+)
+
 
 # import_as ====
 import_as(~ dpr., "dplyr", re_exports = TRUE)

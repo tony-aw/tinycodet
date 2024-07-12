@@ -130,7 +130,7 @@ tinycodet::`%row~%`(x, mat)
 
 is very cumbersome.
 
-Therefore, `tinycodet` also adds the `import_inops()` function, which exposes the infix operators. The infix operators are exposed to the current environment (like the global environment, or the environment within a function), but does not attach the functions to the namespace.
+Therefore, `tinycodet` also adds the `import_inops()` function, which exposes the infix operators. The infix operators are exposed to the current environment, but does not attach the functions to the namespace.
 
 For example, to expose the infix operators in the alias object from before to the current environment, one can do the following:
 
@@ -214,7 +214,7 @@ The 'tinycodet' import system is helpful particularly for packages that have at 
 
 There is no necessity for using the 'tinycodet' import system with every single package. One can safely attach the 'stringi' package, for example, as 'stringi' uses a unique and immediately recognisable naming scheme (virtually all 'stringi' functions start with "stri_"), and this naming scheme does not conflict with core R, nor with most other packages.
 
-Of course, if one wishes to use 'stringi' only within a specific environment, like only inside a function, it becomes advantageous to import 'stringi' using the 'tinycodet' import system. In that case the `import_LL()` function would be most applicable.
+Of course, if one wishes to use 'stringi' only within a specific environment, it becomes advantageous to import 'stringi' using the 'tinycodet' import system. In that case the `import_LL()` function would be most applicable.
 
 &nbsp;
 

@@ -13,9 +13,8 @@ X \%<-c\% A
 \arguments{
 \item{env}{an optional environment to give,
 determining in which environment \code{T} and \code{F} should be locked. \cr
-When not specified, the current environment
-(like the global environment, or the environment within a function)
-is used. \cr}
+When not specified,
+the current environment is used. \cr}
 
 \item{X}{a syntactically valid unquoted name of the object to be created.}
 

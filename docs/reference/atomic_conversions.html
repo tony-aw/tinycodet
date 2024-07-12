@@ -50,7 +50,7 @@ as_raw():converts object to atomic type raw.
     
     <a class="navbar-brand me-2" href="../index.html">tinycodet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -204,10 +204,22 @@ The functions are as follows: <br></p><ul><li><p><code>as_bool()</code>: convert
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4,] "0.5" "2.5"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"test")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "test"</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">as_cplx</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         one    two</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,] 0.0+0i 1.0+0i</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,] 0.0+0i 1.5+0i</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,] 0.0+0i 2.0+0i</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,] 0.5+0i 2.5+0i</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"test")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "test"</span>
+<span class="r-in"><span><span class="fu">as_raw</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      one two</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  00  01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]  00  01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]  00  02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,]  00  02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"test")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "test"</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

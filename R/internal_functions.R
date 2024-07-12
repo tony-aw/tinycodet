@@ -52,6 +52,51 @@
 
 #' @keywords internal
 #' @noRd
+.internal_package_found <- function(pkgs, lib.loc) {
+  temp.fun <- function(pkg, lib.loc) {
+    if(pkg %in% .internal_list_coreR()) {
+      return(find.package(pkg, lib.loc = NULL, quiet = TRUE) |> length() |> as.logical())
+    }
+    else {
+      return(find.package(pkg, lib.loc = lib.loc, quiet = TRUE) |> length() |> as.logical())
+    }
+  }
+  out <- vapply(
+    pkgs,
+    \(x)temp.fun(x, lib.loc),
+    FUN.VALUE = logical(1L)
+  )
+  return(out)
+}
+
+#' @keywords internal
+#' @noRd
+.internal_is_formula <- function(form) {
+  check <- inherits(form, "formula") && is.call(form) && isTRUE(form[[1]] == "~")
+  return(check)
+}
+
+
+#' @keywords internal
+#' @noRd
+.internal_grep_inops <- function(nms, type, invert = FALSE) {
+  if(type == 0) {
+    return(stringi::stri_detect_regex(nms, "%|:=", negate = invert))
+  }
+  else if(type == 1) {
+    return(which(stringi::stri_detect_regex(nms, "%|:=", negate = invert)))
+  }
+  else if(type == 2) {
+    return(stringi::stri_subset_regex(nms, "%|:=", negate = invert))
+  }
+  else {
+    stop("unknown type given")
+  }
+}
+
+
+#' @keywords internal
+#' @noRd
 .internal_check_lib.loc <- function(lib.loc, abortcall) {
   if(length(lib.loc) < 1 || !is.character(lib.loc) || any(!nzchar(lib.loc))) {
     stop(simpleError(
@@ -90,7 +135,7 @@
   }
   
   
-  uninstalled_pkgs <- pkgs[!pkgs %installed in% lib.loc]
+  uninstalled_pkgs <- pkgs[!.internal_package_found(pkgs, lib.loc)]
   if(length(uninstalled_pkgs) > 0) {
     error.txt <- simpleError(paste0(
       "The following ", pkgs_txt, " are not installed:",
@@ -102,7 +147,7 @@
   
   
   if(!is.null(correct_pkgs)) {
-    wrong_pkgs <- pkgs[!pkgs %in% correct_pkgs]
+    wrong_pkgs <- pkgs[!(pkgs %in% correct_pkgs)]
     if(length(wrong_pkgs) > 0) {
       error.txt <- simpleError(paste0(
         "The following given ", pkgs_txt, " were not found to be actual ", pkgs_txt, ":",
@@ -153,7 +198,7 @@
     deps_type=c("LinkingTo", "Depends", "Imports"),
     base = FALSE, recom = TRUE, rstudioapi = TRUE, shared_tidy = TRUE)
   pkgs_total <- c(package, pkgs_required)
-  pkgs_missing <- pkgs_total[!pkgs_total %installed in% lib.loc]
+  pkgs_missing <- pkgs_total[!.internal_package_found(pkgs_total, lib.loc)]
   if(length(pkgs_missing) > 0) {
     error.txt <- paste0(
       "to load the namespace of package `",
@@ -208,7 +253,7 @@
   if(length(pkgs) == 0) return(list())
   
 
-  uninstalled_pkgs <- pkgs[!pkgs %installed in% lib.loc]
+  uninstalled_pkgs <- pkgs[!.internal_package_found(pkgs, lib.loc)]
   if(length(uninstalled_pkgs) > 0) {
     error.txt <- simpleError(paste0(
       "The following dependent packages (for the re-exports) are not installed:",

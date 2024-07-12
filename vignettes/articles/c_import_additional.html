@@ -361,9 +361,8 @@ before reading this article.</p>
 <p>The <code>import_LL()</code> function places specific functions from
 a package in the current environment, and also locks the specified
 functions to prevent modification. The primary use-case for this
-function is for exposing functions inside a local environment, like the
-environment within a function. (“LL” stands for “Local &amp;
-Locked”.)</p>
+function is for exposing functions inside a local environment. (“LL”
+stands for “Local &amp; Locked”.)</p>
 <p>Example:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">import_LL</span>(<span class="st">&quot;tidytable&quot;</span>, <span class="st">&quot;across&quot;</span>)</span>

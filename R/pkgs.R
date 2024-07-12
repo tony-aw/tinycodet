@@ -2,7 +2,8 @@
 #'
 #' @description
 #' The \code{pkgs %installed in% lib.loc} operator
-#' checks if one or more packages (\code{pkgs}) exist
+#' calls \link{find.package}
+#' to check if one or more packages (\code{pkgs}) exist
 #' in a library location (\code{lib.loc}), without loading the packages. \cr
 #' The syntax of this operator forces the user to make it
 #' syntactically explicit
@@ -28,7 +29,8 @@
 #' like so:
 #'
 #' ```{r echo = TRUE, eval = FALSE}
-#' library(packagename, include.only = pkg_lsf("packagename", type = "inops"))
+#' y <- pkg_lsf("packagename", type = "inops")
+#' library(packagename, include.only = y)
 #' ```
 #'
 #'
@@ -137,17 +139,17 @@ NULL
 
   .internal_check_lib.loc(lib.loc, sys.call())
 
-  tempfun <- function(pkg, lib.loc){
-    out <- tryCatch(
-      {find.package(pkg, lib.loc = lib.loc)},
-      error = function(cond) FALSE,
-      warning = function(cond) FALSE
-    )
-    if(is.character(out) && !isFALSE(out)) { out <- TRUE }
-    return(out)
+  tempfun <- function(pkg, lib.loc) {
+    out <- find.package(package = pkg, lib.loc = lib.loc, quiet = TRUE)
+    if(length(out)) {
+      return(any(out %in% file.path(lib.loc, pkg))) # using %in% because lib.loc can be multiple paths
+    }
+    else {
+      return(FALSE)
+    }
   }
 
-  out <- sapply(pkgs, \(x)tempfun(x, lib.loc = lib.loc), USE.NAMES = TRUE)
+  out <- vapply(pkgs, \(x)tempfun(x, lib.loc = lib.loc), logical(1), USE.NAMES = TRUE)
   return(out)
 }
 
@@ -209,13 +211,13 @@ pkg_lsf <- function(package, type, lib.loc = .libPaths()) {
   }
 
   ns <- .internal_prep_Namespace(package, lib.loc, abortcall = sys.call()) |> names()
-  if(type=="inops" || type=="operators") {
-    out <- grep("%|:=", ns, value = TRUE)
+  if(type == "inops" || type == "operators") {
+    out <- .internal_grep_inops(ns, type = 2)
   }
-  if(type=="regfuns") {
-    out <- grep("%|:=", ns, value = TRUE, invert = TRUE)
+  if(type == "regfuns") {
+    out <- .internal_grep_inops(ns, type = 2, invert = TRUE)
   }
-  if(type=="all") {
+  if(type == "all") {
     out <- ns
   }
   return(out)
@@ -230,9 +232,10 @@ pkg_lsf <- function(package, type, lib.loc = .libPaths()) {
   # based of https://stackoverflow.com/questions/30223957/elegantly-extract-r-package-dependencies-of-a-package-not-listed-on-cran
   dcf <- read.dcf(file.path(system.file("DESCRIPTION", package = package, lib.loc = lib.loc)))
   jj <- intersect(type, colnames(dcf))
-  val <- unlist(strsplit(dcf[, jj], ","), use.names=FALSE)
+  val <- unlist(strsplit(dcf[, jj], ","), use.names = FALSE)
   val <- gsub("\\s.*", "", trimws(val))
   depends <- val[val != "R"]
+  
   if(!base) {
     depends <- setdiff(depends, .internal_list_coreR())
   }
@@ -245,5 +248,6 @@ pkg_lsf <- function(package, type, lib.loc = .libPaths()) {
   if(!shared_tidy) {
     depends <- setdiff(depends, .internal_list_tidyshared())
   }
+  
   return(depends)
 }

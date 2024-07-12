@@ -3,12 +3,6 @@
 
 #' @keywords internal
 #' @noRd
-.rcpp_anybad_loc <- function(lower, upper) {
-    .Call(`_tinycodet_rcpp_anybad_loc`, lower, upper)
-}
-
-#' @keywords internal
-#' @noRd
 .rcpp_prep_ns <- function(ns, nms, pkg) {
     .Call(`_tinycodet_rcpp_prep_ns`, ns, nms, pkg)
 }

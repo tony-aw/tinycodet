@@ -8,8 +8,7 @@
 #' all under the same alias.
 #' The specified alias,
 #' containing the exported functions from the specified packages,
-#' will be placed in the current environment
-#' (like the global environment, or the environment within a function). \cr
+#' will be placed in the current environment. \cr
 #'
 #' @param alias a syntactically valid non-hidden name giving the alias object
 #' where the package(s) are to be imported into. \cr
@@ -137,8 +136,7 @@
 #' will be created. \cr
 #' This object, referred to as the "(package) alias object",
 #' will contain the exported functions from the specified package(s). \cr
-#' The alias object will be placed in the current environment
-#' (like the global environment, or the environment within a function). \cr
+#' The alias object will be placed in the current environment. \cr
 #' \cr
 #' To use, for example, function "some_function()" from alias "alias.", use: \cr
 #' \code{alias.$some_function()} \cr
@@ -172,7 +170,7 @@ import_as <- function(
 ) {
   
   # Check alias:
-  alias_is_formula <- inherits(alias, "formula") && is.call(alias) && alias[[1]] == "~"
+  alias_is_formula <- .internal_is_formula(alias)
   if(!is.character(alias) && !alias_is_formula) {
     stop("`alias` needs to be either a string or a formula")
   }

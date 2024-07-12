@@ -13,7 +13,7 @@
 #'  \item by supplying a character vector of \code{fixed} patterns to the \code{fixed} argument.
 #' }
 #'
-#' Note that the \code{source_selection()} function does NOT suppress output
+#' Note that the \code{source_selection()} function does not suppress output
 #' (i.e. plots, prints, messages)
 #' from the sourced script file. \cr
 #'
@@ -52,8 +52,7 @@
 #'
 #' @returns
 #' Any specified objects will be placed
-#' in the current environment
-#' (like the Global environment, or the environment within a function). \cr
+#' in the current environment. \cr
 #' \cr
 #'
 #' @seealso \link{tinycodet_misc}, [base::source()]

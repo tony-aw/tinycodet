@@ -96,3 +96,12 @@ expect_error(
   pattern = "right hand side cannot contain NA"
 )
 
+# alias checking ====
+expect_equal(
+  `%s<>%`,
+  `%strim%`
+)
+expect_equal(
+  `%s><%`,
+  `%sget%`
+)

@@ -4,11 +4,17 @@
 \alias{str_subset_ops}
 \alias{\%sget\%}
 \alias{\%strim\%}
+\alias{\%s><\%}
+\alias{\%s<>\%}
 \title{String Subsetting Operators}
 \usage{
 x \%sget\% ss
 
 x \%strim\% ss
+
+x \%s><\% ss
+
+x \%s<>\% ss
 }
 \arguments{
 \item{x}{a character vector.}
@@ -40,11 +46,12 @@ String subsetting operators. \cr
 The \code{x \%sget\% ss } operator
 gets a certain number of the first and last characters of every string in
 character vector \code{x}. \cr
+\code{\%s><\%} is an alias for \code{\%sget\%}. \cr
 \cr
 The \code{x \%strim\% ss } operator
 trims a certain number of the first and last characters of every string in
 character vector \code{x}. \cr
-\cr
+\code{\%s<>\%} is an alias for \code{\%strim\%}. \cr \cr
 }
 \details{
 These operators serve as a way to provide straight-forward string sub-setting. \cr

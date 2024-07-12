@@ -7,11 +7,12 @@
 #' The \code{x %sget% ss } operator
 #' gets a certain number of the first and last characters of every string in
 #' character vector \code{x}. \cr
+#' \code{%s><%} is an alias for \code{%sget%}. \cr
 #' \cr
 #' The \code{x %strim% ss } operator
 #' trims a certain number of the first and last characters of every string in
 #' character vector \code{x}. \cr
-#' \cr
+#' \code{%s<>%} is an alias for \code{%strim%}. \cr \cr
 #'
 #' @param x a character vector.
 #' @param ss a vector of length 2, or a matrix with 2 columns with \code{nrow(ss) == length(x)}.
@@ -52,8 +53,6 @@
 #' @name str_subset_ops
 NULL
 
-
-
 #' @rdname str_subset_ops
 #' @export
 `%sget%` <- function(x, ss) {
@@ -90,6 +89,16 @@ NULL
   }
   return(out)
 }
+
+
+#' @rdname str_subset_ops
+#' @export
+`%s><%` <- `%sget%`
+
+
+#' @rdname str_subset_ops
+#' @export
+`%s<>%` <- `%strim%`
 
 
 #' @keywords internal
