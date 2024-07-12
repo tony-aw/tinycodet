@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# tinycodet <a href="https://github.com/tony-aw/tinycodet/"><img src="man/figures/tinycodet.svg" align="right" height="138" style="float:right; height:200px;" /></a>
+# tinycodet
 
 <!-- badges: start -->
 
