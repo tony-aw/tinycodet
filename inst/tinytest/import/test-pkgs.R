@@ -12,14 +12,6 @@ expect_equal(
   "foo" %installed in% .libPaths(),
   c("foo" = FALSE)
 )
-expect_equal(
-  "base" %installed in% .libPaths(),
-  c("base" = TRUE)
-)
-expect_equal(
-  "base" %installed in% getwd(),
-  c("base" = FALSE)
-)
 
 
 # pkg_lsf ====

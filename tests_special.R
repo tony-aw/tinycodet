@@ -15,7 +15,14 @@ expect_equal(
   c("tinycodet", "foo") %installed in% .libPaths(),
   setNames(c(TRUE, FALSE), c("tinycodet", "foo"))
 )
-
+expect_equal(
+  "base" %installed in% .libPaths(),
+  c("base" = TRUE)
+)
+expect_equal(
+  "base" %installed in% getwd(),
+  c("base" = FALSE)
+)
 
 # import_as ====
 import_as(~ dpr., "dplyr", re_exports = TRUE)
