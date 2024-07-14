@@ -165,7 +165,11 @@ expect_false(
 )
 expect_true(
   pversion_report("boot", c(.libPaths(), templib))$versions_equal
-  )
+)
+
+expect_null(
+  pversion_check4mismatch("boot", lib.loc = c(.libPaths(), templib))
+)
 
 # remove temp folder
 unloadNamespace("boot")
