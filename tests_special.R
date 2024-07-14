@@ -148,7 +148,7 @@ loadNamespace("boot")
 templib <- tempdir()
 remotes::install_version("boot", "1.3-25", lib = templib)
 
-check <- pversion_check4mismatch("boot", lib.loc = templib)
+check <- pversion_check4mismatch("boot", lib.loc = c(templib, .libPaths()))
 expect_true(nrow(check) == 1)
 expect_equal(
   lapply(check, class),
@@ -161,9 +161,11 @@ expect_true(
   utils::compareVersion(check$version_loaded, check$version_lib.loc) == 1
 )
 expect_false(
-  pversion_report("boot", templib)$versions_equal
+  pversion_report("boot", c(templib, .libPaths()))$versions_equal
 )
-
+expect_true(
+  pversion_report("boot", c(.libPaths(), templib))$versions_equal
+  )
 
 # remove temp folder
 unloadNamespace("boot")

@@ -147,16 +147,10 @@ pversion_report <- function(pkgs = NULL, lib.loc = .libPaths()) {
 #' @keywords internal
 #' @noRd
 .pversion_installed <- function(pkg, lib.loc) {
-  out <- character(1L)
   for(i in lib.loc) {
-    temp <- tryCatch(
-      read.dcf(file.path(i, pkg, "DESCRIPTION"), fields = "Version"),
-      error = function(x) return(NA)
-    )
-    if(!is.na(temp)) {
-      out <- temp
+    path <- file.path(i, pkg, "DESCRIPTION")
+    if(file.exists(path)) {
+      return(read.dcf(path, fields = "Version"))
     }
   }
-  
-  return(out)
 }
