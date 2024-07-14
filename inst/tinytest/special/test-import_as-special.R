@@ -20,13 +20,13 @@ expect_equal(out, sort(stri))
 
 # incorrect package error handling ====
 expect_error(
-  import_as(~p1., "tinycodetfakepkg1", lib.loc=c(lib.loc1, .libPaths()), dependencies = "stringi"),
+  import_as(~p1., "tinycodetfakepkg1", lib.loc = c("foo1", lib.loc1, .libPaths(), "foo2"), dependencies = "stringi"),
   pattern = "The following given dependencies were not found to be actual dependencies"
 )
 
 
 expect_error(
-  import_as(~p1., "tinycodetfakepkg1", lib.loc=c(lib.loc1, .libPaths()), extensions = "stringi"),
+  import_as(~p1., "tinycodetfakepkg1", lib.loc = c("foo1", lib.loc1, .libPaths(), "foo2"), extensions = "stringi"),
   pattern = "The following given extensions were not found to be actual extensions"
 )
 
@@ -34,7 +34,7 @@ expect_error(
 # duplicate package error handling ====
 dupli_pkg <- "stringi"
 expect_error(
-  import_as(~p1., "tinycodetfakepkg1", lib.loc=c(lib.loc1, .libPaths()),
+  import_as(~p1., "tinycodetfakepkg1", lib.loc = c("foo1", lib.loc1, .libPaths(), "foo2"),
             dependencies = rep(dupli_pkg, 2)),
   pattern = paste0("The following duplicate dependencies given:", "\n",
                    dupli_pkg)
@@ -42,7 +42,7 @@ expect_error(
 
 
 expect_error(
-  import_as(~p1., "tinycodetfakepkg1", lib.loc=c(lib.loc1, .libPaths()),
+  import_as(~p1., "tinycodetfakepkg1", lib.loc = c("foo1", lib.loc1, .libPaths(), "foo2"),
             extensions = rep(dupli_pkg, 2)),
   pattern = paste0("The following duplicate extensions given:", "\n",
                    dupli_pkg)
@@ -50,7 +50,7 @@ expect_error(
 
 dupli_pkg <- "tidytable"
 expect_error(
-  import_as(~p1., "tinycodetfakepkg1", lib.loc=c(lib.loc1, .libPaths()),
+  import_as(~p1., "tinycodetfakepkg1", lib.loc = c("foo1", lib.loc1, .libPaths(), "foo2"),
             dependencies = rep(dupli_pkg, 2)),
   pattern = paste0("The following duplicate dependencies given:", "\n",
                    dupli_pkg)
@@ -58,7 +58,7 @@ expect_error(
 
 
 expect_error(
-  import_as(~p1., "tinycodetfakepkg1", lib.loc=c(lib.loc1, .libPaths()),
+  import_as(~p1., "tinycodetfakepkg1", lib.loc = c("foo1", lib.loc1, .libPaths(), "foo2"),
             extensions = rep(dupli_pkg, 2)),
   pattern = paste0("The following duplicate extensions given:", "\n",
                    dupli_pkg)
@@ -67,25 +67,25 @@ expect_error(
 
 # missing package error handling ====
 expect_error(
-  import_as(~ p3., "tinycodetfakepkg3", dependencies = "tinycodetfakepkg1", lib.loc=lib.loc2),
+  import_as(~ p3., "tinycodetfakepkg3", dependencies = "tinycodetfakepkg1", lib.loc = c("foo1", lib.loc2, "foo2")),
   pattern = "The following dependencies are not installed",
   fixed = TRUE
 )
 
 expect_error(
-  import_as(~ p3., "tinycodetfakepkg3", dependencies = "tinycodetfakepkg2", lib.loc=lib.loc2),
+  import_as(~ p3., "tinycodetfakepkg3", dependencies = "tinycodetfakepkg2", lib.loc = c("foo1", lib.loc2, "foo2")),
   pattern = "The following dependencies are not installed",
   fixed = TRUE
 )
 
 expect_error(
-  import_as(~p1., "tinycodetfakepkg1", extensions = "tinycodetfakepkg3", lib.loc=lib.loc3),
+  import_as(~p1., "tinycodetfakepkg1", extensions = "tinycodetfakepkg3", lib.loc = c("foo1", lib.loc3, "foo2")),
   pattern = "The following extensions are not installed",
   fixed = TRUE
 )
 
 expect_error(
-  import_as(~p2., "tinycodetfakepkg2", extensions = "tinycodetfakepkg3", lib.loc=lib.loc3),
+  import_as(~p2., "tinycodetfakepkg2", extensions = "tinycodetfakepkg3", lib.loc = c("foo1", lib.loc3, "foo2")),
   pattern = "The following extensions are not installed",
   fixed = TRUE
 )
@@ -116,7 +116,7 @@ import_as(
   ~p3., "tinycodetfakepkg3",
   re_exports = TRUE,
   dependencies=c("tinycodetfakepkg1", "tinycodetfakepkg2"),
-  lib.loc=lib.loc1
+  lib.loc = c("foo1", lib.loc1, "foo2")
 )
 p3 <- c(
   "fun_overwritten", "%opover%",
@@ -143,7 +143,7 @@ expect_equal(
 import_as(
   ~ p3., "tinycodetfakepkg1",
   extensions = "tinycodetfakepkg3",
-  lib.loc=lib.loc1
+  lib.loc = c("foo1", lib.loc1, "foo2")
 )
 p3 <- c(
   "fun_overwritten", "%opover%",
@@ -170,7 +170,7 @@ import_as(
   ~ p3., "tinycodetfakepkg3",
   re_exports = TRUE,
   dependencies=c("tinycodetfakepkg1", "tinycodetfakepkg2"),
-  lib.loc=lib.loc1
+  lib.loc = c("foo1", lib.loc1, "foo2")
 ) |> suppressMessages()
 p3 <- data.frame(
   package=c("tinycodetfakepkg1", "tinycodetfakepkg2", "tinycodetfakepkg3 + re-exports"),
@@ -184,7 +184,7 @@ import_as(
   ~ p3., "tinycodetfakepkg3",
   re_exports = FALSE,
   dependencies=c("tinycodetfakepkg1", "tinycodetfakepkg2"),
-  lib.loc=lib.loc1
+  lib.loc = c("foo1", lib.loc1, "foo2")
 ) |> suppressMessages()
 p3 <- data.frame(
   package=c("tinycodetfakepkg1", "tinycodetfakepkg2", "tinycodetfakepkg3"),
@@ -198,7 +198,7 @@ import_as(
   ~ p3., "tinycodetfakepkg3",
   re_exports = TRUE,
   dependencies=c("tinycodetfakepkg1", "tinycodetfakepkg2"),
-  lib.loc=lib.loc1,
+  lib.loc = c("foo1", lib.loc1, "foo2"),
   import_order = c("main_package", "dependencies", "extensions")
 ) |> suppressMessages()
 p3 <- data.frame(
@@ -215,7 +215,7 @@ expect_equal(
 expect_silent(import_as(
   ~ new., "tinycodetfakepkg3",
   re_exports = TRUE,
-  lib.loc=lib.loc1
+  lib.loc = c("foo1", lib.loc1, "foo2")
 ) |> suppressMessages())
 
 
@@ -284,7 +284,7 @@ expect_equal(
 import_as(
   ~ new., "tinycodetfakepkg3",
   re_exports = TRUE,
-  lib.loc=lib.loc1
+  lib.loc = c("foo1", lib.loc1, "foo2")
 )  |> suppressMessages()
 expect_true("tinyimport" %in% names(new.$.__attributes__.))
 

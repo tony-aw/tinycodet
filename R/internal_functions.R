@@ -98,7 +98,7 @@
 #' @keywords internal
 #' @noRd
 .internal_check_lib.loc <- function(lib.loc, abortcall) {
-  if(length(lib.loc) < 1 || !is.character(lib.loc) || any(!nzchar(lib.loc))) {
+  if(length(lib.loc) < 1L || !is.character(lib.loc) || any(!nzchar(lib.loc))) {
     stop(simpleError(
       "`lib.loc` must be a character vector with at least one library path",
       call = abortcall

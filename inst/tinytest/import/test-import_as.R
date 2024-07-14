@@ -29,21 +29,6 @@ expect_error(
 )
 
 expect_error(
-  import_as(~stri., "stringi", lib.loc="foo"),
-  pattern = "The following packages are not installed"
-)
-
-expect_error(
-  import_as(~stri., ""),
-  pattern = "You have misspelled the following"
-)
-
-expect_error(
-  import_as(~stri., "!@#$%^&*()"),
-  pattern = "You have misspelled the following"
-)
-
-expect_error(
   import_as(~stri., "base"),
   pattern = 'The following "packages" are base/core R, which is not allowed:'
 )

@@ -11,32 +11,40 @@ errorfun <- function(tt) {
 # package not installed ====
 pattern <- "The following packages are not installed"
 expect_error(
-  import_as(~stri., "stringi", lib.loc="foo"),
+  import_as(~stri., "stringi", lib.loc = c("foo1", "foo2")),
   pattern = pattern
 )
 expect_error(
-  import_inops("stringi", lib.loc="foo"),
+  import_inops("stringi", lib.loc = c("foo1", "foo2")),
   pattern = pattern
 )
 expect_error(
-  import_inops(unexpose = "stringi", lib.loc="foo"),
+  import_inops(unexpose = "stringi", lib.loc = c("foo1", "foo2")),
   pattern = pattern
 )
 expect_error(
-  import_LL("stringi", lib.loc="foo", selection = "foo"),
+  import_LL("stringi", lib.loc = c("foo1", "foo2"), selection = "foo"),
   pattern = pattern
 )
 expect_error(
-  import_int(stringi ~ foo, lib.loc="foo"),
+  import_int(stringi ~ foo, lib.loc = c("foo1", "foo2")),
   pattern = pattern
 )
 expect_error(
-  pversion_check4mismatch("foo", lib.loc="foo"),
+  pversion_check4mismatch("foo", lib.loc = c("foo1", "foo2")),
   pattern = pattern
 )
 expect_error(
-  pversion_report("foo", lib.loc="foo"),
+  pversion_report("foo", lib.loc = c("foo1", "foo2")),
   pattern = pattern
+)
+expect_error(
+  import_as(~stri., "stringi", dependencies = c("foo1", "foo2")),
+  pattern = "The following dependencies are not installed"
+)
+expect_error(
+  import_as(~stri., "stringi", extensions = c("foo1", "foo2")),
+  pattern = "The following extensions are not installed"
 )
 
 
@@ -69,10 +77,26 @@ for(i in c("", "!@#$%^&*()")) {
     pversion_report(i),
     pattern = pattern
   )  |> errorfun()
-  enumerate <- enumerate + 5
+  expect_error(
+    import_as(~stri., "stringi", dependencies = i),
+    pattern = pattern
+  )
+  expect_error(
+    import_as(~stri., "stringi", extensions = i),
+    pattern = pattern
+  )
+  enumerate <- enumerate + 7
 }
 expect_error(
   import_int(`!@#$%^&*()` ~ foo),
+  pattern = pattern
+)
+expect_error(
+  import_as(~stri., "stringi", dependencies = c("", "!@#$%^&*()")),
+  pattern = pattern
+)
+expect_error(
+  import_as(~stri., "stringi", extensions = c("", "!@#$%^&*()")),
   pattern = pattern
 )
 
@@ -107,8 +131,24 @@ for(i in basepkgs) {
     import_int(form),
     pattern = pattern
   )  |> errorfun()
-  enumerate <- enumerate + 4
+  expect_error(
+    import_as(~stri., "stringi", dependencies = i),
+    pattern = pattern
+  )
+  expect_error(
+    import_as(~stri., "stringi", extensions = i),
+    pattern = pattern
+  )
+  enumerate <- enumerate + 7
 }
+expect_error(
+  import_as(~stri., "stringi", dependencies = basepkgs[1:5]),
+  pattern = pattern
+)
+expect_error(
+  import_as(~stri., "stringi", extensions = basepkgs[1:5]),
+  pattern = pattern
+)
 
 
 # package is metaverse ====
@@ -147,8 +187,24 @@ for(i in metapkgs) {
     pversion_report(i),
     pattern = pattern
   )  |> errorfun()
-  enumerate <- enumerate + 6
+  expect_error(
+    import_as(~stri., "stringi", dependencies = i),
+    pattern = pattern
+  )
+  expect_error(
+    import_as(~stri., "stringi", extensions = i),
+    pattern = pattern
+  )
+  enumerate <- enumerate + 9
 }
+expect_error(
+  import_as(~stri., "stringi", dependencies = metapkgs),
+  pattern = pattern
+)
+expect_error(
+  import_as(~stri., "stringi", extensions = metapkgs),
+  pattern = pattern
+)
 
 
 # bad library ====

@@ -97,7 +97,7 @@ expect_message(
 
 # test import_as - error handling ====
 expect_error(
-  import_inops("stringi", lib.loc=lib.loc1),
+  import_inops("stringi", lib.loc = c("foo1", lib.loc1, "foo2")),
   pattern = "The following packages are not installed"
 )
 
@@ -106,7 +106,7 @@ expect_error(
 temp.fun <- function() {
   import_inops(
     "tinycodetfakepkg3",
-    lib.loc=lib.loc1
+    lib.loc = c("foo1", lib.loc1, "foo2")
   )
   return(attributes(`%op31%`)|> names())
 }

@@ -56,3 +56,4 @@ out <- mapply(identical, ns, ns2)
 expect_false(
   any(out)
 )
+

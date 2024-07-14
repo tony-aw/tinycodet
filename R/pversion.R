@@ -153,4 +153,5 @@ pversion_report <- function(pkgs = NULL, lib.loc = .libPaths()) {
       return(read.dcf(path, fields = "Version"))
     }
   }
+  return(NA)
 }
