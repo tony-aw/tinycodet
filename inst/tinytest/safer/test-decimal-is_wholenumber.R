@@ -88,3 +88,22 @@ expect_error(
 )
 
 
+# NA, NaN, Inf, -Inf, TRUE, FALSE ====
+expect_equal(
+  is_wholenumber(-Inf),
+  NA
+)
+expect_equal(
+  is_wholenumber(NA),
+  NA
+)
+expect_equal(
+  is_wholenumber(NaN),
+  NA
+)
+expect_true(
+  is_wholenumber(TRUE)
+)
+expect_true(
+  is_wholenumber(FALSE)
+)

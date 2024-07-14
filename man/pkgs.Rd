@@ -70,20 +70,20 @@ The "official" list of shared dependencies in the 'tidyverse' currently is the f
 \itemize{
 \item \code{"inops"} or \code{"operators"}: Only infix operators.
 \item \code{"regfuns"}: Only regular functions (thus excluding infix operators).
-\item \code{"all"}: All functions, both regular functions and infix operators.
+\item \code{"all"}: All functions, both regular functions and infix operators. \cr \cr
 }}
 }
 \value{
 For  \code{pkgs \%installed in\% lib.loc}: \cr
 Returns a named logical vector, with the names giving the package names,
-and where the value \code{TRUE} indicates a package is installed,
-and the value \code{FALSE} indicates a package is not installed. \cr
+and where the value \code{TRUE} indicates a package is installed in \code{lib.loc},
+and the value \code{FALSE} indicates a package is not installed in \code{lib.loc}. \cr
 \cr
 For \code{pkg_get_deps()}: \cr
 A character vector of direct dependencies, without duplicates. \cr
 \cr
 For \code{pkg_lsf()}: \cr
-Returns a character vector of exported function names in the specified package.
+Returns a character vector of exported function names in the specified package. \cr \cr
 }
 \description{
 The \code{pkgs \%installed in\% lib.loc} operator
@@ -133,7 +133,8 @@ means the package names are extracted from the fields in the following order:
 \item "Depends";
 \item "Imports".
 }
-The unique (thus non-repeating) package names are then returned to the user.
+The unique (thus non-repeating)
+package names are then returned to the user. \cr \cr
 }
 \examples{
 \dontshow{if ("dplyr" \%installed in\% .libPaths()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}

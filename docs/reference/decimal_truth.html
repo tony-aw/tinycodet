@@ -14,7 +14,6 @@ should be consider to be equal.
 For example: (0.1 * 7) == 0.7 returns FALSE, even though they are equal,
 due to the way decimal numbers are stored in programming languages like 'R' and  'Python'. 
 But (0.1 * 7) %d==% 0.7 returns TRUE. 
-NOTE: as a consequence, Inf by Inf comparisons with the %d...% operators return NA.
 Only numeric input is allowed, so characters are not coerced to numbers. 
 I.e. 1 &amp;lt; &quot;a&quot; gives TRUE, whereas 1 %d&amp;lt;% &quot;a&quot; gives an error. 
 For character equality testing, see %s==% from the 'stringi' package. 
@@ -45,7 +44,6 @@ should be consider to be equal.
 For example: (0.1 * 7) == 0.7 returns FALSE, even though they are equal,
 due to the way decimal numbers are stored in programming languages like 'R' and  'Python'. 
 But (0.1 * 7) %d==% 0.7 returns TRUE. 
-NOTE: as a consequence, Inf by Inf comparisons with the %d...% operators return NA.
 Only numeric input is allowed, so characters are not coerced to numbers. 
 I.e. 1 &amp;lt; &quot;a&quot; gives TRUE, whereas 1 %d&amp;lt;% &quot;a&quot; gives an error. 
 For character equality testing, see %s==% from the 'stringi' package. 
@@ -137,8 +135,7 @@ then <code>x</code> and <code>y</code>
 should be consider to be equal. <br>
 For example: <code>(0.1 * 7) == 0.7</code> returns <code>FALSE</code>, even though they are equal,
 due to the way decimal numbers are stored in programming languages like 'R' and  'Python'. <br>
-But <code>(0.1 * 7) %d==% 0.7</code> returns <code>TRUE</code>. <br>
-NOTE: as a consequence, <code>Inf</code> by <code>Inf</code> comparisons with the <code>%d...%</code> operators return <code>NA</code>.</p></li>
+But <code>(0.1 * 7) %d==% 0.7</code> returns <code>TRUE</code>. <br></p></li>
 <li><p>Only numeric input is allowed, so characters are not coerced to numbers. <br>
 I.e. <code>1 &lt; "a"</code> gives <code>TRUE</code>, whereas <code>1 %d&lt;% "a"</code> gives an error. <br>
 For character equality testing, see <a href="https://rdrr.io/pkg/stringi/man/operator_compare.html" class="external-link">%s==%</a> from the 'stringi' package. <br></p></li>
@@ -196,8 +193,28 @@ The second element/column of <code>bnd</code> gives the upper bound of the close
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
+<p>For the <code>%d...%</code> operators: <br></p>
+
+
 <p>A logical vector with the same dimensions as <code>x</code>,
-indicating the result of the element by element comparison.</p>
+indicating the result of the element by element comparison. <br></p>
+
+
+<p>NOTE: <code>Inf</code> by <code>Inf</code> and <code>-Inf</code> by <code>-Inf</code> comparisons with
+the <code>%d...%</code> operators return <code>NA</code>. <br></p>
+
+
+<p><br></p>
+
+
+<p>For <code>is_wholenumber()</code>: <br></p>
+
+
+<p>A logical vector with the same dimensions as <code>x</code>,
+indicating the result of the element by element comparison. <br></p>
+
+
+<p>NOTE: <code>Inf</code>, <code>-Inf</code>, <code>NaN</code> and <code>NA</code> all return <code>NA</code> for <code>is_wholenumber()</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

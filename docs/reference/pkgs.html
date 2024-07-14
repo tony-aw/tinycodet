@@ -229,7 +229,7 @@ The "official" list of shared dependencies in the 'tidyverse' currently is the f
 <dt>type</dt>
 <dd><p>The type of functions to list. Possibilities:</p><ul><li><p><code>"inops"</code> or <code>"operators"</code>: Only infix operators.</p></li>
 <li><p><code>"regfuns"</code>: Only regular functions (thus excluding infix operators).</p></li>
-<li><p><code>"all"</code>: All functions, both regular functions and infix operators.</p></li>
+<li><p><code>"all"</code>: All functions, both regular functions and infix operators. <br><br></p></li>
 </ul></dd>
 
 </dl></div>
@@ -241,8 +241,8 @@ The "official" list of shared dependencies in the 'tidyverse' currently is the f
 
 
 <p>Returns a named logical vector, with the names giving the package names,
-and where the value <code>TRUE</code> indicates a package is installed,
-and the value <code>FALSE</code> indicates a package is not installed. <br></p>
+and where the value <code>TRUE</code> indicates a package is installed in <code>lib.loc</code>,
+and the value <code>FALSE</code> indicates a package is not installed in <code>lib.loc</code>. <br></p>
 
 
 <p><br></p>
@@ -260,7 +260,11 @@ and the value <code>FALSE</code> indicates a package is not installed. <br></p>
 <p>For <code>pkg_lsf()</code>: <br></p>
 
 
-<p>Returns a character vector of exported function names in the specified package.</p>
+<p>Returns a character vector of exported function names in the specified package. <br></p>
+<p></p>
+<p><br></p>
+
+
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -275,7 +279,8 @@ means the package names are extracted from the fields in the following order:</p
 <ol><li><p>"LinkingTo";</p></li>
 <li><p>"Depends";</p></li>
 <li><p>"Imports".</p></li>
-</ol><p>The unique (thus non-repeating) package names are then returned to the user.</p>
+</ol><p>The unique (thus non-repeating)
+package names are then returned to the user. <br><br></p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>

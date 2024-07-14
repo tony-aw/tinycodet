@@ -3,10 +3,12 @@
 * **Behaviour change:** All decimal truth testing operators now always give `NA` when `Inf` is compared with `Inf`, or when `-Inf` is compared to `-Inf`.
 * Streamlined the internal code of the decimal truth testing operators.
 * Added `%s><%` and `%s<>%` as aliases for `%sget%` and `%strim%`, respectively.
+* Incorporated more safety measures in the `pversion_` - functions.
 * Removed some superfluous text in the import system documentation.
 * Re-written one 'C++' script to pure 'C' code.
 * Some of the internal 'C' code now support long vectors, when appropriate.
 * Small speed improvement in some of the internal code.
+* Added even more tests.
 
 
 # tinycodet 0.5.0
@@ -35,7 +37,7 @@
 
 # tinycodet 0.4.5
 * Slight speed improvement of `stri_locate_ith()`.
-* **New Features**: Added the following functions to the "safer functionality" category: `form()`, `aes_pro()`, `with_pro()`, and `safer_partialmatch()`. Naturally, added tests for these new functions.
+* New Features: Added the following functions to the "safer functionality" category: form(), `aes_pro()`, `with_pro()`, and `safer_partialmatch()`. Naturally, added tests for these new functions.
 
 
 # tinycodet 0.4.1

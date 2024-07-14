@@ -69,10 +69,12 @@
 <strong>Behaviour change:</strong> All decimal truth testing operators now always give <code>NA</code> when <code>Inf</code> is compared with <code>Inf</code>, or when <code>-Inf</code> is compared to <code>-Inf</code>.</li>
 <li>Streamlined the internal code of the decimal truth testing operators.</li>
 <li>Added <code>%s&gt;&lt;%</code> and <code>%s&lt;&gt;%</code> as aliases for <code>%sget%</code> and <code>%strim%</code>, respectively.</li>
+<li>Incorporated more safety measures in the <code>pversion_</code> - functions.</li>
 <li>Removed some superfluous text in the import system documentation.</li>
 <li>Re-written one ‘C++’ script to pure ‘C’ code.</li>
 <li>Some of the internal ‘C’ code now support long vectors, when appropriate.</li>
 <li>Small speed improvement in some of the internal code.</li>
+<li>Added even more tests.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.5.0" id="tinycodet-050">tinycodet 0.5.0<a class="anchor" aria-label="anchor" href="#tinycodet-050"></a></h2><p class="text-muted">CRAN release: 2024-05-07</p>
@@ -109,8 +111,7 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4.5" id="tinycodet-045">tinycodet 0.4.5<a class="anchor" aria-label="anchor" href="#tinycodet-045"></a></h2><p class="text-muted">CRAN release: 2024-03-02</p>
 <ul><li>Slight speed improvement of <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code>.</li>
-<li>
-<strong>New Features</strong>: Added the following functions to the “safer functionality” category: <code>form()</code>, <code><a href="../reference/pro.html">aes_pro()</a></code>, <code><a href="../reference/pro.html">with_pro()</a></code>, and <code><a href="../reference/safer_partialmatch.html">safer_partialmatch()</a></code>. Naturally, added tests for these new functions.</li>
+<li>New Features: Added the following functions to the “safer functionality” category: form(), <code><a href="../reference/pro.html">aes_pro()</a></code>, <code><a href="../reference/pro.html">with_pro()</a></code>, and <code><a href="../reference/safer_partialmatch.html">safer_partialmatch()</a></code>. Naturally, added tests for these new functions.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4.1" id="tinycodet-041">tinycodet 0.4.1<a class="anchor" aria-label="anchor" href="#tinycodet-041"></a></h2><p class="text-muted">CRAN release: 2024-02-17</p>

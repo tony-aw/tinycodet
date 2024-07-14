@@ -74,8 +74,6 @@ instead of evaluating the contents (i.e. string or formula) of the variable.
 In other words: Non-Standard Evaluation. \cr
 \cr
 Regular Standard Evaluation does not have the above problem. \cr
-Standard evaluation in 'R' is not limited to atomic objects like character vectors;
-formulas can also be used.
 }
 
 \examples{

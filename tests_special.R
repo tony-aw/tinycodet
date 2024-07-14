@@ -93,7 +93,7 @@ cbind(checks, tinycodet:::.internal_list_knownmeta()) |> print()
 
 
 # empty packages checks ====
-if(!require(spam64)) {
+if(!"spam64" %installed in% .libPaths()) {
   install.packages("spam64")
 }
 
@@ -119,15 +119,16 @@ expect_warning(
 
 
 # Tmethods checks ====
-if (!require("BiocManager", quietly = TRUE)) {
+if(!"BiocManager" %installed in% .libPaths()) {
   install.packages("BiocManager")
 }
-if(!require("Rgraphviz")) {
+if(!"Rgraphviz" %installed in% .libPaths()) {
   BiocManager::install("Rgraphviz")
 }
-if(!require(import)) {
+if(!"import" %installed in% .libPaths()) {
   install.packages("import")
 }
+
 
 import_as(~ rg., "Rgraphviz")
 rg2 <- new.env()
@@ -158,6 +159,9 @@ expect_equal(
 )
 expect_true(
   utils::compareVersion(check$version_loaded, check$version_lib.loc) == 1
+)
+expect_false(
+  pversion_report("boot", templib)$versions_equal
 )
 
 

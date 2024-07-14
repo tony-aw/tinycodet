@@ -43,8 +43,16 @@ The second element/column of \code{bnd} gives the upper bound of the closed inte
 \item{tol}{a single, strictly positive number close to zero, giving the tolerance.}
 }
 \value{
+For the \code{\%d...\%} operators: \cr
 A logical vector with the same dimensions as \code{x},
-indicating the result of the element by element comparison.
+indicating the result of the element by element comparison. \cr
+NOTE: \code{Inf} by \code{Inf} and \code{-Inf} by \code{-Inf} comparisons with
+the \code{\%d...\%} operators return \code{NA}. \cr
+\cr
+For \code{is_wholenumber()}: \cr
+A logical vector with the same dimensions as \code{x},
+indicating the result of the element by element comparison. \cr
+NOTE: \code{Inf}, \code{-Inf}, \code{NaN} and \code{NA} all return \code{NA} for \code{is_wholenumber()}.
 }
 \description{
 The \code{\%d==\%, \%d!=\% \%d<\%, \%d>\%, \%d<=\%, \%d>=\%} (in)equality operators
@@ -63,7 +71,6 @@ should be consider to be equal. \cr
 For example: \code{(0.1 * 7) == 0.7} returns \code{FALSE}, even though they are equal,
 due to the way decimal numbers are stored in programming languages like 'R' and  'Python'. \cr
 But \code{(0.1 * 7) \%d==\% 0.7} returns \code{TRUE}. \cr
-NOTE: as a consequence, \code{Inf} by \code{Inf} comparisons with the \code{\%d...\%} operators return \code{NA}.
 \item Only numeric input is allowed, so characters are not coerced to numbers. \cr
 I.e. \code{1 < "a"} gives \code{TRUE}, whereas \code{1 \%d<\% "a"} gives an error. \cr
 For character equality testing, see \link[stringi]{\%s==\%} from the 'stringi' package. \cr

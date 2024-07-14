@@ -67,7 +67,7 @@
 #' @param type The type of functions to list. Possibilities:
 #'  * \code{"inops"} or \code{"operators"}: Only infix operators.
 #'  * \code{"regfuns"}: Only regular functions (thus excluding infix operators).
-#'  * \code{"all"}: All functions, both regular functions and infix operators.
+#'  * \code{"all"}: All functions, both regular functions and infix operators. \cr \cr
 #'
 #' @details
 #' For \code{pkg_get_deps()}: \cr
@@ -84,20 +84,21 @@
 #'  \item "Depends";
 #'  \item "Imports".
 #' }
-#' The unique (thus non-repeating) package names are then returned to the user.
+#' The unique (thus non-repeating)
+#' package names are then returned to the user. \cr \cr
 #'
 #'
 #' @returns
 #' For  \code{pkgs %installed in% lib.loc}: \cr
 #' Returns a named logical vector, with the names giving the package names,
-#' and where the value \code{TRUE} indicates a package is installed,
-#' and the value \code{FALSE} indicates a package is not installed. \cr
+#' and where the value \code{TRUE} indicates a package is installed in `lib.loc`,
+#' and the value \code{FALSE} indicates a package is not installed in `lib.loc`. \cr
 #' \cr
 #' For \code{pkg_get_deps()}: \cr
 #' A character vector of direct dependencies, without duplicates. \cr
 #' \cr
 #' For \code{pkg_lsf()}: \cr
-#' Returns a character vector of exported function names in the specified package.
+#' Returns a character vector of exported function names in the specified package. \cr \cr
 #'
 #' @references O'Brien J., elegantly extract R-package dependencies of a package not listed on CRAN. \emph{Stack Overflow}. (1 September 2023). \url{https://stackoverflow.com/questions/30223957/elegantly-extract-r-package-dependencies-of-a-package-not-listed-on-cran}
 #'
@@ -130,7 +131,7 @@ NULL
     stop("`pkgs` must be a character vector of package names")
   }
   misspelled_pkgs <- pkgs[pkgs != make.names(pkgs)]
-  if(isTRUE(length(misspelled_pkgs)>0)) {
+  if(isTRUE(length(misspelled_pkgs) > 0L)) {
     stop(
       "You have misspelled the following packages:",
       "\n",
@@ -200,7 +201,7 @@ pkg_get_deps_minimal <- function(package, lib.loc = .libPaths(), deps_type = c("
 #' @rdname pkgs
 #' @export
 pkg_lsf <- function(package, type, lib.loc = .libPaths()) {
-  if(length(package)>1){
+  if(length(package) > 1L){
     stop("only a single package can be given")
   }
 
@@ -230,8 +231,10 @@ pkg_lsf <- function(package, type, lib.loc = .libPaths()) {
     package, lib.loc, type,
     base, recom, rstudioapi, shared_tidy
 ) {
-  # based of https://stackoverflow.com/questions/30223957/elegantly-extract-r-package-dependencies-of-a-package-not-listed-on-cran
+  # based on https://stackoverflow.com/questions/30223957/elegantly-extract-r-package-dependencies-of-a-package-not-listed-on-cran
   dcf <- read.dcf(file.path(system.file("DESCRIPTION", package = package, lib.loc = lib.loc)))
+  # note: using system.file() here above in case of multiple libPaths
+  # and also to deal with prioritizing loaded vs installed packages
   jj <- intersect(type, colnames(dcf))
   val <- unlist(strsplit(dcf[, jj], ","), use.names = FALSE)
   val <- gsub("\\s.*", "", trimws(val))

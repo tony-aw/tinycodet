@@ -89,3 +89,23 @@ expect_error(
 )
 
 
+
+# Infinity checks ====
+expect_equal(
+  Inf %d{}% c(1, Inf),
+  NA
+)
+expect_equal(
+  Inf %d!{}% c(1, Inf),
+  NA
+)
+
+expect_equal(
+  -Inf %d{}% c(-Inf, 1),
+  NA
+)
+expect_equal(
+  -Inf %d!{}% c(-Inf, 1),
+  NA
+)
+

@@ -114,9 +114,12 @@ Core R (i.e. "base", "stats", etc.) is not allowed.</p></dd>
 
 <dt>re_exports</dt>
 <dd><p><code>TRUE</code> or <code>FALSE</code>.</p><ul><li><p>If <code>re_exports = TRUE</code> the re-exports from the <code>main_package</code>
-are added to the alias together with the main package.
-This is the default, as it is analogous to the behaviour of base R's <a href="https://rdrr.io/r/base/ns-dblcolon.html" class="external-link">::</a> operator.</p></li>
-<li><p>If <code>re_exports = FALSE</code>, these re-exports are not added together with the main package.
+(including those exported from Core R)
+are added to the alias together with the main package. <br>
+This is the default,
+as it is analogous to the behaviour of base R's <a href="https://rdrr.io/r/base/ns-dblcolon.html" class="external-link">::</a> operator. <br></p></li>
+<li><p>If <code>re_exports = FALSE</code>,
+these re-exports are not added together with the main package. <br>
 The user can still import the packages under the alias from which the re-exported functions came from,
 by specifying them in the <code>dependencies</code> argument.</p></li>
 </ul></dd>
@@ -143,7 +146,7 @@ Core R (i.e. "base", "stats", etc.) is not allowed.</p></dd>
 <dd><p>character vector specifying library search path
 (the location of R library trees to search through). <br>
 The <code>lib.loc</code> argument would usually be <code><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths()</a></code>. <br>
-See also <a href="https://rdrr.io/r/base/ns-load.html" class="external-link">loadNamespace</a>.</p></dd>
+See also <a href="https://rdrr.io/r/base/ns-load.html" class="external-link">loadNamespace</a>. <br><br></p></dd>
 
 
 <dt>import_order</dt>
@@ -183,7 +186,8 @@ will contain the exported functions from the specified package(s). <br></p>
 <p>To see the special attributes of this alias object, use <a href="x.import.html">attr.import</a>. <br></p>
 
 
-<p>To "unimport" the package alias object, simply remove it (i.e. <code>rm(list = "alias.")</code>). <br></p>
+<p>To "unimport" the package alias object, simply remove it
+(i.e. <code>rm(list = "alias.")</code>). <br></p>
 
 
     </div>
@@ -238,11 +242,11 @@ This setting results in the following importing order: <br></p><ol><li><p>The de
 including re-exports (if <code>re_exports = TRUE</code>).</p></li>
 <li><p>The extensions, <b>in the order specified by the <code>extensions</code> argument</b>. <br><br></p></li>
 </ol><p><b>Other Details</b> <br>
-The <code>import_as()</code> function
-does not support importing base/core R under an alias. <br>
 Packages that appear in the "Suggests" or "Enhances" fields of packages
-are not considered dependencies or extensions. <br>
-No more than 10 packages are allowed to be imported under a single alias. <br><br></p>
+are not considered dependencies or extensions. <br><br>
+No more than 10 packages
+(ignoring re-exports)
+are allowed to be imported under a single alias. <br><br></p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

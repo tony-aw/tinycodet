@@ -17,7 +17,6 @@
 #'  For example: \code{(0.1 * 7) == 0.7} returns \code{FALSE}, even though they are equal,
 #'  due to the way decimal numbers are stored in programming languages like 'R' and  'Python'. \cr
 #'  But \code{(0.1 * 7) %d==% 0.7} returns \code{TRUE}. \cr
-#'  NOTE: as a consequence, `Inf` by `Inf` comparisons with the \code{%d...%} operators return `NA`.
 #'  2) Only numeric input is allowed, so characters are not coerced to numbers. \cr
 #'  I.e. \code{1 < "a"} gives \code{TRUE}, whereas \code{1 %d<% "a"} gives an error. \cr
 #'  For character equality testing, see \link[stringi]{%s==%} from the 'stringi' package. \cr
@@ -43,8 +42,16 @@
 #' @param tol a single, strictly positive number close to zero, giving the tolerance.
 #'
 #' @returns
+#' For the \code{%d...%} operators: \cr
 #' A logical vector with the same dimensions as \code{x},
-#' indicating the result of the element by element comparison.
+#' indicating the result of the element by element comparison. \cr
+#' NOTE: `Inf` by `Inf` and `-Inf` by `-Inf` comparisons with
+#' the \code{%d...%} operators return `NA`. \cr
+#' \cr
+#' For `is_wholenumber()`: \cr
+#' A logical vector with the same dimensions as \code{x},
+#' indicating the result of the element by element comparison. \cr
+#' NOTE: `Inf`, `-Inf`, `NaN` and `NA` all return `NA` for `is_wholenumber()`.
 #'
 #' @seealso \link{tinycodet_safer}
 #'
