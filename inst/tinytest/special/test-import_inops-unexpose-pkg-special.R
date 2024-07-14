@@ -16,10 +16,10 @@ print(lib.loc3)
 
 temp.fun <- function() {
   import_inops(
-    expose = "tinycodetfakepkg3", lib.loc = lib.loc1
+    expose = "tinycodetfakepkg3", lib.loc = c("foo1", lib.loc1, "foo2")
   )
   import_inops(
-    unexpose = "tinycodetfakepkg3", lib.loc = lib.loc1
+    unexpose = "tinycodetfakepkg3", lib.loc = c("foo1", lib.loc1, "foo2")
   )
   ls() |> sort()
 }
@@ -28,13 +28,13 @@ expect_equal(temp.fun(), character(0))
 
 # infix operators in environment but none in package ====
 temp.fun <- function() {
-  import_inops("tinycodetfakepkg2", lib.loc = lib.loc1)
-  import_inops(unexpose = "tinycodetfakepkg1", lib.loc = lib.loc1)
+  import_inops("tinycodetfakepkg2", lib.loc = c("foo1", lib.loc1, "foo2"))
+  import_inops(unexpose = "tinycodetfakepkg1", lib.loc = c("foo1", lib.loc1, "foo2"))
   ls()
 }
 
 temp.fun2 <- function() {
-  import_inops("tinycodetfakepkg2", lib.loc = lib.loc1)
+  import_inops("tinycodetfakepkg2", lib.loc = c("foo1", lib.loc1, "foo2"))
   ls()
 }
 
@@ -52,7 +52,7 @@ expect_equal(
 # unexpose infix operators in alias but none in environment ====
 temp.fun <- function() {
   import_inops(
-    unexpose = "tinycodetfakepkg2", lib.loc = lib.loc1
+    unexpose = "tinycodetfakepkg2", lib.loc = c("foo1", lib.loc1, "foo2")
   )
   ls()
 }
@@ -73,7 +73,7 @@ expect_equal(
 temp.fun <- function() {
   `%s+%` <- stringi::`%s+%`
   import_inops(
-    unexpose = "tinycodetfakepkg2", lib.loc = lib.loc1
+    unexpose = "tinycodetfakepkg2", lib.loc = c("foo1", lib.loc1, "foo2")
   )
   ls()
 }

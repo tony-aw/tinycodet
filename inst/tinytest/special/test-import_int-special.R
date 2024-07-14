@@ -27,7 +27,7 @@ expect_error(
 )
 
 expect_error(
-  import_int(tinycodetfakepkg3 ~ .foo, lib.loc = lib.loc2),
+  import_int(tinycodetfakepkg3 ~ .foo, lib.loc = c("foo1", lib.loc2, "foo2")),
   pattern = "the following packages are required but not installed:"
 )
 

@@ -1,4 +1,4 @@
-# special _import_as() tests
+
 library(tinycodet)
 library(tinytest)
 

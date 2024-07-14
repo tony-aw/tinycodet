@@ -14,15 +14,15 @@ print(lib.loc3)
 
 # test %installed in% operator ====
 expect_equal(
-  "foo" %installed in% lib.loc1,
+  "foo" %installed in% c("foo1", lib.loc1, "foo2"),
   setNames(FALSE, 'foo')
 )
 expect_equal(
-  "tinycodetfakepkg1" %installed in% lib.loc1,
+  "tinycodetfakepkg1" %installed in% c("foo1", lib.loc1, "foo2"),
   setNames(TRUE, "tinycodetfakepkg1")
 )
 expect_error(
-  "!@#$%^&*()" %installed in% lib.loc1,
+  "!@#$%^&*()" %installed in% c("foo1", lib.loc1, "foo2"),
   pattern = "You have misspelled the following packages:"
 )
 expect_error(
@@ -33,23 +33,31 @@ expect_error(
 
 # test pkg_get_deps ====
 expect_equal(
-  pkg_get_deps("tinycodetfakepkg1", lib.loc1, deps_type = "Enhances"),
+  pkg_get_deps("tinycodetfakepkg1",
+               lib.loc = c("foo1", lib.loc1, "foo2"),
+               deps_type = "Enhances"),
   "tinycodetfakepkg3"
 )
 expect_equal(
-  pkg_get_deps("tinycodetfakepkg2", lib.loc1, deps_type = "Enhances"),
+  pkg_get_deps("tinycodetfakepkg2",
+               lib.loc = c("foo1", lib.loc1, "foo2"),
+               deps_type = "Enhances"),
   "tinycodetfakepkg3"
 )
 expect_equal(
-  pkg_get_deps("tinycodetfakepkg3", lib.loc1, deps_type = "Depends"),
+  pkg_get_deps("tinycodetfakepkg3",
+               lib.loc = c("foo1", lib.loc1, "foo2"),
+               deps_type = "Depends"),
   "tinycodetfakepkg1"
 )
 expect_equal(
-  pkg_get_deps("tinycodetfakepkg3", lib.loc1, deps_type = "Imports"),
+  pkg_get_deps("tinycodetfakepkg3",
+               lib.loc = c("foo1", lib.loc1, "foo2"),
+               deps_type = "Imports"),
   "tinycodetfakepkg2"
 )
 expect_error(
-  pkg_get_deps("!@#$%^&*()", lib.loc = lib.loc1),
+  pkg_get_deps("!@#$%^&*()", lib.loc = c("foo1", lib.loc1, "foo2")),
   pattern = "You have misspelled the following packages:"
 )
 expect_error(
@@ -57,45 +65,45 @@ expect_error(
   pattern = "`lib.loc` must be a character vector with at least one library path"
 )
 expect_error(
-  pkg_get_deps("foo", lib.loc = lib.loc1),
+  pkg_get_deps("foo", lib.loc = c("foo1", lib.loc1, "foo2")),
   pattern = "The following packages are not installed"
 )
 
 
 # test pkg_get_deps - core, preinst, rstudioapi, and shared_tidy ====
 expect_equal(
-  sort(pkg_get_deps("tinycodetfakepkg4", "Depends", lib.loc = lib.loc1, base = TRUE)),
+  sort(pkg_get_deps("tinycodetfakepkg4", "Depends", lib.loc = c("foo1", lib.loc1, "foo2"), base = TRUE)),
   sort(setdiff(tinycodet:::.internal_list_coreR(), "translations"))
 )
 expect_equal(
-  sort(pkg_get_deps("tinycodetfakepkg4", "Depends", lib.loc = lib.loc1, base = FALSE)),
+  sort(pkg_get_deps("tinycodetfakepkg4", "Depends", lib.loc = c("foo1", lib.loc1, "foo2"), base = FALSE)),
   character(0)
 )
 
 expect_equal(
-  sort(pkg_get_deps("tinycodetfakepkg4", "Imports", lib.loc = lib.loc1, recom = TRUE)),
+  sort(pkg_get_deps("tinycodetfakepkg4", "Imports", lib.loc = c("foo1", lib.loc1, "foo2"), recom = TRUE)),
   sort(tinycodet:::.internal_list_preinst())
 )
 expect_equal(
-  pkg_get_deps("tinycodetfakepkg4", "Imports", lib.loc = lib.loc1, recom = FALSE),
+  pkg_get_deps("tinycodetfakepkg4", "Imports", lib.loc = c("foo1", lib.loc1, "foo2"), recom = FALSE),
   character(0)
 )
 
 expect_equal(
-  sort(pkg_get_deps("tinycodetfakepkg4", "Suggests", lib.loc = lib.loc1, rstudioapi = TRUE, shared_tidy = TRUE)),
+  sort(pkg_get_deps("tinycodetfakepkg4", "Suggests", lib.loc = c("foo1", lib.loc1, "foo2"), rstudioapi = TRUE, shared_tidy = TRUE)),
   sort(c("rlang", "lifecycle", "cli", "glue", "withr", "rstudioapi"))
 )
 expect_equal(
-  pkg_get_deps("tinycodetfakepkg4", "Suggests", lib.loc = lib.loc1, rstudioapi = FALSE, shared_tidy = FALSE),
+  pkg_get_deps("tinycodetfakepkg4", "Suggests", lib.loc = c("foo1", lib.loc1, "foo2"), rstudioapi = FALSE, shared_tidy = FALSE),
   character(0)
 )
 
 expect_equal(
   pkg_get_deps("tinycodetfakepkg4",
                c("Depends", "Imports"),
-               lib.loc = lib.loc1,
+               lib.loc = c("foo1", lib.loc1, "foo2"),
                base = FALSE, recom = FALSE, rstudioapi = FALSE, shared_tidy = FALSE),
-  pkg_get_deps_minimal("tinycodetfakepkg4", lib.loc = lib.loc1)
+  pkg_get_deps_minimal("tinycodetfakepkg4", lib.loc = c("foo1", lib.loc1, "foo2"))
 )
 
 
@@ -116,7 +124,7 @@ expect_equal(
   regfuns
 )
 expect_error(
-  pkg_lsf("!@#$%^&*()", "inops", lib.loc = lib.loc1),
+  pkg_lsf("!@#$%^&*()", "inops", lib.loc = c("foo1", lib.loc1, "foo2")),
   pattern = "You have misspelled the following packages:"
 )
 expect_error(
@@ -124,7 +132,7 @@ expect_error(
   pattern = "`lib.loc` must be a character vector with at least one library path"
 )
 expect_error(
-  pkg_get_deps("foo", "inops", lib.loc = lib.loc1),
+  pkg_get_deps("foo", "inops", lib.loc = c("foo1", lib.loc1, "foo2")),
   pattern = "The following packages are not installed"
 )
 

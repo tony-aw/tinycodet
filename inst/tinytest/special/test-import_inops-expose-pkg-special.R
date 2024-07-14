@@ -15,7 +15,7 @@ print(lib.loc3)
 temp.fun <- function() {
   import_inops(
     c("tinycodetfakepkg1"),
-    lib.loc = lib.loc1
+    lib.loc = c("foo1", lib.loc1, "foo2")
   )
   ls()
 }
@@ -29,7 +29,7 @@ temp.fun <- function() {
   import_inops(
     c("tinycodetfakepkg1"),
     include.only = c("%op12%"),
-    lib.loc = lib.loc1
+    lib.loc = c("foo1", lib.loc1, "foo2")
   )
   ls()
 }
@@ -43,7 +43,7 @@ temp.fun <- function() {
   import_inops(
     c("tinycodetfakepkg1"),
     exclude = c("%op12%"),
-    lib.loc = lib.loc1
+    lib.loc = c("foo1", lib.loc1, "foo2")
   )
   ls()
 }
@@ -55,11 +55,11 @@ expect_equal(
 temp.fun <- function() {
   pkgs_in <- c("tinycodetfakepkg1", "tinycodetfakepkg2", "tinycodetfakepkg3")
   pkgs_out <- c("tinycodetfakepkg2", "tinycodetfakepkg3")
-  import_inops(pkgs_in[1], lib.loc = lib.loc1)
-  import_inops(pkgs_in[2], lib.loc = lib.loc1)
-  import_inops(pkgs_in[3], lib.loc = lib.loc1)
-  import_inops(unexpose = pkgs_out[1], lib.loc = lib.loc1)
-  import_inops(unexpose = pkgs_out[2], lib.loc = lib.loc1)
+  import_inops(pkgs_in[1], lib.loc = c("foo1", lib.loc1, "foo2"))
+  import_inops(pkgs_in[2], lib.loc = c("foo1", lib.loc1, "foo2"))
+  import_inops(pkgs_in[3], lib.loc = c("foo1", lib.loc1, "foo2"))
+  import_inops(unexpose = pkgs_out[1], lib.loc = c("foo1", lib.loc1, "foo2"))
+  import_inops(unexpose = pkgs_out[2], lib.loc = c("foo1", lib.loc1, "foo2"))
   rm(list = c("pkgs_in", "pkgs_out"))
   ls()
 }
@@ -72,7 +72,7 @@ temp.fun <- function() {
   import_inops(
     c("tinycodetfakepkg1"),
     include.only = c("fun11"),
-    lib.loc = lib.loc1
+    lib.loc = c("foo1", lib.loc1, "foo2")
   )
   ls()
 }
@@ -85,7 +85,7 @@ temp.fun <- function() {
   import_inops(
     c("tinycodetfakepkg1"),
     include.only = c("%foo%"),
-    lib.loc = lib.loc1
+    lib.loc = c("foo1", lib.loc1, "foo2")
   )
   ls()
 }

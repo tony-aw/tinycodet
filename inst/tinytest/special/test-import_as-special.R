@@ -95,7 +95,7 @@ expect_error(
 import_as(
   ~p3., "tinycodetfakepkg3",
   re_exports=TRUE,
-  lib.loc = lib.loc1
+  lib.loc = c("foo1", lib.loc1, "foo2")
 )
 p3 <- c(
   "fun_overwritten", "%opover%",
@@ -106,8 +106,8 @@ out <- setdiff(names(p3.), ".__attributes__.") |> sort()
 expect_equal(out,  sort(p3))
 expect_true(p3.$.__attributes__.$args$re_exports)
 expect_equal(
-  import_as(~ p3., "tinycodetfakepkg3", re_exports = FALSE, dependencies = "tinycodetfakepkg1", lib.loc = lib.loc1),
-  import_as(~ p3., "tinycodetfakepkg1", re_exports = FALSE, extensions = "tinycodetfakepkg3", lib.loc = lib.loc1),
+  import_as(~ p3., "tinycodetfakepkg3", re_exports = FALSE, dependencies = "tinycodetfakepkg1", lib.loc = c("foo1", lib.loc1, "foo2")),
+  import_as(~ p3., "tinycodetfakepkg1", re_exports = FALSE, extensions = "tinycodetfakepkg3", lib.loc = c("foo1", lib.loc1, "foo2")),
 )
 
 
@@ -225,7 +225,7 @@ import_as(
   re_exports = FALSE,
   dependencies = c("tinycodetfakepkg2", "tinycodetfakepkg1"),
   import_order = c("main_package", "dependencies", "extensions"),
-  lib.loc = lib.loc1
+  lib.loc = c("foo1", lib.loc1, "foo2")
 )  |> suppressMessages()
 expect_equal(
   new.$.__attributes__.$pkgs$packages_order,
@@ -233,7 +233,7 @@ expect_equal(
 )
 ordered_object_names <- sapply(
   c("tinycodetfakepkg3", "tinycodetfakepkg2",  "tinycodetfakepkg1"),
-  \(x)pkg_lsf(x, type = "all", lib.loc = lib.loc1)
+  \(x)pkg_lsf(x, type = "all", lib.loc = c("foo1", lib.loc1, "foo2"))
 ) |> as.character() |> unique()
 expect_equal(
   new.$.__attributes__.$ordered_object_names,
@@ -245,7 +245,7 @@ import_as(
   re_exports = FALSE,
   extensions = c("tinycodetfakepkg3"),
   import_order = c("extensions", "main_package", "dependencies"),
-  lib.loc = lib.loc1
+  lib.loc = c("foo1", lib.loc1, "foo2")
 ) |> suppressMessages()
 expect_equal(
   new.$.__attributes__.$pkgs$packages_order,
@@ -253,7 +253,7 @@ expect_equal(
 )
 ordered_object_names <- sapply(
   c("tinycodetfakepkg3", "tinycodetfakepkg1"),
-  \(x)pkg_lsf(x, type = "all", lib.loc = lib.loc1)
+  \(x)pkg_lsf(x, type = "all", lib.loc = c("foo1", lib.loc1, "foo2"))
 ) |> as.character() |> unique()
 expect_equal(
   new.$.__attributes__.$ordered_object_names,
@@ -264,7 +264,7 @@ import_as(
   ~ new., "tinycodetfakepkg1",
   re_exports = FALSE,
   import_order = c("main_package", "dependencies", "extensions"),
-  lib.loc = lib.loc1
+  lib.loc = c("foo1", lib.loc1, "foo2")
 ) |> suppressMessages()
 expect_equal(
   new.$.__attributes__.$pkgs$packages_order,
@@ -272,7 +272,7 @@ expect_equal(
 )
 ordered_object_names <- sapply(
   c("tinycodetfakepkg1"),
-  \(x)pkg_lsf(x, type = "all", lib.loc = lib.loc1)
+  \(x)pkg_lsf(x, type = "all", lib.loc = c("foo1", lib.loc1, "foo2"))
 ) |> as.character() |> unique()
 expect_equal(
   new.$.__attributes__.$ordered_object_names,

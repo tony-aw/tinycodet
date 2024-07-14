@@ -17,7 +17,7 @@ temp.fun <- function() {
   import_as(
     ~to3., "tinycodetfakepkg3",
     dependencies = c("tinycodetfakepkg1", "tinycodetfakepkg2"),
-    lib.loc = lib.loc1
+    lib.loc = c("foo1", lib.loc1, "foo2")
   )
   import_inops(
     to3.
@@ -35,7 +35,7 @@ temp.fun <- function() {
   import_as(
     ~to3., "tinycodetfakepkg3",
     dependencies = c("tinycodetfakepkg1", "tinycodetfakepkg2"),
-    lib.loc = lib.loc1
+    lib.loc = c("foo1", lib.loc1, "foo2")
   )
   import_inops(
     to3.,
@@ -53,7 +53,7 @@ temp.fun <- function() {
   import_as(
     ~to3., "tinycodetfakepkg3",
     dependencies = c("tinycodetfakepkg1", "tinycodetfakepkg2"),
-    lib.loc = lib.loc1
+    lib.loc = c("foo1", lib.loc1, "foo2")
   )
   import_inops(
     to3.,
@@ -72,7 +72,7 @@ temp.fun <- function() {
   import_as(
     ~to3., "tinycodetfakepkg3",
     dependencies = c("tinycodetfakepkg1", "tinycodetfakepkg2"),
-    lib.loc = lib.loc1
+    lib.loc = c("foo1", lib.loc1, "foo2")
   )
   import_inops(
     to3.

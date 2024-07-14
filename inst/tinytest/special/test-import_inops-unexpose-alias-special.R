@@ -18,7 +18,7 @@ temp.fun <- function() {
   import_as(
     ~to3., "tinycodetfakepkg3",
     dependencies = c("tinycodetfakepkg1", "tinycodetfakepkg2"),
-    lib.loc = lib.loc1
+    lib.loc = c("foo1", lib.loc1, "foo2")
   )
   import_inops(
     expose=to3.
@@ -33,9 +33,9 @@ expect_equal(temp.fun(), c("to3."))
 
 # infix operators in environment but none in alias ====
 temp.fun <- function() {
-  import_as(~ to2., "tinycodetfakepkg2", lib.loc = lib.loc1)
+  import_as(~ to2., "tinycodetfakepkg2", lib.loc = c("foo1", lib.loc1, "foo2"))
   import_inops(to2.)
-  import_as(~ to1., "tinycodetfakepkg1", lib.loc = lib.loc1)
+  import_as(~ to1., "tinycodetfakepkg1", lib.loc = c("foo1", lib.loc1, "foo2"))
   import_inops(
     unexpose = to1.
   )
@@ -43,7 +43,7 @@ temp.fun <- function() {
 }
 
 temp.fun2 <- function() {
-  import_as(~ to2., "tinycodetfakepkg2", lib.loc = lib.loc1)
+  import_as(~ to2., "tinycodetfakepkg2", lib.loc = c("foo1", lib.loc1, "foo2"))
   import_inops(to2.)
   ls()
 }
@@ -61,7 +61,7 @@ expect_equal(
 
 # unexpose infix operators in alias but none in environment ====
 temp.fun <- function() {
-  import_as(~ to2., "tinycodetfakepkg2", lib.loc = lib.loc1)
+  import_as(~ to2., "tinycodetfakepkg2", lib.loc = c("foo1", lib.loc1, "foo2"))
   import_inops(
     unexpose = to2.
   )
@@ -81,7 +81,7 @@ expect_equal(
 
 # unexpose infix operators in alias but only user-defined in environment ====
 temp.fun <- function() {
-  import_as(~ to2., "tinycodetfakepkg2", lib.loc = lib.loc1)
+  import_as(~ to2., "tinycodetfakepkg2", lib.loc = c("foo1", lib.loc1, "foo2"))
   `%s+%` <- stringi::`%s+%`
   import_inops(
     unexpose = to2.
