@@ -30,7 +30,9 @@ expect_equal(
 )
 
 expect_error(
-  tinycodet:::.internal_check_forbidden_pkgs(c("tidyverse", "fastverse", "tinyverse"), lib.loc1, abortcall = sys.call()),
+  tinycodet:::.internal_check_forbidden_pkgs(
+    c("tidyverse", "fastverse", "tinyverse"), lib.loc, abortcall = sys.call()
+  ),
   pattern = paste0(
     "The following packages are known meta-verse packages, which is not allowed:",
     "\n",
@@ -41,6 +43,7 @@ expect_error(
 
 
 # check rcpp internal function does NOT modify by reference ====
+lib.loc <- .libPaths()
 package <- "stringi"
 ns <- as.list(loadNamespace(package, lib.loc = lib.loc), 
               all.names = TRUE, sorted = TRUE)
@@ -48,8 +51,9 @@ names_exported <- names(ns[[".__NAMESPACE__."]][["exports"]])
 ns <- ns[names_exported]
 ns <- ns[!is.na(names(ns))]
 names_exported <- names(ns)
-names_functions <- names(ns)[unlist(vapply(ns, is.function, 
-                                           FUN.VALUE = logical(1)), use.names = FALSE)]
+names_functions <- names(ns)[
+  unlist(vapply(ns, is.function, FUN.VALUE = logical(1)), use.names = FALSE)
+]
 ns2 <- ns
 ns <- tinycodet:::.rcpp_prep_ns(ns, names_functions, package)
 out <- mapply(identical, ns, ns2)

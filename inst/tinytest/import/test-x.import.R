@@ -15,10 +15,6 @@ expect_equal(
   attr.import(stri., "conflicts"),
   myattr$conflicts
 )
-# expect_equal(
-#   attr.import(stri., "versions"),
-#   myattr$versions
-# )
 expect_equal(
   attr.import(stri., "args"),
   myattr$args

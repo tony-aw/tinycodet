@@ -10,7 +10,6 @@ print(lib.loc1)
 print(lib.loc2)
 print(lib.loc3)
 
-
 # test import_as - single package ====
 stri <- loadNamespace("stringi") |> getNamespaceExports()
 import_as(~stri., "stringi")
