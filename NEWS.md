@@ -1,4 +1,5 @@
-# tinycodet 0.5.1 (Under Development)
+# tinycodet 0.5.3 (Under Development)
+* **Behaviour change:** the atomic typecasting functions now preserve names, dimensions, and dimnames (instead of all attributes), to be more in line with most of base 'R'.
 * **Behaviour change:** `pkgs %installed in% lib.loc` will now return `FALSE` when core 'R' `pkgs` are not in `lib.loc`, in contrast to `find.package()`.
 * **Behaviour change:** All decimal truth testing operators now always give `NA` when `Inf` is compared with `Inf`, or when `-Inf` is compared to `-Inf`.
 * Streamlined the internal code of the decimal truth testing operators.

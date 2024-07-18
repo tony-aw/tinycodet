@@ -5,7 +5,7 @@ loops <- 0 # to count number of loops
 
 # test whole vector type casting ====
 x <- seq(-2.5, 2, by =0.5)
-attr(x, "test") <- "test"
+names(x) <- letters[1:10]
 attr(x, "class") <- "complex"
 myattr <- attributes(x)
 myattr[["class"]] <- NULL
@@ -27,7 +27,8 @@ attributes(out) <- myattr
 expect_equal(as_chr(x), out)
 
 x <- 1:10
-attr(x, "test") <- "test"
+names(x) <- letters[1:10]
+
 attr(x, "class") <- "complex"
 myattr <- attributes(x)
 myattr[["class"]] <- NULL
@@ -43,7 +44,8 @@ expect_equal(as_raw(x), out)
 
 # test partial vector type casting ====
 x <- seq(-2.5, 2, by =0.5)
-attr(x, "test") <- "test"
+names(x) <- letters[1:10]
+
 attr(x, "class") <- "complex"
 myattr <- attributes(x)
 myattr[["class"]] <- NULL
@@ -69,7 +71,8 @@ expect[1] <- as.character(out[1])
 expect_equal(out, expect)
 
 x <- 1:10
-attr(x, "test") <- "test"
+names(x) <- LETTERS[1:10]
+
 attr(x, "class") <- "complex"
 myattr <- attributes(x)
 myattr[["class"]] <- NULL
@@ -96,7 +99,8 @@ iter <- 1
 loops <- loops + 1
 for (i in 1:4) {
   x <- initials[[i]]
-  attr(x, "test") <- "test"
+  names(x) <- letters[1:length(x)]
+  
   attr(x, "class") <- "complex"
   myattr <- attributes(x)
   myattr[["class"]] <- NULL
@@ -116,7 +120,9 @@ expect_equal(outs, expects)
 # test whole matrix type casting ====
 x <- seq(-2.5, 2, by =0.5) |> matrix(ncol=2)
 colnames(x) <- c("one", "two")
-attr(x, "test") <- "test"
+rownames(x) <- month.abb[1:5]
+names(x) <- letters[1:10]
+
 attr(x, "class") <- "complex"
 myattr <- attributes(x)
 myattr[["class"]] <- NULL
@@ -139,7 +145,9 @@ expect_equal(as_chr(x), out)
 
 x <- matrix(1:10, ncol=2)
 colnames(x) <- c("one", "two")
-attr(x, "test") <- "test"
+rownames(x) <- month.abb[1:5]
+names(x) <- letters[1:10]
+
 attr(x, "class") <- "complex"
 myattr <- attributes(x)
 myattr[["class"]] <- NULL
@@ -156,7 +164,9 @@ expect_equal(as_raw(x), out)
 # test partial matrix type casting ====
 x <- seq(-2.5, 2, by =0.5) |> matrix(ncol=2)
 colnames(x) <- c("one", "two")
-attr(x, "test") <- "test"
+rownames(x) <- month.abb[1:5]
+names(x) <- letters[1:10]
+
 attr(x, "class") <- "complex"
 myattr <- attributes(x)
 myattr[["class"]] <- NULL
@@ -183,7 +193,9 @@ expect_equal(out, expect)
 
 x <- matrix(1:10, ncol=2)
 colnames(x) <- c("one", "two")
-attr(x, "test") <- "test"
+rownames(x) <- month.abb[1:5]
+names(x) <- letters[1:10]
+
 attr(x, "class") <- "complex"
 myattr <- attributes(x)
 myattr[["class"]] <- NULL
@@ -208,7 +220,9 @@ loops <- loops + 1
 for (i in 1:4) {
   x <- initials[[i]] |> matrix(ncol=2)
   colnames(x) <- c("one", "two")
-  attr(x, "test") <- "test"
+  rownames(x) <- month.abb[1:nrow(x)]
+  names(x) <- letters[1:length(x)]
+  
   attr(x, "class") <- "complex"
   myattr <- attributes(x)
   myattr[["class"]] <- NULL

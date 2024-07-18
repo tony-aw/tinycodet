@@ -27,7 +27,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tinycodet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.3</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -181,84 +181,130 @@ warnings/errors and more compact) as:</p>
 <p> </p>
 </div>
 <div class="section level2">
-<h2 id="atomic-type-casting-without-stripping-attributes">Atomic type casting without stripping attributes<a class="anchor" aria-label="anchor" href="#atomic-type-casting-without-stripping-attributes"></a>
+<h2 id="atomic-type-casting-with-names-and-dimensions-preserved">Atomic type casting with names and dimensions preserved<a class="anchor" aria-label="anchor" href="#atomic-type-casting-with-names-and-dimensions-preserved"></a>
 </h2>
 <p>Atomic type casting in R is generally performed using the functions
 <code><a href="https://rdrr.io/r/base/logical.html" class="external-link">as.logical()</a></code>, <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer()</a></code>,
 <code><a href="https://rdrr.io/r/base/double.html" class="external-link">as.double()</a></code>, <code><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character()</a></code>.</p>
 <p>These functions have the annoying property that they strip
 attributes. If you wish to convert a variable <code>x</code> whilst
-keeping the attributes, one must first safe the attributes of
+keeping the names and dimensions, one must first safe the attributes of
 <code>x</code> before conversion, convert <code>x</code>, and then
 re-assign the attributes. ‘tinycodet’ adds functions that can do this
-for you, saving repititive code:</p>
+for you, saving repetitive code:</p>
 <ul>
 <li>
-<code><a href="../reference/atomic_conversions.html">as_bool()</a></code>: same as <code><a href="https://rdrr.io/r/base/logical.html" class="external-link">as.logical()</a></code>, but with
-attributes preserved.</li>
+<code><a href="../reference/atomic_typecast.html">as_bool()</a></code>: same as <code><a href="https://rdrr.io/r/base/logical.html" class="external-link">as.logical()</a></code>, but
+withnames &amp; dimensions preserved.</li>
 <li>
-<code><a href="../reference/atomic_conversions.html">as_int()</a></code>: same as <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer()</a></code>, but with
-attributes preserved.</li>
+<code><a href="../reference/atomic_typecast.html">as_int()</a></code>: same as <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer()</a></code>, but
+withnames &amp; dimensions preserved.</li>
 <li>
-<code><a href="../reference/atomic_conversions.html">as_dbl()</a></code>: same as <code><a href="https://rdrr.io/r/base/double.html" class="external-link">as.double()</a></code>
-(i.e. convert to real numbers), but with attributes preserved.</li>
+<code><a href="../reference/atomic_typecast.html">as_dbl()</a></code>: same as <code><a href="https://rdrr.io/r/base/double.html" class="external-link">as.double()</a></code>
+(i.e. convert to real numbers), but withnames &amp; dimensions
+preserved.</li>
 <li>
-<code><a href="../reference/atomic_conversions.html">as_chr()</a></code>: same as <code><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character()</a></code>, but with
-attributes preserved.</li>
+<code><a href="../reference/atomic_typecast.html">as_chr()</a></code>: same as <code><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character()</a></code>, but
+withnames &amp; dimensions preserved.</li>
 <li>
-<code><a href="../reference/atomic_conversions.html">as_cplx()</a></code>: same as <code><a href="https://rdrr.io/r/base/complex.html" class="external-link">as.complex()</a></code>, but with
-attributes preserved.</li>
+<code><a href="../reference/atomic_typecast.html">as_cplx()</a></code>: same as <code><a href="https://rdrr.io/r/base/complex.html" class="external-link">as.complex()</a></code>, but
+withnames &amp; dimensions preserved.</li>
 <li>
-<code><a href="../reference/atomic_conversions.html">as_raw()</a></code>: same as <code><a href="https://rdrr.io/r/base/raw.html" class="external-link">as.raw()</a></code>, but with
-attributes preserved.</li>
+<code><a href="../reference/atomic_typecast.html">as_raw()</a></code>: same as <code><a href="https://rdrr.io/r/base/raw.html" class="external-link">as.raw()</a></code>, but withnames
+&amp; dimensions preserved.</li>
 </ul>
-<p>All attributes except the “class” attribute are preserved.</p>
 <p>Examples:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">2.5</span>, by<span class="op">=</span><span class="fl">0.5</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>ncol<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"one"</span>, <span class="st">"two"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"test"</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"test"</span></span>
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">30</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">month.name</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">month.abb</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span><span class="op">]</span>, <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span><span class="co">#&gt;      one two</span></span>
-<span><span class="co">#&gt; [1,] 0.0 1.0</span></span>
-<span><span class="co">#&gt; [2,] 0.0 1.5</span></span>
-<span><span class="co">#&gt; [3,] 0.0 2.0</span></span>
-<span><span class="co">#&gt; [4,] 0.5 2.5</span></span>
-<span><span class="co">#&gt; attr(,"test")</span></span>
-<span><span class="co">#&gt; [1] "test"</span></span>
+<span><span class="co">#&gt;          January   February       March      April         May</span></span>
+<span><span class="co">#&gt; Jan -1.400043517 -1.8218177  2.06502490  0.5429963  1.88850493</span></span>
+<span><span class="co">#&gt; Feb  0.255317055 -0.2473253 -1.63098940 -0.9140748 -0.09744510</span></span>
+<span><span class="co">#&gt; Mar -2.437263611 -0.2441996  0.51242695  0.4681544 -0.93584735</span></span>
+<span><span class="co">#&gt; Apr -0.005571287 -0.2827054 -1.86301149  0.3629513 -0.01595031</span></span>
+<span><span class="co">#&gt; May  0.621552721 -0.5536994 -0.52201251 -1.3045435 -0.82678895</span></span>
+<span><span class="co">#&gt; Jun  1.148411606  0.6289820 -0.05260191  0.7377763 -1.51239965</span></span>
+<span><span class="co">#&gt; attr(,"names")</span></span>
+<span><span class="co">#&gt;  [1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s"</span></span>
+<span><span class="co">#&gt; [20] "t" "A" "B" "C" "D" "E" "F" "G" "H" "I" "J"</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/atomic_conversions.html">as_bool</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span><span class="co">#&gt;        one  two</span></span>
-<span><span class="co">#&gt; [1,] FALSE TRUE</span></span>
-<span><span class="co">#&gt; [2,] FALSE TRUE</span></span>
-<span><span class="co">#&gt; [3,] FALSE TRUE</span></span>
-<span><span class="co">#&gt; [4,]  TRUE TRUE</span></span>
-<span><span class="co">#&gt; attr(,"test")</span></span>
-<span><span class="co">#&gt; [1] "test"</span></span>
-<span><span class="fu"><a href="../reference/atomic_conversions.html">as_int</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span><span class="co">#&gt;      one two</span></span>
-<span><span class="co">#&gt; [1,]   0   1</span></span>
-<span><span class="co">#&gt; [2,]   0   1</span></span>
-<span><span class="co">#&gt; [3,]   0   2</span></span>
-<span><span class="co">#&gt; [4,]   0   2</span></span>
-<span><span class="co">#&gt; attr(,"test")</span></span>
-<span><span class="co">#&gt; [1] "test"</span></span>
-<span><span class="fu"><a href="../reference/atomic_conversions.html">as_dbl</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span><span class="co">#&gt;      one two</span></span>
-<span><span class="co">#&gt; [1,] 0.0 1.0</span></span>
-<span><span class="co">#&gt; [2,] 0.0 1.5</span></span>
-<span><span class="co">#&gt; [3,] 0.0 2.0</span></span>
-<span><span class="co">#&gt; [4,] 0.5 2.5</span></span>
-<span><span class="co">#&gt; attr(,"test")</span></span>
-<span><span class="co">#&gt; [1] "test"</span></span>
-<span><span class="fu"><a href="../reference/atomic_conversions.html">as_chr</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span><span class="co">#&gt;      one   two  </span></span>
-<span><span class="co">#&gt; [1,] "0"   "1"  </span></span>
-<span><span class="co">#&gt; [2,] "0"   "1.5"</span></span>
-<span><span class="co">#&gt; [3,] "0"   "2"  </span></span>
-<span><span class="co">#&gt; [4,] "0.5" "2.5"</span></span>
-<span><span class="co">#&gt; attr(,"test")</span></span>
-<span><span class="co">#&gt; [1] "test"</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/atomic_typecast.html">as_bool</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="co">#&gt;     January February March April  May</span></span>
+<span><span class="co">#&gt; Jan    TRUE     TRUE  TRUE  TRUE TRUE</span></span>
+<span><span class="co">#&gt; Feb    TRUE     TRUE  TRUE  TRUE TRUE</span></span>
+<span><span class="co">#&gt; Mar    TRUE     TRUE  TRUE  TRUE TRUE</span></span>
+<span><span class="co">#&gt; Apr    TRUE     TRUE  TRUE  TRUE TRUE</span></span>
+<span><span class="co">#&gt; May    TRUE     TRUE  TRUE  TRUE TRUE</span></span>
+<span><span class="co">#&gt; Jun    TRUE     TRUE  TRUE  TRUE TRUE</span></span>
+<span><span class="co">#&gt; attr(,"names")</span></span>
+<span><span class="co">#&gt;  [1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s"</span></span>
+<span><span class="co">#&gt; [20] "t" "A" "B" "C" "D" "E" "F" "G" "H" "I" "J"</span></span>
+<span><span class="fu"><a href="../reference/atomic_typecast.html">as_int</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="co">#&gt;     January February March April May</span></span>
+<span><span class="co">#&gt; Jan      -1       -1     2     0   1</span></span>
+<span><span class="co">#&gt; Feb       0        0    -1     0   0</span></span>
+<span><span class="co">#&gt; Mar      -2        0     0     0   0</span></span>
+<span><span class="co">#&gt; Apr       0        0    -1     0   0</span></span>
+<span><span class="co">#&gt; May       0        0     0    -1   0</span></span>
+<span><span class="co">#&gt; Jun       1        0     0     0  -1</span></span>
+<span><span class="co">#&gt; attr(,"names")</span></span>
+<span><span class="co">#&gt;  [1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s"</span></span>
+<span><span class="co">#&gt; [20] "t" "A" "B" "C" "D" "E" "F" "G" "H" "I" "J"</span></span>
+<span><span class="fu"><a href="../reference/atomic_typecast.html">as_dbl</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="co">#&gt;          January   February       March      April         May</span></span>
+<span><span class="co">#&gt; Jan -1.400043517 -1.8218177  2.06502490  0.5429963  1.88850493</span></span>
+<span><span class="co">#&gt; Feb  0.255317055 -0.2473253 -1.63098940 -0.9140748 -0.09744510</span></span>
+<span><span class="co">#&gt; Mar -2.437263611 -0.2441996  0.51242695  0.4681544 -0.93584735</span></span>
+<span><span class="co">#&gt; Apr -0.005571287 -0.2827054 -1.86301149  0.3629513 -0.01595031</span></span>
+<span><span class="co">#&gt; May  0.621552721 -0.5536994 -0.52201251 -1.3045435 -0.82678895</span></span>
+<span><span class="co">#&gt; Jun  1.148411606  0.6289820 -0.05260191  0.7377763 -1.51239965</span></span>
+<span><span class="co">#&gt; attr(,"names")</span></span>
+<span><span class="co">#&gt;  [1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s"</span></span>
+<span><span class="co">#&gt; [20] "t" "A" "B" "C" "D" "E" "F" "G" "H" "I" "J"</span></span>
+<span><span class="fu"><a href="../reference/atomic_typecast.html">as_chr</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="co">#&gt;     January                February             March                </span></span>
+<span><span class="co">#&gt; Jan "-1.40004351672175"    "-1.82181766097663"  "2.06502489535922"   </span></span>
+<span><span class="co">#&gt; Feb "0.25531705484526"     "-0.247325302073524" "-1.63098940208223"  </span></span>
+<span><span class="co">#&gt; Mar "-2.43726361121953"    "-0.244199606778383" "0.512426949851805"  </span></span>
+<span><span class="co">#&gt; Apr "-0.00557128674616073" "-0.282705448814465" "-1.86301149206833"  </span></span>
+<span><span class="co">#&gt; May "0.621552721415214"    "-0.553699383688721" "-0.522012514745454" </span></span>
+<span><span class="co">#&gt; Jun "1.14841160602606"     "0.628982042036008"  "-0.0526019099538795"</span></span>
+<span><span class="co">#&gt;     April                May                  </span></span>
+<span><span class="co">#&gt; Jan "0.54299634266114"   "1.88850492923455"   </span></span>
+<span><span class="co">#&gt; Feb "-0.914074827259928" "-0.0974451044082059"</span></span>
+<span><span class="co">#&gt; Mar "0.468154420450533"  "-0.935847353500678" </span></span>
+<span><span class="co">#&gt; Apr "0.362951255864986"  "-0.0159503112505377"</span></span>
+<span><span class="co">#&gt; May "-1.30454354503478"  "-0.826788953733443" </span></span>
+<span><span class="co">#&gt; Jun "0.737776321255047"  "-1.5123996512628"   </span></span>
+<span><span class="co">#&gt; attr(,"names")</span></span>
+<span><span class="co">#&gt;  [1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s"</span></span>
+<span><span class="co">#&gt; [20] "t" "A" "B" "C" "D" "E" "F" "G" "H" "I" "J"</span></span>
+<span><span class="fu"><a href="../reference/atomic_typecast.html">as_cplx</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="co">#&gt;             January      February          March         April            May</span></span>
+<span><span class="co">#&gt; Jan -1.400043517+0i -1.8218177+0i  2.06502490+0i  0.5429963+0i  1.88850493+0i</span></span>
+<span><span class="co">#&gt; Feb  0.255317055+0i -0.2473253+0i -1.63098940+0i -0.9140748+0i -0.09744510+0i</span></span>
+<span><span class="co">#&gt; Mar -2.437263611+0i -0.2441996+0i  0.51242695+0i  0.4681544+0i -0.93584735+0i</span></span>
+<span><span class="co">#&gt; Apr -0.005571287+0i -0.2827054+0i -1.86301149+0i  0.3629513+0i -0.01595031+0i</span></span>
+<span><span class="co">#&gt; May  0.621552721+0i -0.5536994+0i -0.52201251+0i -1.3045435+0i -0.82678895+0i</span></span>
+<span><span class="co">#&gt; Jun  1.148411606+0i  0.6289820+0i -0.05260191+0i  0.7377763+0i -1.51239965+0i</span></span>
+<span><span class="co">#&gt; attr(,"names")</span></span>
+<span><span class="co">#&gt;  [1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s"</span></span>
+<span><span class="co">#&gt; [20] "t" "A" "B" "C" "D" "E" "F" "G" "H" "I" "J"</span></span>
+<span><span class="fu"><a href="../reference/atomic_typecast.html">as_raw</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in as_raw(x): out-of-range values treated as 0 in coercion to raw</span></span>
+<span><span class="co">#&gt;     January February March April May</span></span>
+<span><span class="co">#&gt; Jan      00       00    02    00  01</span></span>
+<span><span class="co">#&gt; Feb      00       00    00    00  00</span></span>
+<span><span class="co">#&gt; Mar      00       00    00    00  00</span></span>
+<span><span class="co">#&gt; Apr      00       00    00    00  00</span></span>
+<span><span class="co">#&gt; May      00       00    00    00  00</span></span>
+<span><span class="co">#&gt; Jun      01       00    00    00  00</span></span>
+<span><span class="co">#&gt; attr(,"names")</span></span>
+<span><span class="co">#&gt;  [1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s"</span></span>
+<span><span class="co">#&gt; [20] "t" "A" "B" "C" "D" "E" "F" "G" "H" "I" "J"</span></span></code></pre></div>
 <p> </p>
 </div>
 <div class="section level2">

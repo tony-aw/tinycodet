@@ -53,7 +53,7 @@ reference:
 - title: Don't Repeat Yourself
   contents:
   - '`transform_if`'
-  - '`atomic_conversions`'
+  - '`atomic_typecast`'
   - '`inplace`'
   - '`subset_if`'
 - title: Miscellaneous Functions

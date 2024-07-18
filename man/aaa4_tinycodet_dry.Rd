@@ -11,7 +11,7 @@ To help in that effort, the 'tinycodet' R-package
 introduces a few functions:
 \itemize{
 \item The \link{transform_if} function
-\item \link[=as_int]{Atomic type casting without stripping attributes}.
+\item \link[=as_int]{Atomic type casting with names and dimensions preserved}.
 \item The \link[=\%unreal =\%]{subset_if operators and the in-place unreal modifier operator}.
 \item The \link[=\%:=\%]{general in-place (mathematical) modification operator}.
 }
