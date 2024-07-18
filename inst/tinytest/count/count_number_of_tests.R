@@ -1,4 +1,6 @@
 
+rm(list = ls())
+
 library(tinytest)
 library(tinycodet)
 
@@ -42,10 +44,11 @@ testcount_regular <- sapply(
 # count number of loop iterated tests ====
 n.iterations <- 0
 n.loops <- 0
-testfiles <- list.files(file.path(getwd(), "regular"), pattern = "*.R", recursive = FALSE)
+
+testfiles <- list.files(file.path(getwd()), pattern = "*.R", recursive = FALSE)
 for(i in testfiles) {
   my_env <- new.env()
-  source(file.path(getwd(),"regular", i), local = my_env) |> suppressMessages()
+  source(file.path(getwd(), i), local = my_env) |> suppressMessages()
   if("enumerate" %in% names(my_env) && "loops" %in% names(my_env)){
     print(my_env$enumerate)
     n.iterations <- n.iterations + my_env$enumerate
@@ -53,39 +56,21 @@ for(i in testfiles) {
   }
 }
 
-testfiles <- list.files(file.path(getwd(), "safer"), pattern = "*.R", recursive = FALSE)
-for(i in testfiles) {
-  my_env <- new.env()
-  source(file.path(getwd(),"safer", i), local = my_env) |> suppressMessages()
-  if("enumerate" %in% names(my_env) && "loops" %in% names(my_env)){
-    print(my_env$enumerate)
-    n.iterations <- n.iterations + my_env$enumerate
-    n.loops <- n.loops + my_env$loops
-  }
+for(iSubDir in c("safer", "import", "strings", "dry")) {
   
-}
-
-testfiles <- list.files(file.path(getwd(), "strings"), pattern = "*.R", recursive = FALSE)
-for(i in testfiles) {
-  my_env <- new.env()
-  source(file.path(getwd(),"strings", i), local = my_env) |> suppressMessages()
-  if("enumerate" %in% names(my_env) && "loops" %in% names(my_env)){
-    print(my_env$enumerate)
-    n.iterations <- n.iterations + my_env$enumerate
-    n.loops <- n.loops + my_env$loops
+  testfiles <- list.files(file.path(getwd(), iSubDir), pattern = "*.R", recursive = FALSE)
+  for(iFile in testfiles) {
+    my_env <- new.env()
+    source(file.path(getwd(), iSubDir, iFile), local = my_env) |> suppressMessages()
+    if("enumerate" %in% names(my_env) && "loops" %in% names(my_env)){
+      print(my_env$enumerate)
+      n.iterations <- n.iterations + my_env$enumerate
+      n.loops <- n.loops + my_env$loops
+    }
   }
 }
 
-testfiles <- list.files(file.path(getwd(), "import"), pattern = "*.R", recursive = FALSE)
-for(i in testfiles) {
-  my_env <- new.env()
-  source(file.path(getwd(),"import", i), local = my_env) |> suppressMessages()
-  if("enumerate" %in% names(my_env) && "loops" %in% names(my_env)){
-    print(my_env$enumerate)
-    n.iterations <- n.iterations + my_env$enumerate
-    n.loops <- n.loops + my_env$loops
-  }
-}
+
 testcount_loops <- n.iterations - n.loops
 
 
@@ -96,6 +81,7 @@ print(testcount_total)
 
 # test / function ratio ====
 nfuns <- length(getNamespaceExports(loadNamespace("tinycodet")))
-testcount_total / nfuns # about 72 tests per function on average
+nfuns <- nfuns - 4 # because there were 4 aliases
+testcount_total / nfuns # about 77 tests per function on average
 
 
