@@ -75,11 +75,15 @@ The "official" list of shared dependencies in the 'tidyverse' currently is the f
 }
 \value{
 For  \code{pkgs \%installed in\% lib.loc}: \cr
-Returns a named logical vector, with the names giving the package names,
-and where the value \code{TRUE} indicates a package is installed in \code{lib.loc},
-and the value \code{FALSE} indicates a package is not installed in \code{lib.loc}. \cr
+Returns a named logical vector. \cr
+The names give the package names. \cr
+The value \code{TRUE} indicates a package is installed in \code{lib.loc}. \cr
+The value \code{FALSE} indicates a package is not installed in \code{lib.loc}. \cr
+The value \code{NA} indicates a package is not actually a separate package,
+but base/core 'R'
+(i.e. 'base', 'stats', etc.). \cr
 \cr
-For \code{pkg_get_deps()}: \cr
+For \code{pkg_get_deps()} and \code{pkg_get_deps_minimal()}: \cr
 A character vector of direct dependencies, without duplicates. \cr
 \cr
 For \code{pkg_lsf()}: \cr

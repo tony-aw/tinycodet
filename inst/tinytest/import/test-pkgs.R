@@ -1,8 +1,8 @@
 
 # installed in ===
 expect_equal(
-  c("foo", "stringi") %installed in% .libPaths(),
-  setNames(c(FALSE, TRUE), c("foo", "stringi"))
+  c("foo", "stringi", "stats") %installed in% .libPaths(),
+  setNames(c(FALSE, TRUE, NA), c("foo", "stringi", "stats"))
 )
 expect_equal(
   "stringi" %installed in% .libPaths(),
@@ -11,6 +11,10 @@ expect_equal(
 expect_equal(
   "foo" %installed in% .libPaths(),
   c("foo" = FALSE)
+)
+expect_equal(
+  "stats" %installed in% .libPaths(),
+  c("stats" = NA)
 )
 
 

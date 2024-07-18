@@ -240,15 +240,27 @@ The "official" list of shared dependencies in the 'tidyverse' currently is the f
 <p>For  <code>pkgs %installed in% lib.loc</code>: <br></p>
 
 
-<p>Returns a named logical vector, with the names giving the package names,
-and where the value <code>TRUE</code> indicates a package is installed in <code>lib.loc</code>,
-and the value <code>FALSE</code> indicates a package is not installed in <code>lib.loc</code>. <br></p>
+<p>Returns a named logical vector. <br></p>
+
+
+<p>The names give the package names. <br></p>
+
+
+<p>The value <code>TRUE</code> indicates a package is installed in <code>lib.loc</code>. <br></p>
+
+
+<p>The value <code>FALSE</code> indicates a package is not installed in <code>lib.loc</code>. <br></p>
+
+
+<p>The value <code>NA</code> indicates a package is not actually a separate package,
+but base/core 'R'
+(i.e. 'base', 'stats', etc.). <br></p>
 
 
 <p><br></p>
 
 
-<p>For <code>pkg_get_deps()</code>: <br></p>
+<p>For <code>pkg_get_deps()</code> and <code>pkg_get_deps_minimal()</code>: <br></p>
 
 
 <p>A character vector of direct dependencies, without duplicates. <br></p>

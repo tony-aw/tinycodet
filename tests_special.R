@@ -12,16 +12,12 @@ expect_warning(
 
 # %installed in% ====
 expect_equal(
-  c("tinycodet", "foo") %installed in% .libPaths(),
-  setNames(c(TRUE, FALSE), c("tinycodet", "foo"))
+  c("tinycodet", "foo", "stats") %installed in% .libPaths(),
+  setNames(c(TRUE, FALSE, NA), c("tinycodet", "foo", "stats"))
 )
 expect_equal(
   "base" %installed in% .libPaths(),
-  c("base" = TRUE)
-)
-expect_equal(
-  "base" %installed in% getwd(),
-  c("base" = FALSE)
+  c("base" = NA)
 )
 
 # import_as ====

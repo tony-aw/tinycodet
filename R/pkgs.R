@@ -90,11 +90,15 @@
 #'
 #' @returns
 #' For  \code{pkgs %installed in% lib.loc}: \cr
-#' Returns a named logical vector, with the names giving the package names,
-#' and where the value \code{TRUE} indicates a package is installed in `lib.loc`,
-#' and the value \code{FALSE} indicates a package is not installed in `lib.loc`. \cr
+#' Returns a named logical vector. \cr
+#' The names give the package names. \cr
+#' The value \code{TRUE} indicates a package is installed in `lib.loc`. \cr
+#' The value \code{FALSE} indicates a package is not installed in `lib.loc`. \cr
+#' The value \code{NA} indicates a package is not actually a separate package,
+#' but base/core 'R'
+#' (i.e. 'base', 'stats', etc.). \cr
 #' \cr
-#' For \code{pkg_get_deps()}: \cr
+#' For \code{pkg_get_deps()} and \code{pkg_get_deps_minimal()}: \cr
 #' A character vector of direct dependencies, without duplicates. \cr
 #' \cr
 #' For \code{pkg_lsf()}: \cr
@@ -128,30 +132,26 @@ NULL
 `%installed in%` <- function(pkgs, lib.loc) {
 
   if(!is.character(pkgs)) {
-    stop("`pkgs` must be a character vector of package names")
+    stop("left hand side must be a character vector of package names")
   }
   misspelled_pkgs <- pkgs[pkgs != make.names(pkgs)]
-  if(isTRUE(length(misspelled_pkgs) > 0L)) {
+  if(length(misspelled_pkgs) > 0L) {
     stop(
       "You have misspelled the following packages:",
       "\n",
       paste0(misspelled_pkgs, collapse = ", ")
     )
   }
-
+   
   .internal_check_lib.loc(lib.loc, sys.call())
 
   tempfun <- function(pkg, lib.loc) {
     out <- find.package(package = pkg, lib.loc = lib.loc, quiet = TRUE)
-    if(length(out)) {
-      return(any(out %in% file.path(lib.loc, pkg))) # using %in% because lib.loc can be multiple paths
-    }
-    else {
-      return(FALSE)
-    }
+    return(length(out) > 0L)
   }
-
   out <- vapply(pkgs, \(x)tempfun(x, lib.loc = lib.loc), logical(1), USE.NAMES = TRUE)
+  out[pkgs %in% .internal_list_coreR()] <- NA
+  
   return(out)
 }
 
