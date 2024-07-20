@@ -2,9 +2,8 @@
 #'
 #' @description
 #' The \code{pkgs %installed in% lib.loc} operator
-#' calls \link{find.package}
-#' to check if one or more packages (\code{pkgs}) exist
-#' in library paths (\code{lib.loc}),
+#' checks if one or more given packages (\code{pkgs}) exist
+#' in the given library paths (\code{lib.loc}),
 #' without loading the packages. \cr
 #' The syntax of this operator forces the user to make it
 #' syntactically explicit

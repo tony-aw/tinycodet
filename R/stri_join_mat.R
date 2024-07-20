@@ -33,13 +33,13 @@
 #' @rdname stri_join_mat
 #' @export
 stri_join_mat <- function(mat, margin = 1, sep = "", collapse = NULL) {
-  if(margin==1) {
+  if(margin == 1) {
     out <- t(mat) |> as.data.frame()
     return(
       stringi::stri_join_list(as.list(out), sep = sep, collapse = collapse)
     )
   }
-  if(margin==2) {
+  if(margin == 2) {
     out <- mat |> as.data.frame()
     return(
       stringi::stri_join_list(as.list(out), sep = sep, collapse = collapse)
