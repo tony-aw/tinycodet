@@ -156,6 +156,12 @@ expect_equal(
 expect_true(
   utils::compareVersion(check$version_loaded, check$version_lib.loc) == 1
 )
+expect_true(
+  utils::compareVersion(check$version_lib.loc, "1.3-25") == 0
+)
+expect_true(
+  utils::compareVersion(check$version_loaded, getNamespaceVersion("boot")) == 0
+)
 expect_false(
   pversion_report("boot", c(templib, .libPaths()))$versions_equal
 )

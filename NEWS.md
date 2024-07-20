@@ -4,7 +4,6 @@
 * **Behaviour change:** All decimal truth testing operators now always give `NA` when `Inf` is compared with `Inf`, or when `-Inf` is compared to `-Inf`.
 * Streamlined the internal code of the decimal truth testing operators.
 * Added `%s><%` and `%s<>%` as aliases for `%sget%` and `%strim%`, respectively.
-* Incorporated more safety measures in the `pversion_` - functions.
 * Removed some superfluous text in the import system documentation.
 * Re-written one 'C++' script to pure 'C' code.
 * Some of the internal 'C' code now support long vectors, when appropriate.

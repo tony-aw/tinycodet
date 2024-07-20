@@ -13,16 +13,22 @@ print(lib.loc3)
 # this is to be checked BEFORE loading tinycodetfakepkg1
 # (hence the "aaa" in the test file name)
 
+pkg <- "tinycodetfakepkg1"
 
-out <-  as.character(tinycodet:::.pversion_installed("tinycodetfakepkg1", c("foo1", lib.loc1, "foo2")))
-expected <- as.character(utils::packageVersion("tinycodetfakepkg1", c("foo1", lib.loc1, "foo2")))
-
-check <- utils::compareVersion(
-  out, expected
+expect_false(
+  pkg %in% loadedNamespaces()
 )
+
+out <-  as.character(tinycodet:::.pversion_installed(pkg, c("foo1", lib.loc1, "foo2")))
+expected <- as.character(utils::packageVersion(pkg, c("foo1", lib.loc1, "foo2")))
+check <- utils::compareVersion(out, expected)
 
 expect_true(
   check == 0L
+)
+
+expect_false(
+  "tinycodetfakepkg1" %in% loadedNamespaces()
 )
 
 
