@@ -50,4 +50,13 @@
       }
     }
   }
+  
+  i <- "newlib"
+  j <- "tinycodetfakepkg1"
+  print(file.path(to.dir, i, j))
+  dir2rename <- file.path(to.dir, i, j, "Poof")
+  newdirname <- file.path(to.dir, i, j, "Meta")
+  file.rename(dir2rename, newdirname)
+  
+  
 }

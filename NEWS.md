@@ -8,6 +8,7 @@
 * Re-written one 'C++' script to pure 'C' code.
 * Some of the internal 'C' code now support long vectors, when appropriate.
 * Small speed improvement in some of the internal code.
+* Added new fake packages to the special tests, to perform more thorough tests on the `pversion_` - functions.
 * Added even more tests.
 
 
@@ -64,7 +65,7 @@ in the documentation of the `stri_locate_ith()` function.
 * The `strcut_brk()` function now includes the `tolist` argument to return a list. Moreover, the `n` argument may now also be specified (`n = -1L` by default).
 * **More safety checks:** Improved safety against malformed conditions in the `transform_if()` function. `stri_locate_ith()` now gives a warning when an empty string or pattern is given. The `help.import()` function now gives an error if neither `topic/package` nor `i/alias` is supplied, instead of just silently doing nothing. The `%sget%` and `%strim%` operators now give an explicit error message if the arguments do not have proper lengths.
 * **Internal Re-write:** `stri_locate_ith()` has now been partially re-written, and now includes 'C++' code, making it a bit faster. Also cleaned up the internal code for some other functions here and there.
-* **Added dependency:** 'Rcpp' is now added as an dependency, due to the aforementioned partial re-write in 'C++'.
+* **Added dependency:** 'Rcpp' is now added as a dependency, due to the aforementioned partial re-write in 'C++'.
 * **New Features:** Added `%ss%` to the collection of string arithmetic operators, and added the `strfind()<-` method to the string search operators.
 One can now supply the `at` argument in the list of the right-hand side for the `%s{}%` operator. Supplying `at = "start"` will check if the pattern appears at the start of a string. Supplying `at = "end"` will check if the pattern appears at the end of a string.
 * **Optimization:** Managed to optimise `stri_locate_ith()` even further. Optimised the 'subset_if' operators a bit more. Also optimised the `%n&%`, `%sget%`, `%strim%`, and `%=strtype%` operators a bit more.

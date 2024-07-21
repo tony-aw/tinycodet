@@ -75,6 +75,7 @@
 <li>Re-written one ‘C++’ script to pure ‘C’ code.</li>
 <li>Some of the internal ‘C’ code now support long vectors, when appropriate.</li>
 <li>Small speed improvement in some of the internal code.</li>
+<li>Added new fake packages to the special tests, to perform more thorough tests on the <code>pversion_</code> - functions.</li>
 <li>Added even more tests.</li>
 </ul></div>
     <div class="section level2">
@@ -142,7 +143,7 @@
 <li>
 <strong>Internal Re-write:</strong> <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> has now been partially re-written, and now includes ‘C++’ code, making it a bit faster. Also cleaned up the internal code for some other functions here and there.</li>
 <li>
-<strong>Added dependency:</strong> ‘Rcpp’ is now added as an dependency, due to the aforementioned partial re-write in ‘C++’.</li>
+<strong>Added dependency:</strong> ‘Rcpp’ is now added as a dependency, due to the aforementioned partial re-write in ‘C++’.</li>
 <li>
 <strong>New Features:</strong> Added <code>%ss%</code> to the collection of string arithmetic operators, and added the <code>strfind()&lt;-</code> method to the string search operators. One can now supply the <code>at</code> argument in the list of the right-hand side for the <code>%s{}%</code> operator. Supplying <code>at = "start"</code> will check if the pattern appears at the start of a string. Supplying <code>at = "end"</code> will check if the pattern appears at the end of a string.</li>
 <li>

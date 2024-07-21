@@ -6,9 +6,11 @@ to.dir <- tempdir() |> normalizePath()
 lib.loc1 <- file.path(to.dir, "fake_lib1")
 lib.loc2 <- file.path(to.dir, "fake_lib2")
 lib.loc3 <- file.path(to.dir, "fake_lib3")
+lib.locnew <- file.path(to.dir, "newlib")
 print(lib.loc1)
 print(lib.loc2)
 print(lib.loc3)
+print(lib.locnew)
 
 # this is to be checked BEFORE loading tinycodetfakepkg1
 # (hence the "aaa" in the test file name)
@@ -28,7 +30,42 @@ expect_true(
 )
 
 expect_false(
-  "tinycodetfakepkg1" %in% loadedNamespaces()
+  pkg  %in% loadedNamespaces()
+)
+
+
+
+loadNamespace(pkg, lib.loc = lib.loc1)
+check <- pversion_check4mismatch(pkg, lib.loc = c(lib.locnew, .libPaths()))
+expect_true(nrow(check) == 1)
+expect_equal(
+  lapply(check, class),
+  list("package" = "character",
+       "version_loaded" = "character",
+       "version_lib.loc" = "character"
+  )
+)
+expect_true(
+  utils::compareVersion(check$version_loaded, check$version_lib.loc) == -1
+)
+expect_true(
+  utils::compareVersion(check$version_lib.loc, "1.0") == 0
+)
+expect_true(
+  utils::compareVersion(check$version_loaded, "0.0.0.9000") == 0
+)
+expect_true(
+  utils::compareVersion(check$version_loaded, getNamespaceVersion(pkg)) == 0
+)
+expect_false(
+  pversion_report(pkg, c(lib.locnew, lib.loc1))$versions_equal
+)
+expect_true(
+  pversion_report(pkg, c(lib.loc1, lib.locnew))$versions_equal
+)
+
+expect_null(
+  pversion_check4mismatch(pkg, lib.loc = c(lib.loc1, lib.locnew))
 )
 
 

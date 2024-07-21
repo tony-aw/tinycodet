@@ -455,13 +455,13 @@ withnames &amp; dimensions preserved.</li>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="fu">rownames</span>(x) <span class="ot">&lt;-</span> month.abb[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]</span>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="fu">names</span>(x) <span class="ot">&lt;-</span> <span class="fu">c</span>(letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">20</span>], LETTERS[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>])</span>
 <span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="fu">print</span>(x)</span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt;         January    February      March      April        May</span></span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; Jan  0.30077717 -1.03792974  0.2828854 -1.3652916  3.2083156</span></span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt; Feb  1.34699049  0.89669909  0.5484279  0.5392740  0.6208464</span></span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt; Mar -0.03345013  1.52282666  1.1554789  0.9266771 -0.1055129</span></span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt; Apr -0.28361523 -0.43041208 -0.6170525  0.5034926  0.4947180</span></span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt; May -1.33669289 -0.04677666 -0.1918896  0.0537166  0.5401965</span></span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt; Jun  1.14748709  0.48656500 -0.1201212 -0.5636081 -0.2406573</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="co">#&gt;          January    February      March        April        May</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; Jan  0.477297868 -0.05757154 -0.6453715  0.136624965  0.8167315</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="co">#&gt; Feb -0.941959705 -0.34289977  0.8922000 -1.951171102  0.5312969</span></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt; Mar  0.005509975  1.61683803 -0.1630106  0.417663591  0.5521176</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co">#&gt; Apr  2.610103843  0.02038127 -1.7586980  0.001080092  1.5436191</span></span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a><span class="co">#&gt; May  0.257572717 -1.67364652  2.1967666  0.545862109 -1.3200501</span></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co">#&gt; Jun  0.510042439  1.23288447  0.6697242 -0.031331939  0.7271171</span></span>
 <span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;names&quot;)</span></span>
 <span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot; &quot;f&quot; &quot;g&quot; &quot;h&quot; &quot;i&quot; &quot;j&quot; &quot;k&quot; &quot;l&quot; &quot;m&quot; &quot;n&quot; &quot;o&quot; &quot;p&quot; &quot;q&quot; &quot;r&quot; &quot;s&quot;</span></span>
 <span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt; [20] &quot;t&quot; &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;E&quot; &quot;F&quot; &quot;G&quot; &quot;H&quot; &quot;I&quot; &quot;J&quot;</span></span>
@@ -479,64 +479,64 @@ withnames &amp; dimensions preserved.</li>
 <span id="cb5-27"><a href="#cb5-27" tabindex="-1"></a><span class="co">#&gt; [20] &quot;t&quot; &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;E&quot; &quot;F&quot; &quot;G&quot; &quot;H&quot; &quot;I&quot; &quot;J&quot;</span></span>
 <span id="cb5-28"><a href="#cb5-28" tabindex="-1"></a><span class="fu">as_int</span>(x)</span>
 <span id="cb5-29"><a href="#cb5-29" tabindex="-1"></a><span class="co">#&gt;     January February March April May</span></span>
-<span id="cb5-30"><a href="#cb5-30" tabindex="-1"></a><span class="co">#&gt; Jan       0       -1     0    -1   3</span></span>
-<span id="cb5-31"><a href="#cb5-31" tabindex="-1"></a><span class="co">#&gt; Feb       1        0     0     0   0</span></span>
-<span id="cb5-32"><a href="#cb5-32" tabindex="-1"></a><span class="co">#&gt; Mar       0        1     1     0   0</span></span>
-<span id="cb5-33"><a href="#cb5-33" tabindex="-1"></a><span class="co">#&gt; Apr       0        0     0     0   0</span></span>
-<span id="cb5-34"><a href="#cb5-34" tabindex="-1"></a><span class="co">#&gt; May      -1        0     0     0   0</span></span>
-<span id="cb5-35"><a href="#cb5-35" tabindex="-1"></a><span class="co">#&gt; Jun       1        0     0     0   0</span></span>
+<span id="cb5-30"><a href="#cb5-30" tabindex="-1"></a><span class="co">#&gt; Jan       0        0     0     0   0</span></span>
+<span id="cb5-31"><a href="#cb5-31" tabindex="-1"></a><span class="co">#&gt; Feb       0        0     0    -1   0</span></span>
+<span id="cb5-32"><a href="#cb5-32" tabindex="-1"></a><span class="co">#&gt; Mar       0        1     0     0   0</span></span>
+<span id="cb5-33"><a href="#cb5-33" tabindex="-1"></a><span class="co">#&gt; Apr       2        0    -1     0   1</span></span>
+<span id="cb5-34"><a href="#cb5-34" tabindex="-1"></a><span class="co">#&gt; May       0       -1     2     0  -1</span></span>
+<span id="cb5-35"><a href="#cb5-35" tabindex="-1"></a><span class="co">#&gt; Jun       0        1     0     0   0</span></span>
 <span id="cb5-36"><a href="#cb5-36" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;names&quot;)</span></span>
 <span id="cb5-37"><a href="#cb5-37" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot; &quot;f&quot; &quot;g&quot; &quot;h&quot; &quot;i&quot; &quot;j&quot; &quot;k&quot; &quot;l&quot; &quot;m&quot; &quot;n&quot; &quot;o&quot; &quot;p&quot; &quot;q&quot; &quot;r&quot; &quot;s&quot;</span></span>
 <span id="cb5-38"><a href="#cb5-38" tabindex="-1"></a><span class="co">#&gt; [20] &quot;t&quot; &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;E&quot; &quot;F&quot; &quot;G&quot; &quot;H&quot; &quot;I&quot; &quot;J&quot;</span></span>
 <span id="cb5-39"><a href="#cb5-39" tabindex="-1"></a><span class="fu">as_dbl</span>(x)</span>
-<span id="cb5-40"><a href="#cb5-40" tabindex="-1"></a><span class="co">#&gt;         January    February      March      April        May</span></span>
-<span id="cb5-41"><a href="#cb5-41" tabindex="-1"></a><span class="co">#&gt; Jan  0.30077717 -1.03792974  0.2828854 -1.3652916  3.2083156</span></span>
-<span id="cb5-42"><a href="#cb5-42" tabindex="-1"></a><span class="co">#&gt; Feb  1.34699049  0.89669909  0.5484279  0.5392740  0.6208464</span></span>
-<span id="cb5-43"><a href="#cb5-43" tabindex="-1"></a><span class="co">#&gt; Mar -0.03345013  1.52282666  1.1554789  0.9266771 -0.1055129</span></span>
-<span id="cb5-44"><a href="#cb5-44" tabindex="-1"></a><span class="co">#&gt; Apr -0.28361523 -0.43041208 -0.6170525  0.5034926  0.4947180</span></span>
-<span id="cb5-45"><a href="#cb5-45" tabindex="-1"></a><span class="co">#&gt; May -1.33669289 -0.04677666 -0.1918896  0.0537166  0.5401965</span></span>
-<span id="cb5-46"><a href="#cb5-46" tabindex="-1"></a><span class="co">#&gt; Jun  1.14748709  0.48656500 -0.1201212 -0.5636081 -0.2406573</span></span>
+<span id="cb5-40"><a href="#cb5-40" tabindex="-1"></a><span class="co">#&gt;          January    February      March        April        May</span></span>
+<span id="cb5-41"><a href="#cb5-41" tabindex="-1"></a><span class="co">#&gt; Jan  0.477297868 -0.05757154 -0.6453715  0.136624965  0.8167315</span></span>
+<span id="cb5-42"><a href="#cb5-42" tabindex="-1"></a><span class="co">#&gt; Feb -0.941959705 -0.34289977  0.8922000 -1.951171102  0.5312969</span></span>
+<span id="cb5-43"><a href="#cb5-43" tabindex="-1"></a><span class="co">#&gt; Mar  0.005509975  1.61683803 -0.1630106  0.417663591  0.5521176</span></span>
+<span id="cb5-44"><a href="#cb5-44" tabindex="-1"></a><span class="co">#&gt; Apr  2.610103843  0.02038127 -1.7586980  0.001080092  1.5436191</span></span>
+<span id="cb5-45"><a href="#cb5-45" tabindex="-1"></a><span class="co">#&gt; May  0.257572717 -1.67364652  2.1967666  0.545862109 -1.3200501</span></span>
+<span id="cb5-46"><a href="#cb5-46" tabindex="-1"></a><span class="co">#&gt; Jun  0.510042439  1.23288447  0.6697242 -0.031331939  0.7271171</span></span>
 <span id="cb5-47"><a href="#cb5-47" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;names&quot;)</span></span>
 <span id="cb5-48"><a href="#cb5-48" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot; &quot;f&quot; &quot;g&quot; &quot;h&quot; &quot;i&quot; &quot;j&quot; &quot;k&quot; &quot;l&quot; &quot;m&quot; &quot;n&quot; &quot;o&quot; &quot;p&quot; &quot;q&quot; &quot;r&quot; &quot;s&quot;</span></span>
 <span id="cb5-49"><a href="#cb5-49" tabindex="-1"></a><span class="co">#&gt; [20] &quot;t&quot; &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;E&quot; &quot;F&quot; &quot;G&quot; &quot;H&quot; &quot;I&quot; &quot;J&quot;</span></span>
 <span id="cb5-50"><a href="#cb5-50" tabindex="-1"></a><span class="fu">as_chr</span>(x)</span>
 <span id="cb5-51"><a href="#cb5-51" tabindex="-1"></a><span class="co">#&gt;     January               February              March               </span></span>
-<span id="cb5-52"><a href="#cb5-52" tabindex="-1"></a><span class="co">#&gt; Jan &quot;0.300777169452404&quot;   &quot;-1.03792974402649&quot;   &quot;0.282885444916497&quot; </span></span>
-<span id="cb5-53"><a href="#cb5-53" tabindex="-1"></a><span class="co">#&gt; Feb &quot;1.34699049255998&quot;    &quot;0.896699089386955&quot;   &quot;0.548427862199414&quot; </span></span>
-<span id="cb5-54"><a href="#cb5-54" tabindex="-1"></a><span class="co">#&gt; Mar &quot;-0.0334501320723133&quot; &quot;1.52282665753371&quot;    &quot;1.15547886904957&quot;  </span></span>
-<span id="cb5-55"><a href="#cb5-55" tabindex="-1"></a><span class="co">#&gt; Apr &quot;-0.283615232986859&quot;  &quot;-0.430412075403354&quot;  &quot;-0.61705245554575&quot; </span></span>
-<span id="cb5-56"><a href="#cb5-56" tabindex="-1"></a><span class="co">#&gt; May &quot;-1.3366928880686&quot;    &quot;-0.0467766625291338&quot; &quot;-0.191889614740815&quot;</span></span>
-<span id="cb5-57"><a href="#cb5-57" tabindex="-1"></a><span class="co">#&gt; Jun &quot;1.1474870942882&quot;     &quot;0.48656499550714&quot;    &quot;-0.120121189866156&quot;</span></span>
-<span id="cb5-58"><a href="#cb5-58" tabindex="-1"></a><span class="co">#&gt;     April                May                 </span></span>
-<span id="cb5-59"><a href="#cb5-59" tabindex="-1"></a><span class="co">#&gt; Jan &quot;-1.36529161603878&quot;  &quot;3.20831560284758&quot;  </span></span>
-<span id="cb5-60"><a href="#cb5-60" tabindex="-1"></a><span class="co">#&gt; Feb &quot;0.539273971501694&quot;  &quot;0.620846354840824&quot; </span></span>
-<span id="cb5-61"><a href="#cb5-61" tabindex="-1"></a><span class="co">#&gt; Mar &quot;0.926677055150644&quot;  &quot;-0.105512949189756&quot;</span></span>
-<span id="cb5-62"><a href="#cb5-62" tabindex="-1"></a><span class="co">#&gt; Apr &quot;0.503492581428124&quot;  &quot;0.494717982110721&quot; </span></span>
-<span id="cb5-63"><a href="#cb5-63" tabindex="-1"></a><span class="co">#&gt; May &quot;0.0537166012266718&quot; &quot;0.540196482865555&quot; </span></span>
-<span id="cb5-64"><a href="#cb5-64" tabindex="-1"></a><span class="co">#&gt; Jun &quot;-0.563608107795982&quot; &quot;-0.240657317958692&quot;</span></span>
+<span id="cb5-52"><a href="#cb5-52" tabindex="-1"></a><span class="co">#&gt; Jan &quot;0.477297868012457&quot;   &quot;-0.0575715426340128&quot; &quot;-0.645371464319769&quot;</span></span>
+<span id="cb5-53"><a href="#cb5-53" tabindex="-1"></a><span class="co">#&gt; Feb &quot;-0.941959704652312&quot;  &quot;-0.342899773435315&quot;  &quot;0.892200018036421&quot; </span></span>
+<span id="cb5-54"><a href="#cb5-54" tabindex="-1"></a><span class="co">#&gt; Mar &quot;0.00550997475167506&quot; &quot;1.61683802989615&quot;    &quot;-0.163010578740747&quot;</span></span>
+<span id="cb5-55"><a href="#cb5-55" tabindex="-1"></a><span class="co">#&gt; Apr &quot;2.6101038428615&quot;     &quot;0.0203812656514176&quot;  &quot;-1.75869804536611&quot; </span></span>
+<span id="cb5-56"><a href="#cb5-56" tabindex="-1"></a><span class="co">#&gt; May &quot;0.25757271725319&quot;    &quot;-1.67364651952099&quot;   &quot;2.19676658559316&quot;  </span></span>
+<span id="cb5-57"><a href="#cb5-57" tabindex="-1"></a><span class="co">#&gt; Jun &quot;0.510042438902902&quot;   &quot;1.23288447131115&quot;    &quot;0.669724221689854&quot; </span></span>
+<span id="cb5-58"><a href="#cb5-58" tabindex="-1"></a><span class="co">#&gt;     April                 May                </span></span>
+<span id="cb5-59"><a href="#cb5-59" tabindex="-1"></a><span class="co">#&gt; Jan &quot;0.13662496476387&quot;    &quot;0.816731542093304&quot;</span></span>
+<span id="cb5-60"><a href="#cb5-60" tabindex="-1"></a><span class="co">#&gt; Feb &quot;-1.95117110239593&quot;   &quot;0.531296939657516&quot;</span></span>
+<span id="cb5-61"><a href="#cb5-61" tabindex="-1"></a><span class="co">#&gt; Mar &quot;0.417663590585772&quot;   &quot;0.552117634786325&quot;</span></span>
+<span id="cb5-62"><a href="#cb5-62" tabindex="-1"></a><span class="co">#&gt; Apr &quot;0.0010800915055017&quot;  &quot;1.54361908052312&quot; </span></span>
+<span id="cb5-63"><a href="#cb5-63" tabindex="-1"></a><span class="co">#&gt; May &quot;0.545862109266818&quot;   &quot;-1.32005011163868&quot;</span></span>
+<span id="cb5-64"><a href="#cb5-64" tabindex="-1"></a><span class="co">#&gt; Jun &quot;-0.0313319394315809&quot; &quot;0.72711711235699&quot; </span></span>
 <span id="cb5-65"><a href="#cb5-65" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;names&quot;)</span></span>
 <span id="cb5-66"><a href="#cb5-66" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot; &quot;f&quot; &quot;g&quot; &quot;h&quot; &quot;i&quot; &quot;j&quot; &quot;k&quot; &quot;l&quot; &quot;m&quot; &quot;n&quot; &quot;o&quot; &quot;p&quot; &quot;q&quot; &quot;r&quot; &quot;s&quot;</span></span>
 <span id="cb5-67"><a href="#cb5-67" tabindex="-1"></a><span class="co">#&gt; [20] &quot;t&quot; &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;E&quot; &quot;F&quot; &quot;G&quot; &quot;H&quot; &quot;I&quot; &quot;J&quot;</span></span>
 <span id="cb5-68"><a href="#cb5-68" tabindex="-1"></a><span class="fu">as_cplx</span>(x)</span>
-<span id="cb5-69"><a href="#cb5-69" tabindex="-1"></a><span class="co">#&gt;            January       February         March         April           May</span></span>
-<span id="cb5-70"><a href="#cb5-70" tabindex="-1"></a><span class="co">#&gt; Jan  0.30077717+0i -1.03792974+0i  0.2828854+0i -1.3652916+0i  3.2083156+0i</span></span>
-<span id="cb5-71"><a href="#cb5-71" tabindex="-1"></a><span class="co">#&gt; Feb  1.34699049+0i  0.89669909+0i  0.5484279+0i  0.5392740+0i  0.6208464+0i</span></span>
-<span id="cb5-72"><a href="#cb5-72" tabindex="-1"></a><span class="co">#&gt; Mar -0.03345013+0i  1.52282666+0i  1.1554789+0i  0.9266771+0i -0.1055129+0i</span></span>
-<span id="cb5-73"><a href="#cb5-73" tabindex="-1"></a><span class="co">#&gt; Apr -0.28361523+0i -0.43041208+0i -0.6170525+0i  0.5034926+0i  0.4947180+0i</span></span>
-<span id="cb5-74"><a href="#cb5-74" tabindex="-1"></a><span class="co">#&gt; May -1.33669289+0i -0.04677666+0i -0.1918896+0i  0.0537166+0i  0.5401965+0i</span></span>
-<span id="cb5-75"><a href="#cb5-75" tabindex="-1"></a><span class="co">#&gt; Jun  1.14748709+0i  0.48656500+0i -0.1201212+0i -0.5636081+0i -0.2406573+0i</span></span>
+<span id="cb5-69"><a href="#cb5-69" tabindex="-1"></a><span class="co">#&gt;             January       February         March           April           May</span></span>
+<span id="cb5-70"><a href="#cb5-70" tabindex="-1"></a><span class="co">#&gt; Jan  0.477297868+0i -0.05757154+0i -0.6453715+0i  0.136624965+0i  0.8167315+0i</span></span>
+<span id="cb5-71"><a href="#cb5-71" tabindex="-1"></a><span class="co">#&gt; Feb -0.941959705+0i -0.34289977+0i  0.8922000+0i -1.951171102+0i  0.5312969+0i</span></span>
+<span id="cb5-72"><a href="#cb5-72" tabindex="-1"></a><span class="co">#&gt; Mar  0.005509975+0i  1.61683803+0i -0.1630106+0i  0.417663591+0i  0.5521176+0i</span></span>
+<span id="cb5-73"><a href="#cb5-73" tabindex="-1"></a><span class="co">#&gt; Apr  2.610103843+0i  0.02038127+0i -1.7586980+0i  0.001080092+0i  1.5436191+0i</span></span>
+<span id="cb5-74"><a href="#cb5-74" tabindex="-1"></a><span class="co">#&gt; May  0.257572717+0i -1.67364652+0i  2.1967666+0i  0.545862109+0i -1.3200501+0i</span></span>
+<span id="cb5-75"><a href="#cb5-75" tabindex="-1"></a><span class="co">#&gt; Jun  0.510042439+0i  1.23288447+0i  0.6697242+0i -0.031331939+0i  0.7271171+0i</span></span>
 <span id="cb5-76"><a href="#cb5-76" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;names&quot;)</span></span>
 <span id="cb5-77"><a href="#cb5-77" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot; &quot;f&quot; &quot;g&quot; &quot;h&quot; &quot;i&quot; &quot;j&quot; &quot;k&quot; &quot;l&quot; &quot;m&quot; &quot;n&quot; &quot;o&quot; &quot;p&quot; &quot;q&quot; &quot;r&quot; &quot;s&quot;</span></span>
 <span id="cb5-78"><a href="#cb5-78" tabindex="-1"></a><span class="co">#&gt; [20] &quot;t&quot; &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;E&quot; &quot;F&quot; &quot;G&quot; &quot;H&quot; &quot;I&quot; &quot;J&quot;</span></span>
 <span id="cb5-79"><a href="#cb5-79" tabindex="-1"></a><span class="fu">as_raw</span>(x)</span>
 <span id="cb5-80"><a href="#cb5-80" tabindex="-1"></a><span class="co">#&gt; Warning in as_raw(x): out-of-range values treated as 0 in coercion to raw</span></span>
 <span id="cb5-81"><a href="#cb5-81" tabindex="-1"></a><span class="co">#&gt;     January February March April May</span></span>
-<span id="cb5-82"><a href="#cb5-82" tabindex="-1"></a><span class="co">#&gt; Jan      00       00    00    00  03</span></span>
-<span id="cb5-83"><a href="#cb5-83" tabindex="-1"></a><span class="co">#&gt; Feb      01       00    00    00  00</span></span>
-<span id="cb5-84"><a href="#cb5-84" tabindex="-1"></a><span class="co">#&gt; Mar      00       01    01    00  00</span></span>
-<span id="cb5-85"><a href="#cb5-85" tabindex="-1"></a><span class="co">#&gt; Apr      00       00    00    00  00</span></span>
-<span id="cb5-86"><a href="#cb5-86" tabindex="-1"></a><span class="co">#&gt; May      00       00    00    00  00</span></span>
-<span id="cb5-87"><a href="#cb5-87" tabindex="-1"></a><span class="co">#&gt; Jun      01       00    00    00  00</span></span>
+<span id="cb5-82"><a href="#cb5-82" tabindex="-1"></a><span class="co">#&gt; Jan      00       00    00    00  00</span></span>
+<span id="cb5-83"><a href="#cb5-83" tabindex="-1"></a><span class="co">#&gt; Feb      00       00    00    00  00</span></span>
+<span id="cb5-84"><a href="#cb5-84" tabindex="-1"></a><span class="co">#&gt; Mar      00       01    00    00  00</span></span>
+<span id="cb5-85"><a href="#cb5-85" tabindex="-1"></a><span class="co">#&gt; Apr      02       00    00    00  01</span></span>
+<span id="cb5-86"><a href="#cb5-86" tabindex="-1"></a><span class="co">#&gt; May      00       00    02    00  00</span></span>
+<span id="cb5-87"><a href="#cb5-87" tabindex="-1"></a><span class="co">#&gt; Jun      00       01    00    00  00</span></span>
 <span id="cb5-88"><a href="#cb5-88" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;names&quot;)</span></span>
 <span id="cb5-89"><a href="#cb5-89" tabindex="-1"></a><span class="co">#&gt;  [1] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot; &quot;f&quot; &quot;g&quot; &quot;h&quot; &quot;i&quot; &quot;j&quot; &quot;k&quot; &quot;l&quot; &quot;m&quot; &quot;n&quot; &quot;o&quot; &quot;p&quot; &quot;q&quot; &quot;r&quot; &quot;s&quot;</span></span>
 <span id="cb5-90"><a href="#cb5-90" tabindex="-1"></a><span class="co">#&gt; [20] &quot;t&quot; &quot;A&quot; &quot;B&quot; &quot;C&quot; &quot;D&quot; &quot;E&quot; &quot;F&quot; &quot;G&quot; &quot;H&quot; &quot;I&quot; &quot;J&quot;</span></span></code></pre></div>
