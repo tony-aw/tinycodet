@@ -85,9 +85,9 @@ x \%ss\% p # split x around vowels, removing the vowels in the process
 x \%ss\% s_regex(p, simplify = NA) # same as above, but in matrix form
 
 test <- c(
-paste0("The\u00a0above-mentioned    features are very useful. ",
-"Spam, spam, eggs, bacon, and spam. 123 456 789"),
-"good morning, good evening, and good night"
+  paste0("The\u00a0above-mentioned    features are very useful. ",
+  "Spam, spam, eggs, bacon, and spam. 123 456 789"),
+  "good morning, good evening, and good night"
 )
 test \%s//\% list(type = "character")
 

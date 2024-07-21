@@ -225,7 +225,7 @@ Moreover, the <code>strcut_</code> - functions return a matrix by default. <br><
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [8,] "1234567"   "8"      "910"       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [9,] "12345678"  "9"      "10"        </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [10,] "123456789" "10"     ""          </span>
-<span class="r-in"><span><span class="fu">strcut_loc</span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">strcut_loc</span><span class="op">(</span><span class="va">x</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       prepart mainpart postpart</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] "1234"  "5"      "678910"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] "1234"  "5"      "678910"</span>
@@ -275,7 +275,7 @@ Moreover, the <code>strcut_</code> - functions return a matrix by default. <br><
 <span class="r-out co"><span class="r-pr">#&gt;</span> [10,] NA      "12345678910" NA      </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">test</span> <span class="op">&lt;-</span> <span class="st">"The\u00a0above-mentioned    features are very useful. "</span> <span class="op"><a href="https://rdrr.io/pkg/stringi/man/operator_add.html" class="external-link">%s+%</a></span></span></span>
-<span class="r-in"><span><span class="st">"Spam, spam, eggs, bacon, and spam. 123 456 789"</span></span></span>
+<span class="r-in"><span>  <span class="st">"Spam, spam, eggs, bacon, and spam. 123 456 789"</span></span></span>
 <span class="r-in"><span><span class="fu">strcut_brk</span><span class="op">(</span><span class="va">test</span>, <span class="st">"line"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      [,1]         [,2]            [,3]        [,4]   [,5]    [,6]      </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1,] "The above-" "mentioned    " "features " "are " "very " "useful. "</span>

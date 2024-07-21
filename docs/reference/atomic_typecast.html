@@ -165,18 +165,18 @@ The functions are as follows: <br></p><ul><li><p><code>as_bool()</code>: convert
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># matrix example ====</span></span></span>
-<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">30</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span><span class="op">:</span><span class="fl">28</span><span class="op">)</span>, ncol <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">month.name</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">month.abb</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span><span class="op">]</span>, <span class="va">LETTERS</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">]</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          January   February       March      April         May</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Jan -1.400043517 -1.8218177  2.06502490  0.5429963  1.88850493</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Feb  0.255317055 -0.2473253 -1.63098940 -0.9140748 -0.09744510</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mar -2.437263611 -0.2441996  0.51242695  0.4681544 -0.93584735</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Apr -0.005571287 -0.2827054 -1.86301149  0.3629513 -0.01595031</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> May  0.621552721 -0.5536994 -0.52201251 -1.3045435 -0.82678895</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Jun  1.148411606  0.6289820 -0.05260191  0.7377763 -1.51239965</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     January February March April May</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Jan      11       23    22    15  27</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Feb      21        2    28    17  19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mar      10       24     0    26   1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Apr       3        7    12    14  -1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> May       4       25     5    20   8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Jun      13       18     9    16   6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"names")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [20] "t" "A" "B" "C" "D" "E" "F" "G" "H" "I" "J"</span>
@@ -185,7 +185,7 @@ The functions are as follows: <br></p><ul><li><p><code>as_bool()</code>: convert
 <span class="r-out co"><span class="r-pr">#&gt;</span>     January February March April  May</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Jan    TRUE     TRUE  TRUE  TRUE TRUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Feb    TRUE     TRUE  TRUE  TRUE TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mar    TRUE     TRUE  TRUE  TRUE TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mar    TRUE     TRUE FALSE  TRUE TRUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Apr    TRUE     TRUE  TRUE  TRUE TRUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> May    TRUE     TRUE  TRUE  TRUE TRUE</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Jun    TRUE     TRUE  TRUE  TRUE TRUE</span>
@@ -194,64 +194,57 @@ The functions are as follows: <br></p><ul><li><p><code>as_bool()</code>: convert
 <span class="r-out co"><span class="r-pr">#&gt;</span> [20] "t" "A" "B" "C" "D" "E" "F" "G" "H" "I" "J"</span>
 <span class="r-in"><span><span class="fu">as_int</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     January February March April May</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Jan      -1       -1     2     0   1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Feb       0        0    -1     0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mar      -2        0     0     0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Apr       0        0    -1     0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> May       0        0     0    -1   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Jun       1        0     0     0  -1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Jan      11       23    22    15  27</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Feb      21        2    28    17  19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mar      10       24     0    26   1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Apr       3        7    12    14  -1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> May       4       25     5    20   8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Jun      13       18     9    16   6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"names")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [20] "t" "A" "B" "C" "D" "E" "F" "G" "H" "I" "J"</span>
 <span class="r-in"><span><span class="fu">as_dbl</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          January   February       March      April         May</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Jan -1.400043517 -1.8218177  2.06502490  0.5429963  1.88850493</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Feb  0.255317055 -0.2473253 -1.63098940 -0.9140748 -0.09744510</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mar -2.437263611 -0.2441996  0.51242695  0.4681544 -0.93584735</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Apr -0.005571287 -0.2827054 -1.86301149  0.3629513 -0.01595031</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> May  0.621552721 -0.5536994 -0.52201251 -1.3045435 -0.82678895</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Jun  1.148411606  0.6289820 -0.05260191  0.7377763 -1.51239965</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     January February March April May</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Jan      11       23    22    15  27</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Feb      21        2    28    17  19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mar      10       24     0    26   1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Apr       3        7    12    14  -1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> May       4       25     5    20   8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Jun      13       18     9    16   6</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"names")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [20] "t" "A" "B" "C" "D" "E" "F" "G" "H" "I" "J"</span>
 <span class="r-in"><span><span class="fu">as_chr</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     January                February             March                </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Jan "-1.40004351672175"    "-1.82181766097663"  "2.06502489535922"   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Feb "0.25531705484526"     "-0.247325302073524" "-1.63098940208223"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mar "-2.43726361121953"    "-0.244199606778383" "0.512426949851805"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Apr "-0.00557128674616073" "-0.282705448814465" "-1.86301149206833"  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> May "0.621552721415214"    "-0.553699383688721" "-0.522012514745454" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Jun "1.14841160602606"     "0.628982042036008"  "-0.0526019099538795"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     April                May                  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Jan "0.54299634266114"   "1.88850492923455"   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Feb "-0.914074827259928" "-0.0974451044082059"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mar "0.468154420450533"  "-0.935847353500678" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Apr "0.362951255864986"  "-0.0159503112505377"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> May "-1.30454354503478"  "-0.826788953733443" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Jun "0.737776321255047"  "-1.5123996512628"   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     January February March April May </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Jan "11"    "23"     "22"  "15"  "27"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Feb "21"    "2"      "28"  "17"  "19"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mar "10"    "24"     "0"   "26"  "1" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Apr "3"     "7"      "12"  "14"  "-1"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> May "4"     "25"     "5"   "20"  "8" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Jun "13"    "18"     "9"   "16"  "6" </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"names")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [20] "t" "A" "B" "C" "D" "E" "F" "G" "H" "I" "J"</span>
 <span class="r-in"><span><span class="fu">as_cplx</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             January      February          March         April            May</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Jan -1.400043517+0i -1.8218177+0i  2.06502490+0i  0.5429963+0i  1.88850493+0i</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Feb  0.255317055+0i -0.2473253+0i -1.63098940+0i -0.9140748+0i -0.09744510+0i</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mar -2.437263611+0i -0.2441996+0i  0.51242695+0i  0.4681544+0i -0.93584735+0i</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Apr -0.005571287+0i -0.2827054+0i -1.86301149+0i  0.3629513+0i -0.01595031+0i</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> May  0.621552721+0i -0.5536994+0i -0.52201251+0i -1.3045435+0i -0.82678895+0i</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Jun  1.148411606+0i  0.6289820+0i -0.05260191+0i  0.7377763+0i -1.51239965+0i</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     January February March April   May</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Jan   11+0i    23+0i 22+0i 15+0i 27+0i</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Feb   21+0i     2+0i 28+0i 17+0i 19+0i</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mar   10+0i    24+0i  0+0i 26+0i  1+0i</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Apr    3+0i     7+0i 12+0i 14+0i -1+0i</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> May    4+0i    25+0i  5+0i 20+0i  8+0i</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Jun   13+0i    18+0i  9+0i 16+0i  6+0i</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"names")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [20] "t" "A" "B" "C" "D" "E" "F" "G" "H" "I" "J"</span>
 <span class="r-in"><span><span class="fu">as_raw</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>out-of-range values treated as 0 in coercion to raw</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     January February March April May</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Jan      00       00    02    00  01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Feb      00       00    00    00  00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Mar      00       00    00    00  00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Apr      00       00    00    00  00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> May      00       00    00    00  00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Jun      01       00    00    00  00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Jan      0b       17    16    0f  1b</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Feb      15       02    1c    11  13</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Mar      0a       18    00    1a  01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Apr      03       07    0c    0e  00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> May      04       19    05    14  08</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Jun      0d       12    09    10  06</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"names")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [20] "t" "A" "B" "C" "D" "E" "F" "G" "H" "I" "J"</span>

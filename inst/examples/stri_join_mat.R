@@ -19,7 +19,7 @@ x <- c(paste(sample(letters), collapse = ""),
        paste(sample(letters), collapse = ""))
 print(x)
 mat <- strcut_brk(x)
-rank <- stringi::stri_rank(as.vector(mat)) |>  matrix(ncol=ncol(mat))
+rank <- stringi::stri_rank(as.vector(mat)) |>  matrix(ncol = ncol(mat))
 sorted <- mat %row~% rank
 sorted[is.na(sorted)] <- ""
 print(sorted)
@@ -34,7 +34,7 @@ stri_join_mat(sorted, margin = 2)
 x <- c("2nd 3rd 1st", "Goodbye everyone")
 print(x)
 mat <- strcut_brk(x, "word")
-rank <- stringi::stri_rank(as.vector(mat)) |> matrix(ncol=ncol(mat))
+rank <- stringi::stri_rank(as.vector(mat)) |> matrix(ncol = ncol(mat))
 sorted <- mat %row~% rank
 sorted[is.na(sorted)] <- ""
 stri_c_mat(sorted, margin = 1, sep = " ") # <- alias for stri_join_mat
@@ -49,7 +49,7 @@ x <- c("Hello, who are you? Oh, really?! Cool!",
        "I don't care. But I really don't.")
 print(x)
 mat <- strcut_brk(x, "sentence")
-rank <- sample(1:length(mat)) |> matrix(ncol = ncol(mat))
+rank <- sample(seq_along(mat)) |> matrix(ncol = ncol(mat))
 sorted <- mat %row~% rank
 sorted[is.na(sorted)] <- ""
 stri_paste_mat(sorted, margin = 1) # <- another alias for stri_join_mat

@@ -150,7 +150,8 @@ The performance of \code{stri_locate_ith()} is close to that of \link[stringi]{s
 # practical example: transform regex pattern ====
 
 # input character vector:
-x <- c(paste0(letters[1:13], collapse = ""), paste0(letters[14:26], collapse = ""))
+x <- c(paste0(letters[1:13], collapse = ""),
+       paste0(letters[14:26], collapse = ""))
 print(x)
 
 # locate ith (second and second-last) vowel locations:
@@ -209,7 +210,7 @@ loc <- stri_locate_ith_boundaries(x, c(-3, 3), type = "word")
 print(loc)
 
 # extract ith words:
-extr <- stringi::stri_sub(x, from=loc)
+extr <- stringi::stri_sub(x, from = loc)
 print(extr)
 
 # transform and replace words (notice ith words have inverted case):
@@ -224,7 +225,7 @@ print(x)
 
 # find pattern ====
 
-extr <- stringi::stri_sub(x, from=loc)
+extr <- stringi::stri_sub(x, from = loc)
 repl <- chartr(extr, old = "a-zA-Z", new = "A-Za-z")
 stringi::stri_sub_replace(x, loc, replacement=repl)
 
@@ -233,19 +234,19 @@ stringi::stri_sub_replace(x, loc, replacement=repl)
 
 # simple pattern ====
 
-x <- rep(paste0(1:10, collapse=""), 10)
+x <- rep(paste0(1:10, collapse = ""), 10)
 print(x)
 out <- stri_locate_ith(x, 1:10, regex = as.character(1:10))
 cbind(1:10, out)
 
 
-x <- c(paste0(letters[1:13], collapse=""),
+x <- c(paste0(letters[1:13], collapse = ""),
        paste0(letters[14:26], collapse = ""))
 print(x)
-p <- rep("a|e|i|o|u",2)
+p <- rep("a|e|i|o|u", 2)
 out <- stri_locate_ith(x, c(-1, 1), regex = p)
 print(out)
-substr(x, out[,1], out[,2])
+substr(x, out[, 1], out[, 2])
 
 
 #############################################################################
@@ -258,7 +259,7 @@ x <- c(paste0(letters[1:13], collapse = ""),
 print(x)
 p <- rep("A|E|I|O|U", 2)
 out <- stri_locate_ith(x, c(1, -1), regex = p, case_insensitive = TRUE)
-substr(x, out[,1], out[,2])
+substr(x, out[, 1], out[, 2])
 
 
 #############################################################################
@@ -272,7 +273,7 @@ print(x)
 p <- rep("AB", 2)
 out <- stri_locate_ith(x, c(1, -1), regex = p, case_insensitive = TRUE)
 print(out)
-substr(x, out[,1], out[,2])
+substr(x, out[, 1], out[, 2])
 
 
 
@@ -292,10 +293,11 @@ stringi::stri_sub_replace(x, loc, replacement = repl)
 # Boundaries ====
 
 test <- c(
-paste0("The\u00a0above-mentioned    features are very useful. ",
-      "Spam, spam, eggs, bacon, and spam. 123 456 789"),
-      "good morning, good evening, and good night"
-      )
+  paste0("The\u00a0above-mentioned    features are very useful. ",
+         "Spam, spam, eggs, bacon, and spam. 123 456 789"),
+  "good morning, good evening, and good night"
+)
+
 loc <- stri_locate_ith_boundaries(test, i = c(1, -1), type = "word")
 stringi::stri_sub(test, from = loc)
 

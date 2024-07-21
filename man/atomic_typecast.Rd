@@ -57,7 +57,7 @@ The functions are as follows: \cr
 \examples{
 
 # matrix example ====
-x <- matrix(rnorm(30), ncol = 5)
+x <- matrix(sample(-1:28), ncol = 5)
 colnames(x) <- month.name[1:5]
 rownames(x) <- month.abb[1:6]
 names(x) <- c(letters[1:20], LETTERS[1:10])

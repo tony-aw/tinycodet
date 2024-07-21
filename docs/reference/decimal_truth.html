@@ -223,20 +223,25 @@ indicating the result of the element by element comparison. <br></p>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.3</span>, <span class="fl">0.6</span>, <span class="fl">0.7</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span><span class="op">*</span><span class="fl">3</span>, <span class="fl">0.1</span><span class="op">*</span><span class="fl">6</span>, <span class="fl">0.1</span><span class="op">*</span><span class="fl">7</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.3</span>, <span class="fl">0.6</span>, <span class="fl">0.7</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span> <span class="op">*</span> <span class="fl">3</span>, <span class="fl">0.1</span> <span class="op">*</span> <span class="fl">6</span>, <span class="fl">0.1</span> <span class="op">*</span> <span class="fl">7</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.3 0.6 0.7</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.3 0.6 0.7</span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">==</span> <span class="va">y</span> <span class="co"># gives FALSE, but should be TRUE</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE FALSE FALSE</span>
-<span class="r-in"><span><span class="va">x</span><span class="op">!=</span> <span class="va">y</span> <span class="co"># gives TRUE, should be FALSE</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">!=</span> <span class="va">y</span> <span class="co"># gives TRUE, should be FALSE</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE TRUE TRUE</span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&gt;</span> <span class="va">y</span> <span class="co"># not wrong</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE FALSE FALSE</span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;</span> <span class="va">y</span> <span class="co"># gives TRUE, should be FALSE</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE TRUE TRUE</span>
-<span class="r-in"><span><span class="va">x</span> <span class="op">%d==%</span> <span class="va">y</span> <span class="co"># here it's done correctly</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># same as above, but here the results are correct:</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">%d==%</span> <span class="va">y</span> <span class="co"># correct</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE TRUE TRUE</span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">%d!=%</span> <span class="va">y</span> <span class="co"># correct</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE FALSE FALSE</span>
@@ -248,14 +253,15 @@ indicating the result of the element by element comparison. <br></p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE TRUE TRUE</span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">%d&gt;=%</span> <span class="va">y</span> <span class="co"># correct</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE TRUE TRUE</span>
-<span class="r-in"><span><span class="co">#'</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># check if numbers are in closed interval:</span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.3</span>, <span class="fl">0.6</span>, <span class="fl">0.7</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">bnd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">x</span><span class="op">-</span><span class="fl">0.1</span>, <span class="va">x</span><span class="op">+</span><span class="fl">0.1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">bnd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">x</span> <span class="op">-</span> <span class="fl">0.1</span>, <span class="va">x</span> <span class="op">+</span> <span class="fl">0.1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">%d{}%</span> <span class="va">bnd</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE TRUE TRUE</span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">%d!{}%</span> <span class="va">bnd</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE FALSE FALSE</span>
-<span class="r-in"><span><span class="co">#'</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># These operators work for integers also:</span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">1L</span><span class="op">:</span><span class="fl">5L</span></span></span>
 <span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fl">1L</span><span class="op">:</span><span class="fl">5L</span></span></span>
@@ -271,9 +277,9 @@ indicating the result of the element by element comparison. <br></p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE TRUE TRUE TRUE TRUE</span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">%d&gt;=%</span> <span class="va">y</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE TRUE TRUE TRUE TRUE</span>
-<span class="r-in"><span><span class="co">#'</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">1L</span><span class="op">:</span><span class="fl">5L</span></span></span>
-<span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">x</span><span class="op">+</span><span class="fl">1</span></span></span>
+<span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">x</span> <span class="op">+</span> <span class="fl">1L</span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">%d==%</span> <span class="va">y</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE FALSE FALSE FALSE FALSE</span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">%d!=%</span> <span class="va">y</span></span></span>
@@ -286,9 +292,9 @@ indicating the result of the element by element comparison. <br></p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE TRUE TRUE TRUE TRUE</span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">%d&gt;=%</span> <span class="va">y</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE FALSE FALSE FALSE FALSE</span>
-<span class="r-in"><span><span class="co">#'</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">1L</span><span class="op">:</span><span class="fl">5L</span></span></span>
-<span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">x</span><span class="op">-</span><span class="fl">1</span></span></span>
+<span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">x</span> <span class="op">-</span> <span class="fl">1L</span></span></span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">%d==%</span> <span class="va">y</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE FALSE FALSE FALSE FALSE</span>
 <span class="r-in"><span><span class="va">x</span> <span class="op">%d!=%</span> <span class="va">y</span></span></span>
