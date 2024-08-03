@@ -103,12 +103,12 @@
 <p>First, sub-setting operators:</p>
 <ul>
 <li>
-<code>x %sget% ss</code>: returns the first <code>n1</code> and last
-<code>n2</code> characters from each string in character vector
+<code>x %s&gt;&lt;% ss</code>: returns the first <code>n1</code> and
+last <code>n2</code> characters from each string in character vector
 <code>x</code>.</li>
 <li>
-<code>x %strim% ss</code> trims away first <code>n1</code> and last
-<code>n2</code> characters from each string in character vector
+<code>x %s&lt;&gt;% ss</code> trims away first <code>n1</code> and
+last <code>n2</code> characters from each string in character vector
 <code>x</code>.</li>
 </ul>
 <p>Second, ‘stringi’ already has the <code>%s+%</code>,
@@ -194,10 +194,10 @@ purpose:</p>
 <div class="section level2">
 <h2 id="string-subsetting-operators">String subsetting operators<a class="anchor" aria-label="anchor" href="#string-subsetting-operators"></a>
 </h2>
-<p>The <code>x %sget% ss</code> operator returns a subset of each string
-in character vector <code>x</code>. Here <code>ss</code> is a vector of
-length 2, or a matrix with <code>nrow(ss)=length(x)</code> and 2
-columns. The object <code>ss</code> should consist entirely of
+<p>The <code>x %s&gt;&lt;% ss</code> operator returns a subset of each
+string in character vector <code>x</code>. Here <code>ss</code> is a
+vector of length 2, or a matrix with <code>nrow(ss)=length(x)</code> and
+2 columns. The object <code>ss</code> should consist entirely of
 non-negative integers (thus 0, 1, 2, etc. are valid, but -1, -2, -3 etc
 are not valid). The first element/column of ss gives the number of
 characters counting from the left side to be extracted from x. The
@@ -209,34 +209,34 @@ the right side to be extracted from x.</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "abcdefghijklm" "nopqrstuvwxyz"</span></span>
 <span><span class="va">ss</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">3</span><span class="op">)</span></span>
-<span><span class="va">x</span> <span class="op"><a href="../reference/str_subset_ops.html">%sget%</a></span> <span class="va">ss</span></span>
+<span><span class="va">x</span> <span class="op"><a href="../reference/str_subset_ops.html">%s&gt;&lt;%</a></span> <span class="va">ss</span></span>
 <span><span class="co">#&gt; [1] "abklm" "noxyz"</span></span>
 <span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">13</span><span class="op">]</span>, collapse<span class="op">=</span><span class="st">""</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">14</span><span class="op">:</span><span class="fl">26</span><span class="op">]</span>, collapse<span class="op">=</span><span class="st">""</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "abcdefghijklm" "nopqrstuvwxyz"</span></span>
 <span><span class="va">ss</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span><span class="op">)</span></span>
-<span><span class="va">x</span> <span class="op"><a href="../reference/str_subset_ops.html">%sget%</a></span> <span class="va">ss</span></span>
+<span><span class="va">x</span> <span class="op"><a href="../reference/str_subset_ops.html">%s&gt;&lt;%</a></span> <span class="va">ss</span></span>
 <span><span class="co">#&gt; [1] "a" "n"</span></span></code></pre></div>
-<p>Thus <code>x %sget% ss</code> “gets” or extracts the given number of
-characters from the left and the right, and removes the rest. There is
-also <code>x %strim% ss</code>, which is the opposite: it trims away the
-number of characters from the left and right as defined in the matrix
-<code>ss</code>, leaving you with whatever is left.</p>
+<p>Thus <code>x %s&gt;&lt;% ss</code> “gets” or extracts the given
+number of characters from the left and the right, and removes the rest.
+There is also <code>x %s&lt;&gt;% ss</code>, which is the opposite: it
+trims away the number of characters from the left and right as defined
+in the matrix <code>ss</code>, leaving you with whatever is left.</p>
 <p>Here are again 2 examples:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">13</span><span class="op">]</span>, collapse<span class="op">=</span><span class="st">""</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">14</span><span class="op">:</span><span class="fl">26</span><span class="op">]</span>, collapse<span class="op">=</span><span class="st">""</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "abcdefghijklm" "nopqrstuvwxyz"</span></span>
 <span><span class="va">ss</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">3</span><span class="op">)</span></span>
-<span><span class="va">x</span> <span class="op"><a href="../reference/str_subset_ops.html">%strim%</a></span> <span class="va">ss</span></span>
+<span><span class="va">x</span> <span class="op"><a href="../reference/str_subset_ops.html">%s&lt;&gt;%</a></span> <span class="va">ss</span></span>
 <span><span class="co">#&gt; [1] "cdefghij" "pqrstuvw"</span></span>
 <span></span>
 <span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">13</span><span class="op">]</span>, collapse<span class="op">=</span><span class="st">""</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">letters</span><span class="op">[</span><span class="fl">14</span><span class="op">:</span><span class="fl">26</span><span class="op">]</span>, collapse<span class="op">=</span><span class="st">""</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "abcdefghijklm" "nopqrstuvwxyz"</span></span>
 <span><span class="va">ss</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span><span class="op">)</span></span>
-<span><span class="va">x</span> <span class="op"><a href="../reference/str_subset_ops.html">%strim%</a></span> <span class="va">ss</span></span>
+<span><span class="va">x</span> <span class="op"><a href="../reference/str_subset_ops.html">%s&lt;&gt;%</a></span> <span class="va">ss</span></span>
 <span><span class="co">#&gt; [1] "bcdefghijklm" "opqrstuvwxyz"</span></span></code></pre></div>
 <p> </p>
 </div>
@@ -292,8 +292,11 @@ a list as described in the Overview section.</p>
 <p> </p>
 </div>
 <div class="section level2">
-<h2 id="string-search-operators">String search operators<a class="anchor" aria-label="anchor" href="#string-search-operators"></a>
+<h2 id="detect-patterns">Detect Patterns<a class="anchor" aria-label="anchor" href="#detect-patterns"></a>
 </h2>
+<div class="section level3">
+<h3 id="detect">Detect<a class="anchor" aria-label="anchor" href="#detect"></a>
+</h3>
 <p>The <code>x %s{}% p</code> operator checks for every string in
 character vector <code>x</code> if the pattern defined in <code>p</code>
 is present. The <code>x %s!{}% p</code> operator checks for every string
@@ -316,15 +319,18 @@ in character vector <code>x</code> if the pattern defined in
 <span><span class="co">#&gt; [1] "abcdefghijklm"</span></span>
 <span><span class="va">x</span><span class="op">[</span><span class="va">x</span> <span class="op"><a href="../reference/str_search.html">%s!{}%</a></span> <span class="st">"a"</span><span class="op">]</span></span>
 <span><span class="co">#&gt; [1] "nopqrstuvwxyz"</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="detect---start-or-end-with-pattern">Detect - start or end with pattern<a class="anchor" aria-label="anchor" href="#detect---start-or-end-with-pattern"></a>
+</h3>
 <p>When supplying a list on the right hand side (see the Overview
 section above), one can include the list element
 <code>at = "start"</code> or <code>at = "end"</code>:</p>
 <ul>
-<li>Supplying <code>at = "start"</code> will check if the pattern
-appears at the start of a string (see
-<code><a href="https://rdrr.io/pkg/stringi/man/stri_startsendswith.html" class="external-link">stringi::stri_startswith</a></code>).</li>
-<li>Supplying <code>at = "end"</code> will check if the pattern appears
-at the end of a string (see <code><a href="https://rdrr.io/pkg/stringi/man/stri_startsendswith.html" class="external-link">stringi::stri_endswith</a></code>).</li>
+<li>Supplying <code>at = "start"</code> will check if strings start with
+the patterns (see <code><a href="https://rdrr.io/pkg/stringi/man/stri_startsendswith.html" class="external-link">stringi::stri_startswith</a></code>).</li>
+<li>Supplying <code>at = "end"</code> will check if strings end with the
+patterns (see <code><a href="https://rdrr.io/pkg/stringi/man/stri_startsendswith.html" class="external-link">stringi::stri_endswith</a></code>).</li>
 </ul>
 <p>Examples:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -353,22 +359,27 @@ at the end of a string (see <code><a href="https://rdrr.io/pkg/stringi/man/stri_
 <span><span class="co">#&gt; [1] FALSE  TRUE    NA</span></span>
 <span><span class="fu">stringi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stringi/man/stri_startsendswith.html" class="external-link">stri_startswith</a></span><span class="op">(</span><span class="va">x</span>, fixed <span class="op">=</span> <span class="st">"zyx"</span><span class="op">)</span> <span class="co"># same as above</span></span>
 <span><span class="co">#&gt; [1] FALSE  TRUE    NA</span></span></code></pre></div>
+<p> </p>
+</div>
+</div>
+<div class="section level2">
+<h2 id="locate-extract-or-replace-patterns">Locate, Extract, or Replace Patterns<a class="anchor" aria-label="anchor" href="#locate-extract-or-replace-patterns"></a>
+</h2>
 <p><code>strfind()&lt;-</code> locates, extracts, or replaces found
 patterns. Like the other operators, the argument <code>p</code> can be a
 string or character vector, or a list as described in the Overview
 section above.</p>
-<p>Examples:</p>
+<p>It can be used in several different ways.</p>
+<p> </p>
+<div class="section level3">
+<h3 id="extract">Extract<a class="anchor" aria-label="anchor" href="#extract"></a>
+</h3>
+<p><code><a href="../reference/str_search.html">strfind()</a></code> finds all pattern matches, and returns the
+extractions of the findings in a list, just like
+<code><a href="https://rdrr.io/pkg/stringi/man/stri_extract.html" class="external-link">stringi::stri_extract_all()</a></code>:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">'The quick brown fox jumped over the lazy dog.'</span>, <span class="fl">3</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "The quick brown fox jumped over the lazy dog."</span></span>
-<span><span class="co">#&gt; [2] "The quick brown fox jumped over the lazy dog."</span></span>
-<span><span class="co">#&gt; [3] "The quick brown fox jumped over the lazy dog."</span></span>
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">'The quick brown fox jumped over the lazy dog.'</span>, <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/s_pattern.html">s_fixed</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'quick'</span>, <span class="st">'brown'</span>, <span class="st">'fox'</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">rp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'SLOW'</span>,  <span class="st">'BLACK'</span>, <span class="st">'BEAR'</span><span class="op">)</span></span>
-<span><span class="va">x</span> <span class="op"><a href="../reference/str_search.html">%s{}%</a></span> <span class="va">p</span></span>
-<span><span class="co">#&gt; [1] TRUE TRUE TRUE</span></span>
 <span><span class="fu"><a href="../reference/str_search.html">strfind</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">p</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [[1]]</span></span>
 <span><span class="co">#&gt; [1] "quick"</span></span>
@@ -377,13 +388,94 @@ section above.</p>
 <span><span class="co">#&gt; [1] "brown"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; [[3]]</span></span>
-<span><span class="co">#&gt; [1] "fox"</span></span>
+<span><span class="co">#&gt; [1] "fox"</span></span></code></pre></div>
+<p> </p>
+</div>
+<div class="section level3">
+<h3 id="locate">Locate<a class="anchor" aria-label="anchor" href="#locate"></a>
+</h3>
+<p><code>strfind(..., i = "all" )</code>, finds all pattern matches like
+<code><a href="https://rdrr.io/pkg/stringi/man/stri_locate.html" class="external-link">stringi::stri_locate_all()</a></code>. And
+<code>strfind(..., i = i)</code>, where <code>i</code> is an integer
+vector, locates the ith occurrence of a pattern, and reports the
+locations in a matrix, just like <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code>:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/s_pattern.html">s_fixed</a></span><span class="op">(</span><span class="st">"the"</span>, case_insensitive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/str_search.html">strfind</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">p</span>, i <span class="op">=</span> <span class="st">"all"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [[1]]</span></span>
+<span><span class="co">#&gt;      start end</span></span>
+<span><span class="co">#&gt; [1,]     1   3</span></span>
+<span><span class="co">#&gt; [2,]    33  35</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[2]]</span></span>
+<span><span class="co">#&gt;      start end</span></span>
+<span><span class="co">#&gt; [1,]     1   3</span></span>
+<span><span class="co">#&gt; [2,]    33  35</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[3]]</span></span>
+<span><span class="co">#&gt;      start end</span></span>
+<span><span class="co">#&gt; [1,]     1   3</span></span>
+<span><span class="co">#&gt; [2,]    33  35</span></span>
+<span><span class="fu"><a href="../reference/str_search.html">strfind</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">p</span>, i <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="op">-</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt;      start end</span></span>
+<span><span class="co">#&gt; [1,]     1   3</span></span>
+<span><span class="co">#&gt; [2,]    33  35</span></span>
+<span><span class="co">#&gt; [3,]    33  35</span></span></code></pre></div>
+<p> </p>
+</div>
+<div class="section level3">
+<h3 id="replace">Replace<a class="anchor" aria-label="anchor" href="#replace"></a>
+</h3>
+<p><code>strfind() &lt;- value</code> finds pattern matches in variable
+<code>x</code>, replaces the pattern matches with the character vector
+specified in <code>value</code>, and assigns the transformed character
+vector back to <code>x</code>. This is somewhat similar to
+<code><a href="https://rdrr.io/pkg/stringi/man/stri_replace.html" class="external-link">stringi::stri_replace()</a></code>, though the replacement is done
+in-place. It supports replace vectorized, dictionary, first, and last
+replacement:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># vectorized replacement:</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">'The quick brown fox jumped over the lazy dog.'</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'quick'</span>, <span class="st">'brown'</span>, <span class="st">'fox'</span><span class="op">)</span></span>
+<span><span class="va">rp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'SLOW'</span>,  <span class="st">'BLACK'</span>, <span class="st">'BEAR'</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/str_search.html">strfind</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">p</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">rp</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "The SLOW brown fox jumped over the lazy dog."  </span></span>
 <span><span class="co">#&gt; [2] "The quick BLACK fox jumped over the lazy dog." </span></span>
-<span><span class="co">#&gt; [3] "The quick brown BEAR jumped over the lazy dog."</span></span></code></pre></div>
+<span><span class="co">#&gt; [3] "The quick brown BEAR jumped over the lazy dog."</span></span>
+<span></span>
+<span><span class="co"># dictionary replacement:</span></span>
+<span><span class="co"># quick =&gt; SLOW; brown =&gt; BLACK; fox =&gt; BEAR</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">'The quick brown fox jumped over the lazy dog.'</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'quick'</span>, <span class="st">'brown'</span>, <span class="st">'fox'</span><span class="op">)</span></span>
+<span><span class="va">rp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'SLOW'</span>,  <span class="st">'BLACK'</span>, <span class="st">'BEAR'</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/str_search.html">strfind</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">p</span>, rt <span class="op">=</span> <span class="st">"dict"</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">rp</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "The SLOW BLACK BEAR jumped over the lazy dog."</span></span>
+<span><span class="co">#&gt; [2] "The SLOW BLACK BEAR jumped over the lazy dog."</span></span>
+<span><span class="co">#&gt; [3] "The SLOW BLACK BEAR jumped over the lazy dog."</span></span>
+<span></span>
+<span><span class="co"># first replacement:</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">'The quick brown fox jumped over the lazy dog.'</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/s_pattern.html">s_fixed</a></span><span class="op">(</span><span class="st">"the"</span>, case_insensitive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">rp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'ONE'</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/str_search.html">strfind</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">p</span>, rt <span class="op">=</span> <span class="st">"first"</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">rp</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "ONE quick brown fox jumped over the lazy dog."</span></span>
+<span><span class="co">#&gt; [2] "ONE quick brown fox jumped over the lazy dog."</span></span>
+<span><span class="co">#&gt; [3] "ONE quick brown fox jumped over the lazy dog."</span></span>
+<span></span>
+<span><span class="co"># last replacement:</span></span>
+<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">'The quick brown fox jumped over the lazy dog.'</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/s_pattern.html">s_fixed</a></span><span class="op">(</span><span class="st">"the"</span>, case_insensitive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">rp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'ONE'</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/str_search.html">strfind</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">p</span>, rt <span class="op">=</span> <span class="st">"last"</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">rp</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "The quick brown fox jumped over ONE lazy dog."</span></span>
+<span><span class="co">#&gt; [2] "The quick brown fox jumped over ONE lazy dog."</span></span>
+<span><span class="co">#&gt; [3] "The quick brown fox jumped over ONE lazy dog."</span></span></code></pre></div>
 <p> </p>
+</div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>

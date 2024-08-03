@@ -27,7 +27,7 @@ loadNamespace("ggplot2")
 
 # Introduction
 
-Although the functions in this R package were written mostly in 'R' (and a little bit in 'C' and 'C++'), the functions - especially the string related ones - have been well optimized. The string related functions, for example, are about in the same order of magnitude in terms of speed as the `stringi` functions they call.
+Some effort has been made to ensure the functions in 'tinycodet' are well optimized. The string related functions, for example, are about in the same order of magnitude in terms of speed as the `stringi` functions they call.
 
 
 Here some speed comparisons are given, using the 'bench' package.
@@ -37,28 +37,26 @@ Here some speed comparisons are given, using the 'bench' package.
 
 # stri_locate_ith
 
+`stri_locate_ith()` has about the same performance as `stri_locate_all()`:
+
 ```{r eval = FALSE}
-n <- 1e5
+n <- 5e4
 x <- rep(paste0(1:50, collapse = ""), n)
 p <- "\\d"
 i <- sample(c(-50:-1, 1:50), replace=TRUE, size = n)
-locate_stringi <- function(...) {
-  stringi::stri_locate_all(...)
-  stringi::stri_count(...)
-}
-bm.stri_locate_ith <- bench::mark(
-  "stri_locate_ith" = { stri_locate_ith_regex(x, p, i) },
-  "stringi::(stri_locate_all + stri_count)" = { locate_stringi(str=x, regex = p) },
+bm.stri_locate_ith_vs_all <- bench::mark(
+  "stri_locate_ith" = stri_locate_ith_regex(x, p, i),
+  "stringi::stri_locate_all" = stringi::stri_locate_all(x, regex = p),
   min_iterations = 500,
-  filter_gc = FALSE,
-  check = FALSE
+  check = FALSE,
+  filter_gc = FALSE
 )
-ggplot2::autoplot(bm.stri_locate_ith)
+ggplot2::autoplot(bm.stri_locate_ith_vs_all)
 ```
 
 ```{r echo = FALSE, fig.width = 8}
-load("bm.stri_locate_ith.RData")
-ggplot2::autoplot(bm.stri_locate_ith)
+load("bm.stri_locate_ith_vs_all.RData")
+ggplot2::autoplot(bm.stri_locate_ith_vs_all)
 ```
 
 

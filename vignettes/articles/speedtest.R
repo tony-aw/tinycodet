@@ -22,25 +22,36 @@ autoplot(bm.strcut)
 save(bm.strcut, file = "bm.strcut.RData")
 
 
-n <- 1e5
+n <- 5e4
 x <- rep(paste0(1:50, collapse = ""), n)
 p <- "\\d"
 i <- sample(c(-50:-1, 1:50), replace=TRUE, size = n)
-locate_stringi <- function(...) {
-  stringi::stri_locate_all(...)
-  stringi::stri_count(...)
-}
-bm.stri_locate_ith <- bench::mark(
+bm.stri_locate_ith_vs_all <- bench::mark(
   "stri_locate_ith" = stri_locate_ith_regex(x, p, i),
-  "stringi::(stri_locate_all + stri_count)" = locate_stringi(x, regex = p),
+  "stringi::stri_locate_all" = stringi::stri_locate_all(x, regex = p),
   min_iterations = 500,
   check = FALSE,
   filter_gc = FALSE
 )
-summary(bm.stri_locate_ith)
-autoplot(bm.stri_locate_ith)
-save(bm.stri_locate_ith, file = "bm.stri_locate_ith.RData")
+summary(bm.stri_locate_ith_vs_all)
+autoplot(bm.stri_locate_ith_vs_all)
+save(bm.stri_locate_ith_vs_all, file = "bm.stri_locate_ith_vs_all.RData")
 
+
+n <- 5e4
+x <- rep(paste0(1:50, collapse = ""), n)
+p <- "1"
+i <- sample(c(-50:-1, 1:50), replace=TRUE, size = n)
+bm.stri_locate_ith_vs_strex <- bench::mark(
+  "stri_locate_ith" = stri_locate_ith_fixed(x, p, i),
+  "strex::str_locate_nth" = strex::str_locate_nth(x, stringr::fixed(p), i),
+  min_iterations = 500,
+  check = FALSE,
+  filter_gc = FALSE
+)
+summary(bm.stri_locate_ith_vs_strex)
+autoplot(bm.stri_locate_ith_vs_strex)
+save(bm.stri_locate_ith_vs_strex, file = "bm.stri_locate_ith_vs_strex.RData")
 
 
 

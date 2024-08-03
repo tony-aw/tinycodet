@@ -348,11 +348,11 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <p>‘tinycodet’ adds 3 sets of string-related operators.</p>
 <p>First, sub-setting operators:</p>
 <ul>
-<li><code>x %sget% ss</code>: returns the first <code>n1</code> and last
-<code>n2</code> characters from each string in character vector
+<li><code>x %s&gt;&lt;% ss</code>: returns the first <code>n1</code> and
+last <code>n2</code> characters from each string in character vector
 <code>x</code>.</li>
-<li><code>x %strim% ss</code> trims away first <code>n1</code> and last
-<code>n2</code> characters from each string in character vector
+<li><code>x %s&lt;&gt;% ss</code> trims away first <code>n1</code> and
+last <code>n2</code> characters from each string in character vector
 <code>x</code>.</li>
 </ul>
 <p>Second, ‘stringi’ already has the <code>%s+%</code>,
@@ -422,10 +422,10 @@ purpose:</p>
 </div>
 <div id="string-subsetting-operators" class="section level1">
 <h1>String subsetting operators</h1>
-<p>The <code>x %sget% ss</code> operator returns a subset of each string
-in character vector <code>x</code>. Here <code>ss</code> is a vector of
-length 2, or a matrix with <code>nrow(ss)=length(x)</code> and 2
-columns. The object <code>ss</code> should consist entirely of
+<p>The <code>x %s&gt;&lt;% ss</code> operator returns a subset of each
+string in character vector <code>x</code>. Here <code>ss</code> is a
+vector of length 2, or a matrix with <code>nrow(ss)=length(x)</code> and
+2 columns. The object <code>ss</code> should consist entirely of
 non-negative integers (thus 0, 1, 2, etc. are valid, but -1, -2, -3 etc
 are not valid). The first element/column of ss gives the number of
 characters counting from the left side to be extracted from x. The
@@ -436,33 +436,33 @@ the right side to be extracted from x.</p>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">print</span>(x)</span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;abcdefghijklm&quot; &quot;nopqrstuvwxyz&quot;</span></span>
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>ss <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>x <span class="sc">%sget%</span> ss</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>x <span class="sc">%s&gt;&lt;%</span> ss</span>
 <span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt; [1] &quot;abklm&quot; &quot;noxyz&quot;</span></span>
 <span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a></span>
 <span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">paste0</span>(letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">13</span>], <span class="at">collapse=</span><span class="st">&quot;&quot;</span>), <span class="fu">paste0</span>(letters[<span class="dv">14</span><span class="sc">:</span><span class="dv">26</span>], <span class="at">collapse=</span><span class="st">&quot;&quot;</span>))</span>
 <span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="fu">print</span>(x)</span>
 <span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt; [1] &quot;abcdefghijklm&quot; &quot;nopqrstuvwxyz&quot;</span></span>
 <span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a>ss <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>)</span>
-<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>x <span class="sc">%sget%</span> ss</span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a>x <span class="sc">%s&gt;&lt;%</span> ss</span>
 <span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt; [1] &quot;a&quot; &quot;n&quot;</span></span></code></pre></div>
-<p>Thus <code>x %sget% ss</code> “gets” or extracts the given number of
-characters from the left and the right, and removes the rest. There is
-also <code>x %strim% ss</code>, which is the opposite: it trims away the
-number of characters from the left and right as defined in the matrix
-<code>ss</code>, leaving you with whatever is left.</p>
+<p>Thus <code>x %s&gt;&lt;% ss</code> “gets” or extracts the given
+number of characters from the left and the right, and removes the rest.
+There is also <code>x %s&lt;&gt;% ss</code>, which is the opposite: it
+trims away the number of characters from the left and right as defined
+in the matrix <code>ss</code>, leaving you with whatever is left.</p>
 <p>Here are again 2 examples:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">paste0</span>(letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">13</span>], <span class="at">collapse=</span><span class="st">&quot;&quot;</span>), <span class="fu">paste0</span>(letters[<span class="dv">14</span><span class="sc">:</span><span class="dv">26</span>], <span class="at">collapse=</span><span class="st">&quot;&quot;</span>))</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">print</span>(x)</span>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;abcdefghijklm&quot; &quot;nopqrstuvwxyz&quot;</span></span>
 <span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>ss <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>x <span class="sc">%strim%</span> ss</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>x <span class="sc">%s&lt;&gt;%</span> ss</span>
 <span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt; [1] &quot;cdefghij&quot; &quot;pqrstuvw&quot;</span></span>
 <span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a></span>
 <span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">paste0</span>(letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">13</span>], <span class="at">collapse=</span><span class="st">&quot;&quot;</span>), <span class="fu">paste0</span>(letters[<span class="dv">14</span><span class="sc">:</span><span class="dv">26</span>], <span class="at">collapse=</span><span class="st">&quot;&quot;</span>))</span>
 <span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="fu">print</span>(x)</span>
 <span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt; [1] &quot;abcdefghijklm&quot; &quot;nopqrstuvwxyz&quot;</span></span>
 <span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>ss <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">0</span>)</span>
-<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>x <span class="sc">%strim%</span> ss</span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>x <span class="sc">%s&lt;&gt;%</span> ss</span>
 <span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co">#&gt; [1] &quot;bcdefghijklm&quot; &quot;opqrstuvwxyz&quot;</span></span></code></pre></div>
 <p> </p>
 </div>
@@ -508,8 +508,10 @@ right-side argument <code>p</code> can be string or character vector, or
 a list as described in the Overview section.</p>
 <p> </p>
 </div>
-<div id="string-search-operators" class="section level1">
-<h1>String search operators</h1>
+<div id="detect-patterns" class="section level1">
+<h1>Detect Patterns</h1>
+<div id="detect" class="section level2">
+<h2>Detect</h2>
 <p>The <code>x %s{}% p</code> operator checks for every string in
 character vector <code>x</code> if the pattern defined in <code>p</code>
 is present. The <code>x %s!{}% p</code> operator checks for every string
@@ -531,15 +533,17 @@ in character vector <code>x</code> if the pattern defined in
 <span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a><span class="co">#&gt; [1] &quot;abcdefghijklm&quot;</span></span>
 <span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>x[x <span class="sc">%s!{}%</span> <span class="st">&quot;a&quot;</span>]</span>
 <span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt; [1] &quot;nopqrstuvwxyz&quot;</span></span></code></pre></div>
+</div>
+<div id="detect---start-or-end-with-pattern" class="section level2">
+<h2>Detect - start or end with pattern</h2>
 <p>When supplying a list on the right hand side (see the Overview
 section above), one can include the list element
 <code>at = &quot;start&quot;</code> or <code>at = &quot;end&quot;</code>:</p>
 <ul>
-<li>Supplying <code>at = &quot;start&quot;</code> will check if the pattern
-appears at the start of a string (see
-<code>stringi::stri_startswith</code>).</li>
-<li>Supplying <code>at = &quot;end&quot;</code> will check if the pattern appears
-at the end of a string (see <code>stringi::stri_endswith</code>).</li>
+<li>Supplying <code>at = &quot;start&quot;</code> will check if strings start with
+the patterns (see <code>stringi::stri_startswith</code>).</li>
+<li>Supplying <code>at = &quot;end&quot;</code> will check if strings end with the
+patterns (see <code>stringi::stri_endswith</code>).</li>
 </ul>
 <p>Examples:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a></span>
@@ -567,36 +571,116 @@ at the end of a string (see <code>stringi::stri_endswith</code>).</li>
 <span id="cb6-23"><a href="#cb6-23" tabindex="-1"></a><span class="co">#&gt; [1] FALSE  TRUE    NA</span></span>
 <span id="cb6-24"><a href="#cb6-24" tabindex="-1"></a>stringi<span class="sc">::</span><span class="fu">stri_startswith</span>(x, <span class="at">fixed =</span> <span class="st">&quot;zyx&quot;</span>) <span class="co"># same as above</span></span>
 <span id="cb6-25"><a href="#cb6-25" tabindex="-1"></a><span class="co">#&gt; [1] FALSE  TRUE    NA</span></span></code></pre></div>
+<p> </p>
+</div>
+</div>
+<div id="locate-extract-or-replace-patterns" class="section level1">
+<h1>Locate, Extract, or Replace Patterns</h1>
 <p><code>strfind()&lt;-</code> locates, extracts, or replaces found
 patterns. Like the other operators, the argument <code>p</code> can be a
 string or character vector, or a list as described in the Overview
 section above.</p>
-<p>Examples:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a></span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="st">&#39;The quick brown fox jumped over the lazy dog.&#39;</span>, <span class="dv">3</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="fu">print</span>(x)</span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">#&gt; [1] &quot;The quick brown fox jumped over the lazy dog.&quot;</span></span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#&gt; [2] &quot;The quick brown fox jumped over the lazy dog.&quot;</span></span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt; [3] &quot;The quick brown fox jumped over the lazy dog.&quot;</span></span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">s_fixed</span>(<span class="fu">c</span>(<span class="st">&#39;quick&#39;</span>, <span class="st">&#39;brown&#39;</span>, <span class="st">&#39;fox&#39;</span>))</span>
-<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>rp <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;SLOW&#39;</span>,  <span class="st">&#39;BLACK&#39;</span>, <span class="st">&#39;BEAR&#39;</span>)</span>
-<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>x <span class="sc">%s{}%</span> p</span>
-<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co">#&gt; [1] TRUE TRUE TRUE</span></span>
-<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="fu">strfind</span>(x, p)</span>
-<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co">#&gt; [[1]]</span></span>
-<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a><span class="co">#&gt; [1] &quot;quick&quot;</span></span>
-<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="co">#&gt; [[2]]</span></span>
-<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a><span class="co">#&gt; [1] &quot;brown&quot;</span></span>
-<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a><span class="co">#&gt; [[3]]</span></span>
-<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a><span class="co">#&gt; [1] &quot;fox&quot;</span></span>
-<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a><span class="fu">strfind</span>(x, p) <span class="ot">&lt;-</span> rp</span>
-<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a><span class="fu">print</span>(x)</span>
-<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a><span class="co">#&gt; [1] &quot;The SLOW brown fox jumped over the lazy dog.&quot;  </span></span>
-<span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a><span class="co">#&gt; [2] &quot;The quick BLACK fox jumped over the lazy dog.&quot; </span></span>
-<span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a><span class="co">#&gt; [3] &quot;The quick brown BEAR jumped over the lazy dog.&quot;</span></span></code></pre></div>
+<p>It can be used in several different ways.</p>
 <p> </p>
+<div id="extract" class="section level2">
+<h2>Extract</h2>
+<p><code>strfind()</code> finds all pattern matches, and returns the
+extractions of the findings in a list, just like
+<code>stringi::stri_extract_all()</code>:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="st">&#39;The quick brown fox jumped over the lazy dog.&#39;</span>, <span class="dv">3</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">s_fixed</span>(<span class="fu">c</span>(<span class="st">&#39;quick&#39;</span>, <span class="st">&#39;brown&#39;</span>, <span class="st">&#39;fox&#39;</span>))</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="fu">strfind</span>(x, p)</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">#&gt; [[1]]</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#&gt; [1] &quot;quick&quot;</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co">#&gt; [[2]]</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt; [1] &quot;brown&quot;</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co">#&gt; [[3]]</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co">#&gt; [1] &quot;fox&quot;</span></span></code></pre></div>
+<p> </p>
+</div>
+<div id="locate" class="section level2">
+<h2>Locate</h2>
+<p><code>strfind(..., i = &quot;all&quot; )</code>, finds all pattern matches like
+<code>stringi::stri_locate_all()</code>. And
+<code>strfind(..., i = i)</code>, where <code>i</code> is an integer
+vector, locates the ith occurrence of a pattern, and reports the
+locations in a matrix, just like <code>stri_locate_ith()</code>:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">s_fixed</span>(<span class="st">&quot;the&quot;</span>, <span class="at">case_insensitive =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="fu">strfind</span>(x, p, <span class="at">i =</span> <span class="st">&quot;all&quot;</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="co">#&gt; [[1]]</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="co">#&gt;      start end</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co">#&gt; [1,]     1   3</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co">#&gt; [2,]    33  35</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co">#&gt; [[2]]</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co">#&gt;      start end</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co">#&gt; [1,]     1   3</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a><span class="co">#&gt; [2,]    33  35</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="co">#&gt; [[3]]</span></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a><span class="co">#&gt;      start end</span></span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a><span class="co">#&gt; [1,]     1   3</span></span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a><span class="co">#&gt; [2,]    33  35</span></span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a><span class="fu">strfind</span>(x, p, <span class="at">i =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a><span class="co">#&gt;      start end</span></span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a><span class="co">#&gt; [1,]     1   3</span></span>
+<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a><span class="co">#&gt; [2,]    33  35</span></span>
+<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a><span class="co">#&gt; [3,]    33  35</span></span></code></pre></div>
+<p> </p>
+</div>
+<div id="replace" class="section level2">
+<h2>Replace</h2>
+<p><code>strfind() &lt;- value</code> finds pattern matches in variable
+<code>x</code>, replaces the pattern matches with the character vector
+specified in <code>value</code>, and assigns the transformed character
+vector back to <code>x</code>. This is somewhat similar to
+<code>stringi::stri_replace()</code>, though the replacement is done
+in-place. It supports replace vectorized, dictionary, first, and last
+replacement:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># vectorized replacement:</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="st">&#39;The quick brown fox jumped over the lazy dog.&#39;</span>, <span class="dv">3</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;quick&#39;</span>, <span class="st">&#39;brown&#39;</span>, <span class="st">&#39;fox&#39;</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>rp <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;SLOW&#39;</span>,  <span class="st">&#39;BLACK&#39;</span>, <span class="st">&#39;BEAR&#39;</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="fu">strfind</span>(x, p) <span class="ot">&lt;-</span> rp</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="fu">print</span>(x)</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co">#&gt; [1] &quot;The SLOW brown fox jumped over the lazy dog.&quot;  </span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co">#&gt; [2] &quot;The quick BLACK fox jumped over the lazy dog.&quot; </span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="co">#&gt; [3] &quot;The quick brown BEAR jumped over the lazy dog.&quot;</span></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a><span class="co"># dictionary replacement:</span></span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="co"># quick =&gt; SLOW; brown =&gt; BLACK; fox =&gt; BEAR</span></span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="st">&#39;The quick brown fox jumped over the lazy dog.&#39;</span>, <span class="dv">3</span>)</span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;quick&#39;</span>, <span class="st">&#39;brown&#39;</span>, <span class="st">&#39;fox&#39;</span>)</span>
+<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a>rp <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;SLOW&#39;</span>,  <span class="st">&#39;BLACK&#39;</span>, <span class="st">&#39;BEAR&#39;</span>)</span>
+<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a><span class="fu">strfind</span>(x, p, <span class="at">rt =</span> <span class="st">&quot;dict&quot;</span>) <span class="ot">&lt;-</span> rp</span>
+<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a><span class="fu">print</span>(x)</span>
+<span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a><span class="co">#&gt; [1] &quot;The SLOW BLACK BEAR jumped over the lazy dog.&quot;</span></span>
+<span id="cb9-19"><a href="#cb9-19" tabindex="-1"></a><span class="co">#&gt; [2] &quot;The SLOW BLACK BEAR jumped over the lazy dog.&quot;</span></span>
+<span id="cb9-20"><a href="#cb9-20" tabindex="-1"></a><span class="co">#&gt; [3] &quot;The SLOW BLACK BEAR jumped over the lazy dog.&quot;</span></span>
+<span id="cb9-21"><a href="#cb9-21" tabindex="-1"></a></span>
+<span id="cb9-22"><a href="#cb9-22" tabindex="-1"></a><span class="co"># first replacement:</span></span>
+<span id="cb9-23"><a href="#cb9-23" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="st">&#39;The quick brown fox jumped over the lazy dog.&#39;</span>, <span class="dv">3</span>)</span>
+<span id="cb9-24"><a href="#cb9-24" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">s_fixed</span>(<span class="st">&quot;the&quot;</span>, <span class="at">case_insensitive =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-25"><a href="#cb9-25" tabindex="-1"></a>rp <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;ONE&#39;</span>)</span>
+<span id="cb9-26"><a href="#cb9-26" tabindex="-1"></a><span class="fu">strfind</span>(x, p, <span class="at">rt =</span> <span class="st">&quot;first&quot;</span>) <span class="ot">&lt;-</span> rp</span>
+<span id="cb9-27"><a href="#cb9-27" tabindex="-1"></a><span class="fu">print</span>(x)</span>
+<span id="cb9-28"><a href="#cb9-28" tabindex="-1"></a><span class="co">#&gt; [1] &quot;ONE quick brown fox jumped over the lazy dog.&quot;</span></span>
+<span id="cb9-29"><a href="#cb9-29" tabindex="-1"></a><span class="co">#&gt; [2] &quot;ONE quick brown fox jumped over the lazy dog.&quot;</span></span>
+<span id="cb9-30"><a href="#cb9-30" tabindex="-1"></a><span class="co">#&gt; [3] &quot;ONE quick brown fox jumped over the lazy dog.&quot;</span></span>
+<span id="cb9-31"><a href="#cb9-31" tabindex="-1"></a></span>
+<span id="cb9-32"><a href="#cb9-32" tabindex="-1"></a><span class="co"># last replacement:</span></span>
+<span id="cb9-33"><a href="#cb9-33" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="st">&#39;The quick brown fox jumped over the lazy dog.&#39;</span>, <span class="dv">3</span>)</span>
+<span id="cb9-34"><a href="#cb9-34" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">s_fixed</span>(<span class="st">&quot;the&quot;</span>, <span class="at">case_insensitive =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-35"><a href="#cb9-35" tabindex="-1"></a>rp <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;ONE&#39;</span>)</span>
+<span id="cb9-36"><a href="#cb9-36" tabindex="-1"></a><span class="fu">strfind</span>(x, p, <span class="at">rt =</span> <span class="st">&quot;last&quot;</span>) <span class="ot">&lt;-</span> rp</span>
+<span id="cb9-37"><a href="#cb9-37" tabindex="-1"></a><span class="fu">print</span>(x)</span>
+<span id="cb9-38"><a href="#cb9-38" tabindex="-1"></a><span class="co">#&gt; [1] &quot;The quick brown fox jumped over ONE lazy dog.&quot;</span></span>
+<span id="cb9-39"><a href="#cb9-39" tabindex="-1"></a><span class="co">#&gt; [2] &quot;The quick brown fox jumped over ONE lazy dog.&quot;</span></span>
+<span id="cb9-40"><a href="#cb9-40" tabindex="-1"></a><span class="co">#&gt; [3] &quot;The quick brown fox jumped over ONE lazy dog.&quot;</span></span></code></pre></div>
+<p> </p>
+</div>
 </div>
 
 

@@ -30,8 +30,8 @@ library(tinycodet)
 
 First, sub-setting operators:
 
- - `x %sget% ss`: returns the first `n1` and last `n2` characters from each string in character vector `x`.
- - `x %strim% ss` trims away first `n1` and last `n2` characters from each string in character vector `x`.
+ - `x %s><% ss`: returns the first `n1` and last `n2` characters from each string in character vector `x`.
+ - `x %s<>% ss` trims away first `n1` and last `n2` characters from each string in character vector `x`.
 
 
 Second, 'stringi' already has the `%s+%`, `%s*%`, and `%s$%` operators, and 'tinycodet' adds some additional string arithmetic operators to complete the set:
@@ -79,7 +79,7 @@ The next sections will give more details on the given overview.
 
 # String subsetting operators
 
-The `x %sget% ss` operator returns a subset of each string in character vector `x`. Here `ss` is a vector of length 2, or a matrix with `nrow(ss)=length(x)` and 2 columns. The object `ss` should consist entirely of non-negative integers (thus 0, 1, 2, etc. are valid, but -1, -2, -3 etc are not valid). The first element/column of ss gives the number of characters counting from the left side to be extracted from x. The second element/column of ss gives the number of characters counting from the right side to be extracted from x.
+The `x %s><% ss` operator returns a subset of each string in character vector `x`. Here `ss` is a vector of length 2, or a matrix with `nrow(ss)=length(x)` and 2 columns. The object `ss` should consist entirely of non-negative integers (thus 0, 1, 2, etc. are valid, but -1, -2, -3 etc are not valid). The first element/column of ss gives the number of characters counting from the left side to be extracted from x. The second element/column of ss gives the number of characters counting from the right side to be extracted from x.
 
 Here are 2 examples:
 
@@ -87,16 +87,16 @@ Here are 2 examples:
 x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 print(x)
 ss <- c(2,3)
-x %sget% ss
+x %s><% ss
 
 x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 print(x)
 ss <- c(1,0)
-x %sget% ss
+x %s><% ss
 ```
 
-Thus `x %sget% ss` "gets" or extracts the given number of characters from the left and the right, and removes the rest.
-There is also `x %strim% ss`, which is the opposite: it trims away the number of characters from the left and right as defined in the matrix `ss`, leaving you with whatever is left.
+Thus `x %s><% ss` "gets" or extracts the given number of characters from the left and the right, and removes the rest.
+There is also `x %s<>% ss`, which is the opposite: it trims away the number of characters from the left and right as defined in the matrix `ss`, leaving you with whatever is left.
 
 Here are again 2 examples:
 
@@ -104,12 +104,12 @@ Here are again 2 examples:
 x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 print(x)
 ss <- c(2,3)
-x %strim% ss
+x %s<>% ss
 
 x <- c(paste0(letters[1:13], collapse=""), paste0(letters[14:26], collapse=""))
 print(x)
 ss <- c(1,0)
-x %strim% ss
+x %s<>% ss
 ```
 
 
@@ -145,7 +145,9 @@ The right-side argument `p` can be string or character vector, or a list as desc
 
 &nbsp;
 
-# String search operators
+# Detect Patterns
+
+## Detect
 
 The `x %s{}% p` operator checks for every string in character vector `x` if the pattern defined in `p` is present.
 The `x %s!{}% p` operator checks for every string in character vector `x` if the pattern defined in `p` is NOT present.
@@ -163,11 +165,12 @@ x[x %s{}% "a"]
 x[x %s!{}% "a"]
 ```
 
+## Detect - start or end with pattern
 
 When supplying a list on the right hand side (see the Overview section above), one can include the list element `at = "start"` or `at = "end"`:
 
- * Supplying `at = "start"` will check if the pattern appears at the start of a string (see `stringi::stri_startswith`).
- * Supplying `at = "end"` will check if the pattern appears at the end of a string (see `stringi::stri_endswith`).
+ * Supplying `at = "start"` will check if strings start with the patterns (see `stringi::stri_startswith`).
+ * Supplying `at = "end"` will check if strings end with the patterns (see `stringi::stri_endswith`).
 
 Examples:
 
@@ -192,22 +195,77 @@ stringi::stri_startswith(x, fixed = "zyx") # same as above
 
 ```
 
+&nbsp;
+
+# Locate, Extract, or Replace Patterns
 
 `strfind()<-` locates, extracts, or replaces found patterns. Like the other operators, the argument `p` can be a string or character vector, or a list as described in the Overview section above.
 
-Examples:
+It can be used in several different ways.
+
+&nbsp;
+
+## Extract
+
+`strfind()` finds all pattern matches, and returns the extractions of the findings in a list, just like `stringi::stri_extract_all()`:
 
 ```{r}
-
 x <- rep('The quick brown fox jumped over the lazy dog.', 3)
-print(x)
 p <- s_fixed(c('quick', 'brown', 'fox'))
-rp <- c('SLOW',  'BLACK', 'BEAR')
-x %s{}% p
 strfind(x, p)
+```
+
+
+&nbsp;
+
+## Locate
+
+`strfind(..., i = "all" )`, finds all pattern matches like `stringi::stri_locate_all()`. And `strfind(..., i = i)`, where `i` is an integer vector, locates the ith occurrence of a pattern, and reports the locations in a matrix, just like `stri_locate_ith()`:
+
+
+```{r}
+p <- s_fixed("the", case_insensitive = TRUE)
+strfind(x, p, i = "all")
+strfind(x, p, i = c(1, -1, 2))
+```
+
+&nbsp;
+
+## Replace
+
+`strfind() <- value` finds pattern matches in variable `x`, replaces the pattern matches with the character vector specified in `value`, and assigns the transformed character vector back to `x`. This is somewhat similar to `stringi::stri_replace()`, though the replacement is done in-place.
+It supports replace vectorized, dictionary, first, and last replacement:
+
+
+```{r}
+# vectorized replacement:
+x <- rep('The quick brown fox jumped over the lazy dog.', 3)
+p <- c('quick', 'brown', 'fox')
+rp <- c('SLOW',  'BLACK', 'BEAR')
 strfind(x, p) <- rp
 print(x)
 
+# dictionary replacement:
+# quick => SLOW; brown => BLACK; fox => BEAR
+x <- rep('The quick brown fox jumped over the lazy dog.', 3)
+p <- c('quick', 'brown', 'fox')
+rp <- c('SLOW',  'BLACK', 'BEAR')
+strfind(x, p, rt = "dict") <- rp
+print(x)
+
+# first replacement:
+x <- rep('The quick brown fox jumped over the lazy dog.', 3)
+p <- s_fixed("the", case_insensitive = TRUE)
+rp <- c('ONE')
+strfind(x, p, rt = "first") <- rp
+print(x)
+
+# last replacement:
+x <- rep('The quick brown fox jumped over the lazy dog.', 3)
+p <- s_fixed("the", case_insensitive = TRUE)
+rp <- c('ONE')
+strfind(x, p, rt = "last") <- rp
+print(x)
 ```
 
 
