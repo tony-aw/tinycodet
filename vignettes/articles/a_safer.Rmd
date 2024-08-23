@@ -78,31 +78,15 @@ x %d!{}% bnd
 ```
 
 
-
-&nbsp;
-
-
-# Locked constants
-
-One can re-assign the values `T` and `F`. One can even run something like `T <- FALSE` and `F <- TRUE`! `tinycodet` adds the `lock_TF()` function that forces `T` to stay `TRUE` and `F` to stay `FALSE`. Essentially, the `lock_TF()` function creates the locked constant `T` and `F`, assigned to `TRUE` and `FALSE` respectively, to prevent the user from re-assigning them. Removing the created `T` and `F` constants allows re-assignment again.
-
-&nbsp;
-
-The `X %<-c% A` operator creates a `constant` `X` with assignment `A`. Constants cannot be changed, only accessed or removed. So if you have a piece of code that requires some unchangeable constant, use this operator to create said constant.
-
-
-
 &nbsp;
 
 # with_pro and aes_pro
 
-'tinycodet' provides standard-evaluated versions of the common quoting functions `with()` and `ggplot2::aes()`: `with_pro()` and `aes_pro()`, respectively.
+'tinycodet' provides standard-evaluated versions of the common quoting functions `with()` and `ggplot2::aes()`: `with_pro()` and `aes_pro()`, respectively. See example below.
 
 ```{r fig.width = 8}
 
 requireNamespace("ggplot2")
-
-
 d <- import_data("ggplot2", "mpg")
 
 # mutate data:
@@ -120,6 +104,18 @@ ggplot2::ggplot(d, aes_pro(x, y, color = color)) +
 
 
 ```
+
+&nbsp;
+
+
+# Locked constants
+
+One can re-assign the values `T` and `F`. One can even run something like `T <- FALSE` and `F <- TRUE`! `tinycodet` adds the `lock_TF()` function that forces `T` to stay `TRUE` and `F` to stay `FALSE`. Essentially, the `lock_TF()` function creates the locked constant `T` and `F`, assigned to `TRUE` and `FALSE` respectively, to prevent the user from re-assigning them. Removing the created `T` and `F` constants allows re-assignment again.
+
+&nbsp;
+
+The `X %<-c% A` operator creates a `constant` `X` with assignment `A`. Constants cannot be changed, only accessed or removed. So if you have a piece of code that requires some unchangeable constant, use this operator to create said constant.
+
 
 &nbsp;
 

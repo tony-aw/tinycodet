@@ -167,38 +167,16 @@ bounds defined by <code>bnd</code>.</p>
 <p> </p>
 </div>
 <div class="section level2">
-<h2 id="locked-constants">Locked constants<a class="anchor" aria-label="anchor" href="#locked-constants"></a>
-</h2>
-<p>One can re-assign the values <code>T</code> and <code>F</code>. One
-can even run something like <code>T &lt;- FALSE</code> and
-<code>F &lt;- TRUE</code>! <code>tinycodet</code> adds the
-<code><a href="../reference/lock.html">lock_TF()</a></code> function that forces <code>T</code> to stay
-<code>TRUE</code> and <code>F</code> to stay <code>FALSE</code>.
-Essentially, the <code><a href="../reference/lock.html">lock_TF()</a></code> function creates the locked
-constant <code>T</code> and <code>F</code>, assigned to
-<code>TRUE</code> and <code>FALSE</code> respectively, to prevent the
-user from re-assigning them. Removing the created <code>T</code> and
-<code>F</code> constants allows re-assignment again.</p>
-<p> </p>
-<p>The <code>X %&lt;-c% A</code> operator creates a
-<code>constant</code> <code>X</code> with assignment <code>A</code>.
-Constants cannot be changed, only accessed or removed. So if you have a
-piece of code that requires some unchangeable constant, use this
-operator to create said constant.</p>
-<p> </p>
-</div>
-<div class="section level2">
 <h2 id="with_pro-and-aes_pro">with_pro and aes_pro<a class="anchor" aria-label="anchor" href="#with_pro-and-aes_pro"></a>
 </h2>
 <p>‘tinycodet’ provides standard-evaluated versions of the common
 quoting functions <code><a href="https://rdrr.io/r/base/with.html" class="external-link">with()</a></code> and <code><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">ggplot2::aes()</a></code>:
-<code><a href="../reference/pro.html">with_pro()</a></code> and <code><a href="../reference/pro.html">aes_pro()</a></code>, respectively.</p>
+<code><a href="../reference/pro.html">with_pro()</a></code> and <code><a href="../reference/pro.html">aes_pro()</a></code>, respectively. See
+example below.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"ggplot2"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Loading required namespace: ggplot2</span></span>
-<span></span>
-<span></span>
 <span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/import_data.html">import_data</a></span><span class="op">(</span><span class="st">"ggplot2"</span>, <span class="st">"mpg"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># mutate data:</span></span>
@@ -235,6 +213,27 @@ quoting functions <code><a href="https://rdrr.io/r/base/with.html" class="extern
 <span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">d</span>, <span class="fu"><a href="../reference/pro.html">aes_pro</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, color <span class="op">=</span> <span class="va">color</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="a_safer_files/figure-html/unnamed-chunk-4-1.png" width="768"></p>
+<p> </p>
+</div>
+<div class="section level2">
+<h2 id="locked-constants">Locked constants<a class="anchor" aria-label="anchor" href="#locked-constants"></a>
+</h2>
+<p>One can re-assign the values <code>T</code> and <code>F</code>. One
+can even run something like <code>T &lt;- FALSE</code> and
+<code>F &lt;- TRUE</code>! <code>tinycodet</code> adds the
+<code><a href="../reference/lock.html">lock_TF()</a></code> function that forces <code>T</code> to stay
+<code>TRUE</code> and <code>F</code> to stay <code>FALSE</code>.
+Essentially, the <code><a href="../reference/lock.html">lock_TF()</a></code> function creates the locked
+constant <code>T</code> and <code>F</code>, assigned to
+<code>TRUE</code> and <code>FALSE</code> respectively, to prevent the
+user from re-assigning them. Removing the created <code>T</code> and
+<code>F</code> constants allows re-assignment again.</p>
+<p> </p>
+<p>The <code>X %&lt;-c% A</code> operator creates a
+<code>constant</code> <code>X</code> with assignment <code>A</code>.
+Constants cannot be changed, only accessed or removed. So if you have a
+piece of code that requires some unchangeable constant, use this
+operator to create said constant.</p>
 <p> </p>
 </div>
 <div class="section level2">

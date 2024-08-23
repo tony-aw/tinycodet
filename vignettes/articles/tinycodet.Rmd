@@ -5,12 +5,7 @@ output: github_document
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 ```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "man/figures/README-",
-  out.width = "100%"
-)
+
 library(badger)
 library(knitr)
 library(tinycodet)
@@ -38,20 +33,24 @@ Here I'll give a quick glimpse of what is possible in this R package.
 
 'tinycodet' adds some functions to help in coding more safely:
 
- - In base R, `(0.1*3) == 0.3` gives `FALSE`, due to the way decimal numbers are stored in programming languages like R and Python.  `tinycodet` adds safer truth testing operators, that give correct results.
  - `with_pro()` and `aes_pro()` are standard-evaluated alternatives to `base::with()` and `ggplot2::aes()`. These use formulas as input.
+ - In base R, `(0.1*3) == 0.3` gives `FALSE`, due to the way decimal numbers are stored in programming languages like R and Python.  `tinycodet` adds safer truth testing operators, that give correct results.
  - One can re-assign the values `T` and `F`. One can even run `T <- FALSE` and `F <- TRUE`!. `tinycodet` adds the `lock_TF()` function that forces `T` to stay `TRUE` and `F` to stay `FALSE`.
 
-One example with the `%d==%` operator:
+One example of `aes_pro()`:
 
-```{r}
-x <- c(0.3, 0.6, 0.7)
-y <- c(0.1*3, 0.1*6, 0.1*7)
-print(x); print(y)
+```{r fig.width = 8}
 
-x == y # gives FALSE, but should be TRUE
+requireNamespace("ggplot2")
+d <- import_data("ggplot2", "mpg")
 
-x %d==% y # here it's done correctly
+x <- ~ cty
+y <- ~ sqrt(hwy)
+color <- ~ drv
+
+ggplot2::ggplot(d, aes_pro(x, y, color = color)) +
+  ggplot2::geom_point()
+
 ```
 
 
@@ -168,7 +167,7 @@ If you're still interested, I invite you to read the articles on the website (ht
 
 The following articles are currently present:
 
- - [Safer functionality](https://tony-aw.github.io/tinycodet/articles/a_safer.html): Describes the safer decimal (in)equality testing operators, and other functions for safer/stricter coding.
+ - [Safer functionality](https://tony-aw.github.io/tinycodet/articles/a_safer.html): Describes the functions for safer/stricter coding.
  - [Import system - main functions](https://tony-aw.github.io/tinycodet/articles/b_import_main.html): Description of the main functions of the package import system introduced by `tinycodet`.
  - [Import system - additional details](https://tony-aw.github.io/tinycodet/articles/c_import_additional.html): Additional important details on the tinycodet import system.
  - [String related functions](https://tony-aw.github.io/tinycodet/articles/d_strings_functions.html): Describes the `tinycodet` functions that extend the string manipulation capabilities of `stringi`.
