@@ -23,68 +23,20 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// rcpp_n_matches
-Rcpp::IntegerVector rcpp_n_matches(const List lst);
-RcppExport SEXP _tinycodet_rcpp_n_matches(SEXP lstSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const List >::type lst(lstSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_n_matches(lst));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpp_convert_i0
-IntegerVector rcpp_convert_i0(const IntegerVector n_matches, const IntegerVector i);
-RcppExport SEXP _tinycodet_rcpp_convert_i0(SEXP n_matchesSEXP, SEXP iSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const IntegerVector >::type n_matches(n_matchesSEXP);
-    Rcpp::traits::input_parameter< const IntegerVector >::type i(iSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_convert_i0(n_matches, i));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpp_convert_i1
-IntegerVector rcpp_convert_i1(const IntegerVector n_matches, const int i);
-RcppExport SEXP _tinycodet_rcpp_convert_i1(SEXP n_matchesSEXP, SEXP iSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const IntegerVector >::type n_matches(n_matchesSEXP);
-    Rcpp::traits::input_parameter< const int >::type i(iSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_convert_i1(n_matches, i));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpp_alloc_stri_locate_ith
-IntegerMatrix rcpp_alloc_stri_locate_ith(const List p1, const IntegerVector n_matches, const IntegerVector i);
-RcppExport SEXP _tinycodet_rcpp_alloc_stri_locate_ith(SEXP p1SEXP, SEXP n_matchesSEXP, SEXP iSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const List >::type p1(p1SEXP);
-    Rcpp::traits::input_parameter< const IntegerVector >::type n_matches(n_matchesSEXP);
-    Rcpp::traits::input_parameter< const IntegerVector >::type i(iSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_alloc_stri_locate_ith(p1, n_matches, i));
-    return rcpp_result_gen;
-END_RCPP
-}
 
 RcppExport SEXP C_any_badloc(SEXP, SEXP);
 RcppExport SEXP C_any_neg(SEXP);
 RcppExport SEXP C_any_nonpos(SEXP);
+RcppExport SEXP C_do_stri_locate_ith0(SEXP, SEXP, SEXP);
+RcppExport SEXP C_do_stri_locate_ith1(SEXP, SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
     {"_tinycodet_rcpp_prep_ns", (DL_FUNC) &_tinycodet_rcpp_prep_ns, 3},
-    {"_tinycodet_rcpp_n_matches", (DL_FUNC) &_tinycodet_rcpp_n_matches, 1},
-    {"_tinycodet_rcpp_convert_i0", (DL_FUNC) &_tinycodet_rcpp_convert_i0, 2},
-    {"_tinycodet_rcpp_convert_i1", (DL_FUNC) &_tinycodet_rcpp_convert_i1, 2},
-    {"_tinycodet_rcpp_alloc_stri_locate_ith", (DL_FUNC) &_tinycodet_rcpp_alloc_stri_locate_ith, 3},
-    {"C_any_badloc", (DL_FUNC) &C_any_badloc, 2},
-    {"C_any_neg",    (DL_FUNC) &C_any_neg,    1},
-    {"C_any_nonpos", (DL_FUNC) &C_any_nonpos, 1},
+    {"C_any_badloc",          (DL_FUNC) &C_any_badloc,          2},
+    {"C_any_neg",             (DL_FUNC) &C_any_neg,             1},
+    {"C_any_nonpos",          (DL_FUNC) &C_any_nonpos,          1},
+    {"C_do_stri_locate_ith0", (DL_FUNC) &C_do_stri_locate_ith0, 3},
+    {"C_do_stri_locate_ith1", (DL_FUNC) &C_do_stri_locate_ith1, 3},
     {NULL, NULL, 0}
 };
 

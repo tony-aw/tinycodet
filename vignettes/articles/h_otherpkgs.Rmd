@@ -68,9 +68,6 @@ This will make sure that all packages installed in your project library, regardl
 
 Besides that, I highly recommend the [fastverse](https://github.com/fastverse/fastverse) set of R packages (https://github.com/fastverse/fastverse), which are a set of R packages for (mostly) data wrangling, focused on high speed, better memory management, and minimal dependencies.
 
-For quick 'n easy back-tracing of errors, I recommend the [rlang](https://github.com/r-lib/rlang/tree/main/R) R package.
-
-
 
 
 &nbsp;

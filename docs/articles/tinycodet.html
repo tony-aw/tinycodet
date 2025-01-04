@@ -27,7 +27,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tinycodet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -346,38 +346,31 @@ note that the following code is run without attaching a single R package
 <div class="section level2">
 <h2 id="extending-the-string-manipulation-capabilities-of-stringi">Extending the string manipulation capabilities of stringi<a class="anchor" aria-label="anchor" href="#extending-the-string-manipulation-capabilities-of-stringi"></a>
 </h2>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># character vector:</span></span>
-<span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"3rd 1st 2nd"</span>, <span class="st">"5th 4th 6th"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "3rd 1st 2nd" "5th 4th 6th"</span></span></code></pre>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># detect if there are digits:</span></span>
-<span><span class="va">x</span> <span class="op"><a href="../reference/str_search.html">%s{}%</a></span> <span class="st">"\\d"</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] TRUE TRUE</span></span></code></pre>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># find second last digit:</span></span>
-<span><span class="va">loc</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/stri_locate_ith.html">stri_locate_ith</a></span><span class="op">(</span><span class="va">x</span>, i <span class="op">=</span> <span class="op">-</span><span class="fl">2</span>, regex <span class="op">=</span> <span class="st">"\\d"</span><span class="op">)</span></span>
-<span><span class="fu">stringi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stringi/man/stri_sub.html" class="external-link">stri_sub</a></span><span class="op">(</span><span class="va">x</span>, from <span class="op">=</span> <span class="va">loc</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "1" "4"</span></span></code></pre>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># cut x into matrix of individual words:</span></span>
-<span><span class="va">mat</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/strcut.html">strcut_brk</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"word"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># sort rows of matrix using the fast %row~% operator:</span></span>
-<span><span class="va">rank</span> <span class="op">&lt;-</span> <span class="fu">stringi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stringi/man/stri_rank.html" class="external-link">stri_rank</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/vector.html" class="external-link">as.vector</a></span><span class="op">(</span><span class="va">mat</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span>ncol <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">mat</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">sorted</span> <span class="op">&lt;-</span> <span class="va">mat</span> <span class="op"><a href="../reference/matrix_ops.html">%row~%</a></span> <span class="va">rank</span></span>
-<span><span class="va">sorted</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">sorted</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">""</span></span>
-<span></span>
-<span><span class="co"># join elements of every row into a single character vector:</span></span>
-<span><span class="fu"><a href="../reference/stri_join_mat.html">stri_c_mat</a></span><span class="op">(</span><span class="va">sorted</span>, margin <span class="op">=</span> <span class="fl">1</span>, sep <span class="op">=</span> <span class="st">" "</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## [1] "    1st 2nd 3rd" "    4th 5th 6th"</span></span></code></pre>
+<p>‘tinycodet’ adds some additional functionality to ‘stringi’ (the
+primary package for string manipulation):</p>
+<ul>
+<li>
+<code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code>: ‘stringi’ has functions to locate
+the first and last pattern occurrences. ‘tinycodet’ adds
+<code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code>, which can locate the <span class="math inline">\(i^\textrm{th}\)</span> pattern occurrence.</li>
+<li>‘stringi’ has some limited string arithmetic operators:
+<code>%s+%</code> and <code>%s*%</code>. ‘tinycodet’ enlarges this set
+with additional string arithmetic operators.</li>
+<li>‘stringi’ has several string search and relation operators
+(<code>%s==%</code>, <code>s%!=%</code>). ‘tinycodet’ also enlarges this
+set with pattern searching operators (<code>%s{}%</code>,
+<code>%s!{}%</code>, <code>strfind()&lt;-</code>).</li>
+<li>cutting strings into pieces, without removing the delimiter, lies at
+the core of (almost) all boundaries-operations in ‘stringi’. For the
+user’s convenience, ‘tinycodet’ adds the <code>strcut_</code> functions
+to cut strings in a more concise way (with less keystrokes).</li>
+</ul>
 <p> </p>
 </div>
 <div class="section level2">
 <h2 id="reduce-repetitive-code">Reduce repetitive code<a class="anchor" aria-label="anchor" href="#reduce-repetitive-code"></a>
 </h2>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># in base R:</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span> <span class="co"># repetitive, and gives unnecessary warning</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">object</span><span class="op">&gt;</span><span class="fl">0</span><span class="op">)</span>, <span class="op">-</span><span class="cn">Inf</span>,</span>

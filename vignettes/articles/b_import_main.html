@@ -621,7 +621,7 @@ those packages/package alias exposed in the current environment by
 not be touched. For example:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="at">unexpose =</span> tdt.)</span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co">#&gt; Removing the following infix operators:</span></span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">#&gt; %inrange%, %chin%, :=, %between%, %ilike%, %notin%, %flike%, %like%, %in%, %plike%</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">#&gt; :=, %plike%, %ilike%, %inrange%, %between%, %flike%, %like%, %in%, %chin%, %notin%</span></span>
 <span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">#&gt; Done</span></span></code></pre></div>
 <p>One can also expose and unexpose the infix operators directly from a
 package, instead of via an alias object. In that case the package name

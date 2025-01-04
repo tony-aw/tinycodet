@@ -234,7 +234,7 @@ strfind(x, p, i = c(1, -1, 2))
 ## Replace
 
 `strfind() <- value` finds pattern matches in variable `x`, replaces the pattern matches with the character vector specified in `value`, and assigns the transformed character vector back to `x`. This is somewhat similar to `stringi::stri_replace()`, though the replacement is done in-place.
-It supports replace vectorized, dictionary, first, and last replacement:
+It supports vectorized, dictionary, first, and last replacement:
 
 
 ```{r}

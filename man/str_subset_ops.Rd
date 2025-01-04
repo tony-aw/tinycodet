@@ -2,19 +2,19 @@
 % Please edit documentation in R/str_subset_ops.R
 \name{str_subset_ops}
 \alias{str_subset_ops}
-\alias{\%sget\%}
-\alias{\%strim\%}
 \alias{\%s><\%}
 \alias{\%s<>\%}
+\alias{\%sget\%}
+\alias{\%strim\%}
 \title{String Subsetting Operators}
 \usage{
-x \%sget\% ss
-
-x \%strim\% ss
-
 x \%s><\% ss
 
 x \%s<>\% ss
+
+x \%sget\% ss
+
+x \%strim\% ss
 }
 \arguments{
 \item{x}{a character vector.}
@@ -31,27 +31,29 @@ gives the number of characters counting from the right side to be
 extracted/removed from \code{x}. \cr}
 }
 \value{
-The \code{x \%sget\% ss } operator
-gives a certain number of the first and last characters of
+Both operators return a character vector of the same length as \code{x}. \cr
+\cr
+The \code{x \%s><\% ss } operator
+gives a certain number of the first and last characters of each string in the input
 character vector \code{x}. \cr
 \cr
-The \code{x \%strim\% ss } operator
-removes a certain number of the first and last characters of
+The \code{x \%s<>\% ss } operator
+removes a certain number of the first and last characters of each string in the input
 character vector \code{x}. \cr
 \cr
 }
 \description{
 String subsetting operators. \cr
 \cr
-The \code{x \%sget\% ss } operator
+The \code{x \%s><\% ss } operator
 gets a certain number of the first and last characters of every string in
 character vector \code{x}. \cr
-\code{\%s><\%} is an alias for \code{\%sget\%}. \cr
+\code{\%sget\%} is an alias for \code{\%s><\%}. \cr
 \cr
-The \code{x \%strim\% ss } operator
+The \code{x \%s<>\% ss } operator
 trims a certain number of the first and last characters of every string in
 character vector \code{x}. \cr
-\code{\%s<>\%} is an alias for \code{\%strim\%}. \cr \cr
+\code{\%strim\%} is an alias for \code{\%<>\%}. \cr \cr
 }
 \details{
 These operators serve as a way to provide straight-forward string sub-setting. \cr
@@ -64,25 +66,25 @@ x <- c(paste0(letters[1:13], collapse = ""),
        paste0(letters[14:26], collapse = ""))
 print(x)
 ss <- c(2, 3)
-x \%sget\% ss
+x \%s><\% ss
 
 x <- c(paste0(letters[1:13], collapse = ""),
        paste0(letters[14:26], collapse = ""))
 print(x)
 ss <- c(1, 0)
-x \%sget\% ss
+x \%s><\% ss
 
 x <- c(paste0(letters[1:13], collapse = ""),
        paste0(letters[14:26], collapse = ""))
 print(x)
 ss <- c(2, 3)
-x \%strim\% ss
+x \%s<>\% ss
 
 x <- c(paste0(letters[1:13], collapse = ""),
        paste0(letters[14:26], collapse = ""))
 print(x)
 ss <- c(1, 0)
-x \%strim\% ss
+x \%s<>\% ss
 }
 \seealso{
 \link{tinycodet_strings}

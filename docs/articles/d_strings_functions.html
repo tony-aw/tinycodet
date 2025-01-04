@@ -27,7 +27,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">tinycodet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -99,20 +99,15 @@
 <div class="section level2">
 <h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h2>
-<p>Virtually every programming language, even those primarily focused on
-mathematics, will at some point have to deal with strings. R’s atomic
-classes basically boil down to some form of either numbers or
-characters. R’s numerical functions are generally very fast. But R’s
-native string functions are somewhat slow, do not have a unified naming
-scheme, and are not as comprehensive as R’s impressive numerical
-functions.</p>
-<p>The primary R-package that fixes this is ‘stringi’. ‘stringi’ is the
-fastest and most comprehensive string manipulation package available at
-the time of writing. Many string related packages fully depend on
-‘stringi’. The ‘stringr’ package, for example, is merely a thin wrapper
-around ‘stringi’.</p>
-<p>The ‘tinycodet’ package adds a bit more functionality to the
-‘stringi’ string manipulation capabilities.</p>
+<p>R’s numerical functions are generally very fast. But R’s native
+string functions are somewhat slow, do not have a unified naming scheme,
+and are not as comprehensive as R’s impressive numerical functions. The
+primary R-package that fixes this is ‘stringi’, which many, if not most,
+string related packages depend on (see the list of reverse-dependencies
+on CRAN). The ‘stringr’ package, for example, is merely a thin wrapper
+around ‘stringi’. As string manipulation is important to programming
+languages, even those primarily focused on mathematics, ‘tinycodet’ adds
+a little bit new functionality to ‘stringi’.</p>
 <p> </p>
 </div>
 <div class="section level2">
@@ -131,11 +126,10 @@ completely in <code>stringi</code> + base R as follows:</p>
 <span><span class="fu">stringi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/stringi/man/stri_sub.html" class="external-link">stri_sub_replace</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">loc</span>, replacement<span class="op">=</span><span class="va">repl</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "HeLLO WORLD"   "gOodbye world"</span></span></code></pre></div>
 <p>But now suppose one wants to transform the
-<strong>second-last</strong> vowel. How are you going to do that? It’s
-not impossible, but also not super straight-forward. For clear code,
-<code>stringi</code> really needs some kind of “stri_locate_ith”
-function. And, of course, the <code>tinycodet</code> package provides
-just that.</p>
+<strong>second-last</strong> vowel. How are you going to do that in an
+efficient way? For clear and efficient code, <code>stringi</code> really
+needs some kind of “stri_locate_ith” function. And, of course, the
+<code>tinycodet</code> package provides just that.</p>
 <p>The <code>stri_locate_ith(str, i, ...)</code> function locates for
 every element/string in character vector <code>str</code>, the <span class="math inline">\(i^\textrm{th}\)</span> occurrence of some
 (regex/fixed/etc) pattern. When <code>i</code> is positive, the

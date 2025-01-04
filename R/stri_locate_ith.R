@@ -107,7 +107,7 @@
 #' (i.e. character vectors with more than \code{2^31 - 1} strings). \cr
 #' \cr
 #' \bold{Performance} \cr
-#' The performance of `stri_locate_ith()` is close to that of \link[stringi]{stri_locate_all}. \cr \cr
+#' The performance of `stri_locate_ith()` is about the same as that of \link[stringi]{stri_locate_all}. \cr \cr
 #' 
 #'
 #'
@@ -238,25 +238,23 @@ stri_locate_ith_boundaries <- function(
     warning(simpleWarning("empty search patterns are not supported", call = abortcall))
     return(cbind(start = integer(0), end = integer(0)))
   }
-  n.matches <- .rcpp_n_matches(p1)
-  
   i <- as.integer(i)
   n.i <- length(i)
   if(n.i == 1L) {
-    if(is.na(i)||is.infinite(i)) {
+    if(is.na(i) || i == 0L || is.infinite(i)) {
       stop("`i` is not allowed to be zero or NA")
     }
-    i <- .rcpp_convert_i1(n.matches, i)
+    mat <- .C_do_stri_locate_ith1(p1, i, c(n, 2L))
   }
   else if(n.i == n) {
-    i <- .rcpp_convert_i0(n.matches, i)
+    mat <- .C_do_stri_locate_ith0(p1, i, c(n, 2L))
   }
   else {
     stop(simpleError("recycling of vector `i` not allowed", call = abortcall))
   }
   
-  mat <- .rcpp_alloc_stri_locate_ith(p1, n.matches, i - 1L)
   colnames(mat) <- c("start", "end")
   
   return(mat)
 }
+

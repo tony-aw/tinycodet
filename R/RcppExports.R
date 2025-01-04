@@ -7,27 +7,3 @@
     .Call(`_tinycodet_rcpp_prep_ns`, ns, nms, pkg)
 }
 
-#' @keywords internal
-#' @noRd
-.rcpp_n_matches <- function(lst) {
-    .Call(`_tinycodet_rcpp_n_matches`, lst)
-}
-
-#' @keywords internal
-#' @noRd
-.rcpp_convert_i0 <- function(n_matches, i) {
-    .Call(`_tinycodet_rcpp_convert_i0`, n_matches, i)
-}
-
-#' @keywords internal
-#' @noRd
-.rcpp_convert_i1 <- function(n_matches, i) {
-    .Call(`_tinycodet_rcpp_convert_i1`, n_matches, i)
-}
-
-#' @keywords internal
-#' @noRd
-.rcpp_alloc_stri_locate_ith <- function(p1, n_matches, i) {
-    .Call(`_tinycodet_rcpp_alloc_stri_locate_ith`, p1, n_matches, i)
-}
-

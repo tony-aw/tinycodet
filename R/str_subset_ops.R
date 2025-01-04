@@ -4,15 +4,15 @@
 #'
 #' String subsetting operators. \cr
 #' \cr
-#' The \code{x %sget% ss } operator
+#' The \code{x %s><% ss } operator
 #' gets a certain number of the first and last characters of every string in
 #' character vector \code{x}. \cr
-#' \code{%s><%} is an alias for \code{%sget%}. \cr
+#' \code{%sget%} is an alias for \code{%s><%}. \cr
 #' \cr
-#' The \code{x %strim% ss } operator
+#' The \code{x %s<>% ss } operator
 #' trims a certain number of the first and last characters of every string in
 #' character vector \code{x}. \cr
-#' \code{%s<>%} is an alias for \code{%strim%}. \cr \cr
+#' \code{%strim%} is an alias for \code{%<>%}. \cr \cr
 #'
 #' @param x a character vector.
 #' @param ss a vector of length 2, or a matrix with 2 columns with \code{nrow(ss) == length(x)}.
@@ -34,12 +34,14 @@
 #'
 #'
 #' @returns
-#' The \code{x %sget% ss } operator
-#' gives a certain number of the first and last characters of
+#' Both operators return a character vector of the same length as `x`. \cr
+#' \cr
+#' The \code{x %s><% ss } operator
+#' gives a certain number of the first and last characters of each string in the input
 #' character vector \code{x}. \cr
 #' \cr
-#' The \code{x %strim% ss } operator
-#' removes a certain number of the first and last characters of
+#' The \code{x %s<>% ss } operator
+#' removes a certain number of the first and last characters of each string in the input
 #' character vector \code{x}. \cr
 #' \cr
 #'
@@ -55,7 +57,7 @@ NULL
 
 #' @rdname str_subset_ops
 #' @export
-`%sget%` <- function(x, ss) {
+`%s><%` <- function(x, ss) {
   ss <- .ss_check(ss, x, sys.call())
   n <- stringi::stri_length(x)
   first <- stringi::stri_sub(x, from = 1, to = ss[,1])
@@ -73,7 +75,7 @@ NULL
 
 #' @rdname str_subset_ops
 #' @export
-`%strim%` <- function(x, ss) {
+`%s<>%` <- function(x, ss) {
   ss <- .ss_check(ss, x, sys.call())
   
   n <- stringi::stri_length(x)
@@ -93,12 +95,12 @@ NULL
 
 #' @rdname str_subset_ops
 #' @export
-`%s><%` <- `%sget%`
+`%sget%` <- `%s><%`
 
 
 #' @rdname str_subset_ops
 #' @export
-`%s<>%` <- `%strim%`
+`%strim%` <- `%s<>%`
 
 
 #' @keywords internal

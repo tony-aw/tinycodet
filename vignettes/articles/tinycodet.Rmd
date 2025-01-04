@@ -111,33 +111,12 @@ d %>% tdt.$filter(species == "Droid") %>%
 
 # Extending the string manipulation capabilities of stringi
 
-```{r}
+'tinycodet' adds some additional functionality to 'stringi' (the primary package for string manipulation):
 
-# character vector:
-x <- c("3rd 1st 2nd", "5th 4th 6th")
-print(x)
-
-# detect if there are digits:
-x %s{}% "\\d"
-
-# find second last digit:
-loc <- stri_locate_ith(x, i = -2, regex = "\\d")
-stringi::stri_sub(x, from = loc)
-
-# cut x into matrix of individual words:
-mat <- strcut_brk(x, "word")
-
-# sort rows of matrix using the fast %row~% operator:
-rank <- stringi::stri_rank(as.vector(mat)) |> matrix(ncol = ncol(mat))
-sorted <- mat %row~% rank
-sorted[is.na(sorted)] <- ""
-
-# join elements of every row into a single character vector:
-stri_c_mat(sorted, margin = 1, sep = " ")
-
-
-```
-
+ - `stri_locate_ith()`: 'stringi' has functions to locate the first and last pattern occurrences. 'tinycodet' adds `stri_locate_ith()`, which can locate the $i^\textrm{th}$ pattern occurrence.
+ - 'stringi' has some limited string arithmetic operators: `%s+%` and `%s*%`. 'tinycodet' enlarges this set with additional string arithmetic operators.
+ - 'stringi' has several string search and relation operators (`%s==%`, `s%!=%`). 'tinycodet' also enlarges this set with pattern searching operators (`%s{}%`, `%s!{}%`, `strfind()<-`).
+ - cutting strings into pieces, without removing the delimiter, lies at the core of (almost) all boundaries-operations in 'stringi'. For the user's convenience, 'tinycodet' adds the `strcut_` functions to cut strings in a more concise way (with less keystrokes).
 
 
 &nbsp;

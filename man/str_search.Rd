@@ -88,6 +88,7 @@ but performs in-place replacement
 of the found patterns in variable \code{x}. \cr \cr
 }
 \description{
+\bold{The \code{x \%s{}\% p} and \code{x \%s!{}\% p} Operators:} \cr
 The \code{x \%s{}\% p} operator
 checks for every string in character vector \code{x} if
 the pattern defined in \code{p} is present. \cr
@@ -109,6 +110,8 @@ rather than presence. \cr
 For string (in)equality operators,
 see \link[stringi]{\%s==\%} from the 'stringi' package. \cr
 \cr
+\cr
+\bold{\code{strfind()<-}:} \cr
 \code{strfind()<-}
 locates, extracts, or replaces found patterns. \cr
 It complements the other string-related operators,

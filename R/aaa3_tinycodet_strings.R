@@ -2,22 +2,15 @@
 #'
 #' @description
 #' 
-#' Virtually every programming language,
-#' even those primarily focused on mathematics,
-#' will at some point have to deal with strings.
-#' R's atomic classes boil down to some form of either numbers or characters.
 #' R's numerical functions are generally very fast.
 #' But R's native string functions are somewhat slow,
 #' do not have a unified naming scheme,
-#' and are not as comprehensive as R's impressive numerical functions.
-#' The primary R-package that fixes this is 'stringi'. \cr
-#'  \cr
-#' 'stringi' is arguably the fastest and most comprehensive
-#' string manipulation package available at the time of writing.
-#' Many string related packages fully depend on 'stringi'
-#' (see its reverse-dependencies on CRAN). \cr
-#' \cr
-#' As string manipulation is so important to programming languages,
+#' and are not as comprehensive as R's impressive numerical functions. \cr
+#' The primary R-package that fixes this is 'stringi',
+#' which many, if not most, string related packages depend on
+#' (see the list of reverse-dependencies on CRAN). \cr
+#' As string manipulation is important to programming languages,
+#' even those primarily focused on mathematics,
 #' 'tinycodet' adds a little bit new functionality to 'stringi'. \cr
 #' \cr
 #' 'tinycodet' adds the following functions to extend 'stringi':
@@ -44,7 +37,7 @@
 #' Generally speaking, vector recycling is supported as 'stringi' itself supports it also. \cr
 #' There are, however, a few exceptions. \cr
 #' First, matrix inputs
-#' (like in \code{strcut_loc} and \link[=str_subset_ops]{string sub-setting operators}) 
+#' (like in \link{strcut_loc} and \link[=str_subset_ops]{string sub-setting operators}) 
 #' will generally not be recycled. \cr
 #' Second, the \code{i} argument in \link{stri_locate_ith} does not support vector recycling. \cr
 #' Scalar recycling is virtually always supported. \cr \cr

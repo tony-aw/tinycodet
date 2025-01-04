@@ -141,7 +141,7 @@ do not support \code{long vectors}
 (i.e. character vectors with more than \code{2^31 - 1} strings). \cr
 \cr
 \bold{Performance} \cr
-The performance of \code{stri_locate_ith()} is close to that of \link[stringi]{stri_locate_all}. \cr \cr
+The performance of \code{stri_locate_ith()} is about the same as that of \link[stringi]{stri_locate_all}. \cr \cr
 }
 \examples{
 

@@ -7,8 +7,6 @@
 \alias{tinycodet_help}
 \title{tinycodet: Functions to Help in your Coding Etiquette}
 \description{
-Welcome to the 'tinycodet' introduction help page! \cr
-\cr
 'tinycodet' adds some functions to help in your coding etiquette. \cr
 It primarily focuses on 4 aspects: \cr
 \cr

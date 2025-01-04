@@ -418,7 +418,7 @@ expect_equivalent(stri_locate_ith(x, -2, regex="a|e|i|o|u"), cbind(repNA, repNA)
 # bad i ====
 x <- c("hello", "goodbye")
 expect_error(
-  stri_locate_ith(x, 0, regex="a|e|i|o|u"),
+  stri_locate_ith(x, 0L, regex="a|e|i|o|u"),
   pattern = "`i` is not allowed to be zero or NA"
 )
 expect_error(
@@ -477,13 +477,24 @@ expect_error(
 
 
 # rcpp checks ====
-i <- sample(c(-50:-1, 1:50), 5e5, TRUE)
-n.matches <- sample(0:50, 5e5, TRUE)
-expect_error(.rcpp_convert_i(n.matches, rep(0, length(n.matches))))
-expect_error(.rcpp_convert_i(n.matches, rep(NA, length(n.matches))))
-expect_error(.rcpp_convert_i(n.matches, rep(NaN, length(n.matches))))
-expect_error(.rcpp_convert_i(n.matches, rep(Inf, length(n.matches))))
-expect_error(.rcpp_convert_i(n.matches, rep(-Inf, length(n.matches))))
+n <- 1e4
+i <- sample(c(-50:-1, 1:50), n, TRUE)
+p1 <- stringi::stri_rand_strings(n, 50) |> stringi::stri_locate_all(fixed = "a")
+expect_error(
+  .stri_locate_ith_internal(p1, rep(0, n), sys.call())
+)
+expect_error(
+  .stri_locate_ith_internal(p1, rep(NA, n), sys.call())
+)
+expect_error(
+  .stri_locate_ith_internal(p1, rep(NaN, n), sys.call())
+)
+expect_error(
+  .stri_locate_ith_internal(p1, rep(Inf, n), sys.call())
+)
+expect_error(
+  .stri_locate_ith_internal(p1, rep(-Inf, n), sys.call())
+)
 
 
 

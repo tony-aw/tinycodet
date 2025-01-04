@@ -345,20 +345,15 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <p> </p>
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
-<p>Virtually every programming language, even those primarily focused on
-mathematics, will at some point have to deal with strings. R’s atomic
-classes basically boil down to some form of either numbers or
-characters. R’s numerical functions are generally very fast. But R’s
-native string functions are somewhat slow, do not have a unified naming
-scheme, and are not as comprehensive as R’s impressive numerical
-functions.</p>
-<p>The primary R-package that fixes this is ‘stringi’. ‘stringi’ is the
-fastest and most comprehensive string manipulation package available at
-the time of writing. Many string related packages fully depend on
-‘stringi’. The ‘stringr’ package, for example, is merely a thin wrapper
-around ‘stringi’.</p>
-<p>The ‘tinycodet’ package adds a bit more functionality to the
-‘stringi’ string manipulation capabilities.</p>
+<p>R’s numerical functions are generally very fast. But R’s native
+string functions are somewhat slow, do not have a unified naming scheme,
+and are not as comprehensive as R’s impressive numerical functions. The
+primary R-package that fixes this is ‘stringi’, which many, if not most,
+string related packages depend on (see the list of reverse-dependencies
+on CRAN). The ‘stringr’ package, for example, is merely a thin wrapper
+around ‘stringi’. As string manipulation is important to programming
+languages, even those primarily focused on mathematics, ‘tinycodet’ adds
+a little bit new functionality to ‘stringi’.</p>
 <p> </p>
 </div>
 <div id="stri_locate_ith" class="section level1">
@@ -375,11 +370,10 @@ completely in <code>stringi</code> + base R as follows:</p>
 <span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>stringi<span class="sc">::</span><span class="fu">stri_sub_replace</span>(x, loc, <span class="at">replacement=</span>repl)</span>
 <span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt; [1] &quot;HeLLO WORLD&quot;   &quot;gOodbye world&quot;</span></span></code></pre></div>
 <p>But now suppose one wants to transform the
-<strong>second-last</strong> vowel. How are you going to do that? It’s
-not impossible, but also not super straight-forward. For clear code,
-<code>stringi</code> really needs some kind of “stri_locate_ith”
-function. And, of course, the <code>tinycodet</code> package provides
-just that.</p>
+<strong>second-last</strong> vowel. How are you going to do that in an
+efficient way? For clear and efficient code, <code>stringi</code> really
+needs some kind of “stri_locate_ith” function. And, of course, the
+<code>tinycodet</code> package provides just that.</p>
 <p>The <code>stri_locate_ith(str, i, ...)</code> function locates for
 every element/string in character vector <code>str</code>, the <span class="math inline">\(i^\textrm{th}\)</span> occurrence of some
 (regex/fixed/etc) pattern. When <code>i</code> is positive, the
@@ -537,7 +531,7 @@ sentences :</p>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co"># sorting characters in strings:</span></span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">paste</span>(<span class="fu">sample</span>(letters), <span class="at">collapse =</span> <span class="st">&quot;&quot;</span>), <span class="fu">paste</span>(<span class="fu">sample</span>(letters), <span class="at">collapse =</span> <span class="st">&quot;&quot;</span>))</span>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="fu">print</span>(x)</span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; [1] &quot;uhkogbefdmpxljwrvanzqicyts&quot; &quot;qzcxnearbgfdklwvhymituospj&quot;</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; [1] &quot;oksjygdezubtnwfpriavlcmhqx&quot; &quot;hbvasdqgnjiwcfuylrtmxzpoek&quot;</span></span>
 <span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>mat <span class="ot">&lt;-</span> <span class="fu">strcut_brk</span>(x)</span>
 <span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>rank <span class="ot">&lt;-</span> stringi<span class="sc">::</span><span class="fu">stri_rank</span>(<span class="fu">as.vector</span>(mat)) <span class="sc">|&gt;</span>  <span class="fu">matrix</span>(<span class="at">ncol=</span><span class="fu">ncol</span>(mat))</span>
 <span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>sorted <span class="ot">&lt;-</span> mat <span class="sc">%row~%</span> rank</span>
@@ -577,12 +571,12 @@ sentences :</p>
 <span id="cb5-42"><a href="#cb5-42" tabindex="-1"></a>sorted <span class="ot">&lt;-</span> mat <span class="sc">%row~%</span> rank</span>
 <span id="cb5-43"><a href="#cb5-43" tabindex="-1"></a>sorted[<span class="fu">is.na</span>(sorted)] <span class="ot">&lt;-</span> <span class="st">&quot;&quot;</span></span>
 <span id="cb5-44"><a href="#cb5-44" tabindex="-1"></a><span class="fu">stri_paste_mat</span>(sorted, <span class="at">margin=</span><span class="dv">1</span>) <span class="co"># &lt;- another alias for stri_join_mat</span></span>
-<span id="cb5-45"><a href="#cb5-45" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Cool!Hello, who are you? Oh, really?! &quot;</span></span>
-<span id="cb5-46"><a href="#cb5-46" tabindex="-1"></a><span class="co">#&gt; [2] &quot;I don&#39;t care. But I really don&#39;t.&quot;</span></span>
+<span id="cb5-45"><a href="#cb5-45" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Hello, who are you? Cool!Oh, really?! &quot;</span></span>
+<span id="cb5-46"><a href="#cb5-46" tabindex="-1"></a><span class="co">#&gt; [2] &quot;But I really don&#39;t.I don&#39;t care. &quot;</span></span>
 <span id="cb5-47"><a href="#cb5-47" tabindex="-1"></a><span class="fu">stri_paste_mat</span>(sorted, <span class="at">margin=</span><span class="dv">2</span>)</span>
-<span id="cb5-48"><a href="#cb5-48" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Cool!I don&#39;t care. &quot;                    </span></span>
-<span id="cb5-49"><a href="#cb5-49" tabindex="-1"></a><span class="co">#&gt; [2] &quot;Hello, who are you? But I really don&#39;t.&quot;</span></span>
-<span id="cb5-50"><a href="#cb5-50" tabindex="-1"></a><span class="co">#&gt; [3] &quot;Oh, really?! &quot;</span></span></code></pre></div>
+<span id="cb5-48"><a href="#cb5-48" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Hello, who are you? But I really don&#39;t.&quot;</span></span>
+<span id="cb5-49"><a href="#cb5-49" tabindex="-1"></a><span class="co">#&gt; [2] &quot;Cool!&quot;                                  </span></span>
+<span id="cb5-50"><a href="#cb5-50" tabindex="-1"></a><span class="co">#&gt; [3] &quot;Oh, really?! I don&#39;t care. &quot;</span></span></code></pre></div>
 <p> </p>
 </div>
 

@@ -1,3 +1,7 @@
+# tinycodet 0.5.4 (Under development)
+* **Performance improvement:** Even more performance improvement for `stri_locate_ith()`; it now internally uses 'C' code instead of 'C++'.
+
+
 # tinycodet 0.5.3
 * **Behaviour change:** the atomic typecasting functions now preserve names, dimensions, and dimnames (instead of all attributes), to be more in line with most of base 'R'.
 * **Behaviour change:** `pkgs %installed in% lib.loc` will now return `NA` for "packages" that are part of core 'R' (i.e. 'base', 'stats', etc.).

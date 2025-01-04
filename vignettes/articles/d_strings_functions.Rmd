@@ -25,11 +25,11 @@ library(tinycodet)
 
 # Introduction
 
-Virtually every programming language, even those primarily focused on mathematics, will at some point have to deal with strings. R's atomic classes basically boil down to some form of either numbers or characters. R's numerical functions are generally very fast. But R's native string functions are somewhat slow, do not have a unified naming scheme, and are not as comprehensive as R's impressive numerical functions.
+R's numerical functions are generally very fast. But R's native string functions are somewhat slow, do not have a unified naming scheme, and are not as comprehensive as R's impressive numerical functions.
+The primary R-package that fixes this is 'stringi', which many, if not most, string related packages depend on (see the list of reverse-dependencies on CRAN).
+The 'stringr' package, for example, is merely a thin wrapper around 'stringi'.
+As string manipulation is important to programming languages, even those primarily focused on mathematics, 'tinycodet' adds a little bit new functionality to 'stringi'.
 
-The primary R-package that fixes this is 'stringi'. 'stringi' is the fastest and most comprehensive string manipulation package available at the time of writing. Many string related packages fully depend on 'stringi'. The 'stringr' package, for example, is merely a thin wrapper around 'stringi'.
-
-The 'tinycodet' package adds a bit more functionality to the 'stringi' string manipulation capabilities.
 
 &nbsp;
 
@@ -47,7 +47,7 @@ repl <- chartr(extr, old = "a-zA-Z", new = "A-Za-z")
 stringi::stri_sub_replace(x, loc, replacement=repl)
 ```
 
-But now suppose one wants to transform the **second-last** vowel. How are you going to do that? It's not impossible, but also not super straight-forward. For clear code, `stringi` really needs some kind of "stri_locate_ith" function. And, of course, the `tinycodet` package provides just that.
+But now suppose one wants to transform the **second-last** vowel. How are you going to do that in an efficient way? For clear and efficient code, `stringi` really needs some kind of "stri_locate_ith" function. And, of course, the `tinycodet` package provides just that.
 
 The `stri_locate_ith(str, i, ...)` function locates for every element/string in character vector `str`, the $i^\textrm{th}$ occurrence of some (regex/fixed/etc) pattern. When `i` is positive, the occurrence is counted from left to right. Negative values for `i` are also allowed, in which case the occurrence is counted from the right to left. But `i=0` is not allowed though. Thus, to get the **second** occurrence of some pattern, use `i=2`, and to get the **second-last** occurrence, use `i=-2`.
 

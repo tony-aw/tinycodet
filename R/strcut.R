@@ -109,15 +109,15 @@ strcut_loc <- function(str, loc) {
   if(!is.character(str)){ # placing this later in case all(is.na(str))
     stop("`str` must be a character vector")
   }
-
+  
   # FUNCTION:
   x <- str[cc]
   loc <- loc[cc, , drop = FALSE] # new
   .check_loc2(loc, sys.call())
-
+  
   nx <- length(x)
   nc <- stringi::stri_length(x)
-
+  
   prepart <- mainpart <- postpart <- character(nstr) # not nx
   prepart[cc] <- .substr_prepart(x, loc, nx)
   postpart[cc] <- .substr_postpart(x, loc, nx, nc)
@@ -126,7 +126,7 @@ strcut_loc <- function(str, loc) {
   )
   out <- cbind(prepart, mainpart, postpart)
   out[!cc, ] <- c(NA, str[!cc], NA)
-
+  
   return(out)
 }
 

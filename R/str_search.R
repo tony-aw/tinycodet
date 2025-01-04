@@ -1,7 +1,8 @@
 #' 'stringi' Pattern Search Operators
 #'
 #' @description
-#'
+#' 
+#' \bold{The \code{x %s{}% p} and \code{x %s!{}% p} Operators:} \cr
 #' The \code{x %s{}% p} operator
 #' checks for every string in character vector \code{x} if
 #' the pattern defined in \code{p} is present. \cr
@@ -22,6 +23,8 @@
 #' For string (in)equality operators,
 #' see \link[stringi]{%s==%} from the 'stringi' package. \cr
 #' \cr
+#' \cr
+#' \bold{\code{strfind()<-}:} \cr
 #' \code{strfind()<-}
 #' locates, extracts, or replaces found patterns. \cr
 #' It complements the other string-related operators,
@@ -300,7 +303,7 @@ strfind <- function(x, p, ..., i, rt) {
   }
   
   if(is.list(p))
-    {
+  {
     if(is.null(rt) || isTRUE(rt == "vec")) {
       args <- list(str = x, replacement = value, vectorize_all = TRUE)
       return(do.call(stringi::stri_replace_all, c(args, p, list(...))))
@@ -320,7 +323,7 @@ strfind <- function(x, p, ..., i, rt) {
     else {stop("improper `rt` given")}
   }
   else if(is.character(p))
-    {
+  {
     if(is.null(rt) || isTRUE(rt =="vec")) {
       return(stringi::stri_replace_all_regex(
         x, p, replacement = value, vectorize_all = TRUE, ...
@@ -347,5 +350,3 @@ strfind <- function(x, p, ..., i, rt) {
     stop("`p` must be a character vector or list")
   }
 }
-
-

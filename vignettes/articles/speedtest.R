@@ -24,18 +24,34 @@ save(bm.strcut, file = "bm.strcut.RData")
 
 n <- 5e4
 x <- rep(paste0(1:50, collapse = ""), n)
-p <- "\\d"
+p <- "1"
 i <- sample(c(-50:-1, 1:50), replace=TRUE, size = n)
 bm.stri_locate_ith_vs_all <- bench::mark(
-  "stri_locate_ith" = stri_locate_ith_regex(x, p, i),
-  "stringi::stri_locate_all" = stringi::stri_locate_all(x, regex = p),
+  "stri_locate_ith" = stri_locate_ith_fixed(x, p, i),
+  "stringi::stri_locate_all" = stringi::stri_locate_all(x, fixed = p),
   min_iterations = 500,
-  check = FALSE,
-  filter_gc = FALSE
+  check = FALSE
 )
 summary(bm.stri_locate_ith_vs_all)
 autoplot(bm.stri_locate_ith_vs_all)
 save(bm.stri_locate_ith_vs_all, file = "bm.stri_locate_ith_vs_all.RData")
+
+
+n <- 5e4
+x <- rep(paste0(1:50, collapse = ""), n)
+p <- "1"
+i <- sample(c(-50:-1, 1:50), replace=TRUE, size = n)
+bm.tinycodet_vs_strex <- bench::mark(
+  "tinycodet::stri_locate_ith" = stri_locate_ith_fixed(x, p, i),
+  "strex::str_locate_nth" = strex::str_locate_nth(x, stringr::fixed(p), i),
+  min_iterations = 500,
+  check = FALSE,
+  filter_gc = FALSE
+)
+summary(bm.tinycodet_vs_strex)
+autoplot(bm.tinycodet_vs_strex)
+save(bm.tinycodet_vs_strex, file = "bm.tinycodet_vs_strex.RData")
+
 
 
 n <- 5e4

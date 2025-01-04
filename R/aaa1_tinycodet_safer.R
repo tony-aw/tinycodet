@@ -5,12 +5,12 @@
 #' introduces a few functions:
 #'
 #'  * \link[=%d==%]{Safer decimal (in)equality testing}.
+#'  * Standard evaluated versions of some common expression-evaluation functions: \cr
+#'   \link{with_pro} and \link{aes_pro}.
 #'  * The \link{lock_TF} function to
 #'  set and lock \code{T} and \code{F} to \code{TRUE} and \code{FALSE},
 #'  respectively.
 #'  * The \link{%<-c%} operator to assign locked constants.
-#'  * Standard evaluated versions of some common expression-evaluation functions: \cr
-#'   \link{with_pro} and \link{aes_pro}.
 #'  * \link{safer_partialmatch} to set options for
 #'  safer dollar, arguments, and attribute matching. \cr \cr
 #'
