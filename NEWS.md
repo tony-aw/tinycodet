@@ -1,4 +1,4 @@
-# tinycodet 0.5.4 (Under development)
+# tinycodet 0.5.4
 * **Performance improvement:** Even more performance improvement for `stri_locate_ith()`; it now internally uses 'C' code instead of 'C++'.
 
 
