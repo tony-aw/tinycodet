@@ -164,6 +164,8 @@ No more than 10 packages
 (ignoring re-exports)
 are allowed to be imported under a single alias. \cr
 \cr
+Primitive functions (see \link[base]{is.primitive}) are not imported. \cr
+\cr
 }
 \examples{
 \dontshow{if (all(c("data.table", "tidytable") \%installed in\% .libPaths())) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}

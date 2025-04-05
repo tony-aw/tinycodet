@@ -49,7 +49,7 @@ overflow: visible;
 </style>
 <style type="text/css" data-origin="pandoc">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -60,7 +60,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
 { counter-reset: source-line 0; }
@@ -527,17 +527,8 @@ code using <code>tinycodet</code>’ import system:</p>
 <span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a><span class="co"># see it in action:</span></span>
 <span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a>d <span class="sc">%&gt;%</span> tdt.<span class="sc">$</span><span class="fu">filter</span>(species <span class="sc">==</span> <span class="st">&quot;Droid&quot;</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a>  tdt.<span class="sc">$</span><span class="fu">select</span>(name, tdt.<span class="sc">$</span><span class="fu">ends_with</span>(<span class="st">&quot;color&quot;</span>))</span>
-<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a><span class="co">#&gt; # A tidytable: 6 × 4</span></span>
-<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a><span class="co">#&gt;   name   hair_color skin_color  eye_color</span></span>
-<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a><span class="co">#&gt;   &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;    </span></span>
-<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a><span class="co">#&gt; 1 C-3PO  &lt;NA&gt;       gold        yellow   </span></span>
-<span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a><span class="co">#&gt; 2 R2-D2  &lt;NA&gt;       white, blue red      </span></span>
-<span id="cb2-27"><a href="#cb2-27" tabindex="-1"></a><span class="co">#&gt; 3 R5-D4  &lt;NA&gt;       white, red  red      </span></span>
-<span id="cb2-28"><a href="#cb2-28" tabindex="-1"></a><span class="co">#&gt; 4 IG-88  none       metal       red      </span></span>
-<span id="cb2-29"><a href="#cb2-29" tabindex="-1"></a><span class="co">#&gt; 5 R4-P17 none       silver, red red, blue</span></span>
-<span id="cb2-30"><a href="#cb2-30" tabindex="-1"></a><span class="co">#&gt; 6 BB8    none       none        black</span></span>
-<span id="cb2-31"><a href="#cb2-31" tabindex="-1"></a></span>
-<span id="cb2-32"><a href="#cb2-32" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">ls</span>()) <span class="co"># clearing everything</span></span></code></pre></div>
+<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a></span>
+<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list=</span><span class="fu">ls</span>()) <span class="co"># clearing everything</span></span></code></pre></div>
 <p>The above code is run <em>without attaching</em> any of the packages
 or its dependencies. So none of the problems with attaching a package is
 present.</p>
@@ -621,7 +612,7 @@ those packages/package alias exposed in the current environment by
 not be touched. For example:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="at">unexpose =</span> tdt.)</span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co">#&gt; Removing the following infix operators:</span></span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">#&gt; :=, %plike%, %ilike%, %inrange%, %between%, %flike%, %like%, %in%, %chin%, %notin%</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">#&gt; %between%, %flike%, %ilike%, %inrange%, %like%, %plike%, %in%, :=, %notin%, %chin%</span></span>
 <span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">#&gt; Done</span></span></code></pre></div>
 <p>One can also expose and unexpose the infix operators directly from a
 package, instead of via an alias object. In that case the package name
@@ -833,16 +824,16 @@ page (<a href="https://github.com/moodymudskipper/powerjoin" class="uri">https:/
 above alias:</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>male_penguins <span class="ot">&lt;-</span> dpr.<span class="sc">$</span><span class="fu">tribble</span>(</span>
 <span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>     <span class="sc">~</span>name,    <span class="sc">~</span>species,     <span class="sc">~</span>island, <span class="sc">~</span>flipper_length_mm, <span class="sc">~</span>body_mass_g,</span>
-<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a> <span class="st">&quot;Giordan&quot;</span>,    <span class="st">&quot;Gentoo&quot;</span>,    <span class="st">&quot;Biscoe&quot;</span>,               222L,        5250L,</span>
-<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>  <span class="st">&quot;Lynden&quot;</span>,    <span class="st">&quot;Adelie&quot;</span>, <span class="st">&quot;Torgersen&quot;</span>,               190L,        3900L,</span>
-<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a>  <span class="st">&quot;Reiner&quot;</span>,    <span class="st">&quot;Adelie&quot;</span>,     <span class="st">&quot;Dream&quot;</span>,               185L,        3650L</span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a> <span class="st">&quot;Giordan&quot;</span>,    <span class="st">&quot;Gentoo&quot;</span>,    <span class="st">&quot;Biscoe&quot;</span>,               <span class="dv">222</span><span class="dt">L</span>,        <span class="dv">5250</span><span class="dt">L</span>,</span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>  <span class="st">&quot;Lynden&quot;</span>,    <span class="st">&quot;Adelie&quot;</span>, <span class="st">&quot;Torgersen&quot;</span>,               <span class="dv">190</span><span class="dt">L</span>,        <span class="dv">3900</span><span class="dt">L</span>,</span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a>  <span class="st">&quot;Reiner&quot;</span>,    <span class="st">&quot;Adelie&quot;</span>,     <span class="st">&quot;Dream&quot;</span>,               <span class="dv">185</span><span class="dt">L</span>,        <span class="dv">3650</span><span class="dt">L</span></span>
 <span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a>)</span>
 <span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a></span>
 <span id="cb17-8"><a href="#cb17-8" tabindex="-1"></a>female_penguins <span class="ot">&lt;-</span> dpr.<span class="sc">$</span><span class="fu">tribble</span>(</span>
 <span id="cb17-9"><a href="#cb17-9" tabindex="-1"></a>     <span class="sc">~</span>name,    <span class="sc">~</span>species,  <span class="sc">~</span>island, <span class="sc">~</span>flipper_length_mm, <span class="sc">~</span>body_mass_g,</span>
-<span id="cb17-10"><a href="#cb17-10" tabindex="-1"></a>  <span class="st">&quot;Alonda&quot;</span>,    <span class="st">&quot;Gentoo&quot;</span>, <span class="st">&quot;Biscoe&quot;</span>,               <span class="dv">211</span>,        4500L,</span>
-<span id="cb17-11"><a href="#cb17-11" tabindex="-1"></a>     <span class="st">&quot;Ola&quot;</span>,    <span class="st">&quot;Adelie&quot;</span>,  <span class="st">&quot;Dream&quot;</span>,               <span class="dv">190</span>,        3600L,</span>
-<span id="cb17-12"><a href="#cb17-12" tabindex="-1"></a><span class="st">&quot;Mishayla&quot;</span>,    <span class="st">&quot;Gentoo&quot;</span>, <span class="st">&quot;Biscoe&quot;</span>,               <span class="dv">215</span>,        4750L,</span>
+<span id="cb17-10"><a href="#cb17-10" tabindex="-1"></a>  <span class="st">&quot;Alonda&quot;</span>,    <span class="st">&quot;Gentoo&quot;</span>, <span class="st">&quot;Biscoe&quot;</span>,               <span class="dv">211</span>,        <span class="dv">4500</span><span class="dt">L</span>,</span>
+<span id="cb17-11"><a href="#cb17-11" tabindex="-1"></a>     <span class="st">&quot;Ola&quot;</span>,    <span class="st">&quot;Adelie&quot;</span>,  <span class="st">&quot;Dream&quot;</span>,               <span class="dv">190</span>,        <span class="dv">3600</span><span class="dt">L</span>,</span>
+<span id="cb17-12"><a href="#cb17-12" tabindex="-1"></a><span class="st">&quot;Mishayla&quot;</span>,    <span class="st">&quot;Gentoo&quot;</span>, <span class="st">&quot;Biscoe&quot;</span>,               <span class="dv">215</span>,        <span class="dv">4750</span><span class="dt">L</span>,</span>
 <span id="cb17-13"><a href="#cb17-13" tabindex="-1"></a>)</span>
 <span id="cb17-14"><a href="#cb17-14" tabindex="-1"></a>dpr.<span class="sc">$</span><span class="fu">check_specs</span>()</span>
 <span id="cb17-15"><a href="#cb17-15" tabindex="-1"></a><span class="co">#&gt; # powerjoin check specifications</span></span>

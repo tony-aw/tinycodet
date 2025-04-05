@@ -69,7 +69,10 @@
 #' When using \code{import_inops()} to remove infix operators from the current environment,
 #' it will use the attributes of those operators to determine if the infix operator came from
 #' the 'tinycodet' import system or not.
-#' Only infix operators exposed by the 'tinycodet' import system will be removed. \cr \cr
+#' Only infix operators exposed by the 'tinycodet' import system will be removed. \cr
+#' \cr
+#' Primitive operators (see \link[base]{is.primitive}) are not exposed. \cr
+#' \cr
 #'
 #'
 #' @returns

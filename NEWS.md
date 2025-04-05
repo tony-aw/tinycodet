@@ -1,3 +1,7 @@
+# tinycodet 0.5.6 (Under Development)
+* **Behaviour change:** The import functions no longer import `.Primitive` or `.Internal` functions, to comply with CRAN.
+
+
 # tinycodet 0.5.4
 * **Performance improvement:** Even more performance improvement for `stri_locate_ith()`; it now internally uses 'C' code instead of 'C++'.
 

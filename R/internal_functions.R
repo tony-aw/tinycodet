@@ -224,15 +224,20 @@
   ns <- ns[names_exported]
   ns <- ns[!is.na(names(ns))]
   names_exported <- names(ns)
-  names_functions <- names(ns)[vapply(ns, is.function, FUN.VALUE = logical(1)) |> unlist(use.names = FALSE)]
+  ind <- vapply( # get indices of `ns` that are functions but NOT primitive functions
+    ns, \(x)is.function(x) && !is.primitive(x), FUN.VALUE = logical(1)
+  ) |> unlist(use.names = FALSE)
+  names_functions <- names(ns)[ind]
   if(length(names_functions) > 0) {
     ns <- .rcpp_prep_ns(ns, names_functions, package)
+    return(ns)
   }
   if(length(names_functions) == 0) {
     warn.txt <- paste0(
-      "the package `", package, "` has no exported functions"
+      "the package `", package, "` has no exported (non-primitive) functions"
     )
     warning(simpleWarning(warn.txt, call = abortcall))
+    return(list())
   }
   return(ns)
 }

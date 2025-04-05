@@ -24,6 +24,7 @@ expect_equal(
 import_as(~ dpr., "dplyr", re_exports = TRUE)
 out <- setdiff(names(dpr.), ".__attributes__.") |> sort()
 foo <- loadNamespace("dplyr") |> getNamespaceExports()
+foo <- setdiff(foo, ".data")
 check <- all(out == sort(foo))
 expect_true(check)
 
@@ -92,25 +93,29 @@ cbind(checks, tinycodet:::.internal_list_knownmeta()) |> print()
 if(!"spam64" %installed in% .libPaths()) {
   install.packages("spam64")
 }
-
+txt <- "the package `spam64` has no exported (non-primitive) functions"
 expect_warning(
   tinycodet:::.internal_prep_Namespace("spam64", .libPaths(), sys.call()),
-  pattern = "the package `spam64` has no exported functions"
+  pattern = txt,
+  fixed = TRUE
 )
 
 expect_warning(
   import_as(~ sp64., "spam64"),
-  pattern = "the package `spam64` has no exported functions"
+  pattern = txt,
+  fixed = TRUE
 )
 
 expect_warning(
   import_inops("spam64"),
-  pattern = "the package `spam64` has no exported functions"
+  pattern = txt,
+  fixed = TRUE
 )
 
 expect_warning(
   import_LL("spam64", 'foo'),
-  pattern = "the package `spam64` has no exported functions"
+  pattern = txt,
+  fixed = TRUE
 )
 
 
@@ -172,6 +177,15 @@ expect_true(
 expect_null(
   pversion_check4mismatch("boot", lib.loc = c(.libPaths(), templib))
 )
+
+
+# .primitive functions check ====
+import_as(~mr., "magrittr")
+out <- setdiff(names(mr.), ".__attributes__.") |> sort()
+foo <- loadNamespace("magrittr") |> as.list(all.names = TRUE)
+foo <- foo[getNamespaceExports("magrittr")]
+foo <- foo[vapply(foo, \(x)is.function(x) && !is.primitive(x), logical(1L)) |> unlist()]
+expect_equal(sort(names(foo)), out)
 
 # remove temp folder
 unloadNamespace("boot")

@@ -132,6 +132,8 @@
 #' (ignoring re-exports)
 #' are allowed to be imported under a single alias. \cr
 #' \cr
+#' Primitive functions (see \link[base]{is.primitive}) are not imported. \cr
+#' \cr
 #'
 #'
 #' @returns

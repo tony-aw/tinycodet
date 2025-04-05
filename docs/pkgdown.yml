@@ -1,19 +1,18 @@
-pandoc: 3.1.1
-pkgdown: 2.0.9
+pandoc: '3.2'
+pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
-  a_safer: a_safer.html
-  b_import_main: b_import_main.html
-  c_import_additional: c_import_additional.html
-  d_strings_functions: d_strings_functions.html
-  e_strings_inops: e_strings_inops.html
-  f_DRY: f_DRY.html
-  g_misc: g_misc.html
-  h_otherpkgs: h_otherpkgs.html
-  i_benchmarks: i_benchmarks.html
-  tinycodet: tinycodet.html
-last_built: 2025-01-10T10:37Z
+  articles/a_safer: a_safer.html
+  articles/b_import_main: b_import_main.html
+  articles/c_import_additional: c_import_additional.html
+  articles/d_strings_functions: d_strings_functions.html
+  articles/e_strings_inops: e_strings_inops.html
+  articles/f_DRY: f_DRY.html
+  articles/g_misc: g_misc.html
+  articles/h_otherpkgs: h_otherpkgs.html
+  articles/i_benchmarks: i_benchmarks.html
+  articles/tinycodet: tinycodet.html
+last_built: 2025-04-05T08:08Z
 urls:
   reference: https://tony-aw.github.io/tinycodet/reference
   article: https://tony-aw.github.io/tinycodet/articles
-
