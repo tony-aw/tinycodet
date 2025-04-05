@@ -1,4 +1,3 @@
-
 #include <Rcpp.h>
 using namespace Rcpp;
 
@@ -19,4 +18,3 @@ List rcpp_prep_ns(const List ns, const CharacterVector nms, const String pkg) {
   }
   return  ns2;
 }
-
