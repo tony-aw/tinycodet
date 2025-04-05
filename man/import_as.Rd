@@ -15,7 +15,7 @@ import_as(
 )
 }
 \arguments{
-\item{alias}{a syntactically valid non-hidden name giving the alias object
+\item{alias}{a syntactically valid name giving the alias object
 where the package(s) are to be imported into. \cr
 This name can be given either as a single string (i.e. \code{"alias."}),
 or as a one-sided formula with a single term (i.e. \code{~ alias.}).}
@@ -135,7 +135,7 @@ Importing a package under an alias is referred to as "aliasing" a package. \cr
 \bold{Alias Naming Recommendation} \cr
 To keep package alias object names easily distinguishable from other objects
 that can also be subset with the \link[base]{$} operator,
-I recommend ending (not starting!) all alias names
+I recommend ending (or starting, if you want to hide it from \code{ls()}) all alias names
 with a dot (\code{.}) or underscore (\code{_}). \cr
 \cr
 \cr

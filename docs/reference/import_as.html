@@ -42,7 +42,9 @@ will be placed in the current environment. "></head><body>
     <li><a class="dropdown-item" href="../articles/i_benchmarks.html">Benchmarks</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
-      </ul><ul class="navbar-nav"><li class="nav-item"><a class="external-link nav-link" href="https://github.com/tony-aw/tinycodet/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
+      </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
+ <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/tony-aw/tinycodet/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul></div>
 
 
@@ -84,7 +86,7 @@ will be placed in the current environment. <br></p>
 
 
 <dl><dt id="arg-alias">alias<a class="anchor" aria-label="anchor" href="#arg-alias"></a></dt>
-<dd><p>a syntactically valid non-hidden name giving the alias object
+<dd><p>a syntactically valid name giving the alias object
 where the package(s) are to be imported into. <br>
 This name can be given either as a single string (i.e. <code>"alias."</code>),
 or as a one-sided formula with a single term (i.e. <code>~ alias.</code>).</p></dd>
@@ -191,7 +193,7 @@ which <code>import_as()</code> provides, avoids the above issues.
 Importing a package under an alias is referred to as "aliasing" a package. <br><br><br><b>Alias Naming Recommendation</b> <br>
 To keep package alias object names easily distinguishable from other objects
 that can also be subset with the <a href="https://rdrr.io/r/base/Extract.html" class="external-link">$</a> operator,
-I recommend ending (not starting!) all alias names
+I recommend ending (or starting, if you want to hide it from <code><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls()</a></code>) all alias names
 with a dot (<code>.</code>) or underscore (<code>_</code>). <br><br><br><b>Regarding <code>import_order</code></b> <br>
 The order of the character vector given in
 the <code>dependencies</code> and <code>extensions</code> arguments matters.

@@ -98,14 +98,14 @@ lock_TF <- function(env) {
 `%<-c%` <- function(X, A) {
   x_chr <- as.character(substitute(X))
   check <- c(
-    make.names(x_chr)==x_chr,
-    length(x_chr)==1
+    make.names(x_chr) == x_chr,
+    length(x_chr) == 1L
   ) |> all()
 
   if(!check) {
     stop("syntactically invalid `x` given")
   }
 
-  assign(x_chr, A, envir = parent.frame(n = 1))
-  lockBinding(x_chr, env = parent.frame(n = 1))
+  assign(x_chr, A, envir = parent.frame(n = 1L))
+  lockBinding(x_chr, env = parent.frame(n = 1L))
 }

@@ -105,6 +105,7 @@ expect_warning(
   pattern = txt,
   fixed = TRUE
 )
+print(sp64.)
 
 expect_warning(
   import_inops("spam64"),
