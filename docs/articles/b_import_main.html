@@ -266,6 +266,15 @@ code using <code>tinycodet</code>’ import system:</p>
 <span><span class="co"># see it in action:</span></span>
 <span><span class="va">d</span> <span class="op">%&gt;%</span> <span class="va">tdt.</span><span class="op">$</span><span class="fu">filter</span><span class="op">(</span><span class="va">species</span> <span class="op">==</span> <span class="st">"Droid"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="va">tdt.</span><span class="op">$</span><span class="fu">select</span><span class="op">(</span><span class="va">name</span>, <span class="va">tdt.</span><span class="op">$</span><span class="fu">ends_with</span><span class="op">(</span><span class="st">"color"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tidytable: 6 × 4</span></span></span>
+<span><span class="co">#&gt;   name   hair_color skin_color  eye_color</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> C-3PO  <span style="color: #BB0000;">NA</span>         gold        yellow   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> R2-D2  <span style="color: #BB0000;">NA</span>         white, blue red      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> R5-D4  <span style="color: #BB0000;">NA</span>         white, red  red      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> IG-88  none       metal       red      </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> R4-P17 none       silver, red red, blue</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> BB8    none       none        black</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span>list<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="co"># clearing everything</span></span></code></pre></div>
 <p>The above code is run <em>without attaching</em> any of the packages

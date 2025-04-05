@@ -570,6 +570,15 @@ note that the following code is run without attaching a single R package
 <span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="co"># see it in action:</span></span>
 <span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>d <span class="sc">%&gt;%</span> tdt.<span class="sc">$</span><span class="fu">filter</span>(species <span class="sc">==</span> <span class="st">&quot;Droid&quot;</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>  tdt.<span class="sc">$</span><span class="fu">select</span>(name, tdt.<span class="sc">$</span><span class="fu">ends_with</span>(<span class="st">&quot;color&quot;</span>))</span></code></pre></div>
+<pre><code>## # A tidytable: 6 × 4
+##   name   hair_color skin_color  eye_color
+##   &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;    
+## 1 C-3PO  &lt;NA&gt;       gold        yellow   
+## 2 R2-D2  &lt;NA&gt;       white, blue red      
+## 3 R5-D4  &lt;NA&gt;       white, red  red      
+## 4 IG-88  none       metal       red      
+## 5 R4-P17 none       silver, red red, blue
+## 6 BB8    none       none        black</code></pre>
 <p> </p>
 </div>
 <div id="extending-the-string-manipulation-capabilities-of-stringi" class="section level1">
@@ -596,18 +605,18 @@ to cut strings in a more concise way (with less keystrokes).</li>
 </div>
 <div id="reduce-repetitive-code" class="section level1">
 <h1>Reduce repetitive code</h1>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co"># in base R:</span></span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="fu">ifelse</span>( <span class="co"># repetitive, and gives unnecessary warning</span></span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="fu">is.na</span>(object<span class="sc">&gt;</span><span class="dv">0</span>), <span class="sc">-</span><span class="cn">Inf</span>,</span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>  <span class="fu">ifelse</span>(</span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>    object<span class="sc">&gt;</span><span class="dv">0</span>,  <span class="fu">log</span>(object), object<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>  )</span>
-<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>)</span>
-<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>mtcars<span class="sc">$</span>mpg[mtcars<span class="sc">$</span>cyl<span class="sc">&gt;</span><span class="dv">6</span>] <span class="ot">&lt;-</span> (mtcars<span class="sc">$</span>mpg[mtcars<span class="sc">$</span>cyl<span class="sc">&gt;</span><span class="dv">6</span>])<span class="sc">^</span><span class="dv">2</span> <span class="co"># long</span></span>
-<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a></span>
-<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="co"># with tinycodet:</span></span>
-<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a>object <span class="sc">|&gt;</span> <span class="fu">transform_if</span>(\(x)x<span class="sc">&gt;</span><span class="dv">0</span>, log, \(x)x<span class="sc">^</span><span class="dv">2</span>, \(x) <span class="sc">-</span><span class="cn">Inf</span>) <span class="co"># compact &amp; no warning</span></span>
-<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a>mtcars<span class="sc">$</span>mpg[mtcars<span class="sc">$</span>cyl<span class="sc">&gt;</span><span class="dv">6</span>] <span class="sc">%:=%</span> \(x)x<span class="sc">^</span><span class="dv">2</span> <span class="co"># short</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># in base R:</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="fu">ifelse</span>( <span class="co"># repetitive, and gives unnecessary warning</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  <span class="fu">is.na</span>(object<span class="sc">&gt;</span><span class="dv">0</span>), <span class="sc">-</span><span class="cn">Inf</span>,</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>  <span class="fu">ifelse</span>(</span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>    object<span class="sc">&gt;</span><span class="dv">0</span>,  <span class="fu">log</span>(object), object<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>  )</span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>)</span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>mtcars<span class="sc">$</span>mpg[mtcars<span class="sc">$</span>cyl<span class="sc">&gt;</span><span class="dv">6</span>] <span class="ot">&lt;-</span> (mtcars<span class="sc">$</span>mpg[mtcars<span class="sc">$</span>cyl<span class="sc">&gt;</span><span class="dv">6</span>])<span class="sc">^</span><span class="dv">2</span> <span class="co"># long</span></span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="co"># with tinycodet:</span></span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a>object <span class="sc">|&gt;</span> <span class="fu">transform_if</span>(\(x)x<span class="sc">&gt;</span><span class="dv">0</span>, log, \(x)x<span class="sc">^</span><span class="dv">2</span>, \(x) <span class="sc">-</span><span class="cn">Inf</span>) <span class="co"># compact &amp; no warning</span></span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a>mtcars<span class="sc">$</span>mpg[mtcars<span class="sc">$</span>cyl<span class="sc">&gt;</span><span class="dv">6</span>] <span class="sc">%:=%</span> \(x)x<span class="sc">^</span><span class="dv">2</span> <span class="co"># short</span></span></code></pre></div>
 <p> </p>
 </div>
 <div id="the-articles" class="section level1">

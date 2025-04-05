@@ -168,15 +168,11 @@ Primitive functions (see \link[base]{is.primitive}) are not imported. \cr
 \cr
 }
 \examples{
-\dontshow{if (all(c("data.table", "tidytable") \%installed in\% .libPaths())) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-all(c("data.table", "tidytable") \%installed in\% .libPaths())
+\dontshow{if ("data.table" \%installed in\% .libPaths()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+"data.table" \%installed in\% .libPaths()
 
-import_as( # this creates the 'tdt.' object
-  "tdt.", "tidytable", dependencies = "data.table"
-)
-# same as:
-import_as(
-  ~ tdt., "tidytable", dependencies = "data.table"
+import_as( # this creates the 'dt.' object
+  ~ dt., "data.table"
 )
 
 

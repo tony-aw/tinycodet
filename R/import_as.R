@@ -153,15 +153,11 @@
 #' @seealso \link{tinycodet_import}
 #'
 #'
-#' @examplesIf all(c("data.table", "tidytable") %installed in% .libPaths())
-#' all(c("data.table", "tidytable") %installed in% .libPaths())
+#' @examplesIf "data.table" %installed in% .libPaths()
+#' "data.table" %installed in% .libPaths()
 #'
-#' import_as( # this creates the 'tdt.' object
-#'   "tdt.", "tidytable", dependencies = "data.table"
-#' )
-#' # same as:
-#' import_as(
-#'   ~ tdt., "tidytable", dependencies = "data.table"
+#' import_as( # this creates the 'dt.' object
+#'   ~ dt., "data.table"
 #' )
 #'
 #'
