@@ -1,6 +1,6 @@
-# tinycodet 0.5.6 (Under Development)
+# tinycodet 0.5.6
 * **Behaviour change:** The import functions no longer import `.Primitive` or `.Internal` functions, to comply with CRAN.
-* **Behaviour change:** `import_as()` now allows hidden (i.e. dot-prefixed) names for the `alias` object.
+* **Behaviour change:** `import_as()` now allows hidden (i.e. dot-prefixed) names for `alias` objects.
 
 
 # tinycodet 0.5.4

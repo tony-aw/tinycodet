@@ -94,7 +94,7 @@ The `import_as()` function imports an R package + its re-exports under an alias,
 
 The main arguments of the `import_as()` function are:
 
- - `alias`: the name of the alias object under which to import the package(s). Can be given as a single string or as a formula with a single term. To keep aliases easily distinguishable from other objects that can also be subset with the `$` operator, I recommend ending (not starting!) all alias names with a dot (.).
+ - `alias`: the name of the alias object under which to import the package(s). Can be given as a single string or as a formula with a single term. To keep aliases easily distinguishable from other objects that can also be subset with the `$` operator, I recommend ending all alias names with a dot (.).
  - `main_package`: the name (string) of the main package to import.
  - `re_exports`: Some R packages export functions that are not defined in their own package, but in their direct dependencies - "re-exports". If `TRUE` (default), the re-exports of the `main_package` are added to the alias, analogous to the behaviour of base R's `::` operator. If `FALSE`, re-exports are not added.
  - `dependencies`: an optional character vector giving the dependencies of the `main_package` to import under the alias also.
