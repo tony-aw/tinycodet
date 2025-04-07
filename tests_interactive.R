@@ -35,7 +35,7 @@ help.import(i = stri.$stri_cmp)
 import_as(~ mr., "magrittr")
 import_inops(expose = "magrittr")
 help.import(i = `%>%`)
-help.import(i = mr.$multiply_by)
+help.import(i = mr.$freduce)
 help.import(i = "%>%", alias=mr.)
 help.import(i = "add", alias=mr.)
 
