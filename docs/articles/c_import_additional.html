@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tinycodet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.8</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -208,8 +208,8 @@ that aliasing a package like so:</p>
 <span><span class="co">#&gt; For conflicts report, packages order, and other attributes, run `attr.import(tdt.)`</span></span></code></pre></div>
 <p>… produces several messages, including the message “For conflicts
 report, packages order, and other attributes, run
-<code><a href="../reference/x.import.html">attr.import()</a></code>”.</p>
-<p>The <code><a href="../reference/x.import.html">attr.import()</a></code> function allows the user to access the
+<code><a href="../reference/import_helper.html">attr.import()</a></code>”.</p>
+<p>The <code><a href="../reference/import_helper.html">attr.import()</a></code> function allows the user to access the
 special attributes stored and locked inside the alias object. These
 attributes show which imported package overwrites which imported
 functions, in what order the packages are imported and so on.</p>
@@ -218,7 +218,7 @@ functions, in what order the packages are imported and so on.</p>
 packages are imported, and from which packages the re-exported functions
 came from:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/x.import.html">attr.import</a></span><span class="op">(</span><span class="va">tdt.</span>, <span class="st">"pkgs"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/import_helper.html">attr.import</a></span><span class="op">(</span><span class="va">tdt.</span>, <span class="st">"pkgs"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $packages_order</span></span>
 <span><span class="co">#&gt; [1] "data.table" "tidytable" </span></span>
 <span><span class="co">#&gt; </span></span>
@@ -229,7 +229,7 @@ came from:</p>
 <span><span class="co">#&gt; [1] "data.table" "rlang"      "tidyselect" "magrittr"   "pillar"</span></span></code></pre></div>
 <p>Show which functions from which packages “win” conflicts:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/x.import.html">attr.import</a></span><span class="op">(</span><span class="va">tdt.</span>, <span class="st">"conflicts"</span><span class="op">)</span><span class="op">|&gt;</span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/import_helper.html">attr.import</a></span><span class="op">(</span><span class="va">tdt.</span>, <span class="st">"conflicts"</span><span class="op">)</span><span class="op">|&gt;</span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="17%">
@@ -254,7 +254,7 @@ fwrite, getDTthreads, data.table, %chin%, %between%, %like%</td>
 <p>Show the arguments used in the <code><a href="../reference/import_as.html">import_as()</a></code> call that
 produced the alias object in question:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/x.import.html">attr.import</a></span><span class="op">(</span><span class="va">tdt.</span>, <span class="st">"args"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/import_helper.html">attr.import</a></span><span class="op">(</span><span class="va">tdt.</span>, <span class="st">"args"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $main_package</span></span>
 <span><span class="co">#&gt; [1] "tidytable"</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -268,12 +268,12 @@ produced the alias object in question:</p>
 <span><span class="co">#&gt; NULL</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $lib.loc</span></span>
-<span><span class="co">#&gt; [1] "C:/Users/Tony/AppData/Local/Temp/RtmpCENDiZ/temp_libpath4af44e2d6c3f"</span></span>
-<span><span class="co">#&gt; [2] "D:/Programs/R-4.4.0/library"                                         </span></span>
+<span><span class="co">#&gt; [1] "C:/Users/Tony/AppData/Local/Temp/Rtmp007Tiv/temp_libpath4bf06a73594e"</span></span>
+<span><span class="co">#&gt; [2] "D:/Programs/R/R-4.5.1/library"                                       </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $import_order</span></span>
 <span><span class="co">#&gt; [1] "dependencies" "main_package" "extensions"</span></span></code></pre></div>
-<p>The help file on <code><a href="../reference/x.import.html">attr.import()</a></code> provides more details on
+<p>The help file on <code><a href="../reference/import_helper.html">attr.import()</a></code> provides more details on
 each of these options.</p>
 <p> </p>
 </div>
@@ -291,7 +291,7 @@ if there is a mismatch or not.</p>
 <div class="section level2">
 <h2 id="help-import">help.import<a class="anchor" aria-label="anchor" href="#help-import"></a>
 </h2>
-<p>The <code><a href="../reference/x.import.html">help.import()</a></code> function gets the help file for a
+<p>The <code><a href="../reference/import_helper.html">help.import()</a></code> function gets the help file for a
 function <code>i</code> (or topic string <code>i</code>), even if the
 function is inside an alias object, or if the function is an unattached
 function (like exposed infix operators).</p>
@@ -300,9 +300,9 @@ function (like exposed infix operators).</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/import_as.html">import_as</a></span><span class="op">(</span><span class="op">~</span> <span class="va">mr.</span>, <span class="st">"magrittr"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/import_inops.html">import_inops</a></span><span class="op">(</span><span class="va">mr.</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/x.import.html">help.import</a></span><span class="op">(</span>i<span class="op">=</span><span class="va">mr.</span><span class="op">$</span><span class="va">add</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/x.import.html">help.import</a></span><span class="op">(</span>i<span class="op">=</span><span class="va">`%&gt;%`</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/x.import.html">help.import</a></span><span class="op">(</span>i<span class="op">=</span><span class="st">"add"</span>, alias<span class="op">=</span><span class="va">mr.</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/import_helper.html">help.import</a></span><span class="op">(</span>i<span class="op">=</span><span class="va">mr.</span><span class="op">$</span><span class="va">add</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/import_helper.html">help.import</a></span><span class="op">(</span>i<span class="op">=</span><span class="va">`%&gt;%`</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/import_helper.html">help.import</a></span><span class="op">(</span>i<span class="op">=</span><span class="st">"add"</span>, alias<span class="op">=</span><span class="va">mr.</span><span class="op">)</span></span></code></pre></div>
 <p> </p>
 </div>
 <div class="section level2">

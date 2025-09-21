@@ -13,11 +13,11 @@ x \%col~\% mat
 \arguments{
 \item{x}{a matrix}
 
-\item{mat}{a matrix with the same dimensions as \code{x},
-giving the ordering ranks of every element of matrix \code{x}. \cr}
+\item{mat}{a numeric matrix with the same dimensions as \code{x},
+giving the new ordering ranks for every element of matrix \code{x}. \cr \cr}
 }
 \value{
-A modified matrix.
+A re-ordered matrix.
 }
 \description{
 Infix operators for custom row- and column-wise re-ordering of matrices. \cr
@@ -28,35 +28,10 @@ according to the ordering ranks given in matrix \code{mat}. \cr
 \cr
 The \code{x \%col~\% mat} operator re-orders the elements of every column,
 each column ordered independently from the other columns, of matrix \code{x},
-according to the ordering ranks given in matrix \code{mat}. \cr \cr
-}
-\details{
-If matrix \code{x} is a numeric matrix,
-and one wants to sort the elements of every row or column numerically,
-\code{x \%row~\% x} or \code{x \%col~\% x} would suffice, respectively. \cr
+according to the ordering ranks given in matrix \code{mat}. \cr
 \cr
-If matrix \code{x} is not numeric,
-sorting the elements using \code{x \%row~\% x} and \code{x \%col~\% x} is still possible,
-but probably not the best option.
-In the non-numeric case,
-providing a matrix of ordering ranks for \code{mat} would be faster and give more accurate ordering.
-See the examples section. \cr
-\cr
-If \code{mat} is a matrix of non-repeating random integers, i.e. \cr
-\code{mat <- sample(seq_along(x)) |> matrix(ncol = ncol(x))}) \cr
-then the code \cr
-\code{x \%row~\% mat} \cr
-will randomly shuffle the elements of every row of \code{x},
-where the shuffling order in each row is independent from the shuffling order in the other rows. \cr
-Similarly, \cr
-\code{x \%col~\% mat} \cr
-will randomly shuffle the elements of every column of \code{x},
-where the shuffling order in each column is independent from the shuffling order in the other columns. \cr
-\cr
-Re-ordering/sorting every row/column of a matrix with these operators
-is generally faster than doing so through loops or apply-like functions. \cr
-\cr
-Note that these operators strip all attributes except dimensions. \cr
+Note that these operators strip all attributes,
+except dimensions. \cr
 \cr
 }
 \examples{
@@ -92,5 +67,5 @@ x \%row~\% mat # randomly shuffle every row independently
 x \%col~\% mat # randomise shuffle every column independently
 }
 \seealso{
-\link{tinycodet_misc}
+\link{tinycodet_dry}
 }

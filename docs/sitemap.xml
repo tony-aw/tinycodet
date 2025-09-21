@@ -16,6 +16,9 @@
 <url><loc>https://tony-aw.github.io/tinycodet/LICENSE-text.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/LICENSE.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/news/index.html</loc></url>
+<url><loc>https://tony-aw.github.io/tinycodet/reference/%unreal =%.html</loc></url>
+<url><loc>https://tony-aw.github.io/tinycodet/reference/%[!if]%.html</loc></url>
+<url><loc>https://tony-aw.github.io/tinycodet/reference/%[if]%.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/aaa0_tinycodet_help.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/aaa1_tinycodet_safer.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/aaa2_tinycodet_import.html</loc></url>
@@ -26,6 +29,7 @@
 <url><loc>https://tony-aw.github.io/tinycodet/reference/decimal_truth.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/import_as.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/import_data.html</loc></url>
+<url><loc>https://tony-aw.github.io/tinycodet/reference/import_helper.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/import_inops.control.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/import_inops.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/import_misc.html</loc></url>
@@ -51,5 +55,6 @@
 <url><loc>https://tony-aw.github.io/tinycodet/reference/s_pattern.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/transform_if.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/x.import.html</loc></url>
+<url><loc>https://tony-aw.github.io/tinycodet/reference/xxx_atomic_typecast.html</loc></url>
 </urlset>
 

@@ -3,6 +3,16 @@ enumerate <- 0 # to count number of tests performed using iterations in loops
 loops <- 0 # to count number of loops
 
 
+# test warnings ====
+x <- seq(-2.5, 2, by =0.5)
+expect_warning(as_bool(x))
+expect_warning(as_int(x))
+expect_warning(as_dbl(x))
+expect_warning(as_cplx(x))
+expect_warning(as_chr(x))
+expect_warning(as_raw(x))
+
+
 # test whole vector type casting ====
 x <- seq(-2.5, 2, by =0.5)
 names(x) <- letters[1:10]

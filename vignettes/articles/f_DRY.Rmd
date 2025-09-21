@@ -64,92 +64,53 @@ object |> transform_if(object > y, log, \(x)x^2, -z)
 ```
 
 
+&nbsp;
+
+# Matrix re-ordering operators
+
+The `tinycodet` R package adds 2 additional matrix operators:
+
+ - The `x %row~% mat` operator  re-orders the elements of every row, each row ordered independently from the other rows, of matrix `x`, by the ordering ranks given in matrix `mat`.
+ - The `x %col~% mat` operator re-orders the elements of every column, each column ordered independently from the other columns, of matrix `x`, by the ordering ranks given in matrix `mat`.
+
 
 &nbsp;
 
-# Atomic type casting with names and dimensions preserved
-
-Atomic type casting in R is generally performed using the functions `as.logical()`, `as.integer()`, `as.double()`, `as.character()`.
-
-These functions have the annoying property that they strip attributes.
-If you wish to convert a variable `x` whilst keeping the names and dimensions, one must first safe the attributes of `x` before conversion, convert `x`, and then re-assign the attributes. 'tinycodet' adds functions that can do this for you, saving repetitive code:
-
- - `as_bool()`: same as `as.logical()`, but withnames & dimensions preserved.
- - `as_int()`: same as `as.integer()`, but withnames & dimensions preserved.
- - `as_dbl()`: same as `as.double()` (i.e. convert to real numbers), but withnames & dimensions preserved.
- - `as_chr()`: same as `as.character()`, but withnames & dimensions preserved.
- - `as_cplx()`: same as `as.complex()`, but withnames & dimensions preserved.
- - `as_raw()`: same as `as.raw()`, but withnames & dimensions preserved.
- 
-
-Examples:
+Examples with a numeric matrix:
 
 ```{r}
-x <- matrix(rnorm(30), ncol = 5)
-colnames(x) <- month.name[1:5]
-rownames(x) <- month.abb[1:6]
-names(x) <- c(letters[1:20], LETTERS[1:10])
+x <- matrix(sample(1:25), nrow=5)
 print(x)
+x %row~% x # sort elements of every row
+x %row~% -x # reverse-sort elements of every row
+x %col~% x # sort elements of every column
+x %col~% -x # reverse-sort elements of every column
 
-as_bool(x)
-as_int(x)
-as_dbl(x)
-as_chr(x)
-as_cplx(x)
-as_raw(x)
-
+x <- matrix(sample(1:25), nrow=5)
+print(x)
+rand <- sample(1:length(x)) |> matrix(ncol=ncol(x)) # matrix of random integers
+x %row~% rand # random shuffle every row independent of other rows
+x %col~% rand # random shuffle every column independent of other columns
 ```
 
 
-
-&nbsp;
-
-# Subset if and unreal replacement
-
-The `tinycodet` package adds 2 "subset_if" operators:
-
- - The `x %[if]% cond` operator selects elements from vector/matrix/array `x`, for which the result of `cond(x)` returns `TRUE`.
-
- - The `x %[!if]% cond` operator selects elements from vector/matrix/array `x`, for which the result of `cond(x)` returns `FALSE`.
-
-For example:
+Examples with a character matrix:
 
 ```{r}
-object_with_very_long_name <- matrix(-10:9, ncol=2)
-print(object_with_very_long_name)
-object_with_very_long_name %[if]% \(x)x %in% 1:10
-object_with_very_long_name %[!if]% \(x)x %in% 1:10
-```
+x <- matrix(sample(letters, 25), nrow=5)
+print(x)
+mat <- stringi::stri_rank(as.vector(x)) |>
+  matrix(ncol=ncol(x)) # matrix of ordering ranks
+x %row~% mat # sort elements of every row
+x %row~% -mat # reverse-sort elements of every row
+x %col~% mat # sort elements of every column
+x %col~% -mat # reverse-sort elements of every column
 
-&nbsp;
-
-Another operator added by `tinycodet` is `x %unreal =% y`, which replaces all NA, NaN, Inf and -Inf in `x` with the value given in `y`.
-
-So `x %unreal =% y` is the same as `x[is.na(x)|is.nan(x)|is.infinite(x)] <- y`.
-
-
-&nbsp;
-
-
-# General in-place modifier
-
-
-This R package includes a general in-place modifying infix operator.
-
-Consider the following line of code:
-
-```{r eval=FALSE}
-mtcars$mpg[mtcars$cyl>6] <- mtcars$mpg[mtcars$cyl>6]^2
-```
-
-The same expression, `mtcars$mpg[mtcars$cyl>6]`, is written twice, making this code rather long and cumbersome, even though we're just squaring the expression. 
-
-This R package solves the above laid-out problem by implementing a general in-place (mathematical) modifier, through the `x %:=% f` operator.
-
-With `tinycodet` one can now make this more compact (more "tiny", if you will) as follows:
-
-```{r eval=FALSE}
-mtcars$mpg[mtcars$cyl>6] %:=% \(x)x^2
+x <- matrix(sample(letters, 25), nrow=5)
+print(x)
+rand <- sample(1:length(x)) |> matrix(ncol=ncol(x)) # matrix of random integers
+x %row~% rand # random shuffle every row independent of other rows
+x %col~% rand # random shuffle every column independent of other columns
 ```
 
 

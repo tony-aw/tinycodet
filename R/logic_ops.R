@@ -101,14 +101,18 @@ NULL
 #' @rdname logic_ops
 #' @export
 `%xor%` <- function(x, y) {
-  return(xor(x,y))
+  if(is.logical(x) && is.logical(y)) {
+    return(x != y)
+  }
+  else {
+    return(xor(x,y))
+  }
 }
 
 #' @rdname logic_ops
 #' @export
 `%n&%` <- function(x, y) {
   out <- (!x) & (!y)
-  out[is.na(x) | is.na(y)] <- NA
   return(out)
 }
 
@@ -121,10 +125,21 @@ NULL
 #' @rdname logic_ops
 #' @export
 `%?=%` <- function(x, y) {
-  check.x <- is.na(x) | is.nan(x) | is.infinite(x)
-  check.y <- is.na(y) | is.nan(y) | is.infinite(y)
+  if(is.double(x) || is.complex(x)) {
+    check.x <- is.na(x) | is.infinite(x)
+  }
+  else {
+    check.x <- is.na(x)
+  }
+  if(is.double(y) || is.complex(y)) {
+    check.y <- is.na(y) | is.infinite(y)
+  }
+  else {
+    check.y <- is.na(y)
+  }
   return(check.x & check.y)
 }
+
 
 #' @rdname logic_ops
 #' @export

@@ -136,7 +136,7 @@ Importing a package under an alias is referred to as "aliasing" a package. \cr
 To keep package alias object names easily distinguishable from other objects
 that can also be subset with the \link[base]{$} operator,
 I recommend ending (or starting, if you want to hide it from \code{ls()}) all alias names
-with a dot (\code{.}) or underscore (\code{_}). \cr
+with a dot (\code{.}), or ending alias names with an underscore (\code{_}). \cr
 \cr
 \cr
 \bold{Regarding \code{import_order}} \cr
@@ -157,15 +157,14 @@ including re-exports (if \code{re_exports = TRUE}).
 }
 
 \bold{Other Details} \cr
-Packages that appear in the "Suggests" or "Enhances" fields of packages
-are not considered dependencies or extensions. \cr
-\cr
-No more than 10 packages
+\itemize{
+\item Packages that appear in the "Suggests" or "Enhances" fields of packages
+are not considered dependencies or extensions.
+\item No more than 10 packages
 (ignoring re-exports)
-are allowed to be imported under a single alias. \cr
-\cr
-Primitive functions (see \link[base]{is.primitive}) are not imported. \cr
-\cr
+are allowed to be imported under a single alias.
+\item Primitive functions (see \link[base]{is.primitive}) are not imported. \cr \cr
+}
 }
 \examples{
 \dontshow{if ("data.table" \%installed in\% .libPaths()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}

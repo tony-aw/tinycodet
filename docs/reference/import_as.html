@@ -19,7 +19,7 @@ will be placed in the current environment. "></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">tinycodet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.8</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -151,7 +151,7 @@ This object, referred to as the "(package) alias object",
 will contain the exported functions from the specified package(s). <br>
 The alias object will be placed in the current environment. <br><br>
 To use, for example, function "some_function()" from alias "alias.", use: <br><code>alias.$some_function()</code> <br>
-To see the special attributes of this alias object, use <a href="x.import.html">attr.import</a>. <br>
+To see the special attributes of this alias object, use <a href="import_helper.html">attr.import</a>. <br>
 To "unimport" the package alias object, simply remove it
 (i.e. <code>rm(list = "alias.")</code>). <br></p>
     </div>
@@ -194,7 +194,7 @@ Importing a package under an alias is referred to as "aliasing" a package. <br><
 To keep package alias object names easily distinguishable from other objects
 that can also be subset with the <a href="https://rdrr.io/r/base/Extract.html" class="external-link">$</a> operator,
 I recommend ending (or starting, if you want to hide it from <code><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls()</a></code>) all alias names
-with a dot (<code>.</code>) or underscore (<code>_</code>). <br><br><br><b>Regarding <code>import_order</code></b> <br>
+with a dot (<code>.</code>), or ending alias names with an underscore (<code>_</code>). <br><br><br><b>Regarding <code>import_order</code></b> <br>
 The order of the character vector given in
 the <code>dependencies</code> and <code>extensions</code> arguments matters.
 If multiple packages share objects with the same name,
@@ -205,14 +205,13 @@ This setting results in the following importing order: <br></p><ol><li><p>The de
 <li><p>The main_package (see argument <code>main_package</code>),
 including re-exports (if <code>re_exports = TRUE</code>).</p></li>
 <li><p>The extensions, <b>in the order specified by the <code>extensions</code> argument</b>. <br><br></p></li>
-</ol><p><b>Other Details</b> <br>
-Packages that appear in the "Suggests" or "Enhances" fields of packages
-are not considered dependencies or extensions. <br><br>
-No more than 10 packages
+</ol><p><b>Other Details</b> <br></p><ul><li><p>Packages that appear in the "Suggests" or "Enhances" fields of packages
+are not considered dependencies or extensions.</p></li>
+<li><p>No more than 10 packages
 (ignoring re-exports)
-are allowed to be imported under a single alias. <br><br>
-Primitive functions (see <a href="https://rdrr.io/r/base/is.function.html" class="external-link">is.primitive</a>) are not imported. <br><br></p>
-    </div>
+are allowed to be imported under a single alias.</p></li>
+<li><p>Primitive functions (see <a href="https://rdrr.io/r/base/is.function.html" class="external-link">is.primitive</a>) are not imported. <br><br></p></li>
+</ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><a href="aaa2_tinycodet_import.html">tinycodet_import</a></p></div>

@@ -1,4 +1,4 @@
-pandoc: '3.2'
+pandoc: 3.6.3
 pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
@@ -12,7 +12,7 @@ articles:
   articles/h_otherpkgs: h_otherpkgs.html
   articles/i_benchmarks: i_benchmarks.html
   articles/tinycodet: tinycodet.html
-last_built: 2025-04-07T17:36Z
+last_built: 2025-09-21T14:00Z
 urls:
   reference: https://tony-aw.github.io/tinycodet/reference
   article: https://tony-aw.github.io/tinycodet/articles

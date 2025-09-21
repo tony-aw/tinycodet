@@ -88,6 +88,12 @@ is outside the closed interval with bounds defined by \code{bnd}. \cr
 \cr
 Moreover, the function \code{is_wholenumber()} is added, to safely test for whole numbers.
 }
+\details{
+The operators described in this page are defined in terms of the existing base
+\link[base]{Logic} operators,
+and should therefore be compatible with (S3) classes
+that have method dispatches defined for relational operators. \cr \cr
+}
 \examples{
 
 x <- c(0.3, 0.6, 0.7)

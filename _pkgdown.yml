@@ -38,7 +38,7 @@ reference:
   - '`import_inops.control`'
   - '`import_inops`'
   - '`import_LL`'
-  - '`x.import`'
+  - '`import_helper`'
   - '`pkgs`'
   - '`pversion`'
 - title: Stringi Extension
@@ -53,12 +53,12 @@ reference:
 - title: Don't Repeat Yourself
   contents:
   - '`transform_if`'
-  - '`atomic_typecast`'
-  - '`inplace`'
-  - '`subset_if`'
+  - '`matrix_ops`'
 - title: Miscellaneous Functions
   contents:
   - '`logic_ops`'
-  - '`matrix_ops`'
   - '`report_inops`'
   - '`source_selection`'
+- title: Deprecated/Superseded
+  contents:
+  - '`xxx_atomic_typecast`'

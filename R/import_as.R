@@ -104,7 +104,7 @@
 #' To keep package alias object names easily distinguishable from other objects
 #' that can also be subset with the \link[base]{$} operator,
 #' I recommend ending (or starting, if you want to hide it from `ls()`) all alias names
-#' with a dot (\code{.}) or underscore (\code{_}). \cr
+#' with a dot (\code{.}), or ending alias names with an underscore (\code{_}). \cr
 #' \cr
 #' \cr
 #' \bold{Regarding \code{import_order}} \cr
@@ -125,15 +125,12 @@
 #'
 #'
 #' \bold{Other Details} \cr
-#' Packages that appear in the "Suggests" or "Enhances" fields of packages
-#' are not considered dependencies or extensions. \cr
-#' \cr
-#' No more than 10 packages
-#' (ignoring re-exports)
-#' are allowed to be imported under a single alias. \cr
-#' \cr
-#' Primitive functions (see \link[base]{is.primitive}) are not imported. \cr
-#' \cr
+#'  - Packages that appear in the "Suggests" or "Enhances" fields of packages
+#'  are not considered dependencies or extensions.
+#'  - No more than 10 packages
+#'  (ignoring re-exports)
+#'  are allowed to be imported under a single alias.
+#'  - Primitive functions (see \link[base]{is.primitive}) are not imported. \cr \cr
 #'
 #'
 #' @returns

@@ -44,8 +44,8 @@ check.names = FALSE
 )
 expected <- data.frame(
 x,y,
-"x %xor% y" = ifelse(is.infinite(df$x)&is.infinite(df$y), FALSE, NA),
-"x %n&% y" = ifelse(is.infinite(df$x)&is.infinite(df$y), FALSE, NA),
+"x %xor% y" = xor(x, y),
+"x %n&% y" = !x & !y,
 "x %?=% y" = rep(TRUE, 16),
 check.names = FALSE
 )

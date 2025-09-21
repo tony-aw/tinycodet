@@ -55,6 +55,14 @@
 #'
 #' @seealso \link{tinycodet_safer}
 #'
+#' @details
+#' The operators described in this page are defined in terms of the existing base
+#' \link[base]{Logic} operators,
+#' and should therefore be compatible with (S3) classes
+#' that have method dispatches defined for relational operators. \cr \cr
+#' 
+#'
+#'
 #' @example inst/examples/decimal_truth.R
 
 
