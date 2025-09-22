@@ -118,18 +118,6 @@ strcut_brk(test, "character")
 
 &nbsp;
 
-# Matrix re-ordering operators
-
-The matrix re-ordering operators are quite handy for re-ordering strings,
-since the `strcut_` - functions return matrices, and the `stri_join_mat()` and their aliases concatenate matrices.
-
-See the documentation on matrix operators:
-`` ?`%row~%` `` and `` ?`%col~%` ``
-
-See also the "Miscellaneous functionality" article.
-
-&nbsp;
-
 # Matrix joining
 
 The `tinycodet` package adds a tiny additional function to `stringi`:
