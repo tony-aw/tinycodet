@@ -229,6 +229,14 @@ import_inops("magrittr")
 attributes(`%>%`)
 ```
 
+&nbsp;
+
+# Note for R-Package Developers
+
+It goes without saying, just like one should **NEVER** use `library()` or `require()` inside an R-package, similarly, one should **NOT** use tinycodet's import functions inside an R-Package.
+
+The import functions can still be used inside functions defined in a file to be sourced, though. Just not in functions inside an R-package.
+
 
 &nbsp;
 

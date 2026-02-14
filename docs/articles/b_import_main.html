@@ -512,6 +512,18 @@ from which package.</p>
 <p> </p>
 </div>
 <div class="section level2">
+<h2 id="note-for-r-package-developers">Note for R-Package Developers<a class="anchor" aria-label="anchor" href="#note-for-r-package-developers"></a>
+</h2>
+<p>It goes without saying, just like one should <strong>NEVER</strong>
+use <code><a href="https://rdrr.io/r/base/library.html" class="external-link">library()</a></code> or <code><a href="https://rdrr.io/r/base/library.html" class="external-link">require()</a></code> inside an
+R-package, similarly, one should <strong>NOT</strong> use tinycodet’s
+import functions inside an R-Package.</p>
+<p>The import functions can still be used inside functions defined in a
+file to be sourced, though. Just not in functions inside an
+R-package.</p>
+<p> </p>
+</div>
+<div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
 <p>One R package that could benefit from the import system introduced by

@@ -751,6 +751,17 @@ from which package.</p>
 <span id="cb13-16"><a href="#cb13-16" tabindex="-1"></a><span class="co">#&gt; [1] &quot;function&quot;   &quot;tinyimport&quot;</span></span></code></pre></div>
 <p> </p>
 </div>
+<div id="note-for-r-package-developers" class="section level1">
+<h1>Note for R-Package Developers</h1>
+<p>It goes without saying, just like one should <strong>NEVER</strong>
+use <code>library()</code> or <code>require()</code> inside an
+R-package, similarly, one should <strong>NOT</strong> use tinycodet’s
+import functions inside an R-Package.</p>
+<p>The import functions can still be used inside functions defined in a
+file to be sourced, though. Just not in functions inside an
+R-package.</p>
+<p> </p>
+</div>
 <div id="example" class="section level1">
 <h1>Example</h1>
 <p>One R package that could benefit from the import system introduced by

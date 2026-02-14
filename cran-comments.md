@@ -9,5 +9,5 @@ As usual, I thank the CRAN team for all their hard work!
 
 Change log:
 
-* **Removed:** The `as_*` functions have been removed. \
-They are superseded by the functions of the same name in the [broadcast](https://cran.r-project.org/package=broadcast) package.
+* **Removed:** The `as_*` functions have been removed.  
+They are superseded by the functions of the same name in the 'broadcast' package.
