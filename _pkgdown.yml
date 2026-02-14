@@ -1,8 +1,8 @@
 template:
   bootstrap: 5
   bslib:
-    base_font: {google: "Roboto Serif"}
-    bg: "#FCF5E5"
+    base_font: {google: "Atkinson Hyperlegible"}
+    bg: "#FFFAF0" # "#FCF5E5"
     fg: "#000000"
     font_scale: 1.25
 navbar:
@@ -59,6 +59,3 @@ reference:
   - '`logic_ops`'
   - '`report_inops`'
   - '`source_selection`'
-- title: Deprecated/Superseded
-  contents:
-  - '`xxx_atomic_typecast`'

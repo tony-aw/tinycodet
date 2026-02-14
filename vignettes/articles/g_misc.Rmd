@@ -75,7 +75,7 @@ temp.fun()
 The tinycodet package adds a few basic logic operators:
 
  - `%xor%`: Exclusive OR
- - `%n&%`: NOT AND (i.e. `(!x) & (!y)`). Note that if either `x` or `y` is `NA`, `%n&%` will also give `NA` (unlike `(!x) & (!y)`, which would give `FALSE`.)
+ - `%n&%`: NOT AND (i.e. `(!x) & (!y)`).
  - `%?=%`: checks if both `x` and `y` are unknown or unreal (NA, NaN, Inf, -Inf)
  - `%out%`: the opposite of `%in%` (i.e. `!x %in% y`)
 

@@ -1,4 +1,9 @@
 
+# tinycodet 0.6.0 (Under Development)
+* **Removed:** The `as_*` functions have been removed. \
+They are superseded by the functions of the same name in the [broadcast](https://cran.r-project.org/package=broadcast) package.
+
+
 # tinycodet 0.5.8
 * **Superseded:** The `as_*` functions are superseded by the functions of the same name in the 'broadcast' package, and will be removed from 'tinycodet' in a later version.
 * **Removed:** The infix operators from the DRY category were removed.

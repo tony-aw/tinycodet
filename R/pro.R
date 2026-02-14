@@ -131,7 +131,7 @@ aes_pro <- function(...) {
   if(any(check != 2)) stop("improper formula given")
   
   # conversion:
-  args.names <- ifelse(names(lst)=="", "", paste0(names(lst), " = "))
+  args.names <- ifelse(names(lst) == "", "", paste0(names(lst), " = "))
   args.values <- vapply(lst, \(x)deparse(x[[2]], backtick = TRUE), character(1))
   args <- paste0(args.names, args.values, collapse = ", ")
   

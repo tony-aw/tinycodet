@@ -403,10 +403,8 @@ from generic <code>mymethod()</code>, one could specify
 <p>The tinycodet package adds a few basic logic operators:</p>
 <ul>
 <li><code>%xor%</code>: Exclusive OR</li>
-<li><code>%n&amp;%</code>: NOT AND (i.e. <code>(!x) &amp; (!y)</code>).
-Note that if either <code>x</code> or <code>y</code> is <code>NA</code>,
-<code>%n&amp;%</code> will also give <code>NA</code> (unlike
-<code>(!x) &amp; (!y)</code>, which would give <code>FALSE</code>.)</li>
+<li><code>%n&amp;%</code>: NOT AND
+(i.e. <code>(!x) &amp; (!y)</code>).</li>
 <li><code>%?=%</code>: checks if both <code>x</code> and <code>y</code>
 are unknown or unreal (NA, NaN, Inf, -Inf)</li>
 <li><code>%out%</code>: the opposite of <code>%in%</code>

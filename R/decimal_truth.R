@@ -73,39 +73,39 @@ NULL
 #' @export
 `%d==%` <- function(x, y) {
   
-  return(abs(x - y) < sqrt(.Machine$double.eps))
+  return(abs(x - y) <= sqrt(.Machine$double.eps))
 }
 
 #' @rdname decimal_truth
 #' @export
 `%d!=%` <- function(x, y) {
   
-  return(abs(x - y) >= sqrt(.Machine$double.eps))
+  return(abs(x - y) > sqrt(.Machine$double.eps))
 }
 
 #' @rdname decimal_truth
 #' @export
 `%d<%` <- function(x, y) {
-  return((x - y) <= - sqrt(.Machine$double.eps))
+  return((x - y) < - sqrt(.Machine$double.eps))
 }
 
 #' @rdname decimal_truth
 #' @export
 `%d>%` <- function(x, y) {
-  return((x - y) >= sqrt(.Machine$double.eps))
+  return((x - y) > sqrt(.Machine$double.eps))
 }
 
 #' @rdname decimal_truth
 #' @export
 `%d<=%` <- function(x, y) {
-  out <- (x - y) < sqrt(.Machine$double.eps) 
+  out <- (x - y) <= sqrt(.Machine$double.eps) 
   return(out)
 }
 
 #' @rdname decimal_truth
 #' @export
 `%d>=%` <- function(x, y) {
-  out <- (x - y) > -sqrt(.Machine$double.eps) 
+  out <- (x - y) >= -sqrt(.Machine$double.eps) 
   return(out)
 }
 

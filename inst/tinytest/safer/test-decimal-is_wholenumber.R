@@ -3,6 +3,7 @@
 tol <- sqrt(.Machine$double.eps)
 eps <- tol * 2
 
+.as_int <- tinycodet:::.as_int
 
 # test is_wholenumber() - vector ====
 x <- seq(1.0, 10.0, by = 1.0)
@@ -55,7 +56,7 @@ expect_equal(
   rep(TRUE, 10) |> matrix(ncol=2)
 )
 expect_equal(
-  is_wholenumber(as_int(x)),
+  is_wholenumber(.as_int(x)),
   rep(TRUE, 10) |> matrix(ncol=2)
 )
 expect_error(
@@ -107,3 +108,4 @@ expect_true(
 expect_true(
   is_wholenumber(FALSE)
 )
+

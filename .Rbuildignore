@@ -3,6 +3,7 @@
 ^tests_special
 ^tests_interactive
 ^vignettes
+^skeletons
 ^docs
 ^bin
 ^_pkgdown

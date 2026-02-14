@@ -1,6 +1,8 @@
 # set-up ====
 enumerate <- 0 # to count number of tests performed using iterations in loops
 loops <- 0 # to count number of loops
+.as_chr <- tinycodet:::.as_chr
+
 
 x <- c(
   paste0(letters[1:13], collapse=""),
@@ -47,11 +49,11 @@ x <- c(
 print(x)
 ss <- rbind(c(2,3), c(1,0), c(0,1), c(0,0))
 expect_error(
-  x %sget% as_chr(ss),
+  x %sget% .as_chr(ss),
   pattern = "right hand side must be an integer vector or matrix"
 )
 expect_error(
-  x %strim% as_chr(ss),
+  x %strim% .as_chr(ss),
   pattern = "right hand side must be an integer vector or matrix"
 )
 
