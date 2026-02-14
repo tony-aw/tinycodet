@@ -16,22 +16,12 @@
 <url><loc>https://tony-aw.github.io/tinycodet/LICENSE-text.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/LICENSE.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/news/index.html</loc></url>
-<url><loc>https://tony-aw.github.io/tinycodet/reference/%unreal =%.html</loc></url>
-<url><loc>https://tony-aw.github.io/tinycodet/reference/%[!if]%.html</loc></url>
-<url><loc>https://tony-aw.github.io/tinycodet/reference/%[if]%.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/aaa0_tinycodet_help.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/aaa1_tinycodet_safer.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/aaa2_tinycodet_import.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/aaa3_tinycodet_strings.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/aaa4_tinycodet_dry.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/aaa5_tinycodet_misc.html</loc></url>
-<url><loc>https://tony-aw.github.io/tinycodet/reference/as_bool.html</loc></url>
-<url><loc>https://tony-aw.github.io/tinycodet/reference/as_chr.html</loc></url>
-<url><loc>https://tony-aw.github.io/tinycodet/reference/as_cplx.html</loc></url>
-<url><loc>https://tony-aw.github.io/tinycodet/reference/as_dbl.html</loc></url>
-<url><loc>https://tony-aw.github.io/tinycodet/reference/as_int.html</loc></url>
-<url><loc>https://tony-aw.github.io/tinycodet/reference/as_raw.html</loc></url>
-<url><loc>https://tony-aw.github.io/tinycodet/reference/atomic_typecast.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/decimal_truth.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/import_as.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/import_data.html</loc></url>
@@ -40,7 +30,6 @@
 <url><loc>https://tony-aw.github.io/tinycodet/reference/import_inops.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/import_misc.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/index.html</loc></url>
-<url><loc>https://tony-aw.github.io/tinycodet/reference/inplace.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/lock.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/logic_ops.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/matrix_ops.html</loc></url>
@@ -57,10 +46,7 @@
 <url><loc>https://tony-aw.github.io/tinycodet/reference/str_arithmetic.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/str_search.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/str_subset_ops.html</loc></url>
-<url><loc>https://tony-aw.github.io/tinycodet/reference/subset_if.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/s_pattern.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/transform_if.html</loc></url>
-<url><loc>https://tony-aw.github.io/tinycodet/reference/x.import.html</loc></url>
-<url><loc>https://tony-aw.github.io/tinycodet/reference/xxx_atomic_typecast.html</loc></url>
 </urlset>
 
