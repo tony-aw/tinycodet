@@ -1,5 +1,5 @@
 
-# tinycodet 0.6.0 (Under Development)
+# tinycodet 0.6.0
 * **Removed:** The `as_*` functions have been removed. \
 They are superseded by the functions of the same name in the [broadcast](https://cran.r-project.org/package=broadcast) package.
 
