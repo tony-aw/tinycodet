@@ -159,7 +159,7 @@ More examples can be found on the website (https://tony-aw.github.io/tinycodet/)
 
     <a class="navbar-brand me-2" href="../index.html">tinycodet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -278,8 +278,16 @@ from the 'rlang' package, will work without any prefixes required.</p></li>
 <li><p>All functions imported by the
 <a href="import_as.html">import_as</a>, <a href="import_inops.html">import_inops</a>, or <a href="import_misc.html">import_LL</a> functions
 have a "package" attribute,
-so you will always know which function came from which package.</p></li>
-</ul></div>
+so you will always know which function came from which package. <br><br></p></li>
+</ul><p><b>For R Package Developers</b> <br>
+It goes without saying,
+just like one should NEVER use <code><a href="https://rdrr.io/r/base/library.html" class="external-link">library()</a></code> or <code><a href="https://rdrr.io/r/base/library.html" class="external-link">require()</a></code> inside an R-package,
+similarly,
+one should NOT use tinycodet’s import functions inside an R-Package. <br>
+The import functions can still be used inside functions defined in a file to be sourced,
+though. <br>
+Just not in functions inside an R-package. <br><br></p>
+    </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><a href="aaa0_tinycodet_help.html">tinycodet_help</a></p></div>

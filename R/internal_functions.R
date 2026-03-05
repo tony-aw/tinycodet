@@ -5,6 +5,23 @@
 #'
 #'
 #'
+#'
+
+
+#' @keywords internal
+#' @noRd
+.internal_check_pkgenv <- function(env, abortcall) {
+  env <- topenv(env)
+  if(isNamespace(env)) {
+    caller <- methods::getPackageName(env, create = FALSE)
+    print(caller)
+    if(any(!caller %in% "tinycodet")) {
+      txt <- "`import` functions should not be used inside R-packages!"
+      stop(simpleError(txt, call = abortcall))
+    }
+  }
+  
+}
 
 #' @keywords internal
 #' @noRd

@@ -1,0 +1,5 @@
+badpkg	badpkg
+import_as2	badpkg
+import_inops2	badpkg
+import_int2	badpkg
+import_LL2	badpkg

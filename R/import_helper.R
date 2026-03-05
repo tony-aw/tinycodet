@@ -105,10 +105,9 @@
 #' `%s==%` <- stringi::`%s==%`
 #'
 #' is.tinyimport(to.) # returns TRUE
-#' is.tinyimport(`%:=%`) # returns TRUE
 #' is.tinyimport(`%s==%`) # returns FALSE: not imported by tinycodet import system
 #'
-#' attr.import(to., which = "conflicts")
+#' attr.import(to., "conflicts")
 #'
 #'
 #'

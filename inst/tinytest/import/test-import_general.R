@@ -241,3 +241,37 @@ expect_error(
   pattern = "`lib.loc` must be a character vector with at least one library path"
 )
 
+
+# NO ERROR TRIGGER ====
+# these tests check that the "pkg env" checks are NOT triggered usually
+
+import_as2 <- function(...) {
+  import_as(...)
+}
+import_inops2 <- function(...) {
+  import_inops(...)
+}
+import_data2 <- function(...) {
+  import_data(...)
+}
+import_LL2 <- function(...) {
+  import_LL(...)
+}
+import_int2 <- function(...) {
+  import_int(...)
+}
+expect_silent(
+  import_as2(~ stri2., "stringi")
+)
+expect_silent(
+  import_inops2(expose = "stringi")
+)
+expect_silent(
+  import_data2("datasets", "cars")
+)
+expect_silent(
+  import_LL2("stringi", "stri_sub")
+)
+expect_silent(
+  import_int2(tinycodet ~ .internal_paste, .libPaths())
+)

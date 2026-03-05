@@ -35,6 +35,8 @@
 #' @export
 import_data <- function(package, dataname, lib.loc = .libPaths()) {
 
+  .internal_check_pkgenv(parent.frame(), sys.call())
+  
   # check library:
   .internal_check_lib.loc(lib.loc, sys.call())
 

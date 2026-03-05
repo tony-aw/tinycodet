@@ -121,6 +121,8 @@ import_inops <- function(
     expose=NULL, unexpose=NULL, lib.loc=.libPaths(), ...
 ) {
 
+  .internal_check_pkgenv(parent.frame(), sys.call())
+  
   # check expose/unexpose:
   if(!is.null(expose) && !is.null(unexpose)) {
     stop("Can only specify either `expose` or `unexpose`, not both")

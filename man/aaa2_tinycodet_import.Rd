@@ -119,8 +119,17 @@ from the 'rlang' package, will work without any prefixes required.
 \item All functions imported by the
 \link{import_as}, \link{import_inops}, or \link{import_LL} functions
 have a "package" attribute,
-so you will always know which function came from which package.
+so you will always know which function came from which package. \cr \cr
 }
+
+\bold{For R Package Developers} \cr
+It goes without saying,
+just like one should NEVER use \code{library()} or \code{require()} inside an R-package,
+similarly,
+one should NOT use tinycodet’s import functions inside an R-Package. \cr
+The import functions can still be used inside functions defined in a file to be sourced,
+though. \cr
+Just not in functions inside an R-package. \cr \cr
 }
 \examples{
 \dontshow{if (all(c("dplyr", "powerjoin", "magrittr") \%installed in\% .libPaths())) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}

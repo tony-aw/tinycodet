@@ -1,4 +1,8 @@
 
+# tinycodet 0.6.2
+* Safety fix: The `import_` functions will now trigger an error if called from within a package environment other than 'tinycodet'.
+
+
 # tinycodet 0.6.0
 * **Removed:** The `as_*` functions have been removed. \
 They are superseded by the functions of the same name in the [broadcast](https://cran.r-project.org/package=broadcast) package.

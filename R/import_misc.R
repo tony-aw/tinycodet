@@ -110,7 +110,9 @@
 import_LL <- function(
     package, selection, lib.loc = .libPaths()
 ) {
-
+  
+  .internal_check_pkgenv(parent.frame(), sys.call())
+  
   # check library:
   .internal_check_lib.loc(lib.loc, sys.call())
 
@@ -159,7 +161,8 @@ import_LL <- function(
 #' @rdname import_misc
 #' @export
 import_int <- function(form, lib.loc = .libPaths()) {
-
+  
+  .internal_check_pkgenv(parent.frame(), sys.call())
 
   # check form:
   check_form <- .internal_is_formula(form)

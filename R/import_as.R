@@ -169,6 +169,8 @@ import_as <- function(
     import_order = c("dependencies", "main_package", "extensions")
 ) {
   
+  .internal_check_pkgenv(parent.frame(), sys.call())
+  
   # Check alias:
   alias_is_formula <- .internal_is_formula(alias)
   if(!is.character(alias) && !alias_is_formula) {

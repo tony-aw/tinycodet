@@ -1,0 +1,212 @@
+# set-up ====
+library(tinycodet)
+library(tinytest)
+library(this.path)
+
+lib <- file.path(getwd(), "lib")
+
+# test import errors ====
+library(badpkg, lib.loc = lib)
+expect_error(
+  import_as2(),
+  pattern = "`import` functions should not be used inside R-packages!"
+)
+expect_error(
+  import_inops2(),
+  pattern = "`import` functions should not be used inside R-packages!"
+)
+expect_error(
+  import_int2(),
+  pattern = "`import` functions should not be used inside R-packages!"
+)
+expect_error(
+  import_LL2(),
+  pattern = "`import` functions should not be used inside R-packages!"
+)
+
+
+# safer_partialmatch ====
+safer_partialmatch()
+expect_warning(
+  iris$Sepal.Len
+)
+
+# import errors checks ===
+
+
+
+# %installed in% ====
+expect_equal(
+  c("tinycodet", "foo", "stats") %installed in% .libPaths(),
+  setNames(c(TRUE, FALSE, NA), c("tinycodet", "foo", "stats"))
+)
+expect_equal(
+  "base" %installed in% .libPaths(),
+  c("base" = NA)
+)
+
+# import_as ====
+import_as(~ dpr., "dplyr", re_exports = TRUE)
+out <- setdiff(names(dpr.), ".__attributes__.") |> sort()
+foo <- loadNamespace("dplyr") |> getNamespaceExports()
+foo <- setdiff(foo, ".data")
+check <- all(out == sort(foo))
+expect_true(check)
+
+expect_error(
+  import_as(~ ms., "MASS", extensions = "ggplot2"),
+  "The following given extensions were not found to be actual extensions:",
+  fixed = TRUE
+)
+
+expect_error(
+  import_as(~ rl., "rlang", extensions = "ggplot2"),
+  "The following given extensions were not found to be actual extensions:",
+  fixed = TRUE
+)
+
+expect_error(
+  import_as(~ rsa., "rstudioapi", extensions = "knitr"),
+  "The following given extensions were not found to be actual extensions:",
+  fixed = TRUE
+)
+
+
+# is.tinyimport & help.import() ====
+import_inops("magrittr")
+import_as(~mr., "magrittr")
+`:=` <- data.table::`:=`
+expect_true(is.tinyimport(mr.))
+expect_true(is.tinyimport(`%>%`))
+expect_false(is.tinyimport(`:=`))
+alias_attr <- mr.$.__attributes__.
+str(alias_attr)
+attr.import(mr., "pkgs")
+attr.import(mr., "conflicts")
+attr.import(mr., "args")
+attr.import(mr., "ordered_object_names")
+expect_error(
+  attr.import(mr., "foo"),
+  pattern = "unknown `which` given"
+)
+
+
+
+# .internal_list_* ====
+expect_equal(
+  sort(tinycodet:::.internal_list_coreR()),
+  c(installed.packages(priority = "base") |> rownames(), "translations") |> unique() |> sort()
+)
+expect_equal(
+  sort(tinycodet:::.internal_list_preinst()),
+  installed.packages(priority = "recommended") |> rownames() |> sort()
+)
+
+n <- length(tinycodet:::.internal_list_tidyshared())
+checks <- logical(n)
+for(i in 1:n) checks[i] <- tinycodet:::.internal_list_tidyshared()[i] %installed in% .libPaths()
+expect_true(all(checks))
+
+n <- length(tinycodet:::.internal_list_knownmeta())
+checks <- logical(n)
+for(i in 1:n) checks[i] <- tinycodet:::.internal_list_knownmeta()[i] %installed in% .libPaths()
+cbind(checks, tinycodet:::.internal_list_knownmeta()) |> print()
+
+
+
+# empty packages checks ====
+if(!"spam64" %installed in% .libPaths()) {
+  install.packages("spam64")
+}
+txt <- "the package `spam64` has no exported (non-primitive) functions"
+expect_warning(
+  tinycodet:::.internal_prep_Namespace("spam64", .libPaths(), sys.call()),
+  pattern = txt,
+  fixed = TRUE
+)
+
+expect_warning(
+  import_as(~ sp64., "spam64"),
+  pattern = txt,
+  fixed = TRUE
+)
+print(sp64.)
+
+expect_warning(
+  import_inops("spam64"),
+  pattern = txt,
+  fixed = TRUE
+)
+
+expect_warning(
+  import_LL("spam64", 'foo'),
+  pattern = txt,
+  fixed = TRUE
+)
+
+
+# Tmethods checks ====
+if(!"BiocManager" %installed in% .libPaths()) {
+  install.packages("BiocManager")
+}
+if(!"Rgraphviz" %installed in% .libPaths()) {
+  BiocManager::install("Rgraphviz")
+}
+if(!"import" %installed in% .libPaths()) {
+  install.packages("import")
+}
+
+
+import_as(~ rg., "Rgraphviz")
+rg2 <- new.env()
+import::into(.into = rg2, .from = "Rgraphviz", .all = TRUE)
+rg1 <- as.list(rg., all.names = FALSE, sorted = TRUE)
+rg2 <- as.list(rg2, all.names = FALSE, sorted = TRUE)
+expect_equal(
+  names(rg1), names(rg2)
+)
+expect_equal(
+  sapply(rg1, is.null), sapply(rg2, is.null)
+)
+
+
+# pversion checks ====
+loadNamespace("boot")
+check <- pversion_check4mismatch("boot", lib.loc = c(lib, .libPaths()))
+expect_true(nrow(check) == 1)
+expect_equal(
+  lapply(check, class),
+  list("package" = "character",
+       "version_loaded" = "character",
+       "version_lib.loc" = "character"
+  )
+)
+expect_true(
+  utils::compareVersion(check$version_loaded, check$version_lib.loc) == 1
+)
+expect_true(
+  utils::compareVersion(check$version_lib.loc, "1.3-25") == 0
+)
+expect_true(
+  utils::compareVersion(check$version_loaded, getNamespaceVersion("boot")) == 0
+)
+expect_false(
+  pversion_report("boot", c(lib, .libPaths()))$versions_equal
+)
+expect_true(
+  pversion_report("boot", c(.libPaths(), lib))$versions_equal
+)
+
+expect_null(
+  pversion_check4mismatch("boot", lib.loc = c(.libPaths(), lib))
+)
+
+
+# .primitive functions check ====
+import_as(~mr., "magrittr")
+out <- setdiff(names(mr.), ".__attributes__.") |> sort()
+foo <- loadNamespace("magrittr") |> as.list(all.names = TRUE)
+foo <- foo[getNamespaceExports("magrittr")]
+foo <- foo[vapply(foo, \(x)is.function(x) && !is.primitive(x), logical(1L)) |> unlist()]
+expect_equal(sort(names(foo)), out)
+
