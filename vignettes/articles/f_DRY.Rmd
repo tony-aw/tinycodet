@@ -79,14 +79,14 @@ The `tinycodet` R package adds 2 additional matrix operators:
 Examples with a numeric matrix:
 
 ```{r}
-x <- matrix(sample(1:25), nrow=5)
+x <- matrix(sample(1:25), nrow = 5L)
 print(x)
 x %row~% x # sort elements of every row
 x %row~% -x # reverse-sort elements of every row
 x %col~% x # sort elements of every column
 x %col~% -x # reverse-sort elements of every column
 
-x <- matrix(sample(1:25), nrow=5)
+x <- matrix(sample(1:25), nrow = 5L)
 print(x)
 rand <- sample(1:length(x)) |> matrix(ncol=ncol(x)) # matrix of random integers
 x %row~% rand # random shuffle every row independent of other rows
@@ -97,16 +97,16 @@ x %col~% rand # random shuffle every column independent of other columns
 Examples with a character matrix:
 
 ```{r}
-x <- matrix(sample(letters, 25), nrow=5)
+x <- matrix(sample(letters, 25L), nrow = 5L)
 print(x)
 mat <- stringi::stri_rank(as.vector(x)) |>
-  matrix(ncol=ncol(x)) # matrix of ordering ranks
+  matrix(ncol = ncol(x)) # matrix of ordering ranks
 x %row~% mat # sort elements of every row
 x %row~% -mat # reverse-sort elements of every row
 x %col~% mat # sort elements of every column
 x %col~% -mat # reverse-sort elements of every column
 
-x <- matrix(sample(letters, 25), nrow=5)
+x <- matrix(sample(letters, 25L), nrow = 5L)
 print(x)
 rand <- sample(1:length(x)) |> matrix(ncol=ncol(x)) # matrix of random integers
 x %row~% rand # random shuffle every row independent of other rows

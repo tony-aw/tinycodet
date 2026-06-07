@@ -622,7 +622,7 @@ those packages/package alias exposed in the current environment by
 not be touched. For example:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="at">unexpose =</span> tdt.)</span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co">#&gt; Removing the following infix operators:</span></span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">#&gt; %in%, %notin%, %inrange%, %chin%, :=, %flike%, %like%, %ilike%, %between%, %plike%</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">#&gt; %plike%, %chin%, :=, %inrange%, %in%, %between%, %ilike%, %flike%, %notin%, %like%</span></span>
 <span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">#&gt; Done</span></span></code></pre></div>
 <p>One can also expose and unexpose the infix operators directly from a
 package, instead of via an alias object. In that case the package name
@@ -638,7 +638,7 @@ package:</p>
 the current environment as follows:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="at">unexpose =</span> <span class="st">&quot;data.table&quot;</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="co">#&gt; Removing the following infix operators:</span></span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co">#&gt; %between%, %like%, %ilike%, %chin%, %flike%, %inrange%, %plike%, :=, %notin%</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co">#&gt; %ilike%, %notin%, %between%, :=, %plike%, %flike%, %like%, %chin%, %inrange%</span></span>
 <span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="co">#&gt; Done</span></span></code></pre></div>
 <p> </p>
 <p>The <code>import_inops()</code> function has the <code>exclude</code>

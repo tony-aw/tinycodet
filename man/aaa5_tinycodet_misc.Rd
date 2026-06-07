@@ -7,7 +7,6 @@
 \description{
 Some additional functions provided by the 'tinycodet' R-package:
 \itemize{
-\item \link[=\%xor\%]{Infix logical operators} for exclusive-or, not-and, not-in, number-type, and string-type.
 \item \link[=report_inops]{Report infix operators present in the current environment, or a specified environment.}
 \item \link{source_selection} to source only selected objects. \cr \cr
 }
