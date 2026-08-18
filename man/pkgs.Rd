@@ -140,7 +140,7 @@ The unique (thus non-repeating)
 package names are then returned to the user. \cr \cr
 }
 \examples{
-\dontshow{if ("dplyr" \%installed in\% .libPaths()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if ("dplyr" \%installed in\% .libPaths()) withAutoprint(\{ # examplesIf}
 "dplyr" \%installed in\% .libPaths()
 
 pkg_get_deps_minimal("dplyr")

@@ -132,7 +132,7 @@ though. \cr
 Just not in functions inside an R-package. \cr \cr
 }
 \examples{
-\dontshow{if (all(c("dplyr", "powerjoin", "magrittr") \%installed in\% .libPaths())) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (all(c("dplyr", "powerjoin", "magrittr") \%installed in\% .libPaths())) withAutoprint(\{ # examplesIf}
 all(c("dplyr", "powerjoin", "magrittr") \%installed in\% .libPaths())
 
 

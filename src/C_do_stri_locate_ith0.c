@@ -53,6 +53,4 @@ int n = Rf_length(p1); // using regular integer, because maximum nrow/ncol for m
   return  out;
 
 
-  warning("your C program does not return anything!");
-  return R_NilValue;
 }

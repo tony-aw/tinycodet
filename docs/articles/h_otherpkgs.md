@@ -1,0 +1,103 @@
+# Relations to other packages
+
+``` r
+library(tinycodet)
+#> Run `?tinycodet::tinycodet` to open the introduction help page of 'tinycodet'.
+```
+
+ 
+
+## Introduction
+
+This article lays out how the `tinycodet` R package relates to other R
+packages, and compatibility with other R packages, etc.
+
+ 
+
+## Compatibility with other R packages
+
+### Name conflicts
+
+I made sure not to name any of the operators in `tinycodet` the same as
+the operators in the popular operator-related packages:
+[magrittr](https://github.com/tidyverse/magrittr) and
+[zeallot](https://github.com/r-lib/zeallot).
+
+One may have noticed that some of the functionality in this R packages
+has been inspired by other programming languages, in particular by
+Python (please, refrain from taking out your torches and pitchforks!).
+This is not the first R package to take inspiration from other
+programming languages like Python. Therefore, one might find some
+overlapping function and operator names in other packages that do
+something similar; so be mindful of that.
+
+ 
+
+### Other import systems
+
+The [import](https://github.com/rticulate/import) R package provides
+somewhat similar capabilities to the `tinycodet` import management
+system, but they are still quite different. The `tinycodet`’ import
+system focuses more on importing a main package + its re-exports +
+(reverse) dependencies under a alias, and exposing infix operators from
+a package to the current environment. The
+[import](https://github.com/rticulate/import) package does not really
+provide this functionality directly (as far as I know). Strictly
+speaking there is no incompatibility between `tinycodet` and
+[import](https://github.com/rticulate/import). You can safely use both
+implementations of the import system, if you wish.
+
+ 
+
+There is also the [box](https://github.com/klmr/box) package. Where
+[import](https://github.com/rticulate/import) is primarily for importing
+packages, [box](https://github.com/klmr/box) is primarily for sourcing
+user-defined scripts as modules, though it can also import packages.
+Like [import](https://github.com/rticulate/import),
+[box](https://github.com/klmr/box) does not support importing multiple
+packages (or modules) under the same alias. It is compatible with
+`tinycodet`’s package import system; one can use
+[box](https://github.com/klmr/box) for handling user-defined scripts,
+and `tinycodet` for handling packages.
+
+ 
+
+### Renv
+
+When using the [renv](https://github.com/rstudio/renv) R package, note
+that it only registers packages that are attached using plain
+[`library()`](https://rdrr.io/r/base/library.html) or
+[`require()`](https://rdrr.io/r/base/library.html) calls. Anything
+different from that, whether it be loading (for example `::` or
+[`loadNamespace()`](https://rdrr.io/r/base/ns-load.html)), importing, or
+even things like `for(... in ...)library(...)` or `if(...)library(...)`,
+will by default NOT be understood by
+[renv](https://github.com/rstudio/renv). Therefore, if using
+[renv](https://github.com/rstudio/renv), please make sure to set the
+following:
+
+``` r
+renv::settings$snapshot.type("all")
+```
+
+This will make sure that all packages installed in your project library,
+regardless of how they are loaded, will all be registered by
+[renv](https://github.com/rstudio/renv). This makes
+[renv](https://github.com/rstudio/renv) compatible with calls like
+`import_as` from `tinycodet`, and things like
+`for(... in ...)library(...)` or `if(...)library(...)`.
+
+ 
+
+## Recommended R packages
+
+[stringi](https://github.com/gagolews/stringi) is of course required for
+this packages.
+
+Besides that, I highly recommend the
+[fastverse](https://github.com/fastverse/fastverse) set of R packages
+(<https://github.com/fastverse/fastverse>), which are a set of R
+packages for (mostly) data wrangling, focused on high speed, better
+memory management, and minimal dependencies.
+
+ 

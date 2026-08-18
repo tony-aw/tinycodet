@@ -87,13 +87,13 @@ will be placed in the current environment. \cr
 \details{
 \bold{Expanded Definitions of Some Arguments} \cr
 \itemize{
-\item "Re-exports" are functions that are defined in the dependencies of the
+\item "re-exports" are functions that are defined in the dependencies of the
 \code{main_package}, but are re-exported in the namespace of the \code{main_package}. \cr
-Unlike the \code{Dependencies} argument, functions from core R are included in re-exports.
-\item "Dependencies" are here defined as any R-package appearing in the
+Unlike the \code{dependencies} argument, functions from core 'R' are included in re-exports.
+\item "dependencies" are here defined as any R-package appearing in the
 "Depends", "Imports", or "LinkingTo" fields of the Description file of the
 \code{main_package}. So no recursive dependencies.
-\item "Extensions" are reverse-dependencies that actually extend the functionality of the
+\item "extensions" are reverse-dependencies that actually extend the functionality of the
 \code{main_package}. \cr
 Programmatically, some package "E" is considered an extension of some
 "main_package",
@@ -150,7 +150,7 @@ The \code{import_order} argument defaults to the character vector \cr
 which is the recommended setting. \cr
 This setting results in the following importing order: \cr
 \enumerate{
-\item The dependencies, \bold{in the order specified by the \code{depenencies} argument}.
+\item The dependencies, \bold{in the order specified by the \code{dependencies} argument}.
 \item The main_package (see argument \code{main_package}),
 including re-exports (if \code{re_exports = TRUE}).
 \item The extensions, \bold{in the order specified by the \code{extensions} argument}. \cr \cr
@@ -167,7 +167,7 @@ are allowed to be imported under a single alias.
 }
 }
 \examples{
-\dontshow{if ("data.table" \%installed in\% .libPaths()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if ("data.table" \%installed in\% .libPaths()) withAutoprint(\{ # examplesIf}
 "data.table" \%installed in\% .libPaths()
 
 import_as( # this creates the 'dt.' object

@@ -48,7 +48,7 @@ with their loaded and installed versions,
 regardless if there is a mismatch or not.
 }
 \examples{
-\dontshow{if ("dplyr" \%installed in\%  .libPaths()) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if ("dplyr" \%installed in\%  .libPaths()) withAutoprint(\{ # examplesIf}
 "dplyr" \%installed in\%  .libPaths()
 
 import_as(~dpr., "dplyr")

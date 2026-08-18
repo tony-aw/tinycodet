@@ -53,13 +53,13 @@
 #'
 #' \bold{Expanded Definitions of Some Arguments} \cr
 #'
-#'  * "Re-exports" are functions that are defined in the dependencies of the
+#'  * "re-exports" are functions that are defined in the dependencies of the
 #'  \code{main_package}, but are re-exported in the namespace of the \code{main_package}. \cr
-#'  Unlike the `Dependencies` argument, functions from core R are included in re-exports.
-#'  * "Dependencies" are here defined as any R-package appearing in the
+#'  Unlike the `dependencies` argument, functions from core 'R' are included in re-exports.
+#'  * "dependencies" are here defined as any R-package appearing in the
 #'  "Depends", "Imports", or "LinkingTo" fields of the Description file of the
 #'  \code{main_package}. So no recursive dependencies.
-#'  * "Extensions" are reverse-dependencies that actually extend the functionality of the
+#'  * "extensions" are reverse-dependencies that actually extend the functionality of the
 #'  \code{main_package}. \cr
 #'  Programmatically, some package "E" is considered an extension of some
 #'  "main_package",
@@ -117,7 +117,7 @@
 #' \code{c("dependencies", "main_package", "extensions")}, \cr
 #' which is the recommended setting. \cr
 #' This setting results in the following importing order: \cr
-#'  1) The dependencies, \bold{in the order specified by the \code{depenencies} argument}.
+#'  1) The dependencies, \bold{in the order specified by the \code{dependencies} argument}.
 #'  2) The main_package (see argument \code{main_package}),
 #' including re-exports (if \code{re_exports = TRUE}).
 #'  3) The extensions, \bold{in the order specified by the \code{extensions} argument}. \cr \cr

@@ -1,6 +1,11 @@
 
+# tinycodet 0.7.1
+* Changed e-mail provider.
+
+
 # tinycodet 0.7.0
 * **Removed:** Removed the `misc` operators.
+
 
 # tinycodet 0.6.2
 * Safety fix: The `import_` functions will now trigger an error if called from within a package environment other than 'tinycodet'.

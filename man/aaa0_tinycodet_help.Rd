@@ -56,5 +56,5 @@ Useful links:
 }
 }
 \author{
-\strong{Maintainer}: Tony Wilkes \email{tony_a_wilkes@outlook.com} (\href{https://orcid.org/0000-0001-9498-8379}{ORCID})
+\strong{Maintainer}: Tony Wilkes \email{tonywilkes.nl@gmail.com} (\href{https://orcid.org/0000-0001-9498-8379}{ORCID})
 }

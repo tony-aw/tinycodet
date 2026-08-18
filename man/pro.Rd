@@ -77,7 +77,7 @@ Regular Standard Evaluation does not have the above problem. \cr
 }
 
 \examples{
-\dontshow{if (requireNamespace("ggplot2")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (requireNamespace("ggplot2")) withAutoprint(\{ # examplesIf}
 requireNamespace("ggplot2")
 
 

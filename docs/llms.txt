@@ -1,0 +1,233 @@
+# tinycodet
+
+ 
+
+## Overview
+
+‘tinycodet’ adds some functions to help in your coding etiquette. It
+primarily focuses on 4 aspects:
+
+1.  Safer decimal (in)equality testing, standard-evaluated alternatives
+    to [`with()`](https://rdrr.io/r/base/with.html) and `aes()`, and
+    other functions for safer coding.
+2.  A new package import system, that attempts to combine the benefits
+    of using a package without attaching, with the benefits of attaching
+    a package.
+3.  Extending the string manipulation capabilities of the ‘stringi’ R
+    package.
+4.  Reducing repetitive code.
+
+‘tinycodet’ adheres to the [tinyverse](https://www.tinyverse.org/)
+philosophy (not to be confused with the tidyverse). Besides linking to
+‘Rcpp’, ‘tinycodet’ has only one other dependency: ‘stringi’. No other
+dependencies, thus avoiding “dependency hell”. Most functions in this
+R-package are vectorized and optimised.
+
+Although this is a relatively small R package, I do understand you may
+not want to go through all the articles and help files of ‘tinycodet’
+without knowing if the R package is even worth your time. Therefore, to
+get a quick glimpse of what ‘tinycodet’ provides, I humbly invite you to
+take a look at the [Get
+Started](https://tony-aw.github.io/tinycodet/articles/tinycodet.html)
+page on the website (<https://tony-aw.github.io/tinycodet/>).
+
+ 
+
+## Installation
+
+One can install ‘tinycodet’ from CRAN like so:
+
+``` r
+install.packages("tinycodet")
+```
+
+Or get the development version from GitHub like so:
+
+``` r
+remotes::install_github("https://github.com/tony-aw/tinycodet")
+```
+
+And attach the package - thus exposing its functions to the namespace -
+using:
+
+``` r
+library(tinycodet)
+```
+
+And one can open the introduction help page of the ‘tinycodet’ package
+using any of the following:
+
+``` r
+?tinycodet::tinycodet
+?tinycodet::`tinycodet-package`
+?tinycodet::tinycodet_help
+```
+
+ 
+
+## Reporting issues and giving suggestions
+
+When you coming across an issue with the ‘tinycodet’ R package, please
+report it in the “Issues” tab on the GitHub page
+(<https://github.com/tony-aw/tinycodet/issues>). If relevant, please
+provide reproducible R code, as that will make it easier to diagnose the
+issue. Please keep issue reports polite, professional, and to the point.
+
+ 
+
+If you have questions or ideas, please submit them in the “Discussion”
+tab on the GitHub page
+(<https://github.com/tony-aw/tinycodet/discussions>).
+
+ 
+
+# Package index
+
+## Overview Help Pages
+
+- [`aaa0_tinycodet_help`](https://tony-aw.github.io/tinycodet/reference/aaa0_tinycodet_help.md)
+  [`tinycodet-package`](https://tony-aw.github.io/tinycodet/reference/aaa0_tinycodet_help.md)
+  [`tinycodet`](https://tony-aw.github.io/tinycodet/reference/aaa0_tinycodet_help.md)
+  [`tinycodet_help`](https://tony-aw.github.io/tinycodet/reference/aaa0_tinycodet_help.md)
+  : tinycodet: Functions to Help in your Coding Etiquette
+- [`aaa1_tinycodet_safer`](https://tony-aw.github.io/tinycodet/reference/aaa1_tinycodet_safer.md)
+  [`tinycodet_safer`](https://tony-aw.github.io/tinycodet/reference/aaa1_tinycodet_safer.md)
+  : Overview of the 'tinycodet' "Safer" Functionality
+- [`aaa2_tinycodet_import`](https://tony-aw.github.io/tinycodet/reference/aaa2_tinycodet_import.md)
+  [`tinycodet_import`](https://tony-aw.github.io/tinycodet/reference/aaa2_tinycodet_import.md)
+  : Overview of the 'tinycodet' Import System
+- [`aaa3_tinycodet_strings`](https://tony-aw.github.io/tinycodet/reference/aaa3_tinycodet_strings.md)
+  [`tinycodet_strings`](https://tony-aw.github.io/tinycodet/reference/aaa3_tinycodet_strings.md)
+  : Overview of the 'tinycodet' Extension of 'stringi'
+- [`aaa4_tinycodet_dry`](https://tony-aw.github.io/tinycodet/reference/aaa4_tinycodet_dry.md)
+  [`tinycodet_dry`](https://tony-aw.github.io/tinycodet/reference/aaa4_tinycodet_dry.md)
+  : Overview of the 'tinycodet' "Don't Repeat Yourself" Functionality
+- [`aaa5_tinycodet_misc`](https://tony-aw.github.io/tinycodet/reference/aaa5_tinycodet_misc.md)
+  [`tinycodet_misc`](https://tony-aw.github.io/tinycodet/reference/aaa5_tinycodet_misc.md)
+  : Overview of the 'tinycodet' Miscellaneous Functionality
+
+## Safer Functionality
+
+- [`` `%d==%` ``](https://tony-aw.github.io/tinycodet/reference/decimal_truth.md)
+  [`` `%d!=%` ``](https://tony-aw.github.io/tinycodet/reference/decimal_truth.md)
+  [`` `%d<%` ``](https://tony-aw.github.io/tinycodet/reference/decimal_truth.md)
+  [`` `%d>%` ``](https://tony-aw.github.io/tinycodet/reference/decimal_truth.md)
+  [`` `%d<=%` ``](https://tony-aw.github.io/tinycodet/reference/decimal_truth.md)
+  [`` `%d>=%` ``](https://tony-aw.github.io/tinycodet/reference/decimal_truth.md)
+  [`` `%d{}%` ``](https://tony-aw.github.io/tinycodet/reference/decimal_truth.md)
+  [`` `%d!{}%` ``](https://tony-aw.github.io/tinycodet/reference/decimal_truth.md)
+  [`is_wholenumber()`](https://tony-aw.github.io/tinycodet/reference/decimal_truth.md)
+  : Safer Decimal Number (In)Equality Testing Operators
+- [`lock_TF()`](https://tony-aw.github.io/tinycodet/reference/lock.md)
+  [`` `%<-c%` ``](https://tony-aw.github.io/tinycodet/reference/lock.md)
+  : Lock T, Lock F, or Create Locked Constants
+- [`with_pro()`](https://tony-aw.github.io/tinycodet/reference/pro.md)
+  [`aes_pro()`](https://tony-aw.github.io/tinycodet/reference/pro.md) :
+  Standard Evaluated Versions of Some Common Expression-Evaluation
+  Functions
+- [`safer_partialmatch()`](https://tony-aw.github.io/tinycodet/reference/safer_partialmatch.md)
+  : Set Safer Dollar, Arguments, and Attribute Matching
+
+## Import System
+
+- [`import_as()`](https://tony-aw.github.io/tinycodet/reference/import_as.md)
+  : Import R-package, its Re-exports, Dependencies, and/or Extensions,
+  Under a Single Alias
+- [`import_data()`](https://tony-aw.github.io/tinycodet/reference/import_data.md)
+  : Directly Return a Data-set From a Package
+- [`import_inops.control()`](https://tony-aw.github.io/tinycodet/reference/import_inops.control.md)
+  : import_inops.control
+- [`import_inops()`](https://tony-aw.github.io/tinycodet/reference/import_inops.md)
+  : (Un)Expose Infix Operators From Package Namespace in the Current
+  Environment
+- [`import_LL()`](https://tony-aw.github.io/tinycodet/reference/import_misc.md)
+  [`import_int()`](https://tony-aw.github.io/tinycodet/reference/import_misc.md)
+  : Miscellaneous import\_ - Functions
+- [`help.import()`](https://tony-aw.github.io/tinycodet/reference/import_helper.md)
+  [`is.tinyimport()`](https://tony-aw.github.io/tinycodet/reference/import_helper.md)
+  [`attr.import()`](https://tony-aw.github.io/tinycodet/reference/import_helper.md)
+  : Helper Functions for the 'tinycodet' Package Import System
+- [`` `%installed in%` ``](https://tony-aw.github.io/tinycodet/reference/pkgs.md)
+  [`pkg_get_deps()`](https://tony-aw.github.io/tinycodet/reference/pkgs.md)
+  [`pkg_get_deps_minimal()`](https://tony-aw.github.io/tinycodet/reference/pkgs.md)
+  [`pkg_lsf()`](https://tony-aw.github.io/tinycodet/reference/pkgs.md) :
+  Miscellaneous Package Related Functions
+- [`pversion_check4mismatch()`](https://tony-aw.github.io/tinycodet/reference/pversion.md)
+  [`pversion_report()`](https://tony-aw.github.io/tinycodet/reference/pversion.md)
+  : Check for Package Versions Mismatch
+
+## Stringi Extension
+
+- [`strcut_loc()`](https://tony-aw.github.io/tinycodet/reference/strcut.md)
+  [`strcut_brk()`](https://tony-aw.github.io/tinycodet/reference/strcut.md)
+  : Cut Strings
+- [`stri_join_mat()`](https://tony-aw.github.io/tinycodet/reference/stri_join_mat.md)
+  [`stri_c_mat()`](https://tony-aw.github.io/tinycodet/reference/stri_join_mat.md)
+  [`stri_paste_mat()`](https://tony-aw.github.io/tinycodet/reference/stri_join_mat.md)
+  : Concatenate Character Matrix Row-wise or Column-wise
+- [`stri_locate_ith()`](https://tony-aw.github.io/tinycodet/reference/stri_locate_ith.md)
+  [`stri_locate_ith_regex()`](https://tony-aw.github.io/tinycodet/reference/stri_locate_ith.md)
+  [`stri_locate_ith_fixed()`](https://tony-aw.github.io/tinycodet/reference/stri_locate_ith.md)
+  [`stri_locate_ith_coll()`](https://tony-aw.github.io/tinycodet/reference/stri_locate_ith.md)
+  [`stri_locate_ith_charclass()`](https://tony-aw.github.io/tinycodet/reference/stri_locate_ith.md)
+  [`stri_locate_ith_boundaries()`](https://tony-aw.github.io/tinycodet/reference/stri_locate_ith.md)
+  : Locate \\i^{th}\\ Pattern Occurrence or Text Boundary
+- [`` `%s-%` ``](https://tony-aw.github.io/tinycodet/reference/str_arithmetic.md)
+  [`` `%s/%` ``](https://tony-aw.github.io/tinycodet/reference/str_arithmetic.md)
+  [`` `%s//%` ``](https://tony-aw.github.io/tinycodet/reference/str_arithmetic.md)
+  [`` `%ss%` ``](https://tony-aw.github.io/tinycodet/reference/str_arithmetic.md)
+  : String Arithmetic Operators
+- [`` `%s{}%` ``](https://tony-aw.github.io/tinycodet/reference/str_search.md)
+  [`` `%s!{}%` ``](https://tony-aw.github.io/tinycodet/reference/str_search.md)
+  [`strfind()`](https://tony-aw.github.io/tinycodet/reference/str_search.md)
+  [`` `strfind<-`() ``](https://tony-aw.github.io/tinycodet/reference/str_search.md)
+  : 'stringi' Pattern Search Operators
+- [`` `%s><%` ``](https://tony-aw.github.io/tinycodet/reference/str_subset_ops.md)
+  [`` `%s<>%` ``](https://tony-aw.github.io/tinycodet/reference/str_subset_ops.md)
+  [`` `%sget%` ``](https://tony-aw.github.io/tinycodet/reference/str_subset_ops.md)
+  [`` `%strim%` ``](https://tony-aw.github.io/tinycodet/reference/str_subset_ops.md)
+  : String Subsetting Operators
+- [`s_regex()`](https://tony-aw.github.io/tinycodet/reference/s_pattern.md)
+  [`s_fixed()`](https://tony-aw.github.io/tinycodet/reference/s_pattern.md)
+  [`s_coll()`](https://tony-aw.github.io/tinycodet/reference/s_pattern.md)
+  [`s_chrcls()`](https://tony-aw.github.io/tinycodet/reference/s_pattern.md)
+  : Pattern Specifications for String Related Operators
+
+## Don’t Repeat Yourself
+
+- [`transform_if()`](https://tony-aw.github.io/tinycodet/reference/transform_if.md)
+  : transform_if: Conditional Sub-set Transformation of Atomic objects
+- [`` `%row~%` ``](https://tony-aw.github.io/tinycodet/reference/matrix_ops.md)
+  [`` `%col~%` ``](https://tony-aw.github.io/tinycodet/reference/matrix_ops.md)
+  : Row- or Column-wise Re-ordering of Matrices
+
+## Miscellaneous Functions
+
+- [`report_inops()`](https://tony-aw.github.io/tinycodet/reference/report_inops.md)
+  : Report Infix Operators
+- [`source_selection()`](https://tony-aw.github.io/tinycodet/reference/source_selection.md)
+  : Source Specific Objects from Script
+
+# Articles
+
+### All vignettes
+
+- [Safer
+  functionality](https://tony-aw.github.io/tinycodet/articles/a_safer.md):
+- [Import system - main
+  functions](https://tony-aw.github.io/tinycodet/articles/b_import_main.md):
+- [Import system - additional
+  details](https://tony-aw.github.io/tinycodet/articles/c_import_additional.md):
+- [String related
+  functions](https://tony-aw.github.io/tinycodet/articles/d_strings_functions.md):
+- [String related infix
+  operators](https://tony-aw.github.io/tinycodet/articles/e_strings_inops.md):
+- [Don't Repeat
+  Yourself](https://tony-aw.github.io/tinycodet/articles/f_DRY.md):
+- [Miscellaneous
+  functionality](https://tony-aw.github.io/tinycodet/articles/g_misc.md):
+- [Relations to other
+  packages](https://tony-aw.github.io/tinycodet/articles/h_otherpkgs.md):
+- [Benchmarks](https://tony-aw.github.io/tinycodet/articles/i_benchmarks.md):
+- [UNKNOWN
+  TITLE](https://tony-aw.github.io/tinycodet/articles/tinycodet.md):

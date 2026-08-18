@@ -1,8 +1,8 @@
 Package: tinycodet
 Title: Functions to Help in your Coding Etiquette
-Version: 0.7.0
+Version: 0.7.1
 Authors@R: person("Tony", "Wilkes", role = c("aut", "cre", "cph"),
-                  email = "tony_a_wilkes@outlook.com",
+                  email = "tonywilkes.nl@gmail.com",
                   comment = c(ORCID = "0000-0001-9498-8379"))
 Description: Adds some functions to help in your coding etiquette.
     'tinycodet' primarily focuses on 4 aspects.
@@ -19,7 +19,6 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LinkingTo: Rcpp
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
 Suggests:
     tinytest,
     ggplot2,
@@ -39,3 +38,4 @@ Imports:
 URL: https://github.com/tony-aw/tinycodet/, https://tony-aw.github.io/tinycodet/
 BugReports: https://github.com/tony-aw/tinycodet/issues/
 Language: en-gb
+Config/roxygen2/version: 8.0.0

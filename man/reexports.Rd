@@ -13,6 +13,6 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{stringi}{\code{\link[stringi:operator_dollar]{\%s$\%}}, \code{\link[stringi:stri_dup]{\%s*\%}}, \code{\link[stringi:operator_add]{\%s+\%}}}
+  \item{stringi}{\code{\link[stringi:\%s$\%]{\%s$\%}}, \code{\link[stringi:\%s*\%]{\%s*\%}}, \code{\link[stringi:\%s+\%]{\%s+\%}}}
 }}
 
