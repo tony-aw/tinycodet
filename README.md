@@ -5,8 +5,7 @@
 
 <!-- badges: start -->
 
-[![R build
-status](https://github.com/tony-aw/tinycodet/workflows/R-CMD-check/badge.svg)](https://github.com/tony-aw/tinycodet/actions)
+[![R-CMD-check-overkill](https://github.com/tony-aw/tinycodet/actions/workflows/R-CMD-check-overkill.yaml/badge.svg)](https://github.com/tony-aw/tinycodet/actions/workflows/R-CMD-check-overkill.yaml)
 [![Project Status: Active - The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)

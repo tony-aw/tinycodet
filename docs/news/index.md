@@ -3,6 +3,10 @@
 ## tinycodet 0.7.1
 
 - Changed e-mail provider.
+- Cleaned up some internal code.
+- [`with_pro()`](https://tony-aw.github.io/tinycodet/reference/pro.md)
+  now requires the `data` argument be a list or data.frame (rather than
+  just any recursive object).
 
 ## tinycodet 0.7.0
 
@@ -165,8 +169,8 @@ CRAN release: 2024-02-17
   [`is_wholenumber()`](https://tony-aw.github.io/tinycodet/reference/decimal_truth.md)
   to the decimal truth testing section.
 - **Argument change:** Added the `rt` argument to `strfind()<-`, and
-  moved the `i` and `rt` arguments more to the end of the functions. The
-  `type` argument in
+  moved the `i` and `rt` arguments more to the end of the functions.  
+  The `type` argument in
   [`strcut_brk()`](https://tony-aw.github.io/tinycodet/reference/strcut.md)
   can now also directly accept a list produced by
   [`stringi::stri_opts_brkiter()`](https://rdrr.io/pkg/stringi/man/stri_opts_brkiter.html).
@@ -174,6 +178,8 @@ CRAN release: 2024-02-17
 ## tinycodet 0.4.0
 
 CRAN release: 2024-01-11
+
+**Documentation improvements:**
 
 - Clarified in the documentation that `%col~%` and `%row~%` strip
   attributes.
@@ -191,7 +197,7 @@ CRAN release: 2024-01-11
   documentation that one should not pass the `capture_groups` argument;
   also clarified how to capture the `ith` group using
   [`stri_locate_ith()`](https://tony-aw.github.io/tinycodet/reference/stri_locate_ith.md).
-  And clarified that
+- Clarified that
   [`stri_locate_ith()`](https://tony-aw.github.io/tinycodet/reference/stri_locate_ith.md)
   does not support long vectors.
 - Normalized the links in the “See Also” sections in the documentation.
@@ -201,68 +207,97 @@ CRAN release: 2024-01-11
   [`import_LL()`](https://tony-aw.github.io/tinycodet/reference/import_misc.md).
 - The help file for the `s_pattern` functions is now actually titled
   “s_pattern”.
-- The messages returned by
-  [`import_as()`](https://tony-aw.github.io/tinycodet/reference/import_as.md)
-  when aliasing packages is now slightly less verbose: removed the line
-  “Methods work like normally”, and replaced the line “Importing
-  packages …” with “Importing packages and registering methods…”.
+
+**More safety checks:** \* Improved safety against malformed conditions
+in the
+[`transform_if()`](https://tony-aw.github.io/tinycodet/reference/transform_if.md)
+function. \*
+[`stri_locate_ith()`](https://tony-aw.github.io/tinycodet/reference/stri_locate_ith.md)
+now gives a warning when an empty string or pattern is given. \* The
+[`help.import()`](https://tony-aw.github.io/tinycodet/reference/import_helper.md)
+function now gives an error if neither `topic/package` nor `i/alias` is
+supplied, instead of just silently doing nothing. \* The `%sget%` and
+`%strim%` operators now give an explicit error message if the arguments
+do not have proper lengths.
+
+**Internal Re-write:**
+
+- [`stri_locate_ith()`](https://tony-aw.github.io/tinycodet/reference/stri_locate_ith.md)
+  has now been partially re-written, and now includes ‘C++’ code, making
+  it a bit faster.
+- Cleaned up the internal code for some other functions here and there.
+
+**Added dependency:**
+
+- ‘Rcpp’ is now added as a dependency, due to the aforementioned partial
+  re-write in ‘C++’.
+
+**New Features:**
+
+- Added `%ss%` to the collection of string arithmetic operators.
+- Added the `strfind()<-` method to the string search operators.
+- One can now supply the `at` argument in the list of the right-hand
+  side for the `%s{}%` operator.  
+  Supplying `at = "start"` will check if the pattern appears at the
+  start of a string. Supplying `at = "end"` will check if the pattern
+  appears at the end of a string.
+
+**Optimization:**
+
+- Managed to optimise
+  [`stri_locate_ith()`](https://tony-aw.github.io/tinycodet/reference/stri_locate_ith.md)
+  even further.
+- Optimised the ‘subset_if’ operators a bit more.
+- Also optimised the `%n&%`, `%sget%`, `%strim%`, and `%=strtype%`
+  operators a bit more.
+
+**Argument changes:**
+
+- The `s_pattern` functions now wrap additional arguments in a list for
+  the user, in case of using vector arguments, preventing potential
+  confusion.
+- The `type` argument in
+  [`stri_locate_ith_boundaries()`](https://tony-aw.github.io/tinycodet/reference/stri_locate_ith.md)
+  is now not a mandatory argument; one can now also supply it through
+  `stri_opts_brikiter()`, to keep it more consistent with the rest of
+  ‘stringi’.
 - The
   [`strcut_brk()`](https://tony-aw.github.io/tinycodet/reference/strcut.md)
   function now includes the `tolist` argument to return a list.
   Moreover, the `n` argument may now also be specified (`n = -1L` by
   default).
-- **More safety checks:** Improved safety against malformed conditions
-  in the
-  [`transform_if()`](https://tony-aw.github.io/tinycodet/reference/transform_if.md)
-  function.
-  [`stri_locate_ith()`](https://tony-aw.github.io/tinycodet/reference/stri_locate_ith.md)
-  now gives a warning when an empty string or pattern is given. The
-  [`help.import()`](https://tony-aw.github.io/tinycodet/reference/import_helper.md)
-  function now gives an error if neither `topic/package` nor `i/alias`
-  is supplied, instead of just silently doing nothing. The `%sget%` and
-  `%strim%` operators now give an explicit error message if the
-  arguments do not have proper lengths.
-- **Internal Re-write:**
-  [`stri_locate_ith()`](https://tony-aw.github.io/tinycodet/reference/stri_locate_ith.md)
-  has now been partially re-written, and now includes ‘C++’ code, making
-  it a bit faster. Also cleaned up the internal code for some other
-  functions here and there.
-- **Added dependency:** ‘Rcpp’ is now added as a dependency, due to the
-  aforementioned partial re-write in ‘C++’.
-- **New Features:** Added `%ss%` to the collection of string arithmetic
-  operators, and added the `strfind()<-` method to the string search
-  operators. One can now supply the `at` argument in the list of the
-  right-hand side for the `%s{}%` operator. Supplying `at = "start"`
-  will check if the pattern appears at the start of a string. Supplying
-  `at = "end"` will check if the pattern appears at the end of a string.
-- **Optimization:** Managed to optimise
-  [`stri_locate_ith()`](https://tony-aw.github.io/tinycodet/reference/stri_locate_ith.md)
-  even further. Optimised the ‘subset_if’ operators a bit more. Also
-  optimised the `%n&%`, `%sget%`, `%strim%`, and `%=strtype%` operators
-  a bit more.
-- **Argument change:** The `s_pattern` functions now wrap additional
-  arguments in a list for the user, in case of using vector arguments,
-  preventing potential confusion.
-- **Argument change:** The `type` argument in
-  [`stri_locate_ith_boundaries()`](https://tony-aw.github.io/tinycodet/reference/stri_locate_ith.md)
-  is now not a mandatory argument; one can now also supply it through
-  `stri_opts_brikiter()`, to keep it more consistent with the rest of
-  ‘stringi’.
-- **Tests:** Improved the tests for the `s_pattern` operators. Added
-  tests for
-  [`stri_locate_ith()`](https://tony-aw.github.io/tinycodet/reference/stri_locate_ith.md)
-  when using argument `merge = FALSE`. Added more error check tests for
-  [`help.import()`](https://tony-aw.github.io/tinycodet/reference/import_helper.md).
-  Added tests for unequal vector sizes for the logic operators. Added
-  tests for empty condition subsets for
-  [`transform_if()`](https://tony-aw.github.io/tinycodet/reference/transform_if.md).
-  Added tests for the new functionalities introduced in this version.
-  Added tests for malformed ‘stringi’ pattern searches in all relevant
-  functions.
-- **Bug fix:** There was a small bug where
+
+**Bug fixes:**
+
+- There was a bug where
   [`s_coll()`](https://tony-aw.github.io/tinycodet/reference/s_pattern.md)
   worked properly when assigned to an object (as usual), but not when
-  called directly (like nested inside a function). This is now fixed.
+  called directly (like nested inside a function).  
+  This is now fixed.
+
+**Other Changes:**
+
+- The messages returned by
+  [`import_as()`](https://tony-aw.github.io/tinycodet/reference/import_as.md)
+  when aliasing packages is now slightly less verbose:  
+  removed the line “Methods work like normally”, and replaced the line
+  “Importing packages …” with “Importing packages and registering
+  methods…”.
+
+**Tests:**
+
+- Improved the tests for the `s_pattern` operators.
+- Added tests for
+  [`stri_locate_ith()`](https://tony-aw.github.io/tinycodet/reference/stri_locate_ith.md)
+  when using argument `merge = FALSE`.
+- Added more error check tests for
+  [`help.import()`](https://tony-aw.github.io/tinycodet/reference/import_helper.md).
+- Added tests for unequal vector sizes for the logic operators.
+- Added tests for empty condition subsets for
+  [`transform_if()`](https://tony-aw.github.io/tinycodet/reference/transform_if.md)
+- Added tests for the new functionalities introduced in this version.
+- Added tests for malformed ‘stringi’ pattern searches in all relevant
+  functions.
 
 ## tinycodet 0.3.0
 
@@ -283,8 +318,9 @@ CRAN release: 2023-12-11
   [`pkg_get_deps()`](https://tony-aw.github.io/tinycodet/reference/pkgs.md)
   function now also has the `shared_tidy` argument to ignore the shared
   ‘tidyverse’ libraries (‘rlang’, ‘lifecycle’, ‘cli’, ‘glue’, and
-  ‘withr’). Also changed the default values of the `recom`, and
-  `rstudioapi` arguments.
+  ‘withr’).
+- Changed the default values of the `recom`, and `rstudioapi` arguments
+  in `pkg_get+deps()`.
 - Added the
   [`pkg_get_deps_minimal()`](https://tony-aw.github.io/tinycodet/reference/pkgs.md)
   function. Also changed the default arguments of
@@ -346,10 +382,10 @@ CRAN release: 2023-10-12
 - Replaced usage of
   [`installed.packages()`](https://rdrr.io/r/utils/installed.packages.html)
   in the `%installed in%` operator with
-  [`find.package()`](https://rdrr.io/r/base/find.package.html). Also
-  added the sentence “As pkgs %installed in% lib.loc does not even load
-  a package, the user can safely use it without fearing any unwanted
-  side-effects.” to the help page.
+  [`find.package()`](https://rdrr.io/r/base/find.package.html).  
+  Also added the sentence “As pkgs %installed in% lib.loc does not even
+  load a package, the user can safely use it without fearing any
+  unwanted side-effects.” to the help page.
 - Replaced usage of
   [`installed.packages()`](https://rdrr.io/r/utils/installed.packages.html)
   with a manually specified character vector in the R scripts/functions

@@ -32,6 +32,20 @@ if(requireNamespace("ggplot2")) {
     aes_pro(my_x, my_y, fill = fill)
   )
   
+  # very long names:
+  my_x <- ~ Very_very_very_unecessarily_and_ridiculously_long_variable_name_for_variable1_for_the_purpose_of_testing_programmatically_friendly_functions_without_NSE
+  my_y <- ~ Very_very_very_unecessarily_and_ridiculously_long_variable_name_for_variable2_for_the_purpose_of_testing_programmatically_friendly_functions_without_NSE
+  expect_equal(
+    ggplot2::aes(
+      Very_very_very_unecessarily_and_ridiculously_long_variable_name_for_variable1_for_the_purpose_of_testing_programmatically_friendly_functions_without_NSE,
+      Very_very_very_unecessarily_and_ridiculously_long_variable_name_for_variable2_for_the_purpose_of_testing_programmatically_friendly_functions_without_NSE
+    ),
+    aes_pro(my_x, my_y)
+  )
+  
+  
+  
+  # with tempfun
   tempfun <- function(x, y, fill) {
     aes_pro(x, y, fill = fill)
   }
@@ -52,7 +66,27 @@ if(requireNamespace("ggplot2")) {
     ggplot2::aes(colX^2, `1st`^2, fill = `TRUE`^2),
     tempfun(my_x, my_y, fill)
   )
+  
+  # very long names:
+  my_x <- ~ Very_very_very_unecessarily_and_ridiculously_long_variable_name_for_variable1_for_the_purpose_of_testing_programmatically_friendly_functions_without_NSE
+  my_y <- ~ Very_very_very_unecessarily_and_ridiculously_long_variable_name_for_variable2_for_the_purpose_of_testing_programmatically_friendly_functions_without_NSE
+  fill <- ~ Very_very_very_unecessarily_and_ridiculously_long_variable_name_for_variable3_for_the_purpose_of_testing_programmatically_friendly_functions_without_NSE
+  expect_equal(
+    ggplot2::aes(
+      Very_very_very_unecessarily_and_ridiculously_long_variable_name_for_variable1_for_the_purpose_of_testing_programmatically_friendly_functions_without_NSE,
+      Very_very_very_unecessarily_and_ridiculously_long_variable_name_for_variable2_for_the_purpose_of_testing_programmatically_friendly_functions_without_NSE,
+      fill = Very_very_very_unecessarily_and_ridiculously_long_variable_name_for_variable3_for_the_purpose_of_testing_programmatically_friendly_functions_without_NSE
+    ),
+    tempfun(my_x, my_y, fill)
+  )
 }
+
+form1 <- ~ Very_very_very_unecessarily_and_ridiculously_long_variable_name_for_variable1_for_the_purpose_of_testing_programmatically_friendly_functions_without_NSE
+form2 <- ~ Very_very_very_unecessarily_and_ridiculously_long_variable_name_for_variable2_for_the_purpose_of_testing_programmatically_friendly_functions_without_NSE
+expect_silent(
+  aes_pro(form1, form2)
+)
+
 
 
 # with_pro ====
@@ -93,14 +127,14 @@ expect_equal(
 x <- data.frame(a = 1:10, b = 11:20)
 myform <- ~  a^2 + b^2
 expect_error(
-  with_pro(x, ~ c^2),
-  pattern = "unknown variable(s) given",
+  with_pro(x, ~ z^2),
+  pattern = "object 'z' not found",
   fixed = TRUE
 )
 
 expect_error(
   with_pro(1:10, myform),
-  pattern = "`data` must be a recursive object",
+  pattern = "`data` must be a list or data.frame",
   fixed = TRUE
 )
 
@@ -114,4 +148,9 @@ expect_error(
   with_pro(x, a ~ b),
   pattern = "improper formula given"
 )
+
+x <- data.frame(a = 1:10, b = 11:20)
+myform <- ~  a^2 + b^2
+with_pro(x, myform)
+expect_false(is.null(environment(myform)))
 

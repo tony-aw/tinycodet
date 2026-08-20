@@ -426,27 +426,27 @@ example below.</p>
 <span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>myform <span class="ot">&lt;-</span> <span class="er">~</span> displ <span class="sc">+</span> cyl <span class="sc">+</span> cty <span class="sc">+</span> hwy</span>
 <span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>d<span class="sc">$</span>mysum <span class="ot">&lt;-</span> <span class="fu">with_pro</span>(d, myform)</span>
 <span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="fu">summary</span>(d)</span>
-<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt;  manufacturer          model               displ            year     </span></span>
-<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt;  Length:234         Length:234         Min.   :1.600   Min.   :1999  </span></span>
-<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt;  Class :character   Class :character   1st Qu.:2.400   1st Qu.:1999  </span></span>
-<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co">#&gt;  Mode  :character   Mode  :character   Median :3.300   Median :2004  </span></span>
-<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt;                                        Mean   :3.472   Mean   :2004  </span></span>
-<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt;                                        3rd Qu.:4.600   3rd Qu.:2008  </span></span>
-<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co">#&gt;                                        Max.   :7.000   Max.   :2008  </span></span>
-<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co">#&gt;       cyl           trans               drv                 cty       </span></span>
-<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="co">#&gt;  Min.   :4.000   Length:234         Length:234         Min.   : 9.00  </span></span>
-<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="co">#&gt;  1st Qu.:4.000   Class :character   Class :character   1st Qu.:14.00  </span></span>
-<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="co">#&gt;  Median :6.000   Mode  :character   Mode  :character   Median :17.00  </span></span>
-<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="co">#&gt;  Mean   :5.889                                         Mean   :16.86  </span></span>
-<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a><span class="co">#&gt;  3rd Qu.:8.000                                         3rd Qu.:19.00  </span></span>
-<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a><span class="co">#&gt;  Max.   :8.000                                         Max.   :35.00  </span></span>
-<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a><span class="co">#&gt;       hwy             fl               class               mysum      </span></span>
-<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a><span class="co">#&gt;  Min.   :12.00   Length:234         Length:234         Min.   :33.70  </span></span>
-<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a><span class="co">#&gt;  1st Qu.:18.00   Class :character   Class :character   1st Qu.:43.10  </span></span>
-<span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a><span class="co">#&gt;  Median :24.00   Mode  :character   Mode  :character   Median :50.15  </span></span>
-<span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a><span class="co">#&gt;  Mean   :23.44                                         Mean   :49.66  </span></span>
-<span id="cb4-29"><a href="#cb4-29" tabindex="-1"></a><span class="co">#&gt;  3rd Qu.:27.00                                         3rd Qu.:54.08  </span></span>
-<span id="cb4-30"><a href="#cb4-30" tabindex="-1"></a><span class="co">#&gt;  Max.   :44.00                                         Max.   :84.90</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt;     manufacturer       model         displ            year           cyl       </span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt;  Length   :234   Length   :234   Min.   :1.600   Min.   :1999   Min.   :4.000  </span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt;  N.unique : 15   N.unique : 38   1st Qu.:2.400   1st Qu.:1999   1st Qu.:4.000  </span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co">#&gt;  N.blank  :  0   N.blank  :  0   Median :3.300   Median :2004   Median :6.000  </span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt;  Min.nchar:  4   Min.nchar:  2   Mean   :3.472   Mean   :2004   Mean   :5.889  </span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt;  Max.nchar: 10   Max.nchar: 22   3rd Qu.:4.600   3rd Qu.:2008   3rd Qu.:8.000  </span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co">#&gt;                                  Max.   :7.000   Max.   :2008   Max.   :8.000  </span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co">#&gt;        trans            drv           cty             hwy       </span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="co">#&gt;  Length   :234   Length   :234   Min.   : 9.00   Min.   :12.00  </span></span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a><span class="co">#&gt;  N.unique : 10   N.unique :  3   1st Qu.:14.00   1st Qu.:18.00  </span></span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="co">#&gt;  N.blank  :  0   N.blank  :  0   Median :17.00   Median :24.00  </span></span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="co">#&gt;  Min.nchar:  8   Min.nchar:  1   Mean   :16.86   Mean   :23.44  </span></span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a><span class="co">#&gt;  Max.nchar: 10   Max.nchar:  1   3rd Qu.:19.00   3rd Qu.:27.00  </span></span>
+<span id="cb4-23"><a href="#cb4-23" tabindex="-1"></a><span class="co">#&gt;                                  Max.   :35.00   Max.   :44.00  </span></span>
+<span id="cb4-24"><a href="#cb4-24" tabindex="-1"></a><span class="co">#&gt;          fl            class         mysum      </span></span>
+<span id="cb4-25"><a href="#cb4-25" tabindex="-1"></a><span class="co">#&gt;  Length   :234   Length   :234   Min.   :33.70  </span></span>
+<span id="cb4-26"><a href="#cb4-26" tabindex="-1"></a><span class="co">#&gt;  N.unique :  5   N.unique :  7   1st Qu.:43.10  </span></span>
+<span id="cb4-27"><a href="#cb4-27" tabindex="-1"></a><span class="co">#&gt;  N.blank  :  0   N.blank  :  0   Median :50.15  </span></span>
+<span id="cb4-28"><a href="#cb4-28" tabindex="-1"></a><span class="co">#&gt;  Min.nchar:  1   Min.nchar:  3   Mean   :49.66  </span></span>
+<span id="cb4-29"><a href="#cb4-29" tabindex="-1"></a><span class="co">#&gt;  Max.nchar:  1   Max.nchar: 10   3rd Qu.:54.08  </span></span>
+<span id="cb4-30"><a href="#cb4-30" tabindex="-1"></a><span class="co">#&gt;                                  Max.   :84.90</span></span>
 <span id="cb4-31"><a href="#cb4-31" tabindex="-1"></a></span>
 <span id="cb4-32"><a href="#cb4-32" tabindex="-1"></a><span class="co"># plotting data:</span></span>
 <span id="cb4-33"><a href="#cb4-33" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="er">~</span> cty</span>

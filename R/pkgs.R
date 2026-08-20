@@ -43,25 +43,20 @@
 #' @param deps_type a character vector, giving the dependency types to be used. \cr
 #' The order of the character vector given in \code{deps_type} affects
 #' the order of the returned character vector; see Details sections.
-#' @param base logical,
+#' @param base `TRUE` or `FALSE`,
 #' indicating whether base/core R should be included (\code{TRUE}),
 #' or not included (\code{FALSE}).
-#' @param recom logical,
+#' @param recom `TRUE` or `FALSE`,
 #' indicating whether the pre-installed 'recommended' R-packages should be included
 #' (\code{TRUE}),
 #' or not included (\code{FALSE}).
-#' @param rstudioapi logical,
+#' @param rstudioapi `TRUE` or `FALSE`,
 #' indicating whether the 'rstudioapi' R-package should be included
 #' (\code{TRUE}),
 #' or not included (\code{FALSE}).
-#' @param shared_tidy logical,
-#' indicating whether the shared dependencies of the 'tidyverse' should be included
-#' (\code{TRUE}),
-#' or not included (\code{FALSE}). \cr
-#' \bold{Details:} \cr
-#' Some of the (often many) dependencies 'tidyverse' packages have
-#' are shared across the majority of the 'tidyverse'. \cr
-#' The "official" list of shared dependencies in the 'tidyverse' currently is the following: \cr
+#' @param shared_tidy `TRUE` or `FALSE`,
+#' indicating whether the following packages should be included (\code{TRUE})
+#' or not included (\code{FALSE}): \cr
 #' 'rlang', 'lifecycle', 'cli', 'glue', and 'withr'.
 #' @param type The type of functions to list. Possibilities:
 #'  * \code{"inops"} or \code{"operators"}: Only infix operators.

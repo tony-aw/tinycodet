@@ -91,7 +91,7 @@ or similar programmatically unfriendly evaluations. <br><br></p>
 
 
 <dl><dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
-<dd><p>a list, environment, or data.frame.</p></dd>
+<dd><p>a list or data.frame.</p></dd>
 
 
 <dt id="arg-form">form<a class="anchor" aria-label="anchor" href="#arg-form"></a></dt>
@@ -115,8 +115,7 @@ For <code>aes_pro()</code>: see <code>ggplot2::</code><a href="https://ggplot2.t
     <p>The <code>aes_pro()</code> function is the standard evaluated alternative to
 <code>ggplot2::</code><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a>. <br>
 Due to the way <code>aes_pro()</code> is programmed,
-it should work even if the tidy evaluation technique
-changes in 'ggplot2'. <br>
+it should still work when tidy evaluation changes in 'ggplot2'. <br>
 To support functions in combinations with references of the variables,
 the input used here are formula inputs, rather than string inputs. <br>
 See the Examples section below. <br><br></p>

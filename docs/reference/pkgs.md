@@ -73,28 +73,23 @@ pkg_lsf(package, type, lib.loc = .libPaths())
 
 - base:
 
-  logical, indicating whether base/core R should be included (`TRUE`),
-  or not included (`FALSE`).
+  `TRUE` or `FALSE`, indicating whether base/core R should be included
+  (`TRUE`), or not included (`FALSE`).
 
 - recom:
 
-  logical, indicating whether the pre-installed 'recommended' R-packages
-  should be included (`TRUE`), or not included (`FALSE`).
+  `TRUE` or `FALSE`, indicating whether the pre-installed 'recommended'
+  R-packages should be included (`TRUE`), or not included (`FALSE`).
 
 - rstudioapi:
 
-  logical, indicating whether the 'rstudioapi' R-package should be
-  included (`TRUE`), or not included (`FALSE`).
+  `TRUE` or `FALSE`, indicating whether the 'rstudioapi' R-package
+  should be included (`TRUE`), or not included (`FALSE`).
 
 - shared_tidy:
 
-  logical, indicating whether the shared dependencies of the 'tidyverse'
-  should be included (`TRUE`), or not included (`FALSE`).  
-  **Details:**  
-  Some of the (often many) dependencies 'tidyverse' packages have are
-  shared across the majority of the 'tidyverse'.  
-  The "official" list of shared dependencies in the 'tidyverse'
-  currently is the following:  
+  `TRUE` or `FALSE`, indicating whether the following packages should be
+  included (`TRUE`) or not included (`FALSE`):  
   'rlang', 'lifecycle', 'cli', 'glue', and 'withr'.
 
 - type:

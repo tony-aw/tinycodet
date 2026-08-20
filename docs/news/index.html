@@ -48,6 +48,9 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.7.1" id="tinycodet-071">tinycodet 0.7.1<a class="anchor" aria-label="anchor" href="#tinycodet-071"></a></h2>
 <ul><li>Changed e-mail provider.</li>
+<li>Cleaned up some internal code.</li>
+<li>
+<code><a href="../reference/pro.html">with_pro()</a></code> now requires the <code>data</code> argument be a list or data.frame (rather than just any recursive object).</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.7.0" id="tinycodet-070">tinycodet 0.7.0<a class="anchor" aria-label="anchor" href="#tinycodet-070"></a></h2><p class="text-muted">CRAN release: 2026-06-08</p>
@@ -151,39 +154,57 @@ They are superseded by the functions of the same name in the <a href="https://cr
 <li>Added a few more tests.</li>
 <li>Moved <code><a href="../reference/decimal_truth.html">is_wholenumber()</a></code> to the decimal truth testing section.</li>
 <li>
-<strong>Argument change:</strong> Added the <code>rt</code> argument to <code>strfind()&lt;-</code>, and moved the <code>i</code> and <code>rt</code> arguments more to the end of the functions. The <code>type</code> argument in <code><a href="../reference/strcut.html">strcut_brk()</a></code> can now also directly accept a list produced by <code><a href="https://rdrr.io/pkg/stringi/man/stri_opts_brkiter.html" class="external-link">stringi::stri_opts_brkiter()</a></code>.</li>
+<strong>Argument change:</strong> Added the <code>rt</code> argument to <code>strfind()&lt;-</code>, and moved the <code>i</code> and <code>rt</code> arguments more to the end of the functions.<br>
+The <code>type</code> argument in <code><a href="../reference/strcut.html">strcut_brk()</a></code> can now also directly accept a list produced by <code><a href="https://rdrr.io/pkg/stringi/man/stri_opts_brkiter.html" class="external-link">stringi::stri_opts_brkiter()</a></code>.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.4.0" id="tinycodet-040">tinycodet 0.4.0<a class="anchor" aria-label="anchor" href="#tinycodet-040"></a></h2><p class="text-muted">CRAN release: 2024-01-11</p>
+<p><strong>Documentation improvements:</strong></p>
 <ul><li>Clarified in the documentation that <code>%col~%</code> and <code>%row~%</code> strip attributes.</li>
 <li>Clarified the usage of <code>merge = FALSE</code> for pattern <code>charclass</code>, in the documentation of the <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> function.</li>
 <li>Clarified in the documentation that locked objects are not protected from modification by reference.</li>
 <li>Clarified in the documentation of ‘stringi’ pattern searching infix operators that the <code>p</code> argument can also be a character vector of length 1.</li>
-<li>Clarified in the <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> documentation that one should not pass the <code>capture_groups</code> argument; also clarified how to capture the <code>ith</code> group using <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code>. And clarified that <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> does not support long vectors.</li>
+<li>Clarified in the <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> documentation that one should not pass the <code>capture_groups</code> argument; also clarified how to capture the <code>ith</code> group using <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code>.</li>
+<li>Clarified that <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> does not support long vectors.</li>
 <li>Normalized the links in the “See Also” sections in the documentation.</li>
 <li>Renamed the “str_truth” page to “str_search”, as that makes a little more sense.</li>
 <li>Removed the redundant <code>stringi::</code> piece in the example code for <code><a href="../reference/import_misc.html">import_LL()</a></code>.</li>
 <li>The help file for the <code>s_pattern</code> functions is now actually titled “s_pattern”.</li>
-<li>The messages returned by <code><a href="../reference/import_as.html">import_as()</a></code> when aliasing packages is now slightly less verbose: removed the line “Methods work like normally”, and replaced the line “Importing packages …” with “Importing packages and registering methods…”.</li>
+</ul><p><strong>More safety checks:</strong> * Improved safety against malformed conditions in the <code><a href="../reference/transform_if.html">transform_if()</a></code> function. * <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> now gives a warning when an empty string or pattern is given. * The <code><a href="../reference/import_helper.html">help.import()</a></code> function now gives an error if neither <code>topic/package</code> nor <code>i/alias</code> is supplied, instead of just silently doing nothing. * The <code>%sget%</code> and <code>%strim%</code> operators now give an explicit error message if the arguments do not have proper lengths.</p>
+<p><strong>Internal Re-write:</strong></p>
+<ul><li>
+<code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> has now been partially re-written, and now includes ‘C++’ code, making it a bit faster.</li>
+<li>Cleaned up the internal code for some other functions here and there.</li>
+</ul><p><strong>Added dependency:</strong></p>
+<ul><li>‘Rcpp’ is now added as a dependency, due to the aforementioned partial re-write in ‘C++’.</li>
+</ul><p><strong>New Features:</strong></p>
+<ul><li>Added <code>%ss%</code> to the collection of string arithmetic operators.</li>
+<li>Added the <code>strfind()&lt;-</code> method to the string search operators.</li>
+<li>One can now supply the <code>at</code> argument in the list of the right-hand side for the <code>%s{}%</code> operator.<br>
+Supplying <code>at = "start"</code> will check if the pattern appears at the start of a string. Supplying <code>at = "end"</code> will check if the pattern appears at the end of a string.</li>
+</ul><p><strong>Optimization:</strong></p>
+<ul><li>Managed to optimise <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> even further.</li>
+<li>Optimised the ‘subset_if’ operators a bit more.</li>
+<li>Also optimised the <code>%n&amp;%</code>, <code>%sget%</code>, <code>%strim%</code>, and <code>%=strtype%</code> operators a bit more.</li>
+</ul><p><strong>Argument changes:</strong></p>
+<ul><li>The <code>s_pattern</code> functions now wrap additional arguments in a list for the user, in case of using vector arguments, preventing potential confusion.</li>
+<li>The <code>type</code> argument in <code><a href="../reference/stri_locate_ith.html">stri_locate_ith_boundaries()</a></code> is now not a mandatory argument; one can now also supply it through <code>stri_opts_brikiter()</code>, to keep it more consistent with the rest of ‘stringi’.</li>
 <li>The <code><a href="../reference/strcut.html">strcut_brk()</a></code> function now includes the <code>tolist</code> argument to return a list. Moreover, the <code>n</code> argument may now also be specified (<code>n = -1L</code> by default).</li>
-<li>
-<strong>More safety checks:</strong> Improved safety against malformed conditions in the <code><a href="../reference/transform_if.html">transform_if()</a></code> function. <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> now gives a warning when an empty string or pattern is given. The <code><a href="../reference/import_helper.html">help.import()</a></code> function now gives an error if neither <code>topic/package</code> nor <code>i/alias</code> is supplied, instead of just silently doing nothing. The <code>%sget%</code> and <code>%strim%</code> operators now give an explicit error message if the arguments do not have proper lengths.</li>
-<li>
-<strong>Internal Re-write:</strong> <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> has now been partially re-written, and now includes ‘C++’ code, making it a bit faster. Also cleaned up the internal code for some other functions here and there.</li>
-<li>
-<strong>Added dependency:</strong> ‘Rcpp’ is now added as a dependency, due to the aforementioned partial re-write in ‘C++’.</li>
-<li>
-<strong>New Features:</strong> Added <code>%ss%</code> to the collection of string arithmetic operators, and added the <code>strfind()&lt;-</code> method to the string search operators. One can now supply the <code>at</code> argument in the list of the right-hand side for the <code>%s{}%</code> operator. Supplying <code>at = "start"</code> will check if the pattern appears at the start of a string. Supplying <code>at = "end"</code> will check if the pattern appears at the end of a string.</li>
-<li>
-<strong>Optimization:</strong> Managed to optimise <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> even further. Optimised the ‘subset_if’ operators a bit more. Also optimised the <code>%n&amp;%</code>, <code>%sget%</code>, <code>%strim%</code>, and <code>%=strtype%</code> operators a bit more.</li>
-<li>
-<strong>Argument change:</strong> The <code>s_pattern</code> functions now wrap additional arguments in a list for the user, in case of using vector arguments, preventing potential confusion.</li>
-<li>
-<strong>Argument change:</strong> The <code>type</code> argument in <code><a href="../reference/stri_locate_ith.html">stri_locate_ith_boundaries()</a></code> is now not a mandatory argument; one can now also supply it through <code>stri_opts_brikiter()</code>, to keep it more consistent with the rest of ‘stringi’.</li>
-<li>
-<strong>Tests:</strong> Improved the tests for the <code>s_pattern</code> operators. Added tests for <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> when using argument <code>merge = FALSE</code>. Added more error check tests for <code><a href="../reference/import_helper.html">help.import()</a></code>. Added tests for unequal vector sizes for the logic operators. Added tests for empty condition subsets for <code><a href="../reference/transform_if.html">transform_if()</a></code>. Added tests for the new functionalities introduced in this version. Added tests for malformed ‘stringi’ pattern searches in all relevant functions.</li>
-<li>
-<strong>Bug fix:</strong> There was a small bug where <code><a href="../reference/s_pattern.html">s_coll()</a></code> worked properly when assigned to an object (as usual), but not when called directly (like nested inside a function). This is now fixed.</li>
+</ul><p><strong>Bug fixes:</strong></p>
+<ul><li>There was a bug where <code><a href="../reference/s_pattern.html">s_coll()</a></code> worked properly when assigned to an object (as usual), but not when called directly (like nested inside a function).<br>
+This is now fixed.</li>
+</ul><p><strong>Other Changes:</strong></p>
+<ul><li>The messages returned by <code><a href="../reference/import_as.html">import_as()</a></code> when aliasing packages is now slightly less verbose:<br>
+removed the line “Methods work like normally”, and replaced the line “Importing packages …” with “Importing packages and registering methods…”.</li>
+</ul><p><strong>Tests:</strong></p>
+<ul><li>Improved the tests for the <code>s_pattern</code> operators.</li>
+<li>Added tests for <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> when using argument <code>merge = FALSE</code>.</li>
+<li>Added more error check tests for <code><a href="../reference/import_helper.html">help.import()</a></code>.</li>
+<li>Added tests for unequal vector sizes for the logic operators.</li>
+<li>Added tests for empty condition subsets for <code><a href="../reference/transform_if.html">transform_if()</a></code>
+</li>
+<li>Added tests for the new functionalities introduced in this version.</li>
+<li>Added tests for malformed ‘stringi’ pattern searches in all relevant functions.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.3.0" id="tinycodet-030">tinycodet 0.3.0<a class="anchor" aria-label="anchor" href="#tinycodet-030"></a></h2><p class="text-muted">CRAN release: 2023-12-11</p>
@@ -192,7 +213,8 @@ They are superseded by the functions of the same name in the <a href="https://cr
 <li>
 <code><a href="../reference/import_as.html">import_as()</a></code> now does not allow more than 10 packages to be loaded under a single alias, to prevent abusive usage of <code><a href="../reference/import_as.html">import_as()</a></code>.</li>
 <li>The import system now has a few more tiny safety checks, including checks for widely known meta-packages (such as “fastverse”).</li>
-<li>The <code><a href="../reference/pkgs.html">pkg_get_deps()</a></code> function now also has the <code>shared_tidy</code> argument to ignore the shared ‘tidyverse’ libraries (‘rlang’, ‘lifecycle’, ‘cli’, ‘glue’, and ‘withr’). Also changed the default values of the <code>recom</code>, and <code>rstudioapi</code> arguments.</li>
+<li>The <code><a href="../reference/pkgs.html">pkg_get_deps()</a></code> function now also has the <code>shared_tidy</code> argument to ignore the shared ‘tidyverse’ libraries (‘rlang’, ‘lifecycle’, ‘cli’, ‘glue’, and ‘withr’).</li>
+<li>Changed the default values of the <code>recom</code>, and <code>rstudioapi</code> arguments in <code>pkg_get+deps()</code>.</li>
 <li>Added the <code><a href="../reference/pkgs.html">pkg_get_deps_minimal()</a></code> function. Also changed the default arguments of <code><a href="../reference/pkgs.html">pkg_get_deps()</a></code>.</li>
 <li>Changed the error message for wrong extension specifications: replaced “actual reverse-dependencies” into “actual extensions”.</li>
 <li>Changed the usage of the word “load” to “import” in the import system documentation, to avoid confusion with the concept of loading a package.</li>
@@ -224,7 +246,8 @@ They are superseded by the functions of the same name in the <a href="https://cr
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.0.6" id="tinycodet-0106">tinycodet 0.1.0.6<a class="anchor" aria-label="anchor" href="#tinycodet-0106"></a></h2><p class="text-muted">CRAN release: 2023-10-12</p>
-<ul><li>Replaced usage of <code><a href="https://rdrr.io/r/utils/installed.packages.html" class="external-link">installed.packages()</a></code> in the <code>%installed in%</code> operator with <code><a href="https://rdrr.io/r/base/find.package.html" class="external-link">find.package()</a></code>. Also added the sentence “As pkgs %installed in% lib.loc does not even load a package, the user can safely use it without fearing any unwanted side-effects.” to the help page.</li>
+<ul><li>Replaced usage of <code><a href="https://rdrr.io/r/utils/installed.packages.html" class="external-link">installed.packages()</a></code> in the <code>%installed in%</code> operator with <code><a href="https://rdrr.io/r/base/find.package.html" class="external-link">find.package()</a></code>.<br>
+Also added the sentence “As pkgs %installed in% lib.loc does not even load a package, the user can safely use it without fearing any unwanted side-effects.” to the help page.</li>
 <li>Replaced usage of <code><a href="https://rdrr.io/r/utils/installed.packages.html" class="external-link">installed.packages()</a></code> with a manually specified character vector in the R scripts/functions “internal_functions.R”, “import_misc.R”, “import_inops.R”, “x.import.R”.</li>
 <li>Replaced “” with “” in help page “tinycodet_import”, and set condition for examples.</li>
 <li>Re-implemented the fake packages, but this time preventing false positives using a tip from Duncan Murdoch.</li>

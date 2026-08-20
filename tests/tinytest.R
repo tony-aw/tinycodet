@@ -1,5 +1,8 @@
 
 if ( requireNamespace("tinytest", quietly=TRUE) ){
+  
+  options(warn = 1)
+  
   # perform regular tests:
   tinytest::test_package("tinycodet", set_env=list(LC_COLLATE="C"))
   tinytest::test_package("tinycodet", testdir = file.path("tinytest", "safer"), set_env=list(LC_COLLATE="C"))

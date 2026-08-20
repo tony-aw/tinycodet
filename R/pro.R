@@ -17,7 +17,7 @@
 #'
 #' @param ... arguments to be passed to \code{ggplot2::}\link[ggplot2]{aes},
 #' but given as one-sided formulas.
-#' @param data a list, environment, or data.frame.
+#' @param data a list or data.frame.
 #' @param form a one-sided formula giving the expression to evaluate in \code{with_pro}. \cr
 #' If the formula has an environment,
 #' that environment is used to find any variables or objects not present in `data`.
@@ -29,8 +29,7 @@
 #' The \code{aes_pro()} function is the standard evaluated alternative to
 #' \code{ggplot2::}\link[ggplot2]{aes}. \cr
 #' Due to the way \code{aes_pro()} is programmed,
-#' it should work even if the tidy evaluation technique
-#' changes in 'ggplot2'. \cr
+#' it should still work when tidy evaluation changes in 'ggplot2'. \cr
 #' To support functions in combinations with references of the variables,
 #' the input used here are formula inputs, rather than string inputs. \cr
 #' See the Examples section below. \cr \cr
@@ -104,15 +103,9 @@ with_pro <- function(data, form) {
   is_formula <- .internal_is_formula(form)
   if(!is_formula) stop("`form` must be a formula")
   if(length(form) != 2) stop("improper formula given")
-  if(!is.recursive(data)) stop("`data` must be a recursive object")
-  
-  vars <- all.vars(form)
+  if(!is.list(data)) stop("`data` must be a list or data.frame")
   env <- environment(form)
-  search_names <- c(names(data), names(env))
-  if(any(!vars %in% search_names)) stop("unknown variable(s) given")
-  txt <- as.character(form)[2]
-  out <- eval(parse(text = txt), data, enclos = env)
-  environment(form) <- NULL
+  out <- eval(form[[2]], data, enclos = env)
   return(out)
 }
 
@@ -132,7 +125,7 @@ aes_pro <- function(...) {
   
   # conversion:
   args.names <- ifelse(names(lst) == "", "", paste0(names(lst), " = "))
-  args.values <- vapply(lst, \(x)deparse(x[[2]], backtick = TRUE), character(1))
+  args.values <- vapply(lst, \(x)deparse1(x[[2]], "", backtick = TRUE), character(1))
   args <- paste0(args.names, args.values, collapse = ", ")
   
   # evaluating:

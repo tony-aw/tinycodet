@@ -24,7 +24,7 @@ aes_pro(...)
 
 - data:
 
-  a list, environment, or data.frame.
+  a list or data.frame.
 
 - form:
 
@@ -49,8 +49,8 @@ For `aes_pro()`: see
 
 The `aes_pro()` function is the standard evaluated alternative to
 `ggplot2::`[aes](https://ggplot2.tidyverse.org/reference/aes.html).  
-Due to the way `aes_pro()` is programmed, it should work even if the
-tidy evaluation technique changes in 'ggplot2'.  
+Due to the way `aes_pro()` is programmed, it should still work when tidy
+evaluation changes in 'ggplot2'.  
 To support functions in combinations with references of the variables,
 the input used here are formula inputs, rather than string inputs.  
 See the Examples section below.  

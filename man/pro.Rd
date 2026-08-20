@@ -10,7 +10,7 @@ with_pro(data, form)
 aes_pro(...)
 }
 \arguments{
-\item{data}{a list, environment, or data.frame.}
+\item{data}{a list or data.frame.}
 
 \item{form}{a one-sided formula giving the expression to evaluate in \code{with_pro}. \cr
 If the formula has an environment,
@@ -40,8 +40,7 @@ or similar programmatically unfriendly evaluations. \cr \cr
 The \code{aes_pro()} function is the standard evaluated alternative to
 \code{ggplot2::}\link[ggplot2]{aes}. \cr
 Due to the way \code{aes_pro()} is programmed,
-it should work even if the tidy evaluation technique
-changes in 'ggplot2'. \cr
+it should still work when tidy evaluation changes in 'ggplot2'. \cr
 To support functions in combinations with references of the variables,
 the input used here are formula inputs, rather than string inputs. \cr
 See the Examples section below. \cr \cr
