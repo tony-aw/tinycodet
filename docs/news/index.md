@@ -2,6 +2,8 @@
 
 ## tinycodet 0.7.1
 
+CRAN release: 2026-08-21
+
 - Changed e-mail provider.
 - Cleaned up some internal code.
 - [`with_pro()`](https://tony-aw.github.io/tinycodet/reference/pro.md)
