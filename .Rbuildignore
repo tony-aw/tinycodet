@@ -22,4 +22,5 @@ usethis
 ^\.github
 ^\.gitignore
 ^dynamic
+^devel
 
