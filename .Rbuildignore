@@ -4,7 +4,6 @@
 ^vignettes
 ^skeletons
 ^docs
-^bin
 ^_pkgdown
 ^backups
 ^linguist
@@ -23,4 +22,6 @@ usethis
 ^\.gitignore
 ^dynamic
 ^covr
+^devel
+^bin
 
