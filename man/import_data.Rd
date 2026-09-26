@@ -11,10 +11,7 @@ import_data(package, dataname, lib.loc = .libPaths())
 
 \item{dataname}{a single string, giving the name of the data set.}
 
-\item{lib.loc}{character vector specifying library search path
-(the location of R library trees to search through). \cr
-The \code{lib.loc} argument would usually be \code{.libPaths()}. \cr
-See also \link[base]{loadNamespace}.}
+\item{lib.loc}{a character vector describing the location of R library trees to search through.}
 }
 \value{
 Returns the data directly.

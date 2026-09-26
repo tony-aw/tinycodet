@@ -1,10 +1,12 @@
 #' List Exported Objects from Package Namespace
 #'
 #' @description
-#' Lists exported objects defined in (but not re-exported by) a package namespace. \cr
+#' Lists exported objects defined (or re-exported) in a package namespace. \cr
 #' Note that `import_ls()` necessary loads the package,
 #' but does not attach the package. \cr
 #' \cr
+#' The return value of `import_ls()` is for programmatically dynamic code (see section `Value`). \cr
+#' The side-effect of `import_ls()` is for syntactically readable code (see section `Side Effect`). \cr \cr
 #' 
 #'
 #' @param package a single string, giving the package name.
@@ -22,32 +24,7 @@
 #' Note that this is a \bold{side-effect},
 #' and does not impact the storable return value of `import_ls()`. \cr \cr
 #'
-#' @details
-#' \bold{Why Listing Functions by Type is Useful} \cr
-#' One can import a package under an alias using \link{import_as}. \cr
-#' But using infix operators or replacement operators from an alias
-#' requires convoluted code like so: \cr
 #' 
-#' ```{r echo = TRUE, eval = FALSE}
-#' 
-#' .alias$`%op%`(x, y)
-#' .alias$`fun<-`(x, ..., value)
-#' 
-#' ```
-#' 
-#' Instead, it would be easier to just attach (via \link[base]{library})
-#' or expose (via \link{import_from})
-#' such operators so that they can be used on their own. \cr
-#' The `import_ls()` function allows the user to get a list of all functions from a certain type,
-#' like "infix operators" or "replacement operators". \cr
-#' The listed functions can then be passed to
-#' \link[base]{library} (to attach them)
-#' or \link{import_from} (to expose them). \cr
-#' \cr \cr
-#' \bold{Programmaticly Dynamic Code or Syntactically Readable Code} \cr
-#' The return value of `import_ls()` is for programmatically dynamic code (see section `Value`). \cr
-#' The side-effect of `import_ls()` is for syntactically readable code (see section `Side Effect`). \cr
-#' The trade-off between these 2 options is sometimes referred to as the tension between dynamism and readability. \cr \cr
 #'
 #' @returns
 #' A character vector of exported object names defined in the package. \cr
@@ -65,6 +42,7 @@
 #' ls <- import_ls("packagename", "infix")
 #' import_from(packagename, ls = ls)
 #' ```
+#' 
 #' @section Side Effect: 
 #' \bold{(if `print = TRUE`)} \cr
 #' The returned character vector is printed to your console as literal code. \cr
@@ -85,6 +63,27 @@
 #' import_from("packagename", ls = ...paste printed literal code here...)
 #' ```
 #' 
+#' @section Why Listing Functions by Type is Useful: 
+#' One can import a package under an alias using \link{import_as}. \cr
+#' But using infix operators or replacement operators from an alias
+#' requires convoluted code like so: \cr
+#' 
+#' ```{r echo = TRUE, eval = FALSE}
+#' 
+#' .alias$`%op%`(x, y)
+#' .alias$`fun<-`(x, ..., value)
+#' 
+#' ```
+#' 
+#' Instead, it would be easier to just attach (via \link[base]{library})
+#' or expose (via \link{import_from})
+#' such operators so that they can be used on their own. \cr
+#' The `import_ls()` function allows the user to get a list of all functions from a certain type,
+#' like "infix operators" or "replacement operators". \cr
+#' The listed functions can then be passed to
+#' \link[base]{library} (to attach them)
+#' or \link{import_from} (to expose them). \cr
+#' \cr
 #' 
 #'
 #' @seealso \link{tinycodet_import}, \link{import_from}

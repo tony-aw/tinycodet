@@ -9,17 +9,21 @@ a string, giving the name of the search path,
 as given by search,
 to place the objects in.
 If multiple search paths have the specified name, an error is returned.
-number larger than 1 and smaller than length(search()),
+a number larger than 1 and smaller than length(search()),
 giving the position of the search path to place the objects in.
 
 
 If env is a string or number, and thus points to a place in the search path,
-the search path evironment must not be a package path
-(their names start with &quot;package:&quot;)
-or a tools path
-(their names start with &quot;tools:).
+the search path evironment is not allowed to be any of the following:
+a package path (their names start with 'package:')
+a tools path (their names start with 'tools:')
+the Global environment ('.GlobalEnv')
+autoloads search path ('Autoloads')
+a path at position 1 or length(search())
+
+
 Attempting to use such a path results in an error.
-The user can use the search_ functions,
+The user can use the searchenv_ functions,
 provided by 'tinycodet',
 to safely add or remove custom search paths.
 
@@ -33,17 +37,21 @@ a string, giving the name of the search path,
 as given by search,
 to place the objects in.
 If multiple search paths have the specified name, an error is returned.
-number larger than 1 and smaller than length(search()),
+a number larger than 1 and smaller than length(search()),
 giving the position of the search path to place the objects in.
 
 
 If env is a string or number, and thus points to a place in the search path,
-the search path evironment must not be a package path
-(their names start with &quot;package:&quot;)
-or a tools path
-(their names start with &quot;tools:).
+the search path evironment is not allowed to be any of the following:
+a package path (their names start with 'package:')
+a tools path (their names start with 'tools:')
+the Global environment ('.GlobalEnv')
+autoloads search path ('Autoloads')
+a path at position 1 or length(search())
+
+
 Attempting to use such a path results in an error.
-The user can use the search_ functions,
+The user can use the searchenv_ functions,
 provided by 'tinycodet',
 to safely add or remove custom search paths.
 
@@ -103,15 +111,16 @@ the objects will be placed in the caller environment.</p></li>
 as given by <a href="https://rdrr.io/r/base/search.html" class="external-link">search</a>,
 to place the objects in. <br>
 If multiple search paths have the specified name, an error is returned.</p></li>
-<li><p>number larger than 1 and smaller than <code>length(search())</code>,
-giving the position of the search path to place the objects in. <br></p></li>
+<li><p>a number larger than 1 and smaller than <code>length(search())</code>,
+giving the position of the search path to place the objects in. <br><br></p></li>
 </ul><p>If <code>env</code> is a string or number, and thus points to a place in the search path,
-the search path evironment must not be a package path
-(their names start with <code>"package:"</code>)
-or a tools path
-(their names start with <code>"tools:</code>). <br>
-Attempting to use such a path results in an error. <br>
-The user can use the <code>search_</code> functions,
+the search path evironment is not allowed to be any of the following:</p><ul><li><p>a package path (their names start with 'package:')</p></li>
+<li><p>a tools path (their names start with 'tools:')</p></li>
+<li><p>the Global environment ('.GlobalEnv')</p></li>
+<li><p>autoloads search path ('Autoloads')</p></li>
+<li><p>a path at position 1 or <code>length(search())</code> <br><br></p></li>
+</ul><p>Attempting to use such a path results in an error. <br>
+The user can use the <a href="searchenv.html">searchenv_</a> functions,
 provided by 'tinycodet',
 to safely add or remove custom search paths. <br><br>
 The default value for <code>env</code> is <code>NULL</code>. <br><br></p>

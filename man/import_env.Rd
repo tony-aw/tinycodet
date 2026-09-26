@@ -15,17 +15,22 @@ the objects will be placed in the caller environment.
 as given by \link[base]{search},
 to place the objects in. \cr
 If multiple search paths have the specified name, an error is returned.
-\item number larger than 1 and smaller than \code{length(search())},
-giving the position of the search path to place the objects in. \cr
+\item a number larger than 1 and smaller than \code{length(search())},
+giving the position of the search path to place the objects in. \cr \cr
 }
 
 If \code{env} is a string or number, and thus points to a place in the search path,
-the search path evironment must not be a package path
-(their names start with \code{"package:"})
-or a tools path
-(their names start with \verb{"tools:}). \cr
+the search path evironment is not allowed to be any of the following:
+\itemize{
+\item a package path (their names start with 'package:')
+\item a tools path (their names start with 'tools:')
+\item the Global environment ('.GlobalEnv')
+\item autoloads search path ('Autoloads')
+\item a path at position 1 or \code{length(search())} \cr \cr
+}
+
 Attempting to use such a path results in an error. \cr
-The user can use the \code{search_} functions,
+The user can use the \link[=searchenv_add]{searchenv_} functions,
 provided by 'tinycodet',
 to safely add or remove custom search paths. \cr
 \cr

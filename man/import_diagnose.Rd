@@ -25,7 +25,7 @@ Gives \code{NA} if the package is not installed in \code{lib.loc}. \cr \cr
 }
 \description{
 The \code{import_diagnose()} function
-compares the loaded Namespaces
+compares the loaded packages
 with those installed in the specified \code{lib.loc},
 and checks for version and library path mismatches. \cr
 Any differences found will be reported in the form of a simple \code{data.frame}. \cr

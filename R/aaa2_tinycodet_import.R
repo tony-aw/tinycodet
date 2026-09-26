@@ -55,7 +55,7 @@
 #' Import specific objects from a package into the current or specific environment.
 #'  * \link{import_as}: \cr
 #' Import a main package,
-#' and optionally its re-exports + its direct minimal dependencies,
+#' and optionally its direct minimal dependencies,
 #' under a single alias. \cr
 #' This essentially combines the attaching advantage of using multiple related packages (item 7 on the list),
 #' whilst keeping most advantages of using without attaching a package.
@@ -76,8 +76,8 @@
 #'
 #' The import system also includes general helper functions:
 #' 
-#'  * The \link[=help.import]{x.import} functions: \cr
-#'  Helper functions specifically for the 'tinycodet' import system.
+#'  * \link[=help.import]{help.import}: \cr
+#'  Get help file for imported objects.
 #'  * The \link[=pkg_get_deps]{pkg} - functions: \cr
 #'  General helper functions regarding packages.
 #'  * The \link[=searchenv_add]{searchenv} - functions: \cr
@@ -131,17 +131,17 @@
 #'
 #' @seealso \link{tinycodet_help}
 #'
-#' @examplesIf all(c("dplyr", "powerjoin", "magrittr") %installed in% .libPaths())
-#' all(c("dplyr", "powerjoin", "magrittr") %installed in% .libPaths())
+#' @examplesIf all(c("dplyr", "tibble", "powerjoin", "magrittr") %installed in% .libPaths())
+#' all(c("dplyr", "tibble", "powerjoin", "magrittr") %installed in% .libPaths())
 #'
 #' \donttest{
 #'
 #' # import dplyr, tibble, and powerjoin, under aliases:
-#' import_as(.dpr ~ dplyr, re_exports = TRUE, deps = "tibble")
+#' import_as(.dpr ~ dplyr, deps = "tibble")
 #' import_as(.pj ~ powerjoin)
 #'
 #' # attaching only the infix operators from 'magrrittr':
-#' library(magrittr, import_ls("magrittr", "infix") )
+#' library(magrittr, include.only = import_ls("magrittr", "infix") )
 #'
 #' # directly assigning dplyr's "starwars" dataset to object "d":
 #' d <- import_data("dplyr", "starwars")

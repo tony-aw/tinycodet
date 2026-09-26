@@ -4,6 +4,7 @@
 ^vignettes
 ^skeletons
 ^docs
+^bin
 ^_pkgdown
 ^backups
 ^linguist
@@ -23,5 +24,4 @@ usethis
 ^dynamic
 ^covr
 ^devel
-^bin
 

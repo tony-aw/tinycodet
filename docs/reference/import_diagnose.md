@@ -1,8 +1,8 @@
 # Check for Mismatches between Loaded and Installed Packages
 
-The `import_diagnose()` function compares the loaded Namespaces with
-those installed in the specified `lib.loc`, and checks for version and
-library path mismatches.  
+The `import_diagnose()` function compares the loaded packages with those
+installed in the specified `lib.loc`, and checks for version and library
+path mismatches.  
 Any differences found will be reported in the form of a simple
 `data.frame`.  
   

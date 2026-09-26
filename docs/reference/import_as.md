@@ -1,7 +1,7 @@
-# Import R-package, its Re-exports, and Dependencies Under a Single Alias
+# Import R-package (and Minimal Dependencies) Under an Alias
 
 The `import_as()` function imports the namespace of an R-package, and
-optionally also its re-exports and dependencies, all under the same
+optionally also its direct minimal dependencies, all under the same
 alias. The specified alias, containing the exported functions from the
 specified packages, will be placed in the specified environment.  
 
@@ -75,16 +75,27 @@ import_as(
 A locked environment object, similar to the output of
 [loadNamespace](https://rdrr.io/r/base/ns-load.html), with the name as
 specified in the `alias` argument, will be created.  
-This object, referred to as the "(package) alias object", will contain
-the exported functions from the specified package(s).  
+This object, of class
+[tinyimport_alias](https://tony-aw.github.io/tinycodet/reference/tinyimport_alias.md),
+will contain the exported functions from the specified package(s).  
 The alias object will be placed in the specified environment.  
 For its usage, see
 [tinyimport_alias](https://tony-aw.github.io/tinycodet/reference/tinyimport_alias.md).  
   
+Note the following:
 
-## Details
+- No more than 5 packages (ignoring re-exports) are allowed to be
+  imported under a single alias.
 
-**Why Aliasing A Package with its Dependencies is Useful**  
+- Packages are imported in the following order:  
+  First the dependencies in the order they are specified in `deps`, and
+  then the main package, and then its re-exports (if
+  `re_exports = TRUE`).  
+  Thus main package will always overwrite the dependencies in case of
+  conflicting names.  
+
+## Why Aliasing A Package with its Dependencies is Useful
+
 To use an R-package with its dependencies, whilst avoiding the
 disadvantages of attaching a package (see
 [tinycodet_import](https://tony-aw.github.io/tinycodet/reference/aaa2_tinycodet_import.md)),
@@ -100,11 +111,7 @@ The `import_as()` function avoids this issue by allowing multiple
 **related** packages to be imported under a single alias, allowing one
 to code like this:
 
-    import_as(
-       .alias ~ main_package,
-       deps = "dependency1"
-       lib.loc = .libPaths()
-    )
+    import_as(.alias ~ main_package, deps = "dependency1")
     .alias$some_function1()
     .alias$some_function2()
 
@@ -113,21 +120,6 @@ single alias, which `import_as()` provides, avoids the above issues.
 Importing a package under an alias is referred to as "aliasing" a
 package.  
   
-  
-
-**Other Details**  
-
-- Packages that appear in the "Suggests" or "Enhances" fields of
-  packages are not considered dependencies.
-
-- No more than 5 packages (ignoring re-exports) are allowed to be
-  imported under a single alias.
-
-- Packages are imported in the following order:  
-  First the dependencies in the order they are specified in `deps`, and
-  then the main package.  
-  Thus main package will always overwrite the dependencies in case of
-  conflicting names.  
 
 ## See also
 

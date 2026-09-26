@@ -27,12 +27,13 @@ Functions for safely attaching, removing, or accessing environments from \link[b
 }
 \details{
 These functions were designed with safety in mind. \cr
-They do not allow adding, removing, or accessing search environments with any of the following properties,
-regardless if they are specified by name or by position:
+They do not allow adding, removing, or accessing search environments like the following:
 \itemize{
-\item The name starts with "package:" or "tools:".
-\item The name is ".GlobalEnv" or "Autoloads".
-\item The position is equal \code{1} or \code{length(search())}. \cr
+\item a package path (their names start with 'package:')
+\item a tools path (their names start with 'tools:')
+\item the Global environment ('.GlobalEnv')
+\item autoloads search path ('Autoloads')
+\item a path at position 1 or \code{length(search())} \cr \cr
 }
 
 Attempting to add a new search path environment whose name already exists gives an error. \cr

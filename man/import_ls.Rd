@@ -51,36 +51,12 @@ import_from(packagename, ls = ls)
 }\if{html}{\out{</div>}}
 }
 \description{
-Lists exported objects defined in (but not re-exported by) a package namespace. \cr
+Lists exported objects defined (or re-exported) in a package namespace. \cr
 Note that \code{import_ls()} necessary loads the package,
 but does not attach the package. \cr
 \cr
-}
-\details{
-\bold{Why Listing Functions by Type is Useful} \cr
-One can import a package under an alias using \link{import_as}. \cr
-But using infix operators or replacement operators from an alias
-requires convoluted code like so: \cr
-
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{
-.alias$`\%op\%`(x, y)
-.alias$`fun<-`(x, ..., value)
-
-}\if{html}{\out{</div>}}
-
-Instead, it would be easier to just attach (via \link[base]{library})
-or expose (via \link{import_from})
-such operators so that they can be used on their own. \cr
-The \code{import_ls()} function allows the user to get a list of all functions from a certain type,
-like "infix operators" or "replacement operators". \cr
-The listed functions can then be passed to
-\link[base]{library} (to attach them)
-or \link{import_from} (to expose them). \cr
-\cr \cr
-\bold{Programmaticly Dynamic Code or Syntactically Readable Code} \cr
 The return value of \code{import_ls()} is for programmatically dynamic code (see section \code{Value}). \cr
-The side-effect of \code{import_ls()} is for syntactically readable code (see section \verb{Side Effect}). \cr
-The trade-off between these 2 options is sometimes referred to as the tension between dynamism and readability. \cr \cr
+The side-effect of \code{import_ls()} is for syntactically readable code (see section \verb{Side Effect}). \cr \cr
 }
 \section{Side Effect}{
 
@@ -101,6 +77,29 @@ library(packagename, include.only = ...paste printed literal code here...)
 import_ls("packagename", "infix") # prints literal code to your console
 import_from("packagename", ls = ...paste printed literal code here...)
 }\if{html}{\out{</div>}}
+}
+
+\section{Why Listing Functions by Type is Useful}{
+
+One can import a package under an alias using \link{import_as}. \cr
+But using infix operators or replacement operators from an alias
+requires convoluted code like so: \cr
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{
+.alias$`\%op\%`(x, y)
+.alias$`fun<-`(x, ..., value)
+
+}\if{html}{\out{</div>}}
+
+Instead, it would be easier to just attach (via \link[base]{library})
+or expose (via \link{import_from})
+such operators so that they can be used on their own. \cr
+The \code{import_ls()} function allows the user to get a list of all functions from a certain type,
+like "infix operators" or "replacement operators". \cr
+The listed functions can then be passed to
+\link[base]{library} (to attach them)
+or \link{import_from} (to expose them). \cr
+\cr
 }
 
 \examples{

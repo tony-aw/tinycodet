@@ -1,9 +1,14 @@
 # List Exported Objects from Package Namespace
 
-Lists exported objects defined in (but not re-exported by) a package
+Lists exported objects defined (or re-exported) in a package
 namespace.  
 Note that `import_ls()` necessary loads the package, but does not attach
 the package.  
+  
+The return value of `import_ls()` is for programmatically dynamic code
+(see section `Value`).  
+The side-effect of `import_ls()` is for syntactically readable code (see
+section `Side Effect`).  
   
 
 ## Usage
@@ -76,9 +81,28 @@ I.e.:
     ls <- import_ls("packagename", "infix")
     import_from(packagename, ls = ls)
 
-## Details
+## Side Effect
 
-**Why Listing Functions by Type is Useful**  
+**(if `print = TRUE`)**  
+The returned character vector is printed to your console as literal
+code.  
+I.e. `'c("obj1", "obj2")'`.  
+One can then copy-paste the printed literal code, for syntactical
+clarity.  
+I.e.:
+
+    # Like so:
+
+    import_ls("packagename", "infix") # prints literal code to your console
+    library(packagename, include.only = ...paste printed literal code here...)
+
+    # Or like so:
+
+    import_ls("packagename", "infix") # prints literal code to your console
+    import_from("packagename", ls = ...paste printed literal code here...)
+
+## Why Listing Functions by Type is Useful
+
 One can import a package under an alias using
 [import_as](https://tony-aw.github.io/tinycodet/reference/import_as.md).  
 But using infix operators or replacement operators from an alias
@@ -99,35 +123,6 @@ The listed functions can then be passed to
 [import_from](https://tony-aw.github.io/tinycodet/reference/import_from.md)
 (to expose them).  
   
-  
-**Programmaticly Dynamic Code or Syntactically Readable Code**  
-The return value of `import_ls()` is for programmatically dynamic code
-(see section `Value`).  
-The side-effect of `import_ls()` is for syntactically readable code (see
-section `Side Effect`).  
-The trade-off between these 2 options is sometimes referred to as the
-tension between dynamism and readability.  
-  
-
-## Side Effect
-
-**(if `print = TRUE`)**  
-The returned character vector is printed to your console as literal
-code.  
-I.e. `'c("obj1", "obj2")'`.  
-One can then copy-paste the printed literal code, for syntactical
-clarity.  
-I.e.:
-
-    # Like so:
-
-    import_ls("packagename", "infix") # prints literal code to your console
-    library(packagename, include.only = ...paste printed literal code here...)
-
-    # Or like so:
-
-    import_ls("packagename", "infix") # prints literal code to your console
-    import_from("packagename", ls = ...paste printed literal code here...)
 
 ## See also
 

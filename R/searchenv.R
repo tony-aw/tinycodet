@@ -13,12 +13,9 @@
 #' 
 #' @details
 #' These functions were designed with safety in mind. \cr
-#' They do not allow adding, removing, or accessing search environments with any of the following properties,
-#' regardless if they are specified by name or by position: 
+#' They do not allow adding, removing, or accessing search environments like the following: 
 #' 
-#'  - The name starts with "package:" or "tools:".
-#'  - The name is ".GlobalEnv" or "Autoloads".
-#'  - The position is equal `1` or `length(search())`. \cr
+#' `r .txt_searchenv_forbidden()` \cr \cr
 #'  
 #' Attempting to add a new search path environment whose name already exists gives an error. \cr
 #' Attempting to remove or access a search path environmeent whose name does not exists gives an error. \cr

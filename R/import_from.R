@@ -13,7 +13,7 @@
 #' Default is `TRUE`, as that is analogous to the behaviour of base R's \link[base]{::} operator.
 #' @param lock `TRUE` or `FALSE`, indicating if the exported objects should be locked
 #' (see \link[base]{lockBinding}).
-#' @param prefix OPTIONAL: either `NULL` or a single string, giving the prefix to add to the functions, to avoid possible conflicts. \cr
+#' @param prefix either `NULL` or a single string, giving the prefix to add to the functions, to avoid possible conflicts. \cr
 #' If `NULL` no prefix is added; this is the default. \cr
 #' Otherwise, a prefix is added to the exported object names. \cr
 #' Note that \bold{no} prefix is added to infix operators, primitive functions, and non-functions (like constants). \cr

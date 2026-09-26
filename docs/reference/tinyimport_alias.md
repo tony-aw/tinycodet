@@ -7,7 +7,6 @@ This help page documents its usage.
   
 To get a function from a `tinyimport_alias`, once can use the `$`
 operator.  
-  
 To use, for example, function "some_function()" from alias ".alias",
 use:  
 `.alias$some_function()`.  

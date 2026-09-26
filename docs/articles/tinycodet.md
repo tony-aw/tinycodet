@@ -229,9 +229,6 @@ The following articles are currently present:
   Yourself](https://tony-aw.github.io/tinycodet/articles/f_DRY.html):
   Describes the `tinycodet` functions that help reduce repetitions in
   your code.
-- [Miscellaneous
-  functionality](https://tony-aw.github.io/tinycodet/articles/g_misc.html):
-  Various other functions and operators that `tinycodet` introduces.
 - [Relations to other R
   packages](https://tony-aw.github.io/tinycodet/articles/h_otherpkgs.html):
   Describes how `tinycodet` relates to other R packages, mostly

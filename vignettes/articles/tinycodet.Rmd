@@ -172,7 +172,6 @@ The following articles are currently present:
  - [String related functions](https://tony-aw.github.io/tinycodet/articles/d_strings_functions.html): Describes the `tinycodet` functions that extend the string manipulation capabilities of `stringi`.
  - [String related infix operators](https://tony-aw.github.io/tinycodet/articles/e_strings_inops.html): Describes the `tinycodet` infix operators that extend the string manipulation capabilities of `stringi`.
  - [Don't Repeat Yourself](https://tony-aw.github.io/tinycodet/articles/f_DRY.html): Describes the `tinycodet` functions that help reduce repetitions in your code.
- - [Miscellaneous functionality](https://tony-aw.github.io/tinycodet/articles/g_misc.html): Various other functions and operators that `tinycodet` introduces.
  - [Relations to other R packages](https://tony-aw.github.io/tinycodet/articles/h_otherpkgs.html): Describes how `tinycodet` relates to other R packages, mostly regarding compatibility.
  
 For a complete list of functions introduced by `tinycodet`, please see the [References page](https://tony-aw.github.io/tinycodet/reference/index.html).

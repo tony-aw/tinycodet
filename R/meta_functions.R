@@ -35,6 +35,19 @@
   sprintf("\\ifelse{html}{%s}{%s}", html, text)
 }
 
+
+.txt_searchenv_forbidden <- function() {
+  txt <- c(
+    " - a package path (their names start with 'package:')",
+    " - a tools path (their names start with 'tools:')",
+    " - the Global environment ('.GlobalEnv')",
+    " - autoloads search path ('Autoloads')",
+    " - a path at position 1 or `length(search())`"
+  )
+  txt <- paste0(txt, collapse = "\n")
+  return(txt)
+}
+
 #' @keywords internal
 #' @noRd
 .create_fake_packages <- function(from.dir, to.dir) {

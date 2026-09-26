@@ -28,7 +28,7 @@ Default is \code{TRUE}, as that is analogous to the behaviour of base R's \link[
 \item{lock}{\code{TRUE} or \code{FALSE}, indicating if the exported objects should be locked
 (see \link[base]{lockBinding}).}
 
-\item{prefix}{OPTIONAL: either \code{NULL} or a single string, giving the prefix to add to the functions, to avoid possible conflicts. \cr
+\item{prefix}{either \code{NULL} or a single string, giving the prefix to add to the functions, to avoid possible conflicts. \cr
 If \code{NULL} no prefix is added; this is the default. \cr
 Otherwise, a prefix is added to the exported object names. \cr
 Note that \bold{no} prefix is added to infix operators, primitive functions, and non-functions (like constants). \cr

@@ -15,16 +15,30 @@ The following can be specified for `env`:
   If multiple search paths have the specified name, an error is
   returned.
 
-- number larger than 1 and smaller than `length(search())`, giving the
+- a number larger than 1 and smaller than `length(search())`, giving the
   position of the search path to place the objects in.  
+    
 
 If `env` is a string or number, and thus points to a place in the search
-path, the search path evironment must not be a package path (their names
-start with `"package:"`) or a tools path (their names start with
-`"tools:`).  
+path, the search path evironment is not allowed to be any of the
+following:
+
+- a package path (their names start with 'package:')
+
+- a tools path (their names start with 'tools:')
+
+- the Global environment ('.GlobalEnv')
+
+- autoloads search path ('Autoloads')
+
+- a path at position 1 or `length(search())`  
+    
+
 Attempting to use such a path results in an error.  
-The user can use the `search_` functions, provided by 'tinycodet', to
-safely add or remove custom search paths.  
+The user can use the
+[searchenv\_](https://tony-aw.github.io/tinycodet/reference/searchenv.md)
+functions, provided by 'tinycodet', to safely add or remove custom
+search paths.  
   
 The default value for `env` is `NULL`.  
   

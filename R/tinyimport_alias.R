@@ -6,7 +6,6 @@
 #' This help page documents its usage. \cr
 #' \cr
 #' To get a function from a `tinyimport_alias`, once can use the `$` operator. \cr
-#' \cr
 #' To use, for example, function "some_function()" from alias ".alias", use: \cr
 #' `.alias$some_function()`. \cr
 #' To "unimport" the package alias object, simply remove it from the environment it was placed in. \cr

@@ -2,7 +2,7 @@
 #'
 #' @description
 #' The `import_diagnose()` function
-#' compares the loaded Namespaces
+#' compares the loaded packages
 #' with those installed in the specified `lib.loc`,
 #' and checks for version and library path mismatches. \cr
 #' Any differences found will be reported in the form of a simple `data.frame`. \cr

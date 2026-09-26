@@ -2,7 +2,7 @@
 % Please edit documentation in R/import_as.R
 \name{import_as}
 \alias{import_as}
-\title{Import R-package, its Re-exports, and Dependencies Under a Single Alias}
+\title{Import R-package (and Minimal Dependencies) Under an Alias}
 \usage{
 import_as(
   main,
@@ -51,23 +51,33 @@ Core R (i.e. "base", "stats", etc.) is not allowed.}
 A locked environment object, similar to the output of \link[base]{loadNamespace},
 with the name as specified in the \code{alias} argument,
 will be created. \cr
-This object, referred to as the "(package) alias object",
+This object, of class \link{tinyimport_alias},
 will contain the exported functions from the specified package(s). \cr
 The alias object will be placed in the specified environment. \cr
 For its usage, see \link{tinyimport_alias}. \cr
 \cr
+Note the following:
+\itemize{
+\item No more than 5 packages
+(ignoring re-exports)
+are allowed to be imported under a single alias.
+\item Packages are imported in the following order: \cr
+First the dependencies  in the order they are specified in \code{deps},
+and then the main package, and then its re-exports (if \code{re_exports = TRUE}). \cr
+Thus main package will always overwrite the dependencies in case of conflicting names. \cr
+}
 }
 \description{
 The \code{import_as()} function
 imports the namespace of an R-package,
-and optionally also its re-exports and dependencies,
+and optionally also its direct minimal dependencies,
 all under the same alias.
 The specified alias,
 containing the exported functions from the specified packages,
 will be placed in the specified environment. \cr
 }
-\details{
-\bold{Why Aliasing A Package with its Dependencies is Useful} \cr
+\section{Why Aliasing A Package with its Dependencies is Useful}{
+
 To use an R-package with its dependencies,
 whilst avoiding the disadvantages of attaching a package (see \link{tinycodet_import}),
 one would traditionally use the \link[base]{::} operator like so: \cr
@@ -82,34 +92,16 @@ The \code{import_as()} function avoids this issue
 by allowing multiple \bold{related} packages to be imported under a single alias,
 allowing one to code like this:
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{import_as(
-   .alias ~ main_package,
-   deps = "dependency1"
-   lib.loc = .libPaths()
-)
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{import_as(.alias ~ main_package, deps = "dependency1")
 .alias$some_function1()
 .alias$some_function2()
 }\if{html}{\out{</div>}}
 
 Thus importing a package, or multiple directly related packages, under a single alias,
 which \code{import_as()} provides, avoids the above issues.
-Importing a package under an alias is referred to as "aliasing" a package. \cr
-\cr
-\cr
+Importing a package under an alias is referred to as "aliasing" a package. \cr \cr
+}
 
-\bold{Other Details} \cr
-\itemize{
-\item Packages that appear in the "Suggests" or "Enhances" fields of packages
-are not considered dependencies.
-\item No more than 5 packages
-(ignoring re-exports)
-are allowed to be imported under a single alias.
-\item Packages are imported in the following order: \cr
-First the dependencies  in the order they are specified in \code{deps},
-and then the main package. \cr
-Thus main package will always overwrite the dependencies in case of conflicting names. \cr
-}
-}
 \examples{
 
 import_as(.stri ~ stringi)

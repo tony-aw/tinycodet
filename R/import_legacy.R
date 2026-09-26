@@ -34,14 +34,12 @@ NULL
 #' @export
 import_inops <- function(expose, lib.loc = .libPaths(), ...) {
   
-  warning("`import_inops()` is deprecated and will be removed;
-          please use `import_from(..., ls = import_ls(..., type = \"infix\"))` instead")
+  warning(
+  "`import_inops()` is deprecated and will be removed;
+  please use `import_from(..., ls = import_ls(..., type = \"infix\"))` instead"
+  )
   msg <- c("calling:",
-          "`import_from(", 
-          sprintf("\t\"%s\"", expose),
-          sprintf("\tls = import_ls(\"%s\",\"infix\", FALSE, lib.loc, FALSE), ", expose),
-          "\tFALSE, FALSE, lib.loc, parent.frame(), ...",
-          ")`")
+          "`import_from(..., ls = import_ls(..., type = \"infix\"))`")
   message(paste0(msg, collapse = "\n"))
   
   exports <- import_ls(
@@ -71,7 +69,7 @@ import_inops <- function(expose, lib.loc = .libPaths(), ...) {
 import_LL <- function(package, selection, lib.loc = .libPaths()) {
   
   warning("`import_LL()` is deprecated and will be removed; please use `import_from()` instead")
-  message("calling `import_from(..., env = parent.frame())`")
+  message("calling `import_from(...)`")
   
   env <- parent.frame()
   import_from(

@@ -56,8 +56,8 @@ functions:
   environment.
 
 - [import_as](https://tony-aw.github.io/tinycodet/reference/import_as.md):  
-  Import a main package, and optionally its re-exports + its direct
-  minimal dependencies, under a single alias.  
+  Import a main package, and optionally its direct minimal dependencies,
+  under a single alias.  
   This essentially combines the attaching advantage of using multiple
   related packages (item 7 on the list), whilst keeping most advantages
   of using without attaching a package.
@@ -82,10 +82,8 @@ functions:
 
 The import system also includes general helper functions:
 
-- The
-  [x.import](https://tony-aw.github.io/tinycodet/reference/import_helper.md)
-  functions:  
-  Helper functions specifically for the 'tinycodet' import system.
+- [help.import](https://tony-aw.github.io/tinycodet/reference/import_helper.md):  
+  Get help file for imported objects.
 
 - The [pkg](https://tony-aw.github.io/tinycodet/reference/pkgs.md) -
   functions:  
@@ -160,19 +158,20 @@ Just not in functions inside an R-package.
 ## Examples
 
 ``` r
-all(c("dplyr", "powerjoin", "magrittr") %installed in% .libPaths())
+all(c("dplyr", "tibble", "powerjoin", "magrittr") %installed in% .libPaths())
 #> [1] TRUE
 
 # \donttest{
 
 # import dplyr, tibble, and powerjoin, under aliases:
-import_as(.dpr ~ dplyr, re_exports = TRUE, deps = "tibble")
+import_as(.dpr ~ dplyr, deps = "tibble")
 #> Import & method registration complete
 import_as(.pj ~ powerjoin)
 #> Import & method registration complete
 
 # attaching only the infix operators from 'magrrittr':
-library(magrittr, import_ls("magrittr", "infix") )
+library(magrittr, include.only = import_ls("magrittr", "infix") )
+#> c("%!>%", "%$%", "%<>%", "%>%", "%T>%")
 
 # directly assigning dplyr's "starwars" dataset to object "d":
 d <- import_data("dplyr", "starwars")

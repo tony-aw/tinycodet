@@ -57,7 +57,6 @@ creates an object of class \code{"tinyimport_alias"}. \cr
 This help page documents its usage. \cr
 \cr
 To get a function from a \code{tinyimport_alias}, once can use the \code{$} operator. \cr
-\cr
 To use, for example, function "some_function()" from alias ".alias", use: \cr
 \code{.alias$some_function()}. \cr
 To "unimport" the package alias object, simply remove it from the environment it was placed in. \cr

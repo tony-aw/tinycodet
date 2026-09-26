@@ -46,8 +46,8 @@ import_from(
 
 - prefix:
 
-  OPTIONAL: either `NULL` or a single string, giving the prefix to add
-  to the functions, to avoid possible conflicts.  
+  either `NULL` or a single string, giving the prefix to add to the
+  functions, to avoid possible conflicts.  
   If `NULL` no prefix is added; this is the default.  
   Otherwise, a prefix is added to the exported object names.  
   Note that **no** prefix is added to infix operators, primitive

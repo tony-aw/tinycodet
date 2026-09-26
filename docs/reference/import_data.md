@@ -24,11 +24,8 @@ import_data(package, dataname, lib.loc = .libPaths())
 
 - lib.loc:
 
-  character vector specifying library search path (the location of R
-  library trees to search through).  
-  The `lib.loc` argument would usually be
-  [`.libPaths()`](https://rdrr.io/r/base/libPaths.html).  
-  See also [loadNamespace](https://rdrr.io/r/base/ns-load.html).
+  a character vector describing the location of R library trees to
+  search through.
 
 ## Value
 

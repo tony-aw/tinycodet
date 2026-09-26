@@ -37,14 +37,18 @@ searchenv_get(name, pos)
 
 These functions were designed with safety in mind.  
 They do not allow adding, removing, or accessing search environments
-with any of the following properties, regardless if they are specified
-by name or by position:
+like the following:
 
-- The name starts with "package:" or "tools:".
+- a package path (their names start with 'package:')
 
-- The name is ".GlobalEnv" or "Autoloads".
+- a tools path (their names start with 'tools:')
 
-- The position is equal `1` or `length(search())`.  
+- the Global environment ('.GlobalEnv')
+
+- autoloads search path ('Autoloads')
+
+- a path at position 1 or `length(search())`  
+    
 
 Attempting to add a new search path environment whose name already
 exists gives an error.  

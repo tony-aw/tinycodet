@@ -41,8 +41,7 @@
 - [`import_from()`](https://tony-aw.github.io/tinycodet/reference/import_from.md)
   : Expose Exported Objects From Package Namespace in an Environment
 - [`import_as()`](https://tony-aw.github.io/tinycodet/reference/import_as.md)
-  : Import R-package, its Re-exports, and Dependencies Under a Single
-  Alias
+  : Import R-package (and Minimal Dependencies) Under an Alias
 - [`import_ls()`](https://tony-aw.github.io/tinycodet/reference/import_ls.md)
   : List Exported Objects from Package Namespace
 - [`import_data()`](https://tony-aw.github.io/tinycodet/reference/import_data.md)

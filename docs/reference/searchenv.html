@@ -81,10 +81,11 @@ searchenv_get() returns a user-defined environment from the search path.  "></he
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>These functions were designed with safety in mind. <br>
-They do not allow adding, removing, or accessing search environments with any of the following properties,
-regardless if they are specified by name or by position:</p><ul><li><p>The name starts with "package:" or "tools:".</p></li>
-<li><p>The name is ".GlobalEnv" or "Autoloads".</p></li>
-<li><p>The position is equal <code>1</code> or <code>length(search())</code>. <br></p></li>
+They do not allow adding, removing, or accessing search environments like the following:</p><ul><li><p>a package path (their names start with 'package:')</p></li>
+<li><p>a tools path (their names start with 'tools:')</p></li>
+<li><p>the Global environment ('.GlobalEnv')</p></li>
+<li><p>autoloads search path ('Autoloads')</p></li>
+<li><p>a path at position 1 or <code>length(search())</code> <br><br></p></li>
 </ul><p>Attempting to add a new search path environment whose name already exists gives an error. <br>
 Attempting to remove or access a search path environmeent whose name does not exists gives an error. <br><br></p>
     </div>
