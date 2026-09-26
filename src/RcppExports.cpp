@@ -10,16 +10,27 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
-// rcpp_prep_ns
-List rcpp_prep_ns(const List ns, const CharacterVector nms, const String pkg);
-RcppExport SEXP _tinycodet_rcpp_prep_ns(SEXP nsSEXP, SEXP nmsSEXP, SEXP pkgSEXP) {
+// rcpp_address
+String rcpp_address(SEXP x);
+RcppExport SEXP _tinycodet_rcpp_address(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const List >::type ns(nsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_address(x));
+    return rcpp_result_gen;
+END_RCPP
+}
+// get_function_name
+SEXP get_function_name(const SEXP fun, const Environment env, const CharacterVector nms);
+RcppExport SEXP _tinycodet_get_function_name(SEXP funSEXP, SEXP envSEXP, SEXP nmsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const SEXP >::type fun(funSEXP);
+    Rcpp::traits::input_parameter< const Environment >::type env(envSEXP);
     Rcpp::traits::input_parameter< const CharacterVector >::type nms(nmsSEXP);
-    Rcpp::traits::input_parameter< const String >::type pkg(pkgSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_prep_ns(ns, nms, pkg));
+    rcpp_result_gen = Rcpp::wrap(get_function_name(fun, env, nms));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -31,7 +42,8 @@ RcppExport SEXP C_do_stri_locate_ith0(SEXP, SEXP, SEXP);
 RcppExport SEXP C_do_stri_locate_ith1(SEXP, SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_tinycodet_rcpp_prep_ns", (DL_FUNC) &_tinycodet_rcpp_prep_ns, 3},
+    {"_tinycodet_rcpp_address", (DL_FUNC) &_tinycodet_rcpp_address, 1},
+    {"_tinycodet_get_function_name", (DL_FUNC) &_tinycodet_get_function_name, 3},
     {"C_any_badloc",          (DL_FUNC) &C_any_badloc,          2},
     {"C_any_neg",             (DL_FUNC) &C_any_neg,             1},
     {"C_any_nonpos",          (DL_FUNC) &C_any_nonpos,          1},

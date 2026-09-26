@@ -36,7 +36,7 @@ are compactly presented in the following list: \cr
 \ifelse{html}{\figure{usewithoutattach-Yes(advantage)-darkgreen.svg}{options: alt='[YES(ADVANTAGE)]'}}{\link[=tinycodet_import]{use without attach}: Yes(advantage); } \verb{ }
 \ifelse{html}{\figure{attaching-No(disadvantage)-red.svg}{options: alt='[NO(DISADVANTAGE)]'}}{\link[=tinycodet_import]{attaching}: No(disadvantage); } \cr
 \cr
-(6) Minimise typing - especially for infix operators \cr
+(6) Minimise typing - especially for replacement or infix operators \cr
 (i.e. typing \code{package::`\%op\%`(x, y)} instead of \code{x \%op\% y} is cumbersome): \cr
 \ifelse{html}{\figure{usewithoutattach-No(disadvantage)-red.svg}{options: alt='[NO(DISADVANTAGE)]'}}{\link[=tinycodet_import]{use without attach}: No(disadvantage); } \verb{ }
 \ifelse{html}{\figure{attaching-Yes(advantage)-darkgreen.svg}{options: alt='[YES(ADVANTAGE)]'}}{\link[=tinycodet_import]{attaching}: Yes(advantage); } \cr
@@ -54,32 +54,38 @@ What 'tinycodet' attempts to do with its import system,
 is to somewhat find the best of both worlds.
 It does this by introducing the following functions: \cr
 \itemize{
-\item \link{import_as}:
+\item \link{import_from}: \cr
+Import specific objects from a package into the current or specific environment.
+\item \link{import_as}: \cr
 Import a main package,
-and optionally its re-exports + its direct dependencies + its direct extensions,
-under a single alias.
+and optionally its re-exports + its direct minimal dependencies,
+under a single alias. \cr
 This essentially combines the attaching advantage of using multiple related packages (item 7 on the list),
 whilst keeping most advantages of using without attaching a package.
-\item \link{import_inops}:
-Expose infix operators from a package or an alias object to the current environment.
-This gains the attaching advantage of less typing (item 6 on the list),
-whilst simultaneously avoiding the disadvantage of attaching functions from a package globally (item 4 on the list).
-\item \link{import_data}:
+\item \link{import_ls}: \cr
+List names of exported objects by category
+(like "infix operators", or "replacement operators", etc.). \cr
+Can be used in combination with, for example,
+\link[base]{library} or \link{import_from},
+to attach or expose all infix- and replacement operators at once. \cr
+This gives the advantage of less typing (item 6 on the above list).
+\item \link{import_data}: \cr
 Directly return a data set from a package,
 to allow straight-forward assignment.
+\item \link{import_diagnose}: \cr
+Check for mismatch issues
+(i.e. version or \code{lib.loc} mismatch)
+between loaded packages and installed packages. \cr \cr
 }
 
-Furthermore, there are two miscellaneous \code{import_} - functions:
-\link{import_LL} and \link{import_int}. \cr
-\cr
 The import system also includes general helper functions:
 \itemize{
-\item The \link[=help.import]{x.import} functions:
-helper functions specifically for the 'tinycodet' import system.
-\item The \link{pversion}_ functions:
-check mismatch between loaded package version and package version in library path.
-\item The \link[=pkg_get_deps]{pkgs} - functions:
-general helper functions regarding packages.
+\item The \link[=help.import]{x.import} functions: \cr
+Helper functions specifically for the 'tinycodet' import system.
+\item The \link[=pkg_get_deps]{pkg} - functions: \cr
+General helper functions regarding packages.
+\item The \link[=searchenv_add]{searchenv} - functions: \cr
+safe functions for safely adding, removing, and accessing custom search path environments. \cr \cr
 }
 
 See the examples section below
@@ -108,21 +114,18 @@ and this naming scheme does not conflict with core R, nor with most other packag
 \cr
 Of course, if one wishes to use a package (like
 'stringi') \bold{only} within a specific environment,
-it becomes advantageous to still import the package using the 'tinycodet' import system.
-In that case the \link{import_LL} function would be most applicable. \cr
-\cr \cr
+it becomes advantageous to still import the package using the 'tinycodet' import system. \cr \cr
+
 \bold{Some Additional Comments on the 'tinycodet' Import System} \cr
 \itemize{
-\item (S3) Methods will automatically be registered.
+\item Methods (like S3, S4) will automatically be registered.
 \item Pronouns, such as the \code{.data} and \code{.env} pronouns
 from the 'rlang' package, will work without any prefixes required.
-\item All functions imported by the
-\link{import_as}, \link{import_inops}, or \link{import_LL} functions
-have a "package" attribute,
-so you will always know which function came from which package. \cr \cr
+\item 'tinycodet' avoids the \link[base]{exists} function, to prevent memory leakage. \cr \cr
 }
+}
+\section{For R Package Developers}{
 
-\bold{For R Package Developers} \cr
 It goes without saying,
 just like one should NEVER use \code{library()} or \code{require()} inside an R-package,
 similarly,
@@ -131,53 +134,50 @@ The import functions can still be used inside functions defined in a file to be 
 though. \cr
 Just not in functions inside an R-package. \cr \cr
 }
+
 \examples{
 \dontshow{if (all(c("dplyr", "powerjoin", "magrittr") \%installed in\% .libPaths())) withAutoprint(\{ # examplesIf}
 all(c("dplyr", "powerjoin", "magrittr") \%installed in\% .libPaths())
 
-
 \donttest{
 
-# NO packages are being attached in any of the following code
+# import dplyr, tibble, and powerjoin, under aliases:
+import_as(.dpr ~ dplyr, re_exports = TRUE, deps = "tibble")
+import_as(.pj ~ powerjoin)
 
-# import 'dplyr' + its re-exports + extension 'powerjoin', under alias "dpr.":
-import_as(
-  ~ dpr., "dplyr", re_exports = TRUE, extensions = "powerjoin"
-)
-
-# exposing infix operators from 'magrrittr' to current environment:
-import_inops("magrittr")
+# attaching only the infix operators from 'magrrittr':
+library(magrittr, import_ls("magrittr", "infix") )
 
 # directly assigning dplyr's "starwars" dataset to object "d":
 d <- import_data("dplyr", "starwars")
 
 # See it in Action:
-d \%>\% dpr.$filter(species == "Droid") \%>\%
-  dpr.$select(name, dpr.$ends_with("color"))
+d \%>\% .dpr$filter(species == "Droid") \%>\%
+  .dpr$select(name, .dpr$ends_with("color"))
 
-male_penguins <- dpr.$tribble(
+male_penguins <- .dpr$tribble(
   ~name,    ~species,     ~island, ~flipper_length_mm, ~body_mass_g,
   "Giordan",    "Gentoo",    "Biscoe",               222L,        5250L,
   "Lynden",    "Adelie", "Torgersen",               190L,        3900L,
   "Reiner",    "Adelie",     "Dream",               185L,        3650L
 )
 
-female_penguins <- dpr.$tribble(
+female_penguins <- .dpr$tribble(
   ~name,    ~species,  ~island, ~flipper_length_mm, ~body_mass_g,
   "Alonda",    "Gentoo", "Biscoe",               211,        4500L,
   "Ola",    "Adelie",  "Dream",               190,        3600L,
   "Mishayla",    "Gentoo", "Biscoe",               215,        4750L,
 )
-dpr.$check_specs()
+.pj$check_specs()
 
-dpr.$power_inner_join(
+.pj$power_inner_join(
   male_penguins[c("species", "island")],
   female_penguins[c("species", "island")]
 )
 
 mypaste <- function(x, y) {
-  import_LL("stringi", selection = "stri_c")
-  stringi::stri_c(x, y)
+  import_from("stringi", "stri_c")
+  stri_c(x, y)
 }
 mypaste("hello ", "world")
 

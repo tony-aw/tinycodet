@@ -8,6 +8,15 @@
 \alias{\%opover\%}
 \alias{\%op31\%}
 \alias{\%op32\%}
+\alias{rpbase_overwritten}
+\alias{rpbase31}
+\alias{rpbase32}
+\alias{rpbase_overwritten<-}
+\alias{rpbase31<-}
+\alias{rpbase32<-}
+\alias{const_overwritten}
+\alias{const31}
+\alias{const32}
 \title{tinycodetfakepkg3ellaneous functions to help your coding etiquette}
 \usage{
 fun_overwritten()
@@ -21,11 +30,33 @@ X \%opover\% A
 X \%op31\% A
 
 X \%op32\% A
+
+rpbase_overwritten(x)
+
+rpbase31(x)
+
+rpbase32(x)
+
+rpbase_overwritten(x) <- value
+
+rpbase31(x) <- value
+
+rpbase32(x) <- value
+
+const_overwritten
+
+const31
+
+const32
 }
 \arguments{
 \item{X}{whatever}
 
 \item{A}{whatever}
+
+\item{x}{description}
+
+\item{value}{description}
 }
 \description{
 Bla

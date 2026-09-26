@@ -29,93 +29,44 @@ The previous article, "Import system - main functions", discussed the main funct
 
 &nbsp;
 
-# Miscellaneous import_ - functions
-
-Beside the main `import_` functions (`import_as()`, `import_inops()`, and `import_data()`), there are 2 miscellaneous `import_` functions: `import_LL()` and `import_int()`.
-
 &nbsp;
 
-The `import_LL()` function places specific functions from a package in the current environment, and also locks the specified functions to prevent modification.
-The primary use-case for this function is for exposing functions inside a local environment. ("LL" stands for "Local & Locked".)
+# S3/S4 methods: they just work
 
-Example:
+When importing packages with `tinycodet`' import system, S3 and S4 methods will work just fine.
 
-```{r}
-rm(list = ls())
-import_LL("tidytable", "across")
-ls() # notice `accross` is now exposed in this environment
-```
-
-&nbsp;
-
-The `import_int()` function directly returns an internal function from a package. It is similar to the `:::` operator, but with 2 key differences:
-
- 1) `import_int()` includes the `lib.loc` argument.
- 2) `import_int()` only searches internal functions, not exported ones. This makes it clearer in your code that you're using an internal function, instead of making it ambiguous.
-
-The main argument is the `form` argument, which is a 2-sided formula with one term on each side, the left term giving the package name and the right term giving the name of the internal function.
-
-Example:
+For example, the following code with S3 just works:
 
 ```{r}
-# Using through re-assignment:
-fun <- import_int(tinycodet ~ .internal_paste, .libPaths())
-fun("hello", "world")
-
-# Or using directly:
-import_int(
-  tinycodet ~ .internal_paste, .libPaths()
-)("hello", "world")
-
-```
-
-
-&nbsp;
-
-# S3 methods: they just work
-
-When importing packages with `tinycodet`' import system, S3 methods will work just fine. For example, the S3 method " `plot()` " works with objects from the `mgcv` R package, even when imported in an alias:
-
-```{r}
-import_as(~ mgcv., "mgcv") |> suppressMessages()
-d <- import_data("gamair", "chicago")
-
-# just a random model for the sake of demonstration:
-model <- mgcv.$gam(death ~ s(o3median), data=d)
-isS3method(f="plot", class="gam") # this is an S3 method
-plot(model)
-```
-
-Also, S3 methods defined in the package will automatically be registered, and thus automatically work. For example, the following code just works:
-
-```{r}
-import_as(~ dpr., "dplyr") |> suppressMessages()
-import_inops("magrittr") |> suppressMessages()
+import_as(.dpr ~ dplyr)
+import_from("magrittr", import_ls("magrittr", "infix"))
 d <- import_data("dplyr", "starwars")
-d <- d %>% dpr.$group_by(species)
+d <- d %>% .dpr$group_by(species)
 
-isS3method(f="arrange", class="data.frame", envir = dpr.) # this is an S3 method
-isS3method(f="relocate", class="data.frame", envir = dpr.) # this is an S3 method
+isS3method(f="arrange", class="data.frame", envir = .dpr) # this is an S3 method
+isS3method(f="relocate", class="data.frame", envir = .dpr) # this is an S3 method
 # this works:
 d %>%
-  dpr.$arrange(dpr.$desc(mass)) %>%
-  dpr.$relocate(species, mass)
+  .dpr$arrange(.dpr$desc(mass)) %>%
+  .dpr$relocate(species, mass)
 ```
 
-So when importing packages, everything works as expected, including S3 methods.
+and so do these S4 methods:
+
+```{r}
+import_from("broadcast", "bc.d")
+
+bc.d(1:10, array(1:10, c(1,10)), "+") # fast broadcasted addition
+
+```
+
+
+So when importing packages, everything works as expected, including S3 and S4 methods.
 
 
 &nbsp;
 
 # Alias attributes
-
-One may have noticed in the "Import system - main functions" article, that aliasing a package like so:
-
-```{r}
-import_as(~ tdt., "tidytable", re_exports = TRUE, dependencies = "data.table")
-```
-
-... produces several messages, including the message "For conflicts report, packages order, and other attributes, run `attr.import()`".
 
 The `attr.import()` function allows the user to access the special attributes stored and locked inside the alias object. These attributes show which imported package overwrites which imported functions, in what order the packages are imported and so on.
 
@@ -124,19 +75,15 @@ Here are some examples.
 Show the packages imported under the alias, and in which order the packages are imported, and from which packages the re-exported functions came from:
 
 ```{r}
-attr.import(tdt., "pkgs")
+import_as(.tdt ~ tidytable, deps = "data.table")
+
+attr.import(.tdt, "pkgs")
 ```
 
 Show which functions from which packages "win" conflicts:
 
 ```{r}
-attr.import(tdt., "conflicts")|> knitr::kable()
-```
-
-Show the arguments used in the `import_as()` call that produced the alias object in question:
-
-```{r}
-attr.import(tdt., "args")
+attr.import(.tdt, "conflicts")|> knitr::kable()
 ```
 
 
@@ -145,14 +92,6 @@ The help file on `attr.import()` provides more details on each of these options.
 &nbsp;
 
 
-# Check for package versions mismatch
-
-The `pversion_check4mismatch()` function checks if there is any mismatch between the currently loaded packages and the packages in the specified library path.
-
-The `pversion_report()` function gives a table of all specified packages, with their loaded and installed versions, regardless if there is a mismatch or not.
-
-&nbsp;
-
 # help.import
 
 The `help.import()` function gets the help file for a function `i` (or topic string `i`), even if the function is inside an alias object, or if the function is an unattached function (like exposed infix operators).
@@ -160,12 +99,12 @@ The `help.import()` function gets the help file for a function `i` (or topic str
 Example:
 
 ```{r eval=FALSE}
-import_as(~ mr., "magrittr")
-import_inops(mr.)
+import_as(.dpr ~ "dplyr")
+import_from("magrittr", import_ls("magrittr", "infix"))
 
-help.import(i=mr.$add)
-help.import(i=`%>%`)
-help.import(i="add", alias=mr.)
+help.import(i = .mr$add)
+help.import(i = `%>%`)
+help.import(i = "add", alias = .mr)
 ```
 
 
@@ -184,5 +123,7 @@ There are some additional miscellaneous functions related to the package import 
  - the `pkg_get_deps()` function gets the dependencies (or the enhances) of a package, regardless if the package is CRAN or non-CRAN. See the help file for details.
  - the `pkgs %installed in% lib.loc` operator checks if the packages specified in character vector `pkgs` are installed in library paths `lib.loc`, and does this without attaching or even loading the packages.
 
+
 &nbsp;
+
 

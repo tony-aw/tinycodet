@@ -26,8 +26,6 @@ see \link{tinycodet_strings}. \cr
 (4) Reducing repetitive code; \cr
 see \link{tinycodet_dry}. \cr
 \cr
-And some miscellaneous functionality; see \link{tinycodet_misc}. \cr
-\cr
 \cr
 Please check the Change-log
 (see links below)

@@ -1,6 +1,6 @@
 Package: tinycodet
 Title: Functions to Help in your Coding Etiquette
-Version: 0.7.1
+Version: 0.8.0
 Authors@R: person("Tony", "Wilkes", role = c("aut", "cre", "cph"),
                   email = "tonywilkes.nl@gmail.com",
                   comment = c(ORCID = "0000-0001-9498-8379"))
@@ -28,9 +28,13 @@ Suggests:
     kit,
     knitr,
     rmarkdown,
-    roxygen2
+    roxygen2,
+    magrittr,
+    dplyr,
+    data.table,
+    tidytable
 Depends: 
-    R (>= 4.1.0)
+    R (>= 4.3.0)
 Imports:
     methods,
     Rcpp (>= 1.0.11),

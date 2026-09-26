@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tinycodet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,12 +36,11 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/a_safer.html">Safer functionality</a></li>
-    <li><a class="dropdown-item" href="../articles/b_import_main.html">Import system - main functions</a></li>
+    <li><a class="dropdown-item" href="../articles/b_import_main.html">Import system - main functionality</a></li>
     <li><a class="dropdown-item" href="../articles/c_import_additional.html">Import system - additional details</a></li>
     <li><a class="dropdown-item" href="../articles/d_strings_functions.html">String related functions</a></li>
     <li><a class="dropdown-item" href="../articles/e_strings_inops.html">String related infix operators</a></li>
     <li><a class="dropdown-item" href="../articles/f_DRY.html">Don't Repeat Yourself</a></li>
-    <li><a class="dropdown-item" href="../articles/g_misc.html">Miscellaneous functionality</a></li>
     <li><a class="dropdown-item" href="../articles/h_otherpkgs.html">Relations to other packages</a></li>
     <li><a class="dropdown-item" href="../articles/i_benchmarks.html">Benchmarks</a></li>
   </ul>
@@ -135,12 +134,12 @@ stay <code>FALSE</code>.</li>
 <div class="section level2">
 <h2 id="new-import-system">New import system<a class="anchor" aria-label="anchor" href="#new-import-system"></a>
 </h2>
-<p>One can use a package without attaching the package (for example
-using <code>::</code>), or one can attach a package (for example using
-<code><a href="https://rdrr.io/r/base/library.html" class="external-link">library()</a></code> or <code><a href="https://rdrr.io/r/base/library.html" class="external-link">require()</a></code>). The advantages and
-disadvantages of using without attaching a package versus attaching a
-package - at least those relevant for now - can be compactly presented
-in the following table:</p>
+<p>One can use a package without attaching (for example using
+<code>::</code>), or one can attach a package (for example using
+<code><a href="https://rdrr.io/r/base/library.html" class="external-link">library()</a></code> or <code><a href="https://rdrr.io/r/base/library.html" class="external-link">require()</a></code>).</p>
+<p>The advantages and disadvantages of using without attaching a package
+versus attaching a package - at least those relevant for this article -
+can be compactly presented in the following table:</p>
 <table class="table">
 <thead><tr>
 <th style="text-align:left;">
@@ -274,48 +273,40 @@ NOTE: + = advantage, - = disadvantage
 to somewhat find the best of both worlds. It does this by introducing
 the following functions:</p>
 <ul>
-<li>
-<code><a href="../reference/import_as.html">import_as()</a></code>: Import a main package, and optionally its
-re-exports + its dependencies + its extensions, under a single alias.
-This essentially combines the attaching advantage of using multiple
-related packages (row 7 on the table above), whilst keeping most
-advantages of using without attaching a package.</li>
-<li>
-<code><a href="../reference/import_inops.html">import_inops()</a></code>: Expose infix operators from a package
-or an alias object to the current environment. This gains the attaching
-advantage of less typing (row 6 in table above), whilst simultaneously
-avoiding the disadvantage of attaching functions from a package globally
-(row 4).</li>
-<li>
-<code><a href="../reference/import_data.html">import_data()</a></code>: Directly return a data set from a
-package, to allow straight-forward assignment.</li>
+<li><p><code><a href="../reference/import_from.html">import_from()</a></code>: Import specific objects from a
+package into the current or specific environment.</p></li>
+<li><p><code><a href="../reference/import_as.html">import_as()</a></code>: Import a main package, and optionally
+its re-exports + its minimal dependencies, under a single alias. This
+essentially combines the attaching advantage of using multiple related
+packages (row 7 on the table above), whilst keeping most advantages of
+using without attaching a package.</p></li>
+<li><p><code><a href="../reference/import_ls.html">import_ls()</a></code>: List names of exported objects by
+category (like “infix operators”, or “replacement operators”, etc.). Can
+be used in combination with, for example, <code><a href="https://rdrr.io/r/base/library.html" class="external-link">library()</a></code> or
+<code><a href="../reference/import_from.html">import_from()</a></code>. This gives the advantage of less typing (row
+6 on the above table).</p></li>
+<li><p><code><a href="../reference/import_data.html">import_data()</a></code>: Directly return a data set from a
+package, to allow straight-forward assignment.</p></li>
 </ul>
 <p>Here is an example using <code>tinycodet's</code> new import system;
 note that the following code is run without attaching a single R package
 (besides <code>tinycodet</code> itself of course):</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># importing "tidytable" + "data.table" under alias "tdt.":</span></span>
-<span><span class="fu"><a href="../reference/import_as.html">import_as</a></span><span class="op">(</span> </span>
-<span>  <span class="op">~</span> <span class="va">tdt.</span>, <span class="st">"tidytable"</span>, dependencies <span class="op">=</span> <span class="st">"data.table"</span></span>
+<span><span class="fu"><a href="../reference/import_as.html">import_as</a></span><span class="op">(</span></span>
+<span>  <span class="va">.dpr</span> <span class="op">~</span> <span class="va">dplyr</span>, deps <span class="op">=</span> <span class="st">"tibble"</span>, lib.loc <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Importing packages and registering methods...</span></span></code></pre>
-<pre><code><span><span class="co">## Done</span></span>
-<span><span class="co">## You can now access the functions using `tdt.$`</span></span>
-<span><span class="co">## For conflicts report, packages order, and other attributes, run `attr.import(tdt.)`</span></span></code></pre>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># exposing operators from `magrrittr` to current environment:</span></span>
-<span><span class="fu"><a href="../reference/import_inops.html">import_inops</a></span><span class="op">(</span><span class="st">"magrittr"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Checking for conflicting infix operators in the current environment...</span></span></code></pre>
-<pre><code><span><span class="co">## Placing infix operators in current environment...</span></span></code></pre>
-<pre><code><span><span class="co">## Done</span></span></code></pre>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># directly assigning the "starwars" dataset to object "d":</span></span>
-<span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/import_data.html">import_data</a></span><span class="op">(</span><span class="st">"dplyr"</span>, <span class="st">"starwars"</span><span class="op">)</span> </span>
-<span></span>
-<span><span class="co"># see it in action:</span></span>
-<span><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="va">tdt.</span><span class="op">$</span><span class="fu">filter</span><span class="op">(</span><span class="va">species</span> <span class="op">==</span> <span class="st">"Droid"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="va">tdt.</span><span class="op">$</span><span class="fu">select</span><span class="op">(</span><span class="va">name</span>, <span class="va">tdt.</span><span class="op">$</span><span class="fu">ends_with</span><span class="op">(</span><span class="st">"color"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## <span style="color: #949494;"># A tidytable: 6 × 4</span></span></span>
+<pre><code><span><span class="co">## Import &amp; method registration complete</span></span></code></pre>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/import_from.html">import_from</a></span><span class="op">(</span><span class="st">"magrittr"</span>, <span class="fu"><a href="../reference/import_ls.html">import_ls</a></span><span class="op">(</span><span class="st">"magrittr"</span>, <span class="st">"infix"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## c("%!&gt;%", "%$%", "%&lt;&gt;%", "%&gt;%", "%T&gt;%")</span></span></code></pre>
+<pre><code><span><span class="co">## Import &amp; method registration complete</span></span></code></pre>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/import_data.html">import_data</a></span><span class="op">(</span><span class="st">"dplyr"</span>, <span class="st">"starwars"</span><span class="op">)</span></span>
+<span><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="va">.dpr</span><span class="op">$</span><span class="fu">filter</span><span class="op">(</span><span class="va">.data</span><span class="op">$</span><span class="va">species</span> <span class="op">==</span> <span class="st">"Droid"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="co"># notice the ".data" pronoun can be used without problems</span></span>
+<span>  <span class="va">.dpr</span><span class="op">$</span><span class="fu">select</span><span class="op">(</span><span class="va">name</span>, <span class="va">.dpr</span><span class="op">$</span><span class="fu">ends_with</span><span class="op">(</span><span class="st">"color"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 6 × 4</span></span></span>
 <span><span class="co">##   name   hair_color skin_color  eye_color</span></span>
 <span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">1</span> C-3PO  <span style="color: #BB0000;">NA</span>         gold        yellow   </span></span>
@@ -324,6 +315,20 @@ note that the following code is run without attaching a single R package
 <span><span class="co">## <span style="color: #BCBCBC;">4</span> IG-88  none       metal       red      </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">5</span> R4-P17 none       silver, red red, blue</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">6</span> BB8    none       none        black</span></span></code></pre>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">male_penguins</span> <span class="op">&lt;-</span> <span class="va">.dpr</span><span class="op">$</span><span class="fu">tribble</span><span class="op">(</span></span>
+<span>     <span class="op">~</span><span class="va">name</span>,    <span class="op">~</span><span class="va">species</span>,     <span class="op">~</span><span class="va">island</span>, <span class="op">~</span><span class="va">flipper_length_mm</span>, <span class="op">~</span><span class="va">body_mass_g</span>,</span>
+<span> <span class="st">"Giordan"</span>,    <span class="st">"Gentoo"</span>,    <span class="st">"Biscoe"</span>,               <span class="fl">222L</span>,        <span class="fl">5250L</span>,</span>
+<span>  <span class="st">"Lynden"</span>,    <span class="st">"Adelie"</span>, <span class="st">"Torgersen"</span>,               <span class="fl">190L</span>,        <span class="fl">3900L</span>,</span>
+<span>  <span class="st">"Reiner"</span>,    <span class="st">"Adelie"</span>,     <span class="st">"Dream"</span>,               <span class="fl">185L</span>,        <span class="fl">3650L</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">female_penguins</span> <span class="op">&lt;-</span> <span class="va">.dpr</span><span class="op">$</span><span class="fu">tribble</span><span class="op">(</span></span>
+<span>     <span class="op">~</span><span class="va">name</span>,    <span class="op">~</span><span class="va">species</span>,  <span class="op">~</span><span class="va">island</span>, <span class="op">~</span><span class="va">flipper_length_mm</span>, <span class="op">~</span><span class="va">body_mass_g</span>,</span>
+<span>  <span class="st">"Alonda"</span>,    <span class="st">"Gentoo"</span>, <span class="st">"Biscoe"</span>,               <span class="fl">211</span>,        <span class="fl">4500L</span>,</span>
+<span>     <span class="st">"Ola"</span>,    <span class="st">"Adelie"</span>,  <span class="st">"Dream"</span>,               <span class="fl">190</span>,        <span class="fl">3600L</span>,</span>
+<span><span class="st">"Mishayla"</span>,    <span class="st">"Gentoo"</span>, <span class="st">"Biscoe"</span>,               <span class="fl">215</span>,        <span class="fl">4750L</span>,</span>
+<span><span class="op">)</span></span></code></pre></div>
 <p> </p>
 </div>
 <div class="section level2">
@@ -355,7 +360,7 @@ to cut strings in a more concise way (with less keystrokes).</li>
 <div class="section level2">
 <h2 id="reduce-repetitive-code">Reduce repetitive code<a class="anchor" aria-label="anchor" href="#reduce-repetitive-code"></a>
 </h2>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># in base R:</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span> <span class="co"># repetitive, and gives unnecessary warning</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">object</span><span class="op">&gt;</span><span class="fl">0</span><span class="op">)</span>, <span class="op">-</span><span class="cn">Inf</span>,</span>
@@ -384,8 +389,8 @@ functionality</a>: Describes the functions for safer/stricter
 coding.</li>
 <li>
 <a href="https://tony-aw.github.io/tinycodet/articles/b_import_main.html">Import
-system - main functions</a>: Description of the main functions of the
-package import system introduced by <code>tinycodet</code>.</li>
+system - main functionality</a>: Description of the main functions of
+the package import system introduced by <code>tinycodet</code>.</li>
 <li>
 <a href="https://tony-aw.github.io/tinycodet/articles/c_import_additional.html">Import
 system - additional details</a>: Additional important details on the

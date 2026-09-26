@@ -22,5 +22,5 @@ usethis
 ^\.github
 ^\.gitignore
 ^dynamic
-^devel
+^covr
 

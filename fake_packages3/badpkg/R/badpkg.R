@@ -18,8 +18,8 @@ import_as2 <- function(...) {
 
 #' @rdname badpkg
 #' @export
-import_inops2 <- function(...) {
-  tinycodet::import_inops(...)
+import_ops2 <- function(...) {
+  tinycodet::import_ops(...)
 }
 
 #' @rdname badpkg

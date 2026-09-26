@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tinycodet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,12 +36,11 @@
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
 <li><a class="dropdown-item" href="../articles/a_safer.html">Safer functionality</a></li>
-    <li><a class="dropdown-item" href="../articles/b_import_main.html">Import system - main functions</a></li>
+    <li><a class="dropdown-item" href="../articles/b_import_main.html">Import system - main functionality</a></li>
     <li><a class="dropdown-item" href="../articles/c_import_additional.html">Import system - additional details</a></li>
     <li><a class="dropdown-item" href="../articles/d_strings_functions.html">String related functions</a></li>
     <li><a class="dropdown-item" href="../articles/e_strings_inops.html">String related infix operators</a></li>
     <li><a class="dropdown-item" href="../articles/f_DRY.html">Don't Repeat Yourself</a></li>
-    <li><a class="dropdown-item" href="../articles/g_misc.html">Miscellaneous functionality</a></li>
     <li><a class="dropdown-item" href="../articles/h_otherpkgs.html">Relations to other packages</a></li>
     <li><a class="dropdown-item" href="../articles/i_benchmarks.html">Benchmarks</a></li>
   </ul>
@@ -86,94 +85,31 @@
 main functions of the import system. Please read that article first
 before reading this article.</p>
 <p> </p>
-</div>
-<div class="section level2">
-<h2 id="miscellaneous-import_---functions">Miscellaneous import_ - functions<a class="anchor" aria-label="anchor" href="#miscellaneous-import_---functions"></a>
-</h2>
-<p>Beside the main <code>import_</code> functions
-(<code><a href="../reference/import_as.html">import_as()</a></code>, <code><a href="../reference/import_inops.html">import_inops()</a></code>, and
-<code><a href="../reference/import_data.html">import_data()</a></code>), there are 2 miscellaneous
-<code>import_</code> functions: <code><a href="../reference/import_misc.html">import_LL()</a></code> and
-<code><a href="../reference/import_misc.html">import_int()</a></code>.</p>
-<p> </p>
-<p>The <code><a href="../reference/import_misc.html">import_LL()</a></code> function places specific functions from
-a package in the current environment, and also locks the specified
-functions to prevent modification. The primary use-case for this
-function is for exposing functions inside a local environment. (“LL”
-stands for “Local &amp; Locked”.)</p>
-<p>Example:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/rm.html" class="external-link">rm</a></span><span class="op">(</span>list <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/import_misc.html">import_LL</a></span><span class="op">(</span><span class="st">"tidytable"</span>, <span class="st">"across"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; exposing and locking functions to current environment ...</span></span>
-<span><span class="co">#&gt; Done</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/ls.html" class="external-link">ls</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># notice `accross` is now exposed in this environment</span></span>
-<span><span class="co">#&gt; [1] "across"</span></span></code></pre></div>
-<p> </p>
-<p>The <code><a href="../reference/import_misc.html">import_int()</a></code> function directly returns an internal
-function from a package. It is similar to the <code>:::</code> operator,
-but with 2 key differences:</p>
-<ol style="list-style-type: decimal">
-<li>
-<code><a href="../reference/import_misc.html">import_int()</a></code> includes the <code>lib.loc</code>
-argument.</li>
-<li>
-<code><a href="../reference/import_misc.html">import_int()</a></code> only searches internal functions, not
-exported ones. This makes it clearer in your code that you’re using an
-internal function, instead of making it ambiguous.</li>
-</ol>
-<p>The main argument is the <code>form</code> argument, which is a
-2-sided formula with one term on each side, the left term giving the
-package name and the right term giving the name of the internal
-function.</p>
-<p>Example:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Using through re-assignment:</span></span>
-<span><span class="va">fun</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/import_misc.html">import_int</a></span><span class="op">(</span><span class="va">tinycodet</span> <span class="op">~</span> <span class="va">.internal_paste</span>, <span class="fu"><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="fu">fun</span><span class="op">(</span><span class="st">"hello"</span>, <span class="st">"world"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "helloworld"</span></span>
-<span></span>
-<span><span class="co"># Or using directly:</span></span>
-<span><span class="fu"><a href="../reference/import_misc.html">import_int</a></span><span class="op">(</span></span>
-<span>  <span class="va">tinycodet</span> <span class="op">~</span> <span class="va">.internal_paste</span>, <span class="fu"><a href="https://rdrr.io/r/base/libPaths.html" class="external-link">.libPaths</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="op">)</span><span class="op">(</span><span class="st">"hello"</span>, <span class="st">"world"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "helloworld"</span></span></code></pre></div>
 <p> </p>
 </div>
 <div class="section level2">
-<h2 id="s3-methods-they-just-work">S3 methods: they just work<a class="anchor" aria-label="anchor" href="#s3-methods-they-just-work"></a>
+<h2 id="s3s4-methods-they-just-work">S3/S4 methods: they just work<a class="anchor" aria-label="anchor" href="#s3s4-methods-they-just-work"></a>
 </h2>
 <p>When importing packages with <code>tinycodet</code>’ import system,
-S3 methods will work just fine. For example, the S3 method ”
-<code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> ” works with objects from the <code>mgcv</code> R
-package, even when imported in an alias:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/import_as.html">import_as</a></span><span class="op">(</span><span class="op">~</span> <span class="va">mgcv.</span>, <span class="st">"mgcv"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressMessages</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/import_data.html">import_data</a></span><span class="op">(</span><span class="st">"gamair"</span>, <span class="st">"chicago"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># just a random model for the sake of demonstration:</span></span>
-<span><span class="va">model</span> <span class="op">&lt;-</span> <span class="va">mgcv.</span><span class="op">$</span><span class="fu">gam</span><span class="op">(</span><span class="va">death</span> <span class="op">~</span> <span class="fu">s</span><span class="op">(</span><span class="va">o3median</span><span class="op">)</span>, data<span class="op">=</span><span class="va">d</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/isS3method.html" class="external-link">isS3method</a></span><span class="op">(</span>f<span class="op">=</span><span class="st">"plot"</span>, class<span class="op">=</span><span class="st">"gam"</span><span class="op">)</span> <span class="co"># this is an S3 method</span></span>
-<span><span class="co">#&gt; [1] TRUE</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span></code></pre></div>
-<p><img src="c_import_additional_files/figure-html/unnamed-chunk-4-1.png" class="r-plt" width="700"></p>
-<p>Also, S3 methods defined in the package will automatically be
-registered, and thus automatically work. For example, the following code
-just works:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/import_as.html">import_as</a></span><span class="op">(</span><span class="op">~</span> <span class="va">dpr.</span>, <span class="st">"dplyr"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressMessages</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/import_inops.html">import_inops</a></span><span class="op">(</span><span class="st">"magrittr"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/message.html" class="external-link">suppressMessages</a></span><span class="op">(</span><span class="op">)</span></span>
+S3 and S4 methods will work just fine.</p>
+<p>For example, the following code with S3 just works:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/import_as.html">import_as</a></span><span class="op">(</span><span class="va">.dpr</span> <span class="op">~</span> <span class="va">dplyr</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Import &amp; method registration complete</span></span>
+<span><span class="fu"><a href="../reference/import_from.html">import_from</a></span><span class="op">(</span><span class="st">"magrittr"</span>, <span class="fu"><a href="../reference/import_ls.html">import_ls</a></span><span class="op">(</span><span class="st">"magrittr"</span>, <span class="st">"infix"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; c("%!&gt;%", "%$%", "%&lt;&gt;%", "%&gt;%", "%T&gt;%")</span></span>
+<span><span class="co">#&gt; Import &amp; method registration complete</span></span>
 <span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/import_data.html">import_data</a></span><span class="op">(</span><span class="st">"dplyr"</span>, <span class="st">"starwars"</span><span class="op">)</span></span>
-<span><span class="va">d</span> <span class="op">&lt;-</span> <span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="va">dpr.</span><span class="op">$</span><span class="fu">group_by</span><span class="op">(</span><span class="va">species</span><span class="op">)</span></span>
+<span><span class="va">d</span> <span class="op">&lt;-</span> <span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="va">.dpr</span><span class="op">$</span><span class="fu">group_by</span><span class="op">(</span><span class="va">species</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/isS3method.html" class="external-link">isS3method</a></span><span class="op">(</span>f<span class="op">=</span><span class="st">"arrange"</span>, class<span class="op">=</span><span class="st">"data.frame"</span>, envir <span class="op">=</span> <span class="va">dpr.</span><span class="op">)</span> <span class="co"># this is an S3 method</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/isS3method.html" class="external-link">isS3method</a></span><span class="op">(</span>f<span class="op">=</span><span class="st">"arrange"</span>, class<span class="op">=</span><span class="st">"data.frame"</span>, envir <span class="op">=</span> <span class="va">.dpr</span><span class="op">)</span> <span class="co"># this is an S3 method</span></span>
 <span><span class="co">#&gt; [1] TRUE</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/isS3method.html" class="external-link">isS3method</a></span><span class="op">(</span>f<span class="op">=</span><span class="st">"relocate"</span>, class<span class="op">=</span><span class="st">"data.frame"</span>, envir <span class="op">=</span> <span class="va">dpr.</span><span class="op">)</span> <span class="co"># this is an S3 method</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/isS3method.html" class="external-link">isS3method</a></span><span class="op">(</span>f<span class="op">=</span><span class="st">"relocate"</span>, class<span class="op">=</span><span class="st">"data.frame"</span>, envir <span class="op">=</span> <span class="va">.dpr</span><span class="op">)</span> <span class="co"># this is an S3 method</span></span>
 <span><span class="co">#&gt; [1] TRUE</span></span>
 <span><span class="co"># this works:</span></span>
 <span><span class="va">d</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="va">dpr.</span><span class="op">$</span><span class="fu">arrange</span><span class="op">(</span><span class="va">dpr.</span><span class="op">$</span><span class="fu">desc</span><span class="op">(</span><span class="va">mass</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="va">dpr.</span><span class="op">$</span><span class="fu">relocate</span><span class="op">(</span><span class="va">species</span>, <span class="va">mass</span><span class="op">)</span></span>
+<span>  <span class="va">.dpr</span><span class="op">$</span><span class="fu">arrange</span><span class="op">(</span><span class="va">.dpr</span><span class="op">$</span><span class="fu">desc</span><span class="op">(</span><span class="va">mass</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="va">.dpr</span><span class="op">$</span><span class="fu">relocate</span><span class="op">(</span><span class="va">species</span>, <span class="va">mass</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 87 × 14</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># Groups:   species [38]</span></span></span>
 <span><span class="co">#&gt;    species    mass name  height hair_color skin_color eye_color birth_year sex  </span></span>
@@ -191,25 +127,31 @@ just works:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 77 more rows</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 5 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;, films &lt;list&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   vehicles &lt;list&gt;, starships &lt;list&gt;</span></span></span></code></pre></div>
+<p>and so do these S4 methods:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/import_from.html">import_from</a></span><span class="op">(</span><span class="st">"broadcast"</span>, <span class="st">"bc.d"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Import &amp; method registration complete</span></span>
+<span></span>
+<span><span class="fu">bc.d</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="fu"><a href="https://rdrr.io/r/base/array.html" class="external-link">array</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">10</span><span class="op">)</span><span class="op">)</span>, <span class="st">"+"</span><span class="op">)</span> <span class="co"># fast broadcasted addition</span></span>
+<span><span class="co">#&gt;       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]</span></span>
+<span><span class="co">#&gt;  [1,]    2    3    4    5    6    7    8    9   10    11</span></span>
+<span><span class="co">#&gt;  [2,]    3    4    5    6    7    8    9   10   11    12</span></span>
+<span><span class="co">#&gt;  [3,]    4    5    6    7    8    9   10   11   12    13</span></span>
+<span><span class="co">#&gt;  [4,]    5    6    7    8    9   10   11   12   13    14</span></span>
+<span><span class="co">#&gt;  [5,]    6    7    8    9   10   11   12   13   14    15</span></span>
+<span><span class="co">#&gt;  [6,]    7    8    9   10   11   12   13   14   15    16</span></span>
+<span><span class="co">#&gt;  [7,]    8    9   10   11   12   13   14   15   16    17</span></span>
+<span><span class="co">#&gt;  [8,]    9   10   11   12   13   14   15   16   17    18</span></span>
+<span><span class="co">#&gt;  [9,]   10   11   12   13   14   15   16   17   18    19</span></span>
+<span><span class="co">#&gt; [10,]   11   12   13   14   15   16   17   18   19    20</span></span></code></pre></div>
 <p>So when importing packages, everything works as expected, including
-S3 methods.</p>
+S3 and S4 methods.</p>
 <p> </p>
 </div>
 <div class="section level2">
 <h2 id="alias-attributes">Alias attributes<a class="anchor" aria-label="anchor" href="#alias-attributes"></a>
 </h2>
-<p>One may have noticed in the “Import system - main functions” article,
-that aliasing a package like so:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/import_as.html">import_as</a></span><span class="op">(</span><span class="op">~</span> <span class="va">tdt.</span>, <span class="st">"tidytable"</span>, re_exports <span class="op">=</span> <span class="cn">TRUE</span>, dependencies <span class="op">=</span> <span class="st">"data.table"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Importing packages and registering methods...</span></span>
-<span><span class="co">#&gt; Done</span></span>
-<span><span class="co">#&gt; You can now access the functions using `tdt.$`</span></span>
-<span><span class="co">#&gt; For conflicts report, packages order, and other attributes, run `attr.import(tdt.)`</span></span></code></pre></div>
-<p>… produces several messages, including the message “For conflicts
-report, packages order, and other attributes, run
-<code><a href="../reference/import_helper.html">attr.import()</a></code>”.</p>
-<p>The <code><a href="../reference/import_helper.html">attr.import()</a></code> function allows the user to access the
+<p>The <code><a href="../reference/tinyimport_alias.html">attr.import()</a></code> function allows the user to access the
 special attributes stored and locked inside the alias object. These
 attributes show which imported package overwrites which imported
 functions, in what order the packages are imported and so on.</p>
@@ -217,8 +159,11 @@ functions, in what order the packages are imported and so on.</p>
 <p>Show the packages imported under the alias, and in which order the
 packages are imported, and from which packages the re-exported functions
 came from:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/import_helper.html">attr.import</a></span><span class="op">(</span><span class="va">tdt.</span>, <span class="st">"pkgs"</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/import_as.html">import_as</a></span><span class="op">(</span><span class="va">.tdt</span> <span class="op">~</span> <span class="va">tidytable</span>, deps <span class="op">=</span> <span class="st">"data.table"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Import &amp; method registration complete</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/tinyimport_alias.html">attr.import</a></span><span class="op">(</span><span class="va">.tdt</span>, <span class="st">"pkgs"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; $packages_order</span></span>
 <span><span class="co">#&gt; [1] "data.table" "tidytable" </span></span>
 <span><span class="co">#&gt; </span></span>
@@ -226,10 +171,10 @@ came from:</p>
 <span><span class="co">#&gt; [1] "tidytable"</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $re_exports.pkgs</span></span>
-<span><span class="co">#&gt; [1] "data.table" "rlang"      "tidyselect" "magrittr"   "pillar"</span></span></code></pre></div>
+<span><span class="co">#&gt; NULL</span></span></code></pre></div>
 <p>Show which functions from which packages “win” conflicts:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/import_helper.html">attr.import</a></span><span class="op">(</span><span class="va">tdt.</span>, <span class="st">"conflicts"</span><span class="op">)</span><span class="op">|&gt;</span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/tinyimport_alias.html">attr.import</a></span><span class="op">(</span><span class="va">.tdt</span>, <span class="st">"conflicts"</span><span class="op">)</span><span class="op">|&gt;</span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <colgroup>
 <col width="17%">
@@ -251,41 +196,8 @@ fwrite, getDTthreads, data.table, %chin%, %between%, %like%</td>
 </tr>
 </tbody>
 </table>
-<p>Show the arguments used in the <code><a href="../reference/import_as.html">import_as()</a></code> call that
-produced the alias object in question:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/import_helper.html">attr.import</a></span><span class="op">(</span><span class="va">tdt.</span>, <span class="st">"args"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; $main_package</span></span>
-<span><span class="co">#&gt; [1] "tidytable"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $re_exports</span></span>
-<span><span class="co">#&gt; [1] TRUE</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $dependencies</span></span>
-<span><span class="co">#&gt; [1] "data.table"</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $extensions</span></span>
-<span><span class="co">#&gt; NULL</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $lib.loc</span></span>
-<span><span class="co">#&gt; [1] "C:/Users/Tony/AppData/Local/Temp/Rtmp69uyG1/temp_libpath1df043003cf0"</span></span>
-<span><span class="co">#&gt; [2] "D:/Programs/R/R-4.6.1/library"                                       </span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $import_order</span></span>
-<span><span class="co">#&gt; [1] "dependencies" "main_package" "extensions"</span></span></code></pre></div>
-<p>The help file on <code><a href="../reference/import_helper.html">attr.import()</a></code> provides more details on
+<p>The help file on <code><a href="../reference/tinyimport_alias.html">attr.import()</a></code> provides more details on
 each of these options.</p>
-<p> </p>
-</div>
-<div class="section level2">
-<h2 id="check-for-package-versions-mismatch">Check for package versions mismatch<a class="anchor" aria-label="anchor" href="#check-for-package-versions-mismatch"></a>
-</h2>
-<p>The <code><a href="../reference/pversion.html">pversion_check4mismatch()</a></code> function checks if there
-is any mismatch between the currently loaded packages and the packages
-in the specified library path.</p>
-<p>The <code><a href="../reference/pversion.html">pversion_report()</a></code> function gives a table of all
-specified packages, with their loaded and installed versions, regardless
-if there is a mismatch or not.</p>
 <p> </p>
 </div>
 <div class="section level2">
@@ -296,13 +208,13 @@ function <code>i</code> (or topic string <code>i</code>), even if the
 function is inside an alias object, or if the function is an unattached
 function (like exposed infix operators).</p>
 <p>Example:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/import_as.html">import_as</a></span><span class="op">(</span><span class="op">~</span> <span class="va">mr.</span>, <span class="st">"magrittr"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/import_inops.html">import_inops</a></span><span class="op">(</span><span class="va">mr.</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/import_as.html">import_as</a></span><span class="op">(</span><span class="va">.dpr</span> <span class="op">~</span> <span class="st">"dplyr"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/import_from.html">import_from</a></span><span class="op">(</span><span class="st">"magrittr"</span>, <span class="fu"><a href="../reference/import_ls.html">import_ls</a></span><span class="op">(</span><span class="st">"magrittr"</span>, <span class="st">"infix"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu"><a href="../reference/import_helper.html">help.import</a></span><span class="op">(</span>i<span class="op">=</span><span class="va">mr.</span><span class="op">$</span><span class="va">add</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/import_helper.html">help.import</a></span><span class="op">(</span>i<span class="op">=</span><span class="va">`%&gt;%`</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/import_helper.html">help.import</a></span><span class="op">(</span>i<span class="op">=</span><span class="st">"add"</span>, alias<span class="op">=</span><span class="va">mr.</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/import_helper.html">help.import</a></span><span class="op">(</span>i <span class="op">=</span> <span class="va">.mr</span><span class="op">$</span><span class="va">add</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/import_helper.html">help.import</a></span><span class="op">(</span>i <span class="op">=</span> <span class="va">`%&gt;%`</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/import_helper.html">help.import</a></span><span class="op">(</span>i <span class="op">=</span> <span class="st">"add"</span>, alias <span class="op">=</span> <span class="va">.mr</span><span class="op">)</span></span></code></pre></div>
 <p> </p>
 </div>
 <div class="section level2">

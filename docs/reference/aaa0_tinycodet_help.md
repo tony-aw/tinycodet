@@ -24,9 +24,6 @@ see
 see
 [tinycodet_dry](https://tony-aw.github.io/tinycodet/reference/aaa4_tinycodet_dry.md).  
   
-And some miscellaneous functionality; see
-[tinycodet_misc](https://tony-aw.github.io/tinycodet/reference/aaa5_tinycodet_misc.md).  
-  
   
 Please check the Change-log (see links below) regularly for updates
 (such as bug fixes).  

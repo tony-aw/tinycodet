@@ -8,6 +8,15 @@
 \alias{\%opover\%}
 \alias{\%op11\%}
 \alias{\%op12\%}
+\alias{rpbase_overwritten}
+\alias{rpbase11}
+\alias{rpbase12}
+\alias{rpbase_overwritten<-}
+\alias{rpbase11<-}
+\alias{rpbase12<-}
+\alias{const_overwritten}
+\alias{const11}
+\alias{const12}
 \title{tinycodetfakepkg1}
 \usage{
 fun_overwritten()
@@ -21,11 +30,33 @@ X \%opover\% A
 X \%op11\% A
 
 X \%op12\% A
+
+rpbase_overwritten(x)
+
+rpbase11(x)
+
+rpbase12(x)
+
+rpbase_overwritten(x) <- value
+
+rpbase11(x) <- value
+
+rpbase12(x) <- value
+
+const_overwritten
+
+const11
+
+const12
 }
 \arguments{
 \item{X}{whatever}
 
 \item{A}{whatever}
+
+\item{x}{description}
+
+\item{value}{description}
 }
 \description{
 Bla

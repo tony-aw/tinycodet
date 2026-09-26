@@ -1,45 +1,42 @@
-# Import R-package, its Re-exports, Dependencies, and/or Extensions, Under a Single Alias
+# Import R-package, its Re-exports, and Dependencies Under a Single Alias
 
 The `import_as()` function imports the namespace of an R-package, and
-optionally also its re-exports, dependencies, and extensions, all under
-the same alias. The specified alias, containing the exported functions
-from the specified packages, will be placed in the current
-environment.  
+optionally also its re-exports and dependencies, all under the same
+alias. The specified alias, containing the exported functions from the
+specified packages, will be placed in the specified environment.  
 
 ## Usage
 
 ``` r
 import_as(
-  alias,
-  main_package,
+  main,
   re_exports = TRUE,
-  dependencies = NULL,
-  extensions = NULL,
+  deps = NULL,
   lib.loc = .libPaths(),
-  import_order = c("dependencies", "main_package", "extensions")
+  env = NULL
 )
 ```
 
 ## Arguments
 
-- alias:
+- main:
 
-  a syntactically valid name giving the alias object where the
-  package(s) are to be imported into.  
-  This name can be given either as a single string (i.e. `"alias."`), or
-  as a one-sided formula with a single term (i.e. `~ alias.`).
-
-- main_package:
-
-  a single string, giving the name of the main package to import under
-  the given alias.  
-  Core R (i.e. "base", "stats", etc.) is not allowed.
+  a 2-sided formula (or a string that evaluates as a 2-sided formula),
+  where the left-hand side gives the alias, and the right-hand side
+  gives the main package to import under the given alias.  
+  Starting the alias name with a dot will hide it from
+  [`ls()`](https://rdrr.io/r/base/ls.html), preventing accidental
+  removal.  
+  For example :  
+  `.alias ~ packagename`  
+  Core R (i.e. "base", "stats", etc.) is not allowed for the main
+  package.
 
 - re_exports:
 
   `TRUE` or `FALSE`.
 
-  - If `re_exports = TRUE` the re-exports from the `main_package`
+  - If `re_exports = TRUE` the re-exports from the main package
     (including those exported from Core R) are added to the alias
     together with the main package.  
     This is the default, as it is analogous to the behaviour of base R's
@@ -51,41 +48,27 @@ import_as(
     the re-exported functions came from, by specifying them in the
     `dependencies` argument.
 
-- dependencies:
+- deps:
 
   an optional character vector, giving the names of the dependencies of
-  the `main_package` to be imported also under the alias.  
+  the main package to be imported also under the alias.  
+  Only dependencies that appear in
+  [pkg_get_deps_minimal](https://tony-aw.github.io/tinycodet/reference/pkgs.md)
+  are allowed.  
   Defaults to `NULL`, which means no dependencies are imported under the
-  alias.  
-  See
-  [pkg_get_deps](https://tony-aw.github.io/tinycodet/reference/pkgs.md)
-  to quickly get dependencies from a package.  
-  Core R (i.e. "base", "stats", etc.) is not allowed.
-
-- extensions:
-
-  an optional character vector, giving the names of the extensions of
-  the `main_package` to be imported also under the alias.  
-  Defaults to `NULL`, which means no extensions are imported under the
   alias.  
   Core R (i.e. "base", "stats", etc.) is not allowed.
 
 - lib.loc:
 
-  character vector specifying library search path (the location of R
-  library trees to search through).  
-  The `lib.loc` argument would usually be
-  [`.libPaths()`](https://rdrr.io/r/base/libPaths.html).  
-  See also [loadNamespace](https://rdrr.io/r/base/ns-load.html).  
+  a character vector describing the location of R library trees to
+  search through.
+
+- env:
+
+  see
+  [import_env](https://tony-aw.github.io/tinycodet/reference/import_env.md).  
     
-
-- import_order:
-
-  the character vector  
-  `c("dependencies", "main_package", "extensions")`,  
-  or some re-ordering of this character vector, giving the relative
-  import order of the groups of packages.  
-  See Details section for more information.  
 
 ## Value
 
@@ -94,48 +77,22 @@ A locked environment object, similar to the output of
 specified in the `alias` argument, will be created.  
 This object, referred to as the "(package) alias object", will contain
 the exported functions from the specified package(s).  
-The alias object will be placed in the current environment.  
+The alias object will be placed in the specified environment.  
+For its usage, see
+[tinyimport_alias](https://tony-aw.github.io/tinycodet/reference/tinyimport_alias.md).  
   
-To use, for example, function "some_function()" from alias "alias.",
-use:  
-`alias.$some_function()`  
-To see the special attributes of this alias object, use
-[attr.import](https://tony-aw.github.io/tinycodet/reference/import_helper.md).  
-To "unimport" the package alias object, simply remove it (i.e.
-`rm(list = "alias.")`).  
 
 ## Details
 
-**Expanded Definitions of Some Arguments**  
-
-- "re-exports" are functions that are defined in the dependencies of the
-  `main_package`, but are re-exported in the namespace of the
-  `main_package`.  
-  Unlike the `dependencies` argument, functions from core 'R' are
-  included in re-exports.
-
-- "dependencies" are here defined as any R-package appearing in the
-  "Depends", "Imports", or "LinkingTo" fields of the Description file of
-  the `main_package`. So no recursive dependencies.
-
-- "extensions" are reverse-dependencies that actually extend the
-  functionality of the `main_package`.  
-  Programmatically, some package "E" is considered an extension of some
-  "main_package", if the following is `TRUE`:  
-  `"main_package" %in% `
-  [pkg_get_deps_minimal](https://tony-aw.github.io/tinycodet/reference/pkgs.md)`("E")`  
-    
-
-**Why Aliasing Multiple Packages is Useful**  
-To use an R-package with its extension packages or dependencies, whilst
-avoiding the disadvantages of attaching a package (see
+**Why Aliasing A Package with its Dependencies is Useful**  
+To use an R-package with its dependencies, whilst avoiding the
+disadvantages of attaching a package (see
 [tinycodet_import](https://tony-aw.github.io/tinycodet/reference/aaa2_tinycodet_import.md)),
 one would traditionally use the
 [::](https://rdrr.io/r/base/ns-dblcolon.html) operator like so:  
 
     main_package::some_function1()
     dependency1::some_function2()
-    extension1::some_function3()
 
 This becomes cumbersome as more packages are needed and/or as the
 package name(s) become longer.  
@@ -144,13 +101,12 @@ The `import_as()` function avoids this issue by allowing multiple
 to code like this:
 
     import_as(
-       ~ alias., "main_package",
-       dependencies = "dependency1", extensions = "extension1",
+       .alias ~ main_package,
+       deps = "dependency1"
        lib.loc = .libPaths()
     )
-    alias.$some_function1()
-    alias.$some_function2()
-    alias.$some_function3()
+    .alias$some_function1()
+    .alias$some_function2()
 
 Thus importing a package, or multiple directly related packages, under a
 single alias, which `import_as()` provides, avoids the above issues.
@@ -158,48 +114,20 @@ Importing a package under an alias is referred to as "aliasing" a
 package.  
   
   
-**Alias Naming Recommendation**  
-To keep package alias object names easily distinguishable from other
-objects that can also be subset with the
-[\$](https://rdrr.io/r/base/Extract.html) operator, I recommend ending
-(or starting, if you want to hide it from
-[`ls()`](https://rdrr.io/r/base/ls.html)) all alias names with a dot
-(`.`), or ending alias names with an underscore (`_`).  
-  
-  
-**Regarding `import_order`**  
-The order of the character vector given in the `dependencies` and
-`extensions` arguments matters. If multiple packages share objects with
-the same name, the objects of the package named last will overwrite
-those of the earlier named packages.  
-  
-The `import_order` argument defaults to the character vector  
-`c("dependencies", "main_package", "extensions")`,  
-which is the recommended setting.  
-This setting results in the following importing order:  
-
-1.  The dependencies, **in the order specified by the `dependencies`
-    argument**.
-
-2.  The main_package (see argument `main_package`), including re-exports
-    (if `re_exports = TRUE`).
-
-3.  The extensions, **in the order specified by the `extensions`
-    argument**.  
-      
 
 **Other Details**  
 
 - Packages that appear in the "Suggests" or "Enhances" fields of
-  packages are not considered dependencies or extensions.
+  packages are not considered dependencies.
 
-- No more than 10 packages (ignoring re-exports) are allowed to be
+- No more than 5 packages (ignoring re-exports) are allowed to be
   imported under a single alias.
 
-- Primitive functions (see
-  [is.primitive](https://rdrr.io/r/base/is.function.html)) are not
-  imported.  
-    
+- Packages are imported in the following order:  
+  First the dependencies in the order they are specified in `deps`, and
+  then the main package.  
+  Thus main package will always overwrite the dependencies in case of
+  conflicting names.  
 
 ## See also
 
@@ -208,16 +136,167 @@ This setting results in the following importing order:
 ## Examples
 
 ``` r
-"data.table" %installed in% .libPaths()
-#> data.table 
-#>       TRUE 
+import_as(.stri ~ stringi)
+#> Import & method registration complete
+.stri$stri_join("a", "b")
+#> [1] "ab"
 
-import_as( # this creates the 'dt.' object
-  ~ dt., "data.table"
-)
-#> Importing packages and registering methods...
-#> Done
-#> You can now access the functions using `dt.$`
-#> For conflicts report, packages order, and other attributes, run `attr.import(dt.)` 
+import_from("stringi", import_ls("stringi", "infix"))
+#> c("%s!=%", "%s!==%", "%s$%", "%s*%", "%s+%", "%s<%", "%s<=%", 
+#> "%s==%", "%s===%", "%s>%", "%s>=%", "%stri!=%", "%stri!==%", 
+#> "%stri$%", "%stri*%", "%stri+%", "%stri<%", "%stri<=%", "%stri==%", 
+#> "%stri===%", "%stri>%", "%stri>=%")
+#> Import & method registration complete
+"a" %s+% "b"
+#> [1] "ab"
 
+attr.import(.stri)
+#> $pkgs
+#> $pkgs$packages_order
+#> [1] "stringi"
+#> 
+#> $pkgs$main_package
+#> [1] "stringi"
+#> 
+#> $pkgs$re_exports.pkgs
+#> NULL
+#> 
+#> 
+#> $conflicts
+#>                package winning_conflicts
+#> 1 stringi + re-exports                  
+#> 
+#> $ordered_object_names
+#>   [1] "stri_startswith"               "stri_locate_first"            
+#>   [3] "%s==%"                         "stri_subset_regex"            
+#>   [5] "stri_locate_all_boundaries"    "stri_width"                   
+#>   [7] "stri_datetime_add<-"           "stri_datetime_parse"          
+#>   [9] "stri_join_list"                "stri_extract_all_regex"       
+#>  [11] "stri_extract_first_fixed"      "stri_detect_regex"            
+#>  [13] "stri_trim_right"               "stri_order"                   
+#>  [15] "stri_locale_info"              "stri_extract_last_charclass"  
+#>  [17] "stri_datetime_add"             "%s<%"                         
+#>  [19] "stri_trans_isnfkc"             "stri_subset_fixed"            
+#>  [21] "stri_trans_isnfkd"             "stri_extract_last_coll"       
+#>  [23] "stri_replace_first_regex"      "stri_reverse"                 
+#>  [25] "stri_enc_fromutf32"            "stri_opts_fixed"              
+#>  [27] "stri_datetime_fields"          "%s>=%"                        
+#>  [29] "stri_locate_first_boundaries"  "stri_enc_toascii"             
+#>  [31] "stri_locate_all_fixed"         "stri_trans_toupper"           
+#>  [33] "stri_sub_all<-"                "stri_sort_key"                
+#>  [35] "stri_locate_first_words"       "%stri!=%"                     
+#>  [37] "stri_info"                     "stri_replace_last_charclass"  
+#>  [39] "stri_enc_isutf16le"            "stri_length"                  
+#>  [41] "stri_replace_first_coll"       "stri_extract_last_boundaries" 
+#>  [43] "stri_split_lines1"             "stri_trans_nfkc_casefold"     
+#>  [45] "stri_trans_tolower"            "stri_na2empty"                
+#>  [47] "stri_sub<-"                    "stri_read_lines"              
+#>  [49] "stri_detect"                   "stri_locate_last_coll"        
+#>  [51] "stri_trans_casefold"           "stri_split_fixed"             
+#>  [53] "%s>%"                          "stri_extract_all_words"       
+#>  [55] "stri_rand_strings"             "stri_trans_isnfc"             
+#>  [57] "stri_endswith_fixed"           "stri_trans_isnfd"             
+#>  [59] "stri_split_coll"               "stri_locate_all_charclass"    
+#>  [61] "%s!=%"                         "stri_c"                       
+#>  [63] "stri_subset<-"                 "stri_locate_first_coll"       
+#>  [65] "stri_locate_first_charclass"   "stri_conv"                    
+#>  [67] "stri_sub_replace_all"          "stri_enc_list"                
+#>  [69] "stri_string_format"            "stri_sub_replace"             
+#>  [71] "stri_pad_left"                 "stri_locate_all_coll"         
+#>  [73] "stri_subset_regex<-"           "stri_detect_fixed"            
+#>  [75] "stri_unique"                   "stri_omit_na"                 
+#>  [77] "stri_locale_list"              "stri_trans_isnfkc_casefold"   
+#>  [79] "stri_locate_last_regex"        "stri_escape_unicode"          
+#>  [81] "stri_duplicated"               "stri_sort"                    
+#>  [83] "stri_split_lines"              "stri_flatten"                 
+#>  [85] "stri_extract_last_regex"       "stri_subset_coll"             
+#>  [87] "stri_subset"                   "stri_datetime_format"         
+#>  [89] "stri_replace_last_regex"       "stri_split_boundaries"        
+#>  [91] "stri_extract_all_coll"         "stri_trans_nfc"               
+#>  [93] "stri_trans_nfd"                "stri_cmp_equiv"               
+#>  [95] "stri_endswith"                 "stri_replace_first"           
+#>  [97] "stri_split_regex"              "stri_locate_last_charclass"   
+#>  [99] "stri_count_boundaries"         "stri_endswith_coll"           
+#> [101] "stri_endswith_charclass"       "stri_sprintf"                 
+#> [103] "stri_enc_isutf32le"            "stri_detect_coll"             
+#> [105] "stri_remove_na"                "stri_locate_all_words"        
+#> [107] "stri_locale_set"               "stri_printf"                  
+#> [109] "%stri<=%"                      "stri_cmp"                     
+#> [111] "stri_rank"                     "stri_replace_na"              
+#> [113] "%s$%"                          "stri_count_coll"              
+#> [115] "stri_count_words"              "stri_sub_all"                 
+#> [117] "stri_extract_all"              "stri_numbytes"                
+#> [119] "stri_enc_detect"               "stri_datetime_symbols"        
+#> [121] "stri_isempty"                  "stri_replace_first_fixed"     
+#> [123] "stri_count_fixed"              "stri_rand_lipsum"             
+#> [125] "stri_trans_nfkc"               "stri_trans_nfkd"              
+#> [127] "stri_replace_all_coll"         "stri_encode"                  
+#> [129] "stri_replace_rstr"             "stri_match_last"              
+#> [131] "%stri<%"                       "stri_duplicated_any"          
+#> [133] "stri_timezone_info"            "stri_match_first_regex"       
+#> [135] "stri_match_all"                "stri_extract_first_charclass" 
+#> [137] "stri_extract_first_boundaries" "stri_enc_tonative"            
+#> [139] "stri_startswith_fixed"         "stri_pad"                     
+#> [141] "%stri*%"                       "stri_dup"                     
+#> [143] "stri_opts_brkiter"             "stri_omit_empty_na"           
+#> [145] "stri_write_lines"              "stri_match_last_regex"        
+#> [147] "stri_c_list"                   "stri_replace_all"             
+#> [149] "stri_opts_regex"               "%stri!==%"                    
+#> [151] "stri_subset_charclass<-"       "stri_replace_all_regex"       
+#> [153] "stri_locate_last_boundaries"   "stri_subset_fixed<-"          
+#> [155] "stri_locate_first_fixed"       "stri_extract_last_words"      
+#> [157] "stri_replace_last"             "stri_enc_isutf16be"           
+#> [159] "stri_extract_first"            "stri_rand_shuffle"            
+#> [161] "%stri+%"                       "stri_extract_last"            
+#> [163] "stri_locate_last"              "stri_datetime_now"            
+#> [165] "stri_startswith_coll"          "stri_trim_both"               
+#> [167] "%s!==%"                        "stri_replace"                 
+#> [169] "stri_extract_last_fixed"       "stri_replace_all_charclass"   
+#> [171] "stri_pad_right"                "stri_match"                   
+#> [173] "stri_replace_last_coll"        "stri_opts_collator"           
+#> [175] "stri_cmp_lt"                   "stri_subset_coll<-"           
+#> [177] "stri_enc_info"                 "stri_trans_char"              
+#> [179] "stri_stats_latex"              "stri_trim_left"               
+#> [181] "stri_replace_all_fixed"        "stri_replace_last_fixed"      
+#> [183] "stri_join"                     "stri_enc_toutf32"             
+#> [185] "stri_cmp_neq"                  "stri_locate_all_regex"        
+#> [187] "stri_replace_first_charclass"  "stri_enc_toutf8"              
+#> [189] "stri_locale_get"               "stri_trim"                    
+#> [191] "stri_count_regex"              "stri_cmp_le"                  
+#> [193] "stri_timezone_set"             "stri_count_charclass"         
+#> [195] "stri_pad_both"                 "stri_paste_list"              
+#> [197] "stri_sub_all_replace"          "stri_datetime_create"         
+#> [199] "stri_extract_first_coll"       "stri_read_raw"                
+#> [201] "stri_enc_mark"                 "stri_timezone_get"            
+#> [203] "stri_datetime_fstr"            "stri_locate_last_words"       
+#> [205] "stri_match_first"              "stri_cmp_nequiv"              
+#> [207] "stri_extract_all_charclass"    "stri_list2matrix"             
+#> [209] "stri_startswith_charclass"     "stri_remove_empty_na"         
+#> [211] "stri_subset_charclass"         "stri_locate_first_regex"      
+#> [213] "stri_remove_empty"             "%stri===%"                    
+#> [215] "stri_trans_general"            "stri_stats_general"           
+#> [217] "stri_locate_all"               "%s*%"                         
+#> [219] "stri_enc_set"                  "stri_cmp_gt"                  
+#> [221] "stri_detect_charclass"         "stri_split"                   
+#> [223] "stri_compare"                  "stri_extract_all_boundaries"  
+#> [225] "stri_unescape_unicode"         "stri_locate"                  
+#> [227] "stri_enc_get"                  "stri_omit_empty"              
+#> [229] "stri_enc_isutf32be"            "stri_timezone_list"           
+#> [231] "%s===%"                        "stri_extract"                 
+#> [233] "%stri$%"                       "stri_wrap"                    
+#> [235] "stri_split_charclass"          "stri_enc_detect2"             
+#> [237] "%stri==%"                      "stri_locate_last_fixed"       
+#> [239] "%s+%"                          "%s<=%"                        
+#> [241] "stri_cmp_ge"                   "stri_sub"                     
+#> [243] "stri_enc_isutf8"               "stri_trans_list"              
+#> [245] "stri_match_all_regex"          "stri_extract_first_regex"     
+#> [247] "stri_paste"                    "stri_count"                   
+#> [249] "stri_extract_all_fixed"        "stri_coll"                    
+#> [251] "%stri>%"                       "stri_cmp_eq"                  
+#> [253] "stri_extract_first_words"      "stri_trans_totitle"           
+#> [255] "stri_enc_isascii"              "%stri>=%"                     
+#> 
+#> $tinyimport
+#> [1] "tinyimport"
+#> 
 ```

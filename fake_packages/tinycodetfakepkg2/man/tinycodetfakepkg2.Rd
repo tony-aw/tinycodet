@@ -8,7 +8,16 @@
 \alias{\%opover\%}
 \alias{\%op21\%}
 \alias{\%op22\%}
-\title{tinycodetfakepkg2ellaneous functions to help your coding etiquette}
+\alias{rpbase_overwritten}
+\alias{rpbase21}
+\alias{rpbase22}
+\alias{rpbase_overwritten<-}
+\alias{rpbase21<-}
+\alias{rpbase22<-}
+\alias{const_overwritten}
+\alias{const21}
+\alias{const22}
+\title{tinycodetfakepkg2}
 \usage{
 fun_overwritten()
 
@@ -21,11 +30,33 @@ X \%opover\% A
 X \%op21\% A
 
 X \%op22\% A
+
+rpbase_overwritten(x)
+
+rpbase21(x)
+
+rpbase22(x)
+
+rpbase_overwritten(x) <- value
+
+rpbase21(x) <- value
+
+rpbase22(x) <- value
+
+const_overwritten
+
+const21
+
+const22
 }
 \arguments{
 \item{X}{whatever}
 
 \item{A}{whatever}
+
+\item{x}{description}
+
+\item{value}{description}
 }
 \description{
 Bla

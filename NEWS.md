@@ -1,4 +1,40 @@
 
+# tinycodet 0.8.0 (Under Development)
+
+This version features a major overhaul of its import system.
+
+**General changes to import system:**
+
+* Bumped up required 'R' version to 4.3.
+* the `import_` functions now warn user if there is a version or `lib.loc` mismatch between installed and loaded packages.
+* All import functions now avoid `exist()` to prevent the possibility of (minor) memory leakage.
+* Replaced `pkg_lsf()` with the more general `import_ls()`.
+* Replaced `import_inops()` and `import_LL()` with the more general `import_from()`.
+* Removed `import_inops.control()`.
+* Replaced the `pversion_` functions with the more general `import_diagnose()`.
+* Removed `import_int()`.
+* Most `import_` functions now have the new `env` argument to specify the environment where to place objects in.
+* The `import_` functions no longer add attributes to functions.
+* The `import_` functions now support Primitive functions once again.
+* Added the `searchenv()` functions to support safe handling of search path environments.
+* In the `pkg_` functions, one can now also specify `lib.loc = NULL`, provided the specified package is already loaded. 
+
+
+**Changes to `import_as()`:**
+
+* The primary argument must now be given in formula form as `alias ~ main_package`.
+* Removed arguments `import_order` and `extensions` from`import_as()`.
+* `dependencies` argument replaced with `deps`, which now only accepts dependencies given by `pkg_get_deps_minimal()`.
+* No more than 5 packages can be imported under the same alias.
+* Reduced its verbosity.
+* `attr.import()` no longer supports the argument specification `which = "args"`.
+
+
+**Misc changes:**
+
+* Removed the "misc" category.
+
+
 # tinycodet 0.7.1
 * Changed e-mail provider.
 * Cleaned up some internal code.
@@ -107,6 +143,7 @@ in the documentation of the `stri_locate_ith()` function.
 
 
 **More safety checks:**
+
 * Improved safety against malformed conditions in the `transform_if()` function.
 * `stri_locate_ith()` now gives a warning when an empty string or pattern is given.
 * The `help.import()` function now gives an error if neither `topic/package` nor `i/alias` is supplied, instead of just silently doing nothing.
@@ -156,6 +193,7 @@ This is now fixed.
 
 * The messages returned by `import_as()` when aliasing packages is now slightly less verbose: \
 removed the line "Methods work like normally", and replaced the line "Importing packages ..." with "Importing packages and registering methods...".
+
 
 **Tests:**
 

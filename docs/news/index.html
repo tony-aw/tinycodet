@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">tinycodet</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,12 +20,11 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/a_safer.html">Safer functionality</a></li>
-    <li><a class="dropdown-item" href="../articles/b_import_main.html">Import system - main functions</a></li>
+    <li><a class="dropdown-item" href="../articles/b_import_main.html">Import system - main functionality</a></li>
     <li><a class="dropdown-item" href="../articles/c_import_additional.html">Import system - additional details</a></li>
     <li><a class="dropdown-item" href="../articles/d_strings_functions.html">String related functions</a></li>
     <li><a class="dropdown-item" href="../articles/e_strings_inops.html">String related infix operators</a></li>
     <li><a class="dropdown-item" href="../articles/f_DRY.html">Don't Repeat Yourself</a></li>
-    <li><a class="dropdown-item" href="../articles/g_misc.html">Miscellaneous functionality</a></li>
     <li><a class="dropdown-item" href="../articles/h_otherpkgs.html">Relations to other packages</a></li>
     <li><a class="dropdown-item" href="../articles/i_benchmarks.html">Benchmarks</a></li>
   </ul></li>
@@ -45,6 +44,35 @@
       <small>Source: <a href="https://github.com/tony-aw/tinycodet/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.8.0" id="tinycodet-080-under-development">tinycodet 0.8.0 (Under Development)<a class="anchor" aria-label="anchor" href="#tinycodet-080-under-development"></a></h2>
+<p>This version features a major overhaul of its import system.</p>
+<p><strong>General changes to import system:</strong></p>
+<ul><li>Bumped up required ‘R’ version to 4.3.</li>
+<li>the <code>import_</code> functions now warn user if there is a version or <code>lib.loc</code> mismatch between installed and loaded packages.</li>
+<li>All import functions now avoid <code>exist()</code> to prevent the possibility of (minor) memory leakage.</li>
+<li>Replaced <code>pkg_lsf()</code> with the more general <code><a href="../reference/import_ls.html">import_ls()</a></code>.</li>
+<li>Replaced <code><a href="../reference/import_legacy.html">import_inops()</a></code> and <code><a href="../reference/import_legacy.html">import_LL()</a></code> with the more general <code><a href="../reference/import_from.html">import_from()</a></code>.</li>
+<li>Removed <code>import_inops.control()</code>.</li>
+<li>Replaced the <code>pversion_</code> functions with the more general <code><a href="../reference/import_diagnose.html">import_diagnose()</a></code>.</li>
+<li>Removed <code>import_int()</code>.</li>
+<li>Most <code>import_</code> functions now have the new <code>env</code> argument to specify the environment where to place objects in.</li>
+<li>The <code>import_</code> functions no longer add attributes to functions.</li>
+<li>The <code>import_</code> functions now support Primitive functions once again.</li>
+<li>Added the <code><a href="../reference/searchenv.html">searchenv()</a></code> functions to support safe handling of search path environments.</li>
+<li>In the <code>pkg_</code> functions, one can now also specify <code>lib.loc = NULL</code>, provided the specified package is already loaded.</li>
+</ul><p><strong>Changes to <code><a href="../reference/import_as.html">import_as()</a></code>:</strong></p>
+<ul><li>The primary argument must now be given in formula form as <code>alias ~ main_package</code>.</li>
+<li>Removed arguments <code>import_order</code> and <code>extensions</code> from<code><a href="../reference/import_as.html">import_as()</a></code>.</li>
+<li>
+<code>dependencies</code> argument replaced with <code>deps</code>, which now only accepts dependencies given by <code><a href="../reference/pkgs.html">pkg_get_deps_minimal()</a></code>.</li>
+<li>No more than 5 packages can be imported under the same alias.</li>
+<li>Reduced its verbosity.</li>
+<li>
+<code><a href="../reference/tinyimport_alias.html">attr.import()</a></code> no longer supports the argument specification <code>which = "args"</code>.</li>
+</ul><p><strong>Misc changes:</strong></p>
+<ul><li>Removed the “misc” category.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.7.1" id="tinycodet-071">tinycodet 0.7.1<a class="anchor" aria-label="anchor" href="#tinycodet-071"></a></h2><p class="text-muted">CRAN release: 2026-08-21</p>
 <ul><li>Changed e-mail provider.</li>
@@ -168,10 +196,15 @@ The <code>type</code> argument in <code><a href="../reference/strcut.html">strcu
 <li>Clarified that <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> does not support long vectors.</li>
 <li>Normalized the links in the “See Also” sections in the documentation.</li>
 <li>Renamed the “str_truth” page to “str_search”, as that makes a little more sense.</li>
-<li>Removed the redundant <code>stringi::</code> piece in the example code for <code><a href="../reference/import_misc.html">import_LL()</a></code>.</li>
+<li>Removed the redundant <code>stringi::</code> piece in the example code for <code><a href="../reference/import_legacy.html">import_LL()</a></code>.</li>
 <li>The help file for the <code>s_pattern</code> functions is now actually titled “s_pattern”.</li>
-</ul><p><strong>More safety checks:</strong> * Improved safety against malformed conditions in the <code><a href="../reference/transform_if.html">transform_if()</a></code> function. * <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> now gives a warning when an empty string or pattern is given. * The <code><a href="../reference/import_helper.html">help.import()</a></code> function now gives an error if neither <code>topic/package</code> nor <code>i/alias</code> is supplied, instead of just silently doing nothing. * The <code>%sget%</code> and <code>%strim%</code> operators now give an explicit error message if the arguments do not have proper lengths.</p>
-<p><strong>Internal Re-write:</strong></p>
+</ul><p><strong>More safety checks:</strong></p>
+<ul><li>Improved safety against malformed conditions in the <code><a href="../reference/transform_if.html">transform_if()</a></code> function.</li>
+<li>
+<code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> now gives a warning when an empty string or pattern is given.</li>
+<li>The <code><a href="../reference/import_helper.html">help.import()</a></code> function now gives an error if neither <code>topic/package</code> nor <code>i/alias</code> is supplied, instead of just silently doing nothing.</li>
+<li>The <code>%sget%</code> and <code>%strim%</code> operators now give an explicit error message if the arguments do not have proper lengths.</li>
+</ul><p><strong>Internal Re-write:</strong></p>
 <ul><li>
 <code><a href="../reference/stri_locate_ith.html">stri_locate_ith()</a></code> has now been partially re-written, and now includes ‘C++’ code, making it a bit faster.</li>
 <li>Cleaned up the internal code for some other functions here and there.</li>

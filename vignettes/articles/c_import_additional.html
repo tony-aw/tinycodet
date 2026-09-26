@@ -350,119 +350,68 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 main functions of the import system. Please read that article first
 before reading this article.</p>
 <p> </p>
-</div>
-<div id="miscellaneous-import_---functions" class="section level1">
-<h1>Miscellaneous import_ - functions</h1>
-<p>Beside the main <code>import_</code> functions
-(<code>import_as()</code>, <code>import_inops()</code>, and
-<code>import_data()</code>), there are 2 miscellaneous
-<code>import_</code> functions: <code>import_LL()</code> and
-<code>import_int()</code>.</p>
-<p> </p>
-<p>The <code>import_LL()</code> function places specific functions from
-a package in the current environment, and also locks the specified
-functions to prevent modification. The primary use-case for this
-function is for exposing functions inside a local environment. (“LL”
-stands for “Local &amp; Locked”.)</p>
-<p>Example:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">rm</span>(<span class="at">list =</span> <span class="fu">ls</span>())</span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">import_LL</span>(<span class="st">&quot;tidytable&quot;</span>, <span class="st">&quot;across&quot;</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">#&gt; exposing and locking functions to current environment ...</span></span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="fu">ls</span>() <span class="co"># notice `accross` is now exposed in this environment</span></span>
-<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt; [1] &quot;across&quot;</span></span></code></pre></div>
-<p> </p>
-<p>The <code>import_int()</code> function directly returns an internal
-function from a package. It is similar to the <code>:::</code> operator,
-but with 2 key differences:</p>
-<ol style="list-style-type: decimal">
-<li><code>import_int()</code> includes the <code>lib.loc</code>
-argument.</li>
-<li><code>import_int()</code> only searches internal functions, not
-exported ones. This makes it clearer in your code that you’re using an
-internal function, instead of making it ambiguous.</li>
-</ol>
-<p>The main argument is the <code>form</code> argument, which is a
-2-sided formula with one term on each side, the left term giving the
-package name and the right term giving the name of the internal
-function.</p>
-<p>Example:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Using through re-assignment:</span></span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>fun <span class="ot">&lt;-</span> <span class="fu">import_int</span>(tinycodet <span class="sc">~</span> .internal_paste, <span class="fu">.libPaths</span>())</span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">fun</span>(<span class="st">&quot;hello&quot;</span>, <span class="st">&quot;world&quot;</span>)</span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co">#&gt; [1] &quot;helloworld&quot;</span></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co"># Or using directly:</span></span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="fu">import_int</span>(</span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>  tinycodet <span class="sc">~</span> .internal_paste, <span class="fu">.libPaths</span>()</span>
-<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>)(<span class="st">&quot;hello&quot;</span>, <span class="st">&quot;world&quot;</span>)</span>
-<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt; [1] &quot;helloworld&quot;</span></span></code></pre></div>
 <p> </p>
 </div>
-<div id="s3-methods-they-just-work" class="section level1">
-<h1>S3 methods: they just work</h1>
+<div id="s3s4-methods-they-just-work" class="section level1">
+<h1>S3/S4 methods: they just work</h1>
 <p>When importing packages with <code>tinycodet</code>’ import system,
-S3 methods will work just fine. For example, the S3 method ”
-<code>plot()</code> ” works with objects from the <code>mgcv</code> R
-package, even when imported in an alias:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">import_as</span>(<span class="sc">~</span> mgcv., <span class="st">&quot;mgcv&quot;</span>) <span class="sc">|&gt;</span> <span class="fu">suppressMessages</span>()</span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">import_data</span>(<span class="st">&quot;gamair&quot;</span>, <span class="st">&quot;chicago&quot;</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co"># just a random model for the sake of demonstration:</span></span>
-<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>model <span class="ot">&lt;-</span> mgcv.<span class="sc">$</span><span class="fu">gam</span>(death <span class="sc">~</span> <span class="fu">s</span>(o3median), <span class="at">data=</span>d)</span>
-<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="fu">isS3method</span>(<span class="at">f=</span><span class="st">&quot;plot&quot;</span>, <span class="at">class=</span><span class="st">&quot;gam&quot;</span>) <span class="co"># this is an S3 method</span></span>
-<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
-<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="fu">plot</span>(model)</span></code></pre></div>
-<p><img role="img" src="data:image/png;base64,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" /><!-- --></p>
-<p>Also, S3 methods defined in the package will automatically be
-registered, and thus automatically work. For example, the following code
-just works:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">import_as</span>(<span class="sc">~</span> dpr., <span class="st">&quot;dplyr&quot;</span>) <span class="sc">|&gt;</span> <span class="fu">suppressMessages</span>()</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="st">&quot;magrittr&quot;</span>) <span class="sc">|&gt;</span> <span class="fu">suppressMessages</span>()</span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">import_data</span>(<span class="st">&quot;dplyr&quot;</span>, <span class="st">&quot;starwars&quot;</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>d <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span> dpr.<span class="sc">$</span><span class="fu">group_by</span>(species)</span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="fu">isS3method</span>(<span class="at">f=</span><span class="st">&quot;arrange&quot;</span>, <span class="at">class=</span><span class="st">&quot;data.frame&quot;</span>, <span class="at">envir =</span> dpr.) <span class="co"># this is an S3 method</span></span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a><span class="fu">isS3method</span>(<span class="at">f=</span><span class="st">&quot;relocate&quot;</span>, <span class="at">class=</span><span class="st">&quot;data.frame&quot;</span>, <span class="at">envir =</span> dpr.) <span class="co"># this is an S3 method</span></span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
-<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="co"># this works:</span></span>
-<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>d <span class="sc">%&gt;%</span></span>
-<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>  dpr.<span class="sc">$</span><span class="fu">arrange</span>(dpr.<span class="sc">$</span><span class="fu">desc</span>(mass)) <span class="sc">%&gt;%</span></span>
-<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>  dpr.<span class="sc">$</span><span class="fu">relocate</span>(species, mass)</span>
-<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a><span class="co">#&gt; # A tibble: 87 × 14</span></span>
-<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt; # Groups:   species [38]</span></span>
-<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#&gt;    species    mass name  height hair_color skin_color eye_color birth_year sex  </span></span>
-<span id="cb5-17"><a href="#cb5-17" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;</span></span>
-<span id="cb5-18"><a href="#cb5-18" tabindex="-1"></a><span class="co">#&gt;  1 Hutt       1358 Jabb…    175 &lt;NA&gt;       green-tan… orange         600   herm…</span></span>
-<span id="cb5-19"><a href="#cb5-19" tabindex="-1"></a><span class="co">#&gt;  2 Kaleesh     159 Grie…    216 none       brown, wh… green, y…       NA   male </span></span>
-<span id="cb5-20"><a href="#cb5-20" tabindex="-1"></a><span class="co">#&gt;  3 Droid       140 IG-88    200 none       metal      red             15   none </span></span>
-<span id="cb5-21"><a href="#cb5-21" tabindex="-1"></a><span class="co">#&gt;  4 Human       136 Dart…    202 none       white      yellow          41.9 male </span></span>
-<span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a><span class="co">#&gt;  5 Wookiee     136 Tarf…    234 brown      brown      blue            NA   male </span></span>
-<span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a><span class="co">#&gt;  6 Human       120 Owen…    178 brown, gr… light      blue            52   male </span></span>
-<span id="cb5-24"><a href="#cb5-24" tabindex="-1"></a><span class="co">#&gt;  7 Trandosh…   113 Bossk    190 none       green      red             53   male </span></span>
-<span id="cb5-25"><a href="#cb5-25" tabindex="-1"></a><span class="co">#&gt;  8 Wookiee     112 Chew…    228 brown      unknown    blue           200   male </span></span>
-<span id="cb5-26"><a href="#cb5-26" tabindex="-1"></a><span class="co">#&gt;  9 &lt;NA&gt;        110 Jek …    180 brown      fair       blue            NA   &lt;NA&gt; </span></span>
-<span id="cb5-27"><a href="#cb5-27" tabindex="-1"></a><span class="co">#&gt; 10 Besalisk    102 Dext…    198 none       brown      yellow          NA   male </span></span>
-<span id="cb5-28"><a href="#cb5-28" tabindex="-1"></a><span class="co">#&gt; # ℹ 77 more rows</span></span>
-<span id="cb5-29"><a href="#cb5-29" tabindex="-1"></a><span class="co">#&gt; # ℹ 5 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;, films &lt;list&gt;,</span></span>
-<span id="cb5-30"><a href="#cb5-30" tabindex="-1"></a><span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span></span></code></pre></div>
+S3 and S4 methods will work just fine.</p>
+<p>For example, the following code with S3 just works:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">import_as</span>(.dpr <span class="sc">~</span> dplyr)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co">#&gt; Import &amp; method registration complete</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">import_from</span>(<span class="st">&quot;magrittr&quot;</span>, <span class="fu">import_ls</span>(<span class="st">&quot;magrittr&quot;</span>, <span class="st">&quot;infix&quot;</span>))</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#&gt; c(&quot;%!&gt;%&quot;, &quot;%$%&quot;, &quot;%&lt;&gt;%&quot;, &quot;%&gt;%&quot;, &quot;%T&gt;%&quot;)</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">#&gt; Import &amp; method registration complete</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">import_data</span>(<span class="st">&quot;dplyr&quot;</span>, <span class="st">&quot;starwars&quot;</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>d <span class="ot">&lt;-</span> d <span class="sc">%&gt;%</span> .dpr<span class="sc">$</span><span class="fu">group_by</span>(species)</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="fu">isS3method</span>(<span class="at">f=</span><span class="st">&quot;arrange&quot;</span>, <span class="at">class=</span><span class="st">&quot;data.frame&quot;</span>, <span class="at">envir =</span> .dpr) <span class="co"># this is an S3 method</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="fu">isS3method</span>(<span class="at">f=</span><span class="st">&quot;relocate&quot;</span>, <span class="at">class=</span><span class="st">&quot;data.frame&quot;</span>, <span class="at">envir =</span> .dpr) <span class="co"># this is an S3 method</span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co"># this works:</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a>d <span class="sc">%&gt;%</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a>  .dpr<span class="sc">$</span><span class="fu">arrange</span>(.dpr<span class="sc">$</span><span class="fu">desc</span>(mass)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a>  .dpr<span class="sc">$</span><span class="fu">relocate</span>(species, mass)</span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="co">#&gt; # A tibble: 87 × 14</span></span>
+<span id="cb2-18"><a href="#cb2-18" tabindex="-1"></a><span class="co">#&gt; # Groups:   species [38]</span></span>
+<span id="cb2-19"><a href="#cb2-19" tabindex="-1"></a><span class="co">#&gt;    species    mass name  height hair_color skin_color eye_color birth_year sex  </span></span>
+<span id="cb2-20"><a href="#cb2-20" tabindex="-1"></a><span class="co">#&gt;    &lt;chr&gt;     &lt;dbl&gt; &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;</span></span>
+<span id="cb2-21"><a href="#cb2-21" tabindex="-1"></a><span class="co">#&gt;  1 Hutt       1358 Jabb…    175 &lt;NA&gt;       green-tan… orange         600   herm…</span></span>
+<span id="cb2-22"><a href="#cb2-22" tabindex="-1"></a><span class="co">#&gt;  2 Kaleesh     159 Grie…    216 none       brown, wh… green, y…       NA   male </span></span>
+<span id="cb2-23"><a href="#cb2-23" tabindex="-1"></a><span class="co">#&gt;  3 Droid       140 IG-88    200 none       metal      red             15   none </span></span>
+<span id="cb2-24"><a href="#cb2-24" tabindex="-1"></a><span class="co">#&gt;  4 Human       136 Dart…    202 none       white      yellow          41.9 male </span></span>
+<span id="cb2-25"><a href="#cb2-25" tabindex="-1"></a><span class="co">#&gt;  5 Wookiee     136 Tarf…    234 brown      brown      blue            NA   male </span></span>
+<span id="cb2-26"><a href="#cb2-26" tabindex="-1"></a><span class="co">#&gt;  6 Human       120 Owen…    178 brown, gr… light      blue            52   male </span></span>
+<span id="cb2-27"><a href="#cb2-27" tabindex="-1"></a><span class="co">#&gt;  7 Trandosh…   113 Bossk    190 none       green      red             53   male </span></span>
+<span id="cb2-28"><a href="#cb2-28" tabindex="-1"></a><span class="co">#&gt;  8 Wookiee     112 Chew…    228 brown      unknown    blue           200   male </span></span>
+<span id="cb2-29"><a href="#cb2-29" tabindex="-1"></a><span class="co">#&gt;  9 &lt;NA&gt;        110 Jek …    180 brown      fair       blue            NA   &lt;NA&gt; </span></span>
+<span id="cb2-30"><a href="#cb2-30" tabindex="-1"></a><span class="co">#&gt; 10 Besalisk    102 Dext…    198 none       brown      yellow          NA   male </span></span>
+<span id="cb2-31"><a href="#cb2-31" tabindex="-1"></a><span class="co">#&gt; # ℹ 77 more rows</span></span>
+<span id="cb2-32"><a href="#cb2-32" tabindex="-1"></a><span class="co">#&gt; # ℹ 5 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;, films &lt;list&gt;,</span></span>
+<span id="cb2-33"><a href="#cb2-33" tabindex="-1"></a><span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span></span></code></pre></div>
+<p>and so do these S4 methods:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">import_from</span>(<span class="st">&quot;broadcast&quot;</span>, <span class="st">&quot;bc.d&quot;</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">#&gt; Import &amp; method registration complete</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="fu">bc.d</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="fu">array</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">10</span>)), <span class="st">&quot;+&quot;</span>) <span class="co"># fast broadcasted addition</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="co">#&gt;       [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10]</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#&gt;  [1,]    2    3    4    5    6    7    8    9   10    11</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="co">#&gt;  [2,]    3    4    5    6    7    8    9   10   11    12</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a><span class="co">#&gt;  [3,]    4    5    6    7    8    9   10   11   12    13</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a><span class="co">#&gt;  [4,]    5    6    7    8    9   10   11   12   13    14</span></span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a><span class="co">#&gt;  [5,]    6    7    8    9   10   11   12   13   14    15</span></span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a><span class="co">#&gt;  [6,]    7    8    9   10   11   12   13   14   15    16</span></span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a><span class="co">#&gt;  [7,]    8    9   10   11   12   13   14   15   16    17</span></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a><span class="co">#&gt;  [8,]    9   10   11   12   13   14   15   16   17    18</span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a><span class="co">#&gt;  [9,]   10   11   12   13   14   15   16   17   18    19</span></span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a><span class="co">#&gt; [10,]   11   12   13   14   15   16   17   18   19    20</span></span></code></pre></div>
 <p>So when importing packages, everything works as expected, including
-S3 methods.</p>
+S3 and S4 methods.</p>
 <p> </p>
 </div>
 <div id="alias-attributes" class="section level1">
 <h1>Alias attributes</h1>
-<p>One may have noticed in the “Import system - main functions” article,
-that aliasing a package like so:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">import_as</span>(<span class="sc">~</span> tdt., <span class="st">&quot;tidytable&quot;</span>, <span class="at">re_exports =</span> <span class="cn">TRUE</span>, <span class="at">dependencies =</span> <span class="st">&quot;data.table&quot;</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co">#&gt; Importing packages and registering methods...</span></span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#&gt; Done</span></span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt; You can now access the functions using `tdt.$`</span></span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="co">#&gt; For conflicts report, packages order, and other attributes, run `attr.import(tdt.)`</span></span></code></pre></div>
-<p>… produces several messages, including the message “For conflicts
-report, packages order, and other attributes, run
-<code>attr.import()</code>”.</p>
 <p>The <code>attr.import()</code> function allows the user to access the
 special attributes stored and locked inside the alias object. These
 attributes show which imported package overwrites which imported
@@ -471,17 +420,20 @@ functions, in what order the packages are imported and so on.</p>
 <p>Show the packages imported under the alias, and in which order the
 packages are imported, and from which packages the re-exported functions
 came from:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">attr.import</span>(tdt., <span class="st">&quot;pkgs&quot;</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="co">#&gt; $packages_order</span></span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;data.table&quot; &quot;tidytable&quot; </span></span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#&gt; $main_package</span></span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt; [1] &quot;tidytable&quot;</span></span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt; $re_exports.pkgs</span></span>
-<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt; [1] &quot;data.table&quot; &quot;rlang&quot;      &quot;tidyselect&quot; &quot;magrittr&quot;   &quot;pillar&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">import_as</span>(.tdt <span class="sc">~</span> tidytable, <span class="at">deps =</span> <span class="st">&quot;data.table&quot;</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="co">#&gt; Import &amp; method registration complete</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="fu">attr.import</span>(.tdt, <span class="st">&quot;pkgs&quot;</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt; $packages_order</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; [1] &quot;data.table&quot; &quot;tidytable&quot; </span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; $main_package</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt; [1] &quot;tidytable&quot;</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt; $re_exports.pkgs</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt; NULL</span></span></code></pre></div>
 <p>Show which functions from which packages “win” conflicts:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">attr.import</span>(tdt., <span class="st">&quot;conflicts&quot;</span>)<span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">attr.import</span>(.tdt, <span class="st">&quot;conflicts&quot;</span>)<span class="sc">|&gt;</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code></pre></div>
 <table>
 <colgroup>
 <col width="17%" />
@@ -505,38 +457,8 @@ fwrite, getDTthreads, data.table, %chin%, %between%, %like%</td>
 </tr>
 </tbody>
 </table>
-<p>Show the arguments used in the <code>import_as()</code> call that
-produced the alias object in question:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">attr.import</span>(tdt., <span class="st">&quot;args&quot;</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="co">#&gt; $main_package</span></span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;tidytable&quot;</span></span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="co">#&gt; $re_exports</span></span>
-<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span>
-<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co">#&gt; $dependencies</span></span>
-<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="co">#&gt; [1] &quot;data.table&quot;</span></span>
-<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a><span class="co">#&gt; $extensions</span></span>
-<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="co">#&gt; NULL</span></span>
-<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a><span class="co">#&gt; $lib.loc</span></span>
-<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a><span class="co">#&gt; [1] &quot;D:/Programs/R/R-4.6.1/library&quot;</span></span>
-<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a><span class="co">#&gt; </span></span>
-<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a><span class="co">#&gt; $import_order</span></span>
-<span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a><span class="co">#&gt; [1] &quot;dependencies&quot; &quot;main_package&quot; &quot;extensions&quot;</span></span></code></pre></div>
 <p>The help file on <code>attr.import()</code> provides more details on
 each of these options.</p>
-<p> </p>
-</div>
-<div id="check-for-package-versions-mismatch" class="section level1">
-<h1>Check for package versions mismatch</h1>
-<p>The <code>pversion_check4mismatch()</code> function checks if there
-is any mismatch between the currently loaded packages and the packages
-in the specified library path.</p>
-<p>The <code>pversion_report()</code> function gives a table of all
-specified packages, with their loaded and installed versions, regardless
-if there is a mismatch or not.</p>
 <p> </p>
 </div>
 <div id="help.import" class="section level1">
@@ -546,12 +468,12 @@ function <code>i</code> (or topic string <code>i</code>), even if the
 function is inside an alias object, or if the function is an unattached
 function (like exposed infix operators).</p>
 <p>Example:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">import_as</span>(<span class="sc">~</span> mr., <span class="st">&quot;magrittr&quot;</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="fu">import_inops</span>(mr.)</span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="fu">help.import</span>(<span class="at">i=</span>mr.<span class="sc">$</span>add)</span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="fu">help.import</span>(<span class="at">i=</span><span class="st">`</span><span class="at">%&gt;%</span><span class="st">`</span>)</span>
-<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a><span class="fu">help.import</span>(<span class="at">i=</span><span class="st">&quot;add&quot;</span>, <span class="at">alias=</span>mr.)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">import_as</span>(.dpr <span class="sc">~</span> <span class="st">&quot;dplyr&quot;</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="fu">import_from</span>(<span class="st">&quot;magrittr&quot;</span>, <span class="fu">import_ls</span>(<span class="st">&quot;magrittr&quot;</span>, <span class="st">&quot;infix&quot;</span>))</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="fu">help.import</span>(<span class="at">i =</span> .mr<span class="sc">$</span>add)</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="fu">help.import</span>(<span class="at">i =</span> <span class="st">`</span><span class="at">%&gt;%</span><span class="st">`</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="fu">help.import</span>(<span class="at">i =</span> <span class="st">&quot;add&quot;</span>, <span class="at">alias =</span> .mr)</span></code></pre></div>
 <p> </p>
 </div>
 <div id="miscellaneous-comments-on-package-imports" class="section level1">

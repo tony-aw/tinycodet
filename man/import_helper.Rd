@@ -3,92 +3,34 @@
 \name{import_helper}
 \alias{import_helper}
 \alias{help.import}
-\alias{is.tinyimport}
-\alias{attr.import}
 \title{Helper Functions for the 'tinycodet' Package Import System}
 \usage{
 help.import(..., i, alias)
-
-is.tinyimport(x)
-
-attr.import(alias, which = NULL)
 }
 \arguments{
 \item{...}{further arguments to be passed to \link[utils]{help}.}
 
 \item{i}{either one of the following:
 \itemize{
-\item a function (use back-ticks when the function is an infix operator).
-Examples:  \code{myfun} , \code{`\%operator\%`} , \code{myalias.$some_function} .
+\item a function (use back-ticks when the function is an infix/replacement operator). \cr
+Examples: \cr
+\code{myfun} , \code{`\%operator\%`} , \code{`fun<-`}, \code{myalias.$some_function}. \cr
 If a function, the \code{alias} argument is ignored.
-\item a string giving the function name or topic (i.e. \code{"myfun"}, \code{"thistopic"}).
+\item a string giving the function name or topic (i.e. \code{"myfun"}, \code{"thistopic"}). \cr
 If a string, argument \code{alias} must be specified also.
 }}
 
-\item{alias}{the alias object as created by the \link{import_as} function. \cr}
-
-\item{x}{an existing object (i.e. an assigned variable or a locked constant) to be tested.}
-
-\item{which}{The attributes to list. If \code{NULL}, all attributes will be returned. \cr
-Possibilities: "pkgs", "conflicts", "args", and "ordered_object_names".}
+\item{alias}{an object of class \link{tinyimport_alias} as returned by \link{import_as}.}
 }
 \value{
 For \code{help.import()}: \cr
 Opens the appropriate help page. \cr
 \cr
-For \code{is.tinyimport()}: \cr
-Returns \code{TRUE} if the function is produced by
-\link{import_as}, \link{import_inops}, or \link{import_LL},
-and returns \code{FALSE} if it is not. \cr
-\cr
-For \code{attr.import(alias, which = NULL)}: \cr
-All special attributes of the given alias object are returned as a list. \cr
-\cr
-For \code{attr.import(alias, which = "pkgs")}: \cr
-Returns a list with 3 elements:
-\itemize{
-\item packages_order: a character vector of package names,
-giving the packages in the order they were imported in the alias object.
-\item main_package: a string giving the name of the main package.
-Re-exported functions, if present, are taken together with the main package.
-\item re_exports.pkgs: a character vector of package names,
-giving the packages from which the re-exported functions in the main package were taken. \cr \cr
-}
-
-For \code{attr.import(alias, which = "conflicts")}: \cr
-The order in which packages are imported in the alias object
-(see attribute \code{pkgs$packages_order})
-matters:
-Functions from later named packages overwrite those from earlier named packages,
-in case of conflicts. \cr
-The "conflicts" attribute returns a data.frame showing exactly which functions overwrite
-functions from earlier named packages, and as such "win" the conflicts. \cr
-\cr
-For \code{attr.import(alias, which = "args")}: \cr
-Returns a list of input arguments.
-These were the arguments supplied to \link{import_as} when
-the alias object in question was created. \cr
-\cr
-For \code{attr.import(alias, which = "ordered_object_names")}: \cr
-Gives the names of the objects in the alias, in the order as they were imported. \cr
-For conflicting objects, the last imported ones are used for the ordering. \cr
-Note that if argument \code{re_exports} is \code{TRUE},
-re-exported functions are imported when the main package is imported,
-thus changing this order slightly. \cr \cr
 }
 \description{
 The \code{help.import()} function
 finds the help file for functions or topics,
 including exposed functions/operators as well as functions in a package alias object. \cr
-\cr
-The \code{is.tinyimport()} function
-checks if an alias object or an exposed function is of class \code{tinyimport};
-i.e. if it is an object produced by the
-\link{import_as}, \link{import_inops}, or \link{import_LL} function. \cr
-\cr
-The \code{attr.import()} function
-gets one or all special attribute(s)
-from an alias object returned by \link{import_as}. \cr
 \cr
 }
 \details{
@@ -99,11 +41,11 @@ It's either one set or the other. \cr
 For example:
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{
-import_as(~ mr., "magrittr")
-import_inops(mr.)
-help.import(i = mr.$add)
+import_as(.str ~ stringi)
+import_from("magrittr", import_ls("magrittr", "infix"))
+help.import(i = .str$stri_sub)
 help.import(i = `\%>\%`)
-help.import(i = "add", alias = mr.)
+help.import(i = "stri_sub", alias = .str)
 help.import(topic = "\%>\%", package = "magrittr")
 help.import("\%>\%", package = "magrittr") # same as previous line
 
@@ -111,18 +53,13 @@ help.import("\%>\%", package = "magrittr") # same as previous line
 }
 \examples{
 
-import_as(~ to., "tinycodet")
-import_inops(to.)
-`\%s==\%` <- stringi::`\%s==\%`
+import_as(.stri ~ stringi)
+.stri$stri_join("a", "b")
 
-is.tinyimport(to.) # returns TRUE
-is.tinyimport(`\%s==\%`) # returns FALSE: not imported by tinycodet import system
+import_from("stringi", import_ls("stringi", "infix"))
+"a" \%s+\% "b"
 
-attr.import(to., "conflicts")
-
-
-
-
+attr.import(.stri)
 }
 \seealso{
 \link{tinycodet_import}

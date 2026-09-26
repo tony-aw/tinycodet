@@ -11,13 +11,13 @@ Source:
 [`DESCRIPTION`](https://github.com/tony-aw/tinycodet/blob/HEAD/DESCRIPTION)
 
 Wilkes T (2026). *tinycodet: Functions to Help in your Coding
-Etiquette*. R package version 0.7.1,
+Etiquette*. R package version 0.8.0,
 <https://github.com/tony-aw/tinycodet/>.
 
     @Manual{,
       title = {tinycodet: Functions to Help in your Coding Etiquette},
       author = {Tony Wilkes},
       year = {2026},
-      note = {R package version 0.7.1},
+      note = {R package version 0.8.0},
       url = {https://github.com/tony-aw/tinycodet/},
     }

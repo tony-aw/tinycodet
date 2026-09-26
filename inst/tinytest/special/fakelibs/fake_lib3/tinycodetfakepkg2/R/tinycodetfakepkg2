@@ -1,51 +1,27 @@
-.packageName <- "tinycodetfakepkg2"
-#line 1 "C:/Users/Tony/AppData/Local/Temp/Rtmpc5i5YB/R.INSTALL22a83db71563/tinycodetfakepkg2/R/tinycodetfakepkg2.R"
-#' tinycodetfakepkg2ellaneous functions to help your coding etiquette
-#'
-#' @description
-#' Bla
-#' 
-#' 
-#' @param A whatever
-#' @param X whatever
-#' 
-#' @name tinycodetfakepkg2
-NULL
+#  File share/R/nspackloader.R
+#  Part of the R package, https://www.R-project.org
+#
+#  Copyright (C) 1995-2012 The R Core Team
+#
+#  This program is free software; you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation; either version 2 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  A copy of the GNU General Public License is available at
+#  https://www.r-project.org/Licenses/
 
-#' @rdname tinycodetfakepkg2
-#' @export
-fun_overwritten <- function() {
-  print("overfun of tinycodetfakepkg2")
-}
-
-#' @rdname tinycodetfakepkg2
-#' @export
-#' 
-fun21 <- function() {
-  print("function 1 of tinycodetfakepkg2")
-}
-
-#' @rdname tinycodetfakepkg2
-#' @export
-fun22 <- function() {
-  print("function 2 of tinycodetfakepkg2")
-}
-
-
-#' @rdname tinycodetfakepkg2
-#' @export
-`%opover%` <- function(X, A) {
-  print("inop 1 of tinycodetfakepkg2")
-}
-
-#' @rdname tinycodetfakepkg2
-#' @export
-`%op21%` <- function(X, A) {
-  print("inop 1 of tinycodetfakepkg2")
-}
-
-#' @rdname tinycodetfakepkg2
-#' @export
-`%op22%` <- function(X, A) {
-  print("overinop of tinycodetfakepkg2")
-}
+local({
+    info <- loadingNamespaceInfo()
+    pkg <- info$pkgname
+    ns <- .getNamespace(as.name(pkg))
+    if (is.null(ns))
+        stop("cannot find namespace environment for ", pkg, domain = NA);
+    dbbase <- file.path(info$libname, pkg, "R", pkg)
+    lazyLoad(dbbase, ns, filter = function(n) n != ".__NAMESPACE__.")
+})

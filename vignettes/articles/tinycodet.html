@@ -395,12 +395,12 @@ stay <code>FALSE</code>.</li>
 </div>
 <div id="new-import-system" class="section level1">
 <h1>New import system</h1>
-<p>One can use a package without attaching the package (for example
-using <code>::</code>), or one can attach a package (for example using
-<code>library()</code> or <code>require()</code>). The advantages and
-disadvantages of using without attaching a package versus attaching a
-package - at least those relevant for now - can be compactly presented
-in the following table:</p>
+<p>One can use a package without attaching (for example using
+<code>::</code>), or one can attach a package (for example using
+<code>library()</code> or <code>require()</code>).</p>
+<p>The advantages and disadvantages of using without attaching a package
+versus attaching a package - at least those relevant for this article -
+can be compactly presented in the following table:</p>
 <table>
 <thead>
 <tr>
@@ -536,42 +536,37 @@ NOTE: + = advantage, - = disadvantage
 to somewhat find the best of both worlds. It does this by introducing
 the following functions:</p>
 <ul>
-<li><code>import_as()</code>: Import a main package, and optionally its
-re-exports + its dependencies + its extensions, under a single alias.
-This essentially combines the attaching advantage of using multiple
-related packages (row 7 on the table above), whilst keeping most
-advantages of using without attaching a package.</li>
-<li><code>import_inops()</code>: Expose infix operators from a package
-or an alias object to the current environment. This gains the attaching
-advantage of less typing (row 6 in table above), whilst simultaneously
-avoiding the disadvantage of attaching functions from a package globally
-(row 4).</li>
-<li><code>import_data()</code>: Directly return a data set from a
-package, to allow straight-forward assignment.</li>
+<li><p><code>import_from()</code>: Import specific objects from a
+package into the current or specific environment.</p></li>
+<li><p><code>import_as()</code>: Import a main package, and optionally
+its re-exports + its minimal dependencies, under a single alias. This
+essentially combines the attaching advantage of using multiple related
+packages (row 7 on the table above), whilst keeping most advantages of
+using without attaching a package.</p></li>
+<li><p><code>import_ls()</code>: List names of exported objects by
+category (like “infix operators”, or “replacement operators”, etc.). Can
+be used in combination with, for example, <code>library()</code> or
+<code>import_from()</code>. This gives the advantage of less typing (row
+6 on the above table).</p></li>
+<li><p><code>import_data()</code>: Directly return a data set from a
+package, to allow straight-forward assignment.</p></li>
 </ul>
 <p>Here is an example using <code>tinycodet&#39;s</code> new import system;
 note that the following code is run without attaching a single R package
 (besides <code>tinycodet</code> itself of course):</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># importing &quot;tidytable&quot; + &quot;data.table&quot; under alias &quot;tdt.&quot;:</span></span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">import_as</span>( </span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  <span class="sc">~</span> tdt., <span class="st">&quot;tidytable&quot;</span>, <span class="at">dependencies =</span> <span class="st">&quot;data.table&quot;</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">import_as</span>(</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>  .dpr <span class="sc">~</span> dplyr, <span class="at">deps =</span> <span class="st">&quot;tibble&quot;</span>, <span class="at">lib.loc =</span> <span class="fu">.libPaths</span>()</span>
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>)</span></code></pre></div>
-<pre><code>## Importing packages and registering methods...</code></pre>
-<pre><code>## Done
-## You can now access the functions using `tdt.$`
-## For conflicts report, packages order, and other attributes, run `attr.import(tdt.)`</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># exposing operators from `magrrittr` to current environment:</span></span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">import_inops</span>(<span class="st">&quot;magrittr&quot;</span>)</span></code></pre></div>
-<pre><code>## Checking for conflicting infix operators in the current environment...</code></pre>
-<pre><code>## Placing infix operators in current environment...</code></pre>
-<pre><code>## Done</code></pre>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># directly assigning the &quot;starwars&quot; dataset to object &quot;d&quot;:</span></span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">import_data</span>(<span class="st">&quot;dplyr&quot;</span>, <span class="st">&quot;starwars&quot;</span>) </span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="co"># see it in action:</span></span>
-<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>d <span class="sc">%&gt;%</span> tdt.<span class="sc">$</span><span class="fu">filter</span>(species <span class="sc">==</span> <span class="st">&quot;Droid&quot;</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>  tdt.<span class="sc">$</span><span class="fu">select</span>(name, tdt.<span class="sc">$</span><span class="fu">ends_with</span>(<span class="st">&quot;color&quot;</span>))</span></code></pre></div>
-<pre><code>## # A tidytable: 6 × 4
+<pre><code>## Import &amp; method registration complete</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">import_from</span>(<span class="st">&quot;magrittr&quot;</span>, <span class="fu">import_ls</span>(<span class="st">&quot;magrittr&quot;</span>, <span class="st">&quot;infix&quot;</span>))</span></code></pre></div>
+<pre><code>## c(&quot;%!&gt;%&quot;, &quot;%$%&quot;, &quot;%&lt;&gt;%&quot;, &quot;%&gt;%&quot;, &quot;%T&gt;%&quot;)</code></pre>
+<pre><code>## Import &amp; method registration complete</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">import_data</span>(<span class="st">&quot;dplyr&quot;</span>, <span class="st">&quot;starwars&quot;</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>d <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  .dpr<span class="sc">$</span><span class="fu">filter</span>(.data<span class="sc">$</span>species <span class="sc">==</span> <span class="st">&quot;Droid&quot;</span>) <span class="sc">%&gt;%</span> <span class="co"># notice the &quot;.data&quot; pronoun can be used without problems</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  .dpr<span class="sc">$</span><span class="fu">select</span>(name, .dpr<span class="sc">$</span><span class="fu">ends_with</span>(<span class="st">&quot;color&quot;</span>))</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 4
 ##   name   hair_color skin_color  eye_color
 ##   &lt;chr&gt;  &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;    
 ## 1 C-3PO  &lt;NA&gt;       gold        yellow   
@@ -580,6 +575,19 @@ note that the following code is run without attaching a single R package
 ## 4 IG-88  none       metal       red      
 ## 5 R4-P17 none       silver, red red, blue
 ## 6 BB8    none       none        black</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>male_penguins <span class="ot">&lt;-</span> .dpr<span class="sc">$</span><span class="fu">tribble</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>     <span class="sc">~</span>name,    <span class="sc">~</span>species,     <span class="sc">~</span>island, <span class="sc">~</span>flipper_length_mm, <span class="sc">~</span>body_mass_g,</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a> <span class="st">&quot;Giordan&quot;</span>,    <span class="st">&quot;Gentoo&quot;</span>,    <span class="st">&quot;Biscoe&quot;</span>,               <span class="dv">222</span><span class="dt">L</span>,        <span class="dv">5250</span><span class="dt">L</span>,</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>  <span class="st">&quot;Lynden&quot;</span>,    <span class="st">&quot;Adelie&quot;</span>, <span class="st">&quot;Torgersen&quot;</span>,               <span class="dv">190</span><span class="dt">L</span>,        <span class="dv">3900</span><span class="dt">L</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  <span class="st">&quot;Reiner&quot;</span>,    <span class="st">&quot;Adelie&quot;</span>,     <span class="st">&quot;Dream&quot;</span>,               <span class="dv">185</span><span class="dt">L</span>,        <span class="dv">3650</span><span class="dt">L</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>)</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>female_penguins <span class="ot">&lt;-</span> .dpr<span class="sc">$</span><span class="fu">tribble</span>(</span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>     <span class="sc">~</span>name,    <span class="sc">~</span>species,  <span class="sc">~</span>island, <span class="sc">~</span>flipper_length_mm, <span class="sc">~</span>body_mass_g,</span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>  <span class="st">&quot;Alonda&quot;</span>,    <span class="st">&quot;Gentoo&quot;</span>, <span class="st">&quot;Biscoe&quot;</span>,               <span class="dv">211</span>,        <span class="dv">4500</span><span class="dt">L</span>,</span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a>     <span class="st">&quot;Ola&quot;</span>,    <span class="st">&quot;Adelie&quot;</span>,  <span class="st">&quot;Dream&quot;</span>,               <span class="dv">190</span>,        <span class="dv">3600</span><span class="dt">L</span>,</span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="st">&quot;Mishayla&quot;</span>,    <span class="st">&quot;Gentoo&quot;</span>, <span class="st">&quot;Biscoe&quot;</span>,               <span class="dv">215</span>,        <span class="dv">4750</span><span class="dt">L</span>,</span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a>)</span></code></pre></div>
 <p> </p>
 </div>
 <div id="extending-the-string-manipulation-capabilities-of-stringi" class="section level1">
@@ -606,18 +614,18 @@ to cut strings in a more concise way (with less keystrokes).</li>
 </div>
 <div id="reduce-repetitive-code" class="section level1">
 <h1>Reduce repetitive code</h1>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># in base R:</span></span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="fu">ifelse</span>( <span class="co"># repetitive, and gives unnecessary warning</span></span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  <span class="fu">is.na</span>(object<span class="sc">&gt;</span><span class="dv">0</span>), <span class="sc">-</span><span class="cn">Inf</span>,</span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>  <span class="fu">ifelse</span>(</span>
-<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>    object<span class="sc">&gt;</span><span class="dv">0</span>,  <span class="fu">log</span>(object), object<span class="sc">^</span><span class="dv">2</span></span>
-<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>  )</span>
-<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>)</span>
-<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>mtcars<span class="sc">$</span>mpg[mtcars<span class="sc">$</span>cyl<span class="sc">&gt;</span><span class="dv">6</span>] <span class="ot">&lt;-</span> (mtcars<span class="sc">$</span>mpg[mtcars<span class="sc">$</span>cyl<span class="sc">&gt;</span><span class="dv">6</span>])<span class="sc">^</span><span class="dv">2</span> <span class="co"># long</span></span>
-<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a></span>
-<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="co"># with tinycodet:</span></span>
-<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a>object <span class="sc">|&gt;</span> <span class="fu">transform_if</span>(\(x)x<span class="sc">&gt;</span><span class="dv">0</span>, log, \(x)x<span class="sc">^</span><span class="dv">2</span>, \(x) <span class="sc">-</span><span class="cn">Inf</span>) <span class="co"># compact &amp; no warning</span></span>
-<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a>mtcars<span class="sc">$</span>mpg[mtcars<span class="sc">$</span>cyl<span class="sc">&gt;</span><span class="dv">6</span>] <span class="sc">%:=%</span> \(x)x<span class="sc">^</span><span class="dv">2</span> <span class="co"># short</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co"># in base R:</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="fu">ifelse</span>( <span class="co"># repetitive, and gives unnecessary warning</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="fu">is.na</span>(object<span class="sc">&gt;</span><span class="dv">0</span>), <span class="sc">-</span><span class="cn">Inf</span>,</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>  <span class="fu">ifelse</span>(</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>    object<span class="sc">&gt;</span><span class="dv">0</span>,  <span class="fu">log</span>(object), object<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>  )</span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>)</span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>mtcars<span class="sc">$</span>mpg[mtcars<span class="sc">$</span>cyl<span class="sc">&gt;</span><span class="dv">6</span>] <span class="ot">&lt;-</span> (mtcars<span class="sc">$</span>mpg[mtcars<span class="sc">$</span>cyl<span class="sc">&gt;</span><span class="dv">6</span>])<span class="sc">^</span><span class="dv">2</span> <span class="co"># long</span></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="co"># with tinycodet:</span></span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a>object <span class="sc">|&gt;</span> <span class="fu">transform_if</span>(\(x)x<span class="sc">&gt;</span><span class="dv">0</span>, log, \(x)x<span class="sc">^</span><span class="dv">2</span>, \(x) <span class="sc">-</span><span class="cn">Inf</span>) <span class="co"># compact &amp; no warning</span></span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a>mtcars<span class="sc">$</span>mpg[mtcars<span class="sc">$</span>cyl<span class="sc">&gt;</span><span class="dv">6</span>] <span class="sc">%:=%</span> \(x)x<span class="sc">^</span><span class="dv">2</span> <span class="co"># short</span></span></code></pre></div>
 <p> </p>
 </div>
 <div id="the-articles" class="section level1">
@@ -631,8 +639,8 @@ out the package yourself.</p>
 functionality</a>: Describes the functions for safer/stricter
 coding.</li>
 <li><a href="https://tony-aw.github.io/tinycodet/articles/b_import_main.html">Import
-system - main functions</a>: Description of the main functions of the
-package import system introduced by <code>tinycodet</code>.</li>
+system - main functionality</a>: Description of the main functions of
+the package import system introduced by <code>tinycodet</code>.</li>
 <li><a href="https://tony-aw.github.io/tinycodet/articles/c_import_additional.html">Import
 system - additional details</a>: Additional important details on the
 tinycodet import system.</li>

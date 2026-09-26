@@ -32,7 +32,7 @@ globally:
 ![\[YES(ADVANTAGE)\]](figures/usewithoutattach-Yes(advantage)-darkgreen.svg)` `
 ![\[NO(DISADVANTAGE)\]](figures/attaching-No(disadvantage)-red.svg)  
   
-(6) Minimise typing - especially for infix operators  
+(6) Minimise typing - especially for replacement or infix operators  
 (i.e. typing `` package::`%op%`(x, y) `` instead of `x %op% y` is
 cumbersome):  
 ![\[NO(DISADVANTAGE)\]](figures/usewithoutattach-No(disadvantage)-red.svg)` `
@@ -51,42 +51,52 @@ What 'tinycodet' attempts to do with its import system, is to somewhat
 find the best of both worlds. It does this by introducing the following
 functions:  
 
-- [import_as](https://tony-aw.github.io/tinycodet/reference/import_as.md):
+- [import_from](https://tony-aw.github.io/tinycodet/reference/import_from.md):  
+  Import specific objects from a package into the current or specific
+  environment.
+
+- [import_as](https://tony-aw.github.io/tinycodet/reference/import_as.md):  
   Import a main package, and optionally its re-exports + its direct
-  dependencies + its direct extensions, under a single alias. This
-  essentially combines the attaching advantage of using multiple related
-  packages (item 7 on the list), whilst keeping most advantages of using
-  without attaching a package.
+  minimal dependencies, under a single alias.  
+  This essentially combines the attaching advantage of using multiple
+  related packages (item 7 on the list), whilst keeping most advantages
+  of using without attaching a package.
 
-- [import_inops](https://tony-aw.github.io/tinycodet/reference/import_inops.md):
-  Expose infix operators from a package or an alias object to the
-  current environment. This gains the attaching advantage of less typing
-  (item 6 on the list), whilst simultaneously avoiding the disadvantage
-  of attaching functions from a package globally (item 4 on the list).
+- [import_ls](https://tony-aw.github.io/tinycodet/reference/import_ls.md):  
+  List names of exported objects by category (like "infix operators", or
+  "replacement operators", etc.).  
+  Can be used in combination with, for example,
+  [library](https://rdrr.io/r/base/library.html) or
+  [import_from](https://tony-aw.github.io/tinycodet/reference/import_from.md),
+  to attach or expose all infix- and replacement operators at once.  
+  This gives the advantage of less typing (item 6 on the above list).
 
-- [import_data](https://tony-aw.github.io/tinycodet/reference/import_data.md):
+- [import_data](https://tony-aw.github.io/tinycodet/reference/import_data.md):  
   Directly return a data set from a package, to allow straight-forward
   assignment.
 
-Furthermore, there are two miscellaneous `import_` - functions:
-[import_LL](https://tony-aw.github.io/tinycodet/reference/import_misc.md)
-and
-[import_int](https://tony-aw.github.io/tinycodet/reference/import_misc.md).  
-  
+- [import_diagnose](https://tony-aw.github.io/tinycodet/reference/import_diagnose.md):  
+  Check for mismatch issues (i.e. version or `lib.loc` mismatch) between
+  loaded packages and installed packages.  
+    
+
 The import system also includes general helper functions:
 
 - The
   [x.import](https://tony-aw.github.io/tinycodet/reference/import_helper.md)
-  functions: helper functions specifically for the 'tinycodet' import
-  system.
+  functions:  
+  Helper functions specifically for the 'tinycodet' import system.
+
+- The [pkg](https://tony-aw.github.io/tinycodet/reference/pkgs.md) -
+  functions:  
+  General helper functions regarding packages.
 
 - The
-  [pversion](https://tony-aw.github.io/tinycodet/reference/pversion.md)\_
-  functions: check mismatch between loaded package version and package
-  version in library path.
-
-- The [pkgs](https://tony-aw.github.io/tinycodet/reference/pkgs.md) -
-  functions: general helper functions regarding packages.
+  [searchenv](https://tony-aw.github.io/tinycodet/reference/searchenv.md) -
+  functions:  
+  safe functions for safely adding, removing, and accessing custom
+  search path environments.  
+    
 
 See the examples section below to get an idea of how the 'tinycodet'
 import system works in practice. More examples can be found on the
@@ -117,28 +127,22 @@ packages.
   
 Of course, if one wishes to use a package (like 'stringi') **only**
 within a specific environment, it becomes advantageous to still import
-the package using the 'tinycodet' import system. In that case the
-[import_LL](https://tony-aw.github.io/tinycodet/reference/import_misc.md)
-function would be most applicable.  
+the package using the 'tinycodet' import system.  
   
-  
+
 **Some Additional Comments on the 'tinycodet' Import System**  
 
-- (S3) Methods will automatically be registered.
+- Methods (like S3, S4) will automatically be registered.
 
 - Pronouns, such as the `.data` and `.env` pronouns from the 'rlang'
   package, will work without any prefixes required.
 
-- All functions imported by the
-  [import_as](https://tony-aw.github.io/tinycodet/reference/import_as.md),
-  [import_inops](https://tony-aw.github.io/tinycodet/reference/import_inops.md),
-  or
-  [import_LL](https://tony-aw.github.io/tinycodet/reference/import_misc.md)
-  functions have a "package" attribute, so you will always know which
-  function came from which package.  
+- 'tinycodet' avoids the [exists](https://rdrr.io/r/base/exists.html)
+  function, to prevent memory leakage.  
     
 
-**For R Package Developers**  
+## For R Package Developers
+
 It goes without saying, just like one should NEVER use
 [`library()`](https://rdrr.io/r/base/library.html) or
 [`require()`](https://rdrr.io/r/base/library.html) inside an R-package,
@@ -159,32 +163,23 @@ Just not in functions inside an R-package.
 all(c("dplyr", "powerjoin", "magrittr") %installed in% .libPaths())
 #> [1] TRUE
 
-
 # \donttest{
 
-# NO packages are being attached in any of the following code
+# import dplyr, tibble, and powerjoin, under aliases:
+import_as(.dpr ~ dplyr, re_exports = TRUE, deps = "tibble")
+#> Import & method registration complete
+import_as(.pj ~ powerjoin)
+#> Import & method registration complete
 
-# import 'dplyr' + its re-exports + extension 'powerjoin', under alias "dpr.":
-import_as(
-  ~ dpr., "dplyr", re_exports = TRUE, extensions = "powerjoin"
-)
-#> Importing packages and registering methods...
-#> Done
-#> You can now access the functions using `dpr.$`
-#> For conflicts report, packages order, and other attributes, run `attr.import(dpr.)` 
-
-# exposing infix operators from 'magrrittr' to current environment:
-import_inops("magrittr")
-#> Checking for conflicting infix operators in the current environment...
-#> Placing infix operators in current environment...
-#> Done
+# attaching only the infix operators from 'magrrittr':
+library(magrittr, import_ls("magrittr", "infix") )
 
 # directly assigning dplyr's "starwars" dataset to object "d":
 d <- import_data("dplyr", "starwars")
 
 # See it in Action:
-d %>% dpr.$filter(species == "Droid") %>%
-  dpr.$select(name, dpr.$ends_with("color"))
+d %>% .dpr$filter(species == "Droid") %>%
+  .dpr$select(name, .dpr$ends_with("color"))
 #> # A tibble: 6 × 4
 #>   name   hair_color skin_color  eye_color
 #>   <chr>  <chr>      <chr>       <chr>    
@@ -195,20 +190,20 @@ d %>% dpr.$filter(species == "Droid") %>%
 #> 5 R4-P17 none       silver, red red, blue
 #> 6 BB8    none       none        black    
 
-male_penguins <- dpr.$tribble(
+male_penguins <- .dpr$tribble(
   ~name,    ~species,     ~island, ~flipper_length_mm, ~body_mass_g,
   "Giordan",    "Gentoo",    "Biscoe",               222L,        5250L,
   "Lynden",    "Adelie", "Torgersen",               190L,        3900L,
   "Reiner",    "Adelie",     "Dream",               185L,        3650L
 )
 
-female_penguins <- dpr.$tribble(
+female_penguins <- .dpr$tribble(
   ~name,    ~species,  ~island, ~flipper_length_mm, ~body_mass_g,
   "Alonda",    "Gentoo", "Biscoe",               211,        4500L,
   "Ola",    "Adelie",  "Dream",               190,        3600L,
   "Mishayla",    "Gentoo", "Biscoe",               215,        4750L,
 )
-dpr.$check_specs()
+.pj$check_specs()
 #> # powerjoin check specifications
 #> ℹ implicit_keys
 #> → column_conflict
@@ -223,7 +218,7 @@ dpr.$check_specs()
 #> → grouped_input
 #> → na_keys
 
-dpr.$power_inner_join(
+.pj$power_inner_join(
   male_penguins[c("species", "island")],
   female_penguins[c("species", "island")]
 )
@@ -236,12 +231,11 @@ dpr.$power_inner_join(
 #> 3 Adelie  Dream 
 
 mypaste <- function(x, y) {
-  import_LL("stringi", selection = "stri_c")
-  stringi::stri_c(x, y)
+  import_from("stringi", "stri_c")
+  stri_c(x, y)
 }
 mypaste("hello ", "world")
-#> exposing and locking functions to current environment ...
-#> Done
+#> Import & method registration complete
 #> [1] "hello world"
 
 # }

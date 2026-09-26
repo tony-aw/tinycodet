@@ -1,5 +1,57 @@
 # Changelog
 
+## tinycodet 0.8.0 (Under Development)
+
+This version features a major overhaul of its import system.
+
+**General changes to import system:**
+
+- Bumped up required ‘R’ version to 4.3.
+- the `import_` functions now warn user if there is a version or
+  `lib.loc` mismatch between installed and loaded packages.
+- All import functions now avoid `exist()` to prevent the possibility of
+  (minor) memory leakage.
+- Replaced `pkg_lsf()` with the more general
+  [`import_ls()`](https://tony-aw.github.io/tinycodet/reference/import_ls.md).
+- Replaced
+  [`import_inops()`](https://tony-aw.github.io/tinycodet/reference/import_legacy.md)
+  and
+  [`import_LL()`](https://tony-aw.github.io/tinycodet/reference/import_legacy.md)
+  with the more general
+  [`import_from()`](https://tony-aw.github.io/tinycodet/reference/import_from.md).
+- Removed `import_inops.control()`.
+- Replaced the `pversion_` functions with the more general
+  [`import_diagnose()`](https://tony-aw.github.io/tinycodet/reference/import_diagnose.md).
+- Removed `import_int()`.
+- Most `import_` functions now have the new `env` argument to specify
+  the environment where to place objects in.
+- The `import_` functions no longer add attributes to functions.
+- The `import_` functions now support Primitive functions once again.
+- Added the
+  [`searchenv()`](https://tony-aw.github.io/tinycodet/reference/searchenv.md)
+  functions to support safe handling of search path environments.
+- In the `pkg_` functions, one can now also specify `lib.loc = NULL`,
+  provided the specified package is already loaded.
+
+**Changes to
+[`import_as()`](https://tony-aw.github.io/tinycodet/reference/import_as.md):**
+
+- The primary argument must now be given in formula form as
+  `alias ~ main_package`.
+- Removed arguments `import_order` and `extensions`
+  from[`import_as()`](https://tony-aw.github.io/tinycodet/reference/import_as.md).
+- `dependencies` argument replaced with `deps`, which now only accepts
+  dependencies given by
+  [`pkg_get_deps_minimal()`](https://tony-aw.github.io/tinycodet/reference/pkgs.md).
+- No more than 5 packages can be imported under the same alias.
+- Reduced its verbosity.
+- [`attr.import()`](https://tony-aw.github.io/tinycodet/reference/tinyimport_alias.md)
+  no longer supports the argument specification `which = "args"`.
+
+**Misc changes:**
+
+- Removed the “misc” category.
+
 ## tinycodet 0.7.1
 
 CRAN release: 2026-08-21
@@ -206,21 +258,23 @@ CRAN release: 2024-01-11
 - Renamed the “str_truth” page to “str_search”, as that makes a little
   more sense.
 - Removed the redundant `stringi::` piece in the example code for
-  [`import_LL()`](https://tony-aw.github.io/tinycodet/reference/import_misc.md).
+  [`import_LL()`](https://tony-aw.github.io/tinycodet/reference/import_legacy.md).
 - The help file for the `s_pattern` functions is now actually titled
   “s_pattern”.
 
-**More safety checks:** \* Improved safety against malformed conditions
-in the
-[`transform_if()`](https://tony-aw.github.io/tinycodet/reference/transform_if.md)
-function. \*
-[`stri_locate_ith()`](https://tony-aw.github.io/tinycodet/reference/stri_locate_ith.md)
-now gives a warning when an empty string or pattern is given. \* The
-[`help.import()`](https://tony-aw.github.io/tinycodet/reference/import_helper.md)
-function now gives an error if neither `topic/package` nor `i/alias` is
-supplied, instead of just silently doing nothing. \* The `%sget%` and
-`%strim%` operators now give an explicit error message if the arguments
-do not have proper lengths.
+**More safety checks:**
+
+- Improved safety against malformed conditions in the
+  [`transform_if()`](https://tony-aw.github.io/tinycodet/reference/transform_if.md)
+  function.
+- [`stri_locate_ith()`](https://tony-aw.github.io/tinycodet/reference/stri_locate_ith.md)
+  now gives a warning when an empty string or pattern is given.
+- The
+  [`help.import()`](https://tony-aw.github.io/tinycodet/reference/import_helper.md)
+  function now gives an error if neither `topic/package` nor `i/alias`
+  is supplied, instead of just silently doing nothing.
+- The `%sget%` and `%strim%` operators now give an explicit error
+  message if the arguments do not have proper lengths.
 
 **Internal Re-write:**
 

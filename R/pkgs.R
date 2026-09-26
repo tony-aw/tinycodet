@@ -4,7 +4,7 @@
 #' The \code{pkgs %installed in% lib.loc} operator
 #' checks if one or more given packages (\code{pkgs}) exist
 #' in the given library paths (\code{lib.loc}),
-#' without loading the packages. \cr
+#' without loading the packages at all. \cr
 #' The syntax of this operator forces the user to make it
 #' syntactically explicit
 #' where to look for installed R-packages. \cr
@@ -18,28 +18,23 @@
 #' The \code{pkg_get_deps_minimal()} function is the same as
 #' \code{pkg_get_deps()},
 #' except with
-#' \code{base, recom, rstudioapi, shared_tidy}
+#' \code{base, recom, semi, shared_tidy}
 #' all set to \code{FALSE},
-#' and the default value for \code{deps_type} is c("Depends", "Imports"). \cr
-#' \cr
-#' The \code{pkg_lsf()} function
-#' gets a list of exported functions/operators from a package. \cr
-#' One handy use for this function is to, for example,
-#' globally attach all infix operators from a package using \code{library},
-#' like so:
-#'
-#' ```{r echo = TRUE, eval = FALSE}
-#' y <- pkg_lsf("packagename", type = "inops")
-#' library(packagename, include.only = y)
-#' ```
-#'
+#' and the default value for \code{deps_type} is c("Depends", "Imports"). \cr \cr
 #'
 #' @param pkgs a character vector with the package name(s).
 #' @param package a single string giving the package name.
 #' @param lib.loc character vector specifying library search path
 #' (the location of R library trees to search through). \cr
 #' The \code{lib.loc} argument would usually be \code{.libPaths()}. \cr
-#' See also \link[base]{loadNamespace}.
+#' See also \link[base]{loadNamespace}. \cr
+#' \bold{For \code{pkg_get_deps()} and \code{pkg_get_deps_minimal()}}: \cr
+#' `lib.loc` can also be set to `NULL`. \cr
+#' In that case the loaded namespace of the package will be checked
+#' instead of the installed packages at `lib.loc`. \cr
+#' If `lib.loc` is `NULL`,
+#' but the package is not loaded,
+#' an error is returned.
 #' @param deps_type a character vector, giving the dependency types to be used. \cr
 #' The order of the character vector given in \code{deps_type} affects
 #' the order of the returned character vector; see Details sections.
@@ -50,19 +45,14 @@
 #' indicating whether the pre-installed 'recommended' R-packages should be included
 #' (\code{TRUE}),
 #' or not included (\code{FALSE}).
-#' @param rstudioapi `TRUE` or `FALSE`,
-#' indicating whether the 'rstudioapi' R-package should be included
-#' (\code{TRUE}),
-#' or not included (\code{FALSE}).
+#' @param semi `TRUE` or `FALSE`,
+#' indicating whether semi-ingrained R-packages ('S7', 'rstudioapi')
+#' should be included (\code{TRUE}) or not include (\code{FALSE}).
 #' @param shared_tidy `TRUE` or `FALSE`,
 #' indicating whether the following packages should be included (\code{TRUE})
 #' or not included (\code{FALSE}): \cr
-#' 'rlang', 'lifecycle', 'cli', 'glue', and 'withr'.
-#' @param type The type of functions to list. Possibilities:
-#'  * \code{"inops"} or \code{"operators"}: Only infix operators.
-#'  * \code{"regfuns"}: Only regular functions (thus excluding infix operators).
-#'  * \code{"all"}: All functions, both regular functions and infix operators. \cr \cr
-#'
+#' 'rlang', 'lifecycle', 'cli', 'glue', and 'withr'. \cr \cr
+#' 
 #' @details
 #' For \code{pkg_get_deps()}: \cr
 #' For each string in argument \code{deps_type},
@@ -95,9 +85,8 @@
 #' For \code{pkg_get_deps()} and \code{pkg_get_deps_minimal()}: \cr
 #' A character vector of direct dependencies, without duplicates. \cr
 #' \cr
-#' For \code{pkg_lsf()}: \cr
-#' Returns a character vector of exported function names in the specified package. \cr \cr
-#'
+#' 
+#' 
 #' @references O'Brien J., elegantly extract R-package dependencies of a package not listed on CRAN. \emph{Stack Overflow}. (1 September 2023). \url{https://stackoverflow.com/questions/30223957/elegantly-extract-r-package-dependencies-of-a-package-not-listed-on-cran}
 #'
 #'
@@ -111,7 +100,6 @@
 #' pkg_get_deps_minimal("dplyr")
 #' pkgs <- pkg_get_deps("dplyr")
 #' pkgs %installed in% .libPaths()
-#' pkg_lsf("dplyr", "all")
 #'
 #'
 #'
@@ -124,7 +112,7 @@ NULL
 #' @rdname pkgs
 #' @export
 `%installed in%` <- function(pkgs, lib.loc) {
-
+  
   if(!is.character(pkgs)) {
     stop("left hand side must be a character vector of package names")
   }
@@ -136,43 +124,50 @@ NULL
       paste0(misspelled_pkgs, collapse = ", ")
     )
   }
-   
-  .internal_check_lib.loc(lib.loc, sys.call())
-
+  
+  lib.loc <- .import_lib.loc(lib.loc, sys.call())
+  
   tempfun <- function(pkg, lib.loc) {
     out <- find.package(package = pkg, lib.loc = lib.loc, quiet = TRUE)
     return(length(out) > 0L)
   }
   out <- vapply(pkgs, \(x)tempfun(x, lib.loc = lib.loc), logical(1), USE.NAMES = TRUE)
-  out[pkgs %in% .internal_list_coreR()] <- NA
+  out[pkgs %in% .list_coreR()] <- NA
   
   return(out)
 }
+
 
 
 #' @rdname pkgs
 #' @export
 pkg_get_deps <- function(
     package, lib.loc = .libPaths(), deps_type = c("LinkingTo", "Depends", "Imports"),
-    base = FALSE, recom = TRUE, rstudioapi = TRUE, shared_tidy = TRUE
+    base = FALSE, recom = TRUE, semi = TRUE, shared_tidy = TRUE
 ) {
   if(length(package)>1){
     stop("Only one package can be given")
   }
-  .internal_check_lib.loc(lib.loc, sys.call())
-  .internal_check_pkgs(package, lib.loc, abortcall = sys.call())
+  if(is.null(lib.loc) && !isNamespaceLoaded(package)) {
+    stop("`lib.loc` is `NULL`, but namespace of given package is not loaded")
+  }
+  if(is.null(lib.loc) && isNamespaceLoaded(package)) {
+    lib.loc <- find.package(package) |> .internal_dirfolder()
+  }
+  lib.loc <- .import_lib.loc(lib.loc, sys.call())
+  .check_pkgs(package, lib.loc, abortcall = sys.call())
   
   check_opts <- vapply(
-    list(base, recom, rstudioapi, shared_tidy),
+    list(base, recom, semi, shared_tidy),
     FUN = \(x)isTRUE(x) || isFALSE(x),
     FUN.VALUE = logical(1)
   )
   if(any(!check_opts)) {
-    stop("arguments `base`, `recom`, `rstudioapi`, `shared_tidy` must each be either `TRUE` OR `FALSE`")
+    stop("arguments `base`, `recom`, `semi`, `shared_tidy` must each be either `TRUE` OR `FALSE`")
   }
 
   temp.fun <- function(x) { .internal_get_pkg_deps(
-      package, lib.loc, type = x, base = base, recom = recom, rstudioapi = rstudioapi, shared_tidy = shared_tidy
+      package, lib.loc, type = x, base = base, recom = recom, semi = semi, shared_tidy = shared_tidy
   )}
   depends <- lapply(
     deps_type, FUN = temp.fun
@@ -187,44 +182,17 @@ pkg_get_deps <- function(
 #' @export
 pkg_get_deps_minimal <- function(package, lib.loc = .libPaths(), deps_type = c("Depends", "Imports")) {
   return(pkg_get_deps(
-    package, lib.loc, deps_type, base = FALSE, recom = FALSE, rstudioapi = FALSE, shared_tidy = FALSE
+    package, lib.loc, deps_type, base = FALSE, recom = FALSE, semi = FALSE, shared_tidy = FALSE
   ))
-}
-
-
-#' @rdname pkgs
-#' @export
-pkg_lsf <- function(package, type, lib.loc = .libPaths()) {
-  if(length(package) > 1L){
-    stop("only a single package can be given")
-  }
-
-  .internal_check_lib.loc(lib.loc, sys.call())
-  .internal_check_pkgs(package, lib.loc, abortcall = sys.call())
-
-  if(!type %in% c("inops", "operators", "regfuns", "all")) {
-    stop("`type` must be one of `inops`, `operators`, `regfuns`, or `all`")
-  }
-
-  ns <- .internal_prep_Namespace(package, lib.loc, abortcall = sys.call()) |> names()
-  if(type == "inops" || type == "operators") {
-    out <- .internal_grep_inops(ns, type = 2)
-  }
-  if(type == "regfuns") {
-    out <- .internal_grep_inops(ns, type = 2, invert = TRUE)
-  }
-  if(type == "all") {
-    out <- ns
-  }
-  return(out)
 }
 
 #' @keywords internal
 #' @noRd
 .internal_get_pkg_deps <- function(
     package, lib.loc, type,
-    base, recom, rstudioapi, shared_tidy
+    base, recom, semi, shared_tidy
 ) {
+  
   # based on https://stackoverflow.com/questions/30223957/elegantly-extract-r-package-dependencies-of-a-package-not-listed-on-cran
   dcf <- read.dcf(file.path(system.file("DESCRIPTION", package = package, lib.loc = lib.loc)))
   # note: using system.file() here above in case of multiple libPaths
@@ -235,16 +203,16 @@ pkg_lsf <- function(package, type, lib.loc = .libPaths()) {
   depends <- val[val != "R"]
   
   if(!base) {
-    depends <- setdiff(depends, .internal_list_coreR())
+    depends <- setdiff(depends, .list_coreR())
   }
   if(!recom) {
-    depends <- setdiff(depends, .internal_list_preinst())
+    depends <- setdiff(depends, .list_preinst())
   }
-  if(!rstudioapi) {
-    depends <- setdiff(depends, "rstudioapi")
+  if(!semi) {
+    depends <- setdiff(depends, .list_semi())
   }
   if(!shared_tidy) {
-    depends <- setdiff(depends, .internal_list_tidyshared())
+    depends <- setdiff(depends, .list_tidyshared())
   }
   
   return(depends)

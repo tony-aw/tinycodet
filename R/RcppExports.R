@@ -2,8 +2,16 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 #' @keywords internal
-#' @noRd
-.rcpp_prep_ns <- function(ns, nms, pkg) {
-    .Call(`_tinycodet_rcpp_prep_ns`, ns, nms, pkg)
+NULL
+
+#' @keywords internal
+NULL
+
+.rcpp_address <- function(x) {
+    .Call(`_tinycodet_rcpp_address`, x)
+}
+
+.rcpp_get_function_name <- function(fun, env, nms) {
+    .Call(`_tinycodet_get_function_name`, fun, env, nms)
 }
 

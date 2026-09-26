@@ -58,7 +58,9 @@ ggplot2::ggplot(d, aes_pro(x, y, color = color)) +
 
 # New import system
 
-One can use a package without attaching the package (for example using `::`), or one can attach a package (for example using `library()` or `require()`). The advantages and disadvantages of using without attaching a package versus attaching a package - at least those relevant for now - can be compactly presented in the following table:
+One can use a package without attaching (for example using `::`), or one can attach a package (for example using `library()` or `require()`).
+
+The advantages and disadvantages of using without attaching a package versus attaching a package - at least those relevant for this article - can be compactly presented in the following table:
 
 ```{r echo=FALSE, results='markup'}
 X <- rbind(
@@ -77,32 +79,50 @@ colnames(X) <- c("aspect", "::", "attach")
 X <- as.data.frame(X)
 rownames(X) <- c(1:7, "")
 knitr::kable(X, "html", row.names = TRUE, escape = FALSE)
+rm(X)
 ```
 
 
 What `tinycodet` attempts to do with its import system, is to somewhat find the best of both worlds. It does this by introducing the following functions:
 
- - `import_as()`: Import a main package, and optionally its re-exports + its dependencies + its extensions, under a single alias. This essentially combines the attaching advantage of using multiple related packages (row 7 on the table above), whilst keeping most advantages of using without attaching a package.
- - `import_inops()`: Expose infix operators from a package or an alias object to the current environment. This gains the attaching advantage of less typing (row 6 in table above), whilst simultaneously avoiding the disadvantage of attaching functions from a package globally (row 4).
+- `import_from()`: Import specific objects from a package into the current or specific environment.
+ - `import_as()`: Import a main package, and optionally its re-exports + its minimal dependencies, under a single alias. This essentially combines the attaching advantage of using multiple related packages (row 7 on the table above), whilst keeping most advantages of using without attaching a package.
+ - `import_ls()`: List names of exported objects by category (like "infix operators", or "replacement operators", etc.).
+Can be used in combination with, for example, `library()` or `import_from()`.
+This gives the advantage of less typing (row 6 on the above table).
+
  - `import_data()`: Directly return a data set from a package, to allow straight-forward assignment.
+
+
 
 Here is an example using `tinycodet's` new import system; note that the following code is run without attaching a single R package (besides `tinycodet` itself of course):
 
 ```{r}
 # importing "tidytable" + "data.table" under alias "tdt.":
-import_as( 
-  ~ tdt., "tidytable", dependencies = "data.table"
+import_as(
+  .dpr ~ dplyr, deps = "tibble", lib.loc = .libPaths()
+)
+import_from("magrittr", import_ls("magrittr", "infix"))
+d <- import_data("dplyr", "starwars")
+d %>%
+  .dpr$filter(.data$species == "Droid") %>% # notice the ".data" pronoun can be used without problems
+  .dpr$select(name, .dpr$ends_with("color"))
+
+
+male_penguins <- .dpr$tribble(
+     ~name,    ~species,     ~island, ~flipper_length_mm, ~body_mass_g,
+ "Giordan",    "Gentoo",    "Biscoe",               222L,        5250L,
+  "Lynden",    "Adelie", "Torgersen",               190L,        3900L,
+  "Reiner",    "Adelie",     "Dream",               185L,        3650L
 )
 
-# exposing operators from `magrrittr` to current environment:
-import_inops("magrittr")
+female_penguins <- .dpr$tribble(
+     ~name,    ~species,  ~island, ~flipper_length_mm, ~body_mass_g,
+  "Alonda",    "Gentoo", "Biscoe",               211,        4500L,
+     "Ola",    "Adelie",  "Dream",               190,        3600L,
+"Mishayla",    "Gentoo", "Biscoe",               215,        4750L,
+)
 
-# directly assigning the "starwars" dataset to object "d":
-d <- import_data("dplyr", "starwars") 
-
-# see it in action:
-d %>% tdt.$filter(species == "Droid") %>%
-  tdt.$select(name, tdt.$ends_with("color"))
 
 ```
 
@@ -147,7 +167,7 @@ If you're still interested, I invite you to read the articles on the website (ht
 The following articles are currently present:
 
  - [Safer functionality](https://tony-aw.github.io/tinycodet/articles/a_safer.html): Describes the functions for safer/stricter coding.
- - [Import system - main functions](https://tony-aw.github.io/tinycodet/articles/b_import_main.html): Description of the main functions of the package import system introduced by `tinycodet`.
+ - [Import system - main functionality](https://tony-aw.github.io/tinycodet/articles/b_import_main.html): Description of the main functions of the package import system introduced by `tinycodet`.
  - [Import system - additional details](https://tony-aw.github.io/tinycodet/articles/c_import_additional.html): Additional important details on the tinycodet import system.
  - [String related functions](https://tony-aw.github.io/tinycodet/articles/d_strings_functions.html): Describes the `tinycodet` functions that extend the string manipulation capabilities of `stringi`.
  - [String related infix operators](https://tony-aw.github.io/tinycodet/articles/e_strings_inops.html): Describes the `tinycodet` infix operators that extend the string manipulation capabilities of `stringi`.

@@ -5,7 +5,6 @@
 \alias{\%installed in\%}
 \alias{pkg_get_deps}
 \alias{pkg_get_deps_minimal}
-\alias{pkg_lsf}
 \title{Miscellaneous Package Related Functions}
 \usage{
 pkgs \%installed in\% lib.loc
@@ -16,7 +15,7 @@ pkg_get_deps(
   deps_type = c("LinkingTo", "Depends", "Imports"),
   base = FALSE,
   recom = TRUE,
-  rstudioapi = TRUE,
+  semi = TRUE,
   shared_tidy = TRUE
 )
 
@@ -25,8 +24,6 @@ pkg_get_deps_minimal(
   lib.loc = .libPaths(),
   deps_type = c("Depends", "Imports")
 )
-
-pkg_lsf(package, type, lib.loc = .libPaths())
 }
 \arguments{
 \item{pkgs}{a character vector with the package name(s).}
@@ -34,7 +31,14 @@ pkg_lsf(package, type, lib.loc = .libPaths())
 \item{lib.loc}{character vector specifying library search path
 (the location of R library trees to search through). \cr
 The \code{lib.loc} argument would usually be \code{.libPaths()}. \cr
-See also \link[base]{loadNamespace}.}
+See also \link[base]{loadNamespace}. \cr
+\bold{For \code{pkg_get_deps()} and \code{pkg_get_deps_minimal()}}: \cr
+\code{lib.loc} can also be set to \code{NULL}. \cr
+In that case the loaded namespace of the package will be checked
+instead of the installed packages at \code{lib.loc}. \cr
+If \code{lib.loc} is \code{NULL},
+but the package is not loaded,
+an error is returned.}
 
 \item{package}{a single string giving the package name.}
 
@@ -51,22 +55,14 @@ indicating whether the pre-installed 'recommended' R-packages should be included
 (\code{TRUE}),
 or not included (\code{FALSE}).}
 
-\item{rstudioapi}{\code{TRUE} or \code{FALSE},
-indicating whether the 'rstudioapi' R-package should be included
-(\code{TRUE}),
-or not included (\code{FALSE}).}
+\item{semi}{\code{TRUE} or \code{FALSE},
+indicating whether semi-ingrained R-packages ('S7', 'rstudioapi')
+should be included (\code{TRUE}) or not include (\code{FALSE}).}
 
 \item{shared_tidy}{\code{TRUE} or \code{FALSE},
 indicating whether the following packages should be included (\code{TRUE})
 or not included (\code{FALSE}): \cr
-'rlang', 'lifecycle', 'cli', 'glue', and 'withr'.}
-
-\item{type}{The type of functions to list. Possibilities:
-\itemize{
-\item \code{"inops"} or \code{"operators"}: Only infix operators.
-\item \code{"regfuns"}: Only regular functions (thus excluding infix operators).
-\item \code{"all"}: All functions, both regular functions and infix operators. \cr \cr
-}}
+'rlang', 'lifecycle', 'cli', 'glue', and 'withr'. \cr \cr}
 }
 \value{
 For  \code{pkgs \%installed in\% lib.loc}: \cr
@@ -81,14 +77,12 @@ but base/core 'R'
 For \code{pkg_get_deps()} and \code{pkg_get_deps_minimal()}: \cr
 A character vector of direct dependencies, without duplicates. \cr
 \cr
-For \code{pkg_lsf()}: \cr
-Returns a character vector of exported function names in the specified package. \cr \cr
 }
 \description{
 The \code{pkgs \%installed in\% lib.loc} operator
 checks if one or more given packages (\code{pkgs}) exist
 in the given library paths (\code{lib.loc}),
-without loading the packages. \cr
+without loading the packages at all. \cr
 The syntax of this operator forces the user to make it
 syntactically explicit
 where to look for installed R-packages. \cr
@@ -102,19 +96,9 @@ from the Description file. It works on non-CRAN packages also. \cr
 The \code{pkg_get_deps_minimal()} function is the same as
 \code{pkg_get_deps()},
 except with
-\code{base, recom, rstudioapi, shared_tidy}
+\code{base, recom, semi, shared_tidy}
 all set to \code{FALSE},
-and the default value for \code{deps_type} is c("Depends", "Imports"). \cr
-\cr
-The \code{pkg_lsf()} function
-gets a list of exported functions/operators from a package. \cr
-One handy use for this function is to, for example,
-globally attach all infix operators from a package using \code{library},
-like so:
-
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{y <- pkg_lsf("packagename", type = "inops")
-library(packagename, include.only = y)
-}\if{html}{\out{</div>}}
+and the default value for \code{deps_type} is c("Depends", "Imports"). \cr \cr
 }
 \details{
 For \code{pkg_get_deps()}: \cr
@@ -141,7 +125,6 @@ package names are then returned to the user. \cr \cr
 pkg_get_deps_minimal("dplyr")
 pkgs <- pkg_get_deps("dplyr")
 pkgs \%installed in\% .libPaths()
-pkg_lsf("dplyr", "all")
 
 
 

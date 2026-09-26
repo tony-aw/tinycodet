@@ -1,4 +1,4 @@
-# Import system - main functions
+# Import system - main functionality
 
 ``` r
 library(tinycodet)
@@ -24,17 +24,24 @@ What `tinycodet` attempts to do with its import system, is to somewhat
 find the best of both worlds. It does this by introducing the following
 functions:
 
+- [`import_from()`](https://tony-aw.github.io/tinycodet/reference/import_from.md):
+  Import specific objects from a package into the current or specific
+  environment.
+
 - [`import_as()`](https://tony-aw.github.io/tinycodet/reference/import_as.md):
-  Import a main package, and optionally its re-exports + its
-  dependencies + its extensions, under a single alias. This essentially
-  combines the attaching advantage of using multiple related packages
-  (row 7 on the table above), whilst keeping most advantages of using
-  without attaching a package.
-- [`import_inops()`](https://tony-aw.github.io/tinycodet/reference/import_inops.md):
-  Expose infix operators from a package or an alias object to the
-  current environment. This gains the attaching advantage of less typing
-  (row 6 in table above), whilst simultaneously avoiding the
-  disadvantage of attaching functions from a package globally (row 4).
+  Import a main package, and optionally its re-exports + its minimal
+  dependencies, under a single alias. This essentially combines the
+  attaching advantage of using multiple related packages (row 7 on the
+  table above), whilst keeping most advantages of using without
+  attaching a package.
+
+- [`import_ls()`](https://tony-aw.github.io/tinycodet/reference/import_ls.md):
+  List names of exported objects by category (like “infix operators”, or
+  “replacement operators”, etc.). Can be used in combination with, for
+  example, [`library()`](https://rdrr.io/r/base/library.html) or
+  [`import_from()`](https://tony-aw.github.io/tinycodet/reference/import_from.md).
+  This gives the advantage of less typing (row 6 on the above table).
+
 - [`import_data()`](https://tony-aw.github.io/tinycodet/reference/import_data.md):
   Directly return a data set from a package, to allow straight-forward
   assignment.
@@ -47,55 +54,66 @@ article if you’re really adamant on attaching packages using
 [`library()`](https://rdrr.io/r/base/library.html)/[`require()`](https://rdrr.io/r/base/library.html)
 :-).
 
-This article is rather lengthy, so I will start with a quick example
-code using `tinycodet`’ import system:
+ 
+
+## import_from
+
+The easiest to understand and most straight-forward import function is
+the
+[`import_from()`](https://tony-aw.github.io/tinycodet/reference/import_from.md)
+function. It takes a package, and exposes the specified functions to the
+current (or a user-specified) environment:
 
 ``` r
-# importing "tidytable" + its re-exports + "data.table" under alias "tdt.":
-import_as( 
-  ~ tdt., "tidytable", dependencies = "data.table"
-)
-#> Importing packages and registering methods...
-#> Done
-#> You can now access the functions using `tdt.$`
-#> For conflicts report, packages order, and other attributes, run `attr.import(tdt.)`
-
-# exposing operators from `magrrittr` to current environment:
-import_inops("magrittr")
-#> Checking for conflicting infix operators in the current environment...
-#> Placing infix operators in current environment...
-#> Done
-
-# directly assigning the "starwars" dataset to object "d":
-d <- import_data("dplyr", "starwars") 
-
-# see it in action:
-d %>% tdt.$filter(species == "Droid") %>%
-  tdt.$select(name, tdt.$ends_with("color"))
-#> # A tidytable: 6 × 4
-#>   name   hair_color skin_color  eye_color
-#>   <chr>  <chr>      <chr>       <chr>    
-#> 1 C-3PO  NA         gold        yellow   
-#> 2 R2-D2  NA         white, blue red      
-#> 3 R5-D4  NA         white, red  red      
-#> 4 IG-88  none       metal       red      
-#> 5 R4-P17 none       silver, red red, blue
-#> 6 BB8    none       none        black
-
-rm(list=ls()) # clearing everything
+import_from("magrittr", "%>%")
+#> Import & method registration complete
+lsf.str() # function exists in current environment
+#> %>% : function (lhs, rhs)
+rm(list = lsf.str()) # remove function from current environment
 ```
 
-The above code is run *without attaching* any of the packages or its
-dependencies. So none of the problems with attaching a package is
-present.
+We can add a prefix to the functions to avoid conflicts:
 
-Despite the length of this article, which is mostly due to me being
-overly detailed, the import system is made to be *very simple for the
-user*.
+``` r
+import_from("dplyr", "select", prefix = "dpr_")
+#> Import & method registration complete
+ls() # dpr_select is now available in the current environment
+#> [1] "dpr_select"
+```
 
-What follows are descriptions of the main functions that together form
-this new, infix-operator friendly **&** multi-package assignment
-friendly, import management system.
+Prefixes will not be added to infix operators or non-functions.
+
+If you want to add the functions to your search path, rather than the
+current environment, you can do so as follows:
+
+``` r
+searchenv_add("my_ops") # add new search path environment called "my_ops"
+"my_ops" %in% search() # "my_ops" is now part of your search paths
+#> [1] TRUE
+import_from("dplyr", "select", prefix = "dpr_", env = "my_ops")
+#> Import & method registration complete
+
+# list what is present in search path "my_ops":
+ls(searchenv_get("my_ops")) 
+#> [1] "dpr_select"
+
+# remove search path "my_ops":
+searchenv_rm("my_ops")
+```
+
+The differences between
+[`import_from()`](https://tony-aw.github.io/tinycodet/reference/import_from.md)
+and using
+[`library(package, include.only = ...)`](https://rdrr.io/r/base/library.html),
+are as follows:
+
+- [`import_from()`](https://tony-aw.github.io/tinycodet/reference/import_from.md)
+  does not touch your search path unless **you** want it to.
+- [`import_from()`](https://tony-aw.github.io/tinycodet/reference/import_from.md)
+  does not trigger the `.onAttach()` function in the package, since
+  you’re not attaching the package globally.
+- [`import_from()`](https://tony-aw.github.io/tinycodet/reference/import_from.md)
+  allows adding a prefix to the names of regular functions.
 
  
 
@@ -104,168 +122,115 @@ friendly, import management system.
 The
 [`import_as()`](https://tony-aw.github.io/tinycodet/reference/import_as.md)
 function imports an R package + its re-exports under an alias, and also
-imports any specified direct **dependencies** and/or direct
-**extensions** of the package under the very same alias. It also informs
-the user which objects from a package will overwrite which objects from
-other packages, so you will never be surprised.
+imports any specified direct dependencies of the package under the very
+same alias. It also informs the user which objects from a package will
+overwrite which objects from other packages, so you will never be
+surprised.
 
-The main arguments of the
-[`import_as()`](https://tony-aw.github.io/tinycodet/reference/import_as.md)
-function are:
-
-- `alias`: the name of the alias object under which to import the
-  package(s). Can be given as a single string or as a formula with a
-  single term. To keep aliases easily distinguishable from other objects
-  that can also be subset with the `$` operator, I recommend ending all
-  alias names with a dot (.).
-- `main_package`: the name (string) of the main package to import.
-- `re_exports`: Some R packages export functions that are not defined in
-  their own package, but in their direct dependencies - “re-exports”. If
-  `TRUE` (default), the re-exports of the `main_package` are added to
-  the alias, analogous to the behaviour of base R’s `::` operator. If
-  `FALSE`, re-exports are not added.
-- `dependencies`: an optional character vector giving the dependencies
-  of the `main_package` to import under the alias also.
-- `extensions`: an optional character vector giving the extensions of
-  the `main_package` to import under the same alias also.
-- `lib.loc`: the library paths to look for the packages; defaults to
-  [`.libPaths()`](https://rdrr.io/r/base/libPaths.html). This argument
-  is present in all `import_` - functions.
-
-Here is one example. Lets import
-[data.table](https://github.com/Rdatatable/data.table) and its
-extensions [tidytable](https://github.com/markfairbanks/tidytable),
-under the same alias, which I will call “tdt.” (for “tidy data.table”):
+Here is one example. Lets
+import[tidytable](https://github.com/markfairbanks/tidytable) and its
+main dependency [data.table](https://github.com/Rdatatable/data.table),
+under the same alias, which I will call “.tdt” (for “tidy data.table”):
 
 ``` r
-import_as(~ tdt., "data.table", extensions = "tidytable") # this creates the tdt. object
-#> Importing packages and registering methods...
-#> Done
-#> You can now access the functions using `tdt.$`
-#> For conflicts report, packages order, and other attributes, run `attr.import(tdt.)`
+import_as(
+  .tdt ~ tidytable, deps = "data.table"
+) # this creates the .tdt object
+#> Import & method registration complete
 ```
 
-Now one can use the imported functions using: `tdt.$some_function()`.
+Functions can now be accessed using the `$` operator.  
+Like `.tdt$some_function()`.
 
  
 
-## import_inops
+## import_ls
 
-When aliasing an R package, infix operators are also imported in the
-alias. However, it may be cumbersome to use them from the alias. For
-example this:
+When aliasing an R package, infix and replacement operators are also
+imported in the alias. However, it may be cumbersome to use them from
+the alias:
 
 ``` r
-import_as(~ to., "tinycodet")
-to.$`%row~%`(x, mat)
+import_as(.to ~ tinycodet)
+.to$`%row~%`(x, mat)
+.to$`strfind<-`(x, ..., value)
 ```
 
-or this:
+It may be more convenient to attach or expose these objects separately.
+
+This is where
+[`import_ls()`](https://tony-aw.github.io/tinycodet/reference/import_ls.md)
+comes in.  
+[`import_ls()`](https://tony-aw.github.io/tinycodet/reference/import_ls.md)
+lists all exported objects in a package of a specific **type**.  
+These types are supported:
+
+- “infix”: infix operators
+- “rp”: replacement operators, including their base functions
+- “nonfun”: objects that are not functions
+- “reg”: regular functions.
+
+So we can just attach only the infix operators from, for example, the
+‘magrittr’ package like so:
 
 ``` r
-tinycodet::`%row~%`(x, mat)
+magrittr_infix <- import_ls("magrittr", "infix")
+#> c("%!>%", "%$%", "%<>%", "%>%", "%T>%")
+library(magrittr, include.only = magrittr_infix)
 ```
 
-is very cumbersome.
+Notice that the
+[`import_ls()`](https://tony-aw.github.io/tinycodet/reference/import_ls.md)
+function returns a character vector that can be stored in an object for
+programmatic (in this case the object “magrittr_infix”), *and*
+**prints** a literal piece of code.
 
-Therefore, `tinycodet` also adds the
-[`import_inops()`](https://tony-aw.github.io/tinycodet/reference/import_inops.md)
-function, which exposes the infix operators. The infix operators are
-exposed to the current environment, but does not attach the functions to
-the namespace.
-
-For example, to expose the infix operators in the alias object from
-before to the current environment, one can do the following:
+This literal piece of code is printed for syntactical clarity.  
+You see, the code
+[`library(magrittr, include.only = magrittr_infix)`](https://rdrr.io/r/base/library.html)
+does not make it obvious - merely from looking at your code - which
+infix operators exactly are now attached. We can make it explicit by
+simply copy-pasting the printed code from
+[`import_ls()`](https://tony-aw.github.io/tinycodet/reference/import_ls.md)
+like so:
 
 ``` r
-import_inops(expose = tdt.)
-#> Checking for conflicting infix operators in the current environment...
-#> Placing infix operators in current environment...
-#> Done
+import_ls("magrittr", "infix")
+#> c("%!>%", "%$%", "%<>%", "%>%", "%T>%")
+my_copypaste <- c("%!>%", "%$%", "%<>%", "%>%", "%T>%")
+library(magrittr, include.only = my_copypaste)
 ```
 
-One can give the `unexpose` argument instead of the `expose` argument,
-which will delete the infix operators from those packages/package alias
-exposed in the current environment by
-[`import_inops()`](https://tony-aw.github.io/tinycodet/reference/import_inops.md).
-Infix operators defined by the user will not be touched. For example:
+Now, anyone who merely glances at your code immediately sees which
+operators came from which package, and with very little effort on your
+part.
+
+For the sake of demonstration, let’s try out each type here:
 
 ``` r
-import_inops(unexpose = tdt.)
-#> Removing the following infix operators:
-#> %plike%, %chin%, :=, %inrange%, %in%, %between%, %ilike%, %flike%, %notin%, %like%
-#> Done
-```
-
-One can also expose and unexpose the infix operators directly from a
-package, instead of via an alias object. In that case the package name
-must be given as a string.
-
-For example, the following code exposes the infix operators from the
-[data.table](https://github.com/Rdatatable/data.table) R package:
-
-``` r
-import_inops(expose ="data.table")
-#> Checking for conflicting infix operators in the current environment...
-#> Placing infix operators in current environment...
-#> Done
-```
-
-And similarly one can remove the exposed infix operators again from the
-current environment as follows:
-
-``` r
-import_inops(unexpose = "data.table")
-#> Removing the following infix operators:
-#> %ilike%, %notin%, %between%, :=, %plike%, %flike%, %like%, %chin%, %inrange%
-#> Done
-```
-
- 
-
-The
-[`import_inops()`](https://tony-aw.github.io/tinycodet/reference/import_inops.md)
-function has the `exclude` and `include.only` arguments to specify
-exactly which infix operators to expose to the current environment, as
-well as the `overwrite` and `inherits` arguments to specify what to do
-when the infix operators you are about to expose already exist in the
-current environment (and loaded namespaces). This can be handy to
-prevent overwriting any (user defined) infix operators already present
-in the current environment or loaded namespaces.
-
-Examples:
-
-``` r
-import_inops(expose = tdt., include.only = ":=")
-#> Checking for conflicting infix operators in the current environment...
-#> Placing infix operators in current environment...
-#> Done
-import_inops(unexpose = tdt.)
-#> Removing the following infix operators:
-#> :=
-#> Done
-import_inops(expose = "data.table", , include.only = ":=")
-#> Checking for conflicting infix operators in the current environment...
-#> Placing infix operators in current environment...
-#> Done
-import_inops(unexpose = "data.table")
-#> Removing the following infix operators:
-#> :=
-#> Done
-```
-
- 
-
-If the user would rather attach the infix operators to the (global)
-namespace, `tinycodet` provides the
-[`pkg_lsf()`](https://tony-aw.github.io/tinycodet/reference/pkgs.md)
-function, which returns a character vector listing all functions or
-infix operators from a package. This vector can then be used in the
-`include.only` argument of the
-[`library()`](https://rdrr.io/r/base/library.html) function. Like so:
-
-``` r
-library(magrittr, include.only = pkg_lsf("magrittr", type = "inops"))
+import_ls("magrittr", "infix")
+#> c("%!>%", "%$%", "%<>%", "%>%", "%T>%")
+import_ls("stringi", "rp")
+#> c("stri_datetime_add", "stri_datetime_add<-", "stri_sub", "stri_sub_all", 
+#> "stri_sub_all<-", "stri_sub<-", "stri_subset", "stri_subset_charclass", 
+#> "stri_subset_charclass<-", "stri_subset_coll", "stri_subset_coll<-", 
+#> "stri_subset_fixed", "stri_subset_fixed<-", "stri_subset_regex", 
+#> "stri_subset_regex<-", "stri_subset<-")
+import_ls("bit64", "nonfun")
+#> Registered S3 method overwritten by 'bit64':
+#>   method          from 
+#>   print.bitstring tools
+#> "NA_integer64_"
+import_ls("tibble", "reg")
+#> c("add_case", "add_column", "add_row", "as.tibble", "as_data_frame", 
+#> "as_tibble", "as_tibble_col", "as_tibble_row", "char", "column_to_rownames", 
+#> "data_frame", "data_frame_", "deframe", "enframe", "frame_data", 
+#> "frame_matrix", "glimpse", "has_name", "has_rownames", "is.tibble", 
+#> "is_tibble", "lst", "lst_", "new_tibble", "num", "obj_sum", "remove_rownames", 
+#> "repair_names", "rowid_to_column", "rownames_to_column", "set_char_opts", 
+#> "set_num_opts", "set_tidy_names", "size_sum", "tbl_sum", "tibble", 
+#> "tibble_", "tibble_row", "tidy_names", "tribble", "trunc_mat", 
+#> "type_sum", "validate_tibble", "view")
 ```
 
  
@@ -275,7 +240,7 @@ library(magrittr, include.only = pkg_lsf("magrittr", type = "inops"))
 The
 [`import_as()`](https://tony-aw.github.io/tinycodet/reference/import_as.md)
 and
-[`import_inops()`](https://tony-aw.github.io/tinycodet/reference/import_inops.md)
+[`import_from()`](https://tony-aw.github.io/tinycodet/reference/import_from.md)
 functions get all functions from the package namespace. But packages
 often also have data sets, which are often not part of the namespace.
 
@@ -303,80 +268,6 @@ head(d)
 #> 5   126         NA         NA -19.21734  2.2784649 -2552.5 32.0
 #> 6   130  6.5664557         NA -17.63400  9.8585839 -2551.5 40.0
 ```
-
- 
-
-## When to use or not to use the new import system
-
-The ‘tinycodet’ import system is helpful particularly for packages that
-have at least one of the following properties:
-
-- The namespace of the package(s) conflicts with other packages.
-
-- The namespace of the package(s) conflicts with core R, or with those
-  of recommended R packages.
-
-- The package(s) have function names that are generic enough, such that
-  it is not obvious which function came from which package.
-
-There is no necessity for using the ‘tinycodet’ import system with every
-single package. One can safely attach the ‘stringi’ package, for
-example, as ‘stringi’ uses a unique and immediately recognisable naming
-scheme (virtually all ‘stringi’ functions start with “stri\_”), and this
-naming scheme does not conflict with core R, nor with most other
-packages.
-
-Of course, if one wishes to use ‘stringi’ only within a specific
-environment, it becomes advantageous to import ‘stringi’ using the
-‘tinycodet’ import system. In that case the
-[`import_LL()`](https://tony-aw.github.io/tinycodet/reference/import_misc.md)
-function would be most applicable.
-
- 
-
-## Function attributes
-
-All the functions imported by
-[`import_as()`](https://tony-aw.github.io/tinycodet/reference/import_as.md),
-[`import_inops()`](https://tony-aw.github.io/tinycodet/reference/import_inops.md),
-and
-[`import_LL()`](https://tony-aw.github.io/tinycodet/reference/import_misc.md)
-functions will have a “package” attribute, so you will always know which
-function came from which package.
-
-For example:
-
-``` r
-import_inops("magrittr")
-#> Checking for conflicting infix operators in the current environment...
-#> Placing infix operators in current environment...
-#> Done
-attributes(`%>%`)
-#> $package
-#> [1] "magrittr"
-#> 
-#> $function_name
-#> [1] "%>%"
-#> 
-#> $tinyimport
-#> [1] "tinyimport"
-#> 
-#> $class
-#> [1] "function"   "tinyimport"
-```
-
- 
-
-## Note for R-Package Developers
-
-It goes without saying, just like one should **NEVER** use
-[`library()`](https://rdrr.io/r/base/library.html) or
-[`require()`](https://rdrr.io/r/base/library.html) inside an R-package,
-similarly, one should **NOT** use tinycodet’s import functions inside an
-R-Package.
-
-The import functions can still be used inside functions defined in a
-file to be sourced, though. Just not in functions inside an R-package.
 
  
 
@@ -409,62 +300,54 @@ library(dplyr) # <- notice dplyr overwrites base R and recommended R packages
 detach("package:dplyr")
 ```
 
-Moreover, [dplyr](https://github.com/tidyverse/dplyr)’s function names
+Moreover, [dplyr](https://github.com/tidyverse/dplyr)‘s function names
 are sometimes generic enough that there is no obvious way to tell if a
 function came from [dplyr](https://github.com/tidyverse/dplyr) or some
 other package (for comparison: one can generally recognize `stringi`
-functions as they all start with `stri_`). If you look at the CRAN page
-for [dplyr](https://github.com/tidyverse/dplyr), you’ll notice it has
-some interesting extensions you might want to use, such as
-[powerjoin](https://github.com/moodymudskipper/powerjoin).
+functions as they all start with `stri_`). ’dplyr’ also has quite a
+large set of dependencies, like ‘tibble’ which ‘dplyr’ was designed to
+work along with it.
 
 To prevent masking base R functions, and to prevent obscurity regarding
-which functions come from [dplyr](https://github.com/tidyverse/dplyr)
-and [powerjoin](https://github.com/moodymudskipper/powerjoin), and which
-functions come from core R, one could constantly use `dplyr::` and
-`powerjoin::`. But constantly switching between package prefixes or
-aliases is perhaps undesirable.
+which functions come from [dplyr](https://github.com/tidyverse/dplyr) &
+[tibble](https://github.com/tidyverse/tibble), and which functions come
+from core R, one could constantly use `dplyr::` and `tibble::`. But
+constantly switching between package prefixes or aliases is perhaps
+undesirable.
 
 So here `tinycodet`’
 [`import_as()`](https://tony-aw.github.io/tinycodet/reference/import_as.md)
 function might help. Below is an example where
 [dplyr](https://github.com/tidyverse/dplyr) is imported (including its
-re-exports), along with
-[powerjoin](https://github.com/moodymudskipper/powerjoin) (which is an
-extension), all under one alias which I’ll call “`dpr.`”. Moreover, all
-infix operators from `magrittr` are exposed to the current environment.
+re-exports), along with [tibble](https://github.com/tidyverse/tibble)
+(which is a direct dependency), all under one alias which I’ll call
+“`.dpr`”. Moreover, all infix operators from `magrittr` are attached:
 
 ``` r
 import_as(
-  ~ dpr., "dplyr", extensions = "powerjoin", lib.loc = .libPaths()
+  .dpr ~ dplyr, deps = "tibble", lib.loc = .libPaths()
 )
-#> Importing packages and registering methods...
-#> Done
-#> You can now access the functions using `dpr.$`
-#> For conflicts report, packages order, and other attributes, run `attr.import(dpr.)`
+#> Import & method registration complete
 
-import_inops("magrittr") # getting the infix operators from `magrittr`
-#> Checking for conflicting infix operators in the current environment...
-#> Placing infix operators in current environment...
-#> Done
+library(magrittr, include.only = import_ls("magrittr", "infix"))
 ```
 
 The functions from [dplyr](https://github.com/tidyverse/dplyr) can now
-be used with the `dpr.$` prefix. This way, base R functions are no
+be used with the `.dpr$` prefix. This way, base R functions are no
 longer overwritten, and it will be clear for someone who reads your code
 whether functions like the
 [`filter()`](https://dplyr.tidyverse.org/reference/filter.html) function
 is the base R filter function, or the
 [dplyr](https://github.com/tidyverse/dplyr) filter function, as the
-latter would be called as `dpr.$filter()`.
+latter would be called as `.dpr$filter()`.
 
 Let’s first run a simple example code with the imported functions:
 
 ``` r
 d <- import_data("dplyr", "starwars")
 d %>%
-  dpr.$filter(.data$species == "Droid") %>% # notice the ".data" pronoun can be used without problems
-  dpr.$select(name, dpr.$ends_with("color"))
+  .dpr$filter(.data$species == "Droid") %>% # notice the ".data" pronoun can be used without problems
+  .dpr$select(name, .dpr$ends_with("color"))
 #> # A tibble: 6 × 4
 #>   name   hair_color skin_color  eye_color
 #>   <chr>  <chr>      <chr>       <chr>    
@@ -474,64 +357,96 @@ d %>%
 #> 4 IG-88  none       metal       red      
 #> 5 R4-P17 none       silver, red red, blue
 #> 6 BB8    none       none        black
-```
 
-Just add `dpr.$` in front of the functions you’d normally use, and
-everything works just as expected.
 
-Now lets run an example from the
-[powerjoin](https://github.com/moodymudskipper/powerjoin) GitHub page
-(<https://github.com/moodymudskipper/powerjoin>), using the above alias:
-
-``` r
-male_penguins <- dpr.$tribble(
+male_penguins <- .dpr$tribble(
      ~name,    ~species,     ~island, ~flipper_length_mm, ~body_mass_g,
  "Giordan",    "Gentoo",    "Biscoe",               222L,        5250L,
   "Lynden",    "Adelie", "Torgersen",               190L,        3900L,
   "Reiner",    "Adelie",     "Dream",               185L,        3650L
 )
 
-female_penguins <- dpr.$tribble(
+female_penguins <- .dpr$tribble(
      ~name,    ~species,  ~island, ~flipper_length_mm, ~body_mass_g,
   "Alonda",    "Gentoo", "Biscoe",               211,        4500L,
      "Ola",    "Adelie",  "Dream",               190,        3600L,
 "Mishayla",    "Gentoo", "Biscoe",               215,        4750L,
 )
-dpr.$check_specs()
-#> # powerjoin check specifications
-#> ℹ implicit_keys
-#> → column_conflict
-#> → duplicate_keys_left
-#> → duplicate_keys_right
-#> → unmatched_keys_left
-#> → unmatched_keys_right
-#> → missing_key_combination_left
-#> → missing_key_combination_right
-#> → inconsistent_factor_levels
-#> → inconsistent_type
-#> → grouped_input
-#> → na_keys
-
-dpr.$power_inner_join(
-  male_penguins[c("species", "island")],
-  female_penguins[c("species", "island")]
-)
-#> Joining, by = c("species", "island")
-#> # A tibble: 3 × 2
-#>   species island
-#>   <chr>   <chr> 
-#> 1 Gentoo  Biscoe
-#> 2 Gentoo  Biscoe
-#> 3 Adelie  Dream
 ```
 
 Notice that the only change made, is that all functions start with
-`dpr.$`, the rest is the same. No need for constantly switching between
-`dplyr::...`, `powerjoin::...` and so on - yet it is still clear from
-the code that the functions came from the
+`.dpr$`, the rest is the same. No need for constantly switching between
+`dplyr::...`, `tibble::...` and so on - yet it is still clear from the
+code that the functions came from the
 [dplyr](https://github.com/tidyverse/dplyr) +
-[powerjoin](https://github.com/moodymudskipper/powerjoin) family, and
-there is no fear of overwriting functions from other R packages - let
-alone core R functions.
+[tibble](https://github.com/tidyverse/tibble) family, and there is no
+fear of overwriting functions from other R packages - let alone core R
+functions.
+
+ 
+
+## import_diagnose
+
+The `import_` functions always check the specified library paths
+(argument `lib.loc` in the `import_` functions) before importing a
+package, and give an error if the package is not present in the
+specified library paths.
+
+However, there are many ways to load an R package: via `::`, via
+[`loadNamespace()`](https://rdrr.io/r/base/ns-load.html), or via
+[`library()`](https://rdrr.io/r/base/library.html)/[`require()`](https://rdrr.io/r/base/library.html)
+(the latter loads *AND* attaches a package). For these other functions,
+if the package is already loaded, no error will be given if the package
+is not present in the specified library path. A package that is already
+loaded can not always be safely unloaded.
+
+This may, indirectly, lead to a situation where a package or one of its
+recursive dependencies have been loaded from a different library path.
+Worse still, it may be of the wrong version. The `::`,
+[`loadNamespace()`](https://rdrr.io/r/base/ns-load.html) and
+`librar()`/[`require()`](https://rdrr.io/r/base/library.html) functions
+will *not* inform you about this. If your project relies on strict
+library path or package version management, this is a problem.
+
+Luckily for the user, the `import_` functions **DO** check if **any**
+reverse dependencies has been loaded different library paths or has been
+loaded from a different version than the version available in the
+specified library paths, and warns the user if any mismatches are
+found..
+
+You can run
+[`import_diagnose()`](https://tony-aw.github.io/tinycodet/reference/import_diagnose.md)
+to see exactly which loaded packages are not aligned with those present
+in the library path. This allows you to properly examine any problems to
+your version control endeavour.
+
+Like so:
+
+``` r
+
+import_diagnose()
+```
+
+ 
+
+## When to use or not to use the new import system
+
+The ‘tinycodet’ import system is helpful particularly for packages that
+have at least one of the following properties:
+
+- The namespace of the package(s) conflicts with other packages.
+
+- The namespace of the package(s) conflicts with core R, or with those
+  of recommended R packages.
+
+- The package(s) have function names that are generic enough, such that
+  it is not obvious which function came from which package.
+
+There is no necessity for using the ‘tinycodet’ import system with every
+single package. One can safely attach the ‘stringi’ package, for
+example, as ‘stringi’ uses a unique and immediately recognisable naming
+scheme (virtually all ‘stringi’ functions start with “stri\_”), and this
+naming scheme does not conflict with core R, nor with most other
+packages.
 
  

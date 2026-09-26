@@ -1,7 +1,16 @@
 %op11%	tinycodetfakepkg1
 %op12%	tinycodetfakepkg1
 %opover%	tinycodetfakepkg1
+const11	tinycodetfakepkg1
+const12	tinycodetfakepkg1
+const_overwritten	tinycodetfakepkg1
 fun11	tinycodetfakepkg1
 fun12	tinycodetfakepkg1
 fun_overwritten	tinycodetfakepkg1
+rpbase11	tinycodetfakepkg1
+rpbase11<-	tinycodetfakepkg1
+rpbase12	tinycodetfakepkg1
+rpbase12<-	tinycodetfakepkg1
+rpbase_overwritten	tinycodetfakepkg1
+rpbase_overwritten<-	tinycodetfakepkg1
 tinycodetfakepkg1	tinycodetfakepkg1

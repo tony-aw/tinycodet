@@ -33,7 +33,7 @@ help.import(i = "about_search_regex", alias = stri.)
 help.import(i = stri.$stri_cmp)
 
 import_as(~ mr., "magrittr")
-import_inops(expose = "magrittr")
+import_ops(expose = "magrittr")
 help.import(i = `%>%`)
 help.import(i = mr.$freduce)
 help.import(i = "%>%", alias=mr.)

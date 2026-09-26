@@ -35,17 +35,17 @@
 #' @export
 import_data <- function(package, dataname, lib.loc = .libPaths()) {
 
-  .internal_check_pkgenv(parent.frame(), sys.call())
+  .check_pkgenv(parent.frame(), sys.call())
   
   # check library:
-  .internal_check_lib.loc(lib.loc, sys.call())
+  lib.loc <- .import_lib.loc(lib.loc, sys.call())
 
   if(length(dataname) > 1 || length(package) > 1) {
     stop("only a single dataset and a single package can be given")
   }
-  out <- get(
-    utils::data(list=dataname, package = package, lib.loc=lib.loc, envir = environment())
-  )
+  out <- get( utils::data(
+    list = dataname, package = package, lib.loc = lib.loc, envir = environment()
+  ))
   
   return(out)
 }

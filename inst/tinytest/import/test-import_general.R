@@ -11,40 +11,20 @@ errorfun <- function(tt) {
 # package not installed ====
 pattern <- "The following packages are not installed"
 expect_error(
-  import_as(~stri., "stringi", lib.loc = c("foo1", "foo2")),
+  import_as(.stri ~ stringi, lib.loc = c("foo1", "foo2")),
   pattern = pattern
 )
 expect_error(
-  import_inops("stringi", lib.loc = c("foo1", "foo2")),
+  import_ls("stringi", lib.loc = c("foo1", "foo2")),
   pattern = pattern
 )
 expect_error(
-  import_inops(unexpose = "stringi", lib.loc = c("foo1", "foo2")),
+  import_from("stringi", "stri_c", lib.loc = c("foo1", "foo2")),
   pattern = pattern
 )
 expect_error(
-  import_LL("stringi", lib.loc = c("foo1", "foo2"), selection = "foo"),
-  pattern = pattern
-)
-expect_error(
-  import_int(stringi ~ foo, lib.loc = c("foo1", "foo2")),
-  pattern = pattern
-)
-expect_error(
-  pversion_check4mismatch("foo", lib.loc = c("foo1", "foo2")),
-  pattern = pattern
-)
-expect_error(
-  pversion_report("foo", lib.loc = c("foo1", "foo2")),
-  pattern = pattern
-)
-expect_error(
-  import_as(~stri., "stringi", dependencies = c("foo1", "foo2")),
-  pattern = "The following dependencies are not installed"
-)
-expect_error(
-  import_as(~stri., "stringi", extensions = c("foo1", "foo2")),
-  pattern = "The following extensions are not installed"
+  import_as(.stri ~ stringi, deps = c("foo1", "foo2")),
+  pattern = "The following minimal dependencies are not installed"
 )
 
 
@@ -52,53 +32,31 @@ expect_error(
 
 pattern <- "You have misspelled the following"
 loops <- loops + 1
-for(i in c("", "!@#$%^&*()")) {
+for(i in c("_", "!@#$%^&*()")) {
   expect_error(
-    import_as(~stri., i),
+    import_as(paste0(".stri ~", "`", i, "`")),
     pattern = pattern
   ) |> errorfun()
   expect_error(
-    import_inops(i),
+    import_ls(i),
     pattern = pattern
-  )  |> errorfun()
+  ) |> errorfun()
   expect_error(
-    import_inops(unexpose = i),
+    import_from(i, i),
     pattern = pattern
-  )  |> errorfun()
+  ) |> errorfun()
   expect_error(
-    import_LL(i, "foo"),
-    pattern = pattern
-  )  |> errorfun()
-  expect_error(
-    pversion_check4mismatch(i),
-    pattern = pattern
-  )  |> errorfun()
-  expect_error(
-    pversion_report(i),
-    pattern = pattern
-  )  |> errorfun()
-  expect_error(
-    import_as(~stri., "stringi", dependencies = i),
+    import_as(.stri ~ stringi, deps = i),
     pattern = pattern
   )
-  expect_error(
-    import_as(~stri., "stringi", extensions = i),
-    pattern = pattern
-  )
-  enumerate <- enumerate + 7
+  enumerate <- enumerate + 4L
 }
+
 expect_error(
-  import_int(`!@#$%^&*()` ~ foo),
+  import_as(.stri ~ stringi, deps = c("", "!@#$%^&*()")),
   pattern = pattern
 )
-expect_error(
-  import_as(~stri., "stringi", dependencies = c("", "!@#$%^&*()")),
-  pattern = pattern
-)
-expect_error(
-  import_as(~stri., "stringi", extensions = c("", "!@#$%^&*()")),
-  pattern = pattern
-)
+
 
 
 # package is core R ====
@@ -111,44 +69,29 @@ pattern <- 'The following "packages" are base/core R, which is not allowed:'
 loops <- loops + 1
 for(i in basepkgs) {
   expect_error(
-    import_as(~stri., i),
+    import_as(paste0(".stri ~", "`", i, "`")),
     pattern = pattern
   ) |> errorfun()
   expect_error(
-    import_inops(i),
+    import_ls(i),
     pattern = pattern
-  )  |> errorfun()
+  ) |> errorfun()
   expect_error(
-    import_inops(unexpose = i),
+    import_from(i, i),
     pattern = pattern
-  )  |> errorfun()
+  ) |> errorfun()
   expect_error(
-    import_LL(i, "foo"),
-    pattern = pattern
-  )  |> errorfun()
-  form <- as.formula(paste(i, "~ foo"))
-  expect_error(
-    import_int(form),
-    pattern = pattern
-  )  |> errorfun()
-  expect_error(
-    import_as(~stri., "stringi", dependencies = i),
+    import_as(.stri ~ stringi, deps = i),
     pattern = pattern
   )
-  expect_error(
-    import_as(~stri., "stringi", extensions = i),
-    pattern = pattern
-  )
-  enumerate <- enumerate + 7
+  enumerate <- enumerate + 4L
 }
+
 expect_error(
-  import_as(~stri., "stringi", dependencies = basepkgs[1:5]),
+  import_as(.stri ~ stringi, deps = basepkgs[1:4]),
   pattern = pattern
 )
-expect_error(
-  import_as(~stri., "stringi", extensions = basepkgs[1:5]),
-  pattern = pattern
-)
+
 
 
 # package is metaverse ====
@@ -159,86 +102,27 @@ pattern <- "The following packages are known meta-verse packages, which is not a
 loops <- loops + 1
 for(i in metapkgs) {
   expect_error(
-    import_as(~stri., i),
+    import_as(paste0(".stri ~", "`", i, "`")),
     pattern = pattern
   ) |> errorfun()
   expect_error(
-    import_inops(i),
+    import_ls(i),
     pattern = pattern
-  )  |> errorfun()
+  ) |> errorfun()
   expect_error(
-    import_inops(unexpose = i),
+    import_from(i, i),
     pattern = pattern
-  )  |> errorfun()
+  ) |> errorfun()
   expect_error(
-    import_LL(i, "foo"),
-    pattern = pattern
-  )  |> errorfun()
-  form <- as.formula(paste(i, "~ foo"))
-  expect_error(
-    import_int(form),
-    pattern = pattern
-  )  |> errorfun()
-  expect_error(
-    pversion_check4mismatch(i),
-    pattern = pattern
-  )  |> errorfun()
-  expect_error(
-    pversion_report(i),
-    pattern = pattern
-  )  |> errorfun()
-  expect_error(
-    import_as(~stri., "stringi", dependencies = i),
+    import_as(.stri ~ stringi, deps = i),
     pattern = pattern
   )
-  expect_error(
-    import_as(~stri., "stringi", extensions = i),
-    pattern = pattern
-  )
-  enumerate <- enumerate + 9
+  enumerate <- enumerate + 4L
 }
-expect_error(
-  import_as(~stri., "stringi", dependencies = metapkgs),
-  pattern = pattern
-)
-expect_error(
-  import_as(~stri., "stringi", extensions = metapkgs),
-  pattern = pattern
-)
 
-
-# bad library ====
 expect_error(
-  import_as(~stri., "stringi", lib.loc=mean),
-  pattern = "`lib.loc` must be a character vector with at least one library path"
-)
-expect_error(
-  import_inops("stringi", lib.loc=mean),
-  pattern = "`lib.loc` must be a character vector with at least one library path"
-)
-expect_error(
-  import_inops(unexpose = "stringi", lib.loc=mean),
-  pattern = "`lib.loc` must be a character vector with at least one library path"
-)
-expect_error(
-  import_LL("stringi", "%stri==%", lib.loc=mean),
-  pattern = "`lib.loc` must be a character vector with at least one library path"
-)
-expect_error(
-  import_int(stringi ~ foo, lib.loc=mean),
-  pattern = "`lib.loc` must be a character vector with at least one library path"
-)
-expect_error(
-  import_data("stringi", 'foo', lib.loc=mean),
-  pattern = "`lib.loc` must be a character vector with at least one library path"
-)
-expect_error(
-  pversion_report("stringi", lib.loc = mean),
-  pattern = "`lib.loc` must be a character vector with at least one library path"
-)
-expect_error(
-  pversion_check4mismatch("stringi", lib.loc = mean),
-  pattern = "`lib.loc` must be a character vector with at least one library path"
+  import_as(.stri ~ stringi, deps = metapkgs),
+  pattern = pattern
 )
 
 
@@ -248,30 +132,31 @@ expect_error(
 import_as2 <- function(...) {
   import_as(...)
 }
-import_inops2 <- function(...) {
-  import_inops(...)
+import_ls2 <- function(...) {
+  import_ls(...)
 }
 import_data2 <- function(...) {
   import_data(...)
 }
-import_LL2 <- function(...) {
-  import_LL(...)
+import_from2 <- function(...) {
+  import_from(...)
 }
-import_int2 <- function(...) {
-  import_int(...)
+import_diagnose2 <- function(...) {
+  import_diagnose(...)
 }
+
 expect_silent(
-  import_as2(~ stri2., "stringi")
+  import_as2(stri2. ~ stringi)
 )
 expect_silent(
-  import_inops2(expose = "stringi")
+  import_ls2("stringi")
 )
 expect_silent(
   import_data2("datasets", "cars")
 )
 expect_silent(
-  import_LL2("stringi", "stri_sub")
+  import_from2("stringi", "stri_sub")
 )
 expect_silent(
-  import_int2(tinycodet ~ .internal_paste, .libPaths())
+  import_diagnose2()
 )

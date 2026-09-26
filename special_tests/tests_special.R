@@ -12,7 +12,7 @@ expect_error(
   pattern = "`import` functions should not be used inside R-packages!"
 )
 expect_error(
-  import_inops2(),
+  import_ops2(),
   pattern = "`import` functions should not be used inside R-packages!"
 )
 expect_error(
@@ -73,7 +73,7 @@ expect_error(
 
 
 # is.tinyimport & help.import() ====
-import_inops("magrittr")
+import_ops("magrittr")
 import_as(~mr., "magrittr")
 `:=` <- data.table::`:=`
 expect_true(is.tinyimport(mr.))
@@ -92,25 +92,25 @@ expect_error(
 
 
 
-# .internal_list_* ====
+# .list_* ====
 expect_equal(
-  sort(tinycodet:::.internal_list_coreR()),
+  sort(tinycodet:::.list_coreR()),
   c(installed.packages(priority = "base") |> rownames(), "translations") |> unique() |> sort()
 )
 expect_equal(
-  sort(tinycodet:::.internal_list_preinst()),
+  sort(tinycodet:::.list_preinst()),
   installed.packages(priority = "recommended") |> rownames() |> sort()
 )
 
-n <- length(tinycodet:::.internal_list_tidyshared())
+n <- length(tinycodet:::.list_tidyshared())
 checks <- logical(n)
-for(i in 1:n) checks[i] <- tinycodet:::.internal_list_tidyshared()[i] %installed in% .libPaths()
+for(i in 1:n) checks[i] <- tinycodet:::.list_tidyshared()[i] %installed in% .libPaths()
 expect_true(all(checks))
 
-n <- length(tinycodet:::.internal_list_knownmeta())
+n <- length(tinycodet:::.list_knownmeta())
 checks <- logical(n)
-for(i in 1:n) checks[i] <- tinycodet:::.internal_list_knownmeta()[i] %installed in% .libPaths()
-cbind(checks, tinycodet:::.internal_list_knownmeta()) |> print()
+for(i in 1:n) checks[i] <- tinycodet:::.list_knownmeta()[i] %installed in% .libPaths()
+cbind(checks, tinycodet:::.list_knownmeta()) |> print()
 
 
 
@@ -133,7 +133,7 @@ expect_warning(
 print(sp64.)
 
 expect_warning(
-  import_inops("spam64"),
+  import_ops("spam64"),
   pattern = txt,
   fixed = TRUE
 )

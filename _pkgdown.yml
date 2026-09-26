@@ -16,16 +16,12 @@ search:
   exclude: ['vignettes/*']
 url: https://tony-aw.github.io/tinycodet
 reference:
-- title: Overview Help Pages
+- title: Overview Help Page
   contents:
   - '`tinycodet_help`'
-  - '`tinycodet_safer`'
-  - '`tinycodet_import`'
-  - '`tinycodet_strings`'
-  - '`tinycodet_dry`'
-  - '`tinycodet_misc`'
 - title: Safer Functionality
   contents:
+  - '`tinycodet_safer`'
   - '`decimal_truth`'
   - '`lock`'
   - '`with_pro`'
@@ -33,16 +29,21 @@ reference:
   - '`safer_partialmatch`'
 - title: Import System
   contents:
+  - '`tinycodet_import`'
+  - '`import_from`'
   - '`import_as`'
+  - '`import_ls`'
   - '`import_data`'
-  - '`import_inops.control`'
-  - '`import_inops`'
-  - '`import_LL`'
+  - '`import_diagnose`'
   - '`import_helper`'
+  - '`attr.import`'
+  - '`import_env`'
+  - '`import_legacy`'
   - '`pkgs`'
-  - '`pversion`'
+  - '`searchenv`'
 - title: Stringi Extension
   contents:
+  - '`tinycodet_strings`'
   - '`strcut_loc`'
   - '`stri_join_mat`'
   - '`stri_locate_ith`'
@@ -52,9 +53,7 @@ reference:
   - '`s_pattern`'
 - title: Don't Repeat Yourself
   contents:
+  - '`tinycodet_dry`'
   - '`transform_if`'
   - '`matrix_ops`'
-- title: Miscellaneous Functions
-  contents:
-  - '`report_inops`'
-  - '`source_selection`'
+

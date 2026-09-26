@@ -4,6 +4,10 @@
 \name{reexports}
 \alias{reexports}
 \alias{fun11}
+\alias{\%op11\%}
+\alias{rpbase11}
+\alias{rpbase11<-}
+\alias{const11}
 \alias{acf}
 \title{Objects exported from other packages}
 \keyword{internal}
@@ -12,8 +16,8 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{stats}{\code{\link[stats]{acf}}}
+  \item{stats}{\code{\link[stats:acf]{acf()}}}
 
-  \item{tinycodetfakepkg1}{\code{\link[tinycodetfakepkg1]{fun11}}}
+  \item{tinycodetfakepkg1}{\code{\link[tinycodetfakepkg1:\%op11\%]{\%op11\%}}, \code{\link[tinycodetfakepkg1:const11]{const11}}, \code{\link[tinycodetfakepkg1:fun11]{fun11()}}, \code{\link[tinycodetfakepkg1:rpbase11]{rpbase11()}}, \code{\link[tinycodetfakepkg1:rpbase11<-]{rpbase11<-()}}}
 }}
 

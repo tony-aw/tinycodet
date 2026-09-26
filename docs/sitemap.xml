@@ -1,5 +1,6 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://tony-aw.github.io/tinycodet/404.html</loc></url>
+<url><loc>https://tony-aw.github.io/tinycodet/articles/articles/g_misc.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/articles/a_safer.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/articles/b_import_main.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/articles/c_import_additional.html</loc></url>
@@ -25,19 +26,29 @@
 <url><loc>https://tony-aw.github.io/tinycodet/reference/decimal_truth.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/import_as.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/import_data.html</loc></url>
+<url><loc>https://tony-aw.github.io/tinycodet/reference/import_diagnose.html</loc></url>
+<url><loc>https://tony-aw.github.io/tinycodet/reference/import_env.html</loc></url>
+<url><loc>https://tony-aw.github.io/tinycodet/reference/import_from.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/import_helper.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/import_inops.control.html</loc></url>
-<url><loc>https://tony-aw.github.io/tinycodet/reference/import_inops.html</loc></url>
+<url><loc>https://tony-aw.github.io/tinycodet/reference/import_int.html</loc></url>
+<url><loc>https://tony-aw.github.io/tinycodet/reference/import_legacy.html</loc></url>
+<url><loc>https://tony-aw.github.io/tinycodet/reference/import_ls.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/import_misc.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/index.html</loc></url>
+<url><loc>https://tony-aw.github.io/tinycodet/reference/is.tinyimport.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/lock.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/matrix_ops.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/pkgs.html</loc></url>
+<url><loc>https://tony-aw.github.io/tinycodet/reference/pkg_lsf.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/pro.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/pversion.html</loc></url>
+<url><loc>https://tony-aw.github.io/tinycodet/reference/pversion_check4mismatch.html</loc></url>
+<url><loc>https://tony-aw.github.io/tinycodet/reference/pversion_report.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/reexports.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/report_inops.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/safer_partialmatch.html</loc></url>
+<url><loc>https://tony-aw.github.io/tinycodet/reference/searchenv.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/source_selection.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/strcut.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/stri_join_mat.html</loc></url>
@@ -46,6 +57,8 @@
 <url><loc>https://tony-aw.github.io/tinycodet/reference/str_search.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/str_subset_ops.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/s_pattern.html</loc></url>
+<url><loc>https://tony-aw.github.io/tinycodet/reference/tinycodet_misc.html</loc></url>
+<url><loc>https://tony-aw.github.io/tinycodet/reference/tinyimport_alias.html</loc></url>
 <url><loc>https://tony-aw.github.io/tinycodet/reference/transform_if.html</loc></url>
 </urlset>
 
