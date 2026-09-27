@@ -19,6 +19,26 @@ temp.fun2 <- function(...){
 expect_equal(temp.fun1("hello", regex = "a|ei|o|u"), temp.fun2("hello", regex = "a|ei|o|u"))
 
 
+# operators work ====
+import_from("stringi", c("stri_sub", "stri_sub<-"), prefix = "alias_")
+s1 <- c("spam, spam, bacon, and spam", "eggs and spam")
+s2 <- c("spam, spam, bacon, and spam", "eggs and spam")
+stringi::stri_sub(s1, 1, 4) <- 'stringi'
+alias_stri_sub(s2, 1, 4) <- 'stringi'
+expect_equal(
+  s1, s2
+)
+
+import_from("stringi", "%s+%", prefix = "alias_") # alias should be ignored
+expect_equal(
+  c('abc', '123', 'xy') %s+% letters[1:6],
+  stringi::`%s+%`(c('abc', '123', 'xy'), letters[1:6])
+)
+
+rm(list = c("alias_stri_sub", "alias_stri_sub<-", "%s+%"))
+
+
+
 # test locked ====
 temp.fun <- function() {
   import_from("stringi", "stri_detect", lock = TRUE) |> suppressMessages()
