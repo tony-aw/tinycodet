@@ -1,5 +1,5 @@
 
-# tinycodet 0.8.0 (Under Development)
+# tinycodet 0.8.0
 
 This version features a major overhaul of its import system.
 

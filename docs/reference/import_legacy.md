@@ -57,8 +57,10 @@ import_inops("stringi")
 #> `import_from(..., ls = import_ls(..., type = "infix"))`
 #> Import & method registration complete
 import_LL("stringi", "stri_c")
-#> Warning: `import_LL()` is deprecated and will be removed; please use `import_from()` instead
-#> calling `import_from(...)`
+#> Warning: `import_LL()` is deprecated and will be removed;
+#>     please use `import_from(...)` instead
+#> calling:
+#> `import_from(...)`
 #> Import & method registration complete
 
 

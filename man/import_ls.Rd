@@ -130,5 +130,5 @@ import_from(
 
 }
 \seealso{
-\link{tinycodet_import}, \link{import_from}
+\link{tinycodet_import}, \link{import_from}, \link[base]{library}
 }

@@ -1,4 +1,9 @@
 
+# no duplicates ====
+expect_false(
+ any(duplicated(import_ls("stringi")))
+)
+
 # print equals value ====
 co <- capture.output(import_ls("stringi")) |> paste0(collapse = "")
 con <- textConnection(co)

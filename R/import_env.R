@@ -16,7 +16,7 @@
 #'  giving the position of the search path to place the objects in. \cr \cr
 #'  
 #' If `env` is a string or number, and thus points to a place in the search path,
-#' the search path evironment is not allowed to be any of the following:
+#' the search path environment is not allowed to be any of the following:
 #' 
 #' `r .txt_searchenv_forbidden()` \cr \cr
 #'  

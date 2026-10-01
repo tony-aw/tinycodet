@@ -68,8 +68,13 @@ import_inops <- function(expose, lib.loc = .libPaths(), ...) {
 #' @export
 import_LL <- function(package, selection, lib.loc = .libPaths()) {
   
-  warning("`import_LL()` is deprecated and will be removed; please use `import_from()` instead")
-  message("calling `import_from(...)`")
+  warning(
+    "`import_LL()` is deprecated and will be removed;
+    please use `import_from(...)` instead"
+  )
+  msg <- c("calling:",
+           "`import_from(...)`")
+  message(paste0(msg, collapse = "\n"))
   
   env <- parent.frame()
   import_from(

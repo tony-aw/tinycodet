@@ -30,7 +30,7 @@ Please check the Change-log (see links below) regularly for updates
   
 'tinycodet' adheres to the [tinyverse](https://www.tinyverse.org/)
 philosophy. Besides linking to 'Rcpp', 'tinycodet' only has one other
-dependency: 'stingi'. No other dependencies, thus avoiding "dependency
+dependency: 'stringi'. No other dependencies, thus avoiding "dependency
 hell". Most functions in this R-package are vectorized and optimised.  
   
 

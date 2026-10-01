@@ -57,6 +57,7 @@
 #' re-exported functions are imported when the main package is imported,
 #' thus changing this order slightly. \cr \cr
 #' 
+#' @seealso \link{tinycodet_import}
 #' 
 #' @example inst/examples/import.R
 #' 

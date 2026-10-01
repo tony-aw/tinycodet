@@ -1,14 +1,8 @@
 # Add, Remove, or Access Search Path Environments
 
-Functions for safely attaching, removing, or accessing environments from
-[search](https://rdrr.io/r/base/search.html) path.  
-  
-`searchenv_add()` adds a new, empty environment to the
-[search](https://rdrr.io/r/base/search.html) path.  
-`searchenv_rm()` removes a user-defined environment from the
-[search](https://rdrr.io/r/base/search.html) path.  
-`searchenv_get()` returns a user-defined environment from the
-[search](https://rdrr.io/r/base/search.html) path.  
+Functions for safely adding (`searchenv_add()`), removing
+(`searchenv_rm()`), or accessing (`searchenv_get()`) environments from
+the [search](https://rdrr.io/r/base/search.html) path.  
   
 
 ## Usage
@@ -33,6 +27,20 @@ searchenv_get(name, pos)
   a single positive integer giving the position for the environment in
   the [search](https://rdrr.io/r/base/search.html) path.
 
+## Value
+
+`searchenv_add()` adds a new, empty environment to the
+[search](https://rdrr.io/r/base/search.html) path;  
+returns nothing.  
+  
+`searchenv_rm()` removes a (user-defined) environment from the
+[search](https://rdrr.io/r/base/search.html) path;  
+returns nothing.  
+  
+`searchenv_get()` returns a (user-defined) environment from the
+[search](https://rdrr.io/r/base/search.html) path.  
+  
+
 ## Details
 
 These functions were designed with safety in mind.  
@@ -52,9 +60,14 @@ like the following:
 
 Attempting to add a new search path environment whose name already
 exists gives an error.  
-Attempting to remove or access a search path environmeent whose name
-does not exists gives an error.  
+Attempting to remove or access a search path environment whose name does
+not exists gives an error.  
   
+
+## See also
+
+[tinycodet_import](https://tony-aw.github.io/tinycodet/reference/aaa2_tinycodet_import.md),
+[search](https://rdrr.io/r/base/search.html)
 
 ## Examples
 
@@ -95,7 +108,7 @@ search()
 #>  [7] "package:grDevices" "package:utils"     "package:datasets" 
 #> [10] "package:methods"   "Autoloads"         "tools:callr"      
 #> [13] "package:base"     
-searchenv_rm("my_ops", which(search() == "my_ops"))
+searchenv_rm("my_ops")
 search()
 #>  [1] ".GlobalEnv"        "package:magrittr"  "package:tinycodet"
 #>  [4] "package:stats"     "package:graphics"  "package:grDevices"

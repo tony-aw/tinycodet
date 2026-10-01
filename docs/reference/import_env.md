@@ -20,7 +20,7 @@ The following can be specified for `env`:
     
 
 If `env` is a string or number, and thus points to a place in the search
-path, the search path evironment is not allowed to be any of the
+path, the search path environment is not allowed to be any of the
 following:
 
 - a package path (their names start with 'package:')
@@ -86,7 +86,7 @@ search()
 #>  [7] "package:grDevices" "package:utils"     "package:datasets" 
 #> [10] "package:methods"   "Autoloads"         "tools:callr"      
 #> [13] "package:base"     
-searchenv_rm("my_ops", which(search() == "my_ops"))
+searchenv_rm("my_ops")
 search()
 #>  [1] ".GlobalEnv"        "package:magrittr"  "package:tinycodet"
 #>  [4] "package:stats"     "package:graphics"  "package:grDevices"

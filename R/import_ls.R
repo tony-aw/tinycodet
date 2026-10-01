@@ -86,7 +86,7 @@
 #' \cr
 #' 
 #'
-#' @seealso \link{tinycodet_import}, \link{import_from}
+#' @seealso \link{tinycodet_import}, \link{import_from}, \link[base]{library}
 #'
 #'
 #' @example inst/examples/import_ls.R

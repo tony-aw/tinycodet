@@ -78,3 +78,6 @@ import_from("stringi", import_ls("stringi", "infix"))
 
 attr.import(.stri)
 }
+\seealso{
+\link{tinycodet_import}
+}

@@ -127,7 +127,8 @@ The listed functions can then be passed to
 ## See also
 
 [tinycodet_import](https://tony-aw.github.io/tinycodet/reference/aaa2_tinycodet_import.md),
-[import_from](https://tony-aw.github.io/tinycodet/reference/import_from.md)
+[import_from](https://tony-aw.github.io/tinycodet/reference/import_from.md),
+[library](https://rdrr.io/r/base/library.html)
 
 ## Examples
 

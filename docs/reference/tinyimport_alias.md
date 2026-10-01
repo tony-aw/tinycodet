@@ -89,6 +89,10 @@ imported when the main package is imported, thus changing this order
 slightly.  
   
 
+## See also
+
+[tinycodet_import](https://tony-aw.github.io/tinycodet/reference/aaa2_tinycodet_import.md)
+
 ## Examples
 
 ``` r

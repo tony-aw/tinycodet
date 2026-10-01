@@ -31,7 +31,7 @@
 #' \href{https://www.tinyverse.org/}{tinyverse}
 #' philosophy.
 #' Besides linking to 'Rcpp', 'tinycodet' only has one other dependency:
-#' 'stingi'.
+#' 'stringi'.
 #' No other dependencies, thus avoiding "dependency hell".
 #' Most functions in this R-package are vectorized and optimised. \cr
 #' \cr

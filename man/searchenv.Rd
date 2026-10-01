@@ -18,12 +18,22 @@ searchenv_get(name, pos)
 
 \item{pos}{a single positive integer giving the position for the environment in the \link[base]{search} path.}
 }
-\description{
-Functions for safely attaching, removing, or accessing environments from \link[base]{search} path. \cr
+\value{
+\code{searchenv_add()} adds a new, empty environment to the \link[base]{search} path; \cr
+returns nothing. \cr
 \cr
-\code{searchenv_add()} adds a new, empty environment to the \link[base]{search} path. \cr
-\code{searchenv_rm()} removes a user-defined environment from the \link[base]{search} path. \cr
-\code{searchenv_get()} returns a user-defined environment from the \link[base]{search} path. \cr \cr
+\code{searchenv_rm()} removes a (user-defined) environment from the \link[base]{search} path; \cr
+returns nothing. \cr
+\cr
+\code{searchenv_get()} returns a (user-defined) environment from the \link[base]{search} path. \cr \cr
+}
+\description{
+Functions for safely
+adding (\code{searchenv_add()}),
+removing (\code{searchenv_rm()}),
+or accessing (\code{searchenv_get()})
+environments from the \link[base]{search} path. \cr
+\cr
 }
 \details{
 These functions were designed with safety in mind. \cr
@@ -37,7 +47,7 @@ They do not allow adding, removing, or accessing search environments like the fo
 }
 
 Attempting to add a new search path environment whose name already exists gives an error. \cr
-Attempting to remove or access a search path environmeent whose name does not exists gives an error. \cr
+Attempting to remove or access a search path environment whose name does not exists gives an error. \cr
 \cr
 }
 \examples{
@@ -53,6 +63,9 @@ foo <- searchenv_get("my_ops")
 all(exports \%in\% names(foo))
 
 search()
-searchenv_rm("my_ops", which(search() == "my_ops"))
+searchenv_rm("my_ops")
 search()
+}
+\seealso{
+\link{tinycodet_import}, \link[base]{search}
 }

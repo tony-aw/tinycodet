@@ -131,7 +131,7 @@ pkgs \%installed in\% .libPaths()
 \dontshow{\}) # examplesIf}
 }
 \references{
-O'Brien J., elegantly extract R-package dependencies of a package not listed on CRAN. \emph{Stack Overflow}. (1 September 2023). \url{https://stackoverflow.com/questions/30223957/elegantly-extract-r-package-dependencies-of-a-package-not-listed-on-cran}
+O'Brien J., elegantly extract R-package dependencies of a package not listed on CRAN. \emph{Stack Overflow}. (1 September 2023).
 }
 \seealso{
 \link{tinycodet_import}

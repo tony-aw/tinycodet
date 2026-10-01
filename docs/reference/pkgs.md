@@ -130,7 +130,6 @@ user.
 
 O'Brien J., elegantly extract R-package dependencies of a package not
 listed on CRAN. *Stack Overflow*. (1 September 2023).
-<https://stackoverflow.com/questions/30223957/elegantly-extract-r-package-dependencies-of-a-package-not-listed-on-cran>
 
 ## See also
 

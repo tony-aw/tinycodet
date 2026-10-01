@@ -1,11 +1,12 @@
 #' Add, Remove, or Access Search Path Environments
 #'
 #' @description
-#' Functions for safely attaching, removing, or accessing environments from \link[base]{search} path. \cr
+#' Functions for safely
+#' adding (`searchenv_add()`),
+#' removing (`searchenv_rm()`),
+#' or accessing (`searchenv_get()`)
+#' environments from the \link[base]{search} path. \cr
 #' \cr
-#' `searchenv_add()` adds a new, empty environment to the \link[base]{search} path. \cr
-#' `searchenv_rm()` removes a user-defined environment from the \link[base]{search} path. \cr
-#' `searchenv_get()` returns a user-defined environment from the \link[base]{search} path. \cr \cr
 #' 
 #' @param name a single string giving the name for the environment in the \link[base]{search} path.
 #' @param pos a single positive integer giving the position for the environment in the \link[base]{search} path.
@@ -18,8 +19,21 @@
 #' `r .txt_searchenv_forbidden()` \cr \cr
 #'  
 #' Attempting to add a new search path environment whose name already exists gives an error. \cr
-#' Attempting to remove or access a search path environmeent whose name does not exists gives an error. \cr
+#' Attempting to remove or access a search path environment whose name does not exists gives an error. \cr
 #' \cr
+#' 
+#' 
+#' @returns
+#' `searchenv_add()` adds a new, empty environment to the \link[base]{search} path; \cr
+#' returns nothing. \cr
+#' \cr
+#' `searchenv_rm()` removes a (user-defined) environment from the \link[base]{search} path; \cr
+#' returns nothing. \cr
+#' \cr
+#' `searchenv_get()` returns a (user-defined) environment from the \link[base]{search} path. \cr \cr
+#' 
+#' 
+#' @seealso \link{tinycodet_import}, \link[base]{search}
 #' 
 #' @example inst/examples/searchenv.R
 #' 

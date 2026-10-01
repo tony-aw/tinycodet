@@ -20,7 +20,7 @@ giving the position of the search path to place the objects in. \cr \cr
 }
 
 If \code{env} is a string or number, and thus points to a place in the search path,
-the search path evironment is not allowed to be any of the following:
+the search path environment is not allowed to be any of the following:
 \itemize{
 \item a package path (their names start with 'package:')
 \item a tools path (their names start with 'tools:')
@@ -49,7 +49,7 @@ foo <- searchenv_get("my_ops")
 all(exports \%in\% names(foo))
 
 search()
-searchenv_rm("my_ops", which(search() == "my_ops"))
+searchenv_rm("my_ops")
 search()
 }
 \seealso{
